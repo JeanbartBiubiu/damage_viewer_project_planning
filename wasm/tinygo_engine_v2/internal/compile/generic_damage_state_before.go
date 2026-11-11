@@ -16,7 +16,7 @@ func finalizeDamageStateBefore(ctx *genericCompileContext) {
 		if !listener.HasCondition {
 			continue
 		}
-		for _, read := range s.Formulas.ReadDependencies(listener.ConditionProgram) {
+		for _, read := range ctx.formulas.ReadDependencies(listener.ConditionProgram) {
 			if read.ReadKind != formula.ReadEventProviderTargetStateBefore {
 				continue
 			}
@@ -89,15 +89,16 @@ func finalizeDamageStateBefore(ctx *genericCompileContext) {
 			allowed[listener.ConditionProgram] = true
 		}
 	}
-	for i, program := range s.Formulas.Programs {
-		for _, read := range s.Formulas.ReadDependencies(formula.GenericProgramID(i)) {
+	for i := 0; i < ctx.formulas.Count(); i++ {
+		program := ctx.formulas.Info(formula.GenericProgramID(i))
+		for _, read := range ctx.formulas.ReadDependencies(formula.GenericProgramID(i)) {
 			if read.ReadKind == formula.ReadEventProviderTargetStateBefore && !program.DeclaredNamed && !allowed[formula.GenericProgramID(i)] {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, program.Key, "damage state before is only available in an actual owning damage_instance listener condition", read.ReadKey)
 			}
 		}
-		for j, read := range program.Instr {
+		for j, read := range ctx.formulas.Instructions(formula.GenericProgramID(i)) {
 			if read.Op == formula.GenericOpRead && read.ReadKind == formula.ReadEventProviderTargetStateBefore {
-				s.Formulas.Programs[i].Instr[j].ReferenceBound = true
+				ctx.bindFormulaRead(formula.GenericProgramID(i), j, read.RefIndex)
 			}
 		}
 	}

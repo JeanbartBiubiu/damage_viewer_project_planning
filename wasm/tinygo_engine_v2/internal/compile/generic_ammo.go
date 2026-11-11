@@ -91,13 +91,13 @@ func compileAmmoStateFields(schema map[string]interface{}, fields map[string]pla
 		}
 		formulaPath := fieldPath + ".ammoRecovery.intervalMs"
 		instructions := formula.CompileGenericFormula(declaration.IntervalMs, formulaPath, ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
-		if value, constant := ctx.session.Formulas.FoldInstructions(instructions); constant && (!formula.ValidPositiveInt64DurationMs(value) || value > 9007199254740991) {
+		if value, constant := ctx.formulas.FoldInstructions(instructions); constant && (!formula.ValidPositiveInt64DurationMs(value) || value > 9007199254740991) {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, formulaPath, "ammo recovery interval must be a positive safe integer in milliseconds", key)
 		}
-		if value, constant := ctx.session.Formulas.FoldInstructions(instructions); constant && hasRemaining && remaining > value {
+		if value, constant := ctx.formulas.FoldInstructions(instructions); constant && hasRemaining && remaining > value {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, fieldPath+".ammoRecovery.initialRemainingMs", "initial remaining time cannot exceed the complete recovery interval", key)
 		}
-		for _, instruction := range ctx.session.Formulas.InstructionDependencies(instructions, nil) {
+		for _, instruction := range ctx.formulas.InstructionDependencies(instructions, nil) {
 			if instruction.Op == formula.GenericOpRead && instruction.ReadKind != formula.ReadSourceAttr && instruction.ReadKind != formula.ReadTargetAttr && instruction.ReadKind != formula.ReadAbilityParam && instruction.ReadKind != formula.ReadProviderState {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, formulaPath, "ammo recovery cannot depend on transient event or use values", instruction.ReadKey)
 			}
@@ -144,7 +144,7 @@ func compileAmmoBindings(ctx *genericCompileContext) {
 					initial := ctx.session.Abilities[process.InitialAbilityIndex]
 					value, constant := float64(0), false
 					if operation.HasAmount {
-						value, constant = ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[operation.AmountProgram].Instr)
+						value, constant = ctx.formulas.FoldInstructions(ctx.formulas.Instructions(formula.GenericProgramID(operation.AmountProgram)))
 					}
 					validInitial := initial.ProcessControl != nil && initial.ProcessControl.Action == "INITIAL" &&
 						(initial.IsBasicAttack && initial.ProcessControl.UseRefFromEvent || !initial.IsBasicAttack && initial.Kind == "active" && !initial.ProcessControl.UseRefFromEvent && hasAmmoSkillActionBinding(ctx, providerIndex, process.InitialAbilityIndex))
@@ -282,9 +282,10 @@ func validateMechanicFormulaContexts(ctx *genericCompileContext) {
 			}
 		}
 	}
-	for index, program := range ctx.session.Formulas.Programs {
+	for index := 0; index < ctx.formulas.Count(); index++ {
+		program := ctx.formulas.Info(formula.GenericProgramID(index))
 		_, named := ctx.namedFormulas[program.Key]
-		for _, instruction := range ctx.session.Formulas.ReadDependencies(formula.GenericProgramID(index)) {
+		for _, instruction := range ctx.formulas.ReadDependencies(formula.GenericProgramID(index)) {
 			if instruction.Op != formula.GenericOpRead {
 				continue
 			}

@@ -13,7 +13,7 @@ import (
 )
 
 // ResolveDerivedAttributes 依据已选时点的双方视图计算所属派生属性，不发布或缓存状态。
-func ResolveDerivedAttributes(derivations []planbundle.CompiledAttributeDerivation, formulas formula.GenericRegistry, actorKey string, attrs attribute.Table, resolver effectpkg.AttributeResolver, sourceAttrs, targetAttrs attribute.Table, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
+func ResolveDerivedAttributes(derivations []planbundle.CompiledAttributeDerivation, formulas formula.Library, actorKey string, attrs attribute.Table, resolver effectpkg.AttributeResolver, sourceAttrs, targetAttrs attribute.Table, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
 	if len(derivations) == 0 {
 		return attrs, nil
 	}
@@ -38,7 +38,7 @@ func ResolveDerivedAttributes(derivations []planbundle.CompiledAttributeDerivati
 				actorContext.AuthoredSourceAttrs, actorContext.AuthoredTargetAttrs = ctx.TargetAttrs, ctx.SourceAttrs
 			}
 		}
-		value, err := formulas.EvalContext(derivation.ValueProgram, &actorContext)
+		value, err := formulas.Evaluation.EvalContext(derivation.ValueProgram, &actorContext)
 		if err != nil {
 			return attribute.Table{}, fmt.Errorf("%s: %w", derivation.Path, err)
 		}

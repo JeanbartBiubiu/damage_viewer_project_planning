@@ -11,7 +11,7 @@ import (
 )
 
 func memoTestResolver(read formula.GenericInstr) (Engine, effectpkg.AttributeResolver) {
-	state := Engine{loop: newTestLoopAt(0), formulas: formula.GenericRegistry{Programs: []formula.GenericProgram{{Key: "memo", Instr: []formula.GenericInstr{read}}}}}
+	state := Engine{loop: newTestLoopAt(0), formulas: fixtureFormulaLibrary([]formula.GenericProgram{{Key: "memo", Instr: []formula.GenericInstr{read}}})}
 	resolver := effectpkg.AttributeResolver{}
 	resolver.MountCompiledModifierOwned("source", "buff", planbundle.CompiledModifier{Kind: "attribute", Target: "speed", HasValue: true, ValueProgram: 0, ValuePolicy: "add"})
 	return state, resolver

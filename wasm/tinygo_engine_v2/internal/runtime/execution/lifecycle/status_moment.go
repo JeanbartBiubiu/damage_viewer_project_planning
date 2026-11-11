@@ -40,7 +40,7 @@ func (e *Executor) momentStatusStrength(inst effectpkg.Provider, definition plan
 		return 0, e.invariant("providers["+inst.ProviderRef+"].appliedAtMs", "MOMENT_EVALUATION requires the active instance's actual application time and finite deadline", inst.ProviderRef)
 	}
 	ctx := formula.GenericEvalContext{StrictReads: true, HasProviderContext: true, HasProviderElapsed: true, ProviderElapsedMs: elapsed}
-	value, err := e.formulas.EvalContext(definition.StrengthProgram, &ctx)
+	value, err := e.formulas.Evaluation.EvalContext(definition.StrengthProgram, &ctx)
 	if err != nil {
 		return 0, evaluation.PreserveFormulaIssue(err, bad(model.GenericErrFormulaTypeError, err.Error()), "")
 	}

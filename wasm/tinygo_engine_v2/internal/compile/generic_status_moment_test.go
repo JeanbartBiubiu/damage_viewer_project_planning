@@ -62,7 +62,7 @@ func TestCompileMomentSlowAuthorizesOnlyExplicitActualInstanceMode(t *testing.T)
 				t.Fatal("explicit constant mode must retain the same actual-instance guard", provider)
 			}
 			for _, elapsed := range []int64{0, 999, 1000, 2499} {
-				value, err := compiled.Session.Formulas.Eval(provider.StatusContributions[0].StrengthProgram, formula.GenericEvalContext{StrictReads: true, HasProviderContext: true, HasProviderElapsed: true, ProviderElapsedMs: elapsed})
+				value, err := compiled.Session.Formulas.Evaluation.Eval(provider.StatusContributions[0].StrengthProgram, formula.GenericEvalContext{StrictReads: true, HasProviderContext: true, HasProviderElapsed: true, ProviderElapsedMs: elapsed})
 				want := .6
 				if elapsed < 1000 && (shape == "inline" || shape == "common") {
 					want = 0

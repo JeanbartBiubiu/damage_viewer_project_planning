@@ -47,7 +47,7 @@ var requiredContracts = map[string][]string{
 	"internal/runtime/effect":                 {"InstanceState", "InstanceChangeSet", "BagState", "BagChangeSet", "BagView", "BagChange", "IdentityRegistry", "TimeState", "DefinitionCache", "AttributeResolver", "DamageResolver"},
 	"internal/runtime/report":                 {"State"},
 	"internal/scheduler":                      {"Loop"},
-	"internal/formula":                        {"GenericRegistry"},
+	"internal/formula":                        {"Builder", "Evaluator", "Metadata"},
 	"internal/pipeline":                       {"AttributeResolver", "DamageModifierResolver"},
 }
 

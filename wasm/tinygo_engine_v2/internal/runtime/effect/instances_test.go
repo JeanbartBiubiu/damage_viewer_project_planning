@@ -220,7 +220,7 @@ func TestInstanceModifierPlansPreserveSourceAndOldViews(t *testing.T) {
 		t.Fatal("damage provenance or plan isolation changed")
 	}
 	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"attack": {Base: 100}})
-	registry := formula.GenericRegistry{Programs: []formula.GenericProgram{{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 10}}}}}
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 10}}}})
 	resolved, err := state.Attributes().ResolveAttributes(attrs, formula.GenericEvalContext{SourceAttrs: attrs}, registry)
 	if err != nil || resolved.At("attack").Resolved != 110 || attrs.At("attack").Base != 100 {
 		t.Fatal(resolved, err)

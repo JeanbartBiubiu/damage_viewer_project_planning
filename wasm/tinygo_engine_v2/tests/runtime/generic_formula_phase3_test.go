@@ -169,7 +169,7 @@ func TestFormulaPhase3SourceTargetAndBaseBonusTotalReadScopes(t *testing.T) {
 func TestFormulaPhase3JSONMissingFieldsLegalZeroAndFailureRetrySameSession(t *testing.T) {
 	c, r := phase3HeatInput()
 	session := authoringCompile(t, c)
-	before := *session.Formulas.CloneForRun()
+	before := session.Formulas
 	for _, raw := range []string{`{"base":50,"current":50,"max":50}`, `{"current":50,"max":50,"resolved":50}`} {
 		var slot model.AttributeSlotDef
 		if err := json.Unmarshal([]byte(raw), &slot); err != nil {

@@ -28,14 +28,14 @@ func finalizeDynamicModifiers(ctx *genericCompileContext) {
 				valid = valid && lc != nil && lc.HasDuration && lc.MaxStacks == 1 && lc.RefreshPolicy == model.RefreshPolicyReplace && lc.InstanceScope == model.InstanceScopeSourceTarget && lc.TickIntervalMs == 0
 			}
 			if !permanent && lc != nil && lc.HasDuration {
-				duration, static := ctx.session.Formulas.FoldStatic(lc.DurationProgram)
+				duration, static := ctx.formulas.FoldStatic(lc.DurationProgram)
 				valid = valid && static && formula.ValidPositiveInt64DurationMs(duration)
 			}
 			valid = valid && mod.HasValue && !mod.HasCondition && mod.Command == "" && mod.Channel == "" && mod.Stage == "" && mod.Bucket == "" && mod.Priority == 0 && mod.HealDirection == "" && mod.HealCategory == "" && mod.HealGroupKey == "" && mod.HealGroupCalculationMode == ""
-			value, static := ctx.session.Formulas.FoldStatic(mod.ValueProgram)
+			value, static := ctx.formulas.FoldStatic(mod.ValueProgram)
 			valid = valid && static && !math.IsNaN(value) && !math.IsInf(value, 0)
 			if permanent {
-				valid = valid && permanentHealthStaticOwner(ctx.session.Formulas, mod.ValueProgram, p.SkillKey, 0)
+				valid = valid && permanentHealthStaticOwner(ctx.formulas, mod.ValueProgram, p.SkillKey, 0)
 			}
 			if !valid {
 				fail("", "dynamic modifier requires a pure finite static own single-layer provider")
@@ -43,7 +43,7 @@ func finalizeDynamicModifiers(ctx *genericCompileContext) {
 			}
 			mod.StaticValue = value
 			if !permanent {
-				duration, _ := ctx.session.Formulas.FoldStatic(lc.DurationProgram)
+				duration, _ := ctx.formulas.FoldStatic(lc.DurationProgram)
 				p.StaticDurationMs = int64(duration)
 			}
 			if mod.Kind == "resource_max" {
@@ -90,7 +90,7 @@ func finalizeDynamicModifiers(ctx *genericCompileContext) {
 				if mod.Kind == "resource_max" || mod.Kind == "cooldown_duration" {
 					continue
 				}
-				value, static := ctx.session.Formulas.FoldStatic(mod.ValueProgram)
+				value, static := ctx.formulas.FoldStatic(mod.ValueProgram)
 				if mod.Kind != "attribute" || mod.HasCondition || !mod.HasValue || !static || math.IsNaN(value) || math.IsInf(value, 0) || mod.ValuePolicy != "add" || mod.Stage != "" || mod.Command != "" || mod.Channel != "" || len(mod.Target) <= len("self.attr.") || mod.Target[:len("self.attr.")] != "self.attr." || mod.Target == "self.attr.hp" {
 					ctx.collector.addError(model.GenericErrFormulaTypeError, "sharedProviders["+itoa(pi)+"]", "dynamic modifier sibling must be a static own non-hp flat attribute", mod.ModifierKey)
 				}
@@ -106,7 +106,7 @@ func finalizeDynamicModifiers(ctx *genericCompileContext) {
 		p := &ctx.session.Providers[i]
 		p.AtomicDynamic = !p.PermanentResourceMax && (p.HasResourceMax || p.HasCooldownDuration || pureFiniteTargetAttributeProvider(p.ProviderKey, ctx))
 		if p.AtomicDynamic {
-			duration, _ := ctx.session.Formulas.FoldStatic(p.Lifecycle.DurationProgram)
+			duration, _ := ctx.formulas.FoldStatic(p.Lifecycle.DurationProgram)
 			p.StaticDurationMs = int64(duration)
 		}
 	}

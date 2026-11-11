@@ -71,7 +71,7 @@ type SkillActionExecutorAPI interface {
 	// SubtractAmmoDuration 只修改实际活动回充的剩余时间并推进世代，金额失败保留原等待。
 	SubtractAmmoDuration(ammo *actionpkg.AmmoView, operation planbundle.CompiledOperation, ability planbundle.CompiledAbility, now int64, work AmmoWork) *model.EngineError
 	// CompileDriverConditions 将本次驱动的条件和重复间隔编译进独立运行公式表，不改共享计划。
-	CompileDriverConditions(entries []model.DriverEntry, registry *formula.GenericRegistry, refsByAbility map[string]planbundle.CompiledAbilityRef) *model.EngineError
+	CompileDriverConditions(entries []model.DriverEntry, registry *formula.Builder, refsByAbility map[string]planbundle.CompiledAbilityRef) *model.EngineError
 	// InitializeManual 核对完整手动计划与不可变绑定，登记真实行动并核验选中来源。
 	InitializeManual(input SkillAdmission, bindings []planbundle.CompiledSkillActionBinding, checks SkillAdmissionChecks) *model.EngineError
 	// InitializeAutomatic 核对完整自动规则、冷却引用和唯一前序关系，登记真实来源。
@@ -107,7 +107,7 @@ type SkillActionExecutorAPI interface {
 	// AttemptGate 按实际双方、能力、冷却、资源和作者条件的原次序完成一次门禁。
 	AttemptGate(entry model.DriverEntry, index int, now, recheck int64, reads GateReads) GateResult
 	// ResourceGate 对准备完成的付款前上下文核对原资源成本与条件重查等待。
-	ResourceGate(ability planbundle.CompiledAbility, ref string, now, recheck int64, current float64, context formula.GenericEvalContext, registry *formula.GenericRegistry, failures GateFormulaErrors) (int64, bool, *model.EngineError)
+	ResourceGate(ability planbundle.CompiledAbility, ref string, now, recheck int64, current float64, context formula.GenericEvalContext, registry *formula.Library, failures GateFormulaErrors) (int64, bool, *model.EngineError)
 	// SeedDrivers 按作者原序请求首次和固定间隔的有限尝试，不自行持有队列。
 	SeedDrivers(entries []model.DriverEntry, timing DriverTiming, maxEvents int, schedules DriverSchedules)
 	// Attempt 核对原等待版本后执行一项真实驱动，保留门禁、记录和重复安排的原顺序。

@@ -104,7 +104,7 @@ func validateVampAbilityInputs(def model.AbilityDefinition, ability plan.Compile
 			if override.Mode != model.VampOverride {
 				continue
 			}
-			for _, instr := range ctx.session.Formulas.ReadDependencies(override.EfficiencyProgram) {
+			for _, instr := range ctx.formulas.ReadDependencies(override.EfficiencyProgram) {
 				if instr.Op == formula.GenericOpRead && instr.ReadKind == formula.ReadAbilityParam {
 					if _, ok := def.Params[instr.ReadKey]; !ok {
 						ctx.collector.addError(model.GenericErrUnknownRef, override.Path, "missing ability parameter: "+instr.ReadKey, instr.ReadKey)
@@ -211,7 +211,7 @@ func compileVampOverrides(op model.OperationDefinition, out *plan.CompiledOperat
 				add(model.GenericErrMissingRequiredField, p+".efficiency", "OVERRIDE requires efficiency", item.VampType)
 			} else {
 				instr := formula.CompileGenericFormula(*item.Efficiency, p+".efficiency", ctx.namedFormulas, map[string]bool{}, add)
-				validateDamagePredicateReads(ctx.session.Formulas.InstructionDependencies(instr, nil), p+".efficiency", ctx.catalog, add)
+				validateDamagePredicateReads(ctx.formulas.InstructionDependencies(instr, nil), p+".efficiency", ctx.catalog, add)
 				if item.Efficiency.Op == "const" && item.Efficiency.Value != nil && *item.Efficiency.Value < 0 {
 					add(model.GenericErrFormulaTypeError, p+".efficiency", "vamp efficiency must be non-negative", item.VampType)
 				}

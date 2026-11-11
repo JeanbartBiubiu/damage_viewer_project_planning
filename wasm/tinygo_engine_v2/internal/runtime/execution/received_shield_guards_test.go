@@ -46,7 +46,7 @@ func TestReceivedShieldReadRequiresRealContextAndSurvivesDepletion(t *testing.T)
 		t.Fatal("test failed to deplete the real shield")
 	}
 	f, index := actualReceivedShieldReader(s, ev)
-	if got, err := f.ReceivedLinkedShieldAbsorbed(index); err != nil || got != 100 {
+	if got, err := f.receivedLinkedShieldAbsorbed(index); err != nil || got != 100 {
 		t.Fatal("exhausted shield was queried live instead of its immutable receipt", got, err)
 	}
 	// Every condition shares the same frozen rows. Cloning an event must not
@@ -57,7 +57,7 @@ func TestReceivedShieldReadRequiresRealContextAndSurvivesDepletion(t *testing.T)
 	}
 	zeroEvent := actualReceivedShieldEvent(t, s, receivedDamageFrame(t, s, 0))
 	zeroReader, zeroIndex := actualReceivedShieldReader(s, zeroEvent)
-	if got, err := zeroReader.ReceivedLinkedShieldAbsorbed(zeroIndex); err != nil || got != 0 {
+	if got, err := zeroReader.receivedLinkedShieldAbsorbed(zeroIndex); err != nil || got != 0 {
 		t.Fatal("completed empty receipt was confused with missing facts", got, err)
 	}
 	for _, mode := range []string{"missing_event", "sender_event", "aggregate_event", "missing_damage", "missing_facts", "wrong_event_target", "other_parent", "missing_owner", "unbound_definition", "wrong_lifecycle", "wrong_row_owner", "nonfinite_receipt"} {
@@ -92,7 +92,7 @@ func TestReceivedShieldReadRequiresRealContextAndSurvivesDepletion(t *testing.T)
 			case "nonfinite_receipt":
 				snapshot.Rows[0].Absorbed = math.Inf(1)
 			}
-			if got, err := frame.ReceivedLinkedShieldAbsorbed(bound); err == nil {
+			if got, err := frame.receivedLinkedShieldAbsorbed(bound); err == nil {
 				t.Fatal("invalid context/facts became a numeric zero or live read", mode, got)
 			}
 		})
@@ -118,8 +118,8 @@ func TestReceivedShieldListenerFailureRetainsCommittedParentDamage(t *testing.T)
 			if mode == "queue" {
 				s.loop.SetQueueLimit(s.loop.QueuedEvents())
 			} else {
-				bad := formula.GenericProgramID(len(s.formulas.Programs))
-				s.formulas.Programs = append(s.formulas.Programs, formula.GenericProgram{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1}, {Op: formula.GenericOpConst, Value: 0}, {Op: formula.GenericOpDiv}}})
+				bad := formula.GenericProgramID(s.formulas.Metadata.Count())
+				fixtureAppendFormula(&s.formulas, formula.GenericProgram{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1}, {Op: formula.GenericOpConst, Value: 0}, {Op: formula.GenericOpDiv}}})
 				s.compiled.Operations[listener.OperationStart].AmountProgram = bad
 			}
 			s.currentEventCommands = 0
@@ -145,8 +145,8 @@ func TestReceivedShieldParentFailurePublishesNoPartialReceipt(t *testing.T) {
 	beforeDone := s.buildDoneResult(false)
 	before, _ := json.Marshal(beforeDone)
 	f := receivedDamageFrame(t, s, 20)
-	bad := formula.GenericProgramID(len(s.formulas.Programs))
-	s.formulas.Programs = append(s.formulas.Programs, formula.GenericProgram{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1}, {Op: formula.GenericOpConst, Value: 0}, {Op: formula.GenericOpDiv}}})
+	bad := formula.GenericProgramID(s.formulas.Metadata.Count())
+	fixtureAppendFormula(&s.formulas, formula.GenericProgram{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1}, {Op: formula.GenericOpConst, Value: 0}, {Op: formula.GenericOpDiv}}})
 	op := plan.CompiledOperation{Operation: "damage", Target: "target", Ref: "failed_second_packet", DamageType: "damage/physics", HasAmount: true, AmountProgram: bad}
 	err := f.executeOperations(plan.CompiledAbility{}, []plan.CompiledOperation{op})
 	if err == nil {

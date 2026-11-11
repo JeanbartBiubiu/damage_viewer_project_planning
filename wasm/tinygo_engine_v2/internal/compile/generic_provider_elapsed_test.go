@@ -21,10 +21,10 @@ func TestCompileProviderElapsedIsRestrictedToFiniteModifier(t *testing.T) {
 		t.Fatal(result.Result.Errors)
 	}
 	program := result.Session.Providers[1].Modifiers[0].ValueProgram
-	if _, supported := result.Session.Formulas.AttributeCacheDependencies(program); supported {
+	if _, supported := result.Session.Formulas.Metadata.AttributeCacheDependencies(program); supported {
 		t.Fatal("time-dependent attribute formula must not reuse a timeless memo")
 	}
-	if _, err := result.Session.Formulas.Eval(program, formula.GenericEvalContext{}); err == nil {
+	if _, err := result.Session.Formulas.Evaluation.Eval(program, formula.GenericEvalContext{}); err == nil {
 		t.Fatal("elapsed read without actual provider context returned zero")
 	}
 }

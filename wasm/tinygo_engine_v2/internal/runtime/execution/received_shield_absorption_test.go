@@ -311,8 +311,8 @@ func receivedDamageFrame(t *testing.T, s *Engine, amount float64) *Frame {
 	s.currentEventCommands = 0
 	f := s.newExecutionFrame("target", "source", "native_received_probe")
 	f.ownerCombatantKey, f.ownerProviderRef = "target", "receiver"
-	program := formula.GenericProgramID(len(s.formulas.Programs))
-	s.formulas.Programs = append(s.formulas.Programs, formula.GenericProgram{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: amount}}})
+	program := formula.GenericProgramID(s.formulas.Metadata.Count())
+	fixtureAppendFormula(&s.formulas, formula.GenericProgram{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: amount}}})
 	op := plan.CompiledOperation{Operation: "damage", Target: "target", Ref: "native_received_probe", DamageType: "damage/physics", HasAmount: true, AmountProgram: program}
 	if err := f.executeOperations(plan.CompiledAbility{}, []plan.CompiledOperation{op}); err != nil {
 		t.Fatal(err)

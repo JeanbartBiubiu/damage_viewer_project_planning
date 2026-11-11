@@ -7,7 +7,7 @@ import (
 )
 
 func TestStrictReadPreservesResolvedZeroAndRejectsMissingInput(t *testing.T) {
-	ctx := GenericEvalContext{StrictReads: true, SourceAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{"ratio": {Base: 1, Current: 1, Max: 1, Resolved: 0}}), AbilityParams: map[string]float64{"zero": 0}}
+	ctx := GenericEvalContext{StrictReads: true, SourceAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{"ratio": {Base: 1, Current: 1, Max: 1, Resolved: 0}}), AbilityParams: model.BorrowNumericView(map[string]float64{"zero": 0})}
 	value, err := evalRead(ReadSourceAttr, "ratio.resolved", &ctx)
 	if err != nil || value != 0 {
 		t.Fatalf("resolved zero=%v err=%v", value, err)

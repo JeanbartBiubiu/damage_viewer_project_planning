@@ -34,12 +34,12 @@ func TestNamedBindingSynchronousSmallAndLargeInputs(t *testing.T) {
 			}
 			expr := sum(reads)
 			def := model.NamedFormula{Scope: "skill", Key: "sum", SkillKey: "hit", Parameters: []model.FormulaParameter{}, Expression: formuladefinition.Definition(inputs, []any{formuladefinition.Stage("out", expr)}, "out")}
-			var registry GenericRegistry
-			CompileDeclaredNamedFormulas([]model.NamedFormula{def}, keys, &registry, func(c model.GenericErrCode, p, m, r string) { t.Fatal(c, p, m) })
+			var registry programStore
+			compileDeclaredNamedFormulas([]model.NamedFormula{def}, keys, &registry, func(c model.GenericErrCode, p, m, r string) { t.Fatal(c, p, m) })
 			ctx := GenericEvalContext{SourceAttrs: attribute.FromMap(attrs)}
 			want := float64(count * (count + 1) / 2)
 			allocations := testing.AllocsPerRun(30, func() {
-				got, err := registry.Eval(0, ctx)
+				got, err := registry.evaluate(0, ctx)
 				if err != nil || got != want {
 					t.Fatal(got, err, want)
 				}
@@ -48,7 +48,7 @@ func TestNamedBindingSynchronousSmallAndLargeInputs(t *testing.T) {
 				t.Fatalf("small binding allocated %v", allocations)
 			}
 			ctx.SourceAttrs = ctx.SourceAttrs.With("value0", model.AttributeSlotDef{Base: 100, Resolved: 100})
-			got, err := registry.Eval(0, ctx)
+			got, err := registry.evaluate(0, ctx)
 			if err != nil || got != want+99 {
 				t.Fatal("stale borrowed inputs", got, err)
 			}

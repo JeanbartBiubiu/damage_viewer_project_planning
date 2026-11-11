@@ -216,17 +216,17 @@ func targetMarkInitialHit(ctx *genericCompileContext, providerRef, skill, expect
 }
 
 func targetMarkSetter(index int, op plan.CompiledOperation, own string, owner int, ctx *genericCompileContext) bool {
-	if op.Operation != "state_change" || op.StateScope != "state_scope/provider_target" || op.Target != model.SelectorSelf || op.ValuePolicy != "set" || !op.HasAmount || len(ctx.session.Formulas.ReadDependencies(op.AmountProgram)) != 0 {
+	if op.Operation != "state_change" || op.StateScope != "state_scope/provider_target" || op.Target != model.SelectorSelf || op.ValuePolicy != "set" || !op.HasAmount || len(ctx.formulas.ReadDependencies(op.AmountProgram)) != 0 {
 		return false
 	}
-	amount, static := ctx.session.Formulas.FoldStatic(op.AmountProgram)
+	amount, static := ctx.formulas.FoldStatic(op.AmountProgram)
 	if !static || amount != 1 {
 		return false
 	}
 	ref := ctx.session.AbilityRefIndex[own]
 	for _, listener := range ctx.session.Listeners {
 		if int(listener.OperationStart) == index && listener.OperationCount == 1 && targetMarkListenerShape(listener, owner, ctx) && listener.OwnerCombatantKey == model.SelectorSource &&
-			targetMarkMatcher(listener, ctx.session.Abilities[ref.AbilityIndex], model.EventTypeSkillHit, ctx) && listener.HasCondition && targetMarkConditionUnblocked(listener.ConditionProgram, ctx.session.Formulas, 0) {
+			targetMarkMatcher(listener, ctx.session.Abilities[ref.AbilityIndex], model.EventTypeSkillHit, ctx) && listener.HasCondition && targetMarkConditionUnblocked(listener.ConditionProgram, ctx.formulas, 0) {
 			return true
 		}
 	}
@@ -237,13 +237,13 @@ func targetMarkLiteralNonnegative(expr *model.GenericFormulaExpr) bool {
 	return expr != nil && expr.Op == "const" && expr.Value != nil && !math.IsNaN(*expr.Value) && !math.IsInf(*expr.Value, 0) && *expr.Value >= 0 && expr.LinkedProgram == nil && expr.Path == "" && expr.Ref == "" && len(expr.Args) == 0 && expr.Expr == nil && expr.Min == nil && expr.Max == nil && expr.Decimals == nil
 }
 
-func targetMarkProgramBindings(id formula.GenericProgramID, skill string, definitions []model.NamedFormula, registry formula.GenericRegistry, depth int) bool {
-	if depth > 64 || int(id) >= len(registry.Programs) {
+func targetMarkProgramBindings(id formula.GenericProgramID, skill string, definitions []model.NamedFormula, registry formula.Builder, depth int) bool {
+	if depth > 64 || int(id) >= registry.Count() {
 		return false
 	}
-	program := registry.Programs[id]
-	if binding := program.NamedBinding; binding != nil {
-		if binding.Scope() == "skill" && binding.SkillKey() != skill {
+	program := registry.Info(formula.GenericProgramID(id))
+	if program.HasNamedBinding {
+		if program.Scope == "skill" && program.SkillKey != skill {
 			return false
 		}
 		for _, definition := range definitions {
@@ -256,7 +256,7 @@ func targetMarkProgramBindings(id formula.GenericProgramID, skill string, defini
 			}
 		}
 	}
-	for _, instruction := range program.Instr {
+	for _, instruction := range registry.Instructions(id) {
 		if instruction.Op == formula.GenericOpRef && !targetMarkProgramBindings(formula.GenericProgramID(instruction.RefIndex), skill, definitions, registry, depth+1) {
 			return false
 		}
@@ -275,10 +275,10 @@ func validateTargetMarkPrograms(op *plan.CompiledOperation, ability plan.Compile
 		}
 	}
 	for _, program := range programs {
-		if !targetMarkProgramBindings(program, ability.SkillKey, definitions, ctx.session.Formulas, 0) {
+		if !targetMarkProgramBindings(program, ability.SkillKey, definitions, ctx.formulas, 0) {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, op.Path, "target mark forbids runtime input and foreign skill formula bindings", op.Ref)
 		}
-		for _, read := range ctx.session.Formulas.ReadDependencies(program) {
+		for _, read := range ctx.formulas.ReadDependencies(program) {
 			allowed := op.Operation == "damage" && (read.ReadKind == formula.ReadSourceAttr || read.ReadKind == formula.ReadTargetAttr)
 			if op.Operation == "damage" && read.ReadKind == formula.ReadAbilityParam {
 				value, exists := ability.Params[read.ReadKey]

@@ -14,7 +14,7 @@ import (
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 )
 
-func defenseFixture(t *testing.T, definition map[string]any) (formula.GenericRegistry, planbundle.CompiledDamageTypeFormula) {
+func defenseFixture(t *testing.T, definition map[string]any) (formula.Library, planbundle.CompiledDamageTypeFormula) {
 	t.Helper()
 	var allowed []any
 	var catalog []expression.Binding
@@ -33,8 +33,8 @@ func defenseFixture(t *testing.T, definition map[string]any) (formula.GenericReg
 	if issue != nil {
 		t.Fatal(issue)
 	}
-	var formulas formula.GenericRegistry
-	id, err := formulas.Register(formula.GenericProgram{Key: "defense", Authored: program, BindingBytes: bound.ChargedBytes()})
+	var formulas formula.Library
+	id, err := fixtureRegister(&formulas, formula.GenericProgram{Key: "defense", Authored: program, BindingBytes: bound.ChargedBytes()})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -58,7 +58,7 @@ func TestDefenseUsesSuppliedResolvedViewsAndRetainsMissingInputIdentity(t *testi
 
 func TestDefensePlanGuardAndOutputFailureKeepDifferentReferences(t *testing.T) {
 	identity := DefenseIdentity{AbilityRef: "actual-ability", SchemaHash: "schema", RulesHash: "rules", SessionID: "session"}
-	_, issue := RequireConfiguredDefense(nil, formula.GenericRegistry{}, "damage/configured", "operations[2]", identity)
+	_, issue := RequireConfiguredDefense(nil, formula.Library{}, "damage/configured", "operations[2]", identity)
 	if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != "operations[2].damageType" || issue.Ref != "damage/configured" || issue.SessionID != "session" {
 		t.Fatalf("plan guard lost the actual operation and damage type: %+v", issue)
 	}

@@ -105,7 +105,7 @@ func TestTargetStateRemainingSourceAndTargetIsolation(t *testing.T) {
 	}
 	for _, target := range []string{"source", ""} {
 		f, a, ops := targetRemainingFrame(s, "source", target, targetRemainingProvider, "probe")
-		value, err := s.formulas.Eval(ops[0].ConditionProgram, f.evalContext(a))
+		value, err := s.formulas.Evaluation.Eval(ops[0].ConditionProgram, f.evalContext(a))
 		if err != nil || value != 0 {
 			t.Fatal("foreign or absent target inherited mark", target, value, err)
 		}
@@ -134,7 +134,7 @@ func TestTargetStateRemainingInactiveSkipsFailingAmount(t *testing.T) {
 		}
 		f, a, ops := targetRemainingFrame(s, "source", target, targetRemainingProvider, "ensure")
 		op := ops[0]
-		bad, registerErr := s.formulas.Register(formula.GenericProgram{Key: "test/failing_ensure", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1}, {Op: formula.GenericOpConst, Value: 0}, {Op: formula.GenericOpDiv}}})
+		bad, registerErr := fixtureRegister(&s.formulas, formula.GenericProgram{Key: "test/failing_ensure", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1}, {Op: formula.GenericOpConst, Value: 0}, {Op: formula.GenericOpDiv}}})
 		if registerErr != nil {
 			t.Fatal(registerErr)
 		}

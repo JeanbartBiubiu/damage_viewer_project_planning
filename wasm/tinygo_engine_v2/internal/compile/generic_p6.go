@@ -80,10 +80,10 @@ func compileListenerCondition(listener model.ListenerDefinition, path string, co
 		return
 	}
 	instr := formula.CompileGenericFormula(*listener.Condition, path+".condition", ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
-	if formulaReadsKind(ctx.session.Formulas.InstructionDependencies(instr, nil), formula.ReadEventSkillHit) && formulaSkillHitReadsFirstContact(ctx.session.Formulas.InstructionDependencies(instr, nil)) {
+	if formulaReadsKind(ctx.formulas.InstructionDependencies(instr, nil), formula.ReadEventSkillHit) && formulaSkillHitReadsFirstContact(ctx.formulas.InstructionDependencies(instr, nil)) {
 		ctx.collector.addError(model.GenericErrFormulaTypeError, path+".condition", "listener.condition cannot encode firstContact", listener.ListenerKey)
 	}
-	if formulaReadsKind(ctx.session.Formulas.InstructionDependencies(instr, nil), formula.ReadOperationOutput) {
+	if formulaReadsKind(ctx.formulas.InstructionDependencies(instr, nil), formula.ReadOperationOutput) {
 		ctx.collector.addError(model.GenericErrFormulaTypeError, path+".condition", "listener.condition cannot read operation.output", listener.ListenerKey)
 	}
 	if len(instr) > 0 {
@@ -137,9 +137,9 @@ func validateOutputRef(op model.OperationDefinition, path string, ctx *genericCo
 }
 
 func validateOperationOutputReads(instr []formula.GenericInstr, path string, ctx *genericCompileContext) {
-	instr = ctx.session.Formulas.InstructionDependencies(instr, nil)
+	instr = ctx.formulas.InstructionDependencies(instr, nil)
 	if ctx.outputUnitRefs == nil {
-		if formulaReadsKind(ctx.session.Formulas.InstructionDependencies(instr, nil), formula.ReadOperationOutput) {
+		if formulaReadsKind(ctx.formulas.InstructionDependencies(instr, nil), formula.ReadOperationOutput) {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, path, "operation.output reads require a same-frame damage outputRef", "")
 		}
 		return

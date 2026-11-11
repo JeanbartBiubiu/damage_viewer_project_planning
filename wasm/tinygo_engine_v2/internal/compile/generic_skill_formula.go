@@ -11,14 +11,14 @@ func (ctx *genericCompileContext) validateFormulaScope(instr []formula.GenericIn
 		if in.Op != formula.GenericOpRef {
 			continue
 		}
-		if int(in.RefIndex) >= len(ctx.session.Formulas.Programs) {
+		if int(in.RefIndex) >= ctx.formulas.Count() {
 			valid = false
 			continue
 		}
-		program := ctx.session.Formulas.Programs[in.RefIndex]
-		if !program.DeclaredNamed || program.NamedBinding == nil ||
-			(program.NamedBinding.Scope() != "skill" && program.NamedBinding.Scope() != "game") ||
-			(program.NamedBinding.Scope() == "skill" && (ctx.currentSkillKey == "" || program.NamedBinding.SkillKey() != ctx.currentSkillKey)) {
+		program := ctx.formulas.Info(formula.GenericProgramID(in.RefIndex))
+		if !program.DeclaredNamed || !program.HasNamedBinding ||
+			(program.Scope != "skill" && program.Scope != "game") ||
+			(program.Scope == "skill" && (ctx.currentSkillKey == "" || program.SkillKey != ctx.currentSkillKey)) {
 			ctx.collector.addError(model.GenericErrUnknownRef, path, "common formula requires its independently declared owning skill", program.Key)
 			valid = false
 		}
@@ -58,7 +58,7 @@ func (ctx *genericCompileContext) freezeStatic(raw any, path string, optional bo
 	if len(instr) == 0 || !ctx.validateFormulaScope(instr, path) {
 		return 0, false
 	}
-	if len(ctx.session.Formulas.InstructionDependencies(instr, nil)) != 0 {
+	if len(ctx.formulas.InstructionDependencies(instr, nil)) != 0 {
 		ctx.collector.addError(model.GenericErrFormulaTypeError, path, "static formula permits only selected fixed or level parameters", expr.Ref)
 		return 0, false
 	}
@@ -66,9 +66,9 @@ func (ctx *genericCompileContext) freezeStatic(raw any, path string, optional bo
 	if !ok {
 		return 0, false
 	}
-	value, ok := ctx.session.Formulas.FoldStatic(id)
+	value, ok := ctx.formulas.FoldStatic(id)
 	if !ok {
-		_, err := ctx.session.Formulas.Eval(id, formula.GenericEvalContext{})
+		_, err := ctx.formulas.Eval(id, formula.GenericEvalContext{})
 		if err != nil {
 			if authored, yes := err.(*formula.AuthoredEvaluationError); yes {
 				ctx.collector.addError(model.GenericErrCode(authored.Issue.Code), authored.DefinitionPath+authored.Issue.Path, authored.Error(), authored.ProgramKey)
@@ -140,7 +140,7 @@ func (ctx *genericCompileContext) validateForeignProviderRuntime(definitionRef, 
 		}
 	}
 	for _, program := range programs {
-		for _, dep := range ctx.session.Formulas.ReadDependencies(program) {
+		for _, dep := range ctx.formulas.ReadDependencies(program) {
 			if dep.ReadKind == formula.ReadAuthoredRuntimeParameter || dep.ReadKind == formula.ReadAuthoredAbilityParameter || dep.ReadKind == formula.ReadUseChargeDuration || dep.ReadKind == formula.ReadProcessActualCost || dep.ReadKind == formula.ReadProcessStartState {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, path, "cross-skill definition runtime inputs cannot borrow the current skill", definitionRef)
 				return

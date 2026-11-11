@@ -215,7 +215,7 @@ func TestKilledBasicAttackRecoveryRejectsUnownedUnsettledOrIncompleteInputs(t *t
 				case "missing_amount":
 					operation.HasAmount = false
 				case "missing_program":
-					operation.AmountProgram = formula.GenericProgramID(len(compiled.Session.Formulas.Programs) + 1)
+					operation.AmountProgram = formula.GenericProgramID(compiled.Session.Formulas.Metadata.Count() + 1)
 				}
 			}
 			if _, err := runtimeengine.RunGeneric(compiled.Session, r); err == nil || err.BudgetCause != "" {

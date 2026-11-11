@@ -36,19 +36,19 @@ func TestDamageStateBeforeWrongContextsAndMissingAreNotZero(t *testing.T) {
 	var f Frame
 	state.initExecutionFrame(&f, "source", "target", "probe")
 	f.ownerCombatantKey, f.ownerProviderRef = "source", targetRemainingProvider
-	if _, err := f.DamageStateBefore("mark"); err == nil {
+	if _, err := f.damageStateBefore("mark"); err == nil {
 		t.Fatal("missing context became zero")
 	}
 	f.eventCtx = &eventFormulaSnapshot{EventType: eventTypeDamageInstance, EventSourceKey: "source", EventTargetKey: "target", DamageID: 1}
-	if _, err := f.DamageStateBefore("mark"); err == nil {
+	if _, err := f.damageStateBefore("mark"); err == nil {
 		t.Fatal("missing declared frozen fact became zero")
 	}
 	f.eventCtx.DamageStateBefore = []frozenDamageStateBefore{{Reader: 0, Value: 0}}
-	if value, err := f.DamageStateBefore("mark"); err != nil || value != 0 {
+	if value, err := f.damageStateBefore("mark"); err != nil || value != 0 {
 		t.Fatal("legitimate frozen zero rejected", value, err)
 	}
 	f.ownerProviderRef = "foreign"
-	if _, err := f.DamageStateBefore("mark"); err == nil {
+	if _, err := f.damageStateBefore("mark"); err == nil {
 		t.Fatal("foreign mount read another instance")
 	}
 }

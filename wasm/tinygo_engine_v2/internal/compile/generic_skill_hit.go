@@ -176,7 +176,7 @@ func compileSkillHitCandidate(cand model.SkillHitCandidate, path string, ownerPr
 	}
 	if cand.ParticipationCondition != nil {
 		instr := formula.CompileGenericFormula(*cand.ParticipationCondition, path+".participationCondition", ctx.namedFormulas, map[string]bool{}, collector.addError)
-		if formulaHasForbiddenHitReads(ctx.session.Formulas.InstructionDependencies(instr, nil)) {
+		if formulaHasForbiddenHitReads(ctx.formulas.InstructionDependencies(instr, nil)) {
 			collector.addError(model.GenericErrFormulaTypeError, path+".participationCondition", "participationCondition cannot read skill hit values, event snapshots that are not yet produced, or damage pipeline writes", cand.CandidateKey)
 		}
 		if len(instr) > 0 {
@@ -199,7 +199,7 @@ func compileSkillHitCandidate(cand model.SkillHitCandidate, path string, ownerPr
 			collector.addError(model.GenericErrUnknownRef, cpath+".comparator", "unsupported eventValueConditions comparator", cond.Comparator)
 		}
 		instr := formula.CompileGenericFormula(cond.Value, cpath+".value", ctx.namedFormulas, map[string]bool{}, collector.addError)
-		if formulaReadsKind(ctx.session.Formulas.InstructionDependencies(instr, nil), formula.ReadEventSkillHit) {
+		if formulaReadsKind(ctx.formulas.InstructionDependencies(instr, nil), formula.ReadEventSkillHit) {
 			collector.addError(model.GenericErrFormulaTypeError, cpath+".value", "eventValueConditions value cannot reverse-read unproduced skill hit values", cand.CandidateKey)
 		}
 		if len(instr) > 0 {
@@ -439,7 +439,7 @@ func pureFiniteTargetAttributeProvider(reference string, ctx *genericCompileCont
 	if lifecycle == nil || !lifecycle.HasDuration || lifecycle.MaxStacks != 1 || lifecycle.RefreshPolicy != model.RefreshPolicyReplace || lifecycle.InstanceScope != model.InstanceScopeSourceTarget || lifecycle.TickIntervalMs != 0 {
 		return false
 	}
-	duration, static := ctx.session.Formulas.FoldStatic(lifecycle.DurationProgram)
+	duration, static := ctx.formulas.FoldStatic(lifecycle.DurationProgram)
 	if !static || !formula.ValidPositiveInt64DurationMs(duration) {
 		return false
 	}
@@ -450,7 +450,7 @@ func pureFiniteTargetAttributeProvider(reference string, ctx *genericCompileCont
 		if !own || key == "" || key == "hp" || strings.Contains(key, ".") || modifier.Kind != "attribute" || (!flat && !total) || modifier.HasCondition || !modifier.HasValue || modifier.Command != "" || modifier.Channel != "" || modifier.HealDirection != "" || modifier.HealCategory != "" || modifier.HealGroupKey != "" || modifier.HealGroupCalculationMode != "" {
 			return false
 		}
-		value, fixed := ctx.session.Formulas.FoldStatic(modifier.ValueProgram)
+		value, fixed := ctx.formulas.FoldStatic(modifier.ValueProgram)
 		validTotal := !total || modifier.HasMultiplierGroup && value >= 1 || !modifier.HasMultiplierGroup && value >= 0 && value <= 1
 		if !fixed || math.IsNaN(value) || math.IsInf(value, 0) || !validTotal {
 			return false

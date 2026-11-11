@@ -22,25 +22,23 @@ func TestRunDriverProgramsDoNotMutateReusablePlan(t *testing.T) {
 	interval := 10.0
 	run.DriverPlan.Entries[0].Repeat = &model.DriverRepeat{IntervalFormula: &model.GenericFormulaExpr{Op: "const", Value: &interval}}
 	run.StopPolicy.StopWhenNoEvents = model.BoolPtr(false)
-	before := *compiled.Session.Formulas.CloneForRun()
-	// 为原表显式留出备用容量，证明本次追加没有共享底层描述存储。
-	compiled.Session.Formulas.Programs = append(append(make([]formula.GenericProgram, 0, len(before.Programs)+8), before.Programs...), formula.GenericProgram{})[:len(before.Programs)]
+	before := compiled.Session.Formulas
 	for i := 0; i < 3; i++ {
 		state, issue := newGenericRunState(compiled.Session, run)
 		if issue != nil {
 			t.Fatal(issue)
 		}
-		if len(state.formulas.Programs) != len(before.Programs)+2 || len(state.compiled.Formulas.Programs) != len(before.Programs) {
+		if state.formulas.Metadata.Count() != before.Metadata.Count()+2 || state.compiled.Formulas.Metadata.Count() != before.Metadata.Count() {
 			t.Fatal("temporary formulas were not run-owned")
 		}
-		if !reflect.DeepEqual(compiled.Session.Formulas.Programs, before.Programs) || !reflect.DeepEqual(compiled.Session.Formulas.Index, before.Index) || compiled.Session.Formulas.Programs[:cap(compiled.Session.Formulas.Programs)][len(before.Programs)].Key != "" {
+		if !reflect.DeepEqual(compiled.Session.Formulas, before) {
 			t.Fatal("driver program modified reusable plan")
 		}
 		condition, present := state.actions.DriverCondition(0)
 		if !present {
 			t.Fatal("missing compiled driver condition")
 		}
-		value, err := state.formulas.Eval(condition, formula.GenericEvalContext{})
+		value, err := state.formulas.Evaluation.Eval(condition, formula.GenericEvalContext{})
 		if err != nil || value != 1 {
 			t.Fatal("run-local condition did not execute")
 		}
@@ -53,7 +51,7 @@ func TestRunDriverProgramsDoNotMutateReusablePlan(t *testing.T) {
 	if _, issue := runForTest(compiled.Session, run); issue == nil {
 		t.Fatal("invalid runtime arithmetic succeeded")
 	}
-	if !reflect.DeepEqual(compiled.Session.Formulas.Programs, before.Programs) {
+	if !reflect.DeepEqual(compiled.Session.Formulas, before) {
 		t.Fatal("failed run modified plan")
 	}
 	run.DriverPlan.Entries[0].Condition = &condition
@@ -68,18 +66,20 @@ func TestRunDriverProgramBudgetRefusalPreservesPlan(t *testing.T) {
 	if !compiled.OK {
 		t.Fatal(compiled.Result.Errors)
 	}
-	for i := len(compiled.Session.Formulas.Programs); i < formula.MaxGenericPrograms; i++ {
-		if _, err := compiled.Session.Formulas.Register(formula.GenericProgram{Key: "padding" + strconv.Itoa(i), Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1}}}); err != nil {
+	builder := formula.NewBuilder(compiled.Session.Formulas)
+	for i := compiled.Session.Formulas.Metadata.Count(); i < formula.MaxGenericPrograms; i++ {
+		if _, err := builder.Register(formula.GenericProgram{Key: "padding" + strconv.Itoa(i), Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1}}}); err != nil {
 			t.Fatal(err)
 		}
 	}
+	compiled.Session.Formulas = builder.Freeze()
 	value := 1.0
 	run.DriverPlan.Entries[0].Condition = &model.GenericFormulaExpr{Op: "const", Value: &value}
-	before := *compiled.Session.Formulas.CloneForRun()
+	before := compiled.Session.Formulas
 	if _, issue := newGenericRunState(compiled.Session, run); issue == nil || issue.Code != model.GenericErrFormulaTypeError {
 		t.Fatal("full table driver did not reject", issue)
 	}
-	if !reflect.DeepEqual(compiled.Session.Formulas.Programs, before.Programs) || !reflect.DeepEqual(compiled.Session.Formulas.Index, before.Index) {
+	if !reflect.DeepEqual(compiled.Session.Formulas, before) {
 		t.Fatal("budget rejection modified plan")
 	}
 	run.DriverPlan.Entries[0].Condition = nil

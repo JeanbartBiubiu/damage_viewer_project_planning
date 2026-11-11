@@ -2,21 +2,23 @@ package formula
 
 import (
 	"errors"
+	"math"
 	"strings"
 
 	"tinygo_engine_v2/internal/base/attribute"
+	"tinygo_engine_v2/internal/base/inputbinding"
 	"tinygo_engine_v2/internal/model"
 )
 
-func (r *GenericRegistry) BindAttributeLayout(layout *attribute.Layout) {
+func (r *programStore) bindAttributeLayout(layout *attribute.Layout) {
 	if r == nil {
 		return
 	}
-	programs := make([]GenericProgram, len(r.Programs))
-	for i, program := range r.Programs {
+	programs := make([]GenericProgram, len(r.programs))
+	for i, program := range r.programs {
 		programs[i] = bindProgramAttributes(program, layout)
 	}
-	r.Programs, r.attributeLayout = programs, layout
+	r.programs, r.attributeLayout = programs, layout
 }
 
 func isAttributeRead(kind GenericReadKind) bool {
@@ -80,10 +82,12 @@ func lookupAttributeSlot(attrs attribute.Table, key string, index int, bound boo
 
 func evalInstructionRead(in GenericInstr, ctx *GenericEvalContext) (float64, error) {
 	if in.ReadKind == ReadEventProviderTargetStateBefore {
-		if !in.ReferenceBound || !ctx.HasProviderContext || !ctx.HasEventContext || ctx.DamageStateBeforeReader == nil {
+		request, _ := FactRequestForRead(in)
+		value, factErr, exists := ctx.Facts.Lookup(request)
+		if !in.ReferenceBound || !ctx.HasProviderContext || !ctx.HasEventContext || !exists {
 			return 0, errors.New("damage state before requires a bound original damage listener condition")
 		}
-		return ctx.DamageStateBeforeReader.DamageStateBefore(in.ReadKey)
+		return value, factErr
 	}
 	if in.ReadKind == ReadProviderTargetStateRemainingMs {
 		if !in.ReferenceBound || !ctx.HasProviderContext || !ctx.HasTargetStateRemainingContext {
@@ -96,16 +100,20 @@ func evalInstructionRead(in GenericInstr, ctx *GenericEvalContext) (float64, err
 		return float64(expires - ctx.TargetStateRemainingNowMs), nil
 	}
 	if in.ReadKind == ReadReceivedLinkedShieldAbsorbed {
-		if !in.ReferenceBound || !ctx.HasProviderContext || !ctx.HasEventContext || !ctx.HasEventDamageSnapshot || ctx.ReceivedShieldReader == nil {
+		request, _ := FactRequestForRead(in)
+		value, factErr, exists := ctx.Facts.Lookup(request)
+		if !in.ReferenceBound || !ctx.HasProviderContext || !ctx.HasEventContext || !ctx.HasEventDamageSnapshot || !exists {
 			return 0, errors.New("linked shield absorption requires a bound native received-damage listener condition")
 		}
-		return ctx.ReceivedShieldReader.ReceivedLinkedShieldAbsorbed(in.RefIndex)
+		return value, factErr
 	}
 	if in.ReadKind == ReadLinkedShieldPresent {
-		if !in.ReferenceBound || !ctx.HasProviderContext || ctx.LinkedShieldReader == nil {
+		request, _ := FactRequestForRead(in)
+		value, factErr, exists := ctx.Facts.Lookup(request)
+		if !in.ReferenceBound || !ctx.HasProviderContext || !exists {
 			return 0, errors.New("linked shield presence requires a bound definition and actual provider context")
 		}
-		return ctx.LinkedShieldReader.LinkedShieldPresent(in.RefIndex)
+		return value, factErr
 	}
 	if !in.AttrIndexBound || (in.AttrField != "resolved" && in.AttrField != "base" && in.AttrField != "current" && in.AttrField != "max") {
 		return evalRead(in.ReadKind, in.ReadKey, ctx)
@@ -159,7 +167,7 @@ func sameNamedBinding(a, b *NamedBinding) bool {
 	if a == b {
 		return true
 	}
-	if a == nil || b == nil || a.scope != b.scope || a.skillKey != b.skillKey || a.path != b.path || a.plan != b.plan || len(a.inputs) != len(b.inputs) || len(a.parameters) != len(b.parameters) || len(a.dependencies) != len(b.dependencies) {
+	if a == nil || b == nil || a.scope != b.scope || a.skillKey != b.skillKey || a.path != b.path || namedPlanIdentity(a) != namedPlanIdentity(b) || len(a.inputs) != len(b.inputs) || len(a.parameters) != len(b.parameters) || len(a.dependencies) != len(b.dependencies) {
 		return false
 	}
 	for i, input := range a.inputs {
@@ -168,13 +176,39 @@ func sameNamedBinding(a, b *NamedBinding) bool {
 		}
 	}
 	for i, param := range a.parameters {
-		if param != b.parameters[i] {
+		if !sameParameter(param, b.parameters[i]) {
 			return false
 		}
 	}
 	for i, dep := range a.dependencies {
 		other := b.dependencies[i]
 		if dep.Op != other.Op || dep.ReadKind != other.ReadKind || dep.ReadKey != other.ReadKey || dep.AuthoredRead != other.AuthoredRead {
+			return false
+		}
+	}
+	return true
+}
+
+func namedPlanIdentity(binding *NamedBinding) *inputbinding.Plan {
+	if binding.planIdentity != nil {
+		return binding.planIdentity
+	}
+	return binding.plan
+}
+
+func sameParameter(a, b model.FormulaParameter) bool {
+	if a.ParameterKey != b.ParameterKey || a.ValueMode != b.ValueMode || a.ValueType != b.ValueType || (a.Value == nil) != (b.Value == nil) || (a.RuntimeSource == nil) != (b.RuntimeSource == nil) {
+		return false
+	}
+	if a.Value != nil && math.Float64bits(*a.Value) != math.Float64bits(*b.Value) {
+		return false
+	}
+	if a.RuntimeSource != nil {
+		x, y := a.RuntimeSource, b.RuntimeSource
+		if x.Kind != y.Kind || x.ResourceKey != y.ResourceKey || x.StateKey != y.StateKey || (x.Value == nil) != (y.Value == nil) {
+			return false
+		}
+		if x.Value != nil && math.Float64bits(*x.Value) != math.Float64bits(*y.Value) {
 			return false
 		}
 	}

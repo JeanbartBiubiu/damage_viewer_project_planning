@@ -10,7 +10,7 @@ import (
 // attributeFixture 只组合本场求值缓存与显式只读输入，不建立战斗执行器或循环。
 type attributeFixture struct {
 	cache    State
-	formulas formula.GenericRegistry
+	formulas formula.Library
 	compiled planbundle.CompiledSession
 }
 

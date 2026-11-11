@@ -67,8 +67,8 @@ func (f *calculation) settleDamageVamp(cmd pipeline.Command, op planbundle.Compi
 	ctx.DamageSelf = cmd.Source == cmd.Target
 	ctx.DamageAmount = outcome.MitigatedAmount
 	ctx.DamageTypeKey = cmd.DamageType
-	ctx.DamageTraits = op.Types
-	ctx.DamageAbilityTypes = f.abilityTypeKeys(ability)
+	ctx.DamageTraits = formula.BorrowStringView(op.Types)
+	ctx.DamageAbilityTypes = formula.BorrowStringView(f.abilityTypeKeys(ability))
 	ctx.DamageCastOrigin = f.input.CastOrigin
 	targetTypes := f.combatantTypeSet(cmd.Target)
 	damageTypes := f.eventTypeSet(op.Types)
@@ -95,7 +95,7 @@ func (f *calculation) settleDamageVamp(cmd pipeline.Command, op planbundle.Compi
 		if override != nil {
 			basisKind = override.BasisOutputKind
 			var err error
-			efficiency, err = f.executor.formulas.EvalContext(override.EfficiencyProgram, &ctx)
+			efficiency, err = f.executor.formulas.Evaluation.EvalContext(override.EfficiencyProgram, &ctx)
 			if err != nil {
 				return f.preserveFormulaIssue(err, f.vampError(err.Error(), override.Path, op.Ref))
 			}
@@ -219,7 +219,7 @@ func (f *calculation) applyHealingDirection(hostKey, direction, category string,
 			ctx.HasProviderContext, ctx.ProviderState, ctx.ProviderTargetState = pctx.HasProviderContext, pctx.ProviderState, pctx.ProviderTargetState
 		}
 		if mod.HasCondition {
-			value, err := f.executor.formulas.EvalContext(mod.ConditionProg, &ctx)
+			value, err := f.executor.formulas.Evaluation.EvalContext(mod.ConditionProg, &ctx)
 			if err != nil {
 				return 0, evidence, f.preserveFormulaIssue(err, f.vampError(err.Error(), "heal.modifiers["+mod.ModifierKey+"].condition", mod.ModifierKey))
 			}
@@ -227,7 +227,7 @@ func (f *calculation) applyHealingDirection(hostKey, direction, category string,
 				continue
 			}
 		}
-		value, err := f.executor.formulas.EvalContext(mod.ValueProgram, &ctx)
+		value, err := f.executor.formulas.Evaluation.EvalContext(mod.ValueProgram, &ctx)
 		if err != nil {
 			return 0, evidence, f.preserveFormulaIssue(err, f.vampError(err.Error(), "heal.modifiers["+mod.ModifierKey+"].value", mod.ModifierKey))
 		}

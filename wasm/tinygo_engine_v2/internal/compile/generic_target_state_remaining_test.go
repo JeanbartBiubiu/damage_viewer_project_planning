@@ -121,7 +121,7 @@ func TestCompileEnsureTargetStateRemainingStaticPositiveAmount(t *testing.T) {
 
 func TestCompileTargetStateRemainingNamedIfCannotAuthorizeAmount(t *testing.T) {
 	for _, amountUse := range []bool{false, true} {
-		registry := formula.GenericRegistry{}
+		registry := formula.Builder{}
 		register := func(p formula.GenericProgram) formula.GenericProgramID {
 			id, err := registry.Register(p)
 			if err != nil {
@@ -132,11 +132,11 @@ func TestCompileTargetStateRemainingNamedIfCannotAuthorizeAmount(t *testing.T) {
 		named := register(formula.GenericProgram{Key: "declared/timer", DeclaredNamed: true,
 			Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadProviderTargetStateRemainingMs, ReadKey: "mark"}}})
 		condition := register(formula.GenericProgram{Key: "owned.condition", Instr: []formula.GenericInstr{{Op: formula.GenericOpRef, RefIndex: uint16(named)}}})
-		session := plan.CompiledSession{Formulas: registry, Providers: []plan.CompiledProvider{{StateFields: map[string]plan.CompiledProviderStateField{
+		session := plan.CompiledSession{Providers: []plan.CompiledProvider{{StateFields: map[string]plan.CompiledProviderStateField{
 			"mark": {ValueType: "integer", DurationMs: 6000}}, Listeners: []plan.CompiledListener{{HasCondition: true, ConditionProgram: condition}}}}}
 		if amountUse {
 			// 运行只会选常量1250，但依赖展开仍必须看到未选分支中的具名读取。
-			amount, err := session.Formulas.Register(formula.GenericProgram{Key: "owned.amount", Instr: []formula.GenericInstr{
+			amount, err := registry.Register(formula.GenericProgram{Key: "owned.amount", Instr: []formula.GenericInstr{
 				{Op: formula.GenericOpConst, Value: 1}, {Op: formula.GenericOpJumpIfZero, JumpTarget: 4},
 				{Op: formula.GenericOpConst, Value: 1250}, {Op: formula.GenericOpJump, JumpTarget: 5}, {Op: formula.GenericOpRef, RefIndex: uint16(named)}}})
 			if err != nil {
@@ -144,10 +144,10 @@ func TestCompileTargetStateRemainingNamedIfCannotAuthorizeAmount(t *testing.T) {
 			}
 			session.Operations = []plan.CompiledOperation{{OwnerProviderIndex: 0, Operation: "heal", HasAmount: true, AmountProgram: amount}}
 		}
-		ctx := &genericCompileContext{session: &session, collector: newGenericCollector("schema", "rules")}
+		ctx := &genericCompileContext{session: &session, formulas: registry, collector: newGenericCollector("schema", "rules")}
 		finalizeTargetStateRemaining(ctx)
 		if !amountUse {
-			if len(ctx.collector.errors) != 0 || !session.HasTargetStateTimeReads || !session.Formulas.Programs[named].Instr[0].ReferenceBound {
+			if len(ctx.collector.errors) != 0 || !session.HasTargetStateTimeReads || !ctx.formulas.Instructions(named)[0].ReferenceBound {
 				t.Fatal(ctx.collector.errors)
 			}
 		} else {

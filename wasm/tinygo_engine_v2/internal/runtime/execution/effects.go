@@ -976,7 +976,7 @@ func (s *Engine) settleLiveResourceExpiry() {
 	}
 }
 
-func (f *Frame) LinkedShieldPresent(index uint16) (float64, error) {
+func (f *Frame) linkedShieldPresent(index uint16) (float64, error) {
 	executor := f.run.lifecycleExecutor()
 	owner := f.providerOwnerKey()
 	staged := f.stageFor(owner)

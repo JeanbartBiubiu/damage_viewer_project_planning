@@ -45,8 +45,10 @@ func TestCompileReceivedShieldBindsActualNaturalParentAndPassiveAbility(t *testi
 		if !p.HasReceivedShieldBinding || p.ReceivedShieldParentIndex != 0 {
 			t.Fatal("missing actual parent binding", p)
 		}
-		for _, program := range got.Session.Formulas.Programs {
-			for _, in := range program.Instr {
+		for id := 0; id < got.Session.Formulas.Metadata.Count(); id++ {
+
+			instructions := got.Session.Formulas.Metadata.Instructions(formula.GenericProgramID(id))
+			for _, in := range instructions {
 				if in.ReadKind == formula.ReadReceivedLinkedShieldAbsorbed && (!in.ReferenceBound || int(in.RefIndex) != len(got.Session.Providers)-1) {
 					t.Fatal("shield reference was not compiled", in)
 				}
@@ -164,13 +166,13 @@ func TestReceivedShieldDependencyGateExpandsNamedAndAllBranches(t *testing.T) {
 	read := formula.GenericInstr{Op: formula.GenericOpRead, ReadKind: formula.ReadReceivedLinkedShieldAbsorbed, ReadKey: "native_guard/value"}
 	for _, condition := range []bool{false, true} {
 		collector := newGenericCollector("s", "r")
-		session := plan.CompiledSession{Formulas: formula.GenericRegistry{Programs: []formula.GenericProgram{
+		session := plan.CompiledSession{Formulas: fixtureFormulaLibrary([]formula.GenericProgram{
 			{Key: "named", DeclaredNamed: true, Instr: []formula.GenericInstr{read}},
 			{Key: "wrapper", Instr: []formula.GenericInstr{{Op: formula.GenericOpRef, RefIndex: 0}}},
-		}, Index: map[string]formula.GenericProgramID{"named": 0, "wrapper": 1}}}
+		})}
 		listener := model.ListenerDefinition{EventMatcher: model.TypeMatcher{All: []string{model.EventTypeDamageTaken, "event/target_owner"}}}
 		ctx := genericCompileContext{collector: collector, session: &session, currentListener: &listener, compilingListenerCondition: condition}
-		validateReceivedShieldReadContext(session.Formulas.ReadDependencies(1), "wrapper", &ctx)
+		validateReceivedShieldReadContext(session.Formulas.Metadata.ReadDependencies(1), "wrapper", &ctx)
 		if (len(collector.errors) == 0) != condition {
 			t.Fatal("named dependency borrowed an operation's listener context", condition, collector.errors)
 		}

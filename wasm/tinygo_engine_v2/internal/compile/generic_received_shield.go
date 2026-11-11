@@ -33,7 +33,7 @@ func finalizeReceivedShieldReads(ctx *genericCompileContext) {
 		if !listener.HasCondition {
 			continue
 		}
-		for _, read := range session.Formulas.ReadDependencies(listener.ConditionProgram) {
+		for _, read := range ctx.formulas.ReadDependencies(listener.ConditionProgram) {
 			if read.ReadKind != formula.ReadReceivedLinkedShieldAbsorbed {
 				continue
 			}
@@ -122,13 +122,14 @@ func finalizeReceivedShieldReads(ctx *genericCompileContext) {
 			allowed[listener.ConditionProgram] = true
 		}
 	}
-	for i, program := range session.Formulas.Programs {
-		for _, read := range session.Formulas.ReadDependencies(formula.GenericProgramID(i)) {
+	for i := 0; i < ctx.formulas.Count(); i++ {
+		program := ctx.formulas.Info(formula.GenericProgramID(i))
+		for _, read := range ctx.formulas.ReadDependencies(formula.GenericProgramID(i)) {
 			if read.ReadKind == formula.ReadReceivedLinkedShieldAbsorbed && !allowed[formula.GenericProgramID(i)] && !program.DeclaredNamed {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, program.Key, "linked shield absorption is only authorized by a real mounted receiver listener condition", read.ReadKey)
 			}
 		}
-		for j, instruction := range program.Instr {
+		for j, instruction := range ctx.formulas.Instructions(formula.GenericProgramID(i)) {
 			if instruction.Op != formula.GenericOpRead || instruction.ReadKind != formula.ReadReceivedLinkedShieldAbsorbed {
 				continue
 			}
@@ -136,7 +137,7 @@ func finalizeReceivedShieldReads(ctx *genericCompileContext) {
 			for index, provider := range session.Providers {
 				if provider.HasReceivedShieldBinding && provider.ShieldDefinitionRef == instruction.ReadKey {
 					instruction.ReferenceBound, instruction.RefIndex = true, uint16(index)
-					session.Formulas.Programs[i].Instr[j] = instruction
+					ctx.bindFormulaRead(formula.GenericProgramID(i), j, instruction.RefIndex)
 					bound = true
 					break
 				}

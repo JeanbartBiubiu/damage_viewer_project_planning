@@ -12,7 +12,7 @@ import (
 
 func initialSelectionInput() (Input, []model.CombatantSnapshot) {
 	compiled := &planbundle.CompiledSession{}
-	registry := &formula.GenericRegistry{}
+	registry := &formula.Library{}
 	input := Input{Compiled: compiled, Formulas: registry, Identity: Identity{SchemaHash: "schema", RulesHash: "rules", SessionID: "session"}}
 	var initial []model.CombatantSnapshot
 	for index, key := range [2]string{model.SelectorSource, model.SelectorTarget} {
@@ -59,7 +59,7 @@ func dynamicRecoveryInput(program formula.GenericProgram) (Input, planbundle.Com
 		Providers: []planbundle.CompiledProvider{{ProviderKey: "passive", AbilityCount: 1}},
 		Abilities: []planbundle.CompiledAbility{{Kind: "passive_listener", ProviderIndex: 0, Params: map[string]float64{"flat": 10}}},
 	}
-	registry := &formula.GenericRegistry{Programs: []formula.GenericProgram{program}}
+	registry := fixtureFormulaLibraryPtr([]formula.GenericProgram{program})
 	input := Input{Compiled: compiled, Formulas: registry}
 	input.Actors[0] = Actor{Key: "source", Present: true, Attributes: attribute.FromMap(map[string]model.AttributeSlotDef{"force": {Base: 20, Current: 20, Max: 20, Resolved: 20}})}
 	return input, planbundle.CompiledListener{OwnerCombatantKey: "source", SourceAbilityIndex: 0}, planbundle.CompiledOperation{OwnerProviderIndex: 0, AmountProgram: 0}
@@ -131,7 +131,7 @@ func linkedShieldInput() (Input, planbundle.CompiledListener, InitialProvider) {
 		},
 		Operations: []planbundle.CompiledOperation{{Operation: "shield", OwnerProviderIndex: 0, Target: "self", HasAmount: true, HasShieldLifecycleProvider: true, ShieldLifecycleProviderIndex: 1, ShieldRef: "shield"}},
 	}
-	registry := &formula.GenericRegistry{Programs: []formula.GenericProgram{{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 100}}}}}
+	registry := fixtureFormulaLibraryPtr([]formula.GenericProgram{{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 100}}}})
 	return Input{Compiled: compiled, Formulas: registry}, listener, InitialProvider{Present: true, DefinitionRef: "parent", Source: "source", Owner: "source", Stacks: 1}
 }
 

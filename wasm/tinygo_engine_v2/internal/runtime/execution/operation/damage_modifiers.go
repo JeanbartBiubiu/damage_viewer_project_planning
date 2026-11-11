@@ -68,10 +68,10 @@ func (f *calculation) evaluateDamageModifier(mod pipeline.MountedDamageModifier,
 	modCtx := *baseCtx
 	modCtx.HasDamageContext = true
 	modCtx.DamageAmount = amount
-	modCtx.DamageTraits = traits
+	modCtx.DamageTraits = formula.BorrowStringView(traits)
 	modCtx.DamageTypeKey = damageType
 	modCtx.DamageCastOrigin = f.input.CastOrigin
-	modCtx.DamageAbilityTypes = f.abilityTypeKeys(ability)
+	modCtx.DamageAbilityTypes = formula.BorrowStringView(f.abilityTypeKeys(ability))
 	if providerCtxFn != nil {
 		pctx := providerCtxFn(mod.OwnerCombatantKey, mod.ProviderRef)
 		if exactExpiry && pctx.SkipExpiredAttributeModifier {
@@ -83,7 +83,7 @@ func (f *calculation) evaluateDamageModifier(mod pipeline.MountedDamageModifier,
 		modCtx.ProviderStateDefaults = pctx.ProviderStateDefaults
 	}
 	if mod.HasCondition {
-		cond, err := f.executor.formulas.EvalContext(mod.ConditionProg, &modCtx)
+		cond, err := f.executor.formulas.Evaluation.EvalContext(mod.ConditionProg, &modCtx)
 		if err != nil {
 			issue := f.preserveFormulaIssue(err, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), f.executor.plan.SchemaHash, f.executor.plan.RulesHash, f.executor.sessionID))
 			if exactExpiry {
@@ -98,7 +98,7 @@ func (f *calculation) evaluateDamageModifier(mod pipeline.MountedDamageModifier,
 	if !mod.HasValue {
 		return 0, false, nil
 	}
-	value, err := f.executor.formulas.EvalContext(mod.ValueProgram, &modCtx)
+	value, err := f.executor.formulas.Evaluation.EvalContext(mod.ValueProgram, &modCtx)
 	if err != nil {
 		issue := f.preserveFormulaIssue(err, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), f.executor.plan.SchemaHash, f.executor.plan.RulesHash, f.executor.sessionID))
 		if exactExpiry {

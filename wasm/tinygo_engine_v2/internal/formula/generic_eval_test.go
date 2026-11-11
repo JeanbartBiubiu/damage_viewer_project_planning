@@ -8,7 +8,7 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
-func mustCompileFormula(t *testing.T, expr model.GenericFormulaExpr) GenericRegistry {
+func mustCompileFormula(t *testing.T, expr model.GenericFormulaExpr) programStore {
 	t.Helper()
 	var errors []model.EngineError
 	addError := func(code model.GenericErrCode, path, message, ref string) {
@@ -18,9 +18,9 @@ func mustCompileFormula(t *testing.T, expr model.GenericFormulaExpr) GenericRegi
 	if len(errors) != 0 {
 		t.Fatalf("compile errors: %+v", errors)
 	}
-	return GenericRegistry{
-		Programs: []GenericProgram{{Key: "test", Instr: instr}},
-		Index:    map[string]GenericProgramID{"test": 0},
+	return programStore{
+		programs: []GenericProgram{{Key: "test", Instr: instr}},
+		index:    map[string]GenericProgramID{"test": 0},
 	}
 }
 
@@ -33,7 +33,7 @@ func TestGenericEvalConstAdd(t *testing.T) {
 			{Op: "const", Value: &b},
 		},
 	})
-	got, err := reg.Eval(0, GenericEvalContext{})
+	got, err := reg.evaluate(0, GenericEvalContext{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -47,7 +47,7 @@ func TestGenericEvalReadAbilityParam(t *testing.T) {
 		Op:   "read",
 		Path: "ability.param.baseDamage",
 	})
-	got, err := reg.Eval(0, GenericEvalContext{AbilityParams: map[string]float64{"baseDamage": 100}})
+	got, err := reg.evaluate(0, GenericEvalContext{AbilityParams: model.BorrowNumericView(map[string]float64{"baseDamage": 100})})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -61,7 +61,7 @@ func TestGenericEvalReadAttr(t *testing.T) {
 		Op:   "read",
 		Path: "target.attr.hp.current",
 	})
-	got, err := reg.Eval(0, GenericEvalContext{
+	got, err := reg.evaluate(0, GenericEvalContext{
 		TargetAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{
 			"hp": {Current: 900, Max: 1000},
 		}),
@@ -83,17 +83,17 @@ func TestGenericEvalDivByZero(t *testing.T) {
 			{Op: "const", Value: &b},
 		},
 	})
-	_, err := reg.Eval(0, GenericEvalContext{})
+	_, err := reg.evaluate(0, GenericEvalContext{})
 	if err == nil {
 		t.Fatal("expected division by zero error")
 	}
 }
 
 func TestGenericEvalNaNResult(t *testing.T) {
-	reg := GenericRegistry{
-		Programs: []GenericProgram{{Key: "nan", Instr: []GenericInstr{{Op: GenericOpConst, Value: math.NaN()}}}},
+	reg := programStore{
+		programs: []GenericProgram{{Key: "nan", Instr: []GenericInstr{{Op: GenericOpConst, Value: math.NaN()}}}},
 	}
-	_, err := reg.Eval(0, GenericEvalContext{})
+	_, err := reg.evaluate(0, GenericEvalContext{})
 	if err == nil {
 		t.Fatal("expected non-finite error")
 	}
@@ -122,7 +122,7 @@ func TestGenericEvalCompareOperatorsReturnNumericBooleans(t *testing.T) {
 				{Op: "const", Value: &r},
 			},
 		})
-		got, err := reg.Eval(0, GenericEvalContext{})
+		got, err := reg.evaluate(0, GenericEvalContext{})
 		if err != nil {
 			t.Fatalf("%s: %v", tc.op, err)
 		}
@@ -134,10 +134,10 @@ func TestGenericEvalCompareOperatorsReturnNumericBooleans(t *testing.T) {
 
 func TestGenericEvalProviderStateRequiresContext(t *testing.T) {
 	reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "provider.state.hits"})
-	if _, err := reg.Eval(0, GenericEvalContext{}); err == nil {
+	if _, err := reg.evaluate(0, GenericEvalContext{}); err == nil {
 		t.Fatal("expected provider context error")
 	}
-	got, err := reg.Eval(0, GenericEvalContext{
+	got, err := reg.evaluate(0, GenericEvalContext{
 		HasProviderContext: true,
 		ProviderState:      model.BorrowNumericView(map[string]float64{"hits": 3}),
 	})
@@ -151,7 +151,7 @@ func TestGenericEvalProviderStateRequiresContext(t *testing.T) {
 
 func TestGenericEvalProviderTargetState(t *testing.T) {
 	reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "provider.target_state.hits"})
-	got, err := reg.Eval(0, GenericEvalContext{
+	got, err := reg.evaluate(0, GenericEvalContext{
 		HasProviderContext:  true,
 		ProviderTargetState: model.BorrowNumericView(map[string]float64{"hits": 2}),
 	})
@@ -179,7 +179,7 @@ func TestGenericEvalResourceCurrentAndMax(t *testing.T) {
 	}
 	for _, tc := range cases {
 		reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: tc.path})
-		got, err := reg.Eval(0, ctx)
+		got, err := reg.evaluate(0, ctx)
 		if err != nil {
 			t.Fatalf("%s: %v", tc.path, err)
 		}
@@ -191,7 +191,7 @@ func TestGenericEvalResourceCurrentAndMax(t *testing.T) {
 
 func TestGenericEvalEventSnapshotRequiresContext(t *testing.T) {
 	reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "event.entry_target.attr.hp.current"})
-	if _, err := reg.Eval(0, GenericEvalContext{}); err == nil {
+	if _, err := reg.evaluate(0, GenericEvalContext{}); err == nil {
 		t.Fatal("expected event context error")
 	}
 }
@@ -212,15 +212,15 @@ func TestGenericEvalEventSnapshotReads(t *testing.T) {
 			"mana": {Current: 10, Max: 80},
 		}),
 	}
-	got, err := regEntry.Eval(0, ctx)
+	got, err := regEntry.evaluate(0, ctx)
 	if err != nil || got != 1000 {
 		t.Fatalf("entry hp=%v err=%v want 1000", got, err)
 	}
-	got, err = regEmit.Eval(0, ctx)
+	got, err = regEmit.evaluate(0, ctx)
 	if err != nil || got != 900 {
 		t.Fatalf("emit hp=%v err=%v want 900", got, err)
 	}
-	got, err = regRes.Eval(0, ctx)
+	got, err = regRes.evaluate(0, ctx)
 	if err != nil || got != 80 {
 		t.Fatalf("mana max=%v err=%v want 80", got, err)
 	}
@@ -228,10 +228,10 @@ func TestGenericEvalEventSnapshotReads(t *testing.T) {
 
 func TestGenericEvalDamageAmountRequiresContext(t *testing.T) {
 	reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "damage.amount"})
-	if _, err := reg.Eval(0, GenericEvalContext{}); err == nil {
+	if _, err := reg.evaluate(0, GenericEvalContext{}); err == nil {
 		t.Fatal("expected structural failure without damage context")
 	}
-	got, err := reg.Eval(0, GenericEvalContext{HasDamageContext: true, DamageAmount: 85})
+	got, err := reg.evaluate(0, GenericEvalContext{HasDamageContext: true, DamageAmount: 85})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -242,11 +242,11 @@ func TestGenericEvalDamageAmountRequiresContext(t *testing.T) {
 
 func TestGenericEvalSkillHitMissingValueReportsPath(t *testing.T) {
 	reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: model.FormulaPathSkillHitFirstContact})
-	_, err := reg.Eval(0, GenericEvalContext{HasEventSkillHit: true, HasSkillHitBlocked: true, SkillHitBlocked: 1})
+	_, err := reg.evaluate(0, GenericEvalContext{HasEventSkillHit: true, HasSkillHitBlocked: true, SkillHitBlocked: 1})
 	if err == nil || err.Error() != model.FormulaPathSkillHitFirstContact {
 		t.Fatalf("err=%v", err)
 	}
-	got, err := reg.Eval(0, GenericEvalContext{HasEventSkillHit: true, HasSkillHitFirstContact: true, SkillHitFirstContact: 0})
+	got, err := reg.evaluate(0, GenericEvalContext{HasEventSkillHit: true, HasSkillHitFirstContact: true, SkillHitFirstContact: 0})
 	if err != nil || got != 0 {
 		t.Fatalf("got %v err=%v", got, err)
 	}
@@ -260,12 +260,12 @@ func TestTryFoldConstAndPositiveDuration(t *testing.T) {
 			{Op: "const", Value: model.Float64Ptr(1000)},
 		},
 	})
-	value, folded := TryFoldConst(okReg.Programs[0].Instr)
+	value, folded := TryFoldConst(okReg.programs[0].Instr)
 	if !folded || value != 2000 || !ValidPositiveInt64DurationMs(value) {
 		t.Fatalf("folded=%v value=%v", folded, value)
 	}
 	readReg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "ability.param.x"})
-	if _, folded := TryFoldConst(readReg.Programs[0].Instr); folded {
+	if _, folded := TryFoldConst(readReg.programs[0].Instr); folded {
 		t.Fatal("read formula must not fold")
 	}
 	if ValidPositiveInt64DurationMs(0) || ValidPositiveInt64DurationMs(-1) || ValidPositiveInt64DurationMs(1.5) || ValidPositiveInt64DurationMs(9223372036854775808.0) {

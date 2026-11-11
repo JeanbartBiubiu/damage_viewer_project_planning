@@ -12,13 +12,13 @@ func ownsAuthoredHealthReads(mod plan.CompiledModifier, ctx *genericCompileConte
 		mod.Target == "self.attr.hp" || len(mod.Target) <= len("self.attr.") || mod.Target[:len("self.attr.")] != "self.attr." || mod.Stage != "" {
 		return false
 	}
-	if _, static := ctx.session.Formulas.FoldStatic(mod.ValueProgram); static {
+	if _, static := ctx.formulas.FoldStatic(mod.ValueProgram); static {
 		return false
 	}
-	if !ownedHealthSkillPrograms(ctx.session.Formulas, mod.ValueProgram, ctx.currentSkillKey, 0) {
+	if !ownedHealthSkillPrograms(ctx.formulas, mod.ValueProgram, ctx.currentSkillKey, 0) {
 		return false
 	}
-	reads, supported := ctx.session.Formulas.AttributeCacheDependencies(mod.ValueProgram)
+	reads, supported := ctx.formulas.AttributeCacheDependencies(mod.ValueProgram)
 	if !supported || len(reads) == 0 {
 		return false
 	}
@@ -103,15 +103,15 @@ func finalizeOwnedHealthModifiers(ctx *genericCompileContext) {
 	}
 }
 
-func ownedHealthSkillPrograms(registry formula.GenericRegistry, id formula.GenericProgramID, skill string, depth int) bool {
-	if depth > 32 || int(id) >= len(registry.Programs) {
+func ownedHealthSkillPrograms(registry formula.Builder, id formula.GenericProgramID, skill string, depth int) bool {
+	if depth > 32 || int(id) >= registry.Count() {
 		return false
 	}
-	program := registry.Programs[id]
-	if binding := program.NamedBinding; binding != nil && (binding.Scope() != "skill" || binding.SkillKey() != skill) {
+	program := registry.Info(formula.GenericProgramID(id))
+	if program.HasNamedBinding && (program.Scope != "skill" || program.SkillKey != skill) {
 		return false
 	}
-	for _, instruction := range program.Instr {
+	for _, instruction := range registry.Instructions(id) {
 		if instruction.Op == formula.GenericOpRef && !ownedHealthSkillPrograms(registry, formula.GenericProgramID(instruction.RefIndex), skill, depth+1) {
 			return false
 		}

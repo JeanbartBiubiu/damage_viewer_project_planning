@@ -10,7 +10,7 @@ import (
 
 // FoldOwnedRecoveryAmount 只折叠已选监听能力的静态参数，不能提供运行期缓存金额。
 func FoldOwnedRecoveryAmount(input Input, listener planbundle.CompiledListener, operation planbundle.CompiledOperation) (float64, bool) {
-	if value, static := input.Formulas.FoldStatic(operation.AmountProgram); static {
+	if value, static := input.Formulas.Metadata.FoldStatic(operation.AmountProgram); static {
 		return value, true
 	}
 	if listener.SourceAbilityIndex < 0 || listener.SourceAbilityIndex >= len(input.Compiled.Abilities) {
@@ -21,7 +21,7 @@ func FoldOwnedRecoveryAmount(input Input, listener planbundle.CompiledListener, 
 	if ability.Kind != "passive_listener" || int(ability.ProviderIndex) != operation.OwnerProviderIndex || listener.SourceAbilityIndex < int(provider.AbilityStart) || listener.SourceAbilityIndex >= int(provider.AbilityStart)+int(provider.AbilityCount) {
 		return 0, false
 	}
-	reads := input.Formulas.ReadDependencies(operation.AmountProgram)
+	reads := input.Formulas.Metadata.ReadDependencies(operation.AmountProgram)
 	if len(reads) == 0 {
 		return 0, false
 	}
@@ -31,7 +31,7 @@ func FoldOwnedRecoveryAmount(input Input, listener planbundle.CompiledListener, 
 			return 0, false
 		}
 	}
-	value, err := input.Formulas.Eval(operation.AmountProgram, formula.GenericEvalContext{StrictReads: true, AbilityParams: ability.Params})
+	value, err := input.Formulas.Evaluation.Eval(operation.AmountProgram, formula.GenericEvalContext{StrictReads: true, AbilityParams: model.BorrowNumericView(ability.Params)})
 	return value, err == nil
 }
 
@@ -49,9 +49,9 @@ func EvaluateOwnedDynamicHealAmount(input Input, listener planbundle.CompiledLis
 	if !exists || ability.Kind != "passive_listener" || int(ability.ProviderIndex) != operation.OwnerProviderIndex || listener.SourceAbilityIndex < int(provider.AbilityStart) || listener.SourceAbilityIndex >= int(provider.AbilityStart)+int(provider.AbilityCount) {
 		return 0, false
 	}
-	context := formula.GenericEvalContext{StrictReads: true, SourceAttrs: owner.Attributes, AbilityParams: ability.Params}
+	context := formula.GenericEvalContext{StrictReads: true, SourceAttrs: owner.Attributes, AbilityParams: model.BorrowNumericView(ability.Params)}
 	hasOwnedAttribute := false
-	for _, read := range input.Formulas.ReadDependencies(operation.AmountProgram) {
+	for _, read := range input.Formulas.Metadata.ReadDependencies(operation.AmountProgram) {
 		if read.ReadKey == "" {
 			return 0, false
 		}
@@ -90,7 +90,7 @@ func EvaluateOwnedDynamicHealAmount(input Input, listener planbundle.CompiledLis
 			return 0, false
 		}
 		// Check both conditional branches as well as the selected output.
-		value, err := input.Formulas.EvaluateInstructions([]formula.GenericInstr{read}, context, false)
+		value, err := formula.EvaluateRead(read, context)
 		if err != nil || math.IsNaN(value) || math.IsInf(value, 0) {
 			return 0, false
 		}
@@ -98,13 +98,13 @@ func EvaluateOwnedDynamicHealAmount(input Input, listener planbundle.CompiledLis
 	if !hasOwnedAttribute {
 		return 0, false
 	}
-	value, err := input.Formulas.Eval(operation.AmountProgram, context)
+	value, err := input.Formulas.Evaluation.Eval(operation.AmountProgram, context)
 	return value, err == nil
 }
 
 // OwnedSettledSelfRecovery 校验真实挂载、自身数值和金额依赖；事件金额的结构资格由完整监听准入链在需要时继续核定。
 func OwnedSettledSelfRecovery(input Input, listener planbundle.CompiledListener, operation planbundle.CompiledOperation) (qualified, requiresEventAmount bool) {
-	if (operation.Target != model.SelectorSelf && operation.Target != model.SelectorSource) || !operation.HasAmount || int(operation.AmountProgram) >= len(input.Formulas.Programs) || operation.OwnerProviderIndex < 0 || operation.OwnerProviderIndex >= len(input.Compiled.Providers) {
+	if (operation.Target != model.SelectorSelf && operation.Target != model.SelectorSource) || !operation.HasAmount || int(operation.AmountProgram) >= input.Formulas.Metadata.Count() || operation.OwnerProviderIndex < 0 || operation.OwnerProviderIndex >= len(input.Compiled.Providers) {
 		return false, false
 	}
 	settled := false

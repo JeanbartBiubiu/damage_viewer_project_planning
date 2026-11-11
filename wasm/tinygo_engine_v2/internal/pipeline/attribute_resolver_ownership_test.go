@@ -21,9 +21,9 @@ func TestAttributeResolverReturnedSnapshotIsIndependent(t *testing.T) {
 	for _, modified := range []bool{false, true} {
 		t.Run(fmt.Sprintf("modified=%t", modified), func(t *testing.T) {
 			var resolver AttributeResolver
-			registry := formula.GenericRegistry{Programs: []formula.GenericProgram{
+			registry := fixtureFormulaLibrary([]formula.GenericProgram{
 				{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 10}}},
-			}}
+			})
 			if modified {
 				resolver.MountCompiledModifier("item", planbundle.CompiledModifier{
 					ModifierKey: "bonus", Target: "attack", ValuePolicy: "add", HasValue: true,
@@ -63,14 +63,14 @@ func TestAttributeResolverReturnedSnapshotIsIndependent(t *testing.T) {
 }
 
 func TestAttributeResolverPreservesOldFormulaReads(t *testing.T) {
-	registry := formula.GenericRegistry{Programs: []formula.GenericProgram{
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{
 		{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 2}}},
 		{Instr: []formula.GenericInstr{
 			{Op: formula.GenericOpRead, ReadKind: formula.ReadSourceAttr, ReadKey: "a_unmodified.resolved"},
 			{Op: formula.GenericOpRead, ReadKind: formula.ReadTargetAttr, ReadKey: "b_first.resolved"},
 			{Op: formula.GenericOpAdd},
 		}},
-	}}
+	})
 	var resolver AttributeResolver
 	resolver.MountCompiledModifier("item", planbundle.CompiledModifier{
 		ModifierKey: "dependent", Target: "c_dependent", ValuePolicy: "add", ValueProgram: 1, HasValue: true,
@@ -97,11 +97,11 @@ func TestAttributeResolverPreservesOldFormulaReads(t *testing.T) {
 func TestAttributeResolverFailureLeavesInputUnchanged(t *testing.T) {
 	for _, failure := range []string{"invalid_program", "non_finite_value", "non_finite_total"} {
 		t.Run(failure, func(t *testing.T) {
-			registry := formula.GenericRegistry{Programs: []formula.GenericProgram{
+			registry := fixtureFormulaLibrary([]formula.GenericProgram{
 				{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 10}}},
 				{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: math.Inf(1)}}},
 				{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: math.MaxFloat64}}},
-			}}
+			})
 			brokenProgram := formula.GenericProgramID(99)
 			brokenPolicy := "add"
 			brokenBase := 1.0
@@ -143,10 +143,10 @@ func TestAttributeResolverFailureLeavesInputUnchanged(t *testing.T) {
 }
 
 func TestAttributeResolverCloneMountAndUnmountIsolation(t *testing.T) {
-	registry := formula.GenericRegistry{Programs: []formula.GenericProgram{
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{
 		{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 10}}},
 		{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 2}}},
-	}}
+	})
 	mod := planbundle.CompiledModifier{ModifierKey: "add", Target: "attack", ValuePolicy: "add", HasValue: true}
 	var resolver AttributeResolver
 	resolver.MountCompiledModifierOwned("source", "same", mod)
@@ -210,10 +210,10 @@ func TestAttributeResolverMountIdentityIgnoresNoOpChanges(t *testing.T) {
 }
 
 func TestAttributeResolverExactTiesKeepMountOrderAcrossClone(t *testing.T) {
-	registry := formula.GenericRegistry{Programs: []formula.GenericProgram{
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{
 		{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 10}}},
 		{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 2}}},
-	}}
+	})
 	add := planbundle.CompiledModifier{ModifierKey: "same", Target: "attack", ValuePolicy: "add", HasValue: true}
 	multiply := add
 	multiply.ValuePolicy = "multiply"
@@ -239,9 +239,9 @@ func TestAttributeResolverExactTiesKeepMountOrderAcrossClone(t *testing.T) {
 }
 
 func TestAttributeResolverDerivedInitialValueAndSlotFields(t *testing.T) {
-	registry := formula.GenericRegistry{Programs: []formula.GenericProgram{
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{
 		{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 0.1}}},
-	}}
+	})
 	var resolver AttributeResolver
 	resolver.MountCompiledModifier("item", planbundle.CompiledModifier{
 		ModifierKey: "percent", Target: "attack", ValuePolicy: "percent_add", HasValue: true,

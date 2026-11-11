@@ -1,18 +1,18 @@
 package formula
 
-func (r GenericRegistry) AttributeCacheDependencies(id GenericProgramID) ([]GenericInstr, bool) {
+func (r programStore) attributeCacheDependencies(id GenericProgramID) ([]GenericInstr, bool) {
 	var reads []GenericInstr
 	seen := make(map[GenericProgramID]bool)
 	var visit func(GenericProgramID) bool
 	visit = func(id GenericProgramID) bool {
-		if int(id) >= len(r.Programs) {
+		if int(id) >= len(r.programs) {
 			return false
 		}
 		if seen[id] {
 			return true
 		}
 		seen[id] = true
-		p := r.Programs[id]
+		p := r.programs[id]
 		if p.Authored != nil && p.NamedBinding == nil {
 			return false
 		}

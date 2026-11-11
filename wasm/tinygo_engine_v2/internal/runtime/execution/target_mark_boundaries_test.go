@@ -128,8 +128,11 @@ func TestTargetMarkRuntimeFailureRollsBackTheGroupOnly(t *testing.T) {
 			if failure == "restore" {
 				for _, op := range s.compiled.Operations {
 					if op.TargetMark != nil && op.TargetMark.Restore != nil {
-						program := op.TargetMark.Restore.AmountProgram
-						s.formulas.Programs[program].Instr = []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1}, {Op: formula.GenericOpConst, Value: 0}, {Op: formula.GenericOpDiv}}
+						program, issue := fixtureRegister(&s.formulas, formula.GenericProgram{Key: "failure:restore", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1}, {Op: formula.GenericOpConst, Value: 0}, {Op: formula.GenericOpDiv}}})
+						if issue != nil {
+							t.Fatal(issue)
+						}
+						op.TargetMark.Restore.AmountProgram = program
 					}
 				}
 			}

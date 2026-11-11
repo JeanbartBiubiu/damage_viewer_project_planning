@@ -48,7 +48,7 @@ func stableHealingHitParticipation(candidate plan.CompiledSkillHitCandidate, ctx
 	if !candidate.HasParticipation {
 		return true
 	}
-	value, fixed := ctx.session.Formulas.FoldStatic(candidate.ParticipationProgram)
+	value, fixed := ctx.formulas.FoldStatic(candidate.ParticipationProgram)
 	return fixed && value == 1
 }
 
@@ -60,7 +60,7 @@ func healingHitBlockedZero(candidate plan.CompiledSkillHitCandidate, required bo
 		return false
 	}
 	condition := candidate.EventValueConds[0]
-	value, fixed := ctx.session.Formulas.FoldStatic(condition.ValueProg)
+	value, fixed := ctx.formulas.FoldStatic(condition.ValueProg)
 	return condition.Key == model.SkillHitValueBlocked && condition.Comparator == "eq" && condition.HasValue && fixed && value == 0
 }
 
@@ -201,7 +201,7 @@ func pureFiniteHealingHitProvider(reference, skill string, req model.CompileRequ
 	if !provider.TypeSet.Empty() || provider.AbilityCount != 0 || len(provider.Listeners)+len(provider.Processes)+len(provider.StateFields)+len(provider.StatusContributions) != 0 || provider.AmmoBinding != nil || provider.NeedsElapsedTime || provider.ShieldDefinitionRef != "" || lc == nil || !lc.HasDuration || lc.MaxStacks != 1 || lc.RefreshPolicy != model.RefreshPolicyReplace || lc.InstanceScope != model.InstanceScopeSourceTarget || lc.TickIntervalMs != 0 || len(provider.Modifiers) != 1 {
 		return false
 	}
-	duration, fixed := ctx.session.Formulas.FoldStatic(lc.DurationProgram)
+	duration, fixed := ctx.formulas.FoldStatic(lc.DurationProgram)
 	if !fixed || !formula.ValidPositiveInt64DurationMs(duration) {
 		return false
 	}
@@ -210,6 +210,6 @@ func pureFiniteHealingHitProvider(reference, skill string, req model.CompileRequ
 		return false
 	}
 	modifier := provider.Modifiers[0]
-	value, fixed := ctx.session.Formulas.FoldStatic(modifier.ValueProgram)
+	value, fixed := ctx.formulas.FoldStatic(modifier.ValueProgram)
 	return modifier.HasValue && !modifier.HasCondition && fixed && !math.IsNaN(value) && !math.IsInf(value, 0) && value >= -1 && value <= 0
 }

@@ -2,16 +2,16 @@ package formula
 
 import "tinygo_engine_v2/internal/base/expression"
 
-func (r GenericRegistry) TargetAttributeLinear(id GenericProgramID, key string) (expression.Linear, bool) {
+func (r programStore) targetAttributeLinear(id GenericProgramID, key string) (expression.Linear, bool) {
 	visiting := make(map[GenericProgramID]bool)
 	var analyze func(GenericProgramID) (expression.Linear, bool)
 	analyze = func(index GenericProgramID) (expression.Linear, bool) {
-		if int(index) >= len(r.Programs) || visiting[index] {
+		if int(index) >= len(r.programs) || visiting[index] {
 			return expression.Linear{}, false
 		}
 		visiting[index] = true
 		defer delete(visiting, index)
-		program := r.Programs[index]
+		program := r.programs[index]
 		if program.Authored != nil {
 			if program.NamedBinding == nil {
 				return expression.Linear{}, false

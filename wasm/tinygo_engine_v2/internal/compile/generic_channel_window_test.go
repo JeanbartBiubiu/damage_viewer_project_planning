@@ -28,7 +28,7 @@ func TestProcessChannelWindowCompileFrozenPrograms(test *testing.T) {
 		program formula.GenericProgramID
 		value   float64
 	}{{step.DurationProgram, 3000}, {step.ExecutionCountProgram, 14}, {step.FirstExecutionOffsetProgram, 50}, {step.LastExecutionOffsetProgram, 2900}} {
-		value, err := result.Session.Formulas.Eval(scenario.program, formula.GenericEvalContext{})
+		value, err := result.Session.Formulas.Evaluation.Eval(scenario.program, formula.GenericEvalContext{})
 		if err != nil || value != scenario.value {
 			test.Fatal(value, scenario.value, err)
 		}

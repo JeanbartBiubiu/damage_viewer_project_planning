@@ -12,9 +12,9 @@ import (
 )
 
 func TestAttributeFinalWriteUnchangedResolvedDoesNotCopyPages(t *testing.T) {
-	registry := formula.GenericRegistry{Programs: []formula.GenericProgram{
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{
 		{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 10}}},
-	}}
+	})
 	var resolver AttributeResolver
 	resolver.MountCompiledModifierOwned("source", "item", planbundle.CompiledModifier{
 		ModifierKey: "bonus", Kind: "attribute", Target: "attack", HasValue: true,
@@ -51,7 +51,7 @@ func TestAttributeFinalWriteKeepsNoValueResetAndSignedZero(t *testing.T) {
 	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{
 		"declared": {Base: negative, Resolved: 7}, "unmounted": {Base: 0, Resolved: negative},
 	})
-	result, err := resolver.ResolveAttributes(attrs, formula.GenericEvalContext{}, formula.GenericRegistry{})
+	result, err := resolver.ResolveAttributes(attrs, formula.GenericEvalContext{}, formula.Library{})
 	if err != nil || math.Float64bits(result.At("declared").Resolved) != math.Float64bits(negative) || math.Float64bits(result.At("unmounted").Resolved) != 0 {
 		t.Fatal("reset or signed zero changed", result.ToMap(), err)
 	}
@@ -61,10 +61,10 @@ func TestAttributeFinalWriteKeepsNoValueResetAndSignedZero(t *testing.T) {
 }
 
 func TestAttributeFinalWriteKeepsModifierOrderAndOriginalReads(t *testing.T) {
-	registry := formula.GenericRegistry{Programs: []formula.GenericProgram{
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{
 		{Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadSourceAttr, ReadKey: "b.resolved"}}},
 		{Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadTargetAttr, ReadKey: "a.resolved"}}},
-	}}
+	})
 	var resolver AttributeResolver
 	for _, key := range []string{"b", "a"} {
 		program := formula.GenericProgramID(0)

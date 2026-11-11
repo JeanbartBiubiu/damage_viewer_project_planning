@@ -33,7 +33,7 @@ func (f *calculation) incomingCappedFlat(cmd pipeline.Command, ability planbundl
 	ctx := f.evalContext(ability)
 	ctx.StrictReads, ctx.HasDamageContext = true, true
 	ctx.DamageTypeKey = cmd.DamageType
-	condition, err := f.executor.formulas.EvalContext(mod.ConditionProg, &ctx)
+	condition, err := f.executor.formulas.Evaluation.EvalContext(mod.ConditionProg, &ctx)
 	if err != nil {
 		result = f.formulaError(mod.ConditionProg, err.Error())
 		return
@@ -46,7 +46,7 @@ func (f *calculation) incomingCappedFlat(cmd pipeline.Command, ability planbundl
 	if f.input.DefenseContext != nil {
 		ctx.SourceAttrs = f.input.DefenseContext.TargetAttrs
 	}
-	points, err := f.executor.formulas.EvalContext(mod.ValueProgram, &ctx)
+	points, err := f.executor.formulas.Evaluation.EvalContext(mod.ValueProgram, &ctx)
 	if err != nil {
 		result = f.formulaError(mod.ValueProgram, err.Error())
 		return

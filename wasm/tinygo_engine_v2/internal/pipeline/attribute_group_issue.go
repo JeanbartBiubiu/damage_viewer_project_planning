@@ -25,10 +25,10 @@ func (e *AttributeGroupIssue) Error() string {
 }
 func (e *AttributeGroupIssue) Unwrap() error { return e.Cause }
 
-func attributeGroupIssue(key string, member MountedAttributeModifier, formulas formula.GenericRegistry, cause error) error {
+func attributeGroupIssue(key string, member MountedAttributeModifier, formulas formula.Library, cause error) error {
 	path := ""
-	if int(member.ValueProgram) < len(formulas.Programs) {
-		path = formulas.Programs[member.ValueProgram].Key
+	if int(member.ValueProgram) < formulas.Metadata.Count() {
+		path = formulas.Metadata.Info(formula.GenericProgramID(member.ValueProgram)).Key
 	}
 	return &AttributeGroupIssue{AttributeKey: key, Member: member, ValuePath: path, Cause: cause}
 }

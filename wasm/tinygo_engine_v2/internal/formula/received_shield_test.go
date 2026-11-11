@@ -7,31 +7,21 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
-type testReceivedShieldReader struct {
-	amount float64
-	fail   bool
-}
-
-func (r testReceivedShieldReader) ReceivedLinkedShieldAbsorbed(index uint16) (float64, error) {
-	if r.fail || index != 7 {
-		return 0, errors.New("invalid receipt identity")
-	}
-	return r.amount, nil
-}
-
 func TestReceivedShieldFormulaRequiresBoundConditionContextAndKeepsZero(t *testing.T) {
 	r := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "event.damage.linked_shield[shield/native_guard/value].absorbed"})
-	if r.Programs[0].Instr[0].ReadKind != ReadReceivedLinkedShieldAbsorbed || r.Programs[0].Instr[0].ReadKey != "shield/native_guard/value" {
-		t.Fatal(r.Programs)
+	if r.programs[0].Instr[0].ReadKind != ReadReceivedLinkedShieldAbsorbed || r.programs[0].Instr[0].ReadKey != "shield/native_guard/value" {
+		t.Fatal(r.programs)
 	}
-	context := GenericEvalContext{HasProviderContext: true, HasEventContext: true, HasEventDamageSnapshot: true, ReceivedShieldReader: testReceivedShieldReader{}}
-	if _, err := r.Eval(0, context); err == nil {
+	request := FactRequest{Kind: ReadReceivedLinkedShieldAbsorbed, Index: 7}
+	context := GenericEvalContext{HasProviderContext: true, HasEventContext: true, HasEventDamageSnapshot: true,
+		Facts: PreparedFacts([]FactRequest{request}, [2]PreparedFact{{}}, nil)}
+	if _, err := r.evaluate(0, context); err == nil {
 		t.Fatal("unbound read acquired permission")
 	}
-	r.Programs[0].Instr[0].ReferenceBound, r.Programs[0].Instr[0].RefIndex = true, 7
+	r.programs[0].Instr[0].ReferenceBound, r.programs[0].Instr[0].RefIndex = true, 7
 	for _, value := range []float64{0, 12.5} {
-		context.ReceivedShieldReader = testReceivedShieldReader{amount: value}
-		if got, err := r.Eval(0, context); err != nil || got != value {
+		context.Facts = PreparedFacts([]FactRequest{request}, [2]PreparedFact{{Value: value}}, nil)
+		if got, err := r.evaluate(0, context); err != nil || got != value {
 			t.Fatal(value, got, err)
 		}
 	}
@@ -45,11 +35,11 @@ func TestReceivedShieldFormulaRequiresBoundConditionContextAndKeepsZero(t *testi
 		case "damage":
 			c.HasEventDamageSnapshot = false
 		case "reader":
-			c.ReceivedShieldReader = nil
+			c.Facts = FactView{}
 		case "fact":
-			c.ReceivedShieldReader = testReceivedShieldReader{fail: true}
+			c.Facts = PreparedFacts([]FactRequest{request}, [2]PreparedFact{{Err: errors.New("invalid receipt identity")}}, nil)
 		}
-		if _, err := r.Eval(0, c); err == nil {
+		if _, err := r.evaluate(0, c); err == nil {
 			t.Fatal("missing received fact became a zero", missing)
 		}
 	}

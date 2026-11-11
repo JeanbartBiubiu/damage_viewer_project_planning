@@ -187,7 +187,7 @@ func (f *Frame) recordDamageStateBefore(rows []frozenDamageStateBefore, damageID
 	}
 }
 
-func (f *Frame) DamageStateBefore(key string) (float64, error) {
+func (f *Frame) damageStateBefore(key string) (float64, error) {
 	if f.eventCtx == nil || f.eventCtx.EventType != eventTypeDamageInstance || f.eventCtx.DamageID == 0 || f.eventCtx.EventSourceKey != f.ownerCombatantKey || f.eventCtx.EventTargetKey == "" {
 		return 0, errors.New("damage state before has no original owning damage instance")
 	}
@@ -242,11 +242,8 @@ func (f *Frame) evalContext(ability planbundle.CompiledAbility) formula.GenericE
 		TargetAttrs:           target.attributesView(),
 		SourceResources:       source.resourceView(),
 		TargetResources:       target.resourceView(),
-		AbilityParams:         ability.Params,
+		AbilityParams:         model.BorrowNumericView(ability.Params),
 		StrictReads:           f.strictReads || f.skillHitOccurrenceID != 0 || (f.eventCtx != nil && f.eventCtx.HasSkillHit),
-	}
-	if f.run.compiled.HasLinkedShieldReads {
-		ctx.LinkedShieldReader = f
 	}
 	if ctx.RuntimeSkillKey == "" {
 		ctx.RuntimeSkillKey = f.processUseSkillKey
@@ -324,9 +321,18 @@ func (f *Frame) evalContext(ability planbundle.CompiledAbility) formula.GenericE
 	}
 	if f.numeric.Outputs() != nil {
 		ctx.HasOperationOutputs = true
-		ctx.OperationOutputs = f.numeric.Outputs()
+		ctx.OperationOutputs = formula.BorrowOperationOutputs(f.numeric.Outputs())
 	}
 	f.populateMechanicEvalContext(&ctx, ability)
+	if f.run.compiled.HasLinkedShieldReads && f.ownerProviderRef != "" {
+		providerIndex := int(ability.ProviderIndex)
+		if instance, _, found := f.stageFor(f.providerOwnerKey()).instances.Providers().Find(f.ownerProviderRef); found {
+			providerIndex = int(instance.DefinitionIndex)
+		}
+		if providerIndex < len(f.run.compiled.Providers) {
+			ctx.Facts = f.prepareFormulaFacts(f.run.compiled.Providers[providerIndex].FormulaLinkedReads)
+		}
+	}
 	return ctx
 }
 
@@ -450,12 +456,12 @@ func (f *Frame) evalAmount(programID formula.GenericProgramID, ability planbundl
 }
 
 func (f *Frame) evalAmountWithContext(programID formula.GenericProgramID, ctx *formula.GenericEvalContext) (float64, *model.EngineError) {
-	value, err := f.run.formulas.EvalContext(programID, ctx)
+	value, err := f.run.formulas.Evaluation.EvalContext(programID, ctx)
 	if err != nil {
 		msg := err.Error()
 		out := engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, msg, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
-		if f.skillHitOccurrenceID != 0 && int(programID) < len(f.run.formulas.Programs) {
-			out.Path = f.run.formulas.Programs[programID].Key
+		if f.skillHitOccurrenceID != 0 && int(programID) < f.run.formulas.Metadata.Count() {
+			out.Path = f.run.formulas.Metadata.Info(formula.GenericProgramID(programID)).Key
 			out.Ref = f.abilityRef
 		}
 		if strings.HasPrefix(msg, "event.skill_hit.") {
@@ -518,8 +524,8 @@ func (f *Frame) preserveFormulaIssue(err error, fallback *model.EngineError) *mo
 
 func (s *Engine) evalFormulaError(id formula.GenericProgramID, err error, ref string) *model.EngineError {
 	path := "formula"
-	if int(id) < len(s.formulas.Programs) {
-		path = s.formulas.Programs[id].Key
+	if int(id) < s.formulas.Metadata.Count() {
+		path = s.formulas.Metadata.Info(formula.GenericProgramID(id)).Key
 	}
 	return preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), path, ref, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID))
 }

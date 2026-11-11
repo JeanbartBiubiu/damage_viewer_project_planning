@@ -70,13 +70,13 @@ func TestPhase3BCurrentFrameSeesPrecedingWriteAndReadOnlyPlan(t *testing.T) {
 	}
 	// 合法0保持存在，重复运行不改写共同定义与参数目录。
 	compiled := compile.CompileGeneric(c)
-	before := *compiled.Session.Formulas.CloneForRun()
+	before := compiled.Session.Formulas
 	r.InitialSnapshot.Combatants[0].Attributes["armor"] = authoringSlot(0)
 	_, err := runtimeengine.RunGeneric(compiled.Session, r)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !reflect.DeepEqual(before, *compiled.Session.Formulas.CloneForRun()) {
+	if !reflect.DeepEqual(before, compiled.Session.Formulas) {
 		t.Fatal("run mutated common definition or binding")
 	}
 }
@@ -93,7 +93,7 @@ func TestPhase3BUnusedDeclarationIfLazinessMissingZeroAndSameSessionRetry(t *tes
 	if _, exists := compiled.Result.Metadata.ApprovedStaticValues["branch"]; exists {
 		t.Fatal("dynamic reachable if branch was treated as static")
 	}
-	if len(compiled.Session.Formulas.ReadDependencies(compiled.Session.Formulas.Index["branch"])) != 2 {
+	if len(compiled.Session.Formulas.Metadata.ReadDependencies(func() formula.GenericProgramID { id, _ := compiled.Session.Formulas.Metadata.Find("branch"); return id }())) != 2 {
 		t.Fatal("if did not union all branch reads")
 	}
 	done, err := runtimeengine.RunGeneric(compiled.Session, r)
@@ -118,7 +118,7 @@ func TestPhase3BUnusedDeclarationIfLazinessMissingZeroAndSameSessionRetry(t *tes
 	if !compiled.OK || compiled.Result.Metadata.ApprovedStaticValues["branch"] != 120 {
 		t.Fatal(compiled.Result.Errors, compiled.Result.Metadata)
 	}
-	if len(compiled.Session.Formulas.ReadDependencies(compiled.Session.Formulas.Index["branch"])) != 0 {
+	if len(compiled.Session.Formulas.Metadata.ReadDependencies(func() formula.GenericProgramID { id, _ := compiled.Session.Formulas.Metadata.Find("branch"); return id }())) != 0 {
 		t.Fatal("unused declarations became mandatory")
 	}
 }
@@ -201,10 +201,10 @@ func TestPhase3BNativeInputRoundTripRetainsCommonDecimalAndStrictSlots(t *testin
 	if !compile.CompileGeneric(copy).OK {
 		t.Fatal("common transport roundtrip failed")
 	}
-	var registry formula.GenericRegistry
+	var registry formula.Library
 	def := formuladefinition.FromExpr("zero", "probe", authoringRead("ability.param.zero"), map[string]float64{"zero": 0})
-	formula.CompileDeclaredNamedFormulas([]model.NamedFormula{def}, nil, &registry, func(code model.GenericErrCode, path, message, ref string) { t.Fatal(code, path) })
-	value, issue := registry.Eval(0, formula.GenericEvalContext{})
+	fixtureCompileDeclaredNamed([]model.NamedFormula{def}, nil, &registry, func(code model.GenericErrCode, path, message, ref string) { t.Fatal(code, path) })
+	value, issue := registry.Evaluation.Eval(0, formula.GenericEvalContext{})
 	if issue != nil || value != 0 || math.Signbit(value) {
 		t.Fatal(value, issue)
 	}

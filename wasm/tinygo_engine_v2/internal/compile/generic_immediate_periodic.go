@@ -24,7 +24,7 @@ func finalizeImmediatePeriodic(ctx *genericCompileContext) {
 			len(provider.Listeners)+len(provider.Processes)+len(provider.StateFields)+len(provider.Modifiers)+len(provider.StatusContributions) == 0 && provider.ShieldDefinitionRef == "" && provider.AmmoBinding == nil && !provider.NeedsElapsedTime &&
 			ability.Kind == "tick" && ability.SkillKey == provider.SkillKey && !tick.IsAnchored() && tick.PhasePolicy == "" && tick.IntervalMs > 0 && tick.IntervalMs <= 9007199254740991 && tick.StartDelayMs == 0 && tick.OnTickCount > 0 && ability.OperationCount == 0 && ability.ProcessControl == nil && ability.TargetExpirySpec == nil && ability.Cost == nil && ability.Cooldown == nil && !ability.HasCastCondition && !ability.HasSkillHit
 		if valid {
-			duration, static := ctx.session.Formulas.FoldStatic(lc.DurationProgram)
+			duration, static := ctx.formulas.FoldStatic(lc.DurationProgram)
 			valid = static && !math.IsNaN(duration) && !math.IsInf(duration, 0) && duration > 0 && duration <= 9007199254740991 && math.Trunc(duration) == duration
 		}
 		for _, op := range ctx.session.Operations[int(tick.OnTickStart) : int(tick.OnTickStart)+int(tick.OnTickCount)] {
@@ -113,7 +113,7 @@ func finalizeTotalCooldownRefunds(ctx *genericCompileContext) {
 		fail := func() {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, op.Path, "total cooldown ratio requires a single owned settled-damage listener and an actual sibling ordinary INITIAL", op.AbilityRefStr)
 		}
-		ratio, static := ctx.session.Formulas.FoldStatic(op.AmountProgram)
+		ratio, static := ctx.formulas.FoldStatic(op.AmountProgram)
 		if !op.HasAmount || !static || math.IsNaN(ratio) || math.IsInf(ratio, 0) || ratio < 0 || ratio > 1 || op.Target != model.SelectorSelf || op.HasCondition || !op.HasAbilityRef || !hasDamage || !hasOwner {
 			fail()
 			continue

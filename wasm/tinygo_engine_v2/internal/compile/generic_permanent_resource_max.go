@@ -98,15 +98,15 @@ func finalizePermanentResourceMax(ctx *genericCompileContext) {
 	}
 }
 
-func permanentHealthStaticOwner(registry formula.GenericRegistry, id formula.GenericProgramID, skill string, depth int) bool {
-	if depth > 32 || int(id) >= len(registry.Programs) {
+func permanentHealthStaticOwner(registry formula.Builder, id formula.GenericProgramID, skill string, depth int) bool {
+	if depth > 32 || int(id) >= registry.Count() {
 		return false
 	}
-	program := registry.Programs[id]
-	if binding := program.NamedBinding; binding != nil && binding.Scope() == "skill" && binding.SkillKey() != skill {
+	program := registry.Info(formula.GenericProgramID(id))
+	if program.HasNamedBinding && program.Scope == "skill" && program.SkillKey != skill {
 		return false
 	}
-	for _, instruction := range program.Instr {
+	for _, instruction := range registry.Instructions(id) {
 		if instruction.Op == formula.GenericOpRef && !permanentHealthStaticOwner(registry, formula.GenericProgramID(instruction.RefIndex), skill, depth+1) {
 			return false
 		}

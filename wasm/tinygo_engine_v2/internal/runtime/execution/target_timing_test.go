@@ -225,8 +225,12 @@ func TestTargetExpiryPayloadAtomicFailureAndExactNineCommands(t *testing.T) {
 					a := s.compiled.Abilities[i]
 					if a.TargetExpirySpec != nil {
 						damage := s.compiled.Operations[int(a.TargetExpirySpec.OnExpireStart)+4]
-						program := &s.formulas.Programs[damage.AmountProgram]
-						program.Instr = []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadAbilityParam, ReadKey: "missing_parameter"}}
+						program, issue := fixtureRegister(&s.formulas, formula.GenericProgram{Key: "failure:expiry", Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadAbilityParam, ReadKey: "missing_parameter"}}})
+						if issue != nil {
+							t.Fatal(issue)
+						}
+						damage.AmountProgram = program
+						s.compiled.Operations[int(a.TargetExpirySpec.OnExpireStart)+4] = damage
 					}
 				}
 			}
@@ -261,7 +265,7 @@ func TestTargetTimingGenerationsTargetSwitchAndInactiveDoNotResurrect(t *testing
 	for i := range s.compiled.Operations {
 		op := &s.compiled.Operations[i]
 		if op.OwnerProviderIndex == len(s.compiled.Providers)-1 && op.Operation == "state_change" && op.Ref == "slot1" {
-			v, _ := s.formulas.FoldStatic(op.AmountProgram)
+			v, _ := s.formulas.Metadata.FoldStatic(op.AmountProgram)
 			if v == 1 {
 				setter = op
 				break

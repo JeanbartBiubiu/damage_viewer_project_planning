@@ -185,8 +185,8 @@ func TestSpecialAttackFormulaPresenceRejectsMalformedPathsAndMissingContext(test
 			test.Fatal("malformed read path compiled", path)
 		}
 	}
-	registry := formula.GenericRegistry{Programs: []formula.GenericProgram{{Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadSourceStatusPresent, ReadKey: "slow"}}}}}
-	if _, err := registry.Eval(0, formula.GenericEvalContext{}); err == nil {
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{{Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadSourceStatusPresent, ReadKey: "slow"}}}})
+	if _, err := registry.Evaluation.Eval(0, formula.GenericEvalContext{}); err == nil {
 		test.Fatal("missing status context silently returned zero")
 	}
 }

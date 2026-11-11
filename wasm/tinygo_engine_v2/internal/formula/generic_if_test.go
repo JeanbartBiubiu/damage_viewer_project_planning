@@ -19,7 +19,7 @@ func ifExpr(condition, yes, no model.GenericFormulaExpr) model.GenericFormulaExp
 
 func ifEval(t *testing.T, expr model.GenericFormulaExpr, ctx GenericEvalContext) (float64, error) {
 	t.Helper()
-	return mustCompileFormula(t, expr).Eval(0, ctx)
+	return mustCompileFormula(t, expr).evaluate(0, ctx)
 }
 
 func TestGenericIfChoosesNonzeroBranchAndNestedBranches(t *testing.T) {
@@ -71,23 +71,23 @@ func TestGenericIfConstantFoldUsesOnlyChosenPath(t *testing.T) {
 	selected := model.GenericFormulaExpr{Op: "add", Args: []model.GenericFormulaExpr{
 		ifExpr(ifConst(0), missing, ifConst(40)), ifConst(2),
 	}}
-	instr := mustCompileFormula(t, selected).Programs[0].Instr
+	instr := mustCompileFormula(t, selected).programs[0].Instr
 	if got, folded := TryFoldConst(instr); !folded || got != 42 {
 		t.Fatalf("folded=%v got=%v want 42", folded, got)
 	}
 	unselectedDivision := ifExpr(ifConst(1), ifConst(7), model.GenericFormulaExpr{
 		Op: "div", Args: []model.GenericFormulaExpr{ifConst(1), ifConst(0)},
 	})
-	if got, folded := TryFoldConst(mustCompileFormula(t, unselectedDivision).Programs[0].Instr); !folded || got != 7 {
+	if got, folded := TryFoldConst(mustCompileFormula(t, unselectedDivision).programs[0].Instr); !folded || got != 7 {
 		t.Fatalf("unselected division fold=%v got=%v", folded, got)
 	}
-	if _, folded := TryFoldConst(mustCompileFormula(t, ifExpr(ifConst(1), missing, ifConst(7))).Programs[0].Instr); folded {
+	if _, folded := TryFoldConst(mustCompileFormula(t, ifExpr(ifConst(1), missing, ifConst(7))).programs[0].Instr); folded {
 		t.Fatal("selected runtime read must not fold")
 	}
 	selectedDivision := ifExpr(ifConst(1), model.GenericFormulaExpr{
 		Op: "div", Args: []model.GenericFormulaExpr{ifConst(1), ifConst(0)},
 	}, ifConst(7))
-	if got, folded := TryFoldConst(mustCompileFormula(t, selectedDivision).Programs[0].Instr); !folded || !math.IsNaN(got) {
+	if got, folded := TryFoldConst(mustCompileFormula(t, selectedDivision).programs[0].Instr); !folded || !math.IsNaN(got) {
 		t.Fatalf("selected division fold=%v got=%v want invalid folded value", folded, got)
 	}
 }
@@ -103,11 +103,11 @@ func TestGenericIfCompilesNamedExpansionAndValidatesUnselectedBranches(t *testin
 	add := func(code model.GenericErrCode, path, message, ref string) {
 		errors = append(errors, model.EngineError{Code: code, Path: path, Message: message, Ref: ref})
 	}
-	reg := CompileNamedFormulas(defs, add)
+	reg := compileNamedForTest(defs, add)
 	if len(errors) != 0 {
 		t.Fatalf("named compile errors=%+v", errors)
 	}
-	got, err := reg.Eval(reg.Index["result"], GenericEvalContext{})
+	got, err := reg.evaluate(reg.index["result"], GenericEvalContext{})
 	if err != nil || got != 42 {
 		t.Fatalf("named if got=%v err=%v", got, err)
 	}
@@ -154,7 +154,7 @@ func TestGenericIfCompilesNamedExpansionAndValidatesUnselectedBranches(t *testin
 }
 
 func TestGenericIfJumpTargetsAndBranchStacks(t *testing.T) {
-	instr := mustCompileFormula(t, ifExpr(ifConst(0), ifConst(1), ifConst(2))).Programs[0].Instr
+	instr := mustCompileFormula(t, ifExpr(ifConst(0), ifConst(1), ifConst(2))).programs[0].Instr
 	if !validGenericProgramStack(instr) {
 		t.Fatalf("compiled if stack invalid: %+v", instr)
 	}
@@ -170,8 +170,8 @@ func TestGenericIfJumpTargetsAndBranchStacks(t *testing.T) {
 	if validGenericProgramStack(broken) {
 		t.Fatal("backward jump accepted")
 	}
-	reg := GenericRegistry{Programs: []GenericProgram{{Instr: broken}}}
-	if _, err := reg.Eval(0, GenericEvalContext{}); err == nil || !strings.Contains(err.Error(), "jump target") {
+	reg := programStore{programs: []GenericProgram{{Instr: broken}}}
+	if _, err := reg.evaluate(0, GenericEvalContext{}); err == nil || !strings.Contains(err.Error(), "jump target") {
 		t.Fatalf("bad jump eval error=%v", err)
 	}
 }

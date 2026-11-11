@@ -19,16 +19,16 @@ import (
 
 func derivedDependencyFixture(t *testing.T, route string) (*attributeFixture, effectpkg.AttributeResolver, attribute.Table, attribute.Table) {
 	t.Helper()
-	var registry formula.GenericRegistry
+	var registry formula.Library
 	definition := formuladefinition.FromExpr("dependency_base", "dependency_skill", authoringRead("source.attr.pulse.base"), nil)
-	formula.CompileDeclaredNamedFormulas([]model.NamedFormula{definition}, []string{"speed", "pulse"}, &registry, func(code model.GenericErrCode, path, message, ref string) {
+	fixtureCompileDeclaredNamed([]model.NamedFormula{definition}, []string{"speed", "pulse"}, &registry, func(code model.GenericErrCode, path, message, ref string) {
 		t.Fatal(code, path, message, ref)
 	})
 	program := formula.GenericProgramID(0)
 	resolver := effectpkg.AttributeResolver{}
 	if route == "set_modifier" {
 		var err error
-		program, err = registry.Register(formula.GenericProgram{Key: "constant_output", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 10}}})
+		program, err = fixtureRegister(&registry, formula.GenericProgram{Key: "constant_output", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 10}}})
 		if err != nil {
 			t.Fatal(err)
 		}

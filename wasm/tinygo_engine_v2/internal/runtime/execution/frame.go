@@ -68,8 +68,6 @@ type FrameAPI interface {
 	CommitEmpoweredGroup() *model.EngineError
 	// CommitHitRule 发布整个规则组，再同步处理已经生成的事实。
 	CommitHitRule() *model.EngineError
-	// DamageStateBefore 读取原始本来源伤害实例冻结的指定状态值；缺少声明事实时返回错误。
-	DamageStateBefore(key string) (float64, error)
 	// EmpoweredActivationHistory 返回原激活使用的真实登记身份和已发生接触数。
 	EmpoweredActivationHistory(use string) hit.ActivationHistory
 	// EmpoweredExecutionError 返回原过程错误，不修改状态。
@@ -106,8 +104,6 @@ type FrameAPI interface {
 	HitRuleCandidate(context *hit.Context, candidate planbundle.CompiledSkillHitCandidate, blocked bool) *model.EngineError
 	// HitSpellShields 返回实际命中目标当前仍活动的法术盾，不应用或移除盾。
 	HitSpellShields(target string) effectpkg.ProviderList
-	// LinkedShieldPresent 按实际施加者、拥有者及当前暂存关联判断护盾存在，不修改投影。
-	LinkedShieldPresent(index uint16) (float64, error)
 	// ListenerMountLive 重新读取实际挂载资格，不沿用冻结前的结果。
 	ListenerMountLive(definition planbundle.CompiledListener) bool
 	// ListenerRecoveryError 返回原恢复资格错误，不读取或修改其他状态。
@@ -132,8 +128,6 @@ type FrameAPI interface {
 	PublishEmpoweredReservation(use *actionpkg.UseView, process *actionpkg.ProcessView, index int)
 	// QueuePrimaryDamage 在原帧重新绑定真实负载并追加已确定资格的伤害事实，返回前恢复外层求值范围。
 	QueuePrimaryDamage(event emittedEvent, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack, payload, parent planbundle.CompiledAbility, rootDamage bool)
-	// ReceivedLinkedShieldAbsorbed 读取原始受伤事件中指定自身关联盾的实际吸收额；因果不完整时返回错误。
-	ReceivedLinkedShieldAbsorbed(index uint16) (float64, error)
 	// RecordCountedExecution 暂存原有执行时点事实，不执行步骤转移。
 	RecordCountedExecution(process *actionpkg.ProcessView)
 	// ResolveEmpoweredProcess 发布该过程真实目标的解决事实，并保留过程失败。

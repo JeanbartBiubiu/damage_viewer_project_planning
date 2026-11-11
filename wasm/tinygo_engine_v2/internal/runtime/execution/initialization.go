@@ -17,7 +17,7 @@ import (
 	"tinygo_engine_v2/internal/scheduler"
 )
 
-func materializeCombatants(snapshot model.Snapshot, compiled planbundle.CompiledSession, formulas formula.GenericRegistry, sessionID string) (map[string]combatantRuntime, *model.EngineError) {
+func materializeCombatants(snapshot model.Snapshot, compiled planbundle.CompiledSession, formulas formula.Library, sessionID string) (map[string]combatantRuntime, *model.EngineError) {
 	if err := validateShieldLifecycleSnapshot(snapshot, compiled, sessionID); err != nil {
 		return nil, err
 	}
@@ -553,7 +553,7 @@ func (s *Engine) validateStateOnExpireProvider(provider planbundle.CompiledProvi
 		}
 		for _, operation := range s.compiled.Operations[int(listener.OperationStart) : int(listener.OperationStart)+int(listener.OperationCount)] {
 			field := provider.StateFields[operation.Ref]
-			amount, static := s.formulas.FoldStatic(operation.AmountProgram)
+			amount, static := s.formulas.Metadata.FoldStatic(operation.AmountProgram)
 			if operation.Operation != "state_change" || operation.StateScope != stateScopeProvider || operation.Target != "self" || field.OnExpireCount == 0 || !static || amount != 1 || (operation.ValuePolicy != "set" && operation.ValuePolicy != "override") {
 				return fail()
 			}

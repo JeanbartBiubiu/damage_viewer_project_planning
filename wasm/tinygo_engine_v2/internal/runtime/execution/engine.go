@@ -123,7 +123,7 @@ type Engine struct {
 	processFailure             *model.EngineError
 	settlingProcessDeaths      bool
 	compiled                   planbundle.CompiledSession
-	formulas                   formula.GenericRegistry
+	formulas                   formula.Library
 	req                        model.RunRequest
 	loop                       *scheduler.Loop
 	conditionRecheckIntervalMs int64
@@ -254,7 +254,7 @@ func New(compiled planbundle.CompiledSession, req model.RunRequest, loop *schedu
 	}
 	validateRuntimeOptions(req.RuntimeOptions)
 
-	formulas := *compiled.Formulas.CloneForRun()
+	formulas := compiled.Formulas
 	combatants, err := materializeCombatants(req.InitialSnapshot, compiled, formulas, req.SessionID)
 	if err != nil {
 		return nil, err

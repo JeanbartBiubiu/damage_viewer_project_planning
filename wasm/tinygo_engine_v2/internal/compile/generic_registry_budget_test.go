@@ -15,7 +15,7 @@ func TestRegisterFormulaRejectsFirstProgramWithoutUsableID(t *testing.T) {
 	collector := &genericCollector{}
 	ctx := &genericCompileContext{collector: collector, session: &plan.CompiledSession{}}
 	instructions := make([]formula.GenericInstr, formula.MaxGenericProgramInstructions+1)
-	if id, has := ctx.registerFormula("rejected", instructions); has || id != 0 || len(ctx.session.Formulas.Programs) != 0 || len(ctx.session.Formulas.Index) != 0 {
+	if id, has := ctx.registerFormula("rejected", instructions); has || id != 0 || ctx.formulas.Count() != 0 {
 		t.Fatal("failed first program was consumed or registered")
 	}
 	if len(collector.errors) != 1 || collector.errors[0].Path != "rejected" {
@@ -32,7 +32,7 @@ func TestProcessRegistrationMemoryRefusalDoesNotFoldProgramZero(t *testing.T) {
 	collector := &genericCollector{}
 	ctx := &genericCompileContext{collector: collector, session: &plan.CompiledSession{}}
 	expr := model.GenericFormulaExpr{Op: "read", Path: "source.attr." + strings.Repeat("x", formula.MaxGenericFormulaMemoryBytes)}
-	if id, has := compileProcessWindowFormula(&expr, "window", true, ctx); has || id != 0 || len(ctx.session.Formulas.Programs) != 0 {
+	if id, has := compileProcessWindowFormula(&expr, "window", true, ctx); has || id != 0 || ctx.formulas.Count() != 0 {
 		t.Fatal("memory refusal became usable process program")
 	}
 	if len(collector.errors) == 0 {
@@ -44,7 +44,7 @@ func TestProcessRegistrationFullTableRefusalDoesNotConsumeProgramZero(t *testing
 	collector := &genericCollector{}
 	ctx := &genericCompileContext{collector: collector, session: &plan.CompiledSession{}}
 	for i := 0; i < formula.MaxGenericPrograms; i++ {
-		if _, err := ctx.session.Formulas.Register(formula.GenericProgram{Key: strconv.Itoa(i), Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1}}}); err != nil {
+		if _, err := ctx.formulas.Register(formula.GenericProgram{Key: strconv.Itoa(i), Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1}}}); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -53,7 +53,7 @@ func TestProcessRegistrationFullTableRefusalDoesNotConsumeProgramZero(t *testing
 	if id, has := compileProcessWindowFormula(&expr, "refused", true, ctx); has || id != 0 {
 		t.Fatal("full table refusal became usable program")
 	}
-	if len(ctx.session.Formulas.Programs) != formula.MaxGenericPrograms || ctx.session.Formulas.Programs[0].Instr[0].Value != 1 {
+	if ctx.formulas.Count() != formula.MaxGenericPrograms || ctx.formulas.Instructions(formula.GenericProgramID(0))[0].Value != 1 {
 		t.Fatal("full table refusal changed existing program")
 	}
 }
@@ -65,7 +65,7 @@ func TestCompileRefusesExcessiveNamedProgramsWithoutSession(t *testing.T) {
 		req.Formulas[i] = formuladefinition.Constant("p"+strconv.Itoa(i), "budget", 1)
 	}
 	result := CompileGeneric(req)
-	if result.OK || result.Result.OK || len(result.Session.Formulas.Programs) != 0 || len(result.Result.Errors) == 0 {
+	if result.OK || result.Result.OK || result.Session.Formulas.Metadata.Count() != 0 || len(result.Result.Errors) == 0 {
 		t.Fatal("oversized compile created runnable session")
 	}
 }

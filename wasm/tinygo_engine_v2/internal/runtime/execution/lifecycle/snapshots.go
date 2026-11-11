@@ -17,7 +17,7 @@ func (e *Executor) FreezeModifierSnapshots(provider plan.CompiledProvider, sourc
 		if modifier.ValueReadMode != "APPLICATION_SNAPSHOT" {
 			continue
 		}
-		value, err := e.formulas.Eval(modifier.ValueProgram, context)
+		value, err := e.formulas.Evaluation.Eval(modifier.ValueProgram, context)
 		if err != nil || math.IsNaN(value) || math.IsInf(value, 0) || value < 0 {
 			return nil, e.fail(model.GenericErrFormulaTypeError, "modifierSnapshots", "application snapshot must be a finite nonnegative actual attribute value", modifier.ModifierKey)
 		}

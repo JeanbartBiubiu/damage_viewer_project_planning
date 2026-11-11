@@ -170,7 +170,7 @@ func TestAmmoCaptureRejectsMissingUseAndOtherProviderEvenWithSameSkill(test *tes
 	if context := frame.evalContext(ability); context.HasUseAmmoBefore {
 		test.Fatal("capture crossed party ownership")
 	}
-	if _, err := state.compiled.Formulas.Eval(state.compiled.Operations[ability.OperationStart].SkillHit.Candidates[0].ParticipationProgram, formula.GenericEvalContext{}); err == nil {
+	if _, err := state.compiled.Formulas.Evaluation.Eval(state.compiled.Operations[ability.OperationStart].SkillHit.Candidates[0].ParticipationProgram, formula.GenericEvalContext{}); err == nil {
 		test.Fatal("missing ammo context fell back to current inventory")
 	}
 }

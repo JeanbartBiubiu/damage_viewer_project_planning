@@ -6,7 +6,7 @@ import (
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
-func (s SkillActionExecutor) CompileDriverConditions(entries []model.DriverEntry, registry *formula.GenericRegistry, refsByAbility map[string]planbundle.CompiledAbilityRef) *model.EngineError {
+func (s SkillActionExecutor) CompileDriverConditions(entries []model.DriverEntry, registry *formula.Builder, refsByAbility map[string]planbundle.CompiledAbilityRef) *model.EngineError {
 	n := len(entries)
 	s.actions.InitDriverEntries(n)
 	var compileErrors []model.EngineError

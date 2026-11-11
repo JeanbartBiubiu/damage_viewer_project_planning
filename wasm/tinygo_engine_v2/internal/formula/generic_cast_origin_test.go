@@ -62,48 +62,48 @@ func TestCompileRejectsMalformedCastOriginAndAbilityTypePaths(t *testing.T) {
 
 func TestEvalDamageCastOriginAndAbilityType(t *testing.T) {
 	reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "damage.cast_origin.champion"})
-	got, err := reg.Eval(0, GenericEvalContext{
+	got, err := reg.evaluate(0, GenericEvalContext{
 		HasDamageContext: true,
 		DamageCastOrigin: "champion",
 	})
 	if err != nil || got != 1 {
 		t.Fatalf("cast_origin match got=%v err=%v", got, err)
 	}
-	got, err = reg.Eval(0, GenericEvalContext{
+	got, err = reg.evaluate(0, GenericEvalContext{
 		HasDamageContext: true,
 		DamageCastOrigin: "pet",
 	})
 	if err != nil || got != 0 {
 		t.Fatalf("cast_origin miss got=%v err=%v", got, err)
 	}
-	got, err = reg.Eval(0, GenericEvalContext{HasDamageContext: true})
+	got, err = reg.evaluate(0, GenericEvalContext{HasDamageContext: true})
 	if err != nil || got != 0 {
 		t.Fatalf("empty origin got=%v err=%v", got, err)
 	}
-	if _, err := reg.Eval(0, GenericEvalContext{}); err == nil {
+	if _, err := reg.evaluate(0, GenericEvalContext{}); err == nil {
 		t.Fatal("expected fail closed without damage context for cast_origin")
 	}
 
 	reg = mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "damage.ability_type.basic_attack"})
-	got, err = reg.Eval(0, GenericEvalContext{
+	got, err = reg.evaluate(0, GenericEvalContext{
 		HasDamageContext:   true,
-		DamageAbilityTypes: []string{"ability/basic_attack", "ability/spell"},
+		DamageAbilityTypes: BorrowStringView([]string{"ability/basic_attack", "ability/spell"}),
 	})
 	if err != nil || got != 1 {
 		t.Fatalf("ability_type match got=%v err=%v", got, err)
 	}
-	got, err = reg.Eval(0, GenericEvalContext{
+	got, err = reg.evaluate(0, GenericEvalContext{
 		HasDamageContext:   true,
-		DamageAbilityTypes: []string{"ability/spell"},
+		DamageAbilityTypes: BorrowStringView([]string{"ability/spell"}),
 	})
 	if err != nil || got != 0 {
 		t.Fatalf("ability_type miss got=%v err=%v", got, err)
 	}
-	got, err = reg.Eval(0, GenericEvalContext{HasDamageContext: true})
+	got, err = reg.evaluate(0, GenericEvalContext{HasDamageContext: true})
 	if err != nil || got != 0 {
 		t.Fatalf("no ability types got=%v err=%v", got, err)
 	}
-	if _, err := reg.Eval(0, GenericEvalContext{}); err == nil {
+	if _, err := reg.evaluate(0, GenericEvalContext{}); err == nil {
 		t.Fatal("expected fail closed without damage context for ability_type")
 	}
 }

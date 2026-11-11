@@ -77,8 +77,8 @@ func compileMultiplierGroup(raw model.ModifierDefinition, mod *plan.CompiledModi
 		fail(".target", "damage multiplier group uses its actual provider carrier or rule stage, not an attribute target")
 		return
 	}
-	if mod.HasValue && len(ctx.session.Formulas.ReadDependencies(mod.ValueProgram)) == 0 {
-		value, err := ctx.session.Formulas.Eval(mod.ValueProgram, formula.GenericEvalContext{})
+	if mod.HasValue && len(ctx.formulas.ReadDependencies(mod.ValueProgram)) == 0 {
+		value, err := ctx.formulas.Eval(mod.ValueProgram, formula.GenericEvalContext{})
 		if err != nil || math.IsNaN(value) || math.IsInf(value, 0) || value < 1 {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, path+".value", "static grouped multiplier must be finite and >=1", mod.ModifierKey)
 		}
@@ -166,7 +166,7 @@ func multiplierReadsAmount(mod plan.CompiledModifier, ctx *genericCompileContext
 		if !item.present {
 			continue
 		}
-		for _, read := range ctx.session.Formulas.ReadDependencies(item.id) {
+		for _, read := range ctx.formulas.ReadDependencies(item.id) {
 			if read.ReadKind == formula.ReadDamageAmount {
 				return item.field, true
 			}
@@ -256,7 +256,7 @@ func validateStaticMultiplierGroups(members []multiplierMember, ctx *genericComp
 				if !m.HasMultiplierGroup || item.carriers&carrier == 0 || !sameMultiplierSettlement(mod, m) || mod.Kind == "pipeline" && mod.Priority != m.Priority || !m.HasValue || staticMultiplierConditionFalse(m, ctx) {
 					continue
 				}
-				value, static := ctx.session.Formulas.FoldStatic(m.ValueProgram)
+				value, static := ctx.formulas.FoldStatic(m.ValueProgram)
 				if !static || math.IsNaN(value) || math.IsInf(value, 0) || value < 1 {
 					continue
 				}
@@ -297,7 +297,7 @@ func staticMultiplierConditionFalse(mod plan.CompiledModifier, ctx *genericCompi
 	if !mod.HasCondition {
 		return false
 	}
-	value, static := ctx.session.Formulas.FoldStatic(mod.ConditionProg)
+	value, static := ctx.formulas.FoldStatic(mod.ConditionProg)
 	return static && value == 0
 }
 
@@ -317,7 +317,7 @@ func staticIndependentAmplificationOverflow(mod plan.CompiledModifier, carrier u
 		if !m.HasValue || m.HasCondition {
 			return multiplierMember{}, false
 		}
-		value, static := ctx.session.Formulas.FoldStatic(m.ValueProgram)
+		value, static := ctx.formulas.FoldStatic(m.ValueProgram)
 		if !static || math.IsNaN(value) || math.IsInf(value, 0) || value < 1 {
 			return multiplierMember{}, false
 		}

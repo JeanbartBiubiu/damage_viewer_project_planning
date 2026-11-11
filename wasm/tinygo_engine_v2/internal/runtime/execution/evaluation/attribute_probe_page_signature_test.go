@@ -110,8 +110,8 @@ func TestAttributeProbePageSignaturesMatchFreshReads(t *testing.T) {
 
 func TestAttributeProbeSameFailedPageDoesNotPublishSuccess(t *testing.T) {
 	layout := attribute.NewLayout([]string{"dep", "speed"})
-	registry := formula.GenericRegistry{Programs: []formula.GenericProgram{{Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadSourceAttr, ReadKey: "dep.current"}}}}}
-	registry.BindAttributeLayout(layout)
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{{Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadSourceAttr, ReadKey: "dep.current"}}}})
+	fixtureBindLayout(&registry, layout)
 	state := attributeFixture{formulas: registry}
 	var resolver effectpkg.AttributeResolver
 	resolver.MountCompiledModifierOwned("source", "buff", planbundle.CompiledModifier{Kind: "attribute", Target: "speed", HasValue: true, ValuePolicy: "add"})

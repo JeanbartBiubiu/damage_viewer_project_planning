@@ -120,8 +120,8 @@ func TestStateOnExpireFailureRollsBackCallbackAndFact(t *testing.T) {
 			} else {
 				for _, provider := range s.compiled.Providers {
 					if field := provider.StateFields["wait"]; field.OnExpireCount > 0 {
-						s.formulas.Programs = append(s.formulas.Programs, formula.GenericProgram{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1}, {Op: formula.GenericOpConst, Value: 0}, {Op: formula.GenericOpDiv}}})
-						s.compiled.Operations[field.OnExpireStart].AmountProgram = formula.GenericProgramID(len(s.formulas.Programs) - 1)
+						fixtureAppendFormula(&s.formulas, formula.GenericProgram{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1}, {Op: formula.GenericOpConst, Value: 0}, {Op: formula.GenericOpDiv}}})
+						s.compiled.Operations[field.OnExpireStart].AmountProgram = formula.GenericProgramID(s.formulas.Metadata.Count() - 1)
 					}
 				}
 			}

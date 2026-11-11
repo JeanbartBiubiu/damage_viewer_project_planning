@@ -68,7 +68,7 @@ func TestProcessCompileProjectsStepsCostsAndControl(t *testing.T) {
 		t.Fatalf("steps=%+v", process.Steps)
 	}
 	for i, want := range []float64{60, 10, 0} {
-		value, err := result.Session.Formulas.Eval(process.Costs[i].AmountProgram, formula.GenericEvalContext{})
+		value, err := result.Session.Formulas.Evaluation.Eval(process.Costs[i].AmountProgram, formula.GenericEvalContext{})
 		if err != nil || value != want {
 			t.Fatalf("cost[%d]=%v err=%v", i, value, err)
 		}
@@ -99,7 +99,7 @@ func TestProcessCompilePreservesMatchingMomentAuthorOrder(t *testing.T) {
 			t.Fatalf("binding[%d]=%+v", i, binding)
 		}
 		op := result.Session.Operations[binding.OperationStart]
-		value, err := result.Session.Formulas.Eval(op.AmountProgram, formula.GenericEvalContext{})
+		value, err := result.Session.Formulas.Evaluation.Eval(op.AmountProgram, formula.GenericEvalContext{})
 		if err != nil || value != float64(i+1) || (binding.Moment.FailureReason == nil) != (i != 1) {
 			t.Fatalf("author order lost at %d: %+v value=%v err=%v", i, binding, value, err)
 		}

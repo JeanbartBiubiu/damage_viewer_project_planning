@@ -10,9 +10,9 @@ import (
 )
 
 func TestAttributeResolverRejectsMissingReadsInsteadOfDroppingModifier(t *testing.T) {
-	registry := formula.GenericRegistry{Programs: []formula.GenericProgram{{Key: "missing", Instr: []formula.GenericInstr{
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{{Key: "missing", Instr: []formula.GenericInstr{
 		{Op: formula.GenericOpRead, ReadKind: formula.ReadSourceAttr, ReadKey: "missing.resolved"},
-	}}}}
+	}}})
 	var resolver AttributeResolver
 	resolver.MountCompiledModifierOwned("source", "gear", planbundle.CompiledModifier{
 		ModifierKey: "bad", Kind: "attribute", Target: "armor", ValuePolicy: "add", ValueProgram: 0, HasValue: true,

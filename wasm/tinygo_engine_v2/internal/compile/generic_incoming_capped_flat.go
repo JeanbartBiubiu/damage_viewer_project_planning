@@ -20,13 +20,13 @@ func validateIncomingCappedFlatShape(raw model.ModifierDefinition, mod plan.Comp
 }
 
 func cappedFlatValueOwned(mod plan.CompiledModifier, skill string, ctx *genericCompileContext) bool {
-	if !mod.HasValue || !cappedFlatSkillPrograms(ctx.session.Formulas, mod.ValueProgram, skill, 0) {
+	if !mod.HasValue || !cappedFlatSkillPrograms(ctx.formulas, mod.ValueProgram, skill, 0) {
 		return false
 	}
-	if value, fixed := ctx.session.Formulas.FoldStatic(mod.ValueProgram); fixed {
+	if value, fixed := ctx.formulas.FoldStatic(mod.ValueProgram); fixed {
 		return !math.IsNaN(value) && !math.IsInf(value, 0) && value >= 0
 	}
-	reads, supported := ctx.session.Formulas.AttributeCacheDependencies(mod.ValueProgram)
+	reads, supported := ctx.formulas.AttributeCacheDependencies(mod.ValueProgram)
 	if !supported || len(reads) == 0 {
 		return false
 	}
@@ -40,19 +40,19 @@ func cappedFlatValueOwned(mod plan.CompiledModifier, skill string, ctx *genericC
 
 // Check author bindings rather than prescribing an arithmetic AST. Dependency
 // instructions alone cannot distinguish an actual BONUS binding from TOTAL-BASE.
-func cappedFlatSkillPrograms(registry formula.GenericRegistry, id formula.GenericProgramID, skill string, depth int) bool {
-	if depth > 32 || int(id) >= len(registry.Programs) {
+func cappedFlatSkillPrograms(registry formula.Builder, id formula.GenericProgramID, skill string, depth int) bool {
+	if depth > 32 || int(id) >= registry.Count() {
 		return false
 	}
-	program := registry.Programs[id]
-	if binding := program.NamedBinding; binding != nil && (binding.Scope() != "skill" || binding.SkillKey() != skill) {
+	program := registry.Info(formula.GenericProgramID(id))
+	if program.HasNamedBinding && (program.Scope != "skill" || program.SkillKey != skill) {
 		return false
 	}
-	if program.Authored != nil {
-		if program.NamedBinding == nil {
+	if program.HasAuthored {
+		if !program.HasNamedBinding {
 			return false
 		}
-		for _, input := range program.Authored.Inputs() {
+		for _, input := range registry.DeclaredInputs(id) {
 			binding := input.Binding
 			if binding.Kind == "attribute" && (binding.Object != "source" || binding.View != "current_frame" || binding.ValueKind != "BONUS") {
 				return false
@@ -62,7 +62,7 @@ func cappedFlatSkillPrograms(registry formula.GenericRegistry, id formula.Generi
 			}
 		}
 	}
-	for _, instruction := range program.Instr {
+	for _, instruction := range registry.Instructions(id) {
 		if instruction.Op == formula.GenericOpRef && !cappedFlatSkillPrograms(registry, formula.GenericProgramID(instruction.RefIndex), skill, depth+1) {
 			return false
 		}
@@ -188,12 +188,12 @@ func finalizeIncomingCappedFlatModifiers(req model.CompileRequest, ctx *genericC
 				fail("requires a pure permanent single modifier and its own static parameters/owner resistance reads")
 				continue
 			}
-			if !mod.HasCondition || int(mod.ConditionProg) >= len(ctx.session.Formulas.Programs) {
+			if !mod.HasCondition || int(mod.ConditionProg) >= ctx.formulas.Count() {
 				fail("requires one declared damage-type condition")
 				continue
 			}
-			condition := ctx.session.Formulas.Programs[mod.ConditionProg]
-			if len(condition.Instr) != 1 || condition.Instr[0].Op != formula.GenericOpRead || condition.Instr[0].ReadKind != formula.ReadDamageType {
+			condition := ctx.formulas.Instructions(mod.ConditionProg)
+			if len(condition) != 1 || condition[0].Op != formula.GenericOpRead || condition[0].ReadKind != formula.ReadDamageType {
 				fail("only a single declared damage type is a valid filter")
 				continue
 			}

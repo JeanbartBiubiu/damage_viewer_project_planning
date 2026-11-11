@@ -17,7 +17,7 @@ func finalizeAttackStartStateReads(ctx *genericCompileContext) {
 		if !listener.HasCondition {
 			continue
 		}
-		deps := ctx.session.Formulas.ReadDependencies(listener.ConditionProgram)
+		deps := ctx.formulas.ReadDependencies(listener.ConditionProgram)
 		var keys []string
 		for _, dep := range deps {
 			if dep.ReadKind == formula.ReadUseProviderStateBefore {
@@ -56,8 +56,9 @@ func finalizeAttackStartStateReads(ctx *genericCompileContext) {
 	for i := range ctx.session.Providers {
 		sort.Strings(ctx.session.Providers[i].AttackStartStateKeys)
 	}
-	for index, program := range ctx.session.Formulas.Programs {
-		for _, dep := range ctx.session.Formulas.ReadDependencies(formula.GenericProgramID(index)) {
+	for index := 0; index < ctx.formulas.Count(); index++ {
+		program := ctx.formulas.Info(formula.GenericProgramID(index))
+		for _, dep := range ctx.formulas.ReadDependencies(formula.GenericProgramID(index)) {
 			if dep.ReadKind == formula.ReadUseProviderStateBefore && !allowed[formula.GenericProgramID(index)] && !program.DeclaredNamed {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, program.Key, "attack-start counter reads are restricted to original own basic-attack listener conditions", dep.ReadKey)
 			}

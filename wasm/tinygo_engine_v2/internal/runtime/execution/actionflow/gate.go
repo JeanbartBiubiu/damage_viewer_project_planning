@@ -76,8 +76,8 @@ func (s SkillActionExecutor) AttemptGate(entry model.DriverEntry, index int, now
 	return result
 }
 
-func (s SkillActionExecutor) ResourceGate(ability planbundle.CompiledAbility, ref string, now, recheck int64, current float64, context formula.GenericEvalContext, registry *formula.GenericRegistry, failures GateFormulaErrors) (int64, bool, *model.EngineError) {
-	amount, err := registry.EvalContext(ability.Cost.AmountProgram, &context)
+func (s SkillActionExecutor) ResourceGate(ability planbundle.CompiledAbility, ref string, now, recheck int64, current float64, context formula.GenericEvalContext, registry *formula.Library, failures GateFormulaErrors) (int64, bool, *model.EngineError) {
+	amount, err := registry.Evaluation.EvalContext(ability.Cost.AmountProgram, &context)
 	if err != nil {
 		return 0, false, failures.GateEvaluationError(ability.Cost.AmountProgram, err, ref)
 	}

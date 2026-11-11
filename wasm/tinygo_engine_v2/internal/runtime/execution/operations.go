@@ -563,7 +563,7 @@ func (f *Frame) bindReceivedShieldAbsorptions(snapshot *pipeline.ShieldAbsorptio
 	}, (*operationReads)(f), snapshot, target, total)
 }
 
-func (f *Frame) ReceivedLinkedShieldAbsorbed(index uint16) (float64, error) {
+func (f *Frame) receivedLinkedShieldAbsorbed(index uint16) (float64, error) {
 	return operation.ReceivedLinkedShieldAbsorbed(operation.ReceivedLinkedShieldInput{
 		Enabled: f.run.compiled.HasReceivedShieldReads, Providers: f.run.compiled.Providers, Combatants: f.run.compiled.Combatants,
 		Event: f.eventCtx, Owner: f.providerOwnerKey(), ProviderRef: f.ownerProviderRef,

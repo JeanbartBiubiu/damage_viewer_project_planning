@@ -9,17 +9,17 @@ type targetMarkProofValue struct {
 	value                        float64
 }
 
-func targetMarkConditionUnblocked(program formula.GenericProgramID, registry formula.GenericRegistry, depth int) bool {
+func targetMarkConditionUnblocked(program formula.GenericProgramID, registry formula.Builder, depth int) bool {
 	value, ok := targetMarkConditionValue(program, registry, depth)
 	return ok && value.readsBlocked && value.known && value.value == 0
 }
 
-func targetMarkConditionValue(program formula.GenericProgramID, registry formula.GenericRegistry, depth int) (targetMarkProofValue, bool) {
-	if depth > 64 || int(program) >= len(registry.Programs) {
+func targetMarkConditionValue(program formula.GenericProgramID, registry formula.Builder, depth int) (targetMarkProofValue, bool) {
+	if depth > 64 || int(program) >= registry.Count() {
 		return targetMarkProofValue{}, false
 	}
 	stack := make([]targetMarkProofValue, 0, 8)
-	for _, in := range registry.Programs[program].Instr {
+	for _, in := range registry.Instructions(formula.GenericProgramID(program)) {
 		switch in.Op {
 		case formula.GenericOpConst:
 			stack = append(stack, targetMarkProofValue{known: true, boolean: in.Value == 0 || in.Value == 1, value: in.Value})

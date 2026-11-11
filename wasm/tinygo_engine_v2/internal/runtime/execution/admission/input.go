@@ -22,7 +22,7 @@ type Actor struct {
 // Input 只借用规则、公式和实际双方的数值；调用结束后不得保留这些输入。
 type Input struct {
 	Compiled *planbundle.CompiledSession
-	Formulas *formula.GenericRegistry
+	Formulas *formula.Library
 	Identity Identity
 	Actors   [2]Actor
 }

@@ -43,7 +43,7 @@ func TestCompileC1DamageTraitAndTypeReads(t *testing.T) {
 func TestEvalKilledRequiresRealSettlementAndPreservesZero(t *testing.T) {
 	reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "event.damage.killed"})
 	for _, killed := range []float64{0, 1} {
-		value, err := reg.Eval(0, GenericEvalContext{HasEventContext: true, HasEventDamageSnapshot: true, EventDamage: EventDamageSnapshot{HasKilled: true, Killed: killed}})
+		value, err := reg.evaluate(0, GenericEvalContext{HasEventContext: true, HasEventDamageSnapshot: true, EventDamage: EventDamageSnapshot{HasKilled: true, Killed: killed}})
 		if err != nil || value != killed {
 			t.Fatal("settled kill flag changed", killed, value, err)
 		}
@@ -54,7 +54,7 @@ func TestEvalKilledRequiresRealSettlementAndPreservesZero(t *testing.T) {
 		{HasEventContext: true, HasEventDamageSnapshot: true, EventDamage: EventDamageSnapshot{Killed: 1}},
 		{HasEventContext: true, HasEventDamageSnapshot: true, EventDamage: EventDamageSnapshot{HasKilled: true, Killed: .5}},
 	} {
-		if value, err := reg.Eval(0, context); err == nil {
+		if value, err := reg.evaluate(0, context); err == nil {
 			t.Fatal("missing or invalid kill fact was accepted", context, value)
 		}
 	}
@@ -63,13 +63,13 @@ func TestEvalKilledRequiresRealSettlementAndPreservesZero(t *testing.T) {
 func TestEvalActualHPLossRequiresTheReceivedDamageFactAndKeepsZero(t *testing.T) {
 	reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "event.damage.actualHpLoss"})
 	for _, actual := range []float64{0, 12.5} {
-		value, err := reg.Eval(0, GenericEvalContext{HasEventContext: true, HasEventDamageSnapshot: true, EventDamage: EventDamageSnapshot{HasActualHPLoss: true, ActualHPLoss: actual, MitigatedAmount: 123}})
+		value, err := reg.evaluate(0, GenericEvalContext{HasEventContext: true, HasEventDamageSnapshot: true, EventDamage: EventDamageSnapshot{HasActualHPLoss: true, ActualHPLoss: actual, MitigatedAmount: 123}})
 		if err != nil || value != actual {
 			t.Fatal(actual, value, err)
 		}
 	}
 	for _, context := range []GenericEvalContext{{}, {HasEventContext: true}, {HasEventContext: true, HasEventDamageSnapshot: true, EventDamage: EventDamageSnapshot{MitigatedAmount: 123}}} {
-		if _, err := reg.Eval(0, context); err == nil {
+		if _, err := reg.evaluate(0, context); err == nil {
 			t.Fatal("missing actual HP damage became a zero")
 		}
 	}
@@ -94,32 +94,32 @@ func TestCompileC1RejectsUnknownDamageTypeAndEventDamagePaths(t *testing.T) {
 
 func TestEvalC1DamageTraitTypeAndEventDamage(t *testing.T) {
 	reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "damage.trait.on_hit"})
-	got, err := reg.Eval(0, GenericEvalContext{
+	got, err := reg.evaluate(0, GenericEvalContext{
 		HasDamageContext: true,
-		DamageTraits:     []string{"damage_trait/on_hit"},
+		DamageTraits:     BorrowStringView([]string{"damage_trait/on_hit"}),
 	})
 	if err != nil || got != 1 {
 		t.Fatalf("trait match got=%v err=%v", got, err)
 	}
-	got, err = reg.Eval(0, GenericEvalContext{
+	got, err = reg.evaluate(0, GenericEvalContext{
 		HasDamageContext: true,
-		DamageTraits:     []string{"damage_trait/proc"},
+		DamageTraits:     BorrowStringView([]string{"damage_trait/proc"}),
 	})
 	if err != nil || got != 0 {
 		t.Fatalf("trait miss got=%v err=%v", got, err)
 	}
-	if _, err := reg.Eval(0, GenericEvalContext{}); err == nil {
+	if _, err := reg.evaluate(0, GenericEvalContext{}); err == nil {
 		t.Fatal("expected fail closed without damage context")
 	}
 
 	reg = mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "damage.type.damage/magical"})
-	got, err = reg.Eval(0, GenericEvalContext{HasDamageContext: true, DamageTypeKey: "damage/magical"})
+	got, err = reg.evaluate(0, GenericEvalContext{HasDamageContext: true, DamageTypeKey: "damage/magical"})
 	if err != nil || got != 1 {
 		t.Fatalf("raw type got=%v err=%v", got, err)
 	}
 
 	reg = mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "event.damage.mitigatedAmount"})
-	got, err = reg.Eval(0, GenericEvalContext{
+	got, err = reg.evaluate(0, GenericEvalContext{
 		HasEventContext:        true,
 		HasEventDamageSnapshot: true,
 		EventDamage:            EventDamageSnapshot{MitigatedAmount: 42},
@@ -127,7 +127,7 @@ func TestEvalC1DamageTraitTypeAndEventDamage(t *testing.T) {
 	if err != nil || got != 42 {
 		t.Fatalf("event.damage got=%v err=%v", got, err)
 	}
-	if _, err := reg.Eval(0, GenericEvalContext{HasEventContext: true}); err == nil {
+	if _, err := reg.evaluate(0, GenericEvalContext{HasEventContext: true}); err == nil {
 		t.Fatal("expected fail closed without damage snapshot")
 	}
 }

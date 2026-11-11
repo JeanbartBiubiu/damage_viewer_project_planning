@@ -10,12 +10,10 @@ import (
 )
 
 func TestAttributeResolverMultipleModifiersByPriority(t *testing.T) {
-	registry := formula.GenericRegistry{
-		Programs: []formula.GenericProgram{
-			{Key: "v10", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 10}}},
-			{Key: "v5", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 5}}},
-		},
-	}
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{
+		{Key: "v10", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 10}}},
+		{Key: "v5", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 5}}},
+	})
 	provider := planbundle.CompiledProvider{
 		Modifiers: []planbundle.CompiledModifier{
 			{ModifierKey: "m_low", Kind: "attribute", Target: "attack_damage", ValuePolicy: "add", ValueProgram: 0, HasValue: true, Priority: 1},
@@ -38,9 +36,9 @@ func TestAttributeResolverMultipleModifiersByPriority(t *testing.T) {
 }
 
 func TestAttributeResolverZeroBaseDoesNotReuseCurrentTotal(t *testing.T) {
-	registry := formula.GenericRegistry{Programs: []formula.GenericProgram{
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{
 		{Key: "gear_speed", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 0.15}}},
-	}}
+	})
 	var resolver AttributeResolver
 	resolver.MountCompiledModifierOwned("source", "gear", planbundle.CompiledModifier{
 		ModifierKey: "gear_speed", Kind: "attribute", Target: "bonus_attack_speed_percent",
@@ -70,11 +68,9 @@ func TestAttributeResolverZeroBaseDoesNotReuseCurrentTotal(t *testing.T) {
 }
 
 func TestAttributeResolverUnmountProvider(t *testing.T) {
-	registry := formula.GenericRegistry{
-		Programs: []formula.GenericProgram{
-			{Key: "v20", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 20}}},
-		},
-	}
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{
+		{Key: "v20", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 20}}},
+	})
 	provider := planbundle.CompiledProvider{
 		Modifiers: []planbundle.CompiledModifier{
 			{ModifierKey: "buff", Kind: "attribute", Target: "attack_damage", ValuePolicy: "add", ValueProgram: 0, HasValue: true},
@@ -127,11 +123,9 @@ func TestAttributeResolverUnmountProviderOwnedIsolation(t *testing.T) {
 }
 
 func TestAttributeResolverCanonicalPathTarget(t *testing.T) {
-	registry := formula.GenericRegistry{
-		Programs: []formula.GenericProgram{
-			{Key: "v25", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 25}}},
-		},
-	}
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{
+		{Key: "v25", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 25}}},
+	})
 	provider := planbundle.CompiledProvider{
 		Modifiers: []planbundle.CompiledModifier{
 			{ModifierKey: "path_buff", Kind: "attribute", Target: "source.attr.attack_damage", ValuePolicy: "add", ValueProgram: 0, HasValue: true},
@@ -153,16 +147,14 @@ func TestAttributeResolverCanonicalPathTarget(t *testing.T) {
 }
 
 func TestAttributeResolverPerModifierProviderContext(t *testing.T) {
-	registry := formula.GenericRegistry{
-		Programs: []formula.GenericProgram{
-			{
-				Key: "provider.state.stacks",
-				Instr: []formula.GenericInstr{
-					{Op: formula.GenericOpRead, ReadKind: formula.ReadProviderState, ReadKey: "stacks"},
-				},
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{
+		{
+			Key: "provider.state.stacks",
+			Instr: []formula.GenericInstr{
+				{Op: formula.GenericOpRead, ReadKind: formula.ReadProviderState, ReadKey: "stacks"},
 			},
 		},
-	}
+	})
 	var resolver AttributeResolver
 	resolver.MountCompiledModifierOwned("source", "buff_a", planbundle.CompiledModifier{
 		ModifierKey: "a", Kind: "attribute", Target: "attack_damage",
@@ -177,7 +169,7 @@ func TestAttributeResolverPerModifierProviderContext(t *testing.T) {
 	})
 	baseCtx := formula.GenericEvalContext{
 		TargetAttrs:   attrs,
-		AbilityParams: map[string]float64{"keep": 9},
+		AbilityParams: model.BorrowNumericView(map[string]float64{"keep": 9}),
 	}
 	var seen []string
 	out, err := resolver.ResolveAttributesWithProviderContext(attrs, baseCtx, registry, func(ownerKey, providerRef string) ProviderFormulaContext {
@@ -214,18 +206,16 @@ func TestAttributeResolverCrossCombatantOwnerContext(t *testing.T) {
 	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{
 		"armor": {Base: 100, Current: 100},
 	})
-	registry2 := formula.GenericRegistry{
-		Programs: []formula.GenericProgram{
-			{
-				Key: "neg_pct",
-				Instr: []formula.GenericInstr{
-					{Op: formula.GenericOpConst, Value: -0.06},
-					{Op: formula.GenericOpRead, ReadKind: formula.ReadProviderTargetState, ReadKey: "carve_stacks"},
-					{Op: formula.GenericOpMul},
-				},
+	registry2 := fixtureFormulaLibrary([]formula.GenericProgram{
+		{
+			Key: "neg_pct",
+			Instr: []formula.GenericInstr{
+				{Op: formula.GenericOpConst, Value: -0.06},
+				{Op: formula.GenericOpRead, ReadKind: formula.ReadProviderTargetState, ReadKey: "carve_stacks"},
+				{Op: formula.GenericOpMul},
 			},
 		},
-	}
+	})
 	var r2 AttributeResolver
 	r2.MountCompiledModifierOwned("source", "bc", planbundle.CompiledModifier{
 		ModifierKey: "carve", Kind: "attribute", Target: "opponent.attr.armor",
@@ -252,12 +242,10 @@ func TestAttributeResolverCrossCombatantOwnerContext(t *testing.T) {
 // aggregation keeps historical modifierKey order; OwnerCombatantKey/ProviderRef only break ties
 // after ModifierKey and must not reorder distinct keys.
 func TestAttributeResolverModifierKeyOrderBeforeOwnerProvider(t *testing.T) {
-	registry := formula.GenericRegistry{
-		Programs: []formula.GenericProgram{
-			{Key: "mul2", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 2}}},
-			{Key: "add10", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 10}}},
-		},
-	}
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{
+		{Key: "mul2", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 2}}},
+		{Key: "add10", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 10}}},
+	})
 	var resolver AttributeResolver
 	// Mount in reverse modifierKey order with owners that would reorder if owner sorted before key:
 	// owner "zzz" / key "a_mul" then owner "aaa" / key "b_add".

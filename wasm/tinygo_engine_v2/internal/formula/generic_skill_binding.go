@@ -15,6 +15,7 @@ import (
 type NamedBinding struct {
 	scope, skillKey, path string
 	plan                  *inputbinding.Plan
+	planIdentity          *inputbinding.Plan
 	inputs                []expression.Input
 	parameters            []model.FormulaParameter
 	dependencies          []GenericInstr
@@ -47,7 +48,11 @@ func (b *NamedBinding) Path() string {
 }
 
 // CompileDeclaredNamedFormulas把每个完整共同定义直接注册到同一个有界表。
-func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string, reg *GenericRegistry, add func(model.GenericErrCode, string, string, string)) {
+func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string, reg *Builder, add func(model.GenericErrCode, string, string, string)) {
+	compileDeclaredNamedFormulas(defs, attributes, reg.writable(), add)
+}
+
+func compileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string, reg *programStore, add func(model.GenericErrCode, string, string, string)) {
 	if len(defs) > MaxGenericPrograms {
 		add(model.GenericErrCode("FORMULA_LIMIT"), "/formulas/65536/key", "formula program count exceeds maximum", "")
 		return
@@ -67,7 +72,7 @@ func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string
 			continue
 		}
 		seen[def.Key] = true
-		if len(reg.Programs) >= MaxGenericPrograms {
+		if len(reg.programs) >= MaxGenericPrograms {
 			problem("FORMULA_LIMIT", "/key")
 			break
 		}
@@ -252,7 +257,7 @@ func CompileDeclaredNamedFormulas(defs []model.NamedFormula, attributes []string
 		for _, dep := range binding.dependencies {
 			bytes += uint64(len(dep.ReadKey))
 		}
-		if _, err := reg.Register(GenericProgram{Key: def.Key, Authored: program, NamedBinding: binding, BindingBytes: bytes, DeclaredNamed: true}); err != nil {
+		if _, err := reg.register(GenericProgram{Key: def.Key, Authored: program, NamedBinding: binding, BindingBytes: bytes, DeclaredNamed: true}); err != nil {
 			code := "FORMULA_INVALID_PROGRAM"
 			if IsRegistryLimit(err) {
 				code = "FORMULA_LIMIT"
@@ -323,7 +328,7 @@ func (b *NamedBinding) evaluate(program *expression.Program, ctx *GenericEvalCon
 			}
 			if source := param.RuntimeSource; source != nil {
 				if source.Kind == "ability_parameter" {
-					value, present := ctx.AbilityParams[param.ParameterKey]
+					value, present := ctx.AbilityParams.Lookup(param.ParameterKey)
 					values[i].Number = inputbinding.Scalar{Value: value, Present: present, SafeInteger: param.ValueType == "INTEGER"}
 				}
 				if source.Kind == "use_charge_duration" && ctx.HasUseChargeDuration {
@@ -338,7 +343,7 @@ func (b *NamedBinding) evaluate(program *expression.Program, ctx *GenericEvalCon
 					values[i].Number = inputbinding.Scalar{Value: value, Present: present, SafeInteger: true}
 				}
 			} else {
-				value, present := ctx.RuntimeParameters[param.ParameterKey]
+				value, present := ctx.RuntimeParameters.Lookup(param.ParameterKey)
 				values[i].Number = inputbinding.Scalar{Value: value, Present: present}
 			}
 			break
@@ -347,9 +352,9 @@ func (b *NamedBinding) evaluate(program *expression.Program, ctx *GenericEvalCon
 	return b.plan.Evaluate(program, values)
 }
 
-func (r GenericRegistry) DeclaredReferences() map[string]model.GenericFormulaExpr {
+func (r programStore) declaredReferences() map[string]model.GenericFormulaExpr {
 	refs := make(map[string]model.GenericFormulaExpr)
-	for i, p := range r.Programs {
+	for i, p := range r.programs {
 		if p.DeclaredNamed {
 			id := uint16(i)
 			refs[p.Key] = model.GenericFormulaExpr{LinkedProgram: &id}
@@ -358,15 +363,15 @@ func (r GenericRegistry) DeclaredReferences() map[string]model.GenericFormulaExp
 	return refs
 }
 
-func (r GenericRegistry) ValidDeclaredScope(instructions []GenericInstr, skill string) bool {
+func (r programStore) validDeclaredScope(instructions []GenericInstr, skill string) bool {
 	for _, in := range instructions {
 		if in.Op != GenericOpRef {
 			continue
 		}
-		if int(in.RefIndex) >= len(r.Programs) {
+		if int(in.RefIndex) >= len(r.programs) {
 			return false
 		}
-		p := r.Programs[in.RefIndex]
+		p := r.programs[in.RefIndex]
 		if !p.DeclaredNamed || p.NamedBinding == nil ||
 			(p.NamedBinding.Scope() != "skill" && p.NamedBinding.Scope() != "game") ||
 			(p.NamedBinding.Scope() == "skill" && (skill == "" || p.NamedBinding.SkillKey() != skill)) {
@@ -376,13 +381,13 @@ func (r GenericRegistry) ValidDeclaredScope(instructions []GenericInstr, skill s
 	return true
 }
 
-func (r GenericRegistry) ReadDependencies(id GenericProgramID) []GenericInstr {
-	if int(id) >= len(r.Programs) {
+func (r programStore) readDependencies(id GenericProgramID) []GenericInstr {
+	if int(id) >= len(r.programs) {
 		return nil
 	}
-	return r.InstructionDependencies(r.Programs[id].Instr, r.Programs[id].NamedBinding)
+	return r.instructionDependencies(r.programs[id].Instr, r.programs[id].NamedBinding)
 }
-func (r GenericRegistry) InstructionDependencies(instructions []GenericInstr, own *NamedBinding) []GenericInstr {
+func (r programStore) instructionDependencies(instructions []GenericInstr, own *NamedBinding) []GenericInstr {
 	var out []GenericInstr
 	seen := make(map[GenericProgramID]bool)
 	var visit func([]GenericInstr, *NamedBinding)
@@ -396,9 +401,9 @@ func (r GenericRegistry) InstructionDependencies(instructions []GenericInstr, ow
 			}
 			if in.Op == GenericOpRef {
 				id := GenericProgramID(in.RefIndex)
-				if !seen[id] && int(id) < len(r.Programs) {
+				if !seen[id] && int(id) < len(r.programs) {
 					seen[id] = true
-					p := r.Programs[id]
+					p := r.programs[id]
 					visit(p.Instr, p.NamedBinding)
 				}
 			}
@@ -408,29 +413,29 @@ func (r GenericRegistry) InstructionDependencies(instructions []GenericInstr, ow
 	return out
 }
 
-func (r GenericRegistry) FoldStatic(id GenericProgramID) (float64, bool) {
-	if int(id) >= len(r.Programs) || len(r.ReadDependencies(id)) != 0 {
+func (r programStore) foldStatic(id GenericProgramID) (float64, bool) {
+	if int(id) >= len(r.programs) || len(r.readDependencies(id)) != 0 {
 		return 0, false
 	}
 	value, err := r.eval(id, &GenericEvalContext{}, true, 1, new(int))
 	return value, err == nil
 }
 
-func (r GenericRegistry) FoldInstructions(instr []GenericInstr) (float64, bool) {
-	if len(instr) == 0 || len(r.InstructionDependencies(instr, nil)) != 0 {
+func (r programStore) foldInstructions(instr []GenericInstr) (float64, bool) {
+	if len(instr) == 0 || len(r.instructionDependencies(instr, nil)) != 0 {
 		return 0, false
 	}
-	value, err := r.EvaluateInstructions(instr, GenericEvalContext{}, true)
+	value, err := r.evaluateInstructions(instr, GenericEvalContext{}, true)
 	return value, err == nil
 }
 
-func (r GenericRegistry) EvaluateInstructions(instr []GenericInstr, ctx GenericEvalContext, static bool) (float64, error) {
-	if len(r.Programs) >= MaxGenericPrograms {
+func (r programStore) evaluateInstructions(instr []GenericInstr, ctx GenericEvalContext, static bool) (float64, error) {
+	if len(r.programs) >= MaxGenericPrograms {
 		return 0, errGenericProgramLimit
 	}
 	clone := r
-	clone.Programs = make([]GenericProgram, len(r.Programs)+1)
-	copy(clone.Programs, r.Programs)
-	clone.Programs[len(r.Programs)] = GenericProgram{Key: "internal:constant", Instr: instr}
-	return clone.eval(GenericProgramID(len(r.Programs)), &ctx, static, 1, new(int))
+	clone.programs = make([]GenericProgram, len(r.programs)+1)
+	copy(clone.programs, r.programs)
+	clone.programs[len(r.programs)] = GenericProgram{Key: "internal:constant", Instr: instr}
+	return clone.eval(GenericProgramID(len(r.programs)), &ctx, static, 1, new(int))
 }

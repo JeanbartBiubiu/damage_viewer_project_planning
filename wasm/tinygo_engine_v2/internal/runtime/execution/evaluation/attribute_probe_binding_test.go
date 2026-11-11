@@ -18,11 +18,11 @@ import (
 )
 
 func TestAttributeProbeUniqueProviderOrderAndReadAssociation(t *testing.T) {
-	state := attributeFixture{formulas: formula.GenericRegistry{Programs: []formula.GenericProgram{
+	state := attributeFixture{formulas: fixtureFormulaLibrary([]formula.GenericProgram{
 		{Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadProviderState, ReadKey: "count"}}},
 		{Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadProviderTargetState, ReadKey: "count"}}},
 		{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 2}}},
-	}}}
+	})}
 	var resolver effectpkg.AttributeResolver
 	for _, item := range []struct {
 		key, owner, ref, target string
@@ -78,11 +78,11 @@ func TestAttributeProbeUniqueProviderOrderAndReadAssociation(t *testing.T) {
 
 func TestAttributeProbeBoundZeroGuardsDifferentLayoutsAndValueSemantics(t *testing.T) {
 	layout := attribute.NewLayout([]string{"dep", "speed"})
-	registry := formula.GenericRegistry{Programs: []formula.GenericProgram{{Instr: []formula.GenericInstr{
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{{Instr: []formula.GenericInstr{
 		{Op: formula.GenericOpRead, ReadKind: formula.ReadSourceAttr, ReadKey: "dep.resolved"},
 		{Op: formula.GenericOpRead, ReadKind: formula.ReadTargetAttr, ReadKey: "dep.current"}, {Op: formula.GenericOpAdd},
-	}}}}
-	registry.BindAttributeLayout(layout)
+	}}})
+	fixtureBindLayout(&registry, layout)
 	state := attributeFixture{formulas: registry}
 	var resolver effectpkg.AttributeResolver
 	resolver.MountCompiledModifierOwned("source", "buff", planbundle.CompiledModifier{Kind: "attribute", Target: "speed", HasValue: true, ValuePolicy: "add"})
@@ -138,7 +138,7 @@ func TestAttributeProbeBoundZeroGuardsDifferentLayoutsAndValueSemantics(t *testi
 func TestAttributeProbeUnboundExtraAttributeRetainsKeyLookup(t *testing.T) {
 	state, resolver := memoTestResolver(formula.GenericInstr{Op: formula.GenericOpRead, ReadKind: formula.ReadTargetAttr, ReadKey: "extra.current"})
 	layout := attribute.NewLayout([]string{"speed"})
-	state.formulas.BindAttributeLayout(layout)
+	fixtureBindLayout(&state.formulas, layout)
 	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"speed": authoringSlot(100)}, layout)
 	ctx := formula.GenericEvalContext{StrictReads: true, TargetAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{"aaa": {Current: 99}, "extra": {Current: 4}})}
 	if out, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, nil); err != nil || out.At("speed").Resolved != 104 {
@@ -155,11 +155,11 @@ func TestAttributeProbeUnboundExtraAttributeRetainsKeyLookup(t *testing.T) {
 }
 
 func TestAttributeProbeNamedTargetActorDirectionAndPresence(t *testing.T) {
-	var registry formula.GenericRegistry
+	var registry formula.Library
 	definition := formuladefinition.FromExpr("target_values", "probe_skill", model.GenericFormulaExpr{Op: "add", Args: []model.GenericFormulaExpr{{Op: "read", Path: "source.attr.dep.base"}, {Op: "read", Path: "target.attr.dep.current"}}}, nil)
-	formula.CompileDeclaredNamedFormulas([]model.NamedFormula{definition}, []string{"dep", "speed"}, &registry, func(code model.GenericErrCode, path, message, ref string) { t.Fatal(code, path, message) })
+	fixtureCompileDeclaredNamed([]model.NamedFormula{definition}, []string{"dep", "speed"}, &registry, func(code model.GenericErrCode, path, message, ref string) { t.Fatal(code, path, message) })
 	layout := attribute.NewLayout([]string{"dep", "speed"})
-	registry.BindAttributeLayout(layout)
+	fixtureBindLayout(&registry, layout)
 	state := attributeFixture{formulas: registry, compiled: planbundle.CompiledSession{AttributeDerivations: []planbundle.CompiledAttributeDerivation{{CombatantKey: "target", AttributeKey: "speed", ValuePolicy: "set", ValueType: "DECIMAL"}}}}
 	var resolver effectpkg.AttributeResolver
 	source := attribute.FromMap(map[string]model.AttributeSlotDef{"dep": {Base: 2, Current: 3, Max: 10, Resolved: 2}}, layout)

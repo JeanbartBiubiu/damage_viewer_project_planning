@@ -109,7 +109,7 @@ func finalizeStateOnExpire(ctx *genericCompileContext) {
 			}
 			for _, operation := range ctx.session.Operations[int(field.OnExpireStart) : int(field.OnExpireStart)+int(field.OnExpireCount)] {
 				valid := operation.Operation == "shield" && operation.Target == "self" && operation.HasAmount && operation.HasShieldLifecycleProvider && !operation.HasCondition && !operation.HasShieldDuration
-				for _, read := range ctx.session.Formulas.ReadDependencies(operation.AmountProgram) {
+				for _, read := range ctx.formulas.ReadDependencies(operation.AmountProgram) {
 					valid = valid && read.ReadKind == formula.ReadSourceAttr && read.ReadKey == "hp.max"
 				}
 				if !valid {
@@ -135,7 +135,7 @@ func finalizeStateOnExpire(ctx *genericCompileContext) {
 }
 
 func sameExpiryAmount(a, b formula.GenericProgramID, ctx *genericCompileContext) bool {
-	left, right := ctx.session.Formulas.Programs[a].Instr, ctx.session.Formulas.Programs[b].Instr
+	left, right := ctx.formulas.Instructions(formula.GenericProgramID(a)), ctx.formulas.Instructions(formula.GenericProgramID(b))
 	if len(left) != len(right) {
 		return false
 	}

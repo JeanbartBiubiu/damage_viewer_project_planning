@@ -10,7 +10,7 @@ import (
 	"tinygo_engine_v2/internal/testkit/formuladefinition"
 )
 
-func boundProgram(t *testing.T, lazy bool) (GenericRegistry, *inputbinding.Plan) {
+func boundProgram(t *testing.T, lazy bool) (programStore, *inputbinding.Plan) {
 	t.Helper()
 	binding := expression.Binding{Kind: "context", ContextKey: "amount"}
 	input := map[string]any{"key": "amount", "binding": map[string]any{"kind": "context", "contextKey": "amount"}}
@@ -27,7 +27,7 @@ func boundProgram(t *testing.T, lazy bool) (GenericRegistry, *inputbinding.Plan)
 	if issue != nil {
 		t.Fatal(issue)
 	}
-	return GenericRegistry{Programs: []GenericProgram{{Key: "bound", Authored: program}}}, plan
+	return programStore{programs: []GenericProgram{{Key: "bound", Authored: program}}}, plan
 }
 
 func TestBoundEvaluationMatchesFrozenContextReads(t *testing.T) {
@@ -39,8 +39,13 @@ func TestBoundEvaluationMatchesFrozenContextReads(t *testing.T) {
 			if issue != nil {
 				t.Fatal(issue)
 			}
-			want, wantErr := registry.Eval(0, GenericEvalContext{ReadInput: reader})
-			got, gotErr := registry.EvalBound(0, plan, values)
+			expected, expectedIssue := registry.programs[0].Authored.Evaluate(reader)
+			want := expected.Value
+			var wantErr error
+			if expectedIssue != nil {
+				wantErr = &AuthoredEvaluationError{Issue: *expectedIssue, ProgramKey: "bound"}
+			}
+			got, gotErr := registry.evalBound(0, plan, values)
 			if math.Float64bits(want) != math.Float64bits(got) || !reflect.DeepEqual(wantErr, gotErr) || values[0].Number != scalar {
 				t.Fatal(lazy, scalar, got, gotErr, want, wantErr)
 			}
@@ -53,14 +58,14 @@ func TestBoundEvaluationUsesSharedValidationAndStackInputs(t *testing.T) {
 	if count := testing.AllocsPerRun(100, func() {
 		var values [8]inputbinding.Value
 		values[0].Number = inputbinding.Scalar{Value: 3, Present: true}
-		got, err := registry.EvalBound(0, plan, values[:1])
+		got, err := registry.evalBound(0, plan, values[:1])
 		if err != nil || got != 3 {
 			t.Fatal(got, err)
 		}
 	}); count != 0 {
 		t.Fatal("bound stack inputs allocated", count)
 	}
-	charge := registry.Programs[0].Authored.Stats().Instructions
+	charge := registry.programs[0].Authored.Stats().Instructions
 	spent := MaxGenericTotalInstructions - charge
 	if _, err := registry.programForEvaluation(0, 1, &spent); err != nil || spent != MaxGenericTotalInstructions {
 		t.Fatal("incorrect shared charge", spent, err)
@@ -68,15 +73,15 @@ func TestBoundEvaluationUsesSharedValidationAndStackInputs(t *testing.T) {
 	if _, err := registry.programForEvaluation(0, 1, &spent); err == nil || spent != MaxGenericTotalInstructions {
 		t.Fatal("instruction budget bypassed", spent, err)
 	}
-	if _, err := registry.EvalBound(1, plan, nil); err == nil {
+	if _, err := registry.evalBound(1, plan, nil); err == nil {
 		t.Fatal("out of range program accepted")
 	}
-	registry.Programs[0].Instr = []GenericInstr{{Op: GenericOpConst, Value: 1}}
-	if _, err := registry.EvalBound(0, plan, nil); err == nil {
+	registry.programs[0].Instr = []GenericInstr{{Op: GenericOpConst, Value: 1}}
+	if _, err := registry.evalBound(0, plan, nil); err == nil {
 		t.Fatal("mixed authored program accepted")
 	}
-	registry.Programs[0].Instr = nil
-	if _, err := registry.EvalBound(0, nil, nil); err == nil {
+	registry.programs[0].Instr = nil
+	if _, err := registry.evalBound(0, nil, nil); err == nil {
 		t.Fatal("missing binding accepted")
 	}
 }

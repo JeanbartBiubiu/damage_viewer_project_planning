@@ -206,7 +206,7 @@ func TestCompileGroupedDamageBandRejectsMixedPoliciesAndHiddenAmountEvenWhenFals
 func TestCompileGroupedDamageDependencyWalkTraversesNamedRefs(t *testing.T) {
 	for _, condition := range []bool{false, true} {
 		ctx := &genericCompileContext{collector: newGenericCollector("s", "r"), session: &plan.CompiledSession{MultiplierGroupCount: 1}}
-		ctx.session.Formulas = formula.GenericRegistry{Programs: []formula.GenericProgram{{Key: "deep", Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadDamageAmount}}}, {Key: "outer", Instr: []formula.GenericInstr{{Op: formula.GenericOpRef, RefIndex: 0}}}, {Key: "one", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1.2}}}}}
+		ctx.formulas = fixtureFormulaBuilder([]formula.GenericProgram{{Key: "deep", Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadDamageAmount}}}, {Key: "outer", Instr: []formula.GenericInstr{{Op: formula.GenericOpRef, RefIndex: 0}}}, {Key: "one", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1.2}}}})
 		a := plan.CompiledModifier{ModifierKey: "group", Kind: "pipeline", Command: "damage", Stage: "outgoing_pre_mitigation", Channel: "all_damage", Bucket: "all_instances", ValuePolicy: "multiply", HasMultiplierGroup: true, HasValue: true, ValueProgram: 2}
 		b := a
 		b.ModifierKey = "neighbor"

@@ -27,103 +27,103 @@ func authoredRegistryProgram(t *testing.T, stages, inputs int) *expression.Progr
 	return program
 }
 
-func TestGenericRegistryAuthoredAndLegacyMutuallyExclusiveSameIdentityAndClone(t *testing.T) {
+func TestProgramStoreAuthoredAndLegacyMutuallyExclusiveSameIdentityAndClone(t *testing.T) {
 	p := authoredRegistryProgram(t, 1, 0)
-	var reg GenericRegistry
-	if _, err := reg.Register(GenericProgram{Key: "mixed", Authored: p, Instr: registryProgramInstructions(1)}); err == nil {
+	var reg programStore
+	if _, err := reg.register(GenericProgram{Key: "mixed", Authored: p, Instr: registryProgramInstructions(1)}); err == nil {
 		t.Fatal("two content kinds accepted")
 	}
-	if len(reg.Programs) != 0 || reg.Index != nil {
+	if len(reg.programs) != 0 || reg.index != nil {
 		t.Fatal("failed registration consumed id0")
 	}
-	id, err := reg.Register(GenericProgram{Key: "authored", Authored: p, BindingBytes: 91})
+	id, err := reg.register(GenericProgram{Key: "authored", Authored: p, BindingBytes: 91})
 	if err != nil || id != 0 {
 		t.Fatal(id, err)
 	}
-	id, err = reg.Register(registryConstProgram("legacy", 2))
+	id, err = reg.register(registryConstProgram("legacy", 2))
 	if err != nil || id != 1 {
 		t.Fatal(id, err)
 	}
 	if reg.instructionCount != 3 || reg.stageCount != 1 {
 		t.Fatal("separate budget created", reg.instructionCount, reg.stageCount)
 	}
-	if id, err := reg.Register(GenericProgram{Key: "authored", Authored: p, BindingBytes: 91}); err != nil || id != 0 {
+	if id, err := reg.register(GenericProgram{Key: "authored", Authored: p, BindingBytes: 91}); err != nil || id != 0 {
 		t.Fatal(id, err)
 	}
-	before := *reg.CloneForRun()
-	if _, err := reg.Register(GenericProgram{Key: "authored", Authored: authoredRegistryProgram(t, 1, 0), BindingBytes: 91}); !errors.Is(err, errGenericKeyConflict) {
+	before := *reg.cloneForRun()
+	if _, err := reg.register(GenericProgram{Key: "authored", Authored: authoredRegistryProgram(t, 1, 0), BindingBytes: 91}); !errors.Is(err, errGenericKeyConflict) {
 		t.Fatal("same key replaced immutable program", err)
 	}
 	registryAssertUnchanged(t, reg, before)
-	clone := reg.CloneForRun()
-	if clone.Programs[0].Authored != p {
+	clone := reg.cloneForRun()
+	if clone.programs[0].Authored != reg.programs[0].Authored || clone.programs[0].Authored == p {
 		t.Fatal("run clone copied or mutated authored content")
 	}
-	if _, err := clone.Register(registryConstProgram("temporary", 3)); err != nil {
+	if _, err := clone.register(registryConstProgram("temporary", 3)); err != nil {
 		t.Fatal(err)
 	}
 	registryAssertUnchanged(t, reg, before)
-	value, err := reg.Eval(0, GenericEvalContext{})
+	value, err := reg.evaluate(0, GenericEvalContext{})
 	if err != nil || value != 1 {
 		t.Fatal(value, err)
 	}
 }
 
-func TestGenericRegistryMixedProgramAndInstructionBoundaries(t *testing.T) {
+func TestProgramStoreMixedProgramAndInstructionBoundaries(t *testing.T) {
 	program := authoredRegistryProgram(t, 1, 0)
-	var reg GenericRegistry
+	var reg programStore
 	for i := 0; i < MaxGenericPrograms; i++ {
 		candidate := registryConstProgram(strconv.Itoa(i), 1)
 		if i%2 == 0 {
 			candidate = GenericProgram{Key: candidate.Key, Authored: program}
 		}
-		if id, err := reg.Register(candidate); err != nil || int(id) != i {
+		if id, err := reg.register(candidate); err != nil || int(id) != i {
 			t.Fatal(i, id, err)
 		}
 	}
-	before := *reg.CloneForRun()
-	if _, err := reg.Register(GenericProgram{Key: "next", Authored: program}); !errors.Is(err, errGenericProgramLimit) {
+	before := *reg.cloneForRun()
+	if _, err := reg.register(GenericProgram{Key: "next", Authored: program}); !errors.Is(err, errGenericProgramLimit) {
 		t.Fatal(err)
 	}
 	registryAssertUnchanged(t, reg, before)
-	var instr GenericRegistry
+	var instr programStore
 	for i := 0; i < 511; i++ {
-		if _, err := instr.Register(GenericProgram{Key: strconv.Itoa(i), Instr: registryProgramInstructions(512)}); err != nil {
+		if _, err := instr.register(GenericProgram{Key: strconv.Itoa(i), Instr: registryProgramInstructions(512)}); err != nil {
 			t.Fatal(err)
 		}
 	}
-	if _, err := instr.Register(GenericProgram{Key: "authored", Authored: program}); err != nil {
+	if _, err := instr.register(GenericProgram{Key: "authored", Authored: program}); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := instr.Register(GenericProgram{Key: "last", Instr: registryProgramInstructions(510)}); err != nil {
+	if _, err := instr.register(GenericProgram{Key: "last", Instr: registryProgramInstructions(510)}); err != nil {
 		t.Fatal(err)
 	}
 	if instr.instructionCount != MaxGenericTotalInstructions {
 		t.Fatal(instr.instructionCount)
 	}
-	before = *instr.CloneForRun()
-	if _, err := instr.Register(GenericProgram{Key: "more", Authored: program}); !errors.Is(err, errGenericTotalLimit) {
+	before = *instr.cloneForRun()
+	if _, err := instr.register(GenericProgram{Key: "more", Authored: program}); !errors.Is(err, errGenericTotalLimit) {
 		t.Fatal(err)
 	}
 	registryAssertUnchanged(t, instr, before)
 }
 
-func TestGenericRegistryAuthoredResultsAndIsolatedInputCounterBoundaries(t *testing.T) {
+func TestProgramStoreAuthoredResultsAndIsolatedInputCounterBoundaries(t *testing.T) {
 	program := authoredRegistryProgram(t, 64, 0)
-	var reg GenericRegistry
-	if _, err := reg.Register(registryConstProgram("legacy", 2)); err != nil {
+	var reg programStore
+	if _, err := reg.register(registryConstProgram("legacy", 2)); err != nil {
 		t.Fatal(err)
 	}
 	for i := 0; i < 1024; i++ {
-		if _, err := reg.Register(GenericProgram{Key: strconv.Itoa(i), Authored: program}); err != nil {
+		if _, err := reg.register(GenericProgram{Key: strconv.Itoa(i), Authored: program}); err != nil {
 			t.Fatal(i, err)
 		}
 	}
 	if reg.stageCount != MaxGenericTotalStages {
 		t.Fatal(reg.stageCount)
 	}
-	before := *reg.CloneForRun()
-	if _, err := reg.Register(GenericProgram{Key: "one-more-result", Authored: authoredRegistryProgram(t, 1, 0)}); !errors.Is(err, errGenericStageLimit) {
+	before := *reg.cloneForRun()
+	if _, err := reg.register(GenericProgram{Key: "one-more-result", Authored: authoredRegistryProgram(t, 1, 0)}); !errors.Is(err, errGenericStageLimit) {
 		t.Fatal(err)
 	}
 	registryAssertUnchanged(t, reg, before)
@@ -136,13 +136,13 @@ func TestGenericRegistryAuthoredResultsAndIsolatedInputCounterBoundaries(t *test
 		t.Fatal(err)
 	}
 	inputs := authoredRegistryProgram(t, 1, 64)
-	var counters GenericRegistry
-	if _, err := counters.Register(GenericProgram{Key: "inputs", Authored: inputs}); err != nil || counters.inputCount != 64 {
+	var counters programStore
+	if _, err := counters.register(GenericProgram{Key: "inputs", Authored: inputs}); err != nil || counters.inputCount != 64 {
 		t.Fatal(err, counters.inputCount)
 	}
 }
 
-func TestGenericRegistryAuthoredBindingsShareMemoryBudgetAndFailureIsAtomic(t *testing.T) {
+func TestProgramStoreAuthoredBindingsShareMemoryBudgetAndFailureIsAtomic(t *testing.T) {
 	program := authoredRegistryProgram(t, 1, 1)
 	candidate := GenericProgram{Key: "authored", Authored: program}
 	bytes, err := genericProgramMemoryBytes(candidate)
@@ -150,24 +150,24 @@ func TestGenericRegistryAuthoredBindingsShareMemoryBudgetAndFailureIsAtomic(t *t
 		t.Fatal(err)
 	}
 	candidate.BindingBytes = uint64(MaxGenericFormulaMemoryBytes) - bytes
-	var reg GenericRegistry
-	if _, err := reg.Register(candidate); err != nil || reg.memoryBytes != MaxGenericFormulaMemoryBytes {
+	var reg programStore
+	if _, err := reg.register(candidate); err != nil || reg.memoryBytes != MaxGenericFormulaMemoryBytes {
 		t.Fatal(err, reg.memoryBytes)
 	}
-	before := *reg.CloneForRun()
-	if _, err := reg.Register(registryConstProgram("legacy", 1)); !errors.Is(err, errGenericMemoryLimit) {
+	before := *reg.cloneForRun()
+	if _, err := reg.register(registryConstProgram("legacy", 1)); !errors.Is(err, errGenericMemoryLimit) {
 		t.Fatal(err)
 	}
 	registryAssertUnchanged(t, reg, before)
 	candidate.BindingBytes++
-	var empty GenericRegistry
-	if _, err := empty.Register(candidate); !errors.Is(err, errGenericMemoryLimit) {
+	var empty programStore
+	if _, err := empty.register(candidate); !errors.Is(err, errGenericMemoryLimit) {
 		t.Fatal(err)
 	}
-	if empty.Index != nil || len(empty.Programs) != 0 || empty.memoryBytes != 0 {
+	if empty.index != nil || len(empty.programs) != 0 || empty.memoryBytes != 0 {
 		t.Fatal("memory failure consumed state")
 	}
-	if id, err := empty.Register(registryConstProgram("retry", 7)); err != nil || id != 0 {
+	if id, err := empty.register(registryConstProgram("retry", 7)); err != nil || id != 0 {
 		t.Fatal(id, err)
 	}
 }

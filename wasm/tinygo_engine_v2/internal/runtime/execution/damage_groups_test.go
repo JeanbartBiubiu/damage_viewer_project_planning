@@ -142,7 +142,7 @@ func TestGroupedDamageExactExpiryBeforeCleanupAndIndependentBandPosition(t *test
 		mod.ModifierKey = "finite"
 		mod.ValueProgram = 0
 		// 注册一个真实常量程序，期限由实例决定，不能以缺少清理事件继续参与。
-		id, regErr := s.formulas.Register(formula.GenericProgram{Key: "test/finite", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1.2}}})
+		id, regErr := fixtureRegister(&s.formulas, formula.GenericProgram{Key: "test/finite", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1.2}}})
 		if regErr != nil {
 			t.Fatal(regErr)
 		}

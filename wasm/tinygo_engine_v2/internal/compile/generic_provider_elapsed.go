@@ -23,7 +23,7 @@ func validateProviderElapsedReads(ctx *genericCompileContext) {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, path, "MOMENT_EVALUATION requires a finite single-layer source_target replace lifecycle without ticks", provider.ProviderKey)
 				continue
 			}
-			for _, read := range ctx.session.Formulas.ReadDependencies(contribution.StrengthProgram) {
+			for _, read := range ctx.formulas.ReadDependencies(contribution.StrengthProgram) {
 				if read.ReadKind != formula.ReadProviderElapsedMs {
 					ctx.collector.addError(model.GenericErrFormulaTypeError, path, "MOMENT_EVALUATION strength may read only its own provider.elapsed_ms and frozen static values", contribution.ResultRef)
 				}
@@ -36,13 +36,13 @@ func validateProviderElapsedReads(ctx *genericCompileContext) {
 				continue
 			}
 			usesTime := false
-			for _, read := range ctx.session.Formulas.ReadDependencies(modifier.ValueProgram) {
+			for _, read := range ctx.formulas.ReadDependencies(modifier.ValueProgram) {
 				usesTime = usesTime || read.ReadKind == formula.ReadProviderElapsedMs
 			}
 			if !usesTime {
 				continue
 			}
-			path := ctx.session.Formulas.Programs[modifier.ValueProgram].Key
+			path := ctx.formulas.Info(formula.GenericProgramID(modifier.ValueProgram)).Key
 			lc := provider.Lifecycle
 			if lc == nil || !lc.HasDuration || lc.MaxStacks != 1 || lc.RefreshPolicy != model.RefreshPolicyReplace || !lc.AllowsSourceTargetReuse() {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, path, "provider.elapsed_ms requires a finite single-layer source_target replace lifecycle", provider.ProviderKey)
@@ -52,11 +52,12 @@ func validateProviderElapsedReads(ctx *genericCompileContext) {
 			allowed[modifier.ValueProgram] = true
 		}
 	}
-	for i, program := range ctx.session.Formulas.Programs {
+	for i := 0; i < ctx.formulas.Count(); i++ {
+		program := ctx.formulas.Info(formula.GenericProgramID(i))
 		if program.DeclaredNamed {
 			continue
 		} // declaration/preflight has no execution owner; every consuming wrapper is checked below.
-		for _, read := range ctx.session.Formulas.ReadDependencies(formula.GenericProgramID(i)) {
+		for _, read := range ctx.formulas.ReadDependencies(formula.GenericProgramID(i)) {
 			if read.ReadKind == formula.ReadProviderElapsedMs && !allowed[formula.GenericProgramID(i)] {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, program.Key, "provider.elapsed_ms requires a finite-lifecycle attribute modifier or explicit MOMENT_EVALUATION ordinary slow strength", "provider.elapsed_ms")
 			}

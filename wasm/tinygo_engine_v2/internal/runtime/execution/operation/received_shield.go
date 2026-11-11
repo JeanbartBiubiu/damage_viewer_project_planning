@@ -23,7 +23,7 @@ func (f *calculation) applyReceivedShieldModifiers(targetKey string, amount floa
 			context.HasProviderContext, context.ProviderState, context.ProviderTargetState = owned.HasProviderContext, owned.ProviderState, owned.ProviderTargetState
 		}
 		if modifier.HasCondition {
-			condition, err := f.executor.formulas.EvalContext(modifier.ConditionProg, &context)
+			condition, err := f.executor.formulas.Evaluation.EvalContext(modifier.ConditionProg, &context)
 			if err != nil {
 				return 0, f.preserveFormulaIssue(err, f.vampError(err.Error(), "shield.modifiers.condition", modifier.ModifierKey))
 			}
@@ -31,7 +31,7 @@ func (f *calculation) applyReceivedShieldModifiers(targetKey string, amount floa
 				continue
 			}
 		}
-		value, err := f.executor.formulas.EvalContext(modifier.ValueProgram, &context)
+		value, err := f.executor.formulas.Evaluation.EvalContext(modifier.ValueProgram, &context)
 		if err != nil {
 			return 0, f.preserveFormulaIssue(err, f.vampError(err.Error(), "shield.modifiers.value", modifier.ModifierKey))
 		}

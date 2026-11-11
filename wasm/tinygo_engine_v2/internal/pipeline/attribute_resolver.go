@@ -45,22 +45,22 @@ type AttributeResolverAPI interface {
 	// MountCompiledModifierOwned 按明确拥有者与供值器身份挂载修正，双方同名引用互不覆盖。
 	MountCompiledModifierOwned(ownerCombatantKey, providerRef string, mod planbundle.CompiledModifier)
 	// MountProviderModifiers 从指定拥有者与供值器的编译定义挂载属性修正，不直接发布角色数值。
-	MountProviderModifiers(ownerCombatantKey, providerRef string, provider planbundle.CompiledProvider, formulas formula.GenericRegistry)
+	MountProviderModifiers(ownerCombatantKey, providerRef string, provider planbundle.CompiledProvider, formulas formula.Library)
 	// MountSnapshotModifierOwned 挂载已冻结数值的修正，不在后续结算中重新求其施加值。
 	MountSnapshotModifierOwned(ownerCombatantKey, providerRef string, mod planbundle.CompiledModifier, value float64)
 	// MountedModifiers 借用当前不可变修正计划，只供读取，禁止修改切片内容。
 	MountedModifiers() []MountedAttributeModifier
 	// ResolveAttributes 使用给定只读上下文结算新属性表，不修改输入表。
-	ResolveAttributes(attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry) (attribute.Table, error)
+	ResolveAttributes(attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.Library) (attribute.Table, error)
 	// ResolveAttributesWithProviderContext 按实际挂载获取供值上下文，返回新属性表；求值或数值错误原样返回。
 	ResolveAttributesWithProviderContext(
 		attrs attribute.Table,
 		evalCtx formula.GenericEvalContext,
-		formulas formula.GenericRegistry,
+		formulas formula.Library,
 		providerContext ProviderFormulaContextFunc,
 	) (attribute.Table, error)
 	// ResolveDerivedAttribute 结算指定派生属性槽，保留属性阶段及分组规则，不发布角色状态。
-	ResolveDerivedAttribute(attributeKey string, slot model.AttributeSlotDef, value float64, attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext ProviderFormulaContextFunc) (model.AttributeSlotDef, error)
+	ResolveDerivedAttribute(attributeKey string, slot model.AttributeSlotDef, value float64, attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.Library, providerContext ProviderFormulaContextFunc) (model.AttributeSlotDef, error)
 	// SameMounts 核对是否共享同一修正计划；两个空计划视为相同。
 	SameMounts(other AttributeResolver) bool
 	// UnmountProvider 移除默认拥有者下指定供值器的修正，不修改其他拥有者。
@@ -149,7 +149,7 @@ func ModifierTargetCombatantSelector(target string) string {
 	}
 }
 
-func (r *AttributeResolver) MountProviderModifiers(ownerCombatantKey, providerRef string, provider planbundle.CompiledProvider, formulas formula.GenericRegistry) {
+func (r *AttributeResolver) MountProviderModifiers(ownerCombatantKey, providerRef string, provider planbundle.CompiledProvider, formulas formula.Library) {
 	for _, mod := range provider.Modifiers {
 		r.MountCompiledModifierOwned(ownerCombatantKey, providerRef, mod)
 	}
@@ -276,14 +276,14 @@ func (r *AttributeResolver) setMounts(mounts []MountedAttributeModifier) {
 	}
 }
 
-func (r AttributeResolver) ResolveAttributes(attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry) (attribute.Table, error) {
+func (r AttributeResolver) ResolveAttributes(attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.Library) (attribute.Table, error) {
 	return r.ResolveAttributesWithProviderContext(attrs, evalCtx, formulas, nil)
 }
 
 func (r AttributeResolver) ResolveAttributesWithProviderContext(
 	attrs attribute.Table,
 	evalCtx formula.GenericEvalContext,
-	formulas formula.GenericRegistry,
+	formulas formula.Library,
 	providerContext ProviderFormulaContextFunc,
 ) (attribute.Table, error) {
 	out := attrs.Edit()
@@ -311,7 +311,7 @@ func (r AttributeResolver) ResolveAttributesWithProviderContext(
 	return out.Finish(), nil
 }
 
-func (r AttributeResolver) ResolveDerivedAttribute(attributeKey string, slot model.AttributeSlotDef, value float64, attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext ProviderFormulaContextFunc) (model.AttributeSlotDef, error) {
+func (r AttributeResolver) ResolveDerivedAttribute(attributeKey string, slot model.AttributeSlotDef, value float64, attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.Library, providerContext ProviderFormulaContextFunc) (model.AttributeSlotDef, error) {
 	resolved, err := r.resolveAttributeValue(attributeKey, value, attrs, evalCtx, formulas, providerContext)
 	if err != nil {
 		return model.AttributeSlotDef{}, err
@@ -320,7 +320,7 @@ func (r AttributeResolver) ResolveDerivedAttribute(attributeKey string, slot mod
 	return slot, nil
 }
 
-func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float64, attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext ProviderFormulaContextFunc) (float64, error) {
+func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float64, attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.Library, providerContext ProviderFormulaContextFunc) (float64, error) {
 	resolved := base
 	complementProduct, hasComplement := 1.0, false
 	totalProduct := 1.0
@@ -354,7 +354,7 @@ func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float
 		}
 		value, err := mod.SnapshotValue, error(nil)
 		if !mod.HasSnapshot {
-			value, err = formulas.EvalContext(mod.ValueProgram, &modCtx)
+			value, err = formulas.Evaluation.EvalContext(mod.ValueProgram, &modCtx)
 		}
 		if err != nil {
 			if mod.HasMultiplierGroup {

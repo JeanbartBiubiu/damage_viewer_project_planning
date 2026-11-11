@@ -75,7 +75,7 @@ func compileProviderProcesses(provider model.ProviderDefinition, path string, ct
 			ctx.currentProcessMoment = &def.Cooldown.StartMoment
 			program, has := compileProcessFormula(&def.Cooldown.DurationMs, cp+".durationMs", !def.Cooldown.RoundPositiveMs, def.Cooldown.RoundPositiveMs, ctx)
 			if def.Cooldown.RoundPositiveMs && has {
-				if raw, folded := ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[program].Instr); folded && (!isFiniteFloat(raw) || math.Max(1, math.Round(raw)) >= 9223372036854775808.0) {
+				if raw, folded := ctx.formulas.FoldInstructions(ctx.formulas.Instructions(formula.GenericProgramID(program))); folded && (!isFiniteFloat(raw) || math.Max(1, math.Round(raw)) >= 9223372036854775808.0) {
 					ctx.collector.addError(model.GenericErrFormulaTypeError, cp+".durationMs", "rounded positive cooldown exceeds native time range", "")
 				}
 			}
@@ -95,10 +95,10 @@ func compileProviderProcesses(provider model.ProviderDefinition, path string, ct
 				if op.AbilityRef != "" && op.Operation != "cooldown_change" {
 					ctx.collector.addError(model.GenericErrUnknownRef, opPath+".abilityRef", "process moments cannot invoke abilities", op.AbilityRef)
 				}
-				firstProgram := len(ctx.session.Formulas.Programs)
+				firstProgram := ctx.formulas.Count()
 				compileOperation(op, opPath, providerIndex, ctx)
-				for _, program := range ctx.session.Formulas.Programs[firstProgram:] {
-					validateProcessFormulaContext(program.Instr, program.Key, true, ctx)
+				for program := firstProgram; program < ctx.formulas.Count(); program++ {
+					validateProcessFormulaContext(ctx.formulas.Instructions(formula.GenericProgramID(program)), ctx.formulas.Info(formula.GenericProgramID(program)).Key, true, ctx)
 				}
 				ctx.outputUnitIndex++
 			}
@@ -197,8 +197,8 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 			compiled.ReleaseAtMaximum = *def.ReleaseAtMaximum
 		}
 		if compiled.HasMinimumCharge && compiled.HasMaximumCharge {
-			min, minConst := ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[compiled.MinimumChargeProgram].Instr)
-			max, maxConst := ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[compiled.MaximumChargeProgram].Instr)
+			min, minConst := ctx.formulas.FoldInstructions(ctx.formulas.Instructions(formula.GenericProgramID(compiled.MinimumChargeProgram)))
+			max, maxConst := ctx.formulas.FoldInstructions(ctx.formulas.Instructions(formula.GenericProgramID(compiled.MaximumChargeProgram)))
 			if minConst && maxConst && min > max {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, path+".minimumChargeMs", "minimum charge must not exceed maximum charge", def.StepKey)
 			}
@@ -219,7 +219,7 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 			if !valid {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, path+".maximumAttackCount", "empowered attack count must be a static integer in [1,64]", def.StepKey)
 			} else {
-				value, static := ctx.session.Formulas.FoldStatic(program)
+				value, static := ctx.formulas.FoldStatic(program)
 				if !static || math.IsNaN(value) || math.IsInf(value, 0) || math.Trunc(value) != value || value < 1 || value > 64 {
 					ctx.collector.addError(model.GenericErrFormulaTypeError, path+".maximumAttackCount", "empowered attack count must be a static integer in [1,64]", def.StepKey)
 				} else {
@@ -238,7 +238,7 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 		validateProcessExecutionCount(def.RepeatCount, path+".repeatCount", ctx)
 		if def.RepeatCount != nil && def.IntervalMs == nil {
 			instructions := formula.CompileGenericFormula(*def.RepeatCount, path+".repeatCount", ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
-			if count, folded := ctx.session.Formulas.FoldInstructions(instructions); folded && count > 1 {
+			if count, folded := ctx.formulas.FoldInstructions(instructions); folded && count > 1 {
 				ctx.collector.addError(model.GenericErrMissingRequiredField, path+".intervalMs", "multiple executions require an explicit positive interval", def.StepKey)
 			}
 		}
@@ -259,19 +259,19 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 			compiled.FirstExecutionOffsetProgram, hasFirst = compileProcessWindowFormula(def.FirstExecutionOffsetMs, path+".firstExecutionOffsetMs", false, ctx)
 			compiled.LastExecutionOffsetProgram, hasLast = compileProcessWindowFormula(def.LastExecutionOffsetMs, path+".lastExecutionOffsetMs", false, ctx)
 			if hasFirst && hasLast {
-				first, firstConstant := ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[compiled.FirstExecutionOffsetProgram].Instr)
-				last, lastConstant := ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[compiled.LastExecutionOffsetProgram].Instr)
+				first, firstConstant := ctx.formulas.FoldInstructions(ctx.formulas.Instructions(formula.GenericProgramID(compiled.FirstExecutionOffsetProgram)))
+				last, lastConstant := ctx.formulas.FoldInstructions(ctx.formulas.Instructions(formula.GenericProgramID(compiled.LastExecutionOffsetProgram)))
 				if firstConstant && lastConstant && first > last {
 					ctx.collector.addError(model.GenericErrFormulaTypeError, path+".firstExecutionOffsetMs", "channel first execution must not follow its last execution", def.StepKey)
 				}
 				if hasDuration {
-					duration, durationConstant := ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[compiled.DurationProgram].Instr)
+					duration, durationConstant := ctx.formulas.FoldInstructions(ctx.formulas.Instructions(formula.GenericProgramID(compiled.DurationProgram)))
 					if lastConstant && durationConstant && last > duration {
 						ctx.collector.addError(model.GenericErrFormulaTypeError, path+".lastExecutionOffsetMs", "channel execution window must fit its complete duration", def.StepKey)
 					}
 				}
 				if hasCount {
-					count, countConstant := ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[compiled.ExecutionCountProgram].Instr)
+					count, countConstant := ctx.formulas.FoldInstructions(ctx.formulas.Instructions(formula.GenericProgramID(compiled.ExecutionCountProgram)))
 					if firstConstant && lastConstant && countConstant && (count == 1 && first != last || count > 1 && last-first < count-1) {
 						ctx.collector.addError(model.GenericErrFormulaTypeError, path+".lastExecutionOffsetMs", "channel window must match its count and allow distinct integer execution times", def.StepKey)
 					}
@@ -292,7 +292,7 @@ func compileProcessStep(def model.ProcessStepDefinition, path string, last bool,
 func compileRecastStaticValue(expr *model.GenericFormulaExpr, path string, maximum float64, ctx *genericCompileContext) int64 {
 	program, present := compileProcessFormula(expr, path, true, true, ctx)
 	if present {
-		value, static := ctx.session.Formulas.FoldStatic(program)
+		value, static := ctx.formulas.FoldStatic(program)
 		if static && isFiniteFloat(value) && value >= 1 && value <= maximum && math.Trunc(value) == value {
 			return int64(value)
 		}
@@ -304,7 +304,7 @@ func compileRecastStaticValue(expr *model.GenericFormulaExpr, path string, maxim
 func compileProcessWindowFormula(expression *model.GenericFormulaExpr, path string, positive bool, ctx *genericCompileContext) (formula.GenericProgramID, bool) {
 	program, present := compileProcessFormula(expression, path, true, positive, ctx)
 	if present {
-		if value, folded := ctx.session.Formulas.FoldInstructions(ctx.session.Formulas.Programs[program].Instr); folded && value > 9007199254740991 {
+		if value, folded := ctx.formulas.FoldInstructions(ctx.formulas.Instructions(formula.GenericProgramID(program))); folded && value > 9007199254740991 {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, path, "channel window milliseconds must be safe integers", "")
 		}
 	}
@@ -316,7 +316,7 @@ func validateProcessExecutionCount(expression *model.GenericFormulaExpr, path st
 		return
 	}
 	instructions := formula.CompileGenericFormula(*expression, path, ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
-	if count, folded := ctx.session.Formulas.FoldInstructions(instructions); folded && (count < 1 || count > 64 || count != math.Trunc(count)) {
+	if count, folded := ctx.formulas.FoldInstructions(instructions); folded && (count < 1 || count > 64 || count != math.Trunc(count)) {
 		ctx.collector.addError(model.GenericErrFormulaTypeError, path, "finite execution count must be an integer in [1,64]", "")
 	}
 }
@@ -327,7 +327,7 @@ func compileProcessFormula(expr *model.GenericFormulaExpr, path string, duration
 	}
 	instr := formula.CompileGenericFormula(*expr, path, ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
 	validateProcessFormulaContext(instr, path, false, ctx)
-	if value, folded := ctx.session.Formulas.FoldInstructions(instr); folded {
+	if value, folded := ctx.formulas.FoldInstructions(instr); folded {
 		valid := isFiniteFloat(value) && value >= 0
 		if duration {
 			valid = valid && value == math.Trunc(value) && value < 9223372036854775808.0
@@ -347,7 +347,7 @@ func compileProcessFormula(expr *model.GenericFormulaExpr, path string, duration
 
 // 过程没有监听事件或伤害修正上下文；操作输出仅在同一时点操作单元内可读。
 func validateProcessFormulaContext(instr []formula.GenericInstr, path string, allowOutput bool, ctx *genericCompileContext) {
-	instr = ctx.session.Formulas.InstructionDependencies(instr, nil)
+	instr = ctx.formulas.InstructionDependencies(instr, nil)
 	if allowOutput {
 		validateOperationOutputReads(instr, path, ctx)
 	}
@@ -378,7 +378,7 @@ func validateProcessFormulaContext(instr []formula.GenericInstr, path string, al
 }
 
 func validateProcessActualCostReads(instr []formula.GenericInstr, path string, ctx *genericCompileContext) {
-	instr = ctx.session.Formulas.InstructionDependencies(instr, nil)
+	instr = ctx.formulas.InstructionDependencies(instr, nil)
 	for _, item := range instr {
 		if item.Op != formula.GenericOpRead || item.ReadKind != formula.ReadProcessActualCost {
 			continue

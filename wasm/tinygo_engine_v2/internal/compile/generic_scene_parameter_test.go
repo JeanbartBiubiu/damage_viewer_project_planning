@@ -30,7 +30,7 @@ func TestSceneParameterFoldsForStaticFieldsAndApprovedValuesWithoutAbilityContex
 		}
 		*request.Formulas[0].Parameters[0].RuntimeSource.Value = 9
 		request.Formulas[0].Parameters[0].RuntimeSource.Value = model.Float64Ptr(8)
-		if got, err := compiled.Session.Formulas.Eval(0, formula.GenericEvalContext{}); err != nil || got != value {
+		if got, err := compiled.Session.Formulas.Evaluation.Eval(0, formula.GenericEvalContext{}); err != nil || got != value {
 			t.Fatal("compiled session retained a caller-owned value pointer", got, err)
 		}
 		newSession := CompileGeneric(request)

@@ -10,12 +10,12 @@ import (
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
-func complementTestRegistry(values ...float64) formula.GenericRegistry {
-	registry := formula.GenericRegistry{}
+func complementTestRegistry(values ...float64) formula.Library {
+	var programs []formula.GenericProgram
 	for _, value := range values {
-		registry.Programs = append(registry.Programs, formula.GenericProgram{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: value}}})
+		programs = append(programs, formula.GenericProgram{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: value}}})
 	}
-	return registry
+	return fixtureFormulaLibrary(programs)
 }
 
 func complementTestAttrs(key string, base float64) attribute.Table {

@@ -233,8 +233,8 @@ func (bridge cooldownRefundBridge) CooldownAmount(program formula.GenericProgram
 func (bridge gateConditionBridge) DriverGateCondition(program formula.GenericProgramID) (float64, *model.EngineError) {
 	s := bridge.engine
 	source, target := s.combatants[bridge.source], s.combatants[bridge.target]
-	context := formula.GenericEvalContext{StrictReads: s.automatedRun(), SourceAttrs: source.attributesView(), TargetAttrs: target.attributesView(), SourceResources: source.resourceView(), TargetResources: target.resourceView(), AbilityParams: bridge.ability.Params}
-	value, err := s.formulas.EvalContext(program, &context)
+	context := formula.GenericEvalContext{StrictReads: s.automatedRun(), SourceAttrs: source.attributesView(), TargetAttrs: target.attributesView(), SourceResources: source.resourceView(), TargetResources: target.resourceView(), AbilityParams: model.BorrowNumericView(bridge.ability.Params)}
+	value, err := s.formulas.Evaluation.EvalContext(program, &context)
 	if err != nil {
 		return 0, s.evalFormulaError(program, err, bridge.ref)
 	}
@@ -517,7 +517,7 @@ func (bridge driverAttemptBridge) ReadDriverInterval(program formula.GenericProg
 	target, _ := s.resolveDriverCombatantKey(entry.Target, source)
 	owner, other := s.combatants[source], s.combatants[target]
 	context := formula.GenericEvalContext{SourceAttrs: owner.attributesView(), TargetAttrs: other.attributesView(), SourceResources: owner.resourceView(), TargetResources: other.resourceView()}
-	value, err := s.formulas.EvalContext(program, &context)
+	value, err := s.formulas.Evaluation.EvalContext(program, &context)
 	if err != nil {
 		return 0, s.evalFormulaError(program, err, entry.AbilityRef)
 	}
@@ -609,8 +609,8 @@ func (bridge *abilityFrameBridge) ExecuteAbilityOperations(ability planbundle.Co
 
 func (f *Frame) formulaError(id formula.GenericProgramID, message string) *model.EngineError {
 	path := "formula"
-	if int(id) < len(f.run.formulas.Programs) {
-		path = f.run.formulas.Programs[id].Key
+	if int(id) < f.run.formulas.Metadata.Count() {
+		path = f.run.formulas.Metadata.Info(formula.GenericProgramID(id)).Key
 	}
 	return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, message, path, f.abilityRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 }
@@ -776,7 +776,12 @@ func (s *Engine) resolveDriverCombatantKey(selector, sourceKey string) (string, 
 }
 
 func (s *Engine) compileDriverConditions() *model.EngineError {
-	return s.skillActionFlowExecutor().CompileDriverConditions(s.req.DriverPlan.Entries, &s.formulas, s.compiled.AbilityRefIndex)
+	builder := formula.NewBuilder(s.formulas)
+	if err := s.skillActionFlowExecutor().CompileDriverConditions(s.req.DriverPlan.Entries, &builder, s.compiled.AbilityRefIndex); err != nil {
+		return err
+	}
+	s.formulas = builder.Freeze()
+	return nil
 }
 
 func normalizeConditionRecheckInterval(raw int64) int64 {
@@ -873,7 +878,7 @@ func (s *Engine) resourceGate(sourceKey, targetKey string, ability planbundle.Co
 		TargetAttrs:     target.attributesView(),
 		SourceResources: c.resourceView(),
 		TargetResources: target.resourceView(),
-		AbilityParams:   ability.Params,
+		AbilityParams:   model.BorrowNumericView(ability.Params),
 	}
 	// Provider-aware cost preflight: only a valid parsed provider ability ref binds
 	// HasProviderContext + lazy-expired provider state (mirrors lifecycle charging).
@@ -911,7 +916,7 @@ func (s *Engine) castConditionBlocked(sourceKey, targetKey string, ability planb
 		TargetAttrs:        target.attributesView(),
 		SourceResources:    source.resourceView(),
 		TargetResources:    target.resourceView(),
-		AbilityParams:      ability.Params,
+		AbilityParams:      model.BorrowNumericView(ability.Params),
 		HasProviderContext: true,
 		ProviderState:      model.NumericView{},
 	}
@@ -925,7 +930,7 @@ func (s *Engine) castConditionBlocked(sourceKey, targetKey string, ability planb
 			ctx.ProviderTargetState = bag.TargetStateForFormula()
 		}
 	}
-	value, err := s.formulas.EvalContext(ability.CastConditionProgram, &ctx)
+	value, err := s.formulas.Evaluation.EvalContext(ability.CastConditionProgram, &ctx)
 	if err != nil {
 		return false, s.evalFormulaError(ability.CastConditionProgram, err, abilityRef)
 	}
@@ -934,8 +939,8 @@ func (s *Engine) castConditionBlocked(sourceKey, targetKey string, ability planb
 
 func (s *Engine) gateFormulaError(program formula.GenericProgramID, message, ref string) *model.EngineError {
 	path := ref + ".condition"
-	if int(program) < len(s.formulas.Programs) {
-		path = s.formulas.Programs[program].Key
+	if int(program) < s.formulas.Metadata.Count() {
+		path = s.formulas.Metadata.Info(formula.GenericProgramID(program)).Key
 	}
 	return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, message, path, ref, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 }

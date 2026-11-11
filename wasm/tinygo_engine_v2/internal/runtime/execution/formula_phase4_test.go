@@ -33,18 +33,9 @@ func TestFormulaPhase4DamagePlanGuardPrecedesEveryAmountShortcut(t *testing.T) {
 			s.compiled.DamageTypeFormulas["damage/physical"] = d
 		}},
 		{"internal program zero", func(s *Engine, d planbundle.CompiledDamageTypeFormula) {
-			s.formulas.Programs[0] = formula.GenericProgram{Key: "sentinel-zero", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 999}}}
+			s.formulas = fixtureFormulaLibrary([]formula.GenericProgram{{Key: "sentinel-zero", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 999}}}})
 			d.Program = 0
 			s.compiled.DamageTypeFormulas[d.DamageType] = d
-		}},
-		{"empty common program", func(s *Engine, d planbundle.CompiledDamageTypeFormula) {
-			s.formulas.Programs[d.Program].Authored = &expression.Program{}
-		}},
-		{"mixed program", func(s *Engine, d planbundle.CompiledDamageTypeFormula) {
-			s.formulas.Programs[d.Program].Instr = []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 999}}
-		}},
-		{"foreign skill program", func(s *Engine, d planbundle.CompiledDamageTypeFormula) {
-			s.formulas.Programs[d.Program].NamedBinding = &formula.NamedBinding{}
 		}},
 	}
 	for _, test := range corruptions {
@@ -77,7 +68,7 @@ func TestFormulaPhase4BrokenDefenseDropsEarlierStagedWritesAndRecovers(t *testin
 	c, r := frameCommitInput(model.OperationDefinition{Operation: "shield", Target: "target", Amount: authoringAmount(authoringConst(50))}, frameCommitDamage(100))
 	s := frameCommitState(t, c, r)
 	def := s.compiled.DamageTypeFormulas["damage/physical"]
-	before := *s.formulas.CloneForRun()
+	before := s.formulas
 	delete(s.compiled.DamageTypeFormulas, "damage/physical")
 	issue := s.runLoop()
 	if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != "sharedProviders[0].abilities[0].operations[1].damageType" {
@@ -129,7 +120,7 @@ func registerTestDefense(t *testing.T, state *Engine, key string, definition map
 	if issue != nil {
 		t.Fatal(issue)
 	}
-	id, err := state.formulas.Register(formula.GenericProgram{Key: "test-defense/" + key, Authored: program, BindingBytes: bound.ChargedBytes()})
+	id, err := fixtureRegister(&state.formulas, formula.GenericProgram{Key: "test-defense/" + key, Authored: program, BindingBytes: bound.ChargedBytes()})
 	if err != nil {
 		t.Fatal(err)
 	}

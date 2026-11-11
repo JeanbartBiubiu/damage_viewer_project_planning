@@ -15,7 +15,7 @@ import (
 )
 
 func memoTestResolver(read formula.GenericInstr) (attributeFixture, effectpkg.AttributeResolver) {
-	state := attributeFixture{formulas: formula.GenericRegistry{Programs: []formula.GenericProgram{{Key: "memo", Instr: []formula.GenericInstr{read}}}}}
+	state := attributeFixture{formulas: fixtureFormulaLibrary([]formula.GenericProgram{{Key: "memo", Instr: []formula.GenericInstr{read}}})}
 	resolver := effectpkg.AttributeResolver{}
 	resolver.MountCompiledModifierOwned("source", "buff", planbundle.CompiledModifier{Kind: "attribute", Target: "speed", HasValue: true, ValueProgram: 0, ValuePolicy: "add"})
 	return state, resolver
@@ -96,9 +96,9 @@ func TestAttributeMemoReadPresenceAndLegacyZeroFallback(t *testing.T) {
 		t.Fatal(resolved, err)
 	}
 	// JSON字段存在性由作者共同绑定检查；内部旧读取只检查属性槽。
-	var registry formula.GenericRegistry
+	var registry formula.Library
 	definition := formuladefinition.FromExpr("hp_total", "buff", model.GenericFormulaExpr{Op: "read", Path: "source.attr.hp.resolved"}, nil)
-	formula.CompileDeclaredNamedFormulas([]model.NamedFormula{definition}, []string{"hp"}, &registry, func(code model.GenericErrCode, path, message, ref string) { t.Fatal(code, path, message) })
+	fixtureCompileDeclaredNamed([]model.NamedFormula{definition}, []string{"hp"}, &registry, func(code model.GenericErrCode, path, message, ref string) { t.Fatal(code, path, message) })
 	state.formulas = registry
 	state.cache = State{}
 	if _, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, formula.GenericEvalContext{SourceAttrs: attrs, StrictReads: true}, nil); err != nil {
@@ -118,7 +118,7 @@ func TestAttributeMemoUnknownContextContinuesEvaluation(t *testing.T) {
 	state, resolver := memoTestResolver(formula.GenericInstr{Op: formula.GenericOpRead, ReadKind: formula.ReadAbilityParam, ReadKey: "bonus"})
 	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"speed": authoringSlot(100)})
 	for _, amount := range []float64{2, 3} {
-		resolved, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, formula.GenericEvalContext{AbilityParams: map[string]float64{"bonus": amount}}, nil)
+		resolved, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, formula.GenericEvalContext{AbilityParams: model.BorrowNumericView(map[string]float64{"bonus": amount})}, nil)
 		if err != nil || resolved.At("speed").Resolved != 100+amount {
 			t.Fatal(resolved, err)
 		}

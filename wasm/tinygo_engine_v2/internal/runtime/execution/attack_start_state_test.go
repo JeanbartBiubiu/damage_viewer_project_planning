@@ -104,18 +104,18 @@ func TestAttackStartCounterCaptureIsolatedByMountAndMissingContext(t *testing.T)
 	frame.eventCtx = &eventFormulaSnapshot{EventType: model.EventTypeBasicAttackHit, HasUse: true, UseKey: "basic:native-test:1", UseSource: "source", EventSourceKey: "source"}
 	var ctx formula.GenericEvalContext
 	frame.populateAttackStartStateContext(&ctx)
-	if len(ctx.UseProviderStateBefore) != 1 || ctx.UseProviderStateBefore[0].Value != 2 {
+	if value, exists := ctx.UseProviderStateBefore.Lookup("hits"); ctx.UseProviderStateBefore.Len() != 1 || !exists || value != 2 {
 		t.Fatal(ctx)
 	}
 	frame.ownerProviderRef = "unknown"
 	ctx = formula.GenericEvalContext{}
 	frame.populateAttackStartStateContext(&ctx)
-	if len(ctx.UseProviderStateBefore) != 0 {
+	if ctx.UseProviderStateBefore.Len() != 0 {
 		t.Fatal("capture crossed mount")
 	}
 	frame.ownerProviderRef, frame.ownerCombatantKey = "counter_a", "target"
 	frame.populateAttackStartStateContext(&ctx)
-	if len(ctx.UseProviderStateBefore) != 0 {
+	if ctx.UseProviderStateBefore.Len() != 0 {
 		t.Fatal("capture crossed owner")
 	}
 }

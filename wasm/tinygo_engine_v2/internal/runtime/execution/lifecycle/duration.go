@@ -50,7 +50,7 @@ func (e *Executor) DurationExtensionDeadline(operation plan.CompiledOperation, o
 	if !owned || !exists || !e.compiled.Providers[index].AtomicDynamic {
 		return 0, e.invariant(operation.Path, "provider duration change references an unknown or foreign applying source", operation.ProviderDefinitionRef)
 	}
-	amount, static := e.formulas.FoldStatic(operation.AmountProgram)
+	amount, static := e.formulas.Metadata.FoldStatic(operation.AmountProgram)
 	deadline, safe := actionpkg.ProcessTimeAfter(now, amount, true)
 	if !static || !safe || deadline > maxJSONSafeInteger || math.IsNaN(amount) || math.IsInf(amount, 0) ||
 		amount < 0 || amount > float64(maxJSONSafeInteger) || math.Trunc(amount) != amount {

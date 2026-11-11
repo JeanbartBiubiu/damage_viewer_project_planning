@@ -56,17 +56,17 @@ type AttributeResolverAPI interface {
 	// MountedModifiers 借用当前挂载修正的只读包装。
 	MountedModifiers() AttributeModifiers
 	// ResolveAttributes 使用给定属性和公式上下文结算新属性，返回公式或数值错误。
-	ResolveAttributes(attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.GenericRegistry) (attribute.Table, error)
+	ResolveAttributes(attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.Library) (attribute.Table, error)
 	// ResolveAttributesWithProviderContext 结合各拥有者与供值器上下文结算新属性，不直接发布角色数值。
-	ResolveAttributesWithProviderContext(attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error)
+	ResolveAttributesWithProviderContext(attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.Library, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error)
 	// ResolveDerivedAttribute 按当前挂载和上下文计算一个派生属性槽；失败返回错误。
-	ResolveDerivedAttribute(key string, slot model.AttributeSlotDef, value float64, attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext pipeline.ProviderFormulaContextFunc) (model.AttributeSlotDef, error)
+	ResolveDerivedAttribute(key string, slot model.AttributeSlotDef, value float64, attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.Library, providerContext pipeline.ProviderFormulaContextFunc) (model.AttributeSlotDef, error)
 	// MountCompiledModifierOwned 为实际拥有者与供值实例挂载编译后的属性修正。
 	MountCompiledModifierOwned(owner, ref string, mod planbundle.CompiledModifier)
 	// MountSnapshotModifierOwned 挂载已冻结金额的属性修正，不在后续结算时重取施加金额。
 	MountSnapshotModifierOwned(owner, ref string, mod planbundle.CompiledModifier, value float64)
 	// MountProviderModifiers 从供值器定义及公式表挂载其属性修正。
-	MountProviderModifiers(owner, ref string, provider planbundle.CompiledProvider, formulas formula.GenericRegistry)
+	MountProviderModifiers(owner, ref string, provider planbundle.CompiledProvider, formulas formula.Library)
 	// UnmountProviderOwned 移除该拥有者与供值实例的属性修正。
 	UnmountProviderOwned(owner, ref string)
 	// MountCompiledModifier 沿现有无拥有者入口挂载编译属性修正。
@@ -403,13 +403,13 @@ func (r AttributeResolver) SameMounts(other AttributeResolver) bool {
 func (r AttributeResolver) MountedModifiers() AttributeModifiers {
 	return AttributeModifiers{r.value.MountedModifiers()}
 }
-func (r AttributeResolver) ResolveAttributes(attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.GenericRegistry) (attribute.Table, error) {
+func (r AttributeResolver) ResolveAttributes(attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.Library) (attribute.Table, error) {
 	return r.value.ResolveAttributes(attrs, ctx, formulas)
 }
-func (r AttributeResolver) ResolveAttributesWithProviderContext(attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
+func (r AttributeResolver) ResolveAttributesWithProviderContext(attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.Library, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
 	return r.value.ResolveAttributesWithProviderContext(attrs, ctx, formulas, providerContext)
 }
-func (r AttributeResolver) ResolveDerivedAttribute(key string, slot model.AttributeSlotDef, value float64, attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext pipeline.ProviderFormulaContextFunc) (model.AttributeSlotDef, error) {
+func (r AttributeResolver) ResolveDerivedAttribute(key string, slot model.AttributeSlotDef, value float64, attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.Library, providerContext pipeline.ProviderFormulaContextFunc) (model.AttributeSlotDef, error) {
 	return r.value.ResolveDerivedAttribute(key, slot, value, attrs, ctx, formulas, providerContext)
 }
 func (r *AttributeResolver) MountCompiledModifierOwned(owner, ref string, mod planbundle.CompiledModifier) {
@@ -418,7 +418,7 @@ func (r *AttributeResolver) MountCompiledModifierOwned(owner, ref string, mod pl
 func (r *AttributeResolver) MountSnapshotModifierOwned(owner, ref string, mod planbundle.CompiledModifier, value float64) {
 	r.value.MountSnapshotModifierOwned(owner, ref, mod, value)
 }
-func (r *AttributeResolver) MountProviderModifiers(owner, ref string, provider planbundle.CompiledProvider, formulas formula.GenericRegistry) {
+func (r *AttributeResolver) MountProviderModifiers(owner, ref string, provider planbundle.CompiledProvider, formulas formula.Library) {
 	r.value.MountProviderModifiers(owner, ref, provider, formulas)
 }
 func (r *AttributeResolver) UnmountProviderOwned(owner, ref string) {

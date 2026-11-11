@@ -534,7 +534,7 @@ func (f *Frame) populateAttackStartStateContext(ctx *formula.GenericEvalContext)
 	}
 	values := f.run.basicAttackFlowExecutor().StartStateContext(true, f.eventCtx, f.providerOwnerKey(), f.ownerProviderRef, identity, capture)
 	if values != nil {
-		ctx.UseProviderStateBefore = values
+		ctx.UseProviderStateBefore = formula.BorrowProviderStateBefore(values)
 	}
 }
 
@@ -621,8 +621,8 @@ func (f *Frame) populateMechanicEvalContext(context *formula.GenericEvalContext,
 		}
 	}
 	context.HasStatusContext = true
-	context.SourceStatuses = f.statusPresence(f.sourceKey)
-	context.TargetStatuses = f.statusPresence(f.targetKey)
+	context.SourceStatuses = formula.BorrowBoolView(f.statusPresence(f.sourceKey))
+	context.TargetStatuses = formula.BorrowBoolView(f.statusPresence(f.targetKey))
 }
 
 func (f *Frame) statusPresence(owner string) map[string]bool {

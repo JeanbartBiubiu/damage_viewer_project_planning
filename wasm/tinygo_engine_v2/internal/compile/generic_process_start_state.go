@@ -31,7 +31,7 @@ func finalizeProcessStartStateReads(ctx *genericCompileContext) {
 						continue
 					}
 					allowed[index] = true
-					for _, dep := range ctx.session.Formulas.ReadDependencies(op.AmountProgram) {
+					for _, dep := range ctx.formulas.ReadDependencies(op.AmountProgram) {
 						if dep.ReadKind != formula.ReadProcessStartState {
 							continue
 						}
@@ -70,7 +70,7 @@ func finalizeProcessStartStateReads(ctx *genericCompileContext) {
 		if !op.HasAmount {
 			continue
 		}
-		for _, dep := range ctx.session.Formulas.ReadDependencies(op.AmountProgram) {
+		for _, dep := range ctx.formulas.ReadDependencies(op.AmountProgram) {
 			if dep.ReadKind == formula.ReadProcessStartState && !allowed[i] {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, op.Path+".amount", "process start state requires the actual same-process empowered execution payload", dep.ReadKey)
 			}

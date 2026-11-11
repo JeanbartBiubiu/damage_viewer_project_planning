@@ -187,7 +187,7 @@ func TestSkillHitRuleGroupRuntimeDoesNotExposePreviousCandidateOutput(t *testing
 	// runtime unit boundary independently by replacing only the compiled read,
 	// so a shared-frame implementation cannot accidentally expose the first
 	// result to a later candidate after compilation.
-	id, err := s.formulas.Register(formula.GenericProgram{Key: "test:cross-candidate-output", Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadOperationOutput, ReadKey: "first_out.POST_DEFENSE_DAMAGE"}}})
+	id, err := fixtureRegister(&s.formulas, formula.GenericProgram{Key: "test:cross-candidate-output", Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadOperationOutput, ReadKey: "first_out.POST_DEFENSE_DAMAGE"}}})
 	if err != nil {
 		t.Fatal(err)
 	}

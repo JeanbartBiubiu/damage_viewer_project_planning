@@ -28,6 +28,7 @@ type genericCompileContext struct {
 	currentProcessMoment       *model.ProcessMomentDefinition
 	collector                  *genericCollector
 	session                    *plan.CompiledSession
+	formulas                   formula.Builder
 	catalog                    typeset.CatalogResult
 	namedFormulas              map[string]model.GenericFormulaExpr
 	providerKeyIndex           map[string]uint16
@@ -73,10 +74,6 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 		RuntimeTypes:    BindRuntimeTypes(catalog.Registry),
 		AbilityRefIndex: make(map[string]plan.CompiledAbilityRef),
 		Settings:        normalizeGenericSettings(req.Settings, collector),
-		Formulas: formula.GenericRegistry{
-			Programs: make([]formula.GenericProgram, 0),
-			Index:    make(map[string]formula.GenericProgramID),
-		},
 	}
 	ctx := &genericCompileContext{
 		collector:        collector,
@@ -93,8 +90,8 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 			attributeKeys = append(attributeKeys, key)
 		}
 	}
-	formula.CompileDeclaredNamedFormulas(req.Formulas, attributeKeys, &session.Formulas, collector.addError)
-	ctx.namedFormulas = session.Formulas.DeclaredReferences()
+	formula.CompileDeclaredNamedFormulas(req.Formulas, attributeKeys, &ctx.formulas, collector.addError)
+	ctx.namedFormulas = ctx.formulas.DeclaredReferences()
 	compileVampRules(req.Rules.VampRules, req.Combatants, ctx)
 	compileDamageTypeFormulas(req.Rules.DamageTypeFormulas, ctx)
 	for i, provider := range req.SharedProviders {
@@ -218,11 +215,12 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 		collector.addError(model.GenericErrRuntimeInvariantFailed, "operations", "compiled operations exceed supported index range", "")
 	}
 	approvedStatic := make(map[string]float64)
-	for i, program := range session.Formulas.Programs {
-		if !program.DeclaredNamed || len(session.Formulas.ReadDependencies(formula.GenericProgramID(i))) != 0 {
+	for i := 0; i < ctx.formulas.Count(); i++ {
+		program := ctx.formulas.Info(formula.GenericProgramID(i))
+		if !program.DeclaredNamed || len(ctx.formulas.ReadDependencies(formula.GenericProgramID(i))) != 0 {
 			continue
 		}
-		value, err := session.Formulas.Eval(formula.GenericProgramID(i), formula.GenericEvalContext{})
+		value, err := ctx.formulas.Eval(formula.GenericProgramID(i), formula.GenericEvalContext{})
 		if err != nil {
 			if authored, ok := err.(*formula.AuthoredEvaluationError); ok {
 				collector.addError(model.GenericErrCode(authored.Issue.Code), authored.DefinitionPath+authored.Issue.Path, authored.Error(), authored.ProgramKey)
@@ -253,7 +251,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 		ProviderCount:        len(session.Providers),
 		AbilityCount:         len(session.Abilities),
 		TypeCount:            len(session.Types.Registry.Keys),
-		FormulaCount:         len(session.Formulas.Programs),
+		FormulaCount:         ctx.formulas.Count(),
 	}
 	// 编号只由成功编译后的属性目录与实际槽生成；运行扩展只追加。
 	keys := append([]string(nil), attributeKeys...)
@@ -263,7 +261,9 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 		}
 	}
 	session.AttributeLayout = attribute.NewLayout(keys)
-	session.Formulas.BindAttributeLayout(session.AttributeLayout)
+	ctx.formulas.BindAttributeLayout(session.AttributeLayout)
+	session.FormulaFactReads = compileFormulaFactRequests(&session, &ctx.formulas)
+	session.Formulas = ctx.formulas.Freeze()
 	return GenericCompileResult{
 		OK:      true,
 		Session: session,
@@ -275,6 +275,12 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 			Metadata:      metadata,
 			Warnings:      collector.warnings,
 		},
+	}
+}
+
+func (ctx *genericCompileContext) bindFormulaRead(id formula.GenericProgramID, instruction int, reference uint16) {
+	if err := ctx.formulas.BindReadReference(id, instruction, reference); err != nil {
+		ctx.collector.addError(model.GenericErrRuntimeInvariantFailed, ctx.formulas.Info(id).Key, err.Error(), "")
 	}
 }
 
@@ -698,21 +704,21 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 		collector.addError(model.GenericErrUnknownRef, path+".valuePolicy", "complement multiplication requires an attribute modifier at total stage", mod.ModifierKey)
 	}
 	instr := formula.CompileGenericFormula(mod.Value, path+".value", ctx.namedFormulas, map[string]bool{}, collector.addError)
-	validateDamagePredicateReads(ctx.session.Formulas.InstructionDependencies(instr, nil), path+".value", ctx.catalog, collector.addError)
-	validateDamageParticipantReadContext(ctx.session.Formulas.InstructionDependencies(instr, nil), mod, path+".value", collector)
+	validateDamagePredicateReads(ctx.formulas.InstructionDependencies(instr, nil), path+".value", ctx.catalog, collector.addError)
+	validateDamageParticipantReadContext(ctx.formulas.InstructionDependencies(instr, nil), mod, path+".value", collector)
 	if len(instr) > 0 {
 		key := path + ".value"
 		compiled.ValueProgram, compiled.HasValue = ctx.registerFormula(key, instr)
 	}
 	if mod.ValuePolicy == "complement_multiply" && compiled.HasValue {
-		if value, static := ctx.session.Formulas.FoldStatic(compiled.ValueProgram); static && (value < 0 || value > 1) {
+		if value, static := ctx.formulas.FoldStatic(compiled.ValueProgram); static && (value < 0 || value > 1) {
 			collector.addError(model.GenericErrFormulaTypeError, path+".value", "complement ratio must be in [0,1]", mod.ModifierKey)
 		}
 	}
 	if mod.Condition != nil {
 		condInstr := formula.CompileGenericFormula(*mod.Condition, path+".condition", ctx.namedFormulas, map[string]bool{}, collector.addError)
-		validateDamagePredicateReads(ctx.session.Formulas.InstructionDependencies(condInstr, nil), path+".condition", ctx.catalog, collector.addError)
-		validateDamageParticipantReadContext(ctx.session.Formulas.InstructionDependencies(condInstr, nil), mod, path+".condition", collector)
+		validateDamagePredicateReads(ctx.formulas.InstructionDependencies(condInstr, nil), path+".condition", ctx.catalog, collector.addError)
+		validateDamageParticipantReadContext(ctx.formulas.InstructionDependencies(condInstr, nil), mod, path+".condition", collector)
 		if len(condInstr) > 0 {
 			key := path + ".condition"
 			compiled.ConditionProg, compiled.HasCondition = ctx.registerFormula(key, condInstr)
@@ -923,7 +929,7 @@ func (ctx *genericCompileContext) registerFormula(key string, instr []formula.Ge
 	if !ctx.validateFormulaScope(instr, key) {
 		return 0, false
 	}
-	deps := ctx.session.Formulas.InstructionDependencies(instr, nil)
+	deps := ctx.formulas.InstructionDependencies(instr, nil)
 	for _, dependency := range deps {
 		if dependency.ReadKind == formula.ReadProcessStartState && !strings.Contains(key, ".skillHit.candidates[") {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, key, "process start capture requires its actual empowered payload", dependency.ReadKey)
@@ -956,7 +962,7 @@ func (ctx *genericCompileContext) registerFormula(key string, instr []formula.Ge
 		}
 	}
 	if hasRef && len(deps) == 0 {
-		if _, err := ctx.session.Formulas.EvaluateInstructions(instr, formula.GenericEvalContext{}, true); err != nil {
+		if _, err := ctx.formulas.EvaluateInstructions(instr, formula.GenericEvalContext{}, true); err != nil {
 			if authored, ok := err.(*formula.AuthoredEvaluationError); ok {
 				ctx.collector.addError(model.GenericErrCode(authored.Issue.Code), authored.DefinitionPath+authored.Issue.Path, authored.Error(), authored.ProgramKey)
 			}
@@ -968,7 +974,7 @@ func (ctx *genericCompileContext) registerFormula(key string, instr []formula.Ge
 	if len(planBytes) > 0 {
 		bytes = planBytes[0]
 	}
-	id, err := ctx.session.Formulas.Register(formula.GenericProgram{Key: key, Instr: instr, PlanBytes: bytes})
+	id, err := ctx.formulas.Register(formula.GenericProgram{Key: key, Instr: instr, PlanBytes: bytes})
 	if err != nil {
 		ctx.collector.addError(model.GenericErrFormulaTypeError, key, err.Error(), key)
 		return 0, false
@@ -1138,17 +1144,17 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	if op.Amount != nil {
 		instr := formula.CompileGenericFormula(*op.Amount, path+".amount", ctx.namedFormulas, map[string]bool{}, collector.addError)
 		if op.Operation == "state_change" && ownerProviderIndex >= 0 && ownerProviderIndex < len(session.Providers) && session.Providers[ownerProviderIndex].StateFields[op.Ref].ValueType == model.ProviderStateValueInteger {
-			if value, constant := ctx.session.Formulas.FoldInstructions(instr); constant && (!validStateInteger(value) || (value < 0 && op.ValuePolicy != "add" && op.ValuePolicy != "")) {
+			if value, constant := ctx.formulas.FoldInstructions(instr); constant && (!validStateInteger(value) || (value < 0 && op.ValuePolicy != "add" && op.ValuePolicy != "")) {
 				collector.addError(model.GenericErrFormulaTypeError, path+".amount", "integer state requires a safe integer operand; only addition accepts a negative delta", op.Ref)
 			}
 		}
 		validateProcessActualCostReads(instr, path+".amount", ctx)
 		if op.Operation == "cooldown_change" && op.ValuePolicy == "set_remaining" {
-			if value, constant := ctx.session.Formulas.FoldInstructions(instr); constant && (value < 0 || (value != 0 && !formula.ValidPositiveInt64DurationMs(value))) {
+			if value, constant := ctx.formulas.FoldInstructions(instr); constant && (value < 0 || (value != 0 && !formula.ValidPositiveInt64DurationMs(value))) {
 				collector.addError(model.GenericErrFormulaTypeError, path+".amount", "set_remaining requires finite non-negative integer milliseconds", "")
 			}
 		}
-		validateDamagePredicateReads(ctx.session.Formulas.InstructionDependencies(instr, nil), path+".amount", catalog, collector.addError)
+		validateDamagePredicateReads(ctx.formulas.InstructionDependencies(instr, nil), path+".amount", catalog, collector.addError)
 		if len(instr) > 0 {
 			key := path + ".amount"
 			compiled.AmountProgram, compiled.HasAmount = ctx.registerFormula(key, instr)
@@ -1156,7 +1162,7 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	}
 	if op.Condition != nil {
 		instr := formula.CompileGenericFormula(*op.Condition, path+".condition", ctx.namedFormulas, map[string]bool{}, collector.addError)
-		validateDamagePredicateReads(ctx.session.Formulas.InstructionDependencies(instr, nil), path+".condition", catalog, collector.addError)
+		validateDamagePredicateReads(ctx.formulas.InstructionDependencies(instr, nil), path+".condition", catalog, collector.addError)
 		if len(instr) > 0 {
 			key := path + ".condition"
 			compiled.ConditionProgram, compiled.HasCondition = ctx.registerFormula(key, instr)
@@ -1185,7 +1191,7 @@ func compileShieldDuration(op model.OperationDefinition, path string, compiled *
 		return
 	}
 	compiled.ShieldDurationProgram, compiled.HasShieldDuration = ctx.registerFormula(path+".shieldDurationMs", instr)
-	if value, folded := ctx.session.Formulas.FoldInstructions(instr); folded && !formula.ValidPositiveInt64DurationMs(value) {
+	if value, folded := ctx.formulas.FoldInstructions(instr); folded && !formula.ValidPositiveInt64DurationMs(value) {
 		collector.addError(model.GenericErrFormulaTypeError, path+".shieldDurationMs", "shieldDurationMs must be a positive integer within the timestamp range", op.ShieldRef)
 	}
 }

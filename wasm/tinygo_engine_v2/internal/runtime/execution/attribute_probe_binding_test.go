@@ -17,10 +17,10 @@ func TestAttributeProbeUniqueCallbacksKeepRealLazyExpiryAndHold(t *testing.T) {
 			attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"speed": authoringSlot(100)})
 			bagState := testProviderStates(providerStateTestSeeds{"buff": {state: map[string]float64{"count": 2}, expireAt: map[string]int64{"count": 10}, fieldDefs: map[string]effectpkg.FieldDefinition{"count": {DurationMs: 10}}, targetKey: "target", targetValues: map[string]float64{"count": 3}, targetExpireAt: map[string]int64{"count": 10}}})
 			bag := bagState.Lookup("buff")
-			state := Engine{loop: newTestLoopAt(0), formulas: formula.GenericRegistry{Programs: []formula.GenericProgram{
+			state := Engine{loop: newTestLoopAt(0), formulas: fixtureFormulaLibrary([]formula.GenericProgram{
 				{Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadProviderState, ReadKey: "count"}}},
 				{Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadProviderTargetState, ReadKey: "count"}}},
-			}}, combatants: map[string]combatantRuntime{
+			}), combatants: map[string]combatantRuntime{
 				"source": {numbers: actor.New("source", attrs, nil), providerState: bagState},
 				"target": {numbers: actor.New("target", attrs, nil)},
 			}}

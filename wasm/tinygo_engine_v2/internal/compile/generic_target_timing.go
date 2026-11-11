@@ -192,8 +192,8 @@ func finalizeTargetTiming(req model.CompileRequest, ctx *genericCompileContext) 
 				switch op.Operation {
 				case "state_change":
 					field, ok := p.StateFields[op.Ref]
-					value, static := s.Formulas.FoldStatic(op.AmountProgram)
-					if !isHit || op.Target != "self" || op.StateScope != "state_scope/provider_target" || op.ValuePolicy != "set" || !ok || !ordinaryTargetInteger(field) || !field.HasCap || !op.HasAmount || !static || len(s.Formulas.ReadDependencies(op.AmountProgram)) != 0 || !validStateInteger(value) || value < 0 || value > field.MaxValue {
+					value, static := ctx.formulas.FoldStatic(op.AmountProgram)
+					if !isHit || op.Target != "self" || op.StateScope != "state_scope/provider_target" || op.ValuePolicy != "set" || !ok || !ordinaryTargetInteger(field) || !field.HasCap || !op.HasAmount || !static || len(ctx.formulas.ReadDependencies(op.AmountProgram)) != 0 || !validStateInteger(value) || value < 0 || value > field.MaxValue {
 						fail("target timing hit listeners only admit static own finite target SET operations")
 					}
 				case model.OperationKindStateDurationChange:
@@ -201,17 +201,17 @@ func finalizeTargetTiming(req model.CompileRequest, ctx *genericCompileContext) 
 						fail("target timing listeners cannot use legacy or unrelated duration actions")
 					}
 				case "resource_change":
-					value, static := s.Formulas.FoldStatic(op.AmountProgram)
+					value, static := ctx.formulas.FoldStatic(op.AmountProgram)
 					if !static && listener.SourceAbilityIndex >= 0 {
 						a := s.Abilities[listener.SourceAbilityIndex]
 						static = true
-						for _, read := range s.Formulas.ReadDependencies(op.AmountProgram) {
+						for _, read := range ctx.formulas.ReadDependencies(op.AmountProgram) {
 							v, present := a.Params[read.ReadKey]
 							static = static && read.ReadKind == formula.ReadAbilityParam && present && !math.IsNaN(v) && !math.IsInf(v, 0)
 						}
 						if static {
 							var err error
-							value, err = s.Formulas.Eval(op.AmountProgram, formula.GenericEvalContext{StrictReads: true, AbilityParams: a.Params})
+							value, err = ctx.formulas.Eval(op.AmountProgram, formula.GenericEvalContext{StrictReads: true, AbilityParams: model.BorrowNumericView(a.Params)})
 							static = err == nil
 						}
 					}
@@ -238,8 +238,8 @@ func finalizeTargetTiming(req model.CompileRequest, ctx *genericCompileContext) 
 						continue
 					}
 					f, ok := p.StateFields[op.Ref]
-					value, static := s.Formulas.FoldStatic(op.AmountProgram)
-					if !ok || !ordinaryTargetInteger(f) || !f.HasCap || !op.HasAmount || len(s.Formulas.ReadDependencies(op.AmountProgram)) != 0 || !static || !validStateInteger(value) || value < 0 || value > f.MaxValue || op.Ref == x.AnchorStateKey && value > 0 {
+					value, static := ctx.formulas.FoldStatic(op.AmountProgram)
+					if !ok || !ordinaryTargetInteger(f) || !f.HasCap || !op.HasAmount || len(ctx.formulas.ReadDependencies(op.AmountProgram)) != 0 || !static || !validStateInteger(value) || value < 0 || value > f.MaxValue || op.Ref == x.AnchorStateKey && value > 0 {
 						fail("target expiry SET requires static own capped ordinary target state and cannot rearm itself")
 					}
 				}
@@ -260,7 +260,7 @@ func finalizeTargetTiming(req model.CompileRequest, ctx *genericCompileContext) 
 				anchored = anchored || timing.Phased && timing.StateKey == op.Ref
 			}
 		}
-		amount, static := s.Formulas.FoldStatic(op.AmountProgram)
+		amount, static := ctx.formulas.FoldStatic(op.AmountProgram)
 		listenerValid := false
 		for _, listener := range s.Listeners {
 			if oi < int(listener.OperationStart) || oi >= int(listener.OperationStart)+int(listener.OperationCount) || !listener.HasCondition || listener.OwnerProviderRef == "" || listener.HasAbilityRef || listener.MaxTriggersPerEvent != 1 {
@@ -269,13 +269,13 @@ func finalizeTargetTiming(req model.CompileRequest, ctx *genericCompileContext) 
 			for _, binding := range s.SkillActionBindings {
 				for _, hit := range binding.HitBindings {
 					ref, exists := s.AbilityRefIndex[hit.HitAbilityRef]
-					if exists && binding.Source == listener.OwnerCombatantKey && targetMarkMatcher(listener, s.Abilities[ref.AbilityIndex], model.EventTypeSkillHit, ctx) && targetMarkConditionUnblocked(listener.ConditionProgram, s.Formulas, 0) {
+					if exists && binding.Source == listener.OwnerCombatantKey && targetMarkMatcher(listener, s.Abilities[ref.AbilityIndex], model.EventTypeSkillHit, ctx) && targetMarkConditionUnblocked(listener.ConditionProgram, ctx.formulas, 0) {
 						listenerValid = true
 					}
 				}
 			}
 		}
-		if !valid || !anchored || !listenerValid || !op.HasAmount || !static || len(s.Formulas.ReadDependencies(op.AmountProgram)) != 0 || !validStateInteger(amount) || amount <= 0 {
+		if !valid || !anchored || !listenerValid || !op.HasAmount || !static || len(ctx.formulas.ReadDependencies(op.AmountProgram)) != 0 || !validStateInteger(amount) || amount <= 0 {
 			fail()
 		}
 	}
@@ -305,7 +305,7 @@ func rejectTargetExpiryRef(ref, path string, ctx *genericCompileContext) {
 }
 
 func validateTargetTimingDamage(op plan.CompiledOperation, a plan.CompiledAbility, expiry bool, ctx *genericCompileContext) {
-	for _, read := range ctx.session.Formulas.ReadDependencies(op.AmountProgram) {
+	for _, read := range ctx.formulas.ReadDependencies(op.AmountProgram) {
 		value, present := a.Params[read.ReadKey]
 		valid := read.ReadKind == formula.ReadAbilityParam && present && !math.IsNaN(value) && !math.IsInf(value, 0) || read.ReadKind == formula.ReadTargetAttr && read.ReadKey == "hp.max" || expiry && read.ReadKind == formula.ReadSourceAttr && read.ReadKey == "ability_power.resolved"
 		if !valid {

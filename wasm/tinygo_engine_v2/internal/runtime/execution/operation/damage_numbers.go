@@ -3,6 +3,7 @@ package operation
 import (
 	"math"
 	"tinygo_engine_v2/internal/base/numeric"
+	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
@@ -64,9 +65,9 @@ func (f *calculation) settleExpectedCrit(op planbundle.CompiledOperation, abilit
 	}
 	var chanceRaw, critDamageRaw float64
 	var err *model.EngineError
-	if op.HasCritFormula && int(op.CritChanceProgram) < len(f.executor.formulas.Programs) && int(op.CritMultiplierProgram) < len(f.executor.formulas.Programs) &&
-		f.executor.formulas.Programs[op.CritChanceProgram].Key == op.Path+".critChance" &&
-		f.executor.formulas.Programs[op.CritMultiplierProgram].Key == op.Path+".critMultiplier" &&
+	if op.HasCritFormula && int(op.CritChanceProgram) < f.executor.formulas.Metadata.Count() && int(op.CritMultiplierProgram) < f.executor.formulas.Metadata.Count() &&
+		f.executor.formulas.Metadata.Info(formula.GenericProgramID(op.CritChanceProgram)).Key == op.Path+".critChance" &&
+		f.executor.formulas.Metadata.Info(formula.GenericProgramID(op.CritMultiplierProgram)).Key == op.Path+".critMultiplier" &&
 		(!op.HasCritMultiplierMin || (!math.IsNaN(op.CritMultiplierMin) && !math.IsInf(op.CritMultiplierMin, 0) && op.CritMultiplierMin >= 0)) {
 		chanceRaw, err = f.evalResultFormula(op.CritChanceProgram, ability, targetKey)
 		if err == nil {

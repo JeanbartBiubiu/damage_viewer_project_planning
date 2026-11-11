@@ -15,7 +15,7 @@ func AttackCooldownReductionListener(input Input, attack *model.BasicAttackPlan,
 		operation.Target != model.SelectorSelf || operation.ValuePolicy != "reduce" || !operation.HasAmount || !operation.HasAbilityRef || operation.HasCondition {
 		return false
 	}
-	amount, static := input.Formulas.FoldStatic(operation.AmountProgram)
+	amount, static := input.Formulas.Metadata.FoldStatic(operation.AmountProgram)
 	if !static || math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 || amount > float64(9007199254740991) || math.Trunc(amount) != amount {
 		return false
 	}

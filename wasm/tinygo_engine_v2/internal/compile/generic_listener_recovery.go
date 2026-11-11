@@ -18,7 +18,7 @@ func validateListenerRecoveryTargets(operations []model.OperationDefinition, pat
 			// restores. It does not enter this new ordinary-recovery branch.
 			if op.Operation == "resource_change" && op.Amount != nil {
 				instr := formula.CompileGenericFormula(*op.Amount, path+"["+itoa(i)+"].amount", ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
-				if value, static := ctx.session.Formulas.FoldInstructions(instr); static && value < 0 {
+				if value, static := ctx.formulas.FoldInstructions(instr); static && value < 0 {
 					continue
 				}
 			}

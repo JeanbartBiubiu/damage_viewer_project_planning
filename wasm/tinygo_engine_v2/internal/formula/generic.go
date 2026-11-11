@@ -114,6 +114,7 @@ type GenericInstr struct {
 
 // GenericProgram 是已编译的 generic formula 程序。
 type GenericProgram struct {
+	authoredIdentity *expression.Program
 	// PlanBytes计入使用点保留的归属及定位等计划描述。
 	PlanBytes uint64
 	Key       string
@@ -143,8 +144,8 @@ func CompileGenericFormula(expr model.GenericFormulaExpr, path string, named map
 }
 
 // CompileNamedFormulas 编译命名公式表。
-func CompileNamedFormulas(formulas []model.NamedFormula, addError func(code model.GenericErrCode, path, message, ref string)) GenericRegistry {
-	reg := GenericRegistry{Programs: make([]GenericProgram, 0), Index: make(map[string]GenericProgramID)}
+func CompileNamedFormulas(formulas []model.NamedFormula, addError func(code model.GenericErrCode, path, message, ref string)) Builder {
+	var reg Builder
 	CompileDeclaredNamedFormulas(formulas, nil, &reg, addError)
 	return reg
 }
@@ -619,7 +620,7 @@ func TryFoldConst(instr []GenericInstr) (float64, bool) {
 	if len(instr) == 0 {
 		return 0, false
 	}
-	reg := GenericRegistry{Programs: []GenericProgram{{Instr: instr}}}
+	reg := programStore{programs: []GenericProgram{{Instr: instr}}}
 	value, err := reg.eval(0, &GenericEvalContext{}, true, 1, new(int))
 	if err == errConstFormulaRead {
 		return 0, false

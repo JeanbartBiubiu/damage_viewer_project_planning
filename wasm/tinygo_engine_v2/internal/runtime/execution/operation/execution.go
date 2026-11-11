@@ -143,7 +143,7 @@ type ExecutorAPI interface {
 // Executor 保存本场只读数值规则；每次调用使用独立局部上下文。
 type Executor struct {
 	plan      *planbundle.CompiledSession
-	formulas  *formula.GenericRegistry
+	formulas  *formula.Library
 	sessionID string
 	detailed  bool
 }
@@ -165,7 +165,7 @@ func (f *Frame) ShareFirstPerCast(value map[string]bool) { f.consumedFirstPerCas
 var _ ExecutorAPI = (*Executor)(nil)
 
 // New 借用本场固定规则；不保存当前帧、数值变更或同步执行上下文。
-func New(plan *planbundle.CompiledSession, formulas *formula.GenericRegistry, sessionID string, detailed bool) Executor {
+func New(plan *planbundle.CompiledSession, formulas *formula.Library, sessionID string, detailed bool) Executor {
 	return Executor{plan: plan, formulas: formulas, sessionID: sessionID, detailed: detailed}
 }
 
@@ -199,8 +199,8 @@ func (f *calculation) preserveFormulaIssue(err error, fallback *model.EngineErro
 }
 func (f *calculation) formulaError(id formula.GenericProgramID, message string) *model.EngineError {
 	path := "formula"
-	if int(id) < len(f.executor.formulas.Programs) {
-		path = f.executor.formulas.Programs[id].Key
+	if int(id) < f.executor.formulas.Metadata.Count() {
+		path = f.executor.formulas.Metadata.Info(formula.GenericProgramID(id)).Key
 	}
 	return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, message, path, f.input.AbilityRef, f.executor.plan.SchemaHash, f.executor.plan.RulesHash, f.executor.sessionID)
 }
@@ -212,7 +212,7 @@ func (f *calculation) evalResultFormula(id formula.GenericProgramID, ability pla
 	ctx.StrictReads = true
 	ctx.TargetAttrs = f.stageFor(target).attributesView()
 	ctx.TargetResources = f.stageFor(target).resourceView()
-	value, err := f.executor.formulas.EvalContext(id, &ctx)
+	value, err := f.executor.formulas.Evaluation.EvalContext(id, &ctx)
 	if err != nil {
 		return 0, evaluation.PreserveFormulaIssue(err, f.formulaError(id, err.Error()), f.input.AbilityRef)
 	}

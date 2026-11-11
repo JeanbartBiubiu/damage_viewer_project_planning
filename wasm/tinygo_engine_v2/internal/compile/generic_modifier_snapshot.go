@@ -17,7 +17,7 @@ func pureSnapshotAttributeProvider(reference string, ctx *genericCompileContext)
 	if p.Kind != "status" || !p.TypeSet.Empty() || p.ShieldDefinitionRef != "" || p.AbilityCount != 0 || len(p.Listeners)+len(p.StateFields)+len(p.Processes)+len(p.StatusContributions) != 0 || p.AmmoBinding != nil || p.NeedsElapsedTime || len(p.Modifiers) != 2 || lc == nil || !lc.HasDuration || lc.MaxStacks != 1 || lc.RefreshPolicy != "replace" || lc.InstanceScope != model.InstanceScopeSourceTarget || lc.TickIntervalMs != 0 {
 		return false
 	}
-	duration, static := ctx.session.Formulas.FoldStatic(lc.DurationProgram)
+	duration, static := ctx.formulas.FoldStatic(lc.DurationProgram)
 	if !static || !formula.ValidPositiveInt64DurationMs(duration) {
 		return false
 	}
@@ -29,7 +29,7 @@ func pureSnapshotAttributeProvider(reference string, ctx *genericCompileContext)
 			return false
 		}
 		if key, own := strings.CutPrefix(mod.Target, "self.attr."); own && mod.Stage == "total" && mod.ValuePolicy == "multiply" && (mod.ValueReadMode == "" || mod.ValueReadMode == "APPLICATION_SNAPSHOT") {
-			value, fixed := ctx.session.Formulas.FoldStatic(mod.ValueProgram)
+			value, fixed := ctx.formulas.FoldStatic(mod.ValueProgram)
 			if target >= 0 || !fixed || math.IsNaN(value) || math.IsInf(value, 0) || value < 0 || value > 1 || key == "" || key == "hp" || strings.Contains(key, ".") {
 				return false
 			}
@@ -46,7 +46,7 @@ func pureSnapshotAttributeProvider(reference string, ctx *genericCompileContext)
 	if target < 0 || source < 0 || p.Modifiers[source].Target != "opponent.attr."+attribute || p.Modifiers[source].ModifierKey == p.Modifiers[target].ModifierKey {
 		return false
 	}
-	linear, valid := ctx.session.Formulas.TargetAttributeLinear(p.Modifiers[source].ValueProgram, attribute)
+	linear, valid := ctx.formulas.TargetAttributeLinear(p.Modifiers[source].ValueProgram, attribute)
 	return valid && linear.Offset == 0 && math.Abs(linear.Factor-rate) <= 1e-12
 }
 
@@ -66,11 +66,11 @@ func finalizeModifierSnapshots(ctx *genericCompileContext) {
 		}
 		p.HasModifierSnapshots, p.AtomicDynamic, ctx.session.HasModifierSnapshots = true, true, true
 		for i := range p.Modifiers {
-			if value, fixed := ctx.session.Formulas.FoldStatic(p.Modifiers[i].ValueProgram); fixed {
+			if value, fixed := ctx.formulas.FoldStatic(p.Modifiers[i].ValueProgram); fixed {
 				p.Modifiers[i].StaticValue = value
 			}
 		}
-		value, _ := ctx.session.Formulas.FoldStatic(p.Lifecycle.DurationProgram)
+		value, _ := ctx.formulas.FoldStatic(p.Lifecycle.DurationProgram)
 		p.StaticDurationMs = int64(value)
 	}
 	for _, mod := range ctx.session.RuleModifiers {

@@ -215,15 +215,15 @@ func automaticSkillAdmission(binding model.SkillActionBinding, process plan.Comp
 	if len(process.Steps) > 1 && !hasDelay && !finiteRecast {
 		return process.Path + ".steps", "automatic multi-step skills require at least one finite positive delay"
 	}
-	if process.Cooldown == nil || !process.Cooldown.HasDuration || int(process.Cooldown.DurationProgram) >= len(ctx.session.Formulas.Programs) {
+	if process.Cooldown == nil || !process.Cooldown.HasDuration || int(process.Cooldown.DurationProgram) >= ctx.formulas.Count() {
 		return process.Path + ".cooldown", "automatic skills require an authored positive process cooldown"
 	}
 	cd := process.Cooldown
 	if cd.StartMoment.MomentType == "PROCESS_FAILURE" {
 		return cd.Path + ".startMoment", "automatic skills require cooldown on a successful process path"
 	}
-	program := ctx.session.Formulas.Programs[cd.DurationProgram]
-	if value, constant := ctx.session.Formulas.FoldInstructions(program.Instr); constant {
+	program := ctx.formulas.Instructions(cd.DurationProgram)
+	if value, constant := ctx.formulas.FoldInstructions(program); constant {
 		if cd.RoundPositiveMs && value > 0 {
 			value = math.Max(1, math.Round(value))
 		}
@@ -234,10 +234,10 @@ func automaticSkillAdmission(binding model.SkillActionBinding, process plan.Comp
 	// 实际开始条件只读取本次稳定状态；事件或同次使用字段没有自动候选上下文。
 	if ability.HasCastCondition {
 		conditionPath := path + ".controls[0].abilityRef"
-		if int(ability.CastConditionProgram) < len(ctx.session.Formulas.Programs) {
-			conditionPath = ctx.session.Formulas.Programs[ability.CastConditionProgram].Key
+		if int(ability.CastConditionProgram) < ctx.formulas.Count() {
+			conditionPath = ctx.formulas.Info(formula.GenericProgramID(ability.CastConditionProgram)).Key
 		}
-		for _, instruction := range ctx.session.Formulas.ReadDependencies(ability.CastConditionProgram) {
+		for _, instruction := range ctx.formulas.ReadDependencies(ability.CastConditionProgram) {
 			switch instruction.ReadKind {
 			case formula.ReadSourceAttr, formula.ReadTargetAttr, formula.ReadSourceResource, formula.ReadTargetResource,
 				formula.ReadAbilityParam, formula.ReadProviderState, formula.ReadProviderTargetState,

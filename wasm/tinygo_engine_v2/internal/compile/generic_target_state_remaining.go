@@ -15,11 +15,11 @@ func finiteIntegerTargetState(field plan.CompiledProviderStateField) bool {
 func finalizeTargetStateRemaining(ctx *genericCompileContext) {
 	allowed := map[formula.GenericProgramID]bool{}
 	condition := func(program formula.GenericProgramID, owner int) {
-		for _, read := range ctx.session.Formulas.ReadDependencies(program) {
+		for _, read := range ctx.formulas.ReadDependencies(program) {
 			if read.ReadKind != formula.ReadProviderTargetStateRemainingMs {
 				continue
 			}
-			path := ctx.session.Formulas.Programs[program].Key
+			path := ctx.formulas.Info(formula.GenericProgramID(program)).Key
 			if owner < 0 || owner >= len(ctx.session.Providers) {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, path, "target state remaining time requires an owning provider condition", read.ReadKey)
 				continue
@@ -65,22 +65,23 @@ func finalizeTargetStateRemaining(ctx *genericCompileContext) {
 				fail("ensure_remaining cannot change an anchored tick field without rescheduling its callbacks")
 			}
 		}
-		amount, static := ctx.session.Formulas.FoldStatic(operation.AmountProgram)
-		if !operation.HasAmount || len(ctx.session.Formulas.ReadDependencies(operation.AmountProgram)) != 0 || !static || !validStateInteger(amount) || amount <= 0 {
+		amount, static := ctx.formulas.FoldStatic(operation.AmountProgram)
+		if !operation.HasAmount || len(ctx.formulas.ReadDependencies(operation.AmountProgram)) != 0 || !static || !validStateInteger(amount) || amount <= 0 {
 			fail("ensure_remaining amount must be static positive safe integer milliseconds")
 		}
 	}
-	for index, program := range ctx.session.Formulas.Programs {
+	for index := 0; index < ctx.formulas.Count(); index++ {
+		program := ctx.formulas.Info(formula.GenericProgramID(index))
 		if !program.DeclaredNamed {
-			for _, read := range ctx.session.Formulas.ReadDependencies(formula.GenericProgramID(index)) {
+			for _, read := range ctx.formulas.ReadDependencies(formula.GenericProgramID(index)) {
 				if read.ReadKind == formula.ReadProviderTargetStateRemainingMs && !allowed[formula.GenericProgramID(index)] {
 					ctx.collector.addError(model.GenericErrFormulaTypeError, program.Key, "target state remaining time is only available in an owning listener or operation condition", read.ReadKey)
 				}
 			}
 		}
-		for instruction, read := range program.Instr {
+		for instruction, read := range ctx.formulas.Instructions(formula.GenericProgramID(index)) {
 			if read.Op == formula.GenericOpRead && read.ReadKind == formula.ReadProviderTargetStateRemainingMs {
-				ctx.session.Formulas.Programs[index].Instr[instruction].ReferenceBound = true
+				ctx.bindFormulaRead(formula.GenericProgramID(index), instruction, read.RefIndex)
 			}
 		}
 	}

@@ -348,10 +348,10 @@ func nightstalkerTypeSet(t *testing.T, result compile.GenericCompileResult, keys
 func nightstalkerProgramInstr(t *testing.T, result compile.GenericCompileResult, id formula.GenericProgramID) []formula.GenericInstr {
 	t.Helper()
 	idx := int(id)
-	if idx < 0 || idx >= len(result.Session.Formulas.Programs) {
-		t.Fatalf("formula program id %d out of range (n=%d)", idx, len(result.Session.Formulas.Programs))
+	if idx < 0 || idx >= result.Session.Formulas.Metadata.Count() {
+		t.Fatalf("formula program id %d out of range (n=%d)", idx, result.Session.Formulas.Metadata.Count())
 	}
-	return result.Session.Formulas.Programs[idx].Instr
+	return result.Session.Formulas.Metadata.Instructions(formula.GenericProgramID(idx))
 }
 
 // TestGenericNightstalker3179SchemaListenerOrderFormulaCopyable:

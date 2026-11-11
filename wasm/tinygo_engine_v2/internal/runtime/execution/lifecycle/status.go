@@ -48,7 +48,7 @@ func (e *Executor) preparedDuration(provider plan.CompiledProvider, evalCtx form
 	if path == "" {
 		path = "provider[" + provider.ProviderKey + "].lifecycle.durationMs"
 	}
-	value, err := e.formulas.EvalContext(lc.DurationProgram, &evalCtx)
+	value, err := e.formulas.Evaluation.EvalContext(lc.DurationProgram, &evalCtx)
 	if err != nil {
 		return 0, evaluation.PreserveFormulaIssue(err, e.fail(model.GenericErrFormulaTypeError, path, err.Error(), provider.ProviderKey), "")
 	}
@@ -81,7 +81,7 @@ func (e *Executor) preparedStatus(provider plan.CompiledProvider, evalCtx formul
 		if !item.HasStrength {
 			return effectpkg.ContributionView{}, e.fail(model.GenericErrMissingRequiredField, path, "status contribution strength is required; explicit zero is allowed", item.ResultRef)
 		}
-		value, err := e.formulas.EvalContext(item.StrengthProgram, &evalCtx)
+		value, err := e.formulas.Evaluation.EvalContext(item.StrengthProgram, &evalCtx)
 		if err != nil {
 			return effectpkg.ContributionView{}, evaluation.PreserveFormulaIssue(err, e.fail(model.GenericErrFormulaTypeError, path, err.Error(), item.ResultRef), "")
 		}

@@ -50,7 +50,7 @@ func compileAttributeDerivations(definitions []model.AttributeDerivationDefiniti
 		instructions := formula.CompileGenericFormula(definition.Value, path+".value", ctx.namedFormulas, map[string]bool{}, collector.addError)
 		previousSkill := ctx.currentSkillKey
 		ctx.currentSkillKey = definition.SkillKey
-		for _, instruction := range ctx.session.Formulas.InstructionDependencies(instructions, nil) {
+		for _, instruction := range ctx.formulas.InstructionDependencies(instructions, nil) {
 			if instruction.Op != formula.GenericOpRead {
 				continue
 			}

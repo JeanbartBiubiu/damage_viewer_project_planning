@@ -39,7 +39,7 @@ func TestPhase3BCompileParameterCatalogAndAllDeclarationsFailClosed(t *testing.T
 			r := phase3BCompileInput()
 			tc.change(&r.Formulas[0])
 			result := CompileGeneric(r)
-			if result.OK || result.Session.Formulas.Programs != nil {
+			if result.OK || result.Session.Formulas.Metadata.Count() != 0 {
 				t.Fatal(result.Result.Errors)
 			}
 		})

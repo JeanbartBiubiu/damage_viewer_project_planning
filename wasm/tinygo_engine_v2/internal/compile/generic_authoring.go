@@ -88,7 +88,7 @@ func compileDamageTypeFormulas(defs []model.DamageTypeFormulaDefinition, ctx *ge
 		for _, read := range reads {
 			bytes += uint64(len(read.Object) + len(read.AttributeKey))
 		}
-		id, err := ctx.session.Formulas.Register(formula.GenericProgram{Key: formulaPath, Authored: program, BindingBytes: bytes})
+		id, err := ctx.formulas.Register(formula.GenericProgram{Key: formulaPath, Authored: program, BindingBytes: bytes})
 		if err != nil {
 			code := "FORMULA_INVALID_PROGRAM"
 			if formula.IsRegistryLimit(err) {
@@ -133,7 +133,7 @@ func compileCritFormulas(op model.OperationDefinition, compiled *plan.CompiledOp
 			field = "critMultiplier"
 		}
 		instr := formula.CompileGenericFormula(*expr, path+"."+field, ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
-		validateDamagePredicateReads(ctx.session.Formulas.InstructionDependencies(instr, nil), path+"."+field, ctx.catalog, ctx.collector.addError)
+		validateDamagePredicateReads(ctx.formulas.InstructionDependencies(instr, nil), path+"."+field, ctx.catalog, ctx.collector.addError)
 		id, registered := ctx.registerFormula(path+"."+field, instr)
 		if !registered {
 			registeredAll = false
@@ -159,7 +159,7 @@ func validateLinkOperation(op model.OperationDefinition, path string, ctx *gener
 	}
 	requireEventType(ctx, eventType, path+".operation", "link application requires its native event in typeCatalog")
 	instr := formula.CompileGenericFormula(*op.Amount, path+".amount", ctx.namedFormulas, map[string]bool{}, ctx.collector.addError)
-	if value, constant := ctx.session.Formulas.FoldInstructions(instr); constant && (math.IsNaN(value) || math.IsInf(value, 0) || value < 0 || math.Trunc(value) != value || value > float64(ctx.session.Settings.MaxCommandsPerEvent)) {
+	if value, constant := ctx.formulas.FoldInstructions(instr); constant && (math.IsNaN(value) || math.IsInf(value, 0) || value < 0 || math.Trunc(value) != value || value > float64(ctx.session.Settings.MaxCommandsPerEvent)) {
 		ctx.collector.addError(model.GenericErrFormulaTypeError, path+".amount", "link count must be a finite non-negative integer within the command budget", "")
 	}
 	if op.CopyableOnHit || op.CritEligible || op.DamageType != "" || op.EventType != "" || op.Payload != nil || op.ValuePolicy != "" {

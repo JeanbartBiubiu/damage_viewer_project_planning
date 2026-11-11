@@ -35,7 +35,7 @@ func TestDamageDealtOverflowRejectsBeforeCommitRegardlessOfRecording(t *testing.
 			}
 			state := frameCommitState(t, input, request)
 			state.budget.MaxEvidenceItems = evidenceLimit
-			beforeFormulas := *state.formulas.CloneForRun()
+			beforeFormulas := state.formulas
 			issue := state.runLoop()
 			if issue == nil || issue.Code != model.GenericErrRuntimeInvariantFailed || issue.Path != "sharedProviders[0].abilities[0].operations[2]" {
 				t.Fatal("aggregation overflow did not fail at the contributing operation", issue)

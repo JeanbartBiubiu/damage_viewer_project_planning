@@ -122,7 +122,7 @@ func (f *Frame) HitParticipation(program formula.GenericProgramID, ability planb
 
 func (f *Frame) HitConditionValue(condition planbundle.CompiledSkillHitValueCond, candidateKey string) (float64, *model.EngineError) {
 	ctx := f.evalContext(planbundle.CompiledAbility{Params: f.skillHitAbilityParams()})
-	value, err := f.run.formulas.EvalContext(condition.ValueProg, &ctx)
+	value, err := f.run.formulas.Evaluation.EvalContext(condition.ValueProg, &ctx)
 	if err == nil {
 		return value, nil
 	}
@@ -302,7 +302,7 @@ func (f *Frame) EndAttachedListener(binding attachedListenerBinding, executed bo
 
 func (f *Frame) AttachedListenerCondition(definition planbundle.CompiledListener, ability planbundle.CompiledAbility) (bool, *model.EngineError) {
 	ctx := f.evalContext(ability)
-	value, err := f.run.formulas.EvalContext(definition.ConditionProgram, &ctx)
+	value, err := f.run.formulas.Evaluation.EvalContext(definition.ConditionProgram, &ctx)
 	if err != nil {
 		return false, f.formulaError(definition.ConditionProgram, err.Error())
 	}

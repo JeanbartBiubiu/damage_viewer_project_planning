@@ -34,7 +34,7 @@ type BasicAttackExecutorAPI interface {
 	// PrepareWaitProgress 按原读取与命令消费位置核对实际攻速、依赖变化和剩余周期。
 	PrepareWaitProgress(now int64, input AttackWaitInput, work AttackWaitWork) (AttackWaitResult, *model.EngineError)
 	// Initialize 核对完整普攻、实际来源和唯一开始监听后建立所属行动状态。
-	Initialize(input SkillAdmission, stopOnTargetDeath bool, definitions AttackDefinitions, registry *formula.GenericRegistry, skills SkillActionExecutor, checks AttackAdmissionChecks) *model.EngineError
+	Initialize(input SkillAdmission, stopOnTargetDeath bool, definitions AttackDefinitions, registry *formula.Library, skills SkillActionExecutor, checks AttackAdmissionChecks) *model.EngineError
 	// Contribution 读取真实窗口内全部占用的最晚释放时刻及存在性。
 	Contribution(start, end int64) *int64
 	// RefreshContributions 按真实首次控制时刻和原保留记录顺序更新占用贡献。

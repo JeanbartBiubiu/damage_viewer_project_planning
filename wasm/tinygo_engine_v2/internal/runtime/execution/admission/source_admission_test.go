@@ -34,7 +34,7 @@ func sourceListenerInput(t *testing.T, event string, operations ...planbundle.Co
 		Providers:  []planbundle.CompiledProvider{{ProviderKey: "parent"}},
 		Operations: operations,
 	}
-	input := Input{Compiled: compiled, Formulas: &formula.GenericRegistry{}, Identity: Identity{SchemaHash: "schema", RulesHash: "rules", SessionID: "session"}}
+	input := Input{Compiled: compiled, Formulas: &formula.Library{}, Identity: Identity{SchemaHash: "schema", RulesHash: "rules", SessionID: "session"}}
 	listener := planbundle.CompiledListener{ListenerKey: "listener", OwnerCombatantKey: model.SelectorSource, OwnerProviderRef: "selected", SourceAbilityIndex: 0,
 		OperationCount: uint16(len(operations)), MaxTriggersPerEvent: 1,
 		EventMatcher: typeset.CompileGenericMatcher(model.TypeMatcher{All: []string{event, "event/source_owner"}}, catalog, typeset.EntityListener, "matcher", addError)}
@@ -93,7 +93,7 @@ func TestListenerDurationAdmissionRequiresActualSelectionAndAttackOwner(t *testi
 func TestListenerAttackCooldownAdmissionKeepsStaticZeroAndActualBinding(t *testing.T) {
 	input, listener, sources := sourceListenerInput(t, model.EventTypeBasicAttackHit,
 		planbundle.CompiledOperation{Operation: "cooldown_change", Target: "self", ValuePolicy: "reduce", HasAmount: true, HasAbilityRef: true, AbilityRefStr: "self.provider[selected].ability[initial]", OwnerProviderIndex: 0, Path: "operations.cooldown"})
-	input.Formulas.Programs = []formula.GenericProgram{{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 0}}}}
+	*input.Formulas = fixtureFormulaLibrary([]formula.GenericProgram{{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 0}}}})
 	input.Compiled.Abilities = []planbundle.CompiledAbility{{AbilityKey: "initial", Kind: "active", ProviderIndex: 0, SkillKey: "skill", ProcessControl: &planbundle.CompiledProcessControl{ProcessControlDefinition: model.ProcessControlDefinition{Action: "INITIAL"}, ProcessIndex: 0}}}
 	input.Compiled.Providers[0].Processes = []planbundle.CompiledProcess{{SkillKey: "skill", Cooldown: &planbundle.CompiledProcessCooldown{}}}
 	binding := planbundle.CompiledSkillActionBinding{SkillActionBinding: model.SkillActionBinding{Source: model.SelectorSource, ProviderRef: "selected", ProviderDefinitionRef: "parent", SkillKey: "skill"}, ControlAbilityIndices: map[string]uint16{"INITIAL": 0}}
@@ -105,7 +105,7 @@ func TestListenerAttackCooldownAdmissionKeepsStaticZeroAndActualBinding(t *testi
 	if issue := ValidateEquipmentHitListener(input, listener, sources); issue != nil {
 		t.Fatalf("explicit static zero with its selected INITIAL binding must pass: %+v", issue)
 	}
-	input.Formulas.Programs[0].Instr[0].Value = -1
+	*input.Formulas = fixtureFormulaLibrary([]formula.GenericProgram{{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: -1}}}})
 	if issue := ValidateEquipmentHitListener(input, listener, sources); issue == nil {
 		t.Fatal("a negative static amount must remain rejected")
 	}

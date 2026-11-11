@@ -33,8 +33,8 @@ func TestCompileTimedShieldProjectsDurationFormula(t *testing.T) {
 		t.Fatalf("compiled op=%+v", op)
 	}
 	key := "sharedProviders[0].abilities[0].operations[0].shieldDurationMs"
-	if _, ok := result.Session.Formulas.Index[key]; !ok {
-		t.Fatalf("missing duration formula %q in %+v", key, result.Session.Formulas.Index)
+	if _, ok := result.Session.Formulas.Metadata.Find(key); !ok {
+		t.Fatalf("missing duration formula %q in %+v", key, result.Session.Formulas.Metadata)
 	}
 }
 

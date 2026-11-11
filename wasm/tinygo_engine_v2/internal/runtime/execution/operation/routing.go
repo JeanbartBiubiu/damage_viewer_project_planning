@@ -113,11 +113,11 @@ func (f *calculation) executeOperation(ability planbundle.CompiledAbility, op *p
 }
 func (f *calculation) evalAmount(id formula.GenericProgramID, ability planbundle.CompiledAbility) (float64, *model.EngineError) {
 	ctx := f.evalContext(ability)
-	value, err := f.executor.formulas.EvalContext(id, &ctx)
+	value, err := f.executor.formulas.Evaluation.EvalContext(id, &ctx)
 	if err != nil {
 		out := engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), f.executor.plan.SchemaHash, f.executor.plan.RulesHash, f.executor.sessionID)
-		if f.input.SkillHitOccurrenceID != 0 && int(id) < len(f.executor.formulas.Programs) {
-			out.Path = f.executor.formulas.Programs[id].Key
+		if f.input.SkillHitOccurrenceID != 0 && int(id) < f.executor.formulas.Metadata.Count() {
+			out.Path = f.executor.formulas.Metadata.Info(formula.GenericProgramID(id)).Key
 			out.Ref = f.input.AbilityRef
 		}
 		if strings.HasPrefix(err.Error(), "event.skill_hit.") {

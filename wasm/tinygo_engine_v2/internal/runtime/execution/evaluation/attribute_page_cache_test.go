@@ -17,7 +17,7 @@ func TestDerivedPageCacheStillMaterializesMissingZeroOutput(t *testing.T) {
 		t.Run(map[bool]string{false: "zero", true: "modifier_dependency"}[modifier], func(t *testing.T) {
 			layout := attribute.NewLayout([]string{"hp", "force", "pulse"})
 			attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"hp": authoringSlot(100), "pulse": authoringSlot(0)}, layout)
-			state := attributeFixture{formulas: formula.GenericRegistry{Programs: []formula.GenericProgram{{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 0}}}, {Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadSourceAttr, ReadKey: "pulse.base"}}}}}, compiled: planbundle.CompiledSession{AttributeDerivations: []planbundle.CompiledAttributeDerivation{{CombatantKey: "source", AttributeKey: "force", ValueProgram: 0, ValuePolicy: "set", ValueType: "FLOAT", Path: "derived.force"}}}}
+			state := attributeFixture{formulas: fixtureFormulaLibrary([]formula.GenericProgram{{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 0}}}, {Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadSourceAttr, ReadKey: "pulse.base"}}}}), compiled: planbundle.CompiledSession{AttributeDerivations: []planbundle.CompiledAttributeDerivation{{CombatantKey: "source", AttributeKey: "force", ValueProgram: 0, ValuePolicy: "set", ValueType: "FLOAT", Path: "derived.force"}}}}
 			resolver := effectpkg.AttributeResolver{}
 			if modifier {
 				resolver.MountCompiledModifierOwned("source", "buff", planbundle.CompiledModifier{Kind: "attribute", Target: "force", HasValue: true, ValueProgram: 1, ValuePolicy: "add"})

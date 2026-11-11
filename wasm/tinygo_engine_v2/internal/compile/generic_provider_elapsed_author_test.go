@@ -20,7 +20,7 @@ func TestAuthoredElapsedDeclarationAndActualFiniteUse(t *testing.T) {
 	if !result.OK {
 		t.Fatal("declaration without instance is not an execution", result.Result.Errors)
 	}
-	if _, err := result.Session.Formulas.Eval(0, formula.GenericEvalContext{}); err == nil {
+	if _, err := result.Session.Formulas.Evaluation.Eval(0, formula.GenericEvalContext{}); err == nil {
 		t.Fatal("missing actual elapsed context was zero-filled")
 	}
 	r = elapsedCompileInput()
@@ -32,11 +32,11 @@ func TestAuthoredElapsedDeclarationAndActualFiniteUse(t *testing.T) {
 		t.Fatal(result.Result.Errors)
 	}
 	program := result.Session.Providers[1].Modifiers[0].ValueProgram
-	value, err := result.Session.Formulas.Eval(program, formula.GenericEvalContext{HasProviderElapsed: true, ProviderElapsedMs: 750})
+	value, err := result.Session.Formulas.Evaluation.Eval(program, formula.GenericEvalContext{HasProviderElapsed: true, ProviderElapsedMs: 750})
 	if err != nil || value != 750 {
 		t.Fatal(value, err)
 	}
-	if _, cacheable := result.Session.Formulas.AttributeCacheDependencies(program); cacheable {
+	if _, cacheable := result.Session.Formulas.Metadata.AttributeCacheDependencies(program); cacheable {
 		t.Fatal("authored elapsed formula reused timeless cache")
 	}
 	r.SharedProviders[1].Abilities = []model.AbilityDefinition{{AbilityKey: "illegal", Kind: "active", SkillKey: "configured_skill", Operations: []model.OperationDefinition{{Operation: "heal", Target: "self", Amount: &model.GenericFormulaExpr{Op: "ref", Ref: "authored_elapsed"}}}}}

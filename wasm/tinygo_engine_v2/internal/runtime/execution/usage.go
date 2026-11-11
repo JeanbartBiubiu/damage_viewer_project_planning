@@ -202,14 +202,9 @@ func (s *Engine) evalListenerCondition(listener planbundle.CompiledListener, ev 
 		}
 	}
 	ctx := frame.evalContext(ability)
-	if s.compiled.HasReceivedShieldReads {
-		ctx.ReceivedShieldReader = frame
-	}
-	if listener.ReadsDamageStateBefore {
-		ctx.DamageStateBeforeReader = frame
-	}
+	ctx.Facts = frame.prepareFormulaFacts(s.compiled.FormulaFactReads[listener.ConditionProgram])
 	ctx.StrictReads = true
-	value, err := s.formulas.EvalContext(listener.ConditionProgram, &ctx)
+	value, err := s.formulas.Evaluation.EvalContext(listener.ConditionProgram, &ctx)
 	if err != nil {
 		out := engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 		out.Path = "listeners[" + listener.ListenerKey + "].condition"

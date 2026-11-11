@@ -60,7 +60,7 @@ type AttackAdmissionChecks interface {
 	NativeAttackListenerMatches(listener planbundle.CompiledListener, source, target string, set typeset.TypeSet) bool
 }
 
-func (s BasicAttackExecutor) Initialize(input SkillAdmission, stopOnTargetDeath bool, definitions AttackDefinitions, registry *formula.GenericRegistry, skills SkillActionExecutor, checks AttackAdmissionChecks) *model.EngineError {
+func (s BasicAttackExecutor) Initialize(input SkillAdmission, stopOnTargetDeath bool, definitions AttackDefinitions, registry *formula.Library, skills SkillActionExecutor, checks AttackAdmissionChecks) *model.EngineError {
 	p := input.BasicAttack
 	if p == nil {
 		return nil
@@ -194,11 +194,11 @@ func (s BasicAttackExecutor) Initialize(input SkillAdmission, stopOnTargetDeath 
 			}
 			gearKeys[gear.StableID] = true
 			for _, modifier := range gear.Modifiers {
-				if !modifier.HasValue || int(modifier.ValueProgram) >= len(registry.Programs) {
+				if !modifier.HasValue || int(modifier.ValueProgram) >= registry.Metadata.Count() {
 					return s.error("equipment attribute contribution is missing", "initialSnapshot.combatants.providers")
 				}
 				selector := pipeline.ModifierTargetCombatantSelector(modifier.Target)
-				_, static := registry.FoldStatic(modifier.ValueProgram)
+				_, static := registry.Metadata.FoldStatic(modifier.ValueProgram)
 				if modifier.Kind != "attribute" || modifier.HasCondition || modifier.ValuePolicy != "add" || (selector != "" && selector != model.SelectorSelf) || !static {
 					return s.error("equipment attributes require unconditional flat contributions", "initialSnapshot.combatants.providers")
 				}
@@ -250,7 +250,7 @@ func (s BasicAttackExecutor) Initialize(input SkillAdmission, stopOnTargetDeath 
 			return s.error("continuous basic attack currently requires immediate process steps", step.Path)
 		}
 	}
-	s.actions.InitBasicAttack(actionpkg.BasicAttackSeed{Plan: *p, InitialAbility: initial, CooldownDependencies: registry.ReadDependencies(process.Cooldown.DurationProgram)})
+	s.actions.InitBasicAttack(actionpkg.BasicAttackSeed{Plan: *p, InitialAbility: initial, CooldownDependencies: registry.Metadata.ReadDependencies(process.Cooldown.DurationProgram)})
 	if err := checks.BindInitialAttackPrimary(hit, selectedRef.ProviderRef); err != nil {
 		return err
 	}

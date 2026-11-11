@@ -135,10 +135,9 @@ func finalizeShieldLifecycleBindings(req model.CompileRequest, ctx *genericCompi
 			}
 		}
 	}
-	for programIndex := range ctx.session.Formulas.Programs {
-		program := &ctx.session.Formulas.Programs[programIndex]
-		for instructionIndex := range program.Instr {
-			instruction := &program.Instr[instructionIndex]
+	for programIndex := 0; programIndex < ctx.formulas.Count(); programIndex++ {
+		program := ctx.formulas.Info(formula.GenericProgramID(programIndex))
+		for instructionIndex, instruction := range ctx.formulas.Instructions(formula.GenericProgramID(programIndex)) {
 			if instruction.Op != formula.GenericOpRead || instruction.ReadKind != formula.ReadLinkedShieldPresent {
 				continue
 			}
@@ -151,7 +150,7 @@ func finalizeShieldLifecycleBindings(req model.CompileRequest, ctx *genericCompi
 				add(model.GenericErrFormulaTypeError, program.Key, "linked shield presence requires its actual source provider context", instruction.ReadKey)
 				continue
 			}
-			instruction.ReferenceBound, instruction.RefIndex = true, binding.provider
+			ctx.bindFormulaRead(formula.GenericProgramID(programIndex), instructionIndex, binding.provider)
 			ctx.session.HasLinkedShieldReads = true
 		}
 	}

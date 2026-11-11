@@ -11,33 +11,24 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
-// DamageStateBeforeReader 只读取当前真实伤害结算前冻结的状态事实。
-type DamageStateBeforeReader interface {
-	// DamageStateBefore 返回已授权状态的伤前冻结值，缺少事实或读取资格时返回错误。
-	DamageStateBefore(string) (float64, error)
-}
-
 // GenericEvalContext 是战斗公式运行时的只读事实视图。
 type GenericEvalContext struct {
-	DamageStateBeforeReader DamageStateBeforeReader
-	ReceivedShieldReader    ReceivedShieldReader
-	LinkedShieldReader      LinkedShieldReader
+	Facts FactView
 	// 只有明确作者派生使用点设置。内部用途读取仍使用SourceAttrs/TargetAttrs。
 	HasAuthoredActorContext bool
 	AuthoredSourceAttrs     attribute.Table
 	AuthoredTargetAttrs     attribute.Table
 	AuthoredCombatantKey    string
 	RuntimeSkillKey         string
-	RuntimeParameters       map[string]float64
+	RuntimeParameters       model.NumericView
 	HasUseChargeDuration    bool
 	UseChargeDurationMs     int64
 	HasUseAmmoBefore        bool
 	UseAmmoBefore           float64
-	UseProviderStateBefore  []ProviderStateBeforeValue
+	UseProviderStateBefore  ProviderStateBeforeView
 	HasStatusContext        bool
-	SourceStatuses          map[string]bool
-	TargetStatuses          map[string]bool
-	ReadInput               expression.ReadInput
+	SourceStatuses          BoolView
+	TargetStatuses          BoolView
 	HasEventLink            bool
 	LinkIndex               int
 	LinkCount               int
@@ -48,7 +39,7 @@ type GenericEvalContext struct {
 	TargetAttrs             attribute.Table
 	SourceResources         model.ResourceView
 	TargetResources         model.ResourceView
-	AbilityParams           map[string]float64
+	AbilityParams           model.NumericView
 	// StrictReads 用于需要区分缺值与真实零值的吸血效率和治疗修正。
 	StrictReads bool
 
@@ -82,13 +73,13 @@ type GenericEvalContext struct {
 	HasDamageParticipants bool
 	DamageSelf            bool
 	// DamageTraits lists catalog damage_trait/* keys on the current damage operation.
-	DamageTraits []string
+	DamageTraits StringView
 	// DamageTypeKey is the current operation damage type (catalog key / settlement alias).
 	DamageTypeKey string
 	// DamageCastOrigin is the casting ability castOrigin enum value (champion|item|pet|innate); empty if unset.
 	DamageCastOrigin string
 	// DamageAbilityTypes lists casting ability TypeSet keys (ability/*) for ability_type predicates.
-	DamageAbilityTypes []string
+	DamageAbilityTypes StringView
 
 	// Event damage snapshot reads require an emitted damage_instance (or equivalent) context.
 	HasEventDamageSnapshot bool
@@ -105,7 +96,7 @@ type GenericEvalContext struct {
 
 	// Operation output reads require the current execution frame after a real damage settlement.
 	HasOperationOutputs bool
-	OperationOutputs    map[string]OperationOutputValues
+	OperationOutputs    OperationOutputView
 }
 
 // ProcessStartStateValue is an immutable per-use capture. Small ordered slices
@@ -113,18 +104,6 @@ type GenericEvalContext struct {
 type ProcessStartStateValue struct {
 	StateKey string
 	Value    float64
-}
-
-// LinkedShieldReader 在明确供值帧中读取已由编译绑定的关联盾。
-type LinkedShieldReader interface {
-	// LinkedShieldPresent 返回指定关联盾在当前帧的存在值；缺少合法上下文时返回错误。
-	LinkedShieldPresent(providerDefinitionIndex uint16) (float64, error)
-}
-
-// ReceivedShieldReader 仅由已挂载的真实受伤监听条件提供。
-type ReceivedShieldReader interface {
-	// ReceivedLinkedShieldAbsorbed 返回本笔指定关联盾的真实吸收额；缺少逐盾事实时返回错误。
-	ReceivedLinkedShieldAbsorbed(providerDefinitionIndex uint16) (float64, error)
 }
 
 // OperationOutputValues 保存一次真实伤害管道的封闭口径。
@@ -161,11 +140,11 @@ type AuthoredEvaluationError struct {
 	ProgramKey, DefinitionPath string
 }
 
-func (r GenericRegistry) Eval(id GenericProgramID, ctx GenericEvalContext) (float64, error) {
+func (r programStore) evaluate(id GenericProgramID, ctx GenericEvalContext) (float64, error) {
 	return r.eval(id, &ctx, false, 1, new(int))
 }
 
-func (r GenericRegistry) EvalContext(id GenericProgramID, ctx *GenericEvalContext) (float64, error) {
+func (r programStore) evalContext(id GenericProgramID, ctx *GenericEvalContext) (float64, error) {
 	if ctx == nil {
 		return 0, errors.New("formula evaluation context is required")
 	}
@@ -176,14 +155,14 @@ var errConstFormulaRead = errors.New("formula requires runtime read")
 
 func (e *AuthoredEvaluationError) Error() string { return e.Issue.Code + " at " + e.Issue.Path }
 
-func (r GenericRegistry) programForEvaluation(id GenericProgramID, depth int, spent *int) (*GenericProgram, error) {
+func (r programStore) programForEvaluation(id GenericProgramID, depth int, spent *int) (*GenericProgram, error) {
 	if depth > 32 {
 		return nil, &AuthoredEvaluationError{Issue: expression.ContractIssue{Code: "FORMULA_LIMIT"}}
 	}
-	if int(id) >= len(r.Programs) {
+	if int(id) >= len(r.programs) {
 		return nil, errors.New("formula id out of range")
 	}
-	program := &r.Programs[id]
+	program := &r.programs[id]
 	charge := len(program.Instr)
 	if program.Authored != nil {
 		charge = program.Authored.Stats().Instructions
@@ -195,7 +174,7 @@ func (r GenericRegistry) programForEvaluation(id GenericProgramID, depth int, sp
 	return program, nil
 }
 
-func (r GenericRegistry) EvalBound(id GenericProgramID, binding *inputbinding.Plan, values []inputbinding.Value) (float64, error) {
+func (r programStore) evalBound(id GenericProgramID, binding *inputbinding.Plan, values []inputbinding.Value) (float64, error) {
 	var spent int
 	program, err := r.programForEvaluation(id, 1, &spent)
 	if err != nil {
@@ -211,7 +190,7 @@ func (r GenericRegistry) EvalBound(id GenericProgramID, binding *inputbinding.Pl
 	return result.Value, nil
 }
 
-func (r GenericRegistry) eval(id GenericProgramID, ctx *GenericEvalContext, constOnly bool, depth int, spent *int) (float64, error) {
+func (r programStore) eval(id GenericProgramID, ctx *GenericEvalContext, constOnly bool, depth int, spent *int) (float64, error) {
 	program, err := r.programForEvaluation(id, depth, spent)
 	if err != nil {
 		return 0, err
@@ -228,7 +207,7 @@ func (r GenericRegistry) eval(id GenericProgramID, ctx *GenericEvalContext, cons
 		if program.NamedBinding != nil {
 			result, issue = program.NamedBinding.evaluate(program.Authored, ctx, constOnly)
 		} else {
-			result, issue = program.Authored.Evaluate(ctx.ReadInput)
+			result, issue = program.Authored.Evaluate(nil)
 		}
 		if issue != nil {
 			path := ""
@@ -385,10 +364,8 @@ func genericArithmeticName(op GenericOp) string {
 
 func evalRead(kind GenericReadKind, key string, ctx *GenericEvalContext) (float64, error) {
 	if kind == ReadUseProviderStateBefore {
-		for _, captured := range ctx.UseProviderStateBefore {
-			if captured.StateKey == key {
-				return captured.Value, nil
-			}
+		if value, exists := ctx.UseProviderStateBefore.Lookup(key); exists {
+			return value, nil
 		}
 		return 0, errors.New("use.provider_state_before requires the same owning attack's committed counter capture: " + key)
 	}
@@ -406,7 +383,7 @@ func evalRead(kind GenericReadKind, key string, ctx *GenericEvalContext) (float6
 		if kind == ReadTargetStatusPresent {
 			statuses = ctx.TargetStatuses
 		}
-		present, declared := statuses[key]
+		present, declared := statuses.Lookup(key)
 		if !declared {
 			return 0, errors.New("unknown status presence key: " + key)
 		}
@@ -426,16 +403,16 @@ func evalRead(kind GenericReadKind, key string, ctx *GenericEvalContext) (float6
 		return readResourceValueChecked(ctx.TargetResources, key, ctx.StrictReads)
 	case ReadAbilityParam:
 		if ctx.StrictReads {
-			value, ok := ctx.AbilityParams[key]
+			value, ok := ctx.AbilityParams.Lookup(key)
 			if !ok {
 				return 0, errors.New("missing ability parameter: " + key)
 			}
 			return value, nil
 		}
-		if ctx.AbilityParams == nil {
+		if !ctx.AbilityParams.Present() {
 			return 0, nil
 		}
-		return ctx.AbilityParams[key], nil
+		return ctx.AbilityParams.At(key), nil
 	case ReadProviderElapsedMs:
 		if !ctx.HasProviderContext || !ctx.HasProviderElapsed || ctx.ProviderElapsedMs < 0 {
 			return 0, errors.New("provider.elapsed_ms requires a finite-lifecycle modifier with actual application time")
@@ -509,10 +486,8 @@ func evalRead(kind GenericReadKind, key string, ctx *GenericEvalContext) (float6
 			return 0, errors.New("damage.trait requires damage context")
 		}
 		want := "damage_trait/" + key
-		for _, t := range ctx.DamageTraits {
-			if t == want {
-				return 1, nil
-			}
+		if ctx.DamageTraits.Contains(want) {
+			return 1, nil
 		}
 		return 0, nil
 	case ReadDamageType:
@@ -536,10 +511,8 @@ func evalRead(kind GenericReadKind, key string, ctx *GenericEvalContext) (float6
 			return 0, errors.New("damage.ability_type requires damage context")
 		}
 		want := "ability/" + key
-		for _, t := range ctx.DamageAbilityTypes {
-			if t == want {
-				return 1, nil
-			}
+		if ctx.DamageAbilityTypes.Contains(want) {
+			return 1, nil
 		}
 		return 0, nil
 	case ReadEventSkillUseContactCount:
@@ -613,7 +586,7 @@ func readOperationOutput(key string, ctx *GenericEvalContext) (float64, error) {
 	}
 	ref := key[:dot]
 	kind := key[dot+1:]
-	vals, ok := ctx.OperationOutputs[ref]
+	vals, ok := ctx.OperationOutputs.Lookup(ref)
 	if !ok {
 		return 0, errors.New(path + " is not available")
 	}

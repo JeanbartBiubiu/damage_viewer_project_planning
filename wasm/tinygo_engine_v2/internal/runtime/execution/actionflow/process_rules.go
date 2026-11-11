@@ -44,7 +44,7 @@ func (s ProcessExecutor) Condition(entryIndex int, ability planbundle.CompiledAb
 	return true, nil
 }
 
-func (s ProcessExecutor) IsAttackReset(process *actionpkg.ProcessView, kind string, operation planbundle.CompiledOperation, registry *formula.GenericRegistry, references map[string]planbundle.CompiledAbilityRef, abilities []planbundle.CompiledAbility) bool {
+func (s ProcessExecutor) IsAttackReset(process *actionpkg.ProcessView, kind string, operation planbundle.CompiledOperation, registry *formula.Library, references map[string]planbundle.CompiledAbilityRef, abilities []planbundle.CompiledAbility) bool {
 	attack := s.actions.BasicAttack()
 	if kind != "PROCESS_START" || attack == nil || process.Owner() != attack.Plan().Source || (operation.Target != model.SelectorSelf && operation.Target != model.SelectorSource) || !operation.HasAmount {
 		return false
@@ -53,7 +53,7 @@ func (s ProcessExecutor) IsAttackReset(process *actionpkg.ProcessView, kind stri
 	if ref != attack.Plan().InitialControlAbilityRef {
 		return false
 	}
-	value, constant := registry.FoldStatic(operation.AmountProgram)
+	value, constant := registry.Metadata.FoldStatic(operation.AmountProgram)
 	if !constant || value != 0 {
 		return false
 	}

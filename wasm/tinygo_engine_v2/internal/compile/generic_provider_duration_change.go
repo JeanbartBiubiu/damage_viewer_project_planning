@@ -23,7 +23,7 @@ func pureFiniteOwnDurationProvider(provider planbundle.CompiledProvider, ctx *ge
 		lifecycle.MaxStacks != 1 || lifecycle.RefreshPolicy != model.RefreshPolicyReplace || lifecycle.InstanceScope != model.InstanceScopeSourceTarget || lifecycle.TickIntervalMs != 0 {
 		return false
 	}
-	duration, static := ctx.session.Formulas.FoldStatic(lifecycle.DurationProgram)
+	duration, static := ctx.formulas.FoldStatic(lifecycle.DurationProgram)
 	if !static || math.IsNaN(duration) || math.IsInf(duration, 0) || duration <= 0 || duration > 9007199254740991 || math.Trunc(duration) != duration {
 		return false
 	}
@@ -37,7 +37,7 @@ func pureFiniteOwnDurationProvider(provider planbundle.CompiledProvider, ctx *ge
 			modifier.HasCondition || !modifier.HasValue || modifier.Command != "" || modifier.Channel != "" || modifier.HealDirection != "" || modifier.HealCategory != "" || modifier.HealGroupKey != "" || modifier.HealGroupCalculationMode != "" {
 			return false
 		}
-		value, fixed := ctx.session.Formulas.FoldStatic(modifier.ValueProgram)
+		value, fixed := ctx.formulas.FoldStatic(modifier.ValueProgram)
 		if !fixed || math.IsNaN(value) || math.IsInf(value, 0) || total && value <= 0 || complement && (value < 0 || value > 1) {
 			return false
 		}
@@ -63,7 +63,7 @@ func finalizeProviderDurationChanges(ctx *genericCompileContext) {
 		}
 		provider := &ctx.session.Providers[index]
 		parent := ctx.session.Providers[operation.OwnerProviderIndex]
-		amount, static := ctx.session.Formulas.FoldStatic(operation.AmountProgram)
+		amount, static := ctx.formulas.FoldStatic(operation.AmountProgram)
 		if !operation.HasAmount || !static || math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 || amount > 9007199254740991 || math.Trunc(amount) != amount ||
 			parent.SkillKey == "" || parent.SkillKey != provider.SkillKey || !pureFiniteOwnDurationProvider(*provider, ctx) {
 			fail("provider duration change requires static safe milliseconds and one pure same-skill finite own attribute instance")
@@ -97,7 +97,7 @@ func finalizeProviderDurationChanges(ctx *genericCompileContext) {
 			continue
 		}
 		provider.AtomicDynamic = true
-		duration, _ := ctx.session.Formulas.FoldStatic(provider.Lifecycle.DurationProgram)
+		duration, _ := ctx.formulas.FoldStatic(provider.Lifecycle.DurationProgram)
 		provider.StaticDurationMs = int64(duration)
 		ctx.session.HasProviderDurationChange = true
 		provider.NeedsModifierExpiry, ctx.session.HasFiniteModifierExpiry = true, true

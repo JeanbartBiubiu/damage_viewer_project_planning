@@ -37,7 +37,7 @@ func TestSpecialAttackStatusPresenceChoosesOneBodyAndExpiresAtBoundary(test *tes
 			test.Fatal(err)
 		}
 		context := state.newExecutionFrame("source", "target", authoringRef("native_hit")).evalContext(state.compiled.Abilities[2])
-		if context.SourceStatuses["ordinary_slow"] || !context.TargetStatuses["ordinary_slow"] {
+		if context.SourceStatuses.At("ordinary_slow") || !context.TargetStatuses.At("ordinary_slow") {
 			test.Fatal("status presence crossed party ownership")
 		}
 		input.SharedProviders[0].Abilities[2].Operations[0].SkillHit.Candidates[0].ParticipationCondition = authoringAmount(authoringRead("target.status.undeclared.present"))

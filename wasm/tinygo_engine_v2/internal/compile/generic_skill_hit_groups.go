@@ -74,11 +74,11 @@ func compileSkillHitRuleGroups(groups []model.SkillHitRuleGroup, candidates []mo
 }
 
 func sameRuleGroupProgram(a, b formula.GenericProgramID, ctx *genericCompileContext) bool {
-	programs := ctx.session.Formulas.Programs
-	if int(a) >= len(programs) || int(b) >= len(programs) {
+	count := ctx.formulas.Count()
+	if int(a) >= count || int(b) >= count {
 		return false
 	}
-	x, y := programs[a].Instr, programs[b].Instr
+	x, y := ctx.formulas.Instructions(a), ctx.formulas.Instructions(b)
 	if len(x) != len(y) {
 		return false
 	}

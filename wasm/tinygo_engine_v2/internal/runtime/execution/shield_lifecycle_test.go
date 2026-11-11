@@ -249,17 +249,17 @@ func TestLinkedShieldPresenceIsExplicitAndReadsActualPair(t *testing.T) {
 			f := s.newExecutionFrame("target", "source", "read")
 			f.ownerCombatantKey, f.ownerProviderRef = "target", "configured_original"
 			index, _ := s.findProviderDefinitionIndex(names.provider)
-			if v, err := f.LinkedShieldPresent(index); err != nil || v != 0 {
+			if v, err := f.linkedShieldPresent(index); err != nil || v != 0 {
 				t.Fatal(v, err)
 			}
 			linkedShieldExecute(t, s, "apply", "target", "target")
 			f = s.newExecutionFrame("target", "source", "read")
 			f.ownerCombatantKey, f.ownerProviderRef = "target", "configured_original"
-			if v, err := f.LinkedShieldPresent(index); err != nil || v != 1 {
+			if v, err := f.linkedShieldPresent(index); err != nil || v != 1 {
 				t.Fatal(v, err)
 			}
 			f.ownerProviderRef = "missing"
-			if _, err := f.LinkedShieldPresent(index); err == nil || !strings.Contains(err.Error(), "provider") {
+			if _, err := f.linkedShieldPresent(index); err == nil || !strings.Contains(err.Error(), "provider") {
 				t.Fatal("missing actual context silently read")
 			}
 		})
@@ -367,7 +367,7 @@ func TestLinkedShieldDeclaredWithoutApplyReadsZeroThroughRunGeneric(t *testing.T
 	}
 	frame := state.newExecutionFrame("source", "target", "unowned")
 	index, _ := state.findProviderDefinitionIndex("configured_lifetime")
-	if _, err := frame.LinkedShieldPresent(index); err == nil {
+	if _, err := frame.linkedShieldPresent(index); err == nil {
 		t.Fatal("unowned linked presence read accepted")
 	}
 }

@@ -10,11 +10,11 @@ import (
 )
 
 func TestAttributeTotalMultipliersAfterFlatIndependentOfBucket(t *testing.T) {
-	registry := formula.GenericRegistry{Programs: []formula.GenericProgram{
+	registry := fixtureFormulaLibrary([]formula.GenericProgram{
 		{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 50}}},
 		{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: .7}}},
 		{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: .5}}},
-	}}
+	})
 	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"armor": {Base: 100}})
 	var resolver AttributeResolver
 	for i, row := range []struct{ ref, policy, stage, bucket string }{{"flat", "add", "", "zzz"}, {"ratio", "multiply", "total", "aaa"}, {"other", "multiply", "total", "bbb"}} {

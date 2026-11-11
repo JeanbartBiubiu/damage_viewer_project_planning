@@ -63,7 +63,7 @@ func (e *Executor) PermanentHealthAnchor(owner string, attributes attribute.Tabl
 				if actor.Key != owner || (selector != "" && selector != model.SelectorSelf) || provider.Kind != "item" || provider.StableID == "" || provider.Lifecycle != nil || provider.AbilityCount != 0 || len(provider.Listeners) != 0 || mod.HasCondition || !mod.HasValue || mod.ValuePolicy != "add" || mod.Stage != "" {
 					return 0, e.invariant("initialSnapshot.combatants.providers", "cold HP anchor only accepts actual own static equipment flat HP", "")
 				}
-				value, static := e.formulas.FoldStatic(mod.ValueProgram)
+				value, static := e.formulas.Metadata.FoldStatic(mod.ValueProgram)
 				if !static || math.IsNaN(value) || math.IsInf(value, 0) || value < 0 {
 					return 0, e.invariant("initialSnapshot.combatants.providers", "equipped HP contribution must be a finite nonnegative static add", "")
 				}

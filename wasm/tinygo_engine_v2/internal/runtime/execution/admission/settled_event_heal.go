@@ -41,27 +41,28 @@ func finiteNonnegativeEventHealFactor(value float64) bool {
 
 // 金额必须是有限静态系数，或恰有一次已结算伤害乘除静态系数，可在最外层取 max(0,x)。
 // 全程序遍历保留原递归及累计指令预算；其他读值、分支、偏移和伤害分母不准入。
-func settledEventHealFormulaTerm(registry *formula.GenericRegistry, id formula.GenericProgramID, params map[string]float64, depth int, spent *int) (settledEventHealTerm, bool) {
+func settledEventHealFormulaTerm(registry *formula.Library, id formula.GenericProgramID, params map[string]float64, depth int, spent *int) (settledEventHealTerm, bool) {
 	invalid := settledEventHealTerm{}
-	if depth > 32 || int(id) >= len(registry.Programs) {
+	if depth > 32 || int(id) >= registry.Metadata.Count() {
 		return invalid, false
 	}
-	program := registry.Programs[id]
-	charge := len(program.Instr)
-	if program.Authored != nil {
-		charge = program.Authored.Stats().Instructions
+	program := registry.Metadata.Info(formula.GenericProgramID(id))
+	instructions := registry.Metadata.Instructions(id)
+	charge := len(instructions)
+	if program.HasAuthored {
+		charge = program.AuthoredStats.Instructions
 	}
 	if charge > formula.MaxGenericTotalInstructions-*spent {
 		return invalid, false
 	}
 	*spent += charge
-	if program.Authored != nil {
+	if program.HasAuthored {
 		// 共享公式仅能提供已选定静态系数；未绑定运行参数不能在此求值。
-		value, static := registry.FoldStatic(id)
+		value, static := registry.Metadata.FoldStatic(id)
 		return settledEventHealTerm{factor: value}, static && finiteNonnegativeEventHealFactor(value)
 	}
 	stack := make([]settledEventHealTerm, 0, 8)
-	for _, instruction := range program.Instr {
+	for _, instruction := range instructions {
 		var value settledEventHealTerm
 		switch instruction.Op {
 		case formula.GenericOpConst:

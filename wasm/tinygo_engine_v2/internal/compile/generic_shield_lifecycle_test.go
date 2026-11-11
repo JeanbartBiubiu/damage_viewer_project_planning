@@ -22,8 +22,10 @@ func TestCompileLinkedShieldPresenceAllowsDeclaredDefinitionWithoutApply(t *test
 		t.Fatalf("compile: %+v", result.Result.Errors)
 	}
 	var found bool
-	for _, program := range result.Session.Formulas.Programs {
-		for _, instruction := range program.Instr {
+	for id := 0; id < result.Session.Formulas.Metadata.Count(); id++ {
+
+		instructions := result.Session.Formulas.Metadata.Instructions(formula.GenericProgramID(id))
+		for _, instruction := range instructions {
 			if instruction.ReadKind == formula.ReadLinkedShieldPresent {
 				found = instruction.ReferenceBound && instruction.RefIndex == 1
 			}

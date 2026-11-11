@@ -148,7 +148,7 @@ type ExecutorAPI interface {
 // Executor 只借用本场固定定义、公式与效果身份账，不持有战斗总状态。
 type Executor struct {
 	compiled   *plan.CompiledSession
-	formulas   *formula.GenericRegistry
+	formulas   *formula.Library
 	identities *effectpkg.IdentityRegistry
 	sessionID  string
 }
@@ -214,7 +214,7 @@ type ProjectionInput struct {
 var _ ExecutorAPI = (*Executor)(nil)
 
 // New 借用本场稳定对象；调用者须保证其存活覆盖本次执行，不复制编译表或身份账。
-func New(compiled *plan.CompiledSession, formulas *formula.GenericRegistry, identities *effectpkg.IdentityRegistry, sessionID string) Executor {
+func New(compiled *plan.CompiledSession, formulas *formula.Library, identities *effectpkg.IdentityRegistry, sessionID string) Executor {
 	return Executor{compiled: compiled, formulas: formulas, identities: identities, sessionID: sessionID}
 }
 

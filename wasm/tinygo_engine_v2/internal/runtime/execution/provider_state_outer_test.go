@@ -43,8 +43,8 @@ func TestProviderStateOuterReadPreparationDetachesAndPublishes(t *testing.T) {
 	change := live.providerState.Edit("attack", false)
 	change.SetStateValue("stacks", 4)
 	change.SetExpireAt("stacks", 50)
-	program := formula.GenericProgramID(len(state.formulas.Programs))
-	state.formulas.Programs = append(state.formulas.Programs, formula.GenericProgram{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 0}}})
+	program := formula.GenericProgramID(state.formulas.Metadata.Count())
+	fixtureAppendFormula(&state.formulas, formula.GenericProgram{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 0}}})
 	live.instances.MountAttributeCompiled("source", "attack", planbundle.CompiledModifier{ModifierKey: "expiry-read", Kind: "attribute", Target: "hp", ValuePolicy: "add", HasValue: true, ValueProgram: program})
 	state.combatants["source"] = live
 	state.newExecutionFrame("source", "target", "freeze-again").stageFor("source")

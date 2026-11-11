@@ -93,7 +93,7 @@ type ProcessExecutorAPI interface {
 	// Condition 按原驱动条件和能力条件顺序读同一个独立条件视图。
 	Condition(entryIndex int, ability planbundle.CompiledAbility, values ProcessConditions) (bool, *model.EngineError)
 	// IsAttackReset 核对跨过程操作是否属于本拥有者实际选中普攻的明确首次重置。
-	IsAttackReset(process *actionpkg.ProcessView, kind string, operation planbundle.CompiledOperation, registry *formula.GenericRegistry, references map[string]planbundle.CompiledAbilityRef, abilities []planbundle.CompiledAbility) bool
+	IsAttackReset(process *actionpkg.ProcessView, kind string, operation planbundle.CompiledOperation, registry *formula.Library, references map[string]planbundle.CompiledAbilityRef, abilities []planbundle.CompiledAbility) bool
 	// FailDeadProcesses 冻结真实死亡实例并按原稳定顺序终结，保留同步失败效果和重入语义。
 	FailDeadProcesses(deaths ProcessDeaths, phases ProcessPhases) *model.EngineError
 	// PublishResolved 在全部实际绑定命中后核对原完整使用历史并发布一次真实终结事实。

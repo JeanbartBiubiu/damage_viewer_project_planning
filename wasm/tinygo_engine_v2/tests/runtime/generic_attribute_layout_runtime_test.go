@@ -14,7 +14,7 @@ func TestAttributeLayoutSnapshotExtrasAndRunDriverReads(t *testing.T) {
 	damage.Amount = authoringAmount(authoringRead("source.attr.late_snapshot.resolved"))
 	input, request := frameCommitInput(damage)
 	compiled := authoringCompile(t, input)
-	initialCount, programs := compiled.AttributeLayout.Len(), len(compiled.Formulas.Programs)
+	initialCount, programs := compiled.AttributeLayout.Len(), compiled.Formulas.Metadata.Count()
 	request.InitialSnapshot.Combatants[0].Attributes["late_snapshot"] = authoringSlot(37)
 	request.InitialSnapshot.Combatants[1].Attributes["aaa_snapshot"] = authoringSlot(9)
 	request.DriverPlan.Entries[0].Condition = authoringAmount(authoringBinary("eq", authoringRead("target.attr.aaa_snapshot.current"), authoringConst(9)))
@@ -42,7 +42,7 @@ func TestAttributeLayoutSnapshotExtrasAndRunDriverReads(t *testing.T) {
 	if err != nil || !bytes.Equal(before, after) {
 		t.Fatal("run modified frozen request", err)
 	}
-	if compiled.AttributeLayout.Len() != initialCount || len(compiled.Formulas.Programs) != programs {
+	if compiled.AttributeLayout.Len() != initialCount || compiled.Formulas.Metadata.Count() != programs {
 		t.Fatal("run modified shared compiled layout or programs")
 	}
 	for _, key := range []string{"late_snapshot", "aaa_snapshot"} {

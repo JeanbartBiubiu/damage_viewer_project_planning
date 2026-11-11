@@ -16,11 +16,11 @@ import (
 // StateAPI 定义本场属性缓存与求值能力；输入视图仅在同步调用中借用，不发布角色状态。
 type StateAPI interface {
 	// Memo 取得指定拥有者、方向与计算阶段的缓存；返回值只在本场有效。
-	Memo(derivations []planbundle.CompiledAttributeDerivation, formulas formula.GenericRegistry, actor string, derived bool, batch bool, context [2]string, resolver effectpkg.AttributeResolver, attrs attribute.Table) *Memo
+	Memo(derivations []planbundle.CompiledAttributeDerivation, formulas formula.Library, actor string, derived bool, batch bool, context [2]string, resolver effectpkg.AttributeResolver, attrs attribute.Table) *Memo
 	// ResolveOrdinary 解析普通属性修正；保留输入当前生命与上限，只返回新属性表和原求值错误。
-	ResolveOrdinary(formulas formula.GenericRegistry, actor string, attrs attribute.Table, resolver effectpkg.AttributeResolver, ctx formula.GenericEvalContext, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error)
+	ResolveOrdinary(formulas formula.Library, actor string, attrs attribute.Table, resolver effectpkg.AttributeResolver, ctx formula.GenericEvalContext, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error)
 	// ResolveDerived 依据显式双方和拥有者解析派生属性；缓存仍复核全部数值与存在性依赖。
-	ResolveDerived(derivations []planbundle.CompiledAttributeDerivation, formulas formula.GenericRegistry, actor string, attrs attribute.Table, resolver effectpkg.AttributeResolver, source, target attribute.Table, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error)
+	ResolveDerived(derivations []planbundle.CompiledAttributeDerivation, formulas formula.Library, actor string, attrs attribute.Table, resolver effectpkg.AttributeResolver, source, target attribute.Table, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error)
 }
 
 // State 私有持有本次运行的属性缓存；零值可用，不跨运行共享。
@@ -147,7 +147,7 @@ func attributePresence(slot model.AttributeSlotDef) uint8 {
 	return mask
 }
 
-func (s *State) Memo(derivations []planbundle.CompiledAttributeDerivation, formulas formula.GenericRegistry, actor string, derived bool, batch bool, context [2]string, resolver effectpkg.AttributeResolver, attrs attribute.Table) *Memo {
+func (s *State) Memo(derivations []planbundle.CompiledAttributeDerivation, formulas formula.Library, actor string, derived bool, batch bool, context [2]string, resolver effectpkg.AttributeResolver, attrs attribute.Table) *Memo {
 	// 编号对应实际双方身份，与编译输入的排列无关。批量缓存仅供正向双方结算。
 	var cached **Memo
 	actorIndex := -1
@@ -428,7 +428,7 @@ func (m *Memo) Remember(input, result attribute.Table, strict bool) {
 	m.strict, m.valid = strict, true
 }
 
-func (s *State) ResolveOrdinary(formulas formula.GenericRegistry, actor string, attrs attribute.Table, resolver effectpkg.AttributeResolver, ctx formula.GenericEvalContext, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
+func (s *State) ResolveOrdinary(formulas formula.Library, actor string, attrs attribute.Table, resolver effectpkg.AttributeResolver, ctx formula.GenericEvalContext, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
 	memo := s.Memo(nil, formulas, actor, false, false, [2]string{}, resolver, attrs)
 	if memo.Probe(attrs, &ctx, providerContext) {
 		return memo.apply(attrs), nil
@@ -440,7 +440,7 @@ func (s *State) ResolveOrdinary(formulas formula.GenericRegistry, actor string, 
 	return resolved, err
 }
 
-func (s *State) ResolveDerived(derivations []planbundle.CompiledAttributeDerivation, formulas formula.GenericRegistry, actor string, attrs attribute.Table, resolver effectpkg.AttributeResolver, source, target attribute.Table, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
+func (s *State) ResolveDerived(derivations []planbundle.CompiledAttributeDerivation, formulas formula.Library, actor string, attrs attribute.Table, resolver effectpkg.AttributeResolver, source, target attribute.Table, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
 	memo := s.Memo(derivations, formulas, actor, true, false, [2]string{}, resolver, attrs)
 	ctx := formula.GenericEvalContext{StrictReads: true, SourceAttrs: source, TargetAttrs: target}
 	if actor == "source" {
@@ -459,8 +459,8 @@ func (s *State) ResolveDerived(derivations []planbundle.CompiledAttributeDerivat
 }
 
 // addReads 顺序收集实际依赖，以明确参数取代捕获运行公式表的闭包。
-func (m *Memo) addReads(formulas formula.GenericRegistry, providerIndices map[attributeMemoProvider]int, program formula.GenericProgramID, owner, provider string, authoredTarget, ownedHealth bool) {
-	reads, supported := formulas.AttributeCacheDependencies(program)
+func (m *Memo) addReads(formulas formula.Library, providerIndices map[attributeMemoProvider]int, program formula.GenericProgramID, owner, provider string, authoredTarget, ownedHealth bool) {
+	reads, supported := formulas.Metadata.AttributeCacheDependencies(program)
 	if !supported {
 		m.cacheable = false
 		return

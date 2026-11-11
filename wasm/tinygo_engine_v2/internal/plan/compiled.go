@@ -62,14 +62,16 @@ type CompiledSession struct {
 	Providers                   []CompiledProvider
 	Abilities                   []CompiledAbility
 	Operations                  []CompiledOperation
-	Formulas                    formula.GenericRegistry
-	Settings                    model.GenericCompileSettings
-	AbilityRefIndex             map[string]CompiledAbilityRef
-	RuleModifiers               []CompiledModifier
-	Listeners                   []CompiledListener
-	VampRules                   []CompiledVampRule
-	DamageTypeFormulas          map[string]CompiledDamageTypeFormula
-	AttributeDerivations        []CompiledAttributeDerivation
+	Formulas                    formula.Library
+	// FormulaFactReads 只在实际条件准备时使用；运行期不遍历公式收集特殊事实。
+	FormulaFactReads     map[formula.GenericProgramID][]formula.FactRequest
+	Settings             model.GenericCompileSettings
+	AbilityRefIndex      map[string]CompiledAbilityRef
+	RuleModifiers        []CompiledModifier
+	Listeners            []CompiledListener
+	VampRules            []CompiledVampRule
+	DamageTypeFormulas   map[string]CompiledDamageTypeFormula
+	AttributeDerivations []CompiledAttributeDerivation
 }
 
 type CompiledAttributeDerivation struct {
@@ -217,6 +219,8 @@ type CompiledProviderStateField struct {
 
 // CompiledProvider 是 compile 后的 provider 定义。
 type CompiledProvider struct {
+	// FormulaLinkedReads 只准备此定义已获准读取的关联盾事实，不含监听专属回执。
+	FormulaLinkedReads        []formula.FactRequest
 	PermanentCharacterPeriod  bool
 	TargetTimings             []CompiledTargetTiming
 	HasReceivedShieldBinding  bool

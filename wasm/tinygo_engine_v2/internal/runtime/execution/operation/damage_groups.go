@@ -129,8 +129,8 @@ func (f *calculation) groupedDamageModifierError(mod pipeline.MountedDamageModif
 }
 
 func (f *calculation) locateGroupedDamageModifierError(err *model.EngineError, mod pipeline.MountedDamageModifier, program formula.GenericProgramID) {
-	if err.Path == "" && int(program) < len(f.executor.formulas.Programs) {
-		err.Path = f.executor.formulas.Programs[program].Key
+	if err.Path == "" && int(program) < f.executor.formulas.Metadata.Count() {
+		err.Path = f.executor.formulas.Metadata.Info(formula.GenericProgramID(program)).Key
 	}
 	if err.Ref == "" {
 		err.Ref = mod.OwnerCombatantKey + ".provider[" + mod.ProviderRef + "].modifier[" + mod.ModifierKey + "]"

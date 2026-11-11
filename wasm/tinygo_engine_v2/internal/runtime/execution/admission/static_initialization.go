@@ -45,10 +45,10 @@ func ValidateStaticInitializationOperation(input Input, listener planbundle.Comp
 	if GroupedDamageSourceModifier(*input.Formulas, modifier) {
 		return nil
 	}
-	if !modifier.HasValue || modifier.HasCondition || int(modifier.ValueProgram) >= len(input.Formulas.Programs) {
+	if !modifier.HasValue || modifier.HasCondition || int(modifier.ValueProgram) >= input.Formulas.Metadata.Count() {
 		return fail(input, "initialization modifier requires a finite constant", operation.Path)
 	}
-	value, static := input.Formulas.FoldStatic(modifier.ValueProgram)
+	value, static := input.Formulas.Metadata.FoldStatic(modifier.ValueProgram)
 	if modifier.OwnedHealthReads && modifier.Kind == "attribute" && modifier.ValuePolicy == "add" && modifier.Stage == "" && pipeline.ModifierTargetCombatantSelector(modifier.Target) == model.SelectorSelf {
 		attributeKey := pipeline.AttributeKeyFromModifierTarget(modifier.Target)
 		owner, exists := actorView(input, listener.OwnerCombatantKey)
@@ -151,7 +151,7 @@ func PureOwnedLinkedShieldInitialization(input Input, listener planbundle.Compil
 	if mounts != 1 || !matched || !instance.Present || int(instance.DefinitionIndex) != op.OwnerProviderIndex || instance.DefinitionRef != parent.ProviderKey || instance.Source != listener.OwnerCombatantKey || instance.Owner != listener.OwnerCombatantKey || instance.Stacks != 1 || instance.ExpireAt != 0 || instance.StateCount != 0 {
 		return false
 	}
-	amount, static := input.Formulas.FoldStatic(op.AmountProgram)
+	amount, static := input.Formulas.Metadata.FoldStatic(op.AmountProgram)
 	if !static || math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 {
 		return false
 	}

@@ -14,7 +14,7 @@ import (
 func TestDerivedCacheOnlyReplaysOutputsAndChecksMultiplyInput(t *testing.T) {
 	for _, policy := range []string{"set", "multiply"} {
 		t.Run(policy, func(t *testing.T) {
-			state := attributeFixture{formulas: formula.GenericRegistry{Programs: []formula.GenericProgram{{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 2}}}}},
+			state := attributeFixture{formulas: fixtureFormulaLibrary([]formula.GenericProgram{{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 2}}}}),
 				compiled: planbundle.CompiledSession{AttributeDerivations: []planbundle.CompiledAttributeDerivation{{CombatantKey: "source", AttributeKey: "speed", ValueProgram: 0, ValuePolicy: policy, ValueType: "FLOAT", Path: "derived.speed"}}},
 			}
 			resolver := effectpkg.AttributeResolver{}

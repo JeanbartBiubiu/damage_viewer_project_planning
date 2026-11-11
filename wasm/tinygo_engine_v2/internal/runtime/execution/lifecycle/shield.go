@@ -73,10 +73,10 @@ func (e *Executor) BindLinkedShield(op plan.CompiledOperation, amount float64) (
 
 func (e *Executor) ShieldDuration(op plan.CompiledOperation, context formula.GenericEvalContext, now int64) (int64, *model.EngineError) {
 	path := "shieldDurationMs"
-	if int(op.ShieldDurationProgram) < len(e.formulas.Programs) {
-		path = e.formulas.Programs[op.ShieldDurationProgram].Key
+	if int(op.ShieldDurationProgram) < e.formulas.Metadata.Count() {
+		path = e.formulas.Metadata.Info(formula.GenericProgramID(op.ShieldDurationProgram)).Key
 	}
-	value, err := e.formulas.EvalContext(op.ShieldDurationProgram, &context)
+	value, err := e.formulas.Evaluation.EvalContext(op.ShieldDurationProgram, &context)
 	if err != nil {
 		return 0, evaluation.PreserveFormulaIssue(err, e.fail(model.GenericErrFormulaTypeError, path, err.Error(), op.ShieldRef), "")
 	}
