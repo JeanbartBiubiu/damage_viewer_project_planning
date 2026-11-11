@@ -8,13 +8,11 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
-func (r programStore) cloneForRun() *programStore {
-	clone := &programStore{attributeLayout: r.attributeLayout, programs: make([]GenericProgram, len(r.programs)), index: make(map[string]GenericProgramID, len(r.index)), accountedPrograms: r.accountedPrograms, instructionCount: r.instructionCount, inputCount: r.inputCount, stageCount: r.stageCount, memoryBytes: r.memoryBytes}
-	copy(clone.programs, r.programs)
-	for key, id := range r.index {
-		clone.index[key] = id
-	}
-	return clone
+// isolatedStoreForTest 通过正式冻结和本场构建路径取得独立前态，不复制一套旧克隆算法。
+func (r programStore) isolatedStoreForTest() *programStore {
+	builder := Builder{store: &r}
+	run := NewBuilder(builder.Freeze())
+	return run.writable()
 }
 
 func compileNamedForTest(defs []model.NamedFormula, add func(model.GenericErrCode, string, string, string)) programStore {

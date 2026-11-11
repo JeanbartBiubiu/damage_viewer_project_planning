@@ -50,12 +50,12 @@ func TestProgramStoreAuthoredAndLegacyMutuallyExclusiveSameIdentityAndClone(t *t
 	if id, err := reg.register(GenericProgram{Key: "authored", Authored: p, BindingBytes: 91}); err != nil || id != 0 {
 		t.Fatal(id, err)
 	}
-	before := *reg.cloneForRun()
+	before := *reg.isolatedStoreForTest()
 	if _, err := reg.register(GenericProgram{Key: "authored", Authored: authoredRegistryProgram(t, 1, 0), BindingBytes: 91}); !errors.Is(err, errGenericKeyConflict) {
 		t.Fatal("same key replaced immutable program", err)
 	}
 	registryAssertUnchanged(t, reg, before)
-	clone := reg.cloneForRun()
+	clone := reg.isolatedStoreForTest()
 	if clone.programs[0].Authored != reg.programs[0].Authored || clone.programs[0].Authored == p {
 		t.Fatal("run clone copied or mutated authored content")
 	}
@@ -81,7 +81,7 @@ func TestProgramStoreMixedProgramAndInstructionBoundaries(t *testing.T) {
 			t.Fatal(i, id, err)
 		}
 	}
-	before := *reg.cloneForRun()
+	before := *reg.isolatedStoreForTest()
 	if _, err := reg.register(GenericProgram{Key: "next", Authored: program}); !errors.Is(err, errGenericProgramLimit) {
 		t.Fatal(err)
 	}
@@ -101,7 +101,7 @@ func TestProgramStoreMixedProgramAndInstructionBoundaries(t *testing.T) {
 	if instr.instructionCount != MaxGenericTotalInstructions {
 		t.Fatal(instr.instructionCount)
 	}
-	before = *instr.cloneForRun()
+	before = *instr.isolatedStoreForTest()
 	if _, err := instr.register(GenericProgram{Key: "more", Authored: program}); !errors.Is(err, errGenericTotalLimit) {
 		t.Fatal(err)
 	}
@@ -122,7 +122,7 @@ func TestProgramStoreAuthoredResultsAndIsolatedInputCounterBoundaries(t *testing
 	if reg.stageCount != MaxGenericTotalStages {
 		t.Fatal(reg.stageCount)
 	}
-	before := *reg.cloneForRun()
+	before := *reg.isolatedStoreForTest()
 	if _, err := reg.register(GenericProgram{Key: "one-more-result", Authored: authoredRegistryProgram(t, 1, 0)}); !errors.Is(err, errGenericStageLimit) {
 		t.Fatal(err)
 	}
@@ -154,7 +154,7 @@ func TestProgramStoreAuthoredBindingsShareMemoryBudgetAndFailureIsAtomic(t *test
 	if _, err := reg.register(candidate); err != nil || reg.memoryBytes != MaxGenericFormulaMemoryBytes {
 		t.Fatal(err, reg.memoryBytes)
 	}
-	before := *reg.cloneForRun()
+	before := *reg.isolatedStoreForTest()
 	if _, err := reg.register(registryConstProgram("legacy", 1)); !errors.Is(err, errGenericMemoryLimit) {
 		t.Fatal(err)
 	}

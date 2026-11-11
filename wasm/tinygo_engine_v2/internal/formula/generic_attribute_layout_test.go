@@ -58,7 +58,7 @@ func TestAttributeLayoutExtraSlotAndRunRegistrationIsolation(t *testing.T) {
 	if got, err := registry.evaluate(0, GenericEvalContext{TargetAttrs: attrs, StrictReads: true}); err != nil || got != 13 {
 		t.Fatal(got, err)
 	}
-	run := registry.cloneForRun()
+	run := registry.isolatedStoreForTest()
 	if _, err := run.register(GenericProgram{Key: "driver", Instr: []GenericInstr{{Op: GenericOpRead, ReadKind: ReadSourceAttr, ReadKey: "alpha.base"}}}); err != nil {
 		t.Fatal(err)
 	}
@@ -145,7 +145,7 @@ func TestAttributeLayoutNamedBindingActorContextPresenceAndRebind(t *testing.T) 
 	if got, err := registry.evaluate(0, ctx); err != nil || got != 7 {
 		t.Fatal("authored actor direction changed", got, err)
 	}
-	run := registry.cloneForRun()
+	run := registry.isolatedStoreForTest()
 	run.bindAttributeLayout(attribute.NewLayout([]string{"aaa", "value"}))
 	if registry.programs[0].NamedBinding.attributeInputs[0].index != 0 || run.programs[0].NamedBinding.attributeInputs[0].index != 1 || &run.programs[0].NamedBinding.dependencies[0] == &registry.programs[0].NamedBinding.dependencies[0] {
 		t.Fatal("run rebind mutated named input or dependency descriptors")

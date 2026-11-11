@@ -43,7 +43,7 @@ func TestProgramStoreProgramIDBoundaryAndLastEvaluation(t *testing.T) {
 	if err != nil || value != 65535 {
 		t.Fatalf("last program got=%v err=%v", value, err)
 	}
-	before := *reg.cloneForRun()
+	before := *reg.isolatedStoreForTest()
 	if _, err := reg.register(registryConstProgram("overflow", 999)); !errors.Is(err, errGenericProgramLimit) {
 		t.Fatalf("65537th program err=%v", err)
 	}
@@ -78,7 +78,7 @@ func TestProgramStorePerProgramAndCumulativeInstructionBoundaries(t *testing.T) 
 	if reg.instructionCount != MaxGenericTotalInstructions {
 		t.Fatalf("instructions=%d", reg.instructionCount)
 	}
-	before := *reg.cloneForRun()
+	before := *reg.isolatedStoreForTest()
 	if _, err := reg.register(registryConstProgram("one-more", 1)); !errors.Is(err, errGenericTotalLimit) {
 		t.Fatalf("cumulative maximum +1 err=%v", err)
 	}
@@ -102,7 +102,7 @@ func TestProgramStoreKeyReuseComparesEveryInstructionField(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	before := *reg.cloneForRun()
+	before := *reg.isolatedStoreForTest()
 	identical := GenericProgram{Key: original.Key, Instr: append([]GenericInstr(nil), original.Instr...)}
 	if got, err := reg.register(identical); err != nil || got != id {
 		t.Fatalf("identical program id=%d err=%v", got, err)
@@ -156,7 +156,7 @@ func TestProgramStoreMemoryAccountingBoundaryAndFailureAtomicity(t *testing.T) {
 	if reg.memoryBytes != uint64(MaxGenericFormulaMemoryBytes) {
 		t.Fatalf("bytes=%d want=%d", reg.memoryBytes, MaxGenericFormulaMemoryBytes)
 	}
-	before := *reg.cloneForRun()
+	before := *reg.isolatedStoreForTest()
 	if _, err := reg.register(registryConstProgram("more", 2)); !errors.Is(err, errGenericMemoryLimit) {
 		t.Fatalf("memory maximum +1 program err=%v", err)
 	}
@@ -191,13 +191,13 @@ func TestProgramStorePlatformAccountingUsesRetainedBytes(t *testing.T) {
 	t.Logf("GOARCH=%s programHeader=%d instruction=%d logicalBytes=%d", runtime.GOARCH, unsafe.Sizeof(GenericProgram{}), unsafe.Sizeof(GenericInstr{}), got)
 }
 
-func TestProgramStoreCloneForRunOwnsDescriptorsAndIndex(t *testing.T) {
+func TestBuilderRunCopyOwnsDescriptorsAndIndex(t *testing.T) {
 	reg := programStore{programs: make([]GenericProgram, 0, 8)}
 	if _, err := reg.register(registryConstProgram("original", 10)); err != nil {
 		t.Fatal(err)
 	}
 	originalLength, originalInstructions, originalBytes := len(reg.programs), reg.instructionCount, reg.memoryBytes
-	clone := reg.cloneForRun()
+	clone := reg.isolatedStoreForTest()
 	if &clone.programs[0] == &reg.programs[0] || &clone.programs[0].Instr[0] != &reg.programs[0].Instr[0] {
 		t.Fatal("clone must own program descriptors and share only read-only instructions")
 	}
@@ -221,7 +221,7 @@ func TestProgramStoreCloneForRunOwnsDescriptorsAndIndex(t *testing.T) {
 	if err != nil || value != 10 {
 		t.Fatalf("original value=%v err=%v", value, err)
 	}
-	fresh := reg.cloneForRun()
+	fresh := reg.isolatedStoreForTest()
 	if len(fresh.programs) != 1 || len(fresh.index) != 1 {
 		t.Fatal("next run inherited temporary registration")
 	}

@@ -18,7 +18,7 @@ func TestPhase3BCallDepthAndCombinedBudgetPreflightAtomic(t *testing.T) {
 			t.Fatal(depth, err)
 		}
 	}
-	before := *reg.cloneForRun()
+	before := *reg.isolatedStoreForTest()
 	if _, err = reg.register(GenericProgram{Key: "too_deep", Instr: []GenericInstr{{Op: GenericOpRef, RefIndex: uint16(id)}}}); err == nil || !reflect.DeepEqual(before, reg) {
 		t.Fatal("depth overflow changed table", err)
 	}
@@ -42,7 +42,7 @@ func TestPhase3BCallDepthAndCombinedBudgetPreflightAtomic(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	before = *expensive.cloneForRun()
+	before = *expensive.isolatedStoreForTest()
 	if _, err = expensive.register(GenericProgram{Key: "too_expensive", Instr: []GenericInstr{{Op: GenericOpRef, RefIndex: uint16(middle)}, {Op: GenericOpRef, RefIndex: uint16(middle)}, {Op: GenericOpAdd}}}); err == nil || !reflect.DeepEqual(before, expensive) {
 		t.Fatal("calls counted as cheap single instructions", err)
 	}
