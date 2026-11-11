@@ -137,7 +137,7 @@ func linkedShieldInput() (Input, planbundle.CompiledListener, InitialProvider) {
 
 func TestLinkedShieldRequiresTheActualFreshParentMount(t *testing.T) {
 	input, listener, instance := linkedShieldInput()
-	if !PureOwnedLinkedShieldInitialization(input, listener, instance) {
+	if !pureOwnedLinkedShieldInitialization(input, listener, instance) {
 		t.Fatal("the unique fresh parent and its complete shield must pass")
 	}
 	for _, test := range []struct {
@@ -154,13 +154,13 @@ func TestLinkedShieldRequiresTheActualFreshParentMount(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			actual := instance
 			test.change(&actual)
-			if PureOwnedLinkedShieldInitialization(input, listener, actual) {
+			if pureOwnedLinkedShieldInitialization(input, listener, actual) {
 				t.Fatal("the compiled parent alone cannot authorize a missing, foreign or restored actual mount")
 			}
 		})
 	}
 	input.Compiled.Combatants[0].ProviderMounts = append(input.Compiled.Combatants[0].ProviderMounts, planbundle.CompiledProviderMount{ProviderRef: "duplicate"})
-	if PureOwnedLinkedShieldInitialization(input, listener, instance) {
+	if pureOwnedLinkedShieldInitialization(input, listener, instance) {
 		t.Fatal("a second parent mount must invalidate the unique creator proof")
 	}
 }

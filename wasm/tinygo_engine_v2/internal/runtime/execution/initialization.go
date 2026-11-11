@@ -2,7 +2,6 @@
 package execution
 
 import (
-	"math"
 	"sort"
 	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/base/typeset"
@@ -13,9 +12,47 @@ import (
 	"tinygo_engine_v2/internal/runtime/actor"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 	"tinygo_engine_v2/internal/runtime/execution/admission"
-	"tinygo_engine_v2/internal/runtime/execution/evaluation"
+	"tinygo_engine_v2/internal/runtime/execution/operation"
 	"tinygo_engine_v2/internal/scheduler"
 )
+
+type initialSourceReads Engine
+
+type fixedEquipmentHealthReads map[string]combatantRuntime
+
+var _ admission.InitialSourceReads = (*initialSourceReads)(nil)
+var _ admission.FixedEquipmentHealthReads = fixedEquipmentHealthReads(nil)
+
+type initialNumericAttributes struct {
+	actors   map[string]combatantRuntime
+	compiled *planbundle.CompiledSession
+	time     int64
+}
+
+var _ operation.InitialAttributeWork = (*initialNumericAttributes)(nil)
+
+func (r *initialNumericAttributes) InitialAttributeOrder() []string {
+	keys := make([]string, 0, len(r.actors))
+	for key := range r.actors {
+		keys = append(keys, key)
+	}
+	return keys
+}
+
+func (r *initialNumericAttributes) InitialAttributeState(owner string) (operation.LiveAttributeState, bool) {
+	c, exists := r.actors[owner]
+	return operation.LiveAttributeState{Attributes: c.attributesView(), Resolver: c.instances.Attributes()}, exists
+}
+
+func (r *initialNumericAttributes) InitialAttributeProviders(owner, castProxy string) pipeline.ProviderFormulaContextFunc {
+	return materializedProviderFormulaContext(r.actors, *r.compiled, owner, castProxy, r.time)
+}
+
+func (r *initialNumericAttributes) PublishInitialAttributes(owner string, attrs attribute.Table) {
+	c := r.actors[owner]
+	c.setAttributes(attrs)
+	r.actors[owner] = c
+}
 
 func materializeCombatants(snapshot model.Snapshot, compiled planbundle.CompiledSession, formulas formula.Library, sessionID string) (map[string]combatantRuntime, *model.EngineError) {
 	if err := validateShieldLifecycleSnapshot(snapshot, compiled, sessionID); err != nil {
@@ -65,150 +102,16 @@ func materializeCombatants(snapshot model.Snapshot, compiled planbundle.Compiled
 	for key, c := range out {
 		resolver := c.instances.Attributes()
 		damageResolver := c.instances.Damage()
-		mountRuleModifiers(&resolver, &damageResolver, key, compiled)
+		operation.MountRuleModifiers(&resolver, &damageResolver, key, compiled.RuleModifiers)
 		c.instances.SetAttributes(resolver)
 		c.instances.SetDamage(damageResolver)
 		out[key] = c
 	}
-	// Resolve with same-combatant eval first, then cross-combatant context.
-	for key, c := range out {
-		evalCtx := formula.GenericEvalContext{
-			SourceAttrs: c.attributesView(),
-			TargetAttrs: c.attributesView(),
-		}
-		resolvedAttributes, resolveErr := c.instances.Attributes().ResolveAttributesWithProviderContext(
-			c.attributesView(), evalCtx, formulas,
-			materializedProviderFormulaContext(out, compiled, key, "", snapshot.TimeMs),
-		)
-		c.setAttributes(resolvedAttributes)
-
-		if resolveErr != nil {
-			return nil, preserveFormulaIssue(resolveErr, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, resolveErr.Error(), "initialSnapshot.combatants."+key+".attributes", "", compiled.SchemaHash, compiled.RulesHash, sessionID))
-		}
-		out[key] = c
-	}
-	// Re-resolve with cross-combatant eval context after both sides exist.
-	sourceAttrs := attribute.Table{}
-	targetAttrs := attribute.Table{}
-	if src, ok := out[model.SelectorSource]; ok {
-		sourceAttrs = src.attributesView()
-	}
-	if tgt, ok := out[model.SelectorTarget]; ok {
-		targetAttrs = tgt.attributesView()
-	}
-	for key, c := range out {
-		evalCtx := formula.GenericEvalContext{
-			SourceAttrs: sourceAttrs,
-			TargetAttrs: targetAttrs,
-		}
-		// Same-combatant cast-proxy default remains target (historical materialize semantics).
-		castProxy := model.SelectorTarget
-		resolvedAttributes, resolveErr := c.instances.Attributes().ResolveAttributesWithProviderContext(
-			c.attributesView(), evalCtx, formulas,
-			materializedProviderFormulaContext(out, compiled, key, castProxy, snapshot.TimeMs),
-		)
-		c.setAttributes(resolvedAttributes)
-
-		if resolveErr != nil {
-			return nil, preserveFormulaIssue(resolveErr, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, resolveErr.Error(), "initialSnapshot.combatants."+key+".attributes", "", compiled.SchemaHash, compiled.RulesHash, sessionID))
-		}
-		out[key] = c
-	}
-	for _, key := range []string{"source", "target"} {
-		actor, exists := out[key]
-		if !exists {
-			continue
-		}
-		var providerContext pipeline.ProviderFormulaContextFunc
-		if compiled.HasProviderElapsedReads || compiled.HasFiniteModifierExpiry {
-			providerContext = materializedProviderFormulaContext(out, compiled, key, model.SelectorTarget, snapshot.TimeMs)
-		}
-		resolved, resolveErr := evaluation.ResolveDerivedAttributes(compiled.AttributeDerivations, formulas, key, actor.attributesView(), actor.instances.Attributes(), out["source"].attributesView(), out["target"].attributesView(), providerContext)
-		if resolveErr != nil {
-			return nil, preserveFormulaIssue(resolveErr, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, resolveErr.Error(), "initialSnapshot.combatants."+key+".attributes", "", compiled.SchemaHash, compiled.RulesHash, sessionID))
-		}
-
-		actor.setAttributes(resolved)
-		out[key] = actor
+	work := initialNumericAttributes{actors: out, compiled: &compiled, time: snapshot.TimeMs}
+	if err := operation.PrepareInitialAttributes(operation.AttributeRules{Plan: &compiled, Formulas: &formulas, SessionID: sessionID}, &work); err != nil {
+		return nil, err
 	}
 	return out, nil
-}
-
-func mountRuleModifiers(resolver *effectpkg.AttributeResolver, damageResolver *effectpkg.DamageResolver, combatantKey string, compiled planbundle.CompiledSession) {
-	for _, mod := range compiled.RuleModifiers {
-		if mod.Kind == "pipeline" {
-			mountRulePipelineModifier(damageResolver, combatantKey, mod)
-			continue
-		}
-		if mod.Kind != "attribute" && mod.Kind != "" {
-			continue
-		}
-		selector := pipeline.ModifierTargetCombatantSelector(mod.Target)
-		switch selector {
-		case "":
-			// Bare attribute key: apply to both combatants is too broad; skip unless path is explicit.
-			// Provider-mounted bare keys remain supported via MountProviderModifiers.
-			continue
-		case model.SelectorSource:
-			if combatantKey != model.SelectorSource {
-				continue
-			}
-		case model.SelectorTarget:
-			if combatantKey != model.SelectorTarget {
-				continue
-			}
-		case model.SelectorSelf, model.SelectorOpponent:
-			// Rule-level self/opponent has no entry context; treat as source/target aliases.
-			if selector == model.SelectorSelf && combatantKey != model.SelectorSource {
-				continue
-			}
-			if selector == model.SelectorOpponent && combatantKey != model.SelectorTarget {
-				continue
-			}
-		default:
-			if combatantKey != selector {
-				continue
-			}
-		}
-		resolver.MountCompiledModifier("rules", mod)
-	}
-}
-
-// mountRulePipelineModifier mounts rules pipeline modifiers by stage ownership:
-// command=crit + outgoing_pre_mitigation → source;
-// incoming_crit_part_post_mitigation + incoming_post_mitigation → target.
-func mountRulePipelineModifier(damageResolver *effectpkg.DamageResolver, combatantKey string, mod planbundle.CompiledModifier) {
-	if damageResolver == nil {
-		return
-	}
-	switch mod.Command {
-	case "crit":
-		switch mod.Stage {
-		case "crit_chance_pre_settlement", "crit_multiplier_forced_branch", "crit_multiplier_natural_branch":
-			if combatantKey != model.SelectorSource {
-				return
-			}
-		default:
-			return
-		}
-	case "damage":
-		switch mod.Stage {
-		case "outgoing_pre_mitigation":
-			if combatantKey != model.SelectorSource {
-				return
-			}
-		case "incoming_crit_part_post_mitigation", "incoming_post_mitigation":
-			if combatantKey != model.SelectorTarget {
-				return
-			}
-		default:
-			return
-		}
-	case "heal":
-	default:
-		return
-	}
-	damageResolver.MountCompiledModifierOwned("", "rules", mod)
 }
 
 func cloneAttributeMap(src map[string]model.AttributeSlotDef) map[string]model.AttributeSlotDef {
@@ -248,29 +151,7 @@ func cloneSnapshot(src model.Snapshot) model.Snapshot {
 }
 
 func validateFixedEquipmentHealth(compiled planbundle.CompiledSession, actors map[string]combatantRuntime, sessionID string) *model.EngineError {
-	for _, actor := range compiled.Combatants {
-		hasHealthContribution := false
-		for _, mount := range actor.ProviderMounts {
-			provider := compiled.Providers[mount.DefinitionIndex]
-			if provider.Kind != "item" || provider.Lifecycle != nil || provider.AbilityCount != 0 {
-				continue
-			}
-			for _, modifier := range provider.Modifiers {
-				selector := pipeline.ModifierTargetCombatantSelector(modifier.Target)
-				if modifier.Kind == "attribute" && pipeline.AttributeKeyFromModifierTarget(modifier.Target) == "hp" && (selector == "" || selector == "self") {
-					hasHealthContribution = true
-				}
-			}
-		}
-		if !hasHealthContribution {
-			continue
-		}
-		hp := actors[actor.Key].attributesView().At("hp")
-		if math.IsNaN(hp.Max) || math.IsInf(hp.Max, 0) || math.IsNaN(hp.Current) || math.IsInf(hp.Current, 0) || hp.Max <= 0 || hp.Current < 0 || hp.Current > hp.Max || math.Abs(hp.Max-hp.Resolved) > 1e-9*math.Max(1, math.Abs(hp.Max)) {
-			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "equipped HP maximum must match native contributions and current HP must remain within it", "initialSnapshot.combatants."+actor.Key+".attributes.hp", "", compiled.SchemaHash, compiled.RulesHash, sessionID)
-		}
-	}
-	return nil
+	return admission.ValidateFixedEquipmentHealth(admission.Input{Compiled: &compiled, Identity: admission.Identity{SchemaHash: compiled.SchemaHash, RulesHash: compiled.RulesHash, SessionID: sessionID}}, fixedEquipmentHealthReads(actors))
 }
 
 func (s *Engine) validateBasicAttackInitialSnapshot() *model.EngineError {
@@ -282,30 +163,7 @@ func (s *Engine) validateInitialSelection(checkMaximum bool) *model.EngineError 
 }
 
 func (s *Engine) validateIdleBasicAttackProvider(provider planbundle.CompiledProvider, owner, ref string) *model.EngineError {
-	start, initialRef, err := admission.ValidateIdleBasicAttackAbilities(s.admissionInput(owner), provider, owner, ref, validBasicAttackAmmoProvider(provider))
-	if err != nil {
-		return err
-	}
-	fail := func() *model.EngineError {
-		return s.basicAttackErr("idle opponent binding must contain its complete static basic attack and unique owner-start listener", "initialSnapshot.combatants.providers")
-	}
-	startType, declared := s.compiled.RuntimeTypes.BasicAttackStart.Lookup()
-	ownerType, ownerDeclared := s.compiled.RuntimeTypes.SourceOwner.Lookup()
-	start.TypeSet.Add(startType)
-	listeners := 0
-	for _, listener := range s.compiled.Listeners {
-		if listener.OwnerCombatantKey != owner || listener.OwnerProviderRef != ref {
-			continue
-		}
-		if !declared || !ownerDeclared || !listener.HasAbilityRef || normalizeAbilityRef(listener.AbilityRef, owner, opponentCombatantKey(owner)) != initialRef || listener.OperationCount != 0 || listener.HasCondition || listener.HasOncePerUse || listener.PerCastThrottleMs != 0 || listener.MaxTriggersPerEvent != 1 || !listener.EventMatcher.RequiresAllType(startType) || !listener.EventMatcher.RequiresAllType(ownerType) || !s.listenerMatchesEvent(listener, emittedEvent{eventType: model.EventTypeBasicAttackStart, sourceKey: owner, targetKey: opponentCombatantKey(owner)}, start.TypeSet) {
-			return fail()
-		}
-		listeners++
-	}
-	if listeners != 1 {
-		return fail()
-	}
-	return nil
+	return admission.ValidateIdleBasicAttackProvider(s.admissionInput(owner), provider, owner, ref, validBasicAttackAmmoProvider(provider), (*initialSourceReads)(s))
 }
 
 // 只借用当前准入涉及的双方数值，不将执行器或状态集合传入子包。
@@ -318,75 +176,21 @@ func (s *Engine) admissionInput(owner string) admission.Input {
 	return out
 }
 
-func (s *Engine) validateEquipmentPeriodicProvider(provider planbundle.CompiledProvider, owner, providerRef string) *model.EngineError {
-	if err := admission.ValidateEquipmentPeriodicDefinition(s.admissionInput(owner), provider, owner); err != nil {
-		return err
-	}
-	for _, listener := range s.compiled.Listeners {
-		if listener.OwnerCombatantKey == owner && listener.OwnerProviderRef == providerRef {
-			if err := s.validateEquipmentHitListener(listener); err != nil {
-				return err
-			}
-		}
-	}
-	return nil
+func (s *Engine) validateEquipmentPeriodicProvider(provider planbundle.CompiledProvider, owner, reference string) *model.EngineError {
+	return admission.ValidateEquipmentPeriodicProvider(s.admissionInput(owner), provider, owner, reference, (*initialSourceReads)(s))
 }
 
-func (s *Engine) validateStaticInitializer(provider planbundle.CompiledProvider, owner, providerRef string) *model.EngineError {
-	if err := admission.ValidateStaticInitializerDefinition(s.admissionInput(owner), provider, s.isIncomingCappedFlatParent(provider, owner, providerRef)); err != nil {
-		return err
-	}
-	for _, listener := range s.compiled.Listeners {
-		if listener.OwnerCombatantKey == owner && listener.OwnerProviderRef == providerRef {
-			if err := s.validateStaticInitializationListener(listener); err != nil {
-				return err
-			}
-		}
-	}
-	return nil
+func (s *Engine) validateStaticInitializer(provider planbundle.CompiledProvider, owner, reference string) *model.EngineError {
+	return admission.ValidateStaticInitializer(s.admissionInput(owner), provider, owner, reference, (*initialSourceReads)(s))
 }
 
 func (s *Engine) validateStaticInitializationListener(listener planbundle.CompiledListener) *model.EngineError {
-	if s.ownLinkedShieldInitialization(listener) {
-		return nil
-	}
-	initializationType, declared := s.compiled.RuntimeTypes.SourceInitialized.Lookup()
-	ownerType, ownerDeclared := s.compiled.RuntimeTypes.SourceOwner.Lookup()
-	var eventTypes typeset.TypeSet
-	eventTypes.Add(initializationType)
-	if !declared || !ownerDeclared || listener.OwnerCombatantKey == "" || listener.OwnerProviderRef == "" || listener.HasAbilityRef || listener.HasCondition || listener.HasOncePerUse || listener.PerCastThrottleMs != 0 || listener.OperationCount == 0 || listener.MaxTriggersPerEvent != 1 || !listener.EventMatcher.RequiresAllType(initializationType) || !listener.EventMatcher.RequiresAllType(ownerType) || !s.listenerMatchesEvent(listener, emittedEvent{eventType: model.EventTypeSourceInitialized, sourceKey: listener.OwnerCombatantKey, targetKey: listener.OwnerCombatantKey}, eventTypes) {
-		return s.basicAttackErr("this stage accepts only unconditional owner source initialization listeners", "listeners."+listener.ListenerKey)
-	}
-	if listener.OperationCount == 1 && s.compiled.Operations[listener.OperationStart].Operation == "shield" && s.pureOwnedLinkedShieldInitialization(listener) {
-		return nil
-	}
-	for _, operation := range s.compiled.Operations[int(listener.OperationStart) : int(listener.OperationStart)+int(listener.OperationCount)] {
-		if err := admission.ValidateStaticInitializationOperation(s.admissionInput(listener.OwnerCombatantKey), listener, operation, s.isIncomingCappedFlatInitializer(listener, operation)); err != nil {
-			return err
-		}
-
-	}
-	return nil
+	input := admission.Input{Compiled: &s.compiled, Formulas: &s.formulas, Identity: admission.Identity{SchemaHash: s.compiled.SchemaHash, RulesHash: s.compiled.RulesHash, SessionID: s.req.SessionID}}
+	return admission.ValidateStaticInitializationListener(input, listener, (*initialSourceReads)(s))
 }
 
-// 纯初始化盾独立核闭包；旧到期补盾仍由ownLinkedShieldInitialization及其完整门负责。
-func (s *Engine) pureOwnedLinkedShieldInitialization(listener planbundle.CompiledListener) bool {
-	instance, _, present := s.combatants[listener.OwnerCombatantKey].instances.Providers().Find(listener.OwnerProviderRef)
-	return admission.PureOwnedLinkedShieldInitialization(s.admissionInput(listener.OwnerCombatantKey), listener, admission.InitialProvider{Present: present, DefinitionIndex: instance.DefinitionIndex, DefinitionRef: instance.DefinitionRef, Source: instance.Source, Owner: instance.Owner, Stacks: instance.Stacks, ExpireAt: instance.ExpireAt, StateCount: instance.State.Len()})
-}
-
-func (s *Engine) validateTargetTimingProvider(provider planbundle.CompiledProvider, owner, ref string) *model.EngineError {
-	if err := admission.ValidateTargetTimingDefinition(s.admissionInput(owner), provider, ref); err != nil {
-		return err
-	}
-	for _, listener := range s.compiled.Listeners {
-		if listener.OwnerCombatantKey == owner && listener.OwnerProviderRef == ref {
-			if err := s.validateEquipmentHitListener(listener); err != nil {
-				return err
-			}
-		}
-	}
-	return nil
+func (s *Engine) validateTargetTimingProvider(provider planbundle.CompiledProvider, owner, reference string) *model.EngineError {
+	return admission.ValidateTargetTimingProvider(s.admissionInput(owner), provider, owner, reference, (*initialSourceReads)(s))
 }
 
 func (s *Engine) addTargetTimingOperations(provider planbundle.CompiledProvider, allowed map[string]bool) {
@@ -394,50 +198,17 @@ func (s *Engine) addTargetTimingOperations(provider planbundle.CompiledProvider,
 }
 
 // 永久技能伴随来源使用真实目标状态驱动周期；装备固定周期仍走自己的准入。
-func (s *Engine) validateTargetWindowProvider(provider planbundle.CompiledProvider, owner, providerRef string) *model.EngineError {
-	if len(provider.TargetTimings) > 0 {
-		return s.validateTargetTimingProvider(provider, owner, providerRef)
-	}
-	if err := admission.ValidateTargetWindowDefinition(s.admissionInput(owner), provider, owner); err != nil {
-		return err
-	}
-	for _, listener := range s.compiled.Listeners {
-		if listener.OwnerCombatantKey == owner && listener.OwnerProviderRef == providerRef {
-			if err := s.validateEquipmentHitListener(listener); err != nil {
-				return err
-			}
-		}
-	}
-	return nil
+func (s *Engine) validateTargetWindowProvider(provider planbundle.CompiledProvider, owner, reference string) *model.EngineError {
+	return admission.ValidateTargetWindowProvider(s.admissionInput(owner), provider, owner, reference, (*initialSourceReads)(s))
 }
 
 func (s *Engine) validateEquipmentHitListener(listener planbundle.CompiledListener) *model.EngineError {
-	sources := admission.ListenerSources{Selection: admission.SourceSelection{SkillBindings: s.plannedSkillBindings(), BasicAttack: s.req.DriverPlan.BasicAttack}}
-	owner := s.combatants[listener.OwnerCombatantKey]
-	if index := compiledStateDefinitionIndex(s.compiled, listener.OwnerCombatantKey, listener.OwnerProviderRef, owner.instances.Providers()); index >= 0 {
-		sources.StateFields = s.compiled.Providers[index].StateFields
-	}
+	sources := (*initialSourceReads)(s).InitialListenerSources(listener)
 	return admission.ValidateEquipmentHitListener(s.admissionInput(listener.OwnerCombatantKey), listener, sources)
 }
 
-func (s *Engine) validateEquipmentHitProvider(provider planbundle.CompiledProvider, owner, providerRef string) *model.EngineError {
-	if provider.HasStateOnExpire {
-		return s.validateStateOnExpireProvider(provider, owner, providerRef)
-	}
-	if err := admission.ValidateEquipmentHitDefinition(s.admissionInput(owner), provider, owner); err != nil {
-		return err
-	}
-	for _, listener := range s.compiled.Listeners {
-		if listener.OwnerCombatantKey == owner && listener.OwnerProviderRef == providerRef {
-			if err := s.validateStaticInitializationListener(listener); err == nil {
-				continue
-			}
-			if err := s.validateEquipmentHitListener(listener); err != nil {
-				return err
-			}
-		}
-	}
-	return nil
+func (s *Engine) validateEquipmentHitProvider(provider planbundle.CompiledProvider, owner, reference string) *model.EngineError {
+	return admission.ValidateEquipmentHitProvider(s.admissionInput(owner), provider, owner, reference, (*initialSourceReads)(s))
 }
 
 func (s *Engine) seedSourceInitialization() *model.EngineError {
@@ -500,72 +271,49 @@ func (s *Engine) handleSourceInitialized(event scheduler.GenericEvent) *model.En
 }
 
 func (s *Engine) initStateOnExpireSources() *model.EngineError {
-	if !s.compiled.HasStateOnExpire {
-		return nil
-	}
-	for _, actor := range s.compiled.Combatants {
-		for _, mount := range actor.ProviderMounts {
-			provider := s.compiled.Providers[mount.DefinitionIndex]
-			if provider.HasStateOnExpire {
-				if err := s.validateStateOnExpireProvider(provider, actor.Key, mount.ProviderRef); err != nil {
-					return err
-				}
-			}
-		}
-	}
-	for _, entry := range s.req.DriverPlan.Entries {
-		source, _ := s.resolveDriverCombatantKey(entry.Source, model.SelectorSource)
-		target, _ := s.resolveDriverCombatantKey(entry.Target, source)
-		if ref, exists := s.compiled.AbilityRefIndex[normalizeAbilityRef(entry.AbilityRef, source, target)]; exists && s.compiled.Providers[s.compiled.Abilities[ref.AbilityIndex].ProviderIndex].HasStateOnExpire {
-			return s.basicAttackErr("state expiry source abilities can only run through their actual initialization or received-damage listeners", "driverPlan.entries")
-		}
-	}
-	return nil
-}
-
-func (s *Engine) ownLinkedShieldInitialization(listener planbundle.CompiledListener) bool {
-	return admission.OwnLinkedShieldInitialization(s.compiled, listener)
-}
-
-func (s *Engine) validateStateOnExpireProvider(provider planbundle.CompiledProvider, owner, ref string) *model.EngineError {
-	if err := admission.ValidateStateOnExpireDefinition(s.admissionInput(owner), provider); err != nil {
-		return err
-	}
-	fail := func() *model.EngineError {
-		return s.basicAttackErr("state expiry source requires complete permanent own shield initialization and damage-driven state writes", "initialSnapshot.combatants.providers")
-	}
-	initializers := 0
-	for _, listener := range s.compiled.Listeners {
-		if listener.OwnerCombatantKey != owner || listener.OwnerProviderRef != ref {
-			continue
-		}
-		if s.ownLinkedShieldInitialization(listener) {
-			initializers++
-			continue
-		}
-		damage, declared := s.compiled.RuntimeTypes.DamageTaken.Lookup()
-		receiver, receiverDeclared := s.compiled.RuntimeTypes.TargetOwner.Lookup()
-		if !declared || !receiverDeclared || !listener.EventMatcher.RequiresAllType(damage) || !listener.EventMatcher.RequiresAllType(receiver) || !listener.HasCondition || listener.HasOncePerUse {
-			return fail()
-		}
-		if err := s.validateEquipmentHitListener(listener); err != nil {
-			return err
-		}
-		for _, operation := range s.compiled.Operations[int(listener.OperationStart) : int(listener.OperationStart)+int(listener.OperationCount)] {
-			field := provider.StateFields[operation.Ref]
-			amount, static := s.formulas.Metadata.FoldStatic(operation.AmountProgram)
-			if operation.Operation != "state_change" || operation.StateScope != stateScopeProvider || operation.Target != "self" || field.OnExpireCount == 0 || !static || amount != 1 || (operation.ValuePolicy != "set" && operation.ValuePolicy != "override") {
-				return fail()
-			}
-		}
-	}
-	if initializers != 1 {
-		return fail()
-	}
-	return nil
+	input := admission.Input{Compiled: &s.compiled, Formulas: &s.formulas, Identity: admission.Identity{SchemaHash: s.compiled.SchemaHash, RulesHash: s.compiled.RulesHash, SessionID: s.req.SessionID}}
+	return admission.ValidateStateOnExpireSources(input, s.req.DriverPlan.Entries, (*initialSourceReads)(s))
 }
 
 func (s *Engine) observeMomentStatusContributions(instances effectpkg.ProviderList, snapshots []model.CombatantProviderSnapshot) *model.EngineError {
 	executor := s.lifecycleExecutor()
 	return executor.ObserveMomentStatuses(instances, snapshots, s.loop.TimeMs())
+}
+
+func (r fixedEquipmentHealthReads) InitialHealthAttributes(owner string) attribute.Table {
+	return r[owner].attributesView()
+}
+
+func (r *initialSourceReads) InitialAbilityReference(reference, source, target string) string {
+	return normalizeAbilityRef(reference, source, target)
+}
+
+func (r *initialSourceReads) InitialListenerMatches(listener planbundle.CompiledListener, event, source, target string, types typeset.TypeSet) bool {
+	return (*Engine)(r).listenerMatchesEvent(listener, emittedEvent{eventType: event, sourceKey: source, targetKey: target}, types)
+}
+
+func (r *initialSourceReads) InitialProviderView(owner, reference string) admission.InitialProvider {
+	instance, _, present := r.combatants[owner].instances.Providers().Find(reference)
+	return admission.InitialProvider{Present: present, DefinitionIndex: instance.DefinitionIndex, DefinitionRef: instance.DefinitionRef, Source: instance.Source, Owner: instance.Owner, Stacks: instance.Stacks, ExpireAt: instance.ExpireAt, StateCount: instance.State.Len()}
+}
+
+func (r *initialSourceReads) InitialListenerSources(listener planbundle.CompiledListener) admission.ListenerSources {
+	s := (*Engine)(r)
+	sources := admission.ListenerSources{Selection: admission.SourceSelection{SkillBindings: s.plannedSkillBindings(), BasicAttack: s.req.DriverPlan.BasicAttack}}
+	owner := s.combatants[listener.OwnerCombatantKey]
+	if index := compiledStateDefinitionIndex(s.compiled, listener.OwnerCombatantKey, listener.OwnerProviderRef, owner.instances.Providers()); index >= 0 {
+		sources.StateFields = s.compiled.Providers[index].StateFields
+	}
+	return sources
+}
+
+func (r *initialSourceReads) InitialActors(owner string) [2]admission.Actor {
+	return (*Engine)(r).admissionInput(owner).Actors
+}
+
+func (r *initialSourceReads) InitialDriverReference(entry model.DriverEntry) string {
+	s := (*Engine)(r)
+	source, _ := s.resolveDriverCombatantKey(entry.Source, model.SelectorSource)
+	target, _ := s.resolveDriverCombatantKey(entry.Target, source)
+	return normalizeAbilityRef(entry.AbilityRef, source, target)
 }

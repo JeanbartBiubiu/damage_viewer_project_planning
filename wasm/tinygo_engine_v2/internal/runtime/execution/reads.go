@@ -10,109 +10,100 @@ import (
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/pipeline"
 	planbundle "tinygo_engine_v2/internal/plan"
+	"tinygo_engine_v2/internal/runtime/actor"
 	contractpkg "tinygo_engine_v2/internal/runtime/contract"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 	"tinygo_engine_v2/internal/runtime/execution/evaluation"
 	"tinygo_engine_v2/internal/runtime/execution/lifecycle"
+	"tinygo_engine_v2/internal/runtime/execution/operation"
 )
 
 type frozenDamageStateBefore = contractpkg.DamageStateBefore
 
-func syncHPResolved(attrs attribute.Table) attribute.Table {
-	slot, ok := attrs.Lookup("hp")
-	if !ok {
-		return attrs
-	}
-	if math.Float64bits(slot.Resolved) == math.Float64bits(slot.Current) {
-		return attrs
-	}
-	slot.Resolved = slot.Current
-	attrs = attrs.With("hp", slot)
-	return attrs
+// 同布局窄能力只运输原数值与准备阶段，不分配逐事件包装对象。
+type numericStagedAttributes Frame
+
+type numericLiveAttributes Engine
+
+var _ operation.StagedAttributeWork = (*numericStagedAttributes)(nil)
+var _ operation.LiveAttributeWork = (*numericLiveAttributes)(nil)
+
+func (s *Engine) attributeRules() operation.AttributeRules {
+	return operation.AttributeRules{Plan: &s.compiled, Formulas: &s.formulas, SessionID: s.req.SessionID}
 }
 
-// reResolveStagedAttributesTwoPass 在 live HP/resource/attribute 变更后，确定性两遍
-// 重算 Resolved（每遍先 source 后 target）。只改 Resolved；保留 Current/Max；
-// 每遍结束后强制 hp.Resolved=hp.Current。不改 Base（attribute_change 的 Base 策略除外）。
+func (f *Frame) attributeRules() operation.AttributeRules {
+	rules := f.run.attributeRules()
+	rules.AbilityRef = f.abilityRef
+	return rules
+}
+
 func (f *Frame) reResolveStagedAttributesTwoPass(ability planbundle.CompiledAbility) {
-	memos, inputs, unchanged := f.refreshMemo(f.evalContext(ability))
-	if unchanged {
-		for _, key := range []string{f.sourceKey, f.targetKey} {
-			host := f.stageFor(key)
-
-			host.setAttributes(syncHPResolved(host.attributesView()))
-		}
-		return
-	}
-	for pass := 0; pass < 2; pass++ {
-		for _, key := range []string{f.sourceKey, f.targetKey} {
-			if key == "" {
-				continue
-			}
-			sc := f.stageFor(key)
-			evalCtx := f.evalContext(ability)
-
-			sc.setAttributes(f.resolveAttributesFor(key, sc.attributesView(), evalCtx))
-
-			sc.setAttributes(syncHPResolved(sc.attributesView()))
-		}
-	}
-	for index, memo := range memos {
-		if memo != nil && !f.fatal {
-			memo.Remember(inputs[index], f.stageFor([]string{f.sourceKey, f.targetKey}[index]).attributesView(), f.evalContext(ability).StrictReads)
-		}
-	}
+	operation.RecomputeStagedAttributes(f.attributeRules(), &f.run.evaluation, f.sourceKey, f.targetKey, ability, (*numericStagedAttributes)(f))
 }
 
-// reResolveLiveAttributesTwoPass 对 live combatants 做与 Frame 相同的确定性两遍
-// source→target Resolved 重算（provider-aware）。只改 Resolved；保留 Current/Max；
-// 每遍结束后强制 hp.Resolved=hp.Current。不遍历 map；不派发事件、不重跑 crit。
 func (s *Engine) reResolveLiveAttributesTwoPass(sourceKey, targetKey string) {
-	for pass := 0; pass < 2; pass++ {
-		for _, key := range []string{sourceKey, targetKey} {
-			if key == "" {
-				continue
-			}
-			c, ok := s.combatants[key]
-			if !ok {
-				continue
-			}
-			evalCtx := s.evalContextForCombatants(sourceKey, targetKey)
-			resolved := s.resolveAttributesFor(key, c.attributesView(), evalCtx, targetKey)
-			c = s.combatants[key]
-
-			c.setAttributes(resolved)
-
-			c.setAttributes(syncHPResolved(c.attributesView()))
-			s.combatants[key] = c
-		}
-	}
+	operation.RecomputeLiveAttributes(s.attributeRules(), &s.evaluation, sourceKey, targetKey, (*numericLiveAttributes)(s))
 }
 
-// refreshMemo只跳过已有结果仍有效的整轮结算。依赖签名来自结算前，
-// 因而尚未稳定的跨属性读取仍会继续原来的两遍，不改变求值顺序。
-func (f *Frame) refreshMemo(abilityCtx formula.GenericEvalContext) ([2]*evaluation.Memo, [2]attribute.Table, bool) {
-	var memos [2]*evaluation.Memo
-	var inputs [2]attribute.Table
-	// 反向和自身行动的派生补算会另用全局双方上下文；无法完整证明
-	// 两种上下文的依赖均未变化时，继续执行原两遍路径及其错误检查。
-	if f.sourceKey != "source" || f.targetKey != "target" {
-		return memos, inputs, false
-	}
-	matched := true
-	for index, actor := range []string{f.sourceKey, f.targetKey} {
-		host := f.stageFor(actor)
-		inputs[index] = host.attributesView()
-		memo := f.run.evaluation.Memo(f.run.compiled.AttributeDerivations, f.run.formulas, actor, true, true, [2]string{f.sourceKey, f.targetKey}, host.instances.Attributes(), host.attributesView())
-		memos[index] = memo
-		if !memo.Probe(host.attributesView(), &abilityCtx, f.providerFormulaContextFunc(actor)) {
-			matched = false
-		}
-		if !memo.OutputsMatch(host.attributesView()) {
-			matched = false
+func (r *numericStagedAttributes) AttributeNumbers(owner string) *actor.ChangeSet {
+	return &(*Frame)(r).stageFor(owner).numbers
+}
+
+func (r *numericStagedAttributes) AttributeResolver(owner string) effectpkg.AttributeResolver {
+	return (*Frame)(r).stageFor(owner).instances.Attributes()
+}
+
+func (r *numericStagedAttributes) AttributePair() [2]attribute.Table {
+	f := (*Frame)(r)
+	pair := [2]attribute.Table{f.run.combatants[model.SelectorSource].attributesView(), f.run.combatants[model.SelectorTarget].attributesView()}
+	for index, owner := range [2]string{model.SelectorSource, model.SelectorTarget} {
+		if staged := f.staged.Get(owner); staged != nil {
+			pair[index] = staged.attributesView()
 		}
 	}
-	return memos, inputs, matched
+	return pair
+}
+
+func (r *numericStagedAttributes) AttributeContext(ability planbundle.CompiledAbility) formula.GenericEvalContext {
+	return (*Frame)(r).evalContext(ability)
+}
+
+func (r *numericStagedAttributes) AttributeProviderContext(host, owner, provider string) pipeline.ProviderFormulaContext {
+	f := (*Frame)(r)
+	strict := f.strictReads || f.skillHitOccurrenceID != 0 || (f.eventCtx != nil && f.eventCtx.HasSkillHit)
+	return f.readProviderFormulaContext(host, f.targetKey, strict, owner, provider)
+}
+
+func (r *numericStagedAttributes) RecordAttributeFailure(err *model.EngineError) {
+	f := (*Frame)(r)
+	f.fatal, f.fatalErr = true, err
+}
+
+func (r *numericStagedAttributes) AttributeFailed() bool { return (*Frame)(r).fatal }
+
+func (r *numericLiveAttributes) LiveAttributeState(owner string) (operation.LiveAttributeState, bool) {
+	c, exists := (*Engine)(r).combatants[owner]
+	return operation.LiveAttributeState{Attributes: c.attributesView(), Resolver: c.instances.Attributes()}, exists
+}
+
+func (r *numericLiveAttributes) LiveAttributeContext(source, target string) formula.GenericEvalContext {
+	return (*Engine)(r).evalContextForCombatants(source, target)
+}
+
+func (r *numericLiveAttributes) LiveAttributeProviderContext(host, activeTarget, owner, provider string) pipeline.ProviderFormulaContext {
+	return (*Engine)(r).readLiveProviderFormulaContext(host, activeTarget, owner, provider)
+}
+
+func (r *numericLiveAttributes) PublishLiveAttributes(owner string, attrs attribute.Table) {
+	s := (*Engine)(r)
+	c := s.combatants[owner]
+	c.setAttributes(attrs)
+	s.combatants[owner] = c
+}
+
+func (r *numericLiveAttributes) RecordLiveAttributeFailure(err *model.EngineError) {
+	(*Engine)(r).processFailure = err
 }
 
 func opponentCombatantKey(owner string) string { return lifecycle.OpponentKey(owner) }
@@ -391,63 +382,26 @@ func (f *Frame) providerFormulaContextFunc(combatantKey string) pipeline.Provide
 
 func (f *Frame) providerFormulaContextForTarget(combatantKey, targetKey string, strict bool) pipeline.ProviderFormulaContextFunc {
 	return func(ownerCombatantKey, providerRef string) pipeline.ProviderFormulaContext {
-		bagOwner := ownerCombatantKey
-		if bagOwner == "" {
-			bagOwner = combatantKey
-		}
-		activeTarget := providerTargetActiveKey(combatantKey, ownerCombatantKey, targetKey)
-		bag := f.providerStateBagForRead(bagOwner, providerRef, strict, effectpkg.ReadOptions{ExpireTarget: true, Defaults: true, TargetView: activeTarget != "", TargetKey: activeTarget})
-		ctx := providerFormulaContextFromBag(bag, activeTarget)
-		if f.run.compiled.HasProviderElapsedReads || f.run.compiled.HasFiniteModifierExpiry {
-			ctx = withProviderElapsed(ctx, f.stageFor(bagOwner).instances.Providers(), providerRef, f.run.loop.TimeMs(), f.run.compiled.Providers)
-		}
-		return ctx
+		return f.readProviderFormulaContext(combatantKey, targetKey, strict, ownerCombatantKey, providerRef)
 	}
 }
 
+func (f *Frame) readProviderFormulaContext(combatantKey, targetKey string, strict bool, ownerCombatantKey, providerRef string) pipeline.ProviderFormulaContext {
+	bagOwner := ownerCombatantKey
+	if bagOwner == "" {
+		bagOwner = combatantKey
+	}
+	activeTarget := providerTargetActiveKey(combatantKey, ownerCombatantKey, targetKey)
+	bag := f.providerStateBagForRead(bagOwner, providerRef, strict, effectpkg.ReadOptions{ExpireTarget: true, Defaults: true, TargetView: activeTarget != "", TargetKey: activeTarget})
+	ctx := providerFormulaContextFromBag(bag, activeTarget)
+	if f.run.compiled.HasProviderElapsedReads || f.run.compiled.HasFiniteModifierExpiry {
+		ctx = withProviderElapsed(ctx, f.stageFor(bagOwner).instances.Providers(), providerRef, f.run.loop.TimeMs(), f.run.compiled.Providers)
+	}
+	return ctx
+}
+
 func (f *Frame) resolveAttributesFor(combatantKey string, attrs attribute.Table, evalCtx formula.GenericEvalContext) attribute.Table {
-	sc := f.stageFor(combatantKey)
-	resolved, err := f.run.evaluation.ResolveOrdinary(f.run.formulas, combatantKey,
-		attrs,
-		sc.instances.Attributes(),
-		evalCtx,
-		f.providerFormulaContextFunc(combatantKey),
-	)
-	if err != nil {
-		f.fatal = true
-		f.fatalErr = f.preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID))
-		return attrs
-	}
-	if len(f.run.compiled.AttributeDerivations) == 0 {
-		return resolved
-	}
-	sourceAttrs, targetAttrs := f.run.combatants["source"].attributesView(), f.run.combatants["target"].attributesView()
-	if staged := f.staged.Get("source"); staged != nil {
-		sourceAttrs = staged.attributesView()
-	}
-	if staged := f.staged.Get("target"); staged != nil {
-		targetAttrs = staged.attributesView()
-	}
-	ordinary := map[string]attribute.Table{"source": sourceAttrs, "target": targetAttrs}
-	for _, owner := range []string{"source", "target"} {
-		host := f.stageFor(owner)
-		dependencyContext := evalCtx
-		dependencyContext.SourceAttrs, dependencyContext.TargetAttrs = sourceAttrs, targetAttrs
-		ordinary[owner], err = f.run.evaluation.ResolveOrdinary(f.run.formulas, owner, ordinary[owner], host.instances.Attributes(), dependencyContext, f.providerFormulaContextFunc(owner))
-		if err != nil {
-			f.fatal = true
-			f.fatalErr = f.preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+owner+".attributes", "", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID))
-			return attrs
-		}
-	}
-	ordinary[combatantKey] = resolved
-	resolved, err = f.run.evaluation.ResolveDerived(f.run.compiled.AttributeDerivations, f.run.formulas, combatantKey, resolved, sc.instances.Attributes(), ordinary["source"], ordinary["target"], f.providerFormulaContextFunc(combatantKey))
-	if err != nil {
-		f.fatal = true
-		f.fatalErr = f.preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID))
-		return attrs
-	}
-	return resolved
+	return operation.ResolveStagedAttributes(f.attributeRules(), &f.run.evaluation, combatantKey, attrs, evalCtx, (*numericStagedAttributes)(f))
 }
 
 func (f *Frame) evalAmount(programID formula.GenericProgramID, ability planbundle.CompiledAbility) (float64, *model.EngineError) {

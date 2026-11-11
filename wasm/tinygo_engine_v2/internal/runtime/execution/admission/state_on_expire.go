@@ -5,8 +5,8 @@ import (
 	"tinygo_engine_v2/internal/plan"
 )
 
-// OwnLinkedShieldInitialization 只检查编译来源与完整的自身到期补盾初始化监听。
-func OwnLinkedShieldInitialization(compiled plan.CompiledSession, listener plan.CompiledListener) bool {
+// ownLinkedShieldInitialization 只检查编译来源与完整的自身到期补盾初始化监听。
+func ownLinkedShieldInitialization(compiled plan.CompiledSession, listener plan.CompiledListener) bool {
 	initialized, declared := compiled.RuntimeTypes.SourceInitialized.Lookup()
 	ownerType, ownerDeclared := compiled.RuntimeTypes.SourceOwner.Lookup()
 	if !compiled.HasStateOnExpire || !declared || !ownerDeclared || !listener.EventMatcher.RequiresAllType(initialized) || !listener.EventMatcher.RequiresAllType(ownerType) || listener.HasAbilityRef || listener.HasCondition || listener.HasOncePerUse || listener.PerCastThrottleMs != 0 || listener.MaxTriggersPerEvent != 1 || listener.OperationCount != 1 {
@@ -19,8 +19,8 @@ func OwnLinkedShieldInitialization(compiled plan.CompiledSession, listener plan.
 	return operation.Operation == "shield" && operation.Target == "self" && operation.HasAmount && operation.HasShieldLifecycleProvider && !operation.HasCondition && !operation.HasShieldDuration
 }
 
-// ValidateStateOnExpireDefinition 校验永久到期来源及能力闭包，不执行初始化。
-func ValidateStateOnExpireDefinition(input Input, provider plan.CompiledProvider) *model.EngineError {
+// validateStateOnExpireDefinition 校验永久到期来源及能力闭包，不执行初始化。
+func validateStateOnExpireDefinition(input Input, provider plan.CompiledProvider) *model.EngineError {
 	fail := func() *model.EngineError {
 		return fail(input, "state expiry source requires complete permanent own shield initialization and damage-driven state writes", "initialSnapshot.combatants.providers")
 	}

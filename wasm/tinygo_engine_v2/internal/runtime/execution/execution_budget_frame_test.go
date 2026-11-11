@@ -104,7 +104,7 @@ func TestExecutionBudgetUseLedgerExplicitCauseAndCommitBoundary(t *testing.T) {
 	if err != nil || reserved == (usage.Reservation{}) {
 		t.Fatalf("reserve: %v %+v", reserved, err)
 	}
-	reservation := &pendingUseReservation{token: reserved}
+	reservation := reserved
 	f, ability, ops := frameCommitFrame(s)
 	f.copyableCollector = newTestCopyableCollector(collectorTestSeed{reservation: reservation})
 	s.budget.MaxCommandsPerEvent = 1
@@ -112,7 +112,7 @@ func TestExecutionBudgetUseLedgerExplicitCauseAndCommitBoundary(t *testing.T) {
 		t.Fatal("expected budget failure")
 	}
 	f.commit()
-	s.releaseUncommittedUseReservation(reservation)
+	s.FinishListenerUse(f.copyableCollector, listener, true, false)
 	if s.useTriggerLedger.Len() != 0 || s.useTriggerLedger.Pending() != 0 {
 		t.Fatalf("failed frame retained a use reservation: %+v", s.useTriggerLedger)
 	}
@@ -120,14 +120,14 @@ func TestExecutionBudgetUseLedgerExplicitCauseAndCommitBoundary(t *testing.T) {
 	if err != nil || reserved == (usage.Reservation{}) {
 		t.Fatalf("reserve committed example: %v %+v", reserved, err)
 	}
-	reservation = &pendingUseReservation{token: reserved}
+	reservation = reserved
 	f, ability, ops = frameCommitFrame(s)
 	f.copyableCollector = newTestCopyableCollector(collectorTestSeed{reservation: reservation})
 	if err := f.executeOperations(ability, ops[:1]); err != nil {
 		t.Fatal(err)
 	}
 	f.commit()
-	s.releaseUncommittedUseReservation(reservation)
+	s.FinishListenerUse(f.copyableCollector, listener, true, false)
 	if len(s.snapshotUseTriggerLedger()) != 1 || s.useTriggerLedger.Pending() != 0 {
 		t.Fatalf("a committed listener loses its ledger on later failure: %+v", s.useTriggerLedger)
 	}

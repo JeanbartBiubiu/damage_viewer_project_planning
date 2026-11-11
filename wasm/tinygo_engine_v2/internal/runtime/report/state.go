@@ -98,8 +98,6 @@ type StateAPI interface {
 	EvidenceTruncation() (bool, int)
 	// InitSampling 校验观察间隔、点数预算及32位输出范围，按时长提高有效采样间隔。
 	InitSampling(config model.SamplingConfig, start, duration int64) bool
-	// Sampling 返回当前采样配置副本。
-	Sampling() model.SamplingConfig
 	// EffectiveSampleEveryMs 返回预算调整后的实际采样间隔。
 	EffectiveSampleEveryMs() int64
 	// NextSample 返回下一采样时刻及该时刻是否仍在启用的观察范围内。
@@ -114,10 +112,8 @@ type StateAPI interface {
 	SeriesPoint(timeMs int64, sourceHp, targetHp float64) model.SeriesPoint
 	// DamageInWindow 按造成或承受方向累计包含起止端点的历史伤害。
 	DamageInWindow(key string, dealer bool, from, to int64) float64
-	// FinalizeSeries 按点数预算抽样；非最终读取返回独立切片，最终读取可交出原容器。
-	FinalizeSeries(final bool) ([]model.SeriesPoint, bool)
-	// SeriesCount 返回已保留的观察点数。
-	SeriesCount() int
+	// CompleteSampling 在指定终止时刻完整交付采样和说明；非最终读取隔离切片，最终读取可交出原容器，不追加终点或清空状态。
+	CompleteSampling(timeMs int64, final bool) SamplingResult
 	// Snapshot 返回独立报告快照，原状态仍可继续接收已提交事实。
 	Snapshot() Output
 	// Finish 交出最终展示容器并清空本状态；调用方接管返回的映射、切片和指针。

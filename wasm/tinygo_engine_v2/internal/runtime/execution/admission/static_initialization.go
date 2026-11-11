@@ -17,16 +17,16 @@ type InitialProvider struct {
 	StateCount                   int
 }
 
-// ValidateStaticInitializerDefinition 校验永久初始化来源的完整形状，不派发监听。
-func ValidateStaticInitializerDefinition(input Input, provider planbundle.CompiledProvider, cappedParent bool) *model.EngineError {
+// validateStaticInitializerDefinition 校验永久初始化来源的完整形状，不派发监听。
+func validateStaticInitializerDefinition(input Input, provider planbundle.CompiledProvider, cappedParent bool) *model.EngineError {
 	if (provider.Kind != "item" && provider.Kind != "character" && provider.Kind != "build") || provider.StableID == "" || (provider.AbilityCount != 0 || len(provider.Processes) != 0) && !cappedParent || provider.Lifecycle != nil || len(provider.Listeners) == 0 || len(provider.StateFields)+len(provider.StatusContributions)+len(provider.Modifiers) != 0 {
 		return fail(input, "initializer must be a complete static owned source", "initialSnapshot.combatants.providers")
 	}
 	return nil
 }
 
-// ValidateStaticInitializationOperation 校验一项永久初始化操作及其完整效果定义，不安装效果。
-func ValidateStaticInitializationOperation(input Input, listener planbundle.CompiledListener, operation planbundle.CompiledOperation, cappedInitializer bool) *model.EngineError {
+// validateStaticInitializationOperation 校验一项永久初始化操作及其完整效果定义，不安装效果。
+func validateStaticInitializationOperation(input Input, listener planbundle.CompiledListener, operation planbundle.CompiledOperation, cappedInitializer bool) *model.EngineError {
 	if operation.Operation != "apply_provider" || operation.Target != "self" || operation.ProviderRef == "" || operation.HasCondition || operation.HasAmount || operation.ProviderRefFromEvent {
 		return fail(input, "initialization may only mount a complete permanent modifier on its own source", operation.Path)
 	}
@@ -109,8 +109,8 @@ func ValidateStaticInitializationOperation(input Input, listener planbundle.Comp
 	return fail(input, "unsupported permanent source modifier", operation.Path)
 }
 
-// PureOwnedLinkedShieldInitialization 检查真实父挂载、关联盾及所有创建操作的单一归属。
-func PureOwnedLinkedShieldInitialization(input Input, listener planbundle.CompiledListener, instance InitialProvider) bool {
+// pureOwnedLinkedShieldInitialization 检查真实父挂载、关联盾及所有创建操作的单一归属。
+func pureOwnedLinkedShieldInitialization(input Input, listener planbundle.CompiledListener, instance InitialProvider) bool {
 	op := input.Compiled.Operations[listener.OperationStart]
 	if op.OwnerProviderIndex < 0 || op.OwnerProviderIndex >= len(input.Compiled.Providers) || op.Target != model.SelectorSelf || !op.HasAmount || op.HasCondition || op.HasShieldDuration || !op.HasShieldLifecycleProvider || op.ShieldRef == "" || int(op.ShieldLifecycleProviderIndex) >= len(input.Compiled.Providers) {
 		return false

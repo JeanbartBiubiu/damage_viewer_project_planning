@@ -39,10 +39,8 @@ type Collector struct {
 // Pending 私有保存本帧尚未发布的续接事实。
 // PendingAPI 列出该对象当前实际公开的完整能力。
 type PendingAPI interface {
-	// AddDamage 登记一笔原位完成的逐伤事实，返回稳定索引。
-	AddDamage(d FrozenDamage)
-	// Count 返回当前帧未发布记录数。
-	Count() int
+	// CollectDamage 在原结算点按资格和预算冻结暂存复制事实，发布仍由原帧决定。
+	CollectDamage(c *Collector, damage FrozenDamage, commands, maximum int, work CollectionWork) *model.EngineError
 	// Publish 在父层原提交位置转移记录，不决定提交是否成功。
 	Publish(c *Collector)
 	// RegisterRepeat 在原操作位置检查重复范围、拥有者和默认次数，再暂存真实请求。
@@ -83,8 +81,7 @@ func (c *Collector) CloneSorted() (d []FrozenDamage, r []RepeatRequest) {
 	sortDeferredRepeatsStable(r)
 	return
 }
-func (p *Pending) AddDamage(d FrozenDamage) { p.damages = append(p.damages, d) }
-func (p *Pending) Count() int               { return len(p.damages) + len(p.repeats) }
+func (p *Pending) count() int { return len(p.damages) + len(p.repeats) }
 func (p *Pending) Publish(c *Collector) {
 	if c != nil {
 		c.Append(p.damages, p.repeats)

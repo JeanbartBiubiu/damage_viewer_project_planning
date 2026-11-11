@@ -64,7 +64,7 @@ test('功能执行及公共支撑只能由父层按明确白名单组合', () =>
     pkg('runtime/execution/operation', ['model', 'plan', 'formula', 'pipeline', 'base/attribute', 'base/numeric', 'base/typeset', 'runtime/actor', 'runtime/contract', 'runtime/effect', 'runtime/execution/evaluation']),
     pkg('runtime/execution/hit', ['model', 'plan', 'formula', 'pipeline', 'base/typeset', 'runtime/action', 'runtime/contract', 'runtime/effect', 'runtime/execution/usage']),
     pkg('runtime/execution/listener', ['model', 'plan', 'base/typeset', 'runtime/execution/usage']),
-    pkg('runtime/execution/admission', ['model', 'plan', 'formula', 'pipeline', 'base/attribute']),
+    pkg('runtime/execution/admission', ['model', 'plan', 'formula', 'pipeline', 'base/attribute', 'base/typeset']),
     pkg('runtime/execution/evaluation', ['model', 'plan', 'formula', 'pipeline', 'runtime/effect', 'base/attribute', 'base/expression', 'base/inputbinding']),
     pkg('runtime/execution/usage', ['model']),
   ]), []);

@@ -308,14 +308,6 @@ func isSkillHitBlockedWrite(op string) bool {
 	}
 }
 
-func (s *Engine) isIncomingCappedFlatParent(provider planbundle.CompiledProvider, owner, providerRef string) bool {
-	return admission.IncomingCappedFlatParent(s.compiled.IncomingCappedFlatSources, s.compiled.Providers, provider.ProviderKey, owner, providerRef)
-}
-
-func (s *Engine) isIncomingCappedFlatInitializer(listener planbundle.CompiledListener, operation planbundle.CompiledOperation) bool {
-	return admission.IncomingCappedFlatInitializer(s.compiled.IncomingCappedFlatSources, s.compiled.Providers, listener, operation)
-}
-
 func (s *Engine) initIncomingCappedFlatSources() *model.EngineError {
 	if len(s.compiled.IncomingCappedFlatSources) == 0 {
 		return nil

@@ -8,6 +8,7 @@ import (
 	actionpkg "tinygo_engine_v2/internal/runtime/action"
 	"tinygo_engine_v2/internal/runtime/actor"
 	contractpkg "tinygo_engine_v2/internal/runtime/contract"
+	"tinygo_engine_v2/internal/runtime/execution/operation"
 	reportpkg "tinygo_engine_v2/internal/runtime/report"
 )
 
@@ -85,7 +86,7 @@ func (f *Frame) commit() {
 		for _, key := range keys {
 			c := f.run.combatants[key]
 
-			c.setAttributes(syncHPResolved(c.attributesView()))
+			c.setAttributes(operation.SyncHPResolved(c.attributesView()))
 			f.run.combatants[key] = c
 		}
 	}

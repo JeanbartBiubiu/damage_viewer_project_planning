@@ -54,28 +54,20 @@ func (s *Engine) listenerMatchesEvent(listener planbundle.CompiledListener, ev e
 }
 
 func (s *Engine) dispatchListenerOperations(listener planbundle.CompiledListener, sourceKey, targetKey string, chainDepth int, eventCtx *eventFormulaSnapshot, collector *eventCopyableCollector) *model.EngineError {
-	start := listener.OperationStart
-	end := start + listener.OperationCount
-	if int(end) > len(s.compiled.Operations) {
-		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "listener operation range out of bounds", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
-	}
-	ops := s.compiled.Operations[start:end]
-	ability := planbundle.CompiledAbility{}
-	if listener.SourceAbilityIndex >= 0 && listener.SourceAbilityIndex < len(s.compiled.Abilities) {
-		ability = s.compiled.Abilities[listener.SourceAbilityIndex]
+	payload, err := listenerpkg.PrepareOperations(listener, s.compiled.Operations, s.compiled.Abilities, s.automatedRun(),
+		listenerpkg.Identity{SchemaHash: s.compiled.SchemaHash, RulesHash: s.compiled.RulesHash, SessionID: s.req.SessionID})
+	if err != nil {
+		return err
 	}
 	var frameStorage Frame
-	s.initExecutionFrame(&frameStorage, sourceKey, targetKey, "listener:"+listener.ListenerKey)
+	s.initExecutionFrame(&frameStorage, sourceKey, targetKey, payload.EntryReference)
 	frame := &frameStorage
-	if listener.SourceAbilityIndex >= 0 && listener.SourceAbilityIndex < len(s.compiled.Abilities) {
-		frame.abilityRef = listener.OwnerCombatantKey + ".provider[" + listener.OwnerProviderRef + "].ability[" + ability.AbilityKey + "]"
-	}
-	frame.strictReads = s.automatedRun() || listener.HasCondition || listener.HasOncePerUse
+	frame.abilityRef = payload.Reference
+	frame.strictReads = payload.StrictReads
 	frame.chainDepth = chainDepth
-	frame.ownerCombatantKey = listener.OwnerCombatantKey
-	frame.ownerProviderRef = listener.OwnerProviderRef
-	frame.mountedListener = listener.OwnerCombatantKey != "" && listener.OwnerProviderRef != ""
-	frame.readsDamageStateBefore = listener.ReadsDamageStateBefore
+	frame.ownerCombatantKey, frame.ownerProviderRef = payload.Owner, payload.Provider
+	frame.mountedListener = payload.Mounted
+	frame.readsDamageStateBefore = payload.ReadsDamageStateBefore
 	frame.eventCtx = cloneEventSnapshot(eventCtx)
 	frame.copyableCollector = collector
 	// Listener Operations inherit triggering cast identity (do not mint).
@@ -83,7 +75,7 @@ func (s *Engine) dispatchListenerOperations(listener planbundle.CompiledListener
 		frame.castInstanceID = eventCtx.CastInstanceID
 		frame.castOrigin = eventCtx.CastOrigin
 	}
-	if err := frame.executeOperations(ability, ops); err != nil {
+	if err := frame.executeOperations(payload.Ability, payload.Operations); err != nil {
 		return err
 	}
 	frame.commit()

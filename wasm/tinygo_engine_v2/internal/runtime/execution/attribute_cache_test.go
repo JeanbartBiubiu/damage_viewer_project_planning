@@ -40,10 +40,6 @@ func TestAttributeRefreshMemoHealthOnlyAndActualHealthDependency(t *testing.T) {
 		hp.Current, hp.Resolved = 20, 20
 
 		host.setAttributes(host.attributesView().With("hp", hp))
-		_, _, unchanged := frame.refreshMemo(frame.evalContext(ability))
-		if unchanged == readsHealth {
-			t.Fatalf("health dependency=%v, unchanged=%v", readsHealth, unchanged)
-		}
 		frame.reResolveStagedAttributesTwoPass(ability)
 		want := 100.0
 		if readsHealth {

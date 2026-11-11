@@ -38,8 +38,7 @@ func (s *State) InitSampling(config model.SamplingConfig, start, duration int64)
 	s.nextSampleAtMs = start
 	return true
 }
-func (s *State) Sampling() model.SamplingConfig { return s.sampling }
-func (s *State) EffectiveSampleEveryMs() int64  { return s.effectiveSampleEveryMs }
+func (s *State) EffectiveSampleEveryMs() int64 { return s.effectiveSampleEveryMs }
 func (s *State) NextSample() (int64, bool) {
 	return s.nextSampleAtMs, !s.sampling.Disabled && !s.samplingExhausted && s.nextSampleAtMs <= s.startMs+s.durationMs
 }
@@ -90,7 +89,7 @@ func (s *State) DamageInWindow(key string, dealer bool, from, to int64) float64 
 	}
 	return total
 }
-func (s *State) FinalizeSeries(final bool) ([]model.SeriesPoint, bool) {
+func (s *State) finalizeSeries(final bool) ([]model.SeriesPoint, bool) {
 	points := s.series
 	if len(points) <= s.sampling.MaxSeriesPoints {
 		if final {
@@ -112,4 +111,3 @@ func (s *State) FinalizeSeries(final bool) ([]model.SeriesPoint, bool) {
 	}
 	return out, true
 }
-func (s *State) SeriesCount() int { return len(s.series) }

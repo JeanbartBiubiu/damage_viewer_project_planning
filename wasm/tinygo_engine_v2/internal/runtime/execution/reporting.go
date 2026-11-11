@@ -165,33 +165,12 @@ func (s *Engine) buildDoneResult(final bool) model.DoneResult {
 		return model.DoneResult{}
 	}
 
-	rawSeriesCount := s.report.SeriesCount()
-	sampling := s.report.Sampling()
-	effectiveSampleEveryMs := s.report.EffectiveSampleEveryMs()
 	totals := s.report.Totals()
-	series, downsampled := s.report.FinalizeSeries(final)
-	if series == nil {
-		series = []model.SeriesPoint{}
-	}
-	droppedSeriesPoints := 0
-	if downsampled && rawSeriesCount > len(series) {
-		droppedSeriesPoints = rawSeriesCount - len(series)
-	}
-
+	sampling := s.report.CompleteSampling(s.loop.TimeMs(), final)
+	series := sampling.Series
+	downsampled := sampling.Evidence.Downsampled
+	droppedSeriesPoints := sampling.DroppedPoints
 	abilityStats := s.report.AbilityStats()
-
-	requestedPoints := 0
-	method := "disabled"
-	if !sampling.Disabled {
-		method = "uniform_time"
-		span := s.loop.TimeMs() - s.loop.StartMs()
-		requestedPoints = int(span/int64(sampling.SampleEveryMs)) + 1
-		if span%int64(sampling.SampleEveryMs) != 0 {
-			requestedPoints++
-		}
-		downsampled = effectiveSampleEveryMs > int64(sampling.SampleEveryMs)
-		droppedSeriesPoints = requestedPoints - len(series)
-	}
 	var basicSummary *model.BasicAttackSummary
 	var sourceVampHealing, targetVampHealing *float64
 	var actionSummary *model.SkillActionSummary
@@ -215,7 +194,7 @@ func (s *Engine) buildDoneResult(final bool) model.DoneResult {
 		sourceVampHealing, targetVampHealing = &totals.SourceVampHealing, &totals.TargetVampHealing
 	}
 
-	s.appendTerminalEvidence(downsampled, requestedPoints, len(series))
+	s.appendTerminalEvidence(sampling.Evidence)
 
 	warnings, warningCount := s.buildWarnings(downsampled, droppedSeriesPoints)
 	recording := s.recordingSummary()
@@ -281,19 +260,11 @@ func (s *Engine) buildDoneResult(final bool) model.DoneResult {
 			SeriesDownsampled:   downsampled,
 			AbilityStats:        abilityStats,
 		},
-		FinalSnapshot: finalSnapshot,
-		Series:        series,
-		Warnings:      warnings,
-		Evidence:      output.Evidence,
-		SeriesSamplingEvidence: model.SeriesSamplingEvidence{
-			RequestedSampleEveryMs: sampling.SampleEveryMs,
-			EffectiveSampleEveryMs: int(effectiveSampleEveryMs),
-			RequestedPointCount:    requestedPoints,
-			FinalPointCount:        len(series),
-			MaxSeriesPoints:        sampling.MaxSeriesPoints,
-			Downsampled:            downsampled,
-			Method:                 method,
-		},
+		FinalSnapshot:          finalSnapshot,
+		Series:                 series,
+		Warnings:               warnings,
+		Evidence:               output.Evidence,
+		SeriesSamplingEvidence: sampling.Evidence,
 	}
 }
 
@@ -349,17 +320,17 @@ func (s *Engine) buildFinalSnapshot() model.Snapshot {
 	return snapshot
 }
 
-func (s *Engine) appendTerminalEvidence(downsampled bool, requestedPoints, finalPointCount int) {
-	if downsampled {
+func (s *Engine) appendTerminalEvidence(sampling model.SeriesSamplingEvidence) {
+	if sampling.Downsampled {
 		s.recordEvidenceLazy(model.EvidenceKindDownsampled, func() model.EvidenceItem {
 			return model.EvidenceItem{
 				TimeMs: s.loop.TimeMs(),
 				Kind:   model.EvidenceKindDownsampled,
 				Data: map[string]interface{}{
-					"requestedPointCount": requestedPoints,
-					"finalPointCount":     finalPointCount,
-					"maxSeriesPoints":     s.report.Sampling().MaxSeriesPoints,
-					"method":              "uniform_time",
+					"requestedPointCount": sampling.RequestedPointCount,
+					"finalPointCount":     sampling.FinalPointCount,
+					"maxSeriesPoints":     sampling.MaxSeriesPoints,
+					"method":              sampling.Method,
 				},
 			}
 		})

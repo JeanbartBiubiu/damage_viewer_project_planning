@@ -36,51 +36,21 @@ func (f *Frame) registerDeferredRepeat(op planbundle.CompiledOperation) *model.E
 }
 
 func (f *Frame) maybeCollectCopyableDamage(op planbundle.CompiledOperation, ability planbundle.CompiledAbility, rawAmount float64, targetKey string, critEv frozenCritEvidence) *model.EngineError {
-	collector := f.copyableCollector
-	if collector == nil || collector.Phantom() || !op.CopyableOnHit || op.Operation != "damage" {
-		return nil
-	}
-	if f.commandsSpent() > f.run.budget.MaxCommandsPerEvent {
-		return f.run.budgetError(model.BudgetCauseMaxCommandsPerEvent, "max commands per event exceeded")
-	}
-	f.numeric.EnsureFirstPerCast()
-	rec := copyableDamageFrozen{
-		RawAmount:            rawAmount,
-		DamageType:           op.DamageType,
-		SourceKey:            f.sourceKey,
-		TargetKey:            targetKey,
-		ProviderRef:          f.ownerProviderRef,
-		OriginRef:            f.abilityRef,
-		OperationRef:         op.Ref,
-		Crit:                 critEv,
-		Ability:              ability,
-		Operation:            op,
-		CastInstanceID:       f.castInstanceID,
-		CastOrigin:           f.castOrigin,
-		ConsumedFirstPerCast: f.numeric.FirstPerCast(),
-		OwnerCombatantKey:    f.providerOwnerKey(),
-		EventCtx:             cloneEventSnapshot(f.eventCtx),
-	}
-	if f.eventCtx != nil {
-		rec.EventSourceKey = f.eventCtx.EventSourceKey
-		rec.EventTargetKey = f.eventCtx.EventTargetKey
-		rec.EntrySourceAttrs = f.eventCtx.EntrySourceAttrs
-		rec.EntryTargetAttrs = f.eventCtx.EntryTargetAttrs
-		rec.EntrySourceResources = f.eventCtx.EntrySourceResources
-		rec.EntryTargetResources = f.eventCtx.EntryTargetResources
-	} else {
-		rec.EventSourceKey = f.sourceKey
-		rec.EventTargetKey = f.targetKey
-		rec.EntrySourceAttrs = f.entrySourceAttrs
-		rec.EntryTargetAttrs = f.entryTargetAttrs
-		rec.EntrySourceResources = f.entrySourceResources
-		rec.EntryTargetResources = f.entryTargetResources
-	}
-	f.pendingContinuation.AddDamage(rec)
-	if collector.Counts()+f.pendingContinuation.Count() > f.run.budget.MaxCommandsPerEvent {
-		return f.run.budgetError(model.BudgetCauseMaxCommandsPerEvent, "max commands per event exceeded")
-	}
-	return nil
+	return f.pendingContinuation.CollectDamage(f.copyableCollector, continuation.FrozenDamage{
+		RawAmount: rawAmount, DamageType: op.DamageType, SourceKey: f.sourceKey, TargetKey: targetKey,
+		ProviderRef: f.ownerProviderRef, OriginRef: f.abilityRef, OperationRef: op.Ref, Crit: critEv,
+		Ability: ability, Operation: op, CastInstanceID: f.castInstanceID, CastOrigin: f.castOrigin,
+		OwnerCombatantKey: f.providerOwnerKey(), EventCtx: f.eventCtx,
+		EventSourceKey: f.sourceKey, EventTargetKey: f.targetKey,
+		EntrySourceAttrs: f.entrySourceAttrs, EntryTargetAttrs: f.entryTargetAttrs,
+		EntrySourceResources: f.entrySourceResources, EntryTargetResources: f.entryTargetResources,
+	}, f.commandsSpent(), f.run.budget.MaxCommandsPerEvent, f)
+}
+
+func (f *Frame) CopyFirstPerCast() map[string]bool { return f.numeric.EnsureFirstPerCast() }
+
+func (f *Frame) CopyCollectionBudgetError() *model.EngineError {
+	return f.run.budgetError(model.BudgetCauseMaxCommandsPerEvent, "max commands per event exceeded")
 }
 
 func (s *Engine) flushDeferredPhantomReplay(c *eventCopyableCollector) *model.EngineError {

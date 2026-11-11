@@ -46,6 +46,21 @@ type stagedCombatant struct {
 
 // FrameAPI 只向公式求值暴露已获准的战斗事实读取能力。
 type FrameAPI interface {
+	// SetHitAttemptOccurrence 在取得序号后立即记入原帧，后续失败也保留该尝试身份。
+	SetHitAttemptOccurrence(id uint64)
+	// RequireHitAttackProcess 在原序号取得后检查实际普攻过程资格。
+	RequireHitAttackProcess(ability planbundle.CompiledAbility, skill, use string) *model.EngineError
+	// MarkHitAttack 在首接触与历史核对之前登记原行动的真实命中。
+	MarkHitAttack(use string)
+	// HitAttemptUse 只在原使用查询点借用现有身份和所属历史，调用期间不得替换历史。
+	HitAttemptUse(reference string) hit.AttemptUse
+	// HitAttemptBudgetError 保存唯一预算原因并返回原命中次数错误。
+	HitAttemptBudgetError() *model.EngineError
+	// CopyFirstPerCast 只在资格及首轮预算通过后取得原共享集合。
+	CopyFirstPerCast() map[string]bool
+	// CopyCollectionBudgetError 保存原唯一预算原因，返回本次收集失败。
+	CopyCollectionBudgetError() *model.EngineError
+
 	// AttachedBlocked 在同一帧认领原盾，并由根层同步交接原盾自己的消费监听。
 	AttachedBlocked(context *hit.Context, replacesPrimary bool) *model.EngineError
 	// AttachedHitCandidate 复用当前强化暂存及输出，保留该候选的根伤害资格。

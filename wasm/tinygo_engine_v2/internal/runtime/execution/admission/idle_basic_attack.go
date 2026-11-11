@@ -5,8 +5,8 @@ import (
 	planbundle "tinygo_engine_v2/internal/plan"
 )
 
-// ValidateIdleBasicAttackAbilities 校验对手完整原生普攻能力，返回唯一开始能力和首次引用供父层核对实际监听。
-func ValidateIdleBasicAttackAbilities(input Input, provider planbundle.CompiledProvider, owner, ref string, validAmmo bool) (planbundle.CompiledAbility, string, *model.EngineError) {
+// validateIdleBasicAttackAbilities 返回完整来源准入内部使用的开始能力及初始引用。
+func validateIdleBasicAttackAbilities(input Input, provider planbundle.CompiledProvider, owner, ref string, validAmmo bool) (planbundle.CompiledAbility, string, *model.EngineError) {
 	fail := func() *model.EngineError {
 		return fail(input, "idle opponent binding must contain its complete static basic attack and unique owner-start listener", "initialSnapshot.combatants.providers")
 	}

@@ -29,6 +29,15 @@ const (
 
 // EngineAPI 定义单次执行协调的公开能力，调度仍借用根入口创建的唯一循环。
 type EngineAPI interface {
+	// AcceptedListenerOrigin 查询已有行动的真实接纳事实，不创建使用或改变冷却。
+	AcceptedListenerOrigin(event emittedEvent) bool
+	// RuleGroupOrigin 在范围核验通过后读取本次原父能力、实际挂载和真实使用。
+	RuleGroupOrigin(ev emittedEvent, freeze *frozenSkillHitContext) hit.RuleOrigin
+	// RuleGroupReservationFailure 在原额度容量失败点保留本场预算原因。
+	RuleGroupReservationFailure(err *model.EngineError)
+	// RunRuleGroupFrame 建立原共享帧并运输原凭据；候选仍共用该帧且在原事实点提交。
+	RunRuleGroupFrame(ev emittedEvent, freeze *frozenSkillHitContext, group planbundle.CompiledSkillHitRuleGroup, grant hit.RuleGrant, token usage.Reservation, chainDepth int) *model.EngineError
+
 	// DecideNext 在每轮前置位置核对本场业务结束及事件预算，不推进时钟或发布战斗状态。
 	DecideNext(observation scheduler.LoopObservation) (scheduler.LoopDecision, *model.EngineError)
 	// LoopDecisionError 为不符合循环交接契约的决定生成带本场身份的运行错误。
@@ -349,7 +358,7 @@ func New(compiled planbundle.CompiledSession, req model.RunRequest, loop *schedu
 	if compiled.HasResourceMax {
 		for key, c := range state.combatants {
 
-			c.setAttributes(syncHPResolved(c.attributesView()))
+			c.setAttributes(operation.SyncHPResolved(c.attributesView()))
 			state.combatants[key] = c
 		}
 	}

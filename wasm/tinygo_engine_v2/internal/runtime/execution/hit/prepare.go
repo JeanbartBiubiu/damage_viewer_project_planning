@@ -7,8 +7,8 @@ import (
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 )
 
-// PrepareInput 在原合格接触登记后借用当前帧求值，生成本次待派发命中上下文。
-type PrepareInput struct {
+// prepareInput 在原合格接触登记后借用当前帧求值，生成本次待派发命中上下文。
+type prepareInput struct {
 	Facts
 	Ability    planbundle.CompiledAbility
 	Plan       *planbundle.CompiledSkillHit
@@ -26,8 +26,8 @@ type PrepareHost interface {
 	FreezeHitEmpoweredWaits(owner string) []EmpoweredWait
 }
 
-// Prepare 在原尝试边界冻结候选、判盾和规则组，不执行子帧或监听。
-func Prepare(state *State, input PrepareInput, host PrepareHost) (*Context, *model.EngineError) {
+// prepare 在原尝试边界冻结候选、判盾和规则组，不执行子帧或监听。
+func prepare(state *State, input prepareInput, host PrepareHost) (*Context, *model.EngineError) {
 	facts := input.Facts
 	selected, err := SelectCandidates(input.Plan, input.Ability, facts.SourceKey, facts.HasFirstContact, facts.FirstContact, host)
 	if err != nil {

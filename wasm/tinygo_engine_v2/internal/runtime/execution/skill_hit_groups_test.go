@@ -64,7 +64,7 @@ func TestSkillHitRuleGroupUnknownUseAndForeignMountFail(t *testing.T) {
 	for _, mutate := range []func(){func() { seed.AbilityRef = "target.provider[champion:source_demo].ability[skill_hit]" }, func() { seed.AbilityRef = ref; ev.useSource = "target" }, func() { ev.useSource = "source"; seed.Plan.OwnerProviderIndex = -1 }} {
 		mutate()
 		freeze = hitpkg.NewContext(seed)
-		if _, err := s.skillHitRuleQuota(ev, freeze, plan.RuleGroups[0]); err == nil {
+		if err := s.executeSkillHitRuleGroup(ev, freeze, plan.RuleGroups[0], 1); err == nil {
 			t.Fatal("foreign identity gained quota")
 		}
 	}
@@ -226,18 +226,14 @@ func TestSkillHitRuleGroupReservedIdentityCannotReenter(t *testing.T) {
 	ability, ref, _ := s.lookupDriverAbility(r.DriverPlan.Entries[0])
 	hit := s.compiled.Operations[ability.OperationStart].SkillHit
 	freeze := hitpkg.NewContext(hitpkg.ContextSeed{Facts: hitpkg.Facts{SourceKey: "source", TargetKey: "target", UseRef: "u1", SkillKey: "author:q"}, Ability: ability, AbilityRef: ref, Plan: hit})
-	descriptor, err := s.skillHitRuleQuota(ev, freeze, hit.RuleGroups[0])
-	if err != nil {
-		t.Fatal(err)
-	}
-	reserved, _, err := s.reserveOncePerUse(descriptor, ev)
+	reserved, _, err := s.useTriggerLedger.Reserve(usage.Key{Owner: "source", ProviderRef: "champion:source_demo", GroupKey: "both", Scope: model.OncePerUseScopeProviderTarget, UseSource: "source", UseKey: "u1", Target: "target"}, "author:q")
 	if err != nil || reserved == (usage.Reservation{}) {
 		t.Fatal(err)
 	}
 	if err := s.executeSkillHitRuleGroup(ev, freeze, hit.RuleGroups[0], 1); err != nil || s.report.Totals().SourceDamageDealt != 0 || s.useTriggerLedger.Pending() != 1 {
 		t.Fatal("reservation recursively acquired", group, err, s.useTriggerLedger)
 	}
-	s.releaseUncommittedUseReservation(&pendingUseReservation{token: reserved})
+	s.useTriggerLedger.Release(reserved)
 	if s.useTriggerLedger.Len() != 0 {
 		t.Fatal("reservation did not release")
 	}

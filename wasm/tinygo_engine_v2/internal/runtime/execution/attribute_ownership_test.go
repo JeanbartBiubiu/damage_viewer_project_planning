@@ -208,12 +208,15 @@ func TestAttributeOwnershipPhantomDamageKeepsOriginalAndCurrentEventViews(t *tes
 	if err := frame.executeOperations(ability, ops); err != nil {
 		t.Fatal(err)
 	}
-	if frame.pendingContinuation.Count() != 1 {
-		t.Fatalf("copyable damage=%d want 1", frame.pendingContinuation.Count())
+	if collector.Counts() != 0 {
+		t.Fatal("copyable damage published before the real frame commit")
 	}
 
 	frame.commit()
 	frozenDamages, _ := collector.CloneSorted()
+	if len(frozenDamages) != 1 {
+		t.Fatalf("committed copyable damage=%d want 1", len(frozenDamages))
+	}
 	frozenDamage := frozenDamages[0]
 	if frame.fatal || !frame.committed || state.combatantHp("target") != 900 {
 		t.Fatal(frame.fatalErr, state.combatantHp("target"))

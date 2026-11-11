@@ -25,7 +25,7 @@ type DriverBinding struct {
 	WhileReady  bool
 }
 
-// StateAPI 定义本场命中事实、首接触与判盾账能力，实际命中执行及帧提交仍由父层负责。
+// StateAPI 定义本场命中事实、首接触与判盾账能力；真实帧及跨职责提交仍由父层提供。
 type StateAPI interface {
 	// Initialize 核对原使用和命中输入并建立分组；只在本场初始化阶段调用，不创建行动身份。
 	Initialize(uses []model.SkillUseFact, facts []model.SkillHitFact, entries []model.DriverEntry, bindings []DriverBinding, identity Identity) *model.EngineError

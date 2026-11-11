@@ -11,6 +11,7 @@ import (
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 	"tinygo_engine_v2/internal/runtime/execution/evaluation"
 	"tinygo_engine_v2/internal/runtime/execution/lifecycle"
+	"tinygo_engine_v2/internal/runtime/execution/operation"
 	reportpkg "tinygo_engine_v2/internal/runtime/report"
 	"tinygo_engine_v2/internal/scheduler"
 )
@@ -402,21 +403,7 @@ func (s *Engine) reResolveAfterProviderChange(targetKey, sourceKey string) {
 	if sourceKey == "" {
 		evalCtx = s.evalContextForCombatants(model.SelectorSource, model.SelectorTarget)
 	}
-	c := s.combatants[targetKey]
-	resolved := s.resolveAttributesFor(targetKey, c.attributesView(), evalCtx, "")
-	c = s.combatants[targetKey]
-
-	c.setAttributes(resolved)
-	s.combatants[targetKey] = c
-	if opp := opponentCombatantKey(targetKey); opp != "" {
-		if oc, ok := s.combatants[opp]; ok {
-			resolved := s.resolveAttributesFor(opp, oc.attributesView(), evalCtx, "")
-			oc = s.combatants[opp]
-
-			oc.setAttributes(resolved)
-			s.combatants[opp] = oc
-		}
-	}
+	operation.ResolveRelatedLiveAttributes(s.attributeRules(), &s.evaluation, targetKey, opponentCombatantKey(targetKey), evalCtx, (*numericLiveAttributes)(s))
 }
 
 func (s *Engine) expireProviderInstance(targetKey, providerRef string, evalCtx formula.GenericEvalContext) {
@@ -544,78 +531,35 @@ func compiledStateDefinitionIndex(compiled planbundle.CompiledSession, owner, re
 	return lifecycle.StateDefinitionIndex(compiled, owner, reference, instances)
 }
 
-func (s *Engine) providerFormulaContextFunc(combatantKey, castTargetKey string) pipeline.ProviderFormulaContextFunc {
-	return func(ownerCombatantKey, providerRef string) pipeline.ProviderFormulaContext {
-		bagOwnerKey := ownerCombatantKey
-		if bagOwnerKey == "" {
-			bagOwnerKey = combatantKey
-		}
-		c, ok := s.combatants[bagOwnerKey]
-		if !ok {
-			return providerFormulaContextFromBag(effectpkg.BagView{}, providerTargetActiveKey(combatantKey, ownerCombatantKey, castTargetKey))
-		}
-		activeTarget := providerTargetActiveKey(combatantKey, ownerCombatantKey, castTargetKey)
-		bag := c.providerState.PrepareRead(providerRef, false,
-			s.resolveProviderStateFieldDefs(bagOwnerKey, providerRef, c.instances.Providers()), s.loop.TimeMs(), effectpkg.ReadOptions{ExpireTarget: true, Defaults: true, TargetView: activeTarget != "", TargetKey: activeTarget, Cooldowns: c.cooldowns.View(), OwnerKey: bagOwnerKey})
-		if !bag.Present() {
-			ctx := providerFormulaContextFromBag(effectpkg.BagView{}, activeTarget)
-			if s.compiled.HasProviderElapsedReads || s.compiled.HasFiniteModifierExpiry {
-				ctx = withProviderElapsed(ctx, c.instances.Providers(), providerRef, s.loop.TimeMs(), s.compiled.Providers)
-			}
-			return ctx
-		}
-		s.combatants[bagOwnerKey] = c
-		ctx := providerFormulaContextFromBag(bag, activeTarget)
+func (s *Engine) readLiveProviderFormulaContext(combatantKey, castTargetKey, ownerCombatantKey, providerRef string) pipeline.ProviderFormulaContext {
+	bagOwnerKey := ownerCombatantKey
+	if bagOwnerKey == "" {
+		bagOwnerKey = combatantKey
+	}
+	c, ok := s.combatants[bagOwnerKey]
+	if !ok {
+		return providerFormulaContextFromBag(effectpkg.BagView{}, providerTargetActiveKey(combatantKey, ownerCombatantKey, castTargetKey))
+	}
+	activeTarget := providerTargetActiveKey(combatantKey, ownerCombatantKey, castTargetKey)
+	bag := c.providerState.PrepareRead(providerRef, false,
+		s.resolveProviderStateFieldDefs(bagOwnerKey, providerRef, c.instances.Providers()), s.loop.TimeMs(), effectpkg.ReadOptions{ExpireTarget: true, Defaults: true, TargetView: activeTarget != "", TargetKey: activeTarget, Cooldowns: c.cooldowns.View(), OwnerKey: bagOwnerKey})
+	if !bag.Present() {
+		ctx := providerFormulaContextFromBag(effectpkg.BagView{}, activeTarget)
 		if s.compiled.HasProviderElapsedReads || s.compiled.HasFiniteModifierExpiry {
 			ctx = withProviderElapsed(ctx, c.instances.Providers(), providerRef, s.loop.TimeMs(), s.compiled.Providers)
 		}
 		return ctx
 	}
+	s.combatants[bagOwnerKey] = c
+	ctx := providerFormulaContextFromBag(bag, activeTarget)
+	if s.compiled.HasProviderElapsedReads || s.compiled.HasFiniteModifierExpiry {
+		ctx = withProviderElapsed(ctx, c.instances.Providers(), providerRef, s.loop.TimeMs(), s.compiled.Providers)
+	}
+	return ctx
 }
 
 func (s *Engine) resolveAttributesFor(combatantKey string, attrs attribute.Table, evalCtx formula.GenericEvalContext, activeTargetKey string) attribute.Table {
-	c, ok := s.combatants[combatantKey]
-	if !ok {
-		return attrs
-	}
-	resolved, err := s.evaluation.ResolveOrdinary(s.formulas, combatantKey,
-		attrs,
-		c.instances.Attributes(),
-		evalCtx,
-		s.providerFormulaContextFunc(combatantKey, activeTargetKey),
-	)
-	if err != nil {
-		s.processFailure = preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID))
-		return attrs
-	}
-	if len(s.compiled.AttributeDerivations) == 0 {
-		if s.compiled.HasResourceMax {
-			resolved = syncHPResolved(resolved)
-		}
-		return resolved
-	}
-	ordinary := map[string]attribute.Table{}
-	for _, owner := range []string{"source", "target"} {
-		host := s.combatants[owner]
-		ordinary[owner], err = s.evaluation.ResolveOrdinary(s.formulas, owner, host.attributesView(), host.instances.Attributes(), evalCtx, s.providerFormulaContextFunc(owner, activeTargetKey))
-		if err != nil {
-			s.processFailure = preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+owner+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID))
-			return attrs
-		}
-	}
-	ordinary[combatantKey] = resolved
-	resolved, err = s.evaluation.ResolveDerived(s.compiled.AttributeDerivations, s.formulas, combatantKey, resolved, c.instances.Attributes(), ordinary["source"], ordinary["target"], s.providerFormulaContextFunc(combatantKey, activeTargetKey))
-	if err != nil {
-		s.processFailure = preserveFormulaIssue(err, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID))
-		return attrs
-	}
-	// Resource capacity has already passed cold admission. Ordinary modifiers
-	// rebuild Resolved from Base; runtime HP continues to mean actual Current,
-	// including provider lifecycle refreshes and quiet observation endpoints.
-	if s.compiled.HasResourceMax {
-		resolved = syncHPResolved(resolved)
-	}
-	return resolved
+	return operation.ResolveLiveAttributes(s.attributeRules(), &s.evaluation, combatantKey, attrs, evalCtx, activeTargetKey, (*numericLiveAttributes)(s))
 }
 
 // refreshProviderAwareAttributes lazy-expires provider timed state and re-resolves attributes
@@ -886,19 +830,7 @@ func (r *lifecycleLiveEffects) ResolveAppliedEffects(owner, source string) {
 
 func (r *lifecycleLiveEffects) ResolveRemovedEffects(owner string, context formula.GenericEvalContext) {
 	s := (*Engine)(r)
-	c := s.combatants[owner]
-	resolved := s.resolveAttributesFor(owner, c.attributesView(), context, "")
-	c = s.combatants[owner]
-	c.setAttributes(resolved)
-	s.combatants[owner] = c
-	if opponent := opponentCombatantKey(owner); opponent != "" {
-		if other, exists := s.combatants[opponent]; exists {
-			resolved := s.resolveAttributesFor(opponent, other.attributesView(), context, "")
-			other = s.combatants[opponent]
-			other.setAttributes(resolved)
-			s.combatants[opponent] = other
-		}
-	}
+	operation.ResolveRelatedLiveAttributes(s.attributeRules(), &s.evaluation, owner, opponentCombatantKey(owner), context, (*numericLiveAttributes)(s))
 }
 
 func (r *lifecycleLiveEffects) RemoveEffectDependents(owner, reference string) {

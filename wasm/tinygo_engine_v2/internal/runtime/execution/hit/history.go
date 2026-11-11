@@ -1,6 +1,6 @@
 package hit
 
-// HistoryAPI 定义真实技能使用的接触历史能力；登记时点与费用、行动和帧提交由父层协调。
+// HistoryAPI 定义真实技能使用的接触历史能力；命中尝试决定登记时点，真实行动和帧提交由父层交接。
 type HistoryAPI interface {
 	// TotalCount 返回原历史与本次运行已登记接触的总次数，目标重复也按原口径计数。
 	TotalCount() int

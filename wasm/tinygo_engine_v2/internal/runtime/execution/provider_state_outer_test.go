@@ -33,7 +33,7 @@ func TestProviderStateOuterReadPreparationDetachesAndPublishes(t *testing.T) {
 	bag := view.Lookup("attack")
 	want := providerStateOwnershipSnapshot(bag)
 	state.loop.Advance(50)
-	context := state.providerFormulaContextFunc("source", "target")("source", "attack")
+	context := state.readLiveProviderFormulaContext("source", "target", "source", "attack")
 	live := state.combatants["source"]
 	if live.providerState.Lookup("attack") == bag || context.ProviderState.At("stacks") != 0 || live.providerState.Lookup("attack").ExpireAt().At("stacks") != 0 {
 		t.Fatal("live preparation was not published")

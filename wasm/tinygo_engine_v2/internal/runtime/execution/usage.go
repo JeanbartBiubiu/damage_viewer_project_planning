@@ -13,8 +13,6 @@ import (
 	"tinygo_engine_v2/internal/runtime/execution/usage"
 )
 
-type pendingUseReservation struct{ token usage.Reservation }
-
 const maxUseTriggerLedger = usage.MaxEntries
 
 const nativeHitFollowUpSuffix = "__native_hit"
@@ -111,42 +109,11 @@ func (s *Engine) isAcceptedPlannedCastStart(ev emittedEvent) bool {
 	return s.skillActionFlowExecutor().AcceptedCastStart(actionflow.PlannedCastStart{EventType: ev.eventType, Source: ev.sourceKey, Target: ev.targetKey, CastOrigin: ev.castOrigin, UseKey: ev.useKey, UseSource: ev.useSource, UseSkillKey: ev.useSkillKey, CastID: ev.castInstanceID, Snapshot: ev.snapshot}, s.loop.TimeMs(), s.compiled.SkillActionBindings, skillEventsBridge{engine: s})
 }
 
-func (s *Engine) oncePerUseKey(listener planbundle.CompiledListener, ev emittedEvent) (usage.Key, *model.EngineError) {
-	if !ev.hasUse || strings.TrimSpace(ev.useKey) == "" {
-		return usage.Key{}, s.skillHitErr(model.GenericErrMissingRequiredField, "oncePerUse requires a real use fact on the triggering event", "listeners["+listener.ListenerKey+"].oncePerUse", listener.OncePerUseGroup)
-	}
-	if !model.IsRealUseEvent(ev.eventType) && !s.isAcceptedPlannedCastStart(ev) {
-		return usage.Key{}, s.skillHitErr(model.GenericErrUnknownRef, "oncePerUse requires an engine-produced originating-use event", "listeners["+listener.ListenerKey+"].oncePerUse", ev.eventType)
-	}
-	key := usage.Key{
-		Owner:       listener.OwnerCombatantKey,
-		ProviderRef: listener.OwnerProviderRef,
-		GroupKey:    listener.OncePerUseGroup,
-		Scope:       listener.OncePerUseScope,
-		UseSource:   ev.useSource,
-		UseKey:      ev.useKey,
-	}
-	if listener.OncePerUseScope == model.OncePerUseScopeProviderTarget {
-		key.Target = ev.targetKey
-		if ev.eventType == model.EventTypeDamageTaken || ev.eventType == model.EventTypeBasicAttackReceived {
-			_, key.Target = listenerpkg.Combatants(ev.eventType, ev.sourceKey, ev.targetKey, listener.OwnerCombatantKey)
-		}
-	}
-	return key, nil
-}
-
-func (s *Engine) reserveOncePerUse(listener planbundle.CompiledListener, ev emittedEvent) (usage.Reservation, bool, *model.EngineError) {
-	if !listener.HasOncePerUse {
-		return usage.Reservation{}, false, nil
-	}
-	if listener.OwnerCombatantKey == "" || listener.OwnerProviderRef == "" {
-		return usage.Reservation{}, false, s.skillHitErr(model.GenericErrUnknownRef, "oncePerUse requires a mounted provider listener", listener.ListenerKey, listener.OncePerUseGroup)
-	}
-	key, err := s.oncePerUseKey(listener, ev)
-	if err != nil {
-		return usage.Reservation{}, false, err
-	}
-	token, skip, err := s.useTriggerLedger.Reserve(key, ev.useSkillKey)
+func (s *Engine) reserveOncePerUse(definition planbundle.CompiledListener, event emittedEvent) (usage.Reservation, bool, *model.EngineError) {
+	token, skip, err := listenerpkg.ReserveUse(&s.useTriggerLedger, definition, listenerpkg.UseEvent{
+		EventType: event.eventType, Source: event.sourceKey, Target: event.targetKey, HasUse: event.hasUse,
+		UseKey: event.useKey, UseSource: event.useSource, UseSkillKey: event.useSkillKey,
+	}, event, s, listenerpkg.Identity{SchemaHash: s.compiled.SchemaHash, RulesHash: s.compiled.RulesHash, SessionID: s.req.SessionID})
 	if err != nil && err.BudgetCause != "" {
 		s.budgetCause = err.BudgetCause
 	}
@@ -154,12 +121,6 @@ func (s *Engine) reserveOncePerUse(listener planbundle.CompiledListener, ev emit
 }
 
 func (s *Engine) commitOncePerUse(token usage.Reservation) { s.useTriggerLedger.Commit(token) }
-
-func (s *Engine) releaseUncommittedUseReservation(reservation *pendingUseReservation) {
-	if reservation != nil {
-		s.useTriggerLedger.Release(reservation.token)
-	}
-}
 
 func (s *Engine) snapshotUseTriggerLedger() []model.UseTriggerLedgerEntry {
 	return s.useTriggerLedger.Snapshot()

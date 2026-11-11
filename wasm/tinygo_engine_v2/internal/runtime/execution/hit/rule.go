@@ -1,9 +1,11 @@
 package hit
 
 import (
+	"strings"
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
+	"tinygo_engine_v2/internal/runtime/execution/usage"
 )
 
 // RuleOrigin 只借用规则准入所需的编译定义、原使用身份和当前来源挂载视图。
@@ -18,12 +20,19 @@ type RuleOrigin struct {
 	EventType                               string
 	HasUse                                  bool
 	UseKey, UseSource, UseSkillKey          string
+	TargetKey                               string
 	KnownUse                                bool
 	RegisteredUseSource, RegisteredSkillKey string
 }
 
-// RuleQuota 核对真实技能命中、静态原挂载及原使用后，生成唯一共同额度所需的既有身份。
-func RuleQuota(context *Context, group planbundle.CompiledSkillHitRuleGroup, origin RuleOrigin, identity Identity) (planbundle.CompiledListener, *model.EngineError) {
+// RuleGrant 是命中已核定的共同额度身份，不借用监听定义或建立第二份账。
+type RuleGrant struct {
+	Key         usage.Key
+	UseSkillKey string
+}
+
+// ruleQuota 核对真实技能命中、静态原挂载及原使用后，生成唯一共同额度所需的既有身份。
+func ruleQuota(context *Context, group planbundle.CompiledSkillHitRuleGroup, origin RuleOrigin, identity Identity) (RuleGrant, *model.EngineError) {
 	ref := origin.Reference
 	parsed, parsedOK := planbundle.ParseAbilityRef(context.abilityRef)
 	if origin.EventType != model.EventTypeSkillHit || context.ability.IsBasicAttack || !origin.HasReference || !parsedOK || int(ref.CombatantIndex) >= len(origin.Combatants) || int(ref.AbilityIndex) >= len(origin.Abilities) {
@@ -51,8 +60,18 @@ func RuleQuota(context *Context, group planbundle.CompiledSkillHitRuleGroup, ori
 	if !origin.HasUse || context.facts.UseRef == "" || origin.UseKey != context.facts.UseRef || origin.UseSource != actor.Key || origin.UseSkillKey != context.facts.SkillKey || !origin.KnownUse || origin.RegisteredUseSource != actor.Key || origin.RegisteredSkillKey != context.facts.SkillKey {
 		return ruleQuotaError(identity, group, "rule group requires its actual declared originating skill use")
 	}
-	return planbundle.CompiledListener{ListenerKey: group.RuleKey, OwnerCombatantKey: actor.Key, OwnerProviderRef: parsed.ProviderRef,
-		HasOncePerUse: true, OncePerUseGroup: group.OncePerUseGroup, OncePerUseScope: group.OncePerUseScope}, nil
+	if actor.Key == "" || parsed.ProviderRef == "" {
+		return RuleGrant{}, hitError(identity, model.GenericErrUnknownRef, "oncePerUse requires a mounted provider listener", group.RuleKey, group.OncePerUseGroup)
+	}
+	if strings.TrimSpace(origin.UseKey) == "" {
+		return RuleGrant{}, hitError(identity, model.GenericErrMissingRequiredField, "oncePerUse requires a real use fact on the triggering event", "listeners["+group.RuleKey+"].oncePerUse", group.OncePerUseGroup)
+	}
+	key := usage.Key{Owner: actor.Key, ProviderRef: parsed.ProviderRef, GroupKey: group.OncePerUseGroup,
+		Scope: group.OncePerUseScope, UseSource: origin.UseSource, UseKey: origin.UseKey}
+	if group.OncePerUseScope == model.OncePerUseScopeProviderTarget {
+		key.Target = origin.TargetKey
+	}
+	return RuleGrant{Key: key, UseSkillKey: origin.UseSkillKey}, nil
 }
 
 // RuleMountLive 核对实际静态挂载的完整身份、唯一性和永久期限，不仅检查定义存在。
@@ -74,6 +93,6 @@ func RuleMountLive(owner, provider string, definition uint16, definitions []plan
 	return found
 }
 
-func ruleQuotaError(identity Identity, group planbundle.CompiledSkillHitRuleGroup, message string) (planbundle.CompiledListener, *model.EngineError) {
-	return planbundle.CompiledListener{}, hitError(identity, model.GenericErrUnknownRef, message, group.Path, group.RuleKey)
+func ruleQuotaError(identity Identity, group planbundle.CompiledSkillHitRuleGroup, message string) (RuleGrant, *model.EngineError) {
+	return RuleGrant{}, hitError(identity, model.GenericErrUnknownRef, message, group.Path, group.RuleKey)
 }

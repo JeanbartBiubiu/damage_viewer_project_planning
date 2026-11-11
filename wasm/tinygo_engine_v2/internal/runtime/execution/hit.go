@@ -10,6 +10,7 @@ import (
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 	"tinygo_engine_v2/internal/runtime/execution/actionflow"
 	"tinygo_engine_v2/internal/runtime/execution/hit"
+	"tinygo_engine_v2/internal/runtime/execution/lifecycle"
 	listenerpkg "tinygo_engine_v2/internal/runtime/execution/listener"
 	"tinygo_engine_v2/internal/runtime/execution/usage"
 )
@@ -57,12 +58,12 @@ func (s *Engine) ReserveListenerUse(event emittedEvent, collector *eventCopyable
 }
 
 func (s *Engine) FinishListenerUse(collector *eventCopyableCollector, definition planbundle.CompiledListener, reserved, triggered bool) {
-	if reserved && triggered {
-		s.commitOncePerUse(collector.Reservation())
-	} else if reserved {
-		s.useTriggerLedger.Release(collector.Reservation())
-	}
+	listenerpkg.FinishUse(&s.useTriggerLedger, collector.Reservation(), reserved, triggered)
 	collector.SetReservation(usage.Reservation{})
+}
+
+func (s *Engine) AcceptedListenerOrigin(event emittedEvent) bool {
+	return s.isAcceptedPlannedCastStart(event)
 }
 
 func (s *Engine) ListenerOperations(event emittedEvent, collector *eventCopyableCollector, definition planbundle.CompiledListener, source, target string, chainDepth int) *model.EngineError {
@@ -463,47 +464,10 @@ func (s *Engine) skillHitErr(code model.GenericErrCode, message, path, ref strin
 }
 
 func (f *Frame) resolveSkillHit(op planbundle.CompiledOperation, ability planbundle.CompiledAbility) *model.EngineError {
-	if op.SkillHit == nil {
-		return f.run.skillHitErr(model.GenericErrMissingRequiredField, "resolve_skill_hit missing compiled plan", f.abilityRef, "")
-	}
-	if op.SkillHit.ReplacesPrimary {
-		return f.run.skillHitErr(model.GenericErrRuntimeInvariantFailed, "primary replacement payload requires its actual empowered native attack consumption", f.abilityRef, op.SkillHit.SkillKey)
-	}
-	if f.driverEntryKey == "" {
-		return f.run.skillHitErr(model.GenericErrMissingRequiredField, "resolve_skill_hit requires a single driver fact", f.abilityRef, "")
-	}
-	fact, ok := f.run.hits.Fact(f.driverEntryKey)
-	if !ok {
-		return f.run.skillHitErr(model.GenericErrMissingRequiredField, "missing skill hit fact for driver entry", "skillHitFacts", f.driverEntryKey)
-	}
-	occurrenceID, accepted := f.run.hits.NextOccurrence(f.run.budget.MaxEvents)
-	if !accepted {
-		return f.run.budgetError(model.BudgetCauseMaxSkillHits, "skill hit occurrences exceeded run budget")
-	}
-	f.skillHitOccurrenceID = occurrenceID
-
-	useRef := ""
-	if fact.UseRef != nil {
-		useRef = *fact.UseRef
-	}
-	if ability.IsBasicAttack {
-		if err := f.requireAttackProcess(ability, op.SkillHit.SkillKey, useRef); err != nil {
-			return err
-		}
-	}
-	f.run.markBasicAttackHit(useRef)
-	firstHas, firstVal, err := f.run.qualifyFirstContact(f.driverEntryKey, useRef, f.targetKey)
-	if err != nil {
-		return err
-	}
-	if err := f.run.registerQualifiedContact(useRef, f.targetKey); err != nil {
-		return err
-	}
-
-	freeze, err := hit.Prepare(&f.run.hits, hit.PrepareInput{
-		Facts: hit.Facts{HitSequence: fact.Sequence, RootDamageEvent: f.chainDepth == 0, OccurrenceID: occurrenceID,
-			UseRef: useRef, SkillKey: op.SkillHit.SkillKey, SourceKey: f.sourceKey, TargetKey: f.targetKey, HasFirstContact: firstHas, FirstContact: firstVal},
-		Ability: ability, Plan: op.SkillHit, AbilityRef: f.abilityRef, EntryKey: f.driverEntryKey, Identity: f.run.hitIdentity(),
+	freeze, err := hit.PrepareAttempt(&f.run.hits, hit.AttemptInput{
+		Ability: ability, Plan: op.SkillHit, AbilityRef: f.abilityRef, EntryKey: f.driverEntryKey,
+		SourceKey: f.sourceKey, TargetKey: f.targetKey, RootDamageEvent: f.chainDepth == 0,
+		MaxEvents: f.run.budget.MaxEvents, Entries: f.run.req.DriverPlan.Entries, Identity: f.run.hitIdentity(),
 	}, f)
 	if err != nil {
 		return err
@@ -598,44 +562,24 @@ func skillHitEvidenceData(freeze *frozenSkillHitContext) map[string]interface{} 
 	return data
 }
 
-func (s *Engine) qualifyFirstContact(entryKey, useRef, targetKey string) (bool, float64, *model.EngineError) {
-	if useRef == "" {
-		return false, 0, nil
-	}
-	use := s.skillUses[useRef]
-	if use == nil {
-		return false, 0, s.skillHitErr(model.GenericErrUnknownRef, "unknown skill use", "skillUses", useRef)
-	}
-	if use.identity.HistoryState() == model.SkillHitHistoryUnknown {
-		return false, 0, nil
-	}
-	entry := s.driverEntryByKey(entryKey)
-	has, value := s.hits.FirstContact(entryKey, useRef, use.identity.HistoryState(), &use.history, entry.FirstAtMs)
-	return has, value, nil
+func (f *Frame) SetHitAttemptOccurrence(id uint64) { f.skillHitOccurrenceID = id }
+
+func (f *Frame) RequireHitAttackProcess(ability planbundle.CompiledAbility, skill, use string) *model.EngineError {
+	return f.requireAttackProcess(ability, skill, use)
 }
 
-func (s *Engine) registerQualifiedContact(useRef, targetKey string) *model.EngineError {
-	if useRef == "" {
-		return nil
-	}
-	use := s.skillUses[useRef]
+func (f *Frame) MarkHitAttack(use string) { f.run.markBasicAttackHit(use) }
+
+func (f *Frame) HitAttemptUse(reference string) hit.AttemptUse {
+	use := f.run.skillUses[reference]
 	if use == nil {
-		return nil
+		return hit.AttemptUse{}
 	}
-	if use.history.TotalCount() >= hit.MaxHistoryContacts {
-		return s.skillHitErr(model.GenericErrRuntimeInvariantFailed, "skill use history exceeded run budget", "skillUses["+useRef+"].priorQualifiedContacts", useRef)
-	}
-	use.history.Append(targetKey)
-	return nil
+	return hit.AttemptUse{Present: true, HistoryState: use.identity.HistoryState(), History: &use.history}
 }
 
-func (s *Engine) driverEntryByKey(entryKey string) model.DriverEntry {
-	for _, entry := range s.req.DriverPlan.Entries {
-		if entry.EntryKey == entryKey {
-			return entry
-		}
-	}
-	return model.DriverEntry{}
+func (f *Frame) HitAttemptBudgetError() *model.EngineError {
+	return f.run.budgetError(model.BudgetCauseMaxSkillHits, "skill hit occurrences exceeded run budget")
 }
 
 func (f *Frame) evalSkillHitParticipation(programID formula.GenericProgramID, ability planbundle.CompiledAbility) (float64, *model.EngineError) {
@@ -792,41 +736,20 @@ func (s *Engine) dispatchSpellShieldBlocked(parent emittedEvent, freeze *frozenS
 }
 
 func (f *Frame) expireProviderFromEvent(op planbundle.CompiledOperation) *model.EngineError {
-	if f.eventCtx == nil || f.eventCtx.SkillHit == nil || f.eventCtx.EventType != model.EventTypeSpellShieldBlocked {
-		return f.run.skillHitErr(model.GenericErrMissingRequiredField, "providerRefFromEvent requires event/spell_shield_blocked context", f.abilityRef, "")
+	input := lifecycle.FrozenShieldRemoval{Event: f.eventCtx, AbilityRef: f.abilityRef,
+		ListenerOwner: f.ownerCombatantKey, ListenerRef: f.ownerProviderRef, Source: f.sourceKey,
+		SchemaHash: f.run.compiled.SchemaHash, RulesHash: f.run.compiled.RulesHash, SessionID: f.run.req.SessionID}
+	if f.eventCtx != nil && f.eventCtx.SkillHit != nil {
+		owner, present := f.run.combatants[f.eventCtx.SkillHit.ShieldOwner]
+		input.OwnerPresent, input.Providers = present, owner.instances.Providers()
 	}
-	freeze := f.eventCtx.SkillHit
-	if freeze.ShieldProviderRef == "" || freeze.ShieldOwner == "" {
-		return f.run.skillHitErr(model.GenericErrMissingRequiredField, "spell shield freeze is missing owner/providerRef", model.EventTypeSpellShieldBlocked, "")
+	mutation, err := lifecycle.PrepareFrozenShieldRemoval(input)
+	if err != nil {
+		return err
 	}
-	if f.ownerCombatantKey != "" && f.ownerCombatantKey != freeze.ShieldOwner {
-		return f.run.skillHitErr(model.GenericErrRuntimeInvariantFailed, "listener owner must equal the frozen spell shield bearer", f.ownerProviderRef, f.ownerCombatantKey)
-	}
-	c, ok := f.run.combatants[freeze.ShieldOwner]
-	if !ok {
-		return f.run.skillHitErr(model.GenericErrUnknownRef, "frozen spell shield owner is missing", "combatants", freeze.ShieldOwner)
-	}
-	inst, _, found := c.instances.Providers().Find(freeze.ShieldProviderRef)
-	if !found {
-		return f.run.skillHitErr(model.GenericErrUnknownRef, "frozen spell shield instance is missing", "providers", freeze.ShieldProviderRef)
-	}
-	if freeze.ShieldDefinitionRef != "" && inst.DefinitionRef != freeze.ShieldDefinitionRef {
-		return f.run.skillHitErr(model.GenericErrUnknownRef, "frozen spell shield definitionRef mismatch", freeze.ShieldProviderRef, inst.DefinitionRef)
-	}
-	if f.ownerProviderRef != "" && f.ownerProviderRef != freeze.ShieldProviderRef {
-		return f.run.skillHitErr(model.GenericErrRuntimeInvariantFailed, "listener providerRef must equal the frozen shield instance", f.ownerProviderRef, freeze.ShieldProviderRef)
-	}
-	sc := f.stageFor(freeze.ShieldOwner)
-	sc.providerOps = append(sc.providerOps, stagedProviderMutation{
-		Kind:          "expire",
-		ProviderRef:   freeze.ShieldProviderRef,
-		DefinitionRef: freeze.ShieldDefinitionRef,
-		TargetKey:     freeze.ShieldOwner,
-		SourceKey:     f.sourceKey,
-		Strict:        true,
-	})
-	sc.dirty = true
-	_ = op
+	staged := f.stageFor(mutation.TargetKey)
+	staged.providerOps = append(staged.providerOps, mutation)
+	staged.dirty = true
 	return nil
 }
 
@@ -881,47 +804,41 @@ func (s *Engine) listenerStillLive(listener planbundle.CompiledListener) bool {
 	return !inst.Expired(s.loop.TimeMs())
 }
 
-func (s *Engine) skillHitRuleQuota(ev emittedEvent, freeze *frozenSkillHitContext, group planbundle.CompiledSkillHitRuleGroup) (planbundle.CompiledListener, *model.EngineError) {
+func (s *Engine) RuleGroupOrigin(ev emittedEvent, freeze *frozenSkillHitContext) hit.RuleOrigin {
 	ref, exists := s.compiled.AbilityRefIndex[freeze.AbilityRef()]
 	origin := hit.RuleOrigin{Reference: ref, HasReference: exists, Combatants: s.compiled.Combatants,
 		Abilities: s.compiled.Abilities, Providers: s.compiled.Providers, Operations: s.compiled.Operations,
-		EventType: ev.eventType, HasUse: ev.hasUse, UseKey: ev.useKey, UseSource: ev.useSource, UseSkillKey: ev.useSkillKey}
-	if actor, found := s.combatants[freeze.View().SourceKey]; found {
-		origin.LiveProviders = actor.instances.Providers()
+		EventType: ev.eventType, HasUse: ev.hasUse, UseKey: ev.useKey, UseSource: ev.useSource, UseSkillKey: ev.useSkillKey, TargetKey: ev.targetKey}
+	if owner, found := s.combatants[freeze.View().SourceKey]; found {
+		origin.LiveProviders = owner.instances.Providers()
 	}
 	if use := s.skillUses[freeze.View().UseRef]; use != nil {
 		origin.KnownUse = true
 		origin.RegisteredUseSource, origin.RegisteredSkillKey = use.identity.Source(), use.identity.SkillKey()
 	}
-	return hit.RuleQuota(freeze, group, origin, hit.Identity{SchemaHash: s.compiled.SchemaHash, RulesHash: s.compiled.RulesHash, SessionID: s.req.SessionID})
+	return origin
 }
 
-func (s *Engine) executeSkillHitRuleGroup(ev emittedEvent, freeze *frozenSkillHitContext, group planbundle.CompiledSkillHitRuleGroup, chainDepth int) *model.EngineError {
-	if !hit.ValidRuleRange(freeze, group) {
-		return s.skillHitErr(model.GenericErrRuntimeInvariantFailed, "rule group candidate range is invalid", group.Path, group.RuleKey)
+func (s *Engine) RuleGroupReservationFailure(err *model.EngineError) {
+	if err != nil && err.BudgetCause != "" {
+		s.budgetCause = err.BudgetCause
 	}
-	quota, err := s.skillHitRuleQuota(ev, freeze, group)
-	if err != nil {
-		return err
-	}
-	token, skip, err := s.reserveOncePerUse(quota, ev)
-	if err != nil || skip {
-		return err
-	}
-	if token == (usage.Reservation{}) {
-		return s.skillHitErr(model.GenericErrRuntimeInvariantFailed, "matched rule group did not reserve its quota", group.Path, group.RuleKey)
-	}
-	reservation := pendingUseReservation{token: token}
-	defer s.releaseUncommittedUseReservation(&reservation)
+}
+
+func (s *Engine) RunRuleGroupFrame(ev emittedEvent, freeze *frozenSkillHitContext, group planbundle.CompiledSkillHitRuleGroup, grant hit.RuleGrant, token usage.Reservation, chainDepth int) *model.EngineError {
 	collector := eventCopyableCollector{}
 	collector.SetReservation(token)
 	var frameStorage Frame
 	s.initSkillHitCandidateFrame(&frameStorage, ev, freeze, chainDepth)
 	frame := &frameStorage
-	frame.ownerCombatantKey, frame.ownerProviderRef = quota.OwnerCombatantKey, quota.OwnerProviderRef
+	frame.ownerCombatantKey, frame.ownerProviderRef = grant.Key.Owner, grant.Key.ProviderRef
 	frame.strictReads = true
 	frame.copyableCollector = &collector
 	return hit.ExecuteRuleGroup(freeze, group, frame)
+}
+
+func (s *Engine) executeSkillHitRuleGroup(ev emittedEvent, freeze *frozenSkillHitContext, group planbundle.CompiledSkillHitRuleGroup, chainDepth int) *model.EngineError {
+	return hit.ExecuteAdmittedGroup(freeze, group, ev, chainDepth, s.hitIdentity(), &s.useTriggerLedger, s)
 }
 
 func (s *Engine) skillHitGroupMountLive(owner, provider string, definition uint16) bool {
