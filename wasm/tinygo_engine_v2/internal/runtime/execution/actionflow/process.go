@@ -13,16 +13,16 @@ const maxJSONSafeInteger int64 = 9007199254740991
 // Identity 指定本场行动错误的真实归属，不包含执行器或帧。
 type Identity struct{ SchemaHash, RulesHash, SessionID string }
 
-// ProcessMoment 是一次同步过程阶段的有限请求；进入标记区分缺失与合法序号0。
-// 时点后的命中解析与终结发布仍在原提交边界执行，不承诺跨阶段回滚。
+// ProcessMoment 是行动内部生成并消费的有限过程时点，不向根适配暴露步骤规则。
+// 时点后的命中解析与终结观察仍在原提交边界执行，不承诺跨阶段回滚。
 type ProcessMoment struct {
-	Kind         string
-	Reason       string
-	CastRef      string
-	FinishStatus string
-	EnterStep    bool
-	StepIndex    int
-	ResolveHits  bool
+	kind         string
+	reason       string
+	castRef      string
+	finishStatus string
+	enterStep    bool
+	stepIndex    int
+	resolveHits  bool
 }
 
 // ProcessTimer 是唯一队列交付的过程计时身份，时刻由本次调用明确提供。
@@ -32,7 +32,7 @@ type ProcessTimer struct{ Index, StepVersion, ExecutionIndex int }
 type ProcessPhases interface {
 	// CommitProcessMoment 在当前调用独立准备原过程帧，执行请求并按原顺序提交和派发。
 	// 嵌套调用必须使用各自的局部帧；返回错误时保留原有已发布事实。
-	CommitProcessMoment(process *actionpkg.ProcessView, moment ProcessMoment) *model.EngineError
+	CommitProcessMoment(process *actionpkg.ProcessView, moment ProcessMoment) (ActionResult, *model.EngineError)
 	// PublishProcessResolved 在全部绑定命中之后发布真实终结事实，不重新执行过程。
 	PublishProcessResolved(process *actionpkg.ProcessView) *model.EngineError
 	// FinishEmpoweredWindow 沿原路径结算已计数的强化等待窗口，不模拟普通时点。
@@ -76,16 +76,30 @@ type ProcessExecutorAPI interface {
 	// PrepareCosts 先用同一付款前视图求值并核对全部成本；pay为true时才暂存实际付款。
 	PrepareCosts(changes *actionpkg.ProcessChangeSet, costs ProcessCosts, pay bool) (bool, *model.EngineError)
 	// ApplyMoment 在所属变更与同一时点暂存内执行冷却、操作和有限分段规则，不发布状态。
-	ApplyMoment(changes *actionpkg.ProcessChangeSet, kind, reason string, now int64, alreadyCommitted bool, operations []planbundle.CompiledOperation, work ProcessMomentWork) (bool, *model.EngineError)
+	ApplyMoment(changes *actionpkg.ProcessChangeSet, kind, reason string, now int64, alreadyCommitted bool, operations []planbundle.CompiledOperation, work ProcessMomentWork) *model.EngineError
+	// ExecuteMoment 完整消费内部时点，在同一暂存执行准备、提交、结束观察及命中尾部。
+	// 只有明确控制施放且本次已提交时接纳；提交后的失败保留真实接纳前缀。
+	ExecuteMoment(process *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, moment ProcessMoment, now int64, operations []planbundle.CompiledOperation, work ProcessStageWork) (ActionResult, *model.EngineError)
+	// ExecuteRecastAcceptance 在本帧暂存真实重施身份和原期限，提交后才派发开始。
+	ExecuteRecastAcceptance(process *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, ability planbundle.CompiledAbility, ref, use string, advance, now int64, work ProcessStageWork) (ActionResult, *model.EngineError)
+	// ExecuteRecastExecution 在接纳与开始监听后的新帧执行重施负载，不重复统计过程时点。
+	ExecuteRecastExecution(process *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, now int64, operations []planbundle.CompiledOperation, work ProcessStageWork) *model.EngineError
+	// ExecuteChargeRelease 执行原蓄力释放、提交、命中及后继步骤，保留同次接纳前缀。
+	ExecuteChargeRelease(process *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, ref string, now int64, operations []planbundle.CompiledOperation, work ProcessStageWork, phases ProcessPhases) (ActionResult, *model.EngineError)
+	// InitialProcess 构造新过程的默认不变量及已核对强化绑定，不登记、发布或借用帧。
+	InitialProcess(input ProcessStartInput) *actionpkg.ProcessView
+	// StageCooldown 沿原顺序暂存冷却、保存普通总冷却来源，再准备当前普攻的首次等待。
+	// 返回的等待交由原帧暂存，任何失败均不发布所属账本。
+	StageCooldown(process *actionpkg.ProcessView, ready, now int64, work ProcessCooldownWork) (*actionpkg.AttackWaitView, *model.EngineError)
 	// StartPrepared 完整执行同一启动帧的条件、库存、全部成本、付款、提交及两次活动核对。
 	// 驱动与槽位按当前调用显式传递，工作能力只借用该次原帧，不保存同步上下文。
-	StartPrepared(entry model.DriverEntry, entryIndex int, process *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, replaced *actionpkg.ProcessView, now int64, work ProcessStartWork, phases ProcessPhases) *model.EngineError
+	StartPrepared(entry model.DriverEntry, entryIndex int, process *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, replaced *actionpkg.ProcessView, now int64, work ProcessStartWork, phases ProcessPhases) (ActionResult, *model.EngineError)
 	// Control 按实际使用、挂载、过程步骤、死亡、占用和时窗核对一次控制并进入真实阶段。
-	Control(entry model.DriverEntry, entryIndex int, controlAbility planbundle.CompiledAbility, resolvedRef string, now int64, providers []planbundle.CompiledProvider, work ProcessControlWork, phases ProcessPhases) *model.EngineError
+	Control(entry model.DriverEntry, entryIndex int, controlAbility planbundle.CompiledAbility, resolvedRef string, now int64, providers []planbundle.CompiledProvider, work ProcessControlWork, phases ProcessPhases) (ActionResult, *model.EngineError)
 	// BoundFiniteRecastInitial 核对当前未接纳首次行动的全部真实绑定与原使用归属。
 	BoundFiniteRecastInitial(entry model.DriverEntry, owner, target, provider, ref string, ability planbundle.CompiledAbility, definition *planbundle.CompiledProcess, use string, now int64, bindings []planbundle.CompiledSkillActionBinding, abilities []planbundle.CompiledAbility, providers []planbundle.CompiledProvider) bool
 	// AcceptRecast 先接纳真实使用和原期限，再在开始监听之后执行负载和必要的实际步骤完成。
-	AcceptRecast(entry model.DriverEntry, p *actionpkg.ProcessView, ability planbundle.CompiledAbility, ref string, now int64, phases RecastPhases, processPhases ProcessPhases) *model.EngineError
+	AcceptRecast(entry model.DriverEntry, p *actionpkg.ProcessView, ability planbundle.CompiledAbility, ref string, now int64, phases RecastPhases, processPhases ProcessPhases) (ActionResult, *model.EngineError)
 	// Initialize 核对原驱动和过程控制事实、恢复全部合法过程后按原序请求实际计时。
 	Initialize(input ProcessInitialInput, plan ProcessRestorePlan, restore ProcessRestoreFacts, checks ProcessInitialChecks) *model.EngineError
 	// PrepareOccupancy 根据实际步骤前后状态暂存完整占用历史并返回普攻等待是否需调整。
@@ -126,7 +140,7 @@ func (s ProcessExecutor) EnterStep(process *actionpkg.ProcessView, index int, no
 			return s.Finish(process, "complete", "", "", phases)
 		}
 		step := process.Definition().Steps[index]
-		if err := phases.CommitProcessMoment(process, ProcessMoment{Kind: "STEP_START", EnterStep: true, StepIndex: index}); err != nil {
+		if _, err := phases.CommitProcessMoment(process, ProcessMoment{kind: "STEP_START", enterStep: true, stepIndex: index}); err != nil {
 			return err
 		}
 		if process.Status() != "active" {
@@ -169,24 +183,31 @@ func (s ProcessExecutor) CompleteStep(process *actionpkg.ProcessView, now int64,
 }
 
 func (s ProcessExecutor) Moment(process *actionpkg.ProcessView, kind, reason string, phases ProcessPhases) *model.EngineError {
-	return phases.CommitProcessMoment(process, ProcessMoment{Kind: kind, Reason: reason, ResolveHits: true})
+	_, err := phases.CommitProcessMoment(process, ProcessMoment{kind: kind, reason: reason, resolveHits: true})
+	return err
 }
 
 func (s ProcessExecutor) Finish(process *actionpkg.ProcessView, status, reason, castRef string, phases ProcessPhases) *model.EngineError {
+	_, err := s.finish(process, status, reason, castRef, phases)
+	return err
+}
+
+func (s ProcessExecutor) finish(process *actionpkg.ProcessView, status, reason, castRef string, phases ProcessPhases) (ActionResult, *model.EngineError) {
 	if process.Status() != "active" {
-		return nil
+		return ActionResult{}, nil
 	}
 	kind := "PROCESS_COMPLETE"
 	if status == "failed" {
 		kind = "PROCESS_FAILURE"
 	}
-	if err := phases.CommitProcessMoment(process, ProcessMoment{Kind: kind, Reason: reason, CastRef: castRef, FinishStatus: status, ResolveHits: true}); err != nil {
-		return err
+	result, err := phases.CommitProcessMoment(process, ProcessMoment{kind: kind, reason: reason, castRef: castRef, finishStatus: status, resolveHits: true})
+	if err != nil {
+		return result, err
 	}
 	if status == "complete" {
-		return phases.PublishProcessResolved(process)
+		return result, phases.PublishProcessResolved(process)
 	}
-	return nil
+	return result, nil
 }
 
 func (s ProcessExecutor) HandleTimer(timer ProcessTimer, now int64, phases ProcessPhases) *model.EngineError {

@@ -16,7 +16,7 @@ type processAmountBridge struct{ frame *Frame }
 
 type processRestoreBridge struct{ engine *Engine }
 
-type processMomentBridge struct{ frame *Frame }
+type processMomentBridge Frame
 
 // processStartBridge 仅借用本次独立原过程帧，驱动和槽位由调用参数提供。
 type processStartBridge Frame
@@ -33,7 +33,11 @@ var _ actionflow.ProcessRestoreFacts = processRestoreBridge{}
 
 var _ actionflow.ProcessCosts = processAmountBridge{}
 
-var _ actionflow.ProcessMomentWork = processMomentBridge{}
+var _ actionflow.ProcessMomentWork = (*processMomentBridge)(nil)
+
+var _ actionflow.ProcessStageWork = (*processMomentBridge)(nil)
+
+var _ actionflow.ProcessCooldownWork = (*processMomentBridge)(nil)
 
 var _ actionflow.ProcessStartWork = (*processStartBridge)(nil)
 
@@ -64,36 +68,12 @@ func (bridge skillEventsBridge) PlannedCastUse(use string) *actionpkg.UseView {
 	return nil
 }
 
-func (bridge processFlowBridge) CommitProcessMoment(process *actionpkg.ProcessView, moment actionflow.ProcessMoment) *model.EngineError {
+func (bridge processFlowBridge) CommitProcessMoment(process *actionpkg.ProcessView, moment actionflow.ProcessMoment) (actionflow.ActionResult, *model.EngineError) {
 	s := bridge.engine
 	var frameStorage Frame
 	s.initProcessFrame(&frameStorage, process)
 	f := &frameStorage
-	if moment.EnterStep {
-		timer, err := s.processFlowExecutor().PrepareStep(f.processChanges, moment.StepIndex, s.loop.TimeMs(), processAmountBridge{frame: f})
-		if err != nil {
-			return err
-		}
-		f.pendingProcessTimer = timer
-	}
-	if moment.FinishStatus != "" {
-		f.countCastOnCommit, f.castStatRef = moment.CastRef != "", moment.CastRef
-		f.processChanges.Finish(moment.FinishStatus, moment.Reason, s.loop.TimeMs())
-	}
-	if err := s.applyProcessMoment(process, f, moment.Kind, moment.Reason); err != nil {
-		return err
-	}
-	err := s.commitProcessFrame(process, f)
-	if moment.FinishStatus != "" && f.committed {
-		s.publishSkillActionFinish(process)
-	}
-	if err != nil {
-		return err
-	}
-	if moment.ResolveHits {
-		return s.resolveSkillActionMoment(process, moment.Kind)
-	}
-	return nil
+	return s.processFlowExecutor().ExecuteMoment(process, f.processChanges, moment, s.loop.TimeMs(), s.compiled.Operations, (*processMomentBridge)(f))
 }
 
 func (bridge processFlowBridge) PublishProcessResolved(process *actionpkg.ProcessView) *model.EngineError {
@@ -183,51 +163,110 @@ func (bridge processAmountBridge) PayProcessResource(owner, resource string, amo
 	return before - frame.stageFor(owner).resourceView().At(resource).Current, nil
 }
 
-func (bridge processMomentBridge) SetProcessMoment(kind string, costsReadable bool) {
-	bridge.frame.processMomentKind, bridge.frame.processCostReadable = kind, costsReadable
+func (bridge *processMomentBridge) SetProcessMoment(kind string, costsReadable bool) {
+	(*Frame)(bridge).processMomentKind, (*Frame)(bridge).processCostReadable = kind, costsReadable
 }
 
-func (bridge processMomentBridge) ProcessAmount(program formula.GenericProgramID) (float64, *model.EngineError) {
-	return bridge.frame.evalAmount(program, bridge.frame.pendingProcess.Ability())
+func (bridge *processMomentBridge) ProcessAmount(program formula.GenericProgramID) (float64, *model.EngineError) {
+	return (*Frame)(bridge).evalAmount(program, (*Frame)(bridge).pendingProcess.Ability())
 }
 
-func (bridge processMomentBridge) ProcessCooldownFactor(process *actionpkg.ProcessView) (float64, *model.EngineError) {
-	return bridge.frame.cooldownDurationFactor(process)
+func (bridge *processMomentBridge) ProcessCooldownFactor(process *actionpkg.ProcessView) (float64, *model.EngineError) {
+	return (*Frame)(bridge).cooldownDurationFactor(process)
 }
 
-func (bridge processMomentBridge) ProcessFormulaError(program formula.GenericProgramID, message string) *model.EngineError {
-	return bridge.frame.formulaError(program, message)
+func (bridge *processMomentBridge) ProcessFormulaError(program formula.GenericProgramID, message string) *model.EngineError {
+	return (*Frame)(bridge).formulaError(program, message)
 }
 
-func (bridge processMomentBridge) StageProcessCooldown(process *actionpkg.ProcessView, ready int64) *model.EngineError {
-	frame := bridge.frame
-	if err := frame.applyCooldownChange(process.Owner(), process.AbilityRef(), ready); err != nil {
-		return err
+func (bridge *processMomentBridge) StageProcessCooldown(process *actionpkg.ProcessView, ready int64) *model.EngineError {
+	frame := (*Frame)(bridge)
+	wait, err := frame.run.processFlowExecutor().StageCooldown(process, ready, frame.run.loop.TimeMs(), bridge)
+	if wait != nil {
+		frame.pendingBasicAttackWait = wait
 	}
-	frame.stageFor(process.Owner()).writableCooldowns().CommitOrdinary(actionpkg.AbilityCooldownIdentity(process.Owner(), process.AbilityRef()), ready, frame.run.loop.TimeMs())
-	return frame.stageInitialBasicAttackWait(process, ready)
+	return err
 }
 
-func (bridge processMomentBridge) RecordProcessMoment(process *actionpkg.ProcessView, kind string) {
-	bridge.frame.recordProcess(process, "process_moment", kind)
+func (bridge *processMomentBridge) StageActionCooldown(owner, ref string, ready int64) *model.EngineError {
+	return (*Frame)(bridge).applyCooldownChange(owner, ref, ready)
 }
 
-func (bridge processMomentBridge) ResetProcessOutputs() {
-	bridge.frame.numeric.SetOutputs(nil)
+func (bridge *processMomentBridge) WritableProcessCooldown(owner string) *actionpkg.CooldownLedger {
+	return (*Frame)(bridge).stageFor(owner).writableCooldowns()
 }
 
-func (bridge processMomentBridge) IsProcessAttackReset(process *actionpkg.ProcessView, kind string, operation planbundle.CompiledOperation) bool {
-	return bridge.frame.run.isProcessBasicAttackReset(process, kind, operation)
+func (bridge *processMomentBridge) InitialAttackWaitPreview() actionflow.AttackWaitPreview {
+	return (attackWaitBridge{frame: (*Frame)(bridge)}).InitialAttackWaitPreview()
 }
 
-func (bridge processMomentBridge) ExecuteProcessOperations(ability planbundle.CompiledAbility, operations []planbundle.CompiledOperation) *model.EngineError {
-	return bridge.frame.executeOperations(ability, operations)
+func (bridge *processMomentBridge) RecordProcessMoment(process *actionpkg.ProcessView, kind string) {
+	(*Frame)(bridge).recordProcess(process, "process_moment", kind)
 }
 
-func (bridge processMomentBridge) CaptureEmpoweredMoment(process *actionpkg.ProcessView, kind string) {
-	if bridge.frame.empowered != nil {
-		bridge.frame.empowered.RecordMoment(process.Freeze(), kind)
+func (bridge *processMomentBridge) ResetProcessOutputs() {
+	(*Frame)(bridge).numeric.SetOutputs(nil)
+}
+
+func (bridge *processMomentBridge) IsProcessAttackReset(process *actionpkg.ProcessView, kind string, operation planbundle.CompiledOperation) bool {
+	return (*Frame)(bridge).run.isProcessBasicAttackReset(process, kind, operation)
+}
+
+func (bridge *processMomentBridge) ExecuteProcessOperations(ability planbundle.CompiledAbility, operations []planbundle.CompiledOperation) *model.EngineError {
+	return (*Frame)(bridge).executeOperations(ability, operations)
+}
+
+func (bridge *processMomentBridge) CaptureEmpoweredMoment(process *actionpkg.ProcessView, kind string) {
+	frame := (*Frame)(bridge)
+	if frame.empowered != nil {
+		frame.empowered.RecordMoment(process.Freeze(), kind)
 	}
+}
+
+func (bridge *processMomentBridge) SetProcessTimer(pending bool) {
+	(*Frame)(bridge).pendingProcessTimer = pending
+}
+
+func (bridge *processMomentBridge) BindProcessCast(ref string, count bool) {
+	(*Frame)(bridge).castStatRef, (*Frame)(bridge).countCastOnCommit = ref, count
+}
+
+func (bridge *processMomentBridge) NextProcessCast() uint64 {
+	return (*Frame)(bridge).run.mintCastInstanceID()
+}
+
+func (bridge *processMomentBridge) BindRecastUse(ref, origin, use string, cast uint64) {
+	frame := (*Frame)(bridge)
+	frame.abilityRef, frame.castOrigin = ref, origin
+	frame.castInstanceID, frame.processUseKey, frame.processCastPhase = cast, use, "RECAST"
+}
+
+func (bridge *processMomentBridge) SetRecastExecution() {
+	(*Frame)(bridge).recastExecutionCommitted = true
+}
+
+func (bridge *processMomentBridge) RecordProcessUse(process *actionpkg.ProcessView, kind string) {
+	(*Frame)(bridge).recordProcess(process, "process_use", kind)
+}
+
+func (bridge *processMomentBridge) CommitProcessStage() (bool, *model.EngineError) {
+	frame := (*Frame)(bridge)
+	err := frame.run.commitProcessFrame(frame.processOriginal, frame)
+	return frame.committed, err
+}
+
+func (bridge *processMomentBridge) ObserveProcessFinish() {
+	frame := (*Frame)(bridge)
+	frame.run.publishSkillActionFinish(frame.processOriginal)
+}
+
+func (bridge *processMomentBridge) ResolveProcessHits(kind string) *model.EngineError {
+	frame := (*Frame)(bridge)
+	return frame.run.resolveSkillActionMoment(frame.processOriginal, kind)
+}
+
+func (bridge *processMomentBridge) DispatchProcessStarted(ability planbundle.CompiledAbility) *model.EngineError {
+	return (*Frame)(bridge).maybeDispatchAbilityStartedEvent(ability)
 }
 
 func (bridge *processStartBridge) StartCondition(entryIndex int) (bool, *model.EngineError) {
@@ -268,7 +307,6 @@ func (bridge *processStartBridge) PayProcessResource(owner, resource string, amo
 
 func (bridge *processStartBridge) PrepareAcceptedStart(replaced *actionpkg.ProcessView) *model.EngineError {
 	frame := (*Frame)(bridge)
-	frame.processChanges.SetCast(frame.run.mintCastInstanceID(), frame.pendingProcess.CastUseKey())
 	frame.castInstanceID = frame.pendingProcess.CastID()
 	if replaced != nil {
 		return frame.run.stageEmpoweredFailure(frame, replaced)
@@ -279,7 +317,7 @@ func (bridge *processStartBridge) PrepareAcceptedStart(replaced *actionpkg.Proce
 func (bridge *processStartBridge) RunStartMoment() *model.EngineError {
 	f, process := (*Frame)(bridge), (*Frame)(bridge).processOriginal
 	before := f.numeric.Facts()
-	if err := f.run.applyProcessMoment(process, f, "PROCESS_START", ""); err != nil {
+	if err := f.applyProcessMoment("PROCESS_START", ""); err != nil {
 		return err
 	}
 	if err := f.captureProcessStartState(); err != nil {
@@ -295,8 +333,14 @@ func (bridge *processStartBridge) RunStartMoment() *model.EngineError {
 	return nil
 }
 
-func (bridge *processStartBridge) CommitStart() *model.EngineError {
-	return (*Frame)(bridge).run.commitProcessFrame((*Frame)(bridge).processOriginal, (*Frame)(bridge))
+func (bridge *processStartBridge) NextStartCast() uint64 {
+	return (*Frame)(bridge).run.mintCastInstanceID()
+}
+
+func (bridge *processStartBridge) CommitStart() (actionflow.ActionResult, *model.EngineError) {
+	frame := (*Frame)(bridge)
+	err := frame.run.commitProcessFrame(frame.processOriginal, frame)
+	return actionflow.ActionResult{Accepted: frame.committed}, err
 }
 
 func (bridge *processStartBridge) DispatchAcceptedStart() *model.EngineError {
@@ -333,33 +377,22 @@ func (bridge processControlBridge) ControlCondition(process *actionpkg.ProcessVi
 	return bridge.engine.evalProcessCondition(index, &frame, ability)
 }
 
-func (bridge processControlBridge) StartControlledProcess(entry model.DriverEntry, index int, owner, target, provider, ref string, ability planbundle.CompiledAbility, definition *planbundle.CompiledProcess, use string, replaced *actionpkg.ProcessView) *model.EngineError {
+func (bridge processControlBridge) StartControlledProcess(entry model.DriverEntry, index int, owner, target, provider, ref string, ability planbundle.CompiledAbility, definition *planbundle.CompiledProcess, use string, replaced *actionpkg.ProcessView) (actionflow.ActionResult, *model.EngineError) {
 	if actionpkg.IsEmpoweredProcess(definition) {
 		return bridge.engine.startEmpoweredProcess(entry, index, owner, target, provider, ref, ability, definition, use, replaced)
 	}
 	return bridge.engine.startProcess(entry, index, owner, target, provider, ref, ability, definition, use, 0, nil)
 }
 
-func (bridge processControlBridge) AcceptControlledRecast(entry model.DriverEntry, process *actionpkg.ProcessView, ability planbundle.CompiledAbility, ref string) *model.EngineError {
+func (bridge processControlBridge) AcceptControlledRecast(entry model.DriverEntry, process *actionpkg.ProcessView, ability planbundle.CompiledAbility, ref string) (actionflow.ActionResult, *model.EngineError) {
 	return bridge.engine.acceptRecast(entry, process, ability, ref)
 }
 
-func (bridge processControlBridge) ReleaseControlledCharge(process *actionpkg.ProcessView, ref string) *model.EngineError {
+func (bridge processControlBridge) ReleaseControlledCharge(process *actionpkg.ProcessView, ref string) (actionflow.ActionResult, *model.EngineError) {
 	s := bridge.engine
 	var frame Frame
 	s.initProcessFrame(&frame, process)
-	frame.countCastOnCommit, frame.castStatRef = true, ref
-	frame.recordProcess(frame.pendingProcess, "process_use", "CHARGE_RELEASE")
-	if err := s.applyProcessMoment(process, &frame, "STEP_EXECUTION", ""); err != nil {
-		return err
-	}
-	if err := s.commitProcessFrame(process, &frame); err != nil {
-		return err
-	}
-	if err := s.resolveSkillActionMoment(process, "STEP_EXECUTION"); err != nil {
-		return err
-	}
-	return s.completeProcessStep(process)
+	return s.processFlowExecutor().ExecuteChargeRelease(process, frame.processChanges, ref, s.loop.TimeMs(), s.compiled.Operations, (*processMomentBridge)(&frame), processFlowBridge{engine: s})
 }
 
 func (bridge processControlBridge) HasDeadProcessActor() bool {
@@ -446,12 +479,8 @@ func (s *Engine) processMounted(owner, provider string, definition uint16) bool 
 }
 
 func (s *Engine) handleProcessCommand(entry model.DriverEntry, entryIndex int, ability planbundle.CompiledAbility, ref string) *model.EngineError {
-	return s.processFlowExecutor().Control(entry, entryIndex, ability, ref, s.loop.TimeMs(), s.compiled.Providers, processControlBridge{engine: s}, processFlowBridge{engine: s})
-}
-
-func (s *Engine) countProcessCast(ref string) {
-	s.abilityCastCount++
-	s.report.Cast(ref)
+	_, err := s.processFlowExecutor().Control(entry, entryIndex, ability, ref, s.loop.TimeMs(), s.compiled.Providers, processControlBridge{engine: s}, processFlowBridge{engine: s})
+	return err
 }
 
 func (s *Engine) rejectProcess(entry model.DriverEntry, reason string) *model.EngineError {
@@ -492,47 +521,43 @@ func (s *Engine) evalProcessCondition(index int, frame *Frame, ability planbundl
 	return s.processFlowExecutor().Condition(index, ability, processAmountBridge{frame: frame})
 }
 
-func (s *Engine) startProcess(entry model.DriverEntry, entryIndex int, owner, target, provider, ref string, ability planbundle.CompiledAbility, definition *planbundle.CompiledProcess, use string, depth int, collector *eventCopyableCollector) *model.EngineError {
+func (s *Engine) startProcess(entry model.DriverEntry, entryIndex int, owner, target, provider, ref string, ability planbundle.CompiledAbility, definition *planbundle.CompiledProcess, use string, depth int, collector *eventCopyableCollector) (actionflow.ActionResult, *model.EngineError) {
 	return s.startProcessReplacing(entry, entryIndex, owner, target, provider, ref, ability, definition, use, depth, collector, nil)
 }
 
-func (s *Engine) startProcessReplacing(entry model.DriverEntry, entryIndex int, owner, target, provider, ref string, ability planbundle.CompiledAbility, definition *planbundle.CompiledProcess, use string, depth int, collector *eventCopyableCollector, replaced *actionpkg.ProcessView) *model.EngineError {
+func (s *Engine) startProcessReplacing(entry model.DriverEntry, entryIndex int, owner, target, provider, ref string, ability planbundle.CompiledAbility, definition *planbundle.CompiledProcess, use string, depth int, collector *eventCopyableCollector, replaced *actionpkg.ProcessView) (actionflow.ActionResult, *model.EngineError) {
 	if planbundle.FiniteRecastProcess(definition) && !s.isBoundFiniteRecastInitial(entry, owner, target, provider, ref, ability, definition, use) {
-		return s.processErr(definition.Path, "finite recast requires its current bound INITIAL skill plan", use)
+		return actionflow.ActionResult{}, s.processErr(definition.Path, "finite recast requires its current bound INITIAL skill plan", use)
 	}
 	if s.actions.ProcessCount() >= s.budget.MaxProcessInstances {
 		err := s.budgetError(model.BudgetCauseMaxProcessInstances, "process instance budget exceeded")
 		err.Path, err.Ref = "safetyBudget.maxProcessInstances", use
-		return err
+		return actionflow.ActionResult{}, err
 	}
 	s.refreshProviderAwareAttributes(owner, target)
-	p := actionpkg.NewProcess(actionpkg.ProcessSeed{Snapshot: model.ProcessInstanceSnapshot{Owner: owner, ProviderRef: provider, ProcessKey: definition.ProcessKey, SkillKey: definition.SkillKey, UseKey: use, Target: target, StartedAtMs: s.loop.TimeMs(), StepStartedAtMs: s.loop.TimeMs(), AdvanceAtMs: s.loop.TimeMs(), ActualCosts: map[string]float64{}, ActionOccupancies: []model.ProcessActionOccupancy{}, Status: "active"}, Definition: definition, Ability: ability, AbilityRef: ref, StepIndex: -1, CastUseKey: use})
+	input := actionflow.ProcessStartInput{Owner: owner, Target: target, ProviderRef: provider, AbilityRef: ref, Use: use, Ability: ability, Definition: definition, Now: s.loop.TimeMs()}
+	if actionpkg.IsEmpoweredProcess(definition) {
+		binding, found := s.empoweredBinding(owner, provider, definition.ProcessKey)
+		if !found {
+			return actionflow.ActionResult{}, s.processErr(definition.Path, "empowered attack requires its actual compiled payload binding", use)
+		}
+		input.Empowered = &actionflow.ProcessEmpoweredBinding{AbilityIndex: binding.EmpoweredAbilityIndex, ReplacesPrimary: binding.ReplacesPrimary, Slot: binding.Slot}
+	}
+	p := s.processFlowExecutor().InitialProcess(input)
 	s.continuations.Push(use, depth, collector)
 	defer s.continuations.Pop()
 	var frameStorage Frame
 	s.initProcessFrame(&frameStorage, p)
 	f := &frameStorage
 	f.processIsNew, f.countCastOnCommit = true, true
-	if actionpkg.IsEmpoweredProcess(definition) {
-		binding, found := s.empoweredBinding(owner, provider, definition.ProcessKey)
-		if !found {
-			return s.processErr(definition.Path, "empowered attack requires its actual compiled payload binding", use)
-		}
-		f.processChanges.BindEmpowered(binding.EmpoweredAbilityIndex, binding.ReplacesPrimary, binding.Slot)
+	if input.Empowered != nil {
 		f.empowered = &empoweredFrame{}
 	}
 	return s.processFlowExecutor().StartPrepared(entry, entryIndex, p, f.processChanges, replaced, s.loop.TimeMs(), (*processStartBridge)(f), processFlowBridge{engine: s})
 }
 
-func (s *Engine) applyProcessMoment(p *actionpkg.ProcessView, f *Frame, kind, reason string) *model.EngineError {
-	timer, err := s.processFlowExecutor().ApplyMoment(f.processChanges, kind, reason, s.loop.TimeMs(), f.recastExecutionCommitted, s.compiled.Operations, processMomentBridge{frame: f})
-	if err != nil {
-		return err
-	}
-	if kind == "STEP_EXECUTION" && f.pendingProcess.HasRepeat() {
-		f.pendingProcessTimer = timer
-	}
-	return nil
+func (f *Frame) applyProcessMoment(kind, reason string) *model.EngineError {
+	return f.run.processFlowExecutor().ApplyMoment(f.processChanges, kind, reason, f.run.loop.TimeMs(), f.recastExecutionCommitted, f.run.compiled.Operations, (*processMomentBridge)(f))
 }
 
 // The only cross-process set_remaining admitted here is an authored initial
@@ -561,20 +586,8 @@ func (s *Engine) runProcessMoment(p *actionpkg.ProcessView, kind, reason string)
 	return s.processFlowExecutor().Moment(p, kind, reason, processFlowBridge{engine: s})
 }
 
-func (s *Engine) enterProcessStep(p *actionpkg.ProcessView, index int) *model.EngineError {
-	return s.processFlowExecutor().EnterStep(p, index, s.loop.TimeMs(), processFlowBridge{engine: s})
-}
-
-func (s *Engine) completeProcessStep(p *actionpkg.ProcessView) *model.EngineError {
-	return s.processFlowExecutor().CompleteStep(p, s.loop.TimeMs(), processFlowBridge{engine: s})
-}
-
 func (s *Engine) finishProcess(p *actionpkg.ProcessView, status, reason string) *model.EngineError {
-	return s.finishProcessWithCast(p, status, reason, "")
-}
-
-func (s *Engine) finishProcessWithCast(p *actionpkg.ProcessView, status, reason, castRef string) *model.EngineError {
-	return s.processFlowExecutor().Finish(p, status, reason, castRef, processFlowBridge{engine: s})
+	return s.processFlowExecutor().Finish(p, status, reason, "", processFlowBridge{engine: s})
 }
 
 func (s *Engine) enqueueProcessTimer(p *actionpkg.ProcessView) *model.EngineError {
@@ -613,19 +626,6 @@ func (s *Engine) snapshotProcesses() []model.ProcessInstanceSnapshot {
 	return s.actions.ExportProcesses()
 }
 
-func (state *Engine) enterProcessRepeat(frame *Frame, step planbundle.CompiledProcessStep) *model.EngineError {
-	return state.processFlowExecutor().PrepareRepeat(frame.processChanges, step, state.loop.TimeMs(), processAmountBridge{frame: frame})
-}
-
-func (state *Engine) stageProcessRepeatExecution(frame *Frame) *model.EngineError {
-	timer, err := state.processFlowExecutor().AdvanceRepeat(frame.processChanges, state.loop.TimeMs())
-	if err != nil {
-		return err
-	}
-	frame.pendingProcessTimer = timer
-	return nil
-}
-
 func (state *Engine) executeProcessRepeat(process *actionpkg.ProcessView) *model.EngineError {
 	return state.processFlowExecutor().RunRepeat(process, state.loop.TimeMs(), processFlowBridge{engine: state})
 }
@@ -640,14 +640,6 @@ func (s *Engine) initProcessState() *model.EngineError {
 
 func (s *Engine) restoreProcess(row model.ProcessInstanceSnapshot, path string) (*actionpkg.ProcessView, *model.EngineError) {
 	return s.processFlowExecutor().Restore(row, path, s.loop.TimeMs(), s.processRestorePlan(), processRestoreBridge{engine: s})
-}
-
-func (s *Engine) validateRestoredStepProgress(row model.ProcessInstanceSnapshot, definition *planbundle.CompiledProcess, stepIndex int, path string) *model.EngineError {
-	return s.processFlowExecutor().ValidateRestoredProgress(row, definition, stepIndex, path, s.loop.TimeMs())
-}
-
-func (s *Engine) validateRestoredProcessRepeat(row model.ProcessInstanceSnapshot, step planbundle.CompiledProcessStep, path string) *model.EngineError {
-	return s.processFlowExecutor().ValidateRestoredRepeat(row, step, path, s.loop.TimeMs())
 }
 
 func (s *Engine) validateRestoredActionOccupancies(process *actionpkg.ProcessView, path string) *model.EngineError {

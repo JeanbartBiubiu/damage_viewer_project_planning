@@ -243,7 +243,7 @@ func TestComplexSkillRestoreExecutionOnlyCommitsUnfinishedCompletion(test *testi
 	if err := state.runProcessMoment(process, "STEP_EXECUTION", ""); err != nil {
 		test.Fatal(err)
 	}
-	if err := state.completeProcessStep(process); err == nil || err.BudgetCause != model.BudgetCauseMaxCommandsPerEvent {
+	if err := state.processFlowExecutor().CompleteStep(process, state.loop.TimeMs(), processFlowBridge{engine: state}); err == nil || err.BudgetCause != model.BudgetCauseMaxCommandsPerEvent {
 		test.Fatal(err)
 	}
 	row := state.snapshotProcesses()[0]

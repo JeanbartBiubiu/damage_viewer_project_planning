@@ -18,9 +18,11 @@ func TestInitialWaitingSnapshotSurvivesSameFrameAttributeWrites(t *testing.T) {
 
 	staged.setAttributes(staged.attributesView().With("attack_speed", speed))
 	process := actionpkg.NewProcess(actionpkg.ProcessSeed{AbilityRef: state.actions.BasicAttack().Plan().InitialControlAbilityRef, Snapshot: model.ProcessInstanceSnapshot{UseKey: state.actions.BasicAttack().Current().UseRef()}})
-	if err := frame.stageInitialBasicAttackWait(process, 500); err != nil {
+	wait, err := state.basicAttackFlowExecutor().InitialWait(process, 500, state.loop.TimeMs(), attackWaitBridge{frame: frame})
+	if err != nil {
 		t.Fatal(err)
 	}
+	frame.pendingBasicAttackWait = wait
 	frozen := frame.pendingBasicAttackWait
 	if frozen == nil {
 		t.Fatal("waiting snapshot was not captured")

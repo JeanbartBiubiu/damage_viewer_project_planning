@@ -655,14 +655,6 @@ func (s *Engine) basicAttackReadyAt() int64 {
 	return s.combatants[s.actions.BasicAttack().Plan().Source].cooldowns.AbilityReadyAt(s.actions.BasicAttack().Plan().Source, s.actions.BasicAttack().Plan().InitialControlAbilityRef)
 }
 
-func (f *Frame) stageInitialBasicAttackWait(process *actionpkg.ProcessView, ready int64) *model.EngineError {
-	wait, err := f.run.basicAttackFlowExecutor().InitialWait(process, ready, f.run.loop.TimeMs(), attackWaitBridge{frame: f})
-	if wait != nil {
-		f.pendingBasicAttackWait = wait
-	}
-	return err
-}
-
 func (f *Frame) prepareBasicAttackWait() (int, *model.EngineError) {
 	if err := f.prepareActionWait(); err != nil {
 		return 0, err

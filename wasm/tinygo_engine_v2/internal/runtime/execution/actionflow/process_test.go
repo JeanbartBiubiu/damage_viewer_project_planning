@@ -22,29 +22,30 @@ type processAmountsFixture struct {
 	reads  []formula.GenericProgramID
 }
 
-func (phases *observedProcessPhases) CommitProcessMoment(process *actionpkg.ProcessView, moment ProcessMoment) *model.EngineError {
-	phases.moments = append(phases.moments, moment.Kind)
+func (phases *observedProcessPhases) CommitProcessMoment(process *actionpkg.ProcessView, moment ProcessMoment) (ActionResult, *model.EngineError) {
+	phases.moments = append(phases.moments, moment.kind)
 	changes := actionpkg.StageProcess(process)
-	if moment.EnterStep {
-		changes.EnterStep(moment.StepIndex, process.Definition().Steps[moment.StepIndex], phases.now)
+	if moment.enterStep {
+		changes.EnterStep(moment.stepIndex, process.Definition().Steps[moment.stepIndex], phases.now)
 	}
-	if moment.Kind == "STEP_EXECUTION" {
+	if moment.kind == "STEP_EXECUTION" {
 		changes.ExecuteStep(phases.now, false)
 	}
-	if moment.Kind == "STEP_COMPLETE" {
+	if moment.kind == "STEP_COMPLETE" {
 		changes.CompleteStep(phases.now)
 	}
-	if moment.FinishStatus != "" {
-		changes.Finish(moment.FinishStatus, moment.Reason, phases.now)
+	if moment.finishStatus != "" {
+		changes.Finish(moment.finishStatus, moment.reason, phases.now)
 	}
-	if moment.Kind == phases.interruptAt {
+	if moment.kind == phases.interruptAt {
 		changes.Finish("failed", "EVENT_ABORTED", phases.now)
 	}
 	changes.Publish(process)
-	if moment.Kind == phases.failureAt {
-		return phases.failure
+	result := ActionResult{Accepted: moment.castRef != ""}
+	if moment.kind == phases.failureAt {
+		return result, phases.failure
 	}
-	return nil
+	return result, nil
 }
 
 func (phases *observedProcessPhases) PublishProcessResolved(*actionpkg.ProcessView) *model.EngineError {

@@ -279,7 +279,7 @@ func (r *lifecycleTickExecution) RunPeriodicFrame(invocation lifecycle.TickInvoc
 		frame.damageOwnerKey = invocation.Source
 	}
 	frame.castInstanceID, frame.castOrigin = s.mintCastInstanceID(), invocation.Ability.CastOrigin
-	if err := frame.stageLifecycleCostCooldown(invocation.Ability, invocation.Owner); err != nil {
+	if err := s.skillActionFlowExecutor().StageAbilityTerms(invocation.Ability, invocation.Owner, frame.abilityRef, s.loop.TimeMs(), (*abilityFrameBridge)(&frame)); err != nil {
 		return err
 	}
 	if err := frame.executeOperations(invocation.Ability, invocation.Operations); err != nil {
@@ -343,7 +343,7 @@ func (r *lifecycleAnchoredExecution) RunAnchoredFrame(invocation lifecycle.Ancho
 	frame.strictReads = invocation.Phased
 	if !invocation.Blocked {
 		if !invocation.Phased {
-			if err := frame.stageLifecycleCostCooldown(invocation.Ability, payload.OwnerKey); err != nil {
+			if err := s.skillActionFlowExecutor().StageAbilityTerms(invocation.Ability, payload.OwnerKey, frame.abilityRef, s.loop.TimeMs(), (*abilityFrameBridge)(&frame)); err != nil {
 				return false, err
 			}
 		}

@@ -8,6 +8,7 @@ import (
 	planbundle "tinygo_engine_v2/internal/plan"
 	actionpkg "tinygo_engine_v2/internal/runtime/action"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
+	"tinygo_engine_v2/internal/runtime/execution/actionflow"
 	"tinygo_engine_v2/internal/runtime/execution/hit"
 	listenerpkg "tinygo_engine_v2/internal/runtime/execution/listener"
 )
@@ -43,17 +44,17 @@ func (s *Engine) empoweredBinding(owner, provider, process string) (planbundle.C
 	return hit.EmpoweredBinding(s.compiled.SkillActionBindings, owner, provider, process)
 }
 
-func (s *Engine) startEmpoweredProcess(entry model.DriverEntry, entryIndex int, owner, target, provider, ref string, ability planbundle.CompiledAbility, definition *planbundle.CompiledProcess, use string, replaced *actionpkg.ProcessView) *model.EngineError {
+func (s *Engine) startEmpoweredProcess(entry model.DriverEntry, entryIndex int, owner, target, provider, ref string, ability planbundle.CompiledAbility, definition *planbundle.CompiledProcess, use string, replaced *actionpkg.ProcessView) (actionflow.ActionResult, *model.EngineError) {
 	nativeOwner := ""
 	if attack := s.actions.BasicAttack(); attack != nil {
 		nativeOwner = attack.Plan().Source
 	}
 	reject, err := hit.EmpoweredStartDecision(owner, target, nativeOwner, provider, use, definition, s.compiled.SkillActionBindings, s, s.hitIdentity())
 	if err != nil {
-		return err
+		return actionflow.ActionResult{}, err
 	}
 	if reject != "" {
-		return s.rejectProcess(entry, reject)
+		return actionflow.ActionResult{Reason: reject}, s.rejectProcess(entry, reject)
 	}
 	return s.startProcessReplacing(entry, entryIndex, owner, target, provider, ref, ability, definition, use, 0, nil, replaced)
 }
@@ -82,7 +83,7 @@ func (s *Engine) stageEmpoweredEntry(f *Frame) *model.EngineError {
 		return err
 	}
 	f.pendingProcessTimer = true
-	return s.applyProcessMoment(p, f, "STEP_START", "")
+	return f.applyProcessMoment("STEP_START", "")
 }
 
 func (f *Frame) bindEmpoweredContext(changes *actionpkg.ProcessChangeSet, target string, ability planbundle.CompiledAbility, association *model.ProcessEmpoweredAttack) empoweredContextBinding {

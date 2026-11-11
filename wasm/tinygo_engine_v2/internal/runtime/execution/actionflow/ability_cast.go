@@ -32,6 +32,7 @@ type PreparedAbility struct {
 	Ability            planbundle.CompiledAbility
 	Operations         []planbundle.CompiledOperation
 	Owner, ProviderRef string
+	Reason             string
 }
 
 // AbilityCastReads 只读取本次施放在原位置的实际冷却，不持有同步执行参数。
@@ -40,10 +41,9 @@ type AbilityCastReads interface {
 	AbilityCastCooldown(owner, ref string) bool
 }
 
-// AbilityFrameWork 只借用一个独立能力帧内的生命周期、真实身份与操作交接。
+// AbilityFrameWork 只借用一个独立能力帧内的付款、冷却、真实身份与操作交接。
 type AbilityFrameWork interface {
-	// StageAbilityLifecycle 在原位置暂存成本及冷却，失败不分配施放编号。
-	StageAbilityLifecycle(ability planbundle.CompiledAbility, source string) *model.EngineError
+	AbilityTermsWork
 	// KnownAbilityUse 仅返回当前真实驱动命中事实对应的已登记使用。
 	KnownAbilityUse(entry string) *actionpkg.UseView
 	// NextAbilityCast 在原成功门禁之后分配施放编号。
@@ -55,7 +55,18 @@ type AbilityFrameWork interface {
 }
 
 func (s SkillActionExecutor) PrepareCast(request AbilityCastRequest, definitions AbilityCastDefinitions, reads AbilityCastReads) (PreparedAbility, *model.EngineError) {
+	return s.prepareCast(request, definitions, reads, false)
+}
+
+func (s SkillActionExecutor) PrepareListenerCast(request AbilityCastRequest, definitions AbilityCastDefinitions, reads AbilityCastReads) (PreparedAbility, *model.EngineError) {
+	return s.prepareCast(request, definitions, reads, true)
+}
+
+func (s SkillActionExecutor) prepareCast(request AbilityCastRequest, definitions AbilityCastDefinitions, reads AbilityCastReads, cooldownFirst bool) (PreparedAbility, *model.EngineError) {
 	ref := NormalizeAbilityRef(request.AbilityRef, request.Source, request.Target)
+	if cooldownFirst && reads.AbilityCastCooldown(request.Source, ref) {
+		return PreparedAbility{Reason: "cooldown_not_ready"}, nil
+	}
 	bound, exists := definitions.References[ref]
 	if !exists {
 		return PreparedAbility{}, s.castError(model.GenericErrUnknownRef, "unknown abilityRef")
@@ -71,8 +82,8 @@ func (s SkillActionExecutor) PrepareCast(request AbilityCastRequest, definitions
 	if provider.HasStateOnExpire {
 		return PreparedAbility{}, s.error("state expiry source abilities require their actual initialization or received-damage listener", "abilityRef")
 	}
-	if reads.AbilityCastCooldown(request.Source, ref) {
-		return PreparedAbility{}, nil
+	if !cooldownFirst && reads.AbilityCastCooldown(request.Source, ref) {
+		return PreparedAbility{Reason: "cooldown_not_ready"}, nil
 	}
 	if ability.ProcessControl != nil {
 		if ability.ProcessControl.UseRefFromEvent {
@@ -101,8 +112,8 @@ func (s SkillActionExecutor) PrepareCast(request AbilityCastRequest, definitions
 	return prepared, nil
 }
 
-func (s SkillActionExecutor) ExecuteAbilityFrame(prepared PreparedAbility, work AbilityFrameWork) *model.EngineError {
-	if err := work.StageAbilityLifecycle(prepared.Ability, prepared.Request.Source); err != nil {
+func (s SkillActionExecutor) ExecuteAbilityFrame(prepared PreparedAbility, now int64, work AbilityFrameWork) *model.EngineError {
+	if err := s.StageAbilityTerms(prepared.Ability, prepared.Request.Source, prepared.Request.AbilityRef, now, work); err != nil {
 		return err
 	}
 	cast := uint64(0)

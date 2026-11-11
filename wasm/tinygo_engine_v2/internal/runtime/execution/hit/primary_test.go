@@ -26,13 +26,10 @@ func (f *primaryPreparationFixture) PrimaryActivationHistory(use string) Activat
 
 func primaryWaitForTest(use, status string) EmpoweredWait {
 	expiry := int64(50)
-	process := actionpkg.NewProcess(actionpkg.ProcessSeed{Snapshot: model.ProcessInstanceSnapshot{
+	process := actionpkg.NewProcess(actionpkg.ProcessSeed{HasEmpoweredAbility: true, ReplacesPrimary: true, Snapshot: model.ProcessInstanceSnapshot{
 		Owner: "source", ProviderRef: "empower", ProcessKey: "primary", SkillKey: "empower:q", UseKey: use,
 		Target: "source", Status: status, ExpiresAtMs: &expiry, StepVersion: 4, StepExecutionIndex: 0,
 	}})
-	changes := actionpkg.StageProcess(process)
-	changes.BindEmpowered(0, true, 0)
-	changes.Publish(process)
 	return EmpoweredWait{Instance: process, UseKey: use, Version: 4, Expires: expiry}
 }
 

@@ -112,7 +112,8 @@ func (s *Engine) executeAbilityCast(entry model.DriverEntry) *model.EngineError 
 	if !ok {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrOperationTargetMissing, "target unavailable", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
-	return s.castAbilityAt(sourceKey, targetKey, entry.AbilityRef, 0, nil, nil, entry.EntryKey)
+	_, err := s.castAbilityAt(sourceKey, targetKey, entry.AbilityRef, 0, nil, nil, entry.EntryKey)
+	return err
 }
 
 // castAbilityAt 在独立 execution frame 中施放 ability（driver cast 与 listener child ability 共用）。
@@ -122,13 +123,21 @@ func (s *Engine) executeAbilityCast(entry model.DriverEntry) *model.EngineError 
 // Cast-instance 规则：
 //   - 顶层 driver / TickSpec / Listener AbilityRef 完整 child ability：总是 mint 新 ID，使用本 ability 的 CastOrigin。
 //   - 同 frame 多 op / delayed 继承 frame 上的 ID+origin（本函数内一次 mint）。
-func (s *Engine) castAbilityAt(source, target, ref string, depth int, event *eventFormulaSnapshot, collector *eventCopyableCollector, entry string) *model.EngineError {
+func (s *Engine) castAbilityAt(source, target, ref string, depth int, event *eventFormulaSnapshot, collector *eventCopyableCollector, entry string) (actionflow.ActionResult, *model.EngineError) {
 	prepared, err := s.skillActionFlowExecutor().PrepareCast(actionflow.AbilityCastRequest{Source: source, Target: target, AbilityRef: ref, EntryKey: entry}, actionflow.AbilityCastDefinitions{References: s.compiled.AbilityRefIndex, Combatants: s.compiled.Combatants, Operations: s.compiled.Operations}, (*abilityCastReads)(s))
-	if err != nil || prepared.Kind == actionflow.AbilityCastSkipped {
-		return err
+	if err != nil {
+		return actionflow.ActionResult{}, err
 	}
+	return s.executePreparedCast(prepared, depth, event, collector)
+}
+
+func (s *Engine) executePreparedCast(prepared actionflow.PreparedAbility, depth int, event *eventFormulaSnapshot, collector *eventCopyableCollector) (actionflow.ActionResult, *model.EngineError) {
+	if prepared.Kind == actionflow.AbilityCastSkipped {
+		return actionflow.ActionResult{Reason: prepared.Reason}, nil
+	}
+	request := prepared.Request
 	if prepared.Kind == actionflow.AbilityCastNativeProcess {
-		return s.startProcessFromEvent(source, target, prepared.Request.AbilityRef, prepared.Ability, depth, event, entry, collector)
+		return s.startProcessFromEvent(request.Source, request.Target, request.AbilityRef, prepared.Ability, depth, event, request.EntryKey, collector)
 	}
 	return s.executePreparedAbility(prepared, depth, event, collector)
 }
@@ -374,37 +383,18 @@ func (bridge recastBridge) RecastUseExists(use string) bool {
 	return bridge.engine.skillUses[use] != nil
 }
 
-func (bridge recastBridge) CommitRecastAcceptance(process *actionpkg.ProcessView, ability planbundle.CompiledAbility, ref, use string, advance int64) *model.EngineError {
+func (bridge recastBridge) CommitRecastAcceptance(process *actionpkg.ProcessView, ability planbundle.CompiledAbility, ref, use string, advance int64) (actionflow.ActionResult, *model.EngineError) {
 	s := bridge.engine
-	step := process.Definition().Steps[process.StepIndex()]
 	var frame Frame
 	s.initProcessFrame(&frame, process)
-	staged := frame.pendingProcess
-	frame.processChanges.AcceptRecast(advance, s.loop.TimeMs(), s.mintCastInstanceID(), use)
-	frame.castInstanceID, frame.processUseKey, frame.processCastPhase = staged.CastID(), staged.CastUseKey(), "RECAST"
-	frame.abilityRef, frame.castOrigin = ref, ability.CastOrigin
-	frame.countCastOnCommit, frame.castStatRef, frame.processMomentKind = true, ref, "STEP_EXECUTION"
-	frame.pendingProcessTimer = staged.StepExecutionIndex() < step.MaximumRecastCount
-	frame.recordProcess(staged, "process_use", "RECAST")
-	if err := s.commitProcessFrame(process, &frame); err != nil {
-		return err
-	}
-	return frame.maybeDispatchAbilityStartedEvent(ability)
+	return s.processFlowExecutor().ExecuteRecastAcceptance(process, frame.processChanges, ability, ref, use, advance, s.loop.TimeMs(), (*processMomentBridge)(&frame))
 }
 
 func (bridge recastBridge) CommitRecastExecution(process *actionpkg.ProcessView) *model.EngineError {
 	s := bridge.engine
 	var frame Frame
 	s.initProcessFrame(&frame, process)
-	frame.recastExecutionCommitted = true
-	if err := s.applyProcessMoment(process, &frame, "STEP_EXECUTION", ""); err != nil {
-		return err
-	}
-	frame.processMomentKind = ""
-	if err := s.commitProcessFrame(process, &frame); err != nil {
-		return err
-	}
-	return s.resolveSkillActionMoment(process, "STEP_EXECUTION")
+	return s.processFlowExecutor().ExecuteRecastExecution(process, frame.processChanges, s.loop.TimeMs(), s.compiled.Operations, (*processMomentBridge)(&frame))
 }
 
 func (bridge plannedSourceBridge) StaticSourceListener(listener planbundle.CompiledListener) *model.EngineError {
@@ -549,7 +539,7 @@ func (reads *abilityCastReads) NativeProcessCooldown(owner, ref string) bool {
 	return blocked
 }
 
-func (s *Engine) executePreparedAbility(prepared actionflow.PreparedAbility, depth int, event *eventFormulaSnapshot, collector *eventCopyableCollector) *model.EngineError {
+func (s *Engine) executePreparedAbility(prepared actionflow.PreparedAbility, depth int, event *eventFormulaSnapshot, collector *eventCopyableCollector) (actionflow.ActionResult, *model.EngineError) {
 	request := prepared.Request
 	s.refreshProviderAwareAttributes(request.Source, request.Target)
 	var storage Frame
@@ -558,32 +548,41 @@ func (s *Engine) executePreparedAbility(prepared actionflow.PreparedAbility, dep
 	frame.chainDepth, frame.eventCtx = depth, cloneEventSnapshot(event)
 	frame.copyableCollector, frame.driverEntryKey = collector, request.EntryKey
 	frame.ownerCombatantKey, frame.ownerProviderRef = prepared.Owner, prepared.ProviderRef
-	if err := s.skillActionFlowExecutor().ExecuteAbilityFrame(prepared, (*abilityFrameBridge)(frame)); err != nil {
-		return err
+	if err := s.skillActionFlowExecutor().ExecuteAbilityFrame(prepared, s.loop.TimeMs(), (*abilityFrameBridge)(frame)); err != nil {
+		return actionflow.ActionResult{}, err
 	}
 	frame.commit()
+	result := actionflow.ActionResult{Accepted: frame.committed}
 	if frame.fatal {
-		return frame.fatalErr
+		return result, frame.fatalErr
 	}
 	frame.maybeQueueDamageDealtEvent(prepared.Ability)
 	if err := frame.dispatchPendingEvents(); err != nil {
-		return err
+		return result, err
 	}
 	if err := frame.maybeDispatchAbilityStartedEvent(prepared.Ability); err != nil {
-		return err
+		return result, err
 	}
 	if err := frame.maybeDispatchBasicAttackStart(prepared.Ability); err != nil {
-		return err
+		return result, err
 	}
 	if err := frame.maybeDispatchBasicAttackHit(prepared.Ability); err != nil {
-		return err
+		return result, err
 	}
 	s.checkDeathStopReason()
-	return nil
+	return result, nil
 }
 
-func (bridge *abilityFrameBridge) StageAbilityLifecycle(ability planbundle.CompiledAbility, source string) *model.EngineError {
-	return (*Frame)(bridge).stageLifecycleCostCooldown(ability, source)
+func (bridge *abilityFrameBridge) AbilityTermAmount(program formula.GenericProgramID, ability planbundle.CompiledAbility) (float64, *model.EngineError) {
+	return (*Frame)(bridge).evalAmount(program, ability)
+}
+
+func (bridge *abilityFrameBridge) ChangeAbilityResource(owner, resource string, delta float64, ability planbundle.CompiledAbility) *model.EngineError {
+	return (*Frame)(bridge).applyResourceChange(owner, resource, delta, ability)
+}
+
+func (bridge *abilityFrameBridge) StageAbilityCooldown(owner, ref string, ready int64) *model.EngineError {
+	return (*Frame)(bridge).applyCooldownChange(owner, ref, ready)
 }
 
 func (bridge *abilityFrameBridge) KnownAbilityUse(entry string) *actionpkg.UseView {
@@ -623,13 +622,13 @@ func attachUseToSnapshot(ev *emittedEvent) {
 	ev.snapshot.UseKey, ev.snapshot.UseSource, ev.snapshot.UseSkillKey = ev.useKey, ev.useSource, ev.useSkillKey
 }
 
-func (s *Engine) startProcessFromEvent(source, target, ref string, ability planbundle.CompiledAbility, depth int, event *eventFormulaSnapshot, driverKey string, collector *eventCopyableCollector) *model.EngineError {
+func (s *Engine) startProcessFromEvent(source, target, ref string, ability planbundle.CompiledAbility, depth int, event *eventFormulaSnapshot, driverKey string, collector *eventCopyableCollector) (actionflow.ActionResult, *model.EngineError) {
 	prepared, err := s.processFlowExecutor().PrepareNativeProcess(actionflow.NativeProcessStart{Source: source, Target: target, AbilityRef: ref, DriverKey: driverKey, Depth: depth, Now: s.loop.TimeMs(), Event: event}, ability, s.compiled.Providers, (*abilityCastReads)(s))
 	if err != nil {
-		return err
+		return actionflow.ActionResult{}, err
 	}
 	if prepared.Rejection != "" {
-		return s.rejectProcessUse(prepared.Entry, ref, prepared.Use, prepared.Rejection)
+		return actionflow.ActionResult{Reason: prepared.Rejection}, s.rejectProcessUse(prepared.Entry, ref, prepared.Use, prepared.Rejection)
 	}
 	return s.startProcess(prepared.Entry, -1, source, target, prepared.Provider, ref, ability, prepared.Definition, prepared.Use, depth, collector)
 }
@@ -992,7 +991,7 @@ func (s *Engine) skillActionForUse(use string) *actionpkg.SkillActionView {
 
 // Acceptance commits its quota and original-deadline timer before the real cast
 // event. The execution payload then reads any changes caused by that event.
-func (s *Engine) acceptRecast(entry model.DriverEntry, process *actionpkg.ProcessView, ability planbundle.CompiledAbility, ref string) *model.EngineError {
+func (s *Engine) acceptRecast(entry model.DriverEntry, process *actionpkg.ProcessView, ability planbundle.CompiledAbility, ref string) (actionflow.ActionResult, *model.EngineError) {
 	return s.processFlowExecutor().AcceptRecast(entry, process, ability, ref, s.loop.TimeMs(), recastBridge{engine: s}, processFlowBridge{engine: s})
 }
 

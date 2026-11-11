@@ -29,13 +29,17 @@ type processData struct {
 }
 
 type ProcessSeed struct {
-	Snapshot   model.ProcessInstanceSnapshot
-	Definition *planbundle.CompiledProcess
-	Ability    planbundle.CompiledAbility
-	AbilityRef string
-	StepIndex  int
-	CastID     uint64
-	CastUseKey string
+	Snapshot                  model.ProcessInstanceSnapshot
+	Definition                *planbundle.CompiledProcess
+	Ability                   planbundle.CompiledAbility
+	AbilityRef                string
+	StepIndex                 int
+	CastID                    uint64
+	CastUseKey                string
+	HasEmpoweredAbility       bool
+	EmpoweredAbilityIndex     uint16
+	ReplacesPrimary           bool
+	PrimaryReplacementBinding uint16
 }
 
 // ProcessChangeSetAPI 列出单个过程的独占暂存能力；发布只更新该过程，不承担跨子系统提交。
@@ -52,8 +56,6 @@ type ProcessChangeSetAPI interface {
 	SetActualCost(key string, value float64)
 	// SetStartStateValues 复制并保存过程开始时冻结的状态值。
 	SetStartStateValues(values []formula.ProcessStartStateValue)
-	// BindEmpowered 绑定强化能力编号、普通攻击替换标志和编译绑定。
-	BindEmpowered(index uint16, replaces bool, binding uint16)
 	// EnterStep 进入指定步骤并初始化本步骤版本、起点与执行计数。
 	EnterStep(index int, step planbundle.CompiledProcessStep, now int64)
 	// SetTiming 保存推进时刻和可选期限；复制期限值，不负责入队。
@@ -320,7 +322,7 @@ var _ ProcessChangeSetAPI = (*ProcessChangeSet)(nil)
 var _ StateAPI = (*State)(nil)
 
 func NewProcess(seed ProcessSeed) *ProcessView {
-	p := &ProcessView{data: &processData{snapshot: cloneProcessSnapshot(seed.Snapshot), slot: -1, definition: seed.Definition, ability: seed.Ability, abilityRef: seed.AbilityRef, stepIndex: seed.StepIndex, castID: seed.CastID, castUseKey: seed.CastUseKey}}
+	p := &ProcessView{data: &processData{snapshot: cloneProcessSnapshot(seed.Snapshot), slot: -1, definition: seed.Definition, ability: seed.Ability, abilityRef: seed.AbilityRef, stepIndex: seed.StepIndex, castID: seed.CastID, castUseKey: seed.CastUseKey, hasEmpoweredAbility: seed.HasEmpoweredAbility, empoweredAbilityIndex: seed.EmpoweredAbilityIndex, replacesPrimary: seed.ReplacesPrimary, primaryReplacementBinding: seed.PrimaryReplacementBinding}}
 	p.data.stableKey = p.Owner() + "\x00" + p.ProviderRef() + "\x00" + p.ProcessKey() + "\x00" + p.UseKey()
 	p.data.mountKey = p.Owner() + "\x00" + p.ProviderRef() + "\x00" + p.ProcessKey()
 	return p
@@ -553,12 +555,6 @@ func (c *ProcessChangeSet) SetActualCost(key string, value float64) {
 }
 func (c *ProcessChangeSet) SetStartStateValues(values []formula.ProcessStartStateValue) {
 	c.view.data.startStateValues = append([]formula.ProcessStartStateValue(nil), values...)
-}
-func (c *ProcessChangeSet) BindEmpowered(index uint16, replaces bool, binding uint16) {
-	c.view.data.hasEmpoweredAbility = true
-	c.view.data.empoweredAbilityIndex = index
-	c.view.data.replacesPrimary = replaces
-	c.view.data.primaryReplacementBinding = binding
 }
 func (c *ProcessChangeSet) EnterStep(index int, step planbundle.CompiledProcessStep, now int64) {
 	d := c.view.data

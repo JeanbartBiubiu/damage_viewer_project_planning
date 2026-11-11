@@ -76,8 +76,8 @@ func TestExecutionBudgetProcessCountHasExplicitCause(t *testing.T) {
 	}
 	ability, ref, _ := s.lookupDriverAbility(r.DriverPlan.Entries[0])
 	definition := &s.compiled.Providers[ability.ProviderIndex].Processes[ability.ProcessControl.ProcessIndex]
-	err := s.startProcess(r.DriverPlan.Entries[0], -1, "source", "target", "champion:source_demo", ref, ability, definition, "u2", 0, nil)
-	if err == nil || err.BudgetCause != model.BudgetCauseMaxProcessInstances || s.actions.ProcessCount() != 1 {
+	result, err := s.startProcess(r.DriverPlan.Entries[0], -1, "source", "target", "champion:source_demo", ref, ability, definition, "u2", 0, nil)
+	if result.Accepted || err == nil || err.BudgetCause != model.BudgetCauseMaxProcessInstances || s.actions.ProcessCount() != 1 {
 		t.Fatalf("process budget: %+v instances=%+v", err, s.actions.ProcessViews())
 	}
 }

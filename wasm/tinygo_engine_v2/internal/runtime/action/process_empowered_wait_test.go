@@ -19,14 +19,11 @@ func TestEmpoweredWaitIndexRequiresBindingAndTracksCommit(t *testing.T) {
 		t.Fatal("ordinary delayed process entered the empowered wait index")
 	}
 
-	empowered := NewProcess(ProcessSeed{Snapshot: model.ProcessInstanceSnapshot{
+	empowered := NewProcess(ProcessSeed{HasEmpoweredAbility: true, Snapshot: model.ProcessInstanceSnapshot{
 		Owner: "source", ProviderRef: "spell", ProcessKey: "empowered", UseKey: "empowered",
 		Status: "active", StepKey: "wait", ExpiresAtMs: &deadline,
 	}})
 	state.AddProcess(empowered)
-	changes := StageProcess(empowered)
-	changes.BindEmpowered(0, false, 0)
-	changes.Publish(empowered)
 	state.UpdateEmpoweredWait(empowered)
 	state.UpdateEmpoweredWait(empowered)
 	state.UpdateEmpoweredWait(ordinary)
@@ -34,7 +31,7 @@ func TestEmpoweredWaitIndexRequiresBindingAndTracksCommit(t *testing.T) {
 		t.Fatal("committed empowered binding at index zero was lost or duplicated")
 	}
 
-	changes = StageProcess(empowered)
+	changes := StageProcess(empowered)
 	changes.Finish("complete", "", 500)
 	changes.Publish(empowered)
 	state.UpdateEmpoweredWait(empowered)

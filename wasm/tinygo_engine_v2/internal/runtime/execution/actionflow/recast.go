@@ -22,7 +22,7 @@ type RecastPhases interface {
 	// RecastUseExists 核对将要使用的完整身份是否已经登记。
 	RecastUseExists(use string) bool
 	// CommitRecastAcceptance 提交真实序号、施放及原期限，再同步发布开始事实。
-	CommitRecastAcceptance(process *actionpkg.ProcessView, ability planbundle.CompiledAbility, ref, use string, advance int64) *model.EngineError
+	CommitRecastAcceptance(process *actionpkg.ProcessView, ability planbundle.CompiledAbility, ref, use string, advance int64) (ActionResult, *model.EngineError)
 	// CommitRecastExecution 用开始事实完成后的新帧执行原负载并解析绑定命中。
 	CommitRecastExecution(process *actionpkg.ProcessView) *model.EngineError
 }
@@ -75,30 +75,31 @@ func (s SkillActionExecutor) RecastCandidate(r *actionpkg.AutomaticRuleView, p *
 	}
 	return "", nil, 0, nil
 }
-func (s ProcessExecutor) AcceptRecast(entry model.DriverEntry, p *actionpkg.ProcessView, ability planbundle.CompiledAbility, ref string, now int64, phases RecastPhases, processPhases ProcessPhases) *model.EngineError {
+func (s ProcessExecutor) AcceptRecast(entry model.DriverEntry, p *actionpkg.ProcessView, ability planbundle.CompiledAbility, ref string, now int64, phases RecastPhases, processPhases ProcessPhases) (ActionResult, *model.EngineError) {
 	step := p.Definition().Steps[p.StepIndex()]
 	if step.MaximumRecastCount < 1 || p.StepExecutionIndex() >= step.MaximumRecastCount {
-		return phases.RejectRecast(entry, "process_already_finished")
+		return ActionResult{Reason: "process_already_finished"}, phases.RejectRecast(entry, "process_already_finished")
 	}
 	advance, valid := actionpkg.ProcessTimeAfter(now, float64(step.RecastIntervalMs), true)
 	if !valid || advance > maxJSONSafeInteger {
-		return s.error(step.Path+".intervalMs", "invalid safe recast interval deadline", p.UseKey())
+		return ActionResult{}, s.error(step.Path+".intervalMs", "invalid safe recast interval deadline", p.UseKey())
 	}
 	use := RecastUseKey(p.UseKey(), p.StepExecutionIndex()+1)
 	if phases.RecastUseExists(use) {
-		return s.error("skillUses", "recast identity already exists", use)
+		return ActionResult{}, s.error("skillUses", "recast identity already exists", use)
 	}
-	if err := phases.CommitRecastAcceptance(p, ability, ref, use, advance); err != nil {
-		return err
+	result, err := phases.CommitRecastAcceptance(p, ability, ref, use, advance)
+	if err != nil {
+		return result, err
 	}
 	if p.Status() != "active" {
-		return nil
+		return result, nil
 	}
 	if err := phases.CommitRecastExecution(p); err != nil {
-		return err
+		return result, err
 	}
 	if p.StepExecutionIndex() == step.MaximumRecastCount {
-		return s.CompleteStep(p, now, processPhases)
+		return result, s.CompleteStep(p, now, processPhases)
 	}
-	return nil
+	return result, nil
 }

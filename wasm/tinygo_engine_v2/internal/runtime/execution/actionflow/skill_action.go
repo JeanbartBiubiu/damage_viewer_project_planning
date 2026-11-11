@@ -117,8 +117,13 @@ type SkillActionExecutorAPI interface {
 	// PrepareCast 按原次序核对引用、来源限制、冷却及操作范围，只返回本次有限施放决定。
 	// 根层用原局部同步参数立即执行，不将帧、事件或复制收集器保存到决定内。
 	PrepareCast(request AbilityCastRequest, definitions AbilityCastDefinitions, reads AbilityCastReads) (PreparedAbility, *model.EngineError)
-	// ExecuteAbilityFrame 在同一独立能力帧暂存生命周期、原位分配身份并同步执行实际操作。
-	ExecuteAbilityFrame(prepared PreparedAbility, work AbilityFrameWork) *model.EngineError
+	// PrepareListenerCast 保留监听先冷却、后引用及用途核对的原顺序，不接纳或消费额度。
+	PrepareListenerCast(request AbilityCastRequest, definitions AbilityCastDefinitions, reads AbilityCastReads) (PreparedAbility, *model.EngineError)
+	// StageAbilityTerms 先读并暂存普通费用，再读冷却并沿原截断规则暂存期限。
+	// 周期与锚定普通帧也使用同一政策；不采用过程费用、倍率或严格时间政策。
+	StageAbilityTerms(ability planbundle.CompiledAbility, owner, ref string, now int64, work AbilityTermsWork) *model.EngineError
+	// ExecuteAbilityFrame 在同一独立能力帧暂存费用冷却、原位分配身份并同步执行实际操作。
+	ExecuteAbilityFrame(prepared PreparedAbility, now int64, work AbilityFrameWork) *model.EngineError
 	// ValidateRefundSnapshot 完整核对即时周期及返还来源需要的真实全新快照，不接受导入冷却来源。
 	ValidateRefundSnapshot(snapshot model.Snapshot, hasRefund bool) *model.EngineError
 	// ValidateImmediatePeriod 核对即时有限周期由本次实际选中的来源过程首次启动。

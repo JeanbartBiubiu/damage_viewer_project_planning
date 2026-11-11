@@ -70,13 +70,12 @@ func (s *Engine) ListenerOperations(event emittedEvent, collector *eventCopyable
 }
 
 func (s *Engine) ListenerAbility(event emittedEvent, collector *eventCopyableCollector, definition planbundle.CompiledListener, source, target string, chainDepth int) (bool, *model.EngineError) {
-	resolved := normalizeAbilityRef(definition.AbilityRef, source, target)
-	if _, blocked := s.cooldownGate(source, resolved); blocked {
-		return false, nil
+	prepared, err := s.skillActionFlowExecutor().PrepareListenerCast(actionflow.AbilityCastRequest{Source: source, Target: target, AbilityRef: definition.AbilityRef}, actionflow.AbilityCastDefinitions{References: s.compiled.AbilityRefIndex, Combatants: s.compiled.Combatants, Operations: s.compiled.Operations}, (*abilityCastReads)(s))
+	if err != nil {
+		return false, err
 	}
-	before := s.abilityCastCount
-	err := s.castAbilityAt(source, target, definition.AbilityRef, chainDepth, &event.snapshot, collector, "")
-	return s.abilityCastCount > before, err
+	result, err := s.executePreparedCast(prepared, chainDepth, &event.snapshot, collector)
+	return result.Accepted, err
 }
 
 func (s *Engine) ListenerSkipped(definition planbundle.CompiledListener, reason string) {
@@ -234,11 +233,11 @@ func (s *Engine) empoweredActivationHistory(use string) hit.ActivationHistory {
 }
 
 func (f *Frame) EmpoweredProcessMoment(changes *actionpkg.ProcessChangeSet, target string, association *model.ProcessEmpoweredAttack, kind string) *model.EngineError {
-	return f.run.applyProcessMoment(changes.View(), f, kind, "")
+	return f.applyProcessMoment(kind, "")
 }
 
 func (f *Frame) EmpoweredFailureMoment(changes *actionpkg.ProcessChangeSet, reason string) *model.EngineError {
-	return f.run.applyProcessMoment(changes.View(), f, "PROCESS_FAILURE", reason)
+	return f.applyProcessMoment("PROCESS_FAILURE", reason)
 }
 
 func (f *Frame) EmpoweredPayload(event emittedEvent, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack, payload planbundle.CompiledAbility) *model.EngineError {

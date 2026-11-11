@@ -46,7 +46,7 @@ func listenerCooldownUseState(t *testing.T) (*Engine, string) {
 		}
 	}
 	// 使用真实子能力施放建立200ms冷却；不预置期限或伪造成功命中事件。
-	if err := state.castAbilityAt("source", "target", childRef, 0, nil, nil, ""); err != nil {
+	if result, err := state.castAbilityAt("source", "target", childRef, 0, nil, nil, ""); err != nil || !result.Accepted {
 		t.Fatal(err)
 	}
 	if state.combatants["source"].cooldowns.AbilityReadyAt("source", childRef) != 200 || reportedAbilityStat(state, childRef).CastCount != 1 {

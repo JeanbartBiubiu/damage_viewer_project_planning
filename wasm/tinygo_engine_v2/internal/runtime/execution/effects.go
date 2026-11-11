@@ -130,27 +130,6 @@ func (f *Frame) cooldownDurationFactor(process *actionpkg.ProcessView) (float64,
 	return executor.CooldownDurationFactor(process, f.stageFor(process.Owner()).instances.Providers(), f.run.loop.TimeMs())
 }
 
-func (f *Frame) stageLifecycleCostCooldown(ability planbundle.CompiledAbility, sourceKey string) *model.EngineError {
-	if ability.Cost != nil && ability.Cost.HasAmount {
-		amount, err := f.evalAmount(ability.Cost.AmountProgram, ability)
-		if err != nil {
-			return err
-		}
-		if err := f.applyResourceChange(sourceKey, ability.Cost.ResourceKey, -amount, ability); err != nil {
-			return err
-		}
-	}
-	if ability.Cooldown != nil && ability.Cooldown.HasDuration {
-		duration, err := f.evalAmount(ability.Cooldown.DurationProgram, ability)
-		if err != nil {
-			return err
-		}
-		readyAt := f.run.loop.TimeMs() + int64(duration)
-		return f.applyCooldownChange(sourceKey, f.abilityRef, readyAt)
-	}
-	return nil
-}
-
 func (f *Frame) evalShieldDuration(op planbundle.CompiledOperation, ability planbundle.CompiledAbility) (int64, *model.EngineError) {
 	wasStrict := f.strictReads
 	f.strictReads = true

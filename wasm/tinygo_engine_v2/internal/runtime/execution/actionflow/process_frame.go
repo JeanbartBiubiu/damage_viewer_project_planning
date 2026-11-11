@@ -23,6 +23,8 @@ type ProcessCosts interface {
 type ProcessMomentWork interface {
 	// SetProcessMoment 标记当前时点和成本是否开放读取。
 	SetProcessMoment(kind string, costsReadable bool)
+	// SetProcessTimer 暂存该时点已核定的后继计时需求，不自行入队。
+	SetProcessTimer(pending bool)
 	// ProcessAmount 在原时点暂存视图读取当前过程金额。
 	ProcessAmount(program formula.GenericProgramID) (float64, *model.EngineError)
 	// ProcessCooldownFactor 读取本过程真实冷却修正因子，不写冷却。
@@ -85,53 +87,53 @@ func (s ProcessExecutor) PrepareCosts(changes *actionpkg.ProcessChangeSet, costs
 	return true, nil
 }
 
-func (s ProcessExecutor) ApplyMoment(changes *actionpkg.ProcessChangeSet, kind, reason string, now int64, alreadyCommitted bool, operations []planbundle.CompiledOperation, work ProcessMomentWork) (bool, *model.EngineError) {
+func (s ProcessExecutor) ApplyMoment(changes *actionpkg.ProcessChangeSet, kind, reason string, now int64, alreadyCommitted bool, operations []planbundle.CompiledOperation, work ProcessMomentWork) *model.EngineError {
 	process := changes.View()
 	work.SetProcessMoment(kind, kind == "PROCESS_COMPLETE" || kind == "PROCESS_FAILURE")
 	timer := false
 	if kind == "STEP_EXECUTION" {
 		if !changes.ExecuteStep(now, alreadyCommitted) {
-			return false, s.error(process.Definition().Path, "process step execution has already committed", process.UseKey())
+			return s.error(process.Definition().Path, "process step execution has already committed", process.UseKey())
 		}
 		if process.HasRepeat() {
 			var err *model.EngineError
 			timer, err = s.AdvanceRepeat(changes, now)
 			if err != nil {
-				return false, err
+				return err
 			}
 		}
 	}
 	if kind == "STEP_COMPLETE" && !changes.CompleteStep(now) {
-		return false, s.error(process.Definition().Path, "process step completion has already committed", process.UseKey())
+		return s.error(process.Definition().Path, "process step completion has already committed", process.UseKey())
 	}
 	if cooldown := process.Definition().Cooldown; cooldown != nil && !process.CooldownStarted() && actionpkg.MomentMatches(cooldown.StartMoment, kind, process.StepKey(), reason) {
 		value, err := work.ProcessAmount(cooldown.DurationProgram)
 		if err != nil {
-			return false, err
+			return err
 		}
 		factor, err := work.ProcessCooldownFactor(process)
 		if err != nil {
-			return false, err
+			return err
 		}
 		if math.IsNaN(factor) || math.IsInf(factor, 0) || factor <= 0 {
-			return false, s.error(cooldown.Path+".durationMs", "cooldown duration factor must remain finite and positive", process.UseKey())
+			return s.error(cooldown.Path+".durationMs", "cooldown duration factor must remain finite and positive", process.UseKey())
 		}
 		value *= factor
 		if cooldown.RoundPositiveMs || factor != 1 {
 			if math.IsNaN(value) || math.IsInf(value, 0) || value <= 0 {
-				return false, work.ProcessFormulaError(cooldown.DurationProgram, "process cooldown must be finite and positive before rounding")
+				return work.ProcessFormulaError(cooldown.DurationProgram, "process cooldown must be finite and positive before rounding")
 			}
 			value = math.Max(1, math.Round(value))
 		}
 		if action := s.actions.ActionForUse(process.UseKey()); action != nil && action.AutomaticRule() != nil && (math.IsNaN(value) || math.IsInf(value, 0) || value <= 0) {
-			return false, work.ProcessFormulaError(cooldown.DurationProgram, "automatic cooldown must be finite and strictly positive")
+			return work.ProcessFormulaError(cooldown.DurationProgram, "automatic cooldown must be finite and strictly positive")
 		}
 		ready, ok := actionpkg.ProcessTimeAfter(now, value, !cooldown.RoundPositiveMs)
 		if !ok {
-			return false, work.ProcessFormulaError(cooldown.DurationProgram, "invalid process cooldown duration or timestamp overflow")
+			return work.ProcessFormulaError(cooldown.DurationProgram, "invalid process cooldown duration or timestamp overflow")
 		}
 		if err := work.StageProcessCooldown(process, ready); err != nil {
-			return false, err
+			return err
 		}
 		changes.SetCooldownStarted()
 	}
@@ -143,17 +145,20 @@ func (s ProcessExecutor) ApplyMoment(changes *actionpkg.ProcessChangeSet, kind, 
 		work.ResetProcessOutputs()
 		start, end := int(moment.OperationStart), int(moment.OperationStart)+int(moment.OperationCount)
 		if end > len(operations) {
-			return false, s.error(process.Definition().Path, "process operation range is invalid", process.ProcessKey())
+			return s.error(process.Definition().Path, "process operation range is invalid", process.ProcessKey())
 		}
 		for _, operation := range operations[start:end] {
 			if operation.Operation == "cooldown_change" && operation.ValuePolicy == "set_remaining" && NormalizeAbilityRef(operation.AbilityRefStr, process.Owner(), process.Target()) != process.AbilityRef() && !work.IsProcessAttackReset(process, kind, operation) {
-				return false, s.error(moment.Path+".operations.abilityRef", "process set_remaining must address its original mounted initial ability", operation.AbilityRefStr)
+				return s.error(moment.Path+".operations.abilityRef", "process set_remaining must address its original mounted initial ability", operation.AbilityRefStr)
 			}
 		}
 		if err := work.ExecuteProcessOperations(process.Ability(), operations[start:end]); err != nil {
-			return false, err
+			return err
 		}
 	}
 	work.CaptureEmpoweredMoment(process, kind)
-	return timer, nil
+	if kind == "STEP_EXECUTION" && process.HasRepeat() {
+		work.SetProcessTimer(timer)
+	}
+	return nil
 }

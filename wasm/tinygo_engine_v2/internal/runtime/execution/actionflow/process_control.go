@@ -21,20 +21,20 @@ type ProcessControlWork interface {
 	// ControlCondition 在本次独立过程帧按原顺序读取条件。
 	ControlCondition(process *actionpkg.ProcessView, index int, ability planbundle.CompiledAbility) (bool, *model.EngineError)
 	// StartControlledProcess 通过原启动帧接纳指定的真实过程，强化路径保留原局部准备。
-	StartControlledProcess(entry model.DriverEntry, index int, owner, target, provider, ref string, ability planbundle.CompiledAbility, definition *planbundle.CompiledProcess, use string, replaced *actionpkg.ProcessView) *model.EngineError
+	StartControlledProcess(entry model.DriverEntry, index int, owner, target, provider, ref string, ability planbundle.CompiledAbility, definition *planbundle.CompiledProcess, use string, replaced *actionpkg.ProcessView) (ActionResult, *model.EngineError)
 	// AcceptControlledRecast 通过原接纳帧提交重施，再执行读取开始监听之后状态的负载。
-	AcceptControlledRecast(entry model.DriverEntry, process *actionpkg.ProcessView, ability planbundle.CompiledAbility, ref string) *model.EngineError
+	AcceptControlledRecast(entry model.DriverEntry, process *actionpkg.ProcessView, ability planbundle.CompiledAbility, ref string) (ActionResult, *model.EngineError)
 	// ReleaseControlledCharge 在原释放帧执行实际负载、提交和绑定命中。
-	ReleaseControlledCharge(process *actionpkg.ProcessView, ref string) *model.EngineError
+	ReleaseControlledCharge(process *actionpkg.ProcessView, ref string) (ActionResult, *model.EngineError)
 }
 
-func (s ProcessExecutor) Control(entry model.DriverEntry, entryIndex int, controlAbility planbundle.CompiledAbility, resolvedRef string, now int64, providers []planbundle.CompiledProvider, work ProcessControlWork, phases ProcessPhases) *model.EngineError {
+func (s ProcessExecutor) Control(entry model.DriverEntry, entryIndex int, controlAbility planbundle.CompiledAbility, resolvedRef string, now int64, providers []planbundle.CompiledProvider, work ProcessControlWork, phases ProcessPhases) (ActionResult, *model.EngineError) {
 	control := controlAbility.ProcessControl
 	fact := s.actions.ProcessFact(entry.EntryKey)
 	source, _ := work.ResolveProcessActor(entry.Source, model.SelectorSource)
 	target, targetAvailable := work.ResolveProcessActor(entry.Target, source)
 	if control.RequireExplicitSelfTarget != nil && *control.RequireExplicitSelfTarget && (entry.Target == "" || !targetAvailable || target != source) {
-		return work.RejectProcessControl(entry, "explicit_self_target_required")
+		return ActionResult{Reason: "explicit_self_target_required"}, work.RejectProcessControl(entry, "explicit_self_target_required")
 	}
 	parsed, _ := planbundle.ParseAbilityRef(resolvedRef)
 	p := &providers[controlAbility.ProviderIndex].Processes[control.ProcessIndex]
@@ -47,11 +47,11 @@ func (s ProcessExecutor) Control(entry model.DriverEntry, entryIndex int, contro
 		}
 	}
 	if !work.ControlMounted(source, parsed.ProviderRef, controlAbility.ProviderIndex) {
-		return work.RejectProcessControl(entry, "provider_unavailable")
+		return ActionResult{Reason: "provider_unavailable"}, work.RejectProcessControl(entry, "provider_unavailable")
 	}
 	if control.Action == "INITIAL" {
 		if instance != nil {
-			return work.RejectProcessControl(entry, "use_already_started")
+			return ActionResult{Reason: "use_already_started"}, work.RejectProcessControl(entry, "use_already_started")
 		}
 		var mountKey string
 		var replaced *actionpkg.ProcessView
@@ -67,70 +67,70 @@ func (s ProcessExecutor) Control(entry model.DriverEntry, entryIndex int, contro
 				if actionpkg.IsEmpoweredProcess(p) && p.Steps[0].MaximumAttackCount == 0 && current.HasEmpoweredAbility() && current.StepExecutionIndex() == 0 {
 					replaced = current
 				} else {
-					return work.RejectProcessControl(entry, "process_already_active")
+					return ActionResult{Reason: "process_already_active"}, work.RejectProcessControl(entry, "process_already_active")
 				}
 			}
 		}
 		if work.ControlSourceDead(source) {
-			return work.RejectProcessControl(entry, "source_dead")
+			return ActionResult{Reason: "source_dead"}, work.RejectProcessControl(entry, "source_dead")
 		}
 		if (s.actions.ManualCount() > 0 || s.actions.HasAutomatic()) && s.actions.Occupied(source) {
-			return work.RejectProcessControl(entry, "action_occupied")
+			return ActionResult{Reason: "action_occupied"}, work.RejectProcessControl(entry, "action_occupied")
 		}
 		if _, blocked := work.ControlCooldown(source, resolvedRef); blocked {
-			return work.RejectProcessControl(entry, "cooldown_not_ready")
+			return ActionResult{Reason: "cooldown_not_ready"}, work.RejectProcessControl(entry, "cooldown_not_ready")
 		}
 		return work.StartControlledProcess(entry, entryIndex, source, target, parsed.ProviderRef, resolvedRef, controlAbility, p, fact.UseRef, replaced)
 	}
 	if instance == nil {
-		return work.RejectProcessControl(entry, "process_not_started")
+		return ActionResult{Reason: "process_not_started"}, work.RejectProcessControl(entry, "process_not_started")
 	}
 	if instance.Owner() != source || instance.ProviderRef() != parsed.ProviderRef || instance.ProcessKey() != p.ProcessKey || instance.Target() != target {
-		return work.RejectProcessControl(entry, "process_identity_mismatch")
+		return ActionResult{Reason: "process_identity_mismatch"}, work.RejectProcessControl(entry, "process_identity_mismatch")
 	}
 	if instance.Status() != "active" {
-		return work.RejectProcessControl(entry, "process_already_finished")
+		return ActionResult{Reason: "process_already_finished"}, work.RejectProcessControl(entry, "process_already_finished")
 	}
 	if instance.HasExpiry() && now >= instance.Expiry() {
-		return work.RejectProcessControl(entry, "process_expired")
+		return ActionResult{Reason: "process_expired"}, work.RejectProcessControl(entry, "process_expired")
 	}
 	if control.StepKey != "" && control.StepKey != instance.StepKey() {
-		return work.RejectProcessControl(entry, "wrong_step")
+		return ActionResult{Reason: "wrong_step"}, work.RejectProcessControl(entry, "wrong_step")
 	}
 	if control.Action == "RECAST" {
 		if work.ControlSourceDead(source) {
-			return work.RejectProcessControl(entry, "source_dead")
+			return ActionResult{Reason: "source_dead"}, work.RejectProcessControl(entry, "source_dead")
 		}
 		for processSlot := 0; processSlot < s.actions.ProcessCount(); processSlot++ {
 			other := s.actions.ProcessAt(processSlot)
 			if other != instance && other.OccupiesAction(source) {
-				return work.RejectProcessControl(entry, "action_occupied")
+				return ActionResult{Reason: "action_occupied"}, work.RejectProcessControl(entry, "action_occupied")
 			}
 		}
 	}
 	allowed, conditionErr := work.ControlCondition(instance, entryIndex, controlAbility)
 	if conditionErr != nil {
-		return conditionErr
+		return ActionResult{}, conditionErr
 	}
 	if !allowed {
-		return work.RejectProcessControl(entry, "condition_false")
+		return ActionResult{Reason: "condition_false"}, work.RejectProcessControl(entry, "condition_false")
 	}
 	if control.Action == "RECAST" || control.Action == "CHARGE_RELEASE" {
 		if now < instance.AdvanceAtMs() {
-			return work.RejectProcessControl(entry, "advance_too_early")
+			return ActionResult{Reason: "advance_too_early"}, work.RejectProcessControl(entry, "advance_too_early")
 		}
 		step := instance.Definition().Steps[instance.StepIndex()]
 		if (control.Action == "RECAST" && step.StepType != "RECAST") || (control.Action == "CHARGE_RELEASE" && step.StepType != "CHARGE") {
-			return work.RejectProcessControl(entry, "wrong_step")
+			return ActionResult{Reason: "wrong_step"}, work.RejectProcessControl(entry, "wrong_step")
 		}
 		if control.Action == "RECAST" {
 			return work.AcceptControlledRecast(entry, instance, controlAbility, resolvedRef)
 		}
 		return work.ReleaseControlledCharge(instance, resolvedRef)
 	}
-	// Cancel/interruption are explicit successful actions, never merely a request event.
+	// 取消与中断沿本次终结提交返回真实接纳，不能把准备决定当成成功。
 	if control.Action == "INTERRUPT" && control.FailureReason == "SOURCE_DIED" && !work.ControlSourceDead(source) {
-		return work.RejectProcessControl(entry, "source_not_dead")
+		return ActionResult{Reason: "source_not_dead"}, work.RejectProcessControl(entry, "source_not_dead")
 	}
-	return s.Finish(instance, "failed", control.FailureReason, resolvedRef, phases)
+	return s.finish(instance, "failed", control.FailureReason, resolvedRef, phases)
 }
