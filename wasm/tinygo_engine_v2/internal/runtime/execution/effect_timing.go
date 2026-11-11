@@ -428,11 +428,6 @@ func findTickAbility(provider planbundle.CompiledProvider, session planbundle.Co
 	return lifecycle.FindTickAbility(provider, session)
 }
 
-func (s *Engine) providerTickSchedule(index uint16) (int64, int64, bool) {
-	executor := s.lifecycleExecutor()
-	return executor.TickSchedule(index)
-}
-
 func (s *Engine) scheduleInitialProviderTick(owner, reference string, index uint16, expiry int64, source string) {
 	executor := s.lifecycleExecutor()
 	basic := s.actions.BasicAttack()

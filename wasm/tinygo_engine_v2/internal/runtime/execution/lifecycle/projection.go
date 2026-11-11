@@ -1,5 +1,17 @@
 package lifecycle
 
+import (
+	"tinygo_engine_v2/internal/model"
+	effectpkg "tinygo_engine_v2/internal/runtime/effect"
+)
+
+// ProjectedEffectPublication 仅在原发布阶段接收已投影效果的期限与生命周期事实。
+type ProjectedEffectPublication interface {
+	ExpiryRequests
+	// RecordEffect 观察本次已发布的实际实例，不更改投影或触发新的效果规则。
+	RecordEffect(kind model.EvidenceKind, instance effectpkg.Provider)
+}
+
 // ProjectionAPI 定义一次帧内的效果投影状态；嵌套读取借用同一对象，不能覆盖外层事实。
 type ProjectionAPI interface {
 	// Begin 在确需投影且没有重入时进入阶段，返回是否首次读取及是否实际进入。
@@ -10,10 +22,9 @@ type ProjectionAPI interface {
 	End()
 	// MarkDirty 标记同帧追加的效果操作，不建立另一份操作列表。
 	MarkDirty()
-	// ChangeCount 返回当前投影事实数量，供根层组合真实预检容量。
-	ChangeCount() int
-	// ChangeAt 借用一个投影事实值；其所属实例的嵌套状态仍只读。
-	ChangeAt(index int) ProjectedChange
+	// Publish 按原投影顺序先交出有效到期请求，再观察对应实例事实；不重跑实例变更。
+	// 唯一队列的延后错误仍由原发布拥有者保留，不在逐项回调后额外停止或回滚。
+	Publish(publication ProjectedEffectPublication)
 }
 
 type Projection struct {
@@ -37,6 +48,13 @@ func (p *Projection) End() { p.flushing = false }
 
 func (p *Projection) MarkDirty() { p.dirty = true }
 
-func (p *Projection) ChangeCount() int { return len(p.changes) }
-
-func (p *Projection) ChangeAt(index int) ProjectedChange { return p.changes[index] }
+func (p *Projection) Publish(publication ProjectedEffectPublication) {
+	for index := 0; index < len(p.changes); index++ {
+		change := p.changes[index]
+		instance := change.Instance
+		if change.EnqueueExpiry && instance.ExpireAt > 0 {
+			publication.EnqueueExpiry(instance.ExpireAt, effectpkg.ExpiryPayload{CombatantKey: instance.Owner, ProviderRef: instance.ProviderRef, Kind: "provider"})
+		}
+		publication.RecordEffect(change.Kind, instance)
+	}
+}

@@ -9,7 +9,26 @@ import (
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 )
 
-func (e *Executor) PrepareDurationExtension(operation plan.CompiledOperation, owner string, instances effectpkg.ProviderList, deadline, now int64) (Mutation, bool, *model.EngineError) {
+// ProviderDurationPreparation 只在原静态期限核验后准备动态投影及本拥有者当前实例。
+type ProviderDurationPreparation interface {
+	// PrepareDurationRead 在原位置准备效果投影，保留原失败与读取时点。
+	PrepareDurationRead() *model.EngineError
+	// DurationProviders 在投影成功后借用当前原暂存实例，不保存到下一操作。
+	DurationProviders(owner string) effectpkg.ProviderList
+}
+
+func (e *Executor) PrepareDurationChange(operation plan.CompiledOperation, owner, source, provider string, now int64, reads ProviderDurationPreparation) (Mutation, bool, *model.EngineError) {
+	deadline, err := e.durationExtensionDeadline(operation, owner, source, provider, now)
+	if err != nil {
+		return Mutation{}, false, err
+	}
+	if err := reads.PrepareDurationRead(); err != nil {
+		return Mutation{}, false, err
+	}
+	return e.prepareDurationExtension(operation, owner, reads.DurationProviders(owner), deadline, now)
+}
+
+func (e *Executor) prepareDurationExtension(operation plan.CompiledOperation, owner string, instances effectpkg.ProviderList, deadline, now int64) (Mutation, bool, *model.EngineError) {
 	reference := ""
 	previousExpiry := int64(0)
 	for index := 0; index < instances.Len(); index++ {
@@ -35,7 +54,7 @@ func (e *Executor) PrepareDurationExtension(operation plan.CompiledOperation, ow
 		ProviderRef: reference, TargetKey: owner, SourceKey: owner, ExpireAt: deadline, HasExpireAt: true}, true, nil
 }
 
-func (e *Executor) DurationExtensionDeadline(operation plan.CompiledOperation, owner, source, provider string, now int64) (int64, *model.EngineError) {
+func (e *Executor) durationExtensionDeadline(operation plan.CompiledOperation, owner, source, provider string, now int64) (int64, *model.EngineError) {
 	if !e.compiled.HasProviderDurationChange || operation.Target != model.SelectorSelf || operation.ValuePolicy != "ensure_remaining" ||
 		owner != source || owner != model.SelectorSource || provider == "" || !operation.HasAmount {
 		return 0, e.invariant(operation.Path, "provider duration change requires its actual source owner and complete definition", operation.ProviderDefinitionRef)

@@ -293,7 +293,7 @@ func (f *Frame) stageOperationShield(op planbundle.CompiledOperation, ability pl
 		return err
 	}
 	if expiry.ExpireAt > 0 {
-		f.pendingShieldExpires = append(f.pendingShieldExpires, pendingShieldExpire{combatantKey: expiry.CombatantKey, shieldRef: expiry.ShieldRef, expireAt: expiry.ExpireAt})
+		f.pendingShieldExpires = append(f.pendingShieldExpires, expiry)
 	}
 	staged.dirty = true
 	return nil

@@ -830,22 +830,6 @@ func (f *Frame) expireProviderFromEvent(op planbundle.CompiledOperation) *model.
 	return nil
 }
 
-func (s *Engine) removeProviderInstanceStrict(targetKey, providerRef, definitionRef string, evalCtx formula.GenericEvalContext) *model.EngineError {
-	c, ok := s.combatants[targetKey]
-	if !ok {
-		return s.skillHitErr(model.GenericErrUnknownRef, "expire_provider owner is missing", "combatants", targetKey)
-	}
-	inst, _, found := c.instances.Providers().Find(providerRef)
-	if !found {
-		return s.skillHitErr(model.GenericErrUnknownRef, "expire_provider instance is missing", "providers", providerRef)
-	}
-	if definitionRef != "" && inst.DefinitionRef != definitionRef {
-		return s.skillHitErr(model.GenericErrUnknownRef, "expire_provider definitionRef mismatch", providerRef, inst.DefinitionRef)
-	}
-	s.removeProviderInstance(targetKey, providerRef, evalCtx, model.EvidenceKindProviderRemove)
-	return nil
-}
-
 func (s *Engine) bindDynamicProviderListeners() *model.EngineError {
 	static := map[string]bool{}
 	for _, combatant := range s.compiled.Combatants {

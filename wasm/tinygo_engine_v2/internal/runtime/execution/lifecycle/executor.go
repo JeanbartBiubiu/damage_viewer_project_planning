@@ -15,20 +15,42 @@ const maxJSONSafeInteger int64 = 9007199254740991
 
 // ExecutorAPI 列出效果执行对象的能力；真实实例与状态袋仍由效果包持有。
 type ExecutorAPI interface {
-	// BindLinkedShield 在任何求值前验证关联盾金额及编译定义。
-	BindLinkedShield(op plan.CompiledOperation, amount float64) (plan.CompiledProvider, *model.EngineError)
+	// ApplyLive 完整应用或复用真实实例，过期卸载后重读；后续绑定错误保留已发布前缀。
+	ApplyLive(input ProviderApplication, now int64, work ProviderWork) *model.EngineError
+	// RefreshLive 在原期限请求之后发布实际刷新，保留叠层、引用和延后数值错误。
+	RefreshLive(owner, reference string, expiry int64, hasExpiry bool, contributions effectpkg.ContributionView, now int64, work ProviderWork) *model.EngineError
+	// RemoveLive 完整移除指定实例及反向关联，原外部清理和所属发布次序不变。
+	RemoveLive(owner, reference string, context formula.GenericEvalContext, kind model.EvidenceKind, now int64, work ProviderWork)
+	// RemoveLiveStrict 按原错误定位核对拥有者、实例与定义后执行完整移除，不承诺整链回滚。
+	RemoveLiveStrict(owner, reference, definition string, context formula.GenericEvalContext, now int64, work ProviderWork) *model.EngineError
+	// PublishMutations 在全部拥有者暂存已发布后消费原序效果批次，使用同一原移除上下文。
+	// 只在显式失败位置返回，不将原延后错误升级为逐项提前中止。
+	PublishMutations(mutations []Mutation, context formula.GenericEvalContext, now int64, work ProviderWork) *model.EngineError
+	// SweepLive 保留普通清扫的原拥有者遍历，以及关联盾先实例后重新读取护盾的独立语义。
+	SweepLive(now int64, work ProviderWork, expired ExpiredEffects)
+	// StageExpiryFrame 在指定真实帧的所属暂存中消费有限到期命令，不发布或解释根帧。
+	StageExpiryFrame(frame ExpiryFrame, mutations []Mutation, projection *Projection, dirty *bool) []Mutation
+	// HandleExpiry 核对实际载荷及旧期限，决定原直接清理或真实帧，并交接既有状态到期阶段。
+	HandleExpiry(payload effectpkg.ExpiryPayload, now int64, automated bool, work ProviderWork, execution ExpiryExecution)
+	// RemoveExpiredShield 只消费当前同引用已到期盾；按原关联政策保留实际帧边界。
+	RemoveExpiredShield(owner, reference string, now int64, work ProviderWork, execution ExpiryExecution)
+	// RemoveLiveShield 完整消费盾及关联实例的原移除政策，缺失或不匹配不生成伪造变化。
+	RemoveLiveShield(owner, reference string, kind model.EvidenceKind, now int64, work ProviderWork, execution ExpiryExecution)
+	// ValidateProjectedMutations 在原早期预检核对投影批次完整性，不发布或提前准备其他计时。
+	ValidateProjectedMutations(projection *Projection, mutations []Mutation) *model.EngineError
+	// PreflightOwner 选取原所属底表并顺序预演全部效果操作，只交出原排程需求。
+	PreflightOwner(instances effectpkg.InstanceChangeSet, mutations []Mutation, input MutationPreflight) (int, *model.EngineError)
+	// ExecuteLinkedShield 依次验证金额和绑定、读取原期限及应用事实，再暂存真实关联盾。
+	// 失败前不提前借用角色暂存；合法0保持替换旧盾而不新建身份的原语义。
+	ExecuteLinkedShield(op plan.CompiledOperation, ability plan.CompiledAbility, source, target string, amount float64, now int64, reads LinkedShieldPreparation) (ShieldProjection, *model.EngineError)
 	// ChangeInternalCooldown 通过行动包真实冷却账处理状态写入，不另存冷却期限。
 	ChangeInternalCooldown(op plan.CompiledOperation, owner, provider, target string, amount float64, bag effectpkg.BagChange, ledger *actionpkg.CooldownLedger, now int64) (contract.CooldownIdentity, bool, *model.EngineError)
 	// ConsumeTargetMark 在当前真实帧组合清除、阻挡或伤害及恢复；金额按原位置逐次求值。
 	ConsumeTargetMark(input MarkInput, execution MarkExecution) *model.EngineError
 	// CooldownDurationFactor 在动态投影完成后的真实效果视图上计算该过程冷却倍率。
 	CooldownDurationFactor(p *actionpkg.ProcessView, instances effectpkg.ProviderList, now int64) (float64, *model.EngineError)
-	// DecideApplication 区分需先卸载的过期实例、可复用实例和新挂载，卸载后的真实状态仍由调用者重新取得。
-	DecideApplication(definition, source, owner string, instances effectpkg.ProviderList, now int64) (ApplyDecision, *model.EngineError)
-	// DecideShieldRemoval 定位实际护盾和关联实例，决定是否必须沿原子关联盾的真实帧卸载。
-	DecideShieldRemoval(instances effectpkg.InstanceState, reference string) ShieldRemoval
-	// DurationExtensionDeadline 在动态读取准备前校验实际来源及静态期限，保留原失败次序。
-	DurationExtensionDeadline(operation plan.CompiledOperation, owner, source, provider string, now int64) (int64, *model.EngineError)
+	// PrepareDurationChange 先核验原来源与静态期限，再准备动态投影并核定实际续时，不发布实例。
+	PrepareDurationChange(operation plan.CompiledOperation, owner, source, provider string, now int64, reads ProviderDurationPreparation) (Mutation, bool, *model.EngineError)
 	// ExecuteStateDuration 拥有普通状态减时及两种目标续时的资格、金额短路和暂存流程。
 	ExecuteStateDuration(input StateExecutionInput, reads StateExecutionReads, attributes StateAttributeExecution, actions StateActionExecution, requests TimingRequests) *model.EngineError
 	// ExecuteStateWrite 拥有状态写入、期限和回充资格的完整流程；真实暂存和跨功能同步仍在原帧。
@@ -39,8 +61,6 @@ type ExecutorAPI interface {
 	FindDefinition(key string) (uint16, bool)
 	// FreezeModifierSnapshots 使用原调用点准备的上下文冻结本次施加金额；失败不发布实例。
 	FreezeModifierSnapshots(provider plan.CompiledProvider, source, target string, context formula.GenericEvalContext) (map[string]float64, *model.EngineError)
-	// FreshProvider 创建实际新挂载值，记录真实施加时刻，不直接发布实例。
-	FreshProvider(index uint16, reference, source, owner string, expiry, now int64, contributions effectpkg.ContributionView) effectpkg.Provider
 	// InitialResourceMaximum 核对真实初始生命上限和动态贡献恢复限制，返回原冷初始化锚点。
 	InitialResourceMaximum(owner string, attributes attribute.Table, instances effectpkg.ProviderList) (float64, *model.EngineError)
 	// InitialTickRequest 计算实际挂载的首个周期请求；锚定周期只由目标状态写入触发。
@@ -59,8 +79,6 @@ type ExecutorAPI interface {
 	PermanentHealthAnchor(owner string, attributes attribute.Table) (float64, *model.EngineError)
 	// PermanentOperationConsumed 只接受实际零时刻来源初始化消费已安装的永久贡献操作。
 	PermanentOperationConsumed(op plan.CompiledOperation, owner, provider string, initialization bool, now int64) *model.EngineError
-	// PrepareDurationExtension 核对实际来源归属，返回应追加的续时操作；无效或无须续时分别返回错误或false。
-	PrepareDurationExtension(operation plan.CompiledOperation, owner string, instances effectpkg.ProviderList, deadline, now int64) (Mutation, bool, *model.EngineError)
 	// PrepareLifecycle 求值期限及状态贡献，不更改实例、角色或队列。
 	PrepareLifecycle(provider plan.CompiledProvider, evalCtx formula.GenericEvalContext, now int64) (PreparedLifecycle, *model.EngineError)
 	// PreflightMutations 复制有变更角色的基础实例并按原序只读预演，返回排程数或原错误；不发布、登记身份或入队。
@@ -71,18 +89,12 @@ type ExecutorAPI interface {
 	PreparePermanentResourceMax(snapshot model.Snapshot, owners [2]InitialResourceOwner, now int64) ([2]PermanentResourcePlan, *model.EngineError)
 	// PrepareProviderMutation 核对真实施加或刷新目标及定义，再在原位置准备期限和贡献。
 	PrepareProviderMutation(input ProviderPreparationInput, reads ProviderPreparation) (PreparedLifecycle, *model.EngineError)
-	// PrepareProviderRemoval 先暂存移除护盾反向关联，再定位实际供值实例，不处理行动或监听。
-	PrepareProviderRemoval(instances *effectpkg.InstanceState, reference string) (effectpkg.Provider, bool)
 	// ProjectDynamic 按原顺序暂存动态实例及关联盾；出错保留此前真实暂存，不发布或排队。
 	ProjectDynamic(input ProjectionInput) (bool, *model.EngineError)
 	// ProjectResourceMaximum 按真实活动实例识别上限贡献和惰性到期事实，不改变角色当前生命。
 	ProjectResourceMaximum(instances effectpkg.InstanceChangeSet, anchor float64, records []model.ResourceChangeContributor, now int64) ResourceMaximum
 	// ReferencesPermanentPeriod 按双方真实来源语境判断能力引用是否指向永久角色周期。
 	ReferencesPermanentPeriod(abilityRef string, normalize AbilityReference) bool
-	// RefreshProvider 处理替换、延长和叠层规则，不允许独立刷新关联盾供值实例。
-	RefreshProvider(instance effectpkg.Provider, expiry int64, hasExpiry bool, contributions effectpkg.ContributionView, now int64) (RefreshDecision, *model.EngineError)
-	// ReplaceProvider 按替换语义准备实例和原位到期请求，调用者在原边界发布。
-	ReplaceProvider(instance effectpkg.Provider, expiry int64, hasExpiry bool, contributions effectpkg.ContributionView, now int64) RefreshDecision
 	// ResourceContributor 把实际效果贡献转换成原报告归属，不重新求值或生成新的使用身份。
 	ResourceContributor(item effectpkg.ResourceContribution, reason string) model.ResourceChangeContributor
 	// RestoreStateTimers 在原快照恢复边界核对原值、绑定字段并恢复所属期限及真实冷却账，不重建事件堆。
@@ -101,8 +113,6 @@ type ExecutorAPI interface {
 	SourceInitializationState(snapshot model.Snapshot) *model.EngineError
 	// StageAnchoredTargetWrite 按原目标写入资格核定全部周期；容量失败早于世代变化，成功后仅追加当前帧计时。
 	StageAnchoredTargetWrite(input AnchoredWriteInput, reads StateProviderReads, requests TimingRequests) *model.EngineError
-	// StageLinkedShield 替换同实际来源与接收者的关联盾；零金额只移除旧盾，返回真实暂存与待提交期限。
-	StageLinkedShield(op plan.CompiledOperation, provider plan.CompiledProvider, source, target string, amount float64, expires, now int64, context formula.GenericEvalContext, instances *effectpkg.InstanceChangeSet, mutations []Mutation) (ShieldProjection, *model.EngineError)
 	// StageProviderOperation 拥有效果应用、刷新和移除的同帧分支规则，返回应追加的真实效果操作。
 	StageProviderOperation(input ProviderOperationInput, preparation ProviderOperationPreparation) (Mutation, bool, *model.EngineError)
 	// StageTargetPhases 只追加本次世代尚未预约的真实相位，先检查真实剩余容量，保留原部分暂存边界。

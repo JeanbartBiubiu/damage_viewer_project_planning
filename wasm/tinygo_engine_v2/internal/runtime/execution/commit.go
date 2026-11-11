@@ -70,47 +70,14 @@ func (f *Frame) commit() {
 	evalAbility := planbundle.CompiledAbility{}
 	evalCtx := f.evalContext(evalAbility)
 	for _, key := range keys {
-		staged := f.staged.Get(key)
-		for _, mut := range staged.providerOps {
-			if mut.Projected {
-				continue
-			}
-			switch mut.Kind {
-			case "shield_apply":
-				if err := f.run.mountFreshProviderInstance(mut.TargetKey, mut.SourceKey, mut.DefinitionIndex, mut.ProviderRef, mut.ExpireAt, mut.Contributions); err != nil {
-					f.fatal, f.fatalErr = true, err
-					return
-				}
-			case "apply":
-				if err := f.run.applyProviderInstanceWithRef(mut.TargetKey, mut.SourceKey, mut.DefinitionRef, mut.ProviderRef, mut.ExpireAt, mut.HasExpireAt, mut.Contributions); err != nil {
-					f.fatal = true
-					f.fatalErr = err
-					return
-				}
-				if f.run.compiled.HasImmediatePeriodic {
-					f.run.bindImmediatePeriodicUse(mut.TargetKey, mut.SourceKey, mut.DefinitionRef, mut.UseRef)
-				}
-			case "refresh":
-				if err := f.run.refreshProviderInstance(mut.TargetKey, mut.ProviderRef, mut.ExpireAt, mut.HasExpireAt, mut.Contributions); err != nil {
-					f.fatal = true
-					f.fatalErr = err
-					return
-				}
-			case "expire":
-				if mut.Strict {
-					if err := f.run.removeProviderInstanceStrict(mut.TargetKey, mut.ProviderRef, mut.DefinitionRef, evalCtx); err != nil {
-						f.fatal = true
-						f.fatalErr = err
-						return
-					}
-					continue
-				}
-				kind := mut.EvidenceKind
-				if kind == "" {
-					kind = model.EvidenceKindProviderRemove
-				}
-				f.run.removeProviderInstance(mut.TargetKey, mut.ProviderRef, evalCtx, kind)
-			}
+		mutations := f.staged.Get(key).providerOps
+		if len(mutations) == 0 {
+			continue
+		}
+		executor := f.run.lifecycleExecutor()
+		if err := executor.PublishMutations(mutations, evalCtx, f.run.loop.TimeMs(), (*lifecycleLiveEffects)(f.run)); err != nil {
+			f.fatal, f.fatalErr = true, err
+			return
 		}
 	}
 	f.commitProjectedProviderLifecycles()

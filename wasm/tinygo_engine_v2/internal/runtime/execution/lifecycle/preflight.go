@@ -12,6 +12,26 @@ type MutationPreflight struct {
 	ParticipantsAlive bool
 }
 
+func (e *Executor) ValidateProjectedMutations(projection *Projection, mutations []Mutation) *model.EngineError {
+	if len(projection.changes) == 0 {
+		return nil
+	}
+	for _, mutation := range mutations {
+		if !mutation.Projected {
+			return e.invariant("providers", "atomic dynamic provider batch cannot mix unsupported non-pure provider lifecycle operations", mutation.ProviderRef)
+		}
+	}
+	return nil
+}
+
+func (e *Executor) PreflightOwner(instances effectpkg.InstanceChangeSet, mutations []Mutation, input MutationPreflight) (int, *model.EngineError) {
+	base := instances.Providers()
+	if instances.Projected() {
+		base = instances.BaseProviders()
+	}
+	return e.PreflightMutations(base, mutations, input)
+}
+
 func (e *Executor) PreflightMutations(base effectpkg.ProviderList, mutations []Mutation, input MutationPreflight) (int, *model.EngineError) {
 	if len(mutations) == 0 {
 		return 0, nil

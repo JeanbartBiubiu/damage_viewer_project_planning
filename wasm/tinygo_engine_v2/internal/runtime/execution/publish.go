@@ -27,6 +27,43 @@ type pendingFrameProviderTick struct {
 	activatedAt int64
 }
 
+// lifecycleStagedShieldExpiryReadsAPI 只运输原预检位置的所属盾视图。
+type lifecycleStagedShieldExpiryReadsAPI interface {
+	// ShieldExpiryState 借用本帧已经存在的暂存盾列表，不创建角色暂存或补值。
+	ShieldExpiryState(owner string) (effectpkg.ShieldList, bool)
+}
+
+type lifecycleStagedShieldExpiryReads Frame
+
+// lifecycleLiveShieldExpiryReadsAPI 只运输原队列发布位置的实际盾视图。
+type lifecycleLiveShieldExpiryReadsAPI interface {
+	// ShieldExpiryState 借用当前真实拥有者的已发布盾列表，不复用预检缓存。
+	ShieldExpiryState(owner string) (effectpkg.ShieldList, bool)
+}
+
+type lifecycleLiveShieldExpiryReads Engine
+
+var _ lifecycleStagedShieldExpiryReadsAPI = (*lifecycleStagedShieldExpiryReads)(nil)
+
+var _ lifecycle.ShieldExpiryReads = (*lifecycleStagedShieldExpiryReads)(nil)
+
+var _ lifecycleLiveShieldExpiryReadsAPI = (*lifecycleLiveShieldExpiryReads)(nil)
+
+var _ lifecycle.ShieldExpiryReads = (*lifecycleLiveShieldExpiryReads)(nil)
+
+func (r *lifecycleStagedShieldExpiryReads) ShieldExpiryState(owner string) (effectpkg.ShieldList, bool) {
+	staged := (*Frame)(r).staged.Get(owner)
+	if staged == nil {
+		return effectpkg.ShieldList{}, false
+	}
+	return staged.instances.Shields(), true
+}
+
+func (r *lifecycleLiveShieldExpiryReads) ShieldExpiryState(owner string) (effectpkg.ShieldList, bool) {
+	current, exists := (*Engine)(r).combatants[owner]
+	return current.instances.Shields(), exists
+}
+
 func (f *Frame) providerTickCanContinue() bool {
 	if f.pendingProviderTick == nil {
 		return false
@@ -72,13 +109,14 @@ func (f *Frame) commitKeysAndPreflight(keyBuffer []string) ([]string, *model.Eng
 		return nil, waitError
 	}
 	keys := sortedFrameCombatantKeys(f.staged, keyBuffer)
-	if f.effectProjection.ChangeCount() > 0 {
-		for _, key := range keys {
-			for _, mut := range f.staged.Get(key).providerOps {
-				if !mut.Projected {
-					return nil, f.run.processErr("providers", "atomic dynamic provider batch cannot mix unsupported non-pure provider lifecycle operations", mut.ProviderRef)
-				}
-			}
+	for _, key := range keys {
+		mutations := f.staged.Get(key).providerOps
+		if len(mutations) == 0 {
+			continue
+		}
+		executor := f.run.lifecycleExecutor()
+		if err := executor.ValidateProjectedMutations(&f.effectProjection, mutations); err != nil {
+			return nil, err
 		}
 	}
 	count := len(f.pendingStateExpiry) + len(f.pendingAnchoredTicks) + waitEvents
@@ -98,33 +136,15 @@ func (f *Frame) commitKeysAndPreflight(keyBuffer []string) ([]string, *model.Eng
 	if f.pendingProcessTimer {
 		count++
 	}
-	for _, pending := range f.pendingShieldExpires {
-		staged := f.staged.Get(pending.combatantKey)
-		if staged == nil || pending.expireAt <= 0 || pending.shieldRef == "" {
-			continue
-		}
-		for instanceIndex, instanceValues := 0, staged.instances.Shields(); instanceIndex < instanceValues.Len(); instanceIndex++ {
-			shield := instanceValues.At(instanceIndex)
-			if shield.ShieldRef == pending.shieldRef {
-				if shield.ExpireAt > 0 {
-					count++
-				}
-				break
-			}
-		}
-	}
+	count += lifecycle.CountShieldExpiries(f.pendingShieldExpires, (*lifecycleStagedShieldExpiryReads)(f))
 	// 只对本帧有生命周期操作的挂载列表做小范围预演。队列、历史与过程总表不复制。
 	for _, key := range keys {
 		staged := f.staged.Get(key)
 		if len(staged.providerOps) == 0 {
 			continue
 		}
-		base := staged.instances.Providers()
-		if staged.instances.Projected() {
-			base = staged.instances.BaseProviders()
-		}
 		executor := f.run.lifecycleExecutor()
-		added, err := executor.PreflightMutations(base, staged.providerOps, lifecycle.MutationPreflight{
+		added, err := executor.PreflightOwner(staged.instances, staged.providerOps, lifecycle.MutationPreflight{
 			Now: f.run.loop.TimeMs(), Stop: f.run.loop.StartMs() + f.run.loop.DurationMs(),
 			BasicAttack: f.run.actions.BasicAttack() != nil, ParticipantsAlive: f.continuousCombatantsLive(),
 		})

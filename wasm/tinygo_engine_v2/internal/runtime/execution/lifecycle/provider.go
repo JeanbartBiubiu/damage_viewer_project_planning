@@ -5,7 +5,7 @@ import (
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 )
 
-type ApplyDecision struct {
+type applyDecision struct {
 	DefinitionIndex uint16
 	ExpiredRef      string
 	Existing        effectpkg.Provider
@@ -13,7 +13,7 @@ type ApplyDecision struct {
 	Replace         bool
 }
 
-type RefreshDecision struct {
+type refreshDecision struct {
 	Instance      effectpkg.Provider
 	EnqueueExpiry bool
 }
@@ -24,16 +24,16 @@ type EffectMountPair struct {
 	SourcePresent, TargetPresent bool
 }
 
-func (e *Executor) DecideApplication(definition, source, owner string, instances effectpkg.ProviderList, now int64) (ApplyDecision, *model.EngineError) {
+func (e *Executor) decideApplication(definition, source, owner string, instances effectpkg.ProviderList, now int64) (applyDecision, *model.EngineError) {
 	index, exists := e.FindDefinition(definition)
 	if !exists {
-		return ApplyDecision{}, e.fail(model.GenericErrUnknownRef, "", "unknown provider definition: "+definition, "")
+		return applyDecision{}, e.fail(model.GenericErrUnknownRef, "", "unknown provider definition: "+definition, "")
 	}
 	provider := e.compiled.Providers[index]
 	if provider.ShieldDefinitionRef != "" {
-		return ApplyDecision{}, e.invariant("providerDefinitionRef", "shield lifecycle provider can only be created by its shield", definition)
+		return applyDecision{}, e.invariant("providerDefinitionRef", "shield lifecycle provider can only be created by its shield", definition)
 	}
-	result := ApplyDecision{DefinitionIndex: index}
+	result := applyDecision{DefinitionIndex: index}
 	if provider.Lifecycle == nil || !provider.Lifecycle.AllowsSourceTargetReuse() {
 		return result, nil
 	}
@@ -48,7 +48,7 @@ func (e *Executor) DecideApplication(definition, source, owner string, instances
 	return result, nil
 }
 
-func (e *Executor) FreshProvider(index uint16, reference, source, owner string, expiry, now int64, contributions effectpkg.ContributionView) effectpkg.Provider {
+func (e *Executor) freshProvider(index uint16, reference, source, owner string, expiry, now int64, contributions effectpkg.ContributionView) effectpkg.Provider {
 	provider := e.compiled.Providers[index]
 	instance := effectpkg.Provider{ProviderRef: reference, DefinitionRef: provider.ProviderKey,
 		Source: source, Owner: owner, Stacks: 1, ExpireAt: expiry,
@@ -59,7 +59,7 @@ func (e *Executor) FreshProvider(index uint16, reference, source, owner string, 
 	return instance
 }
 
-func (e *Executor) ReplaceProvider(instance effectpkg.Provider, expiry int64, hasExpiry bool, contributions effectpkg.ContributionView, now int64) RefreshDecision {
+func (e *Executor) replaceProvider(instance effectpkg.Provider, expiry int64, hasExpiry bool, contributions effectpkg.ContributionView, now int64) refreshDecision {
 	if e.compiled.Providers[instance.DefinitionIndex].NeedsElapsedTime {
 		instance.AppliedAtMs, instance.HasAppliedAt = now, true
 	}
@@ -69,16 +69,16 @@ func (e *Executor) ReplaceProvider(instance effectpkg.Provider, expiry int64, ha
 	if contributions.Present() {
 		instance.StatusContributions = contributions
 	}
-	return RefreshDecision{Instance: instance, EnqueueExpiry: hasExpiry && expiry > 0}
+	return refreshDecision{Instance: instance, EnqueueExpiry: hasExpiry && expiry > 0}
 }
 
-func (e *Executor) RefreshProvider(instance effectpkg.Provider, expiry int64, hasExpiry bool, contributions effectpkg.ContributionView, now int64) (RefreshDecision, *model.EngineError) {
+func (e *Executor) refreshProvider(instance effectpkg.Provider, expiry int64, hasExpiry bool, contributions effectpkg.ContributionView, now int64) (refreshDecision, *model.EngineError) {
 	provider := e.compiled.Providers[instance.DefinitionIndex]
 	if provider.ShieldDefinitionRef != "" {
-		return RefreshDecision{}, e.invariant("providerRef", "linked shield provider must be refreshed by applying its shield", instance.ProviderRef)
+		return refreshDecision{}, e.invariant("providerRef", "linked shield provider must be refreshed by applying its shield", instance.ProviderRef)
 	}
 	if provider.NeedsElapsedTime || provider.Lifecycle != nil && provider.Lifecycle.AllowsSourceTargetReuse() {
-		return e.ReplaceProvider(instance, expiry, hasExpiry, contributions, now), nil
+		return e.replaceProvider(instance, expiry, hasExpiry, contributions, now), nil
 	}
 	policy, maximum := model.RefreshPolicyReplace, 1
 	if provider.Lifecycle != nil {
@@ -110,7 +110,7 @@ func (e *Executor) RefreshProvider(instance effectpkg.Provider, expiry int64, ha
 	if contributions.Present() {
 		instance.StatusContributions = contributions
 	}
-	return RefreshDecision{Instance: instance, EnqueueExpiry: enqueue}, nil
+	return refreshDecision{Instance: instance, EnqueueExpiry: enqueue}, nil
 }
 
 func (pair EffectMountPair) instance(key string) *effectpkg.InstanceState {

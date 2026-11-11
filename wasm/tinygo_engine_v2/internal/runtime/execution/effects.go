@@ -2,7 +2,6 @@
 package execution
 
 import (
-	"fmt"
 	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
@@ -16,13 +15,7 @@ import (
 	"tinygo_engine_v2/internal/scheduler"
 )
 
-type projectedProviderLifecycle = lifecycle.ProjectedChange
-
-type pendingShieldExpire struct {
-	combatantKey string
-	shieldRef    string
-	expireAt     int64
-}
+type pendingShieldExpire = lifecycle.ShieldExpiry
 
 type lifecycleProjectionReadsAPI interface {
 	// ApplicationContext 仅在当前投影阶段借用应用时读值，不执行或提交其他功能。
@@ -39,22 +32,69 @@ type lifecycleProviderPreparationAPI interface {
 	ImmediatePeriodicApplication(operation planbundle.CompiledOperation) *model.EngineError
 	// ExpireEventProvider 同步交给命中事实核对真实事件实例并暂存卸载。
 	ExpireEventProvider(operation planbundle.CompiledOperation) *model.EngineError
+	// PrepareDurationRead 在原静态期限核验后准备动态效果投影。
+	PrepareDurationRead() *model.EngineError
+	// DurationProviders 借用原投影后的当前拥有者暂存实例。
+	DurationProviders(owner string) effectpkg.ProviderList
 }
 
 type lifecycleProviderPreparation Frame
 
-type lifecycleExpiredEffectsAPI interface {
-	// RemoveExpiredProvider 按实际来源组合原实例卸载、跨行动监听清理和属性同步。
+type lifecycleLiveEffectsAPI interface {
+	// ReadEffects 运输当前真实所属状态头，不创建缺失角色或状态袋。
+	ReadEffects(owner string) (lifecycle.LiveEffects, bool)
+	// EffectOwnerOrder 在原普通清扫位置取得当前拥有者遍历序，不改变排序政策。
+	EffectOwnerOrder(buffer []string) []string
+	// PublishEffects 只发布效果字段和已决定的原冷却头，不覆盖角色数值。
+	PublishEffects(owner string, effects lifecycle.LiveEffects)
+	// ProviderRemovalContext 在原实际位置准备有限双方上下文。
+	ProviderRemovalContext(source, target string) formula.GenericEvalContext
+	// MountEffectModifiers 运输双方效果状态，执行所属修正挂载。
+	MountEffectModifiers(owner string, instance effectpkg.Provider)
+	// UnmountEffectModifiers 在原位置卸载实际双方修正。
+	UnmountEffectModifiers(owner, reference string)
+	// ResolveAppliedEffects 按原应用上下文同步双方数值，保留延后失败。
+	ResolveAppliedEffects(owner, source string)
+	// ResolveRemovedEffects 按指定原上下文同步数值，不重新准备读值。
+	ResolveRemovedEffects(owner string, context formula.GenericEvalContext)
+	// RemoveEffectDependents 按原顺序清理行动弹药和监听绑定。
+	RemoveEffectDependents(owner, reference string)
+	// ScheduleEffectTick 在原新建位置交接真实首周期请求。
+	ScheduleEffectTick(instance effectpkg.Provider)
+	// RecordEffect 观察已发生实例事实，保留后续失败前缀。
+	RecordEffect(kind model.EvidenceKind, instance effectpkg.Provider)
+	// BindEffectListeners 沿原位置绑定动态监听。
+	BindEffectListeners(instance effectpkg.Provider) *model.EngineError
+	// BindImmediateEffectUse 交接普通应用成功后的实际使用绑定。
+	BindImmediateEffectUse(owner, source, definition, use string)
+	// EnqueueExpiry 运输已决定的期限给唯一队列，沿原延后错误通道返回。
+	EnqueueExpiry(at int64, payload effectpkg.ExpiryPayload)
+	// CommitEffectExpiry 开立原到期帧，消费预算、借所属暂存并统一提交。
+	CommitEffectExpiry(command lifecycle.ExpiryFrame)
+	// ExpireProviderCooldown 进入原内部冷却到期阶段。
+	ExpireProviderCooldown(payload effectpkg.ExpiryPayload)
+	// ExpireTargetTiming 进入原目标计时到期阶段。
+	ExpireTargetTiming(payload effectpkg.ExpiryPayload)
+	// ExpireTargetState 进入原目标状态到期阶段。
+	ExpireTargetState(payload effectpkg.ExpiryPayload)
+	// ExpireSourceState 进入原来源状态到期阶段。
+	ExpireSourceState(payload effectpkg.ExpiryPayload)
+	// SweepEffects 在原无效载荷位置交接完整清扫。
+	SweepEffects()
+	// RemoveExpiredProvider 按实际来源交接完整实例移除。
 	RemoveExpiredProvider(owner, provider, source string)
-	// RemoveExpiredShield 按原帧边界清理当前实际护盾和关联效果。
+	// RemoveExpiredShield 按原帧边界交接当前护盾移除。
 	RemoveExpiredShield(owner, reference string)
 }
-
-type lifecycleExpiredEffects Engine
+type lifecycleLiveEffects Engine
 
 type lifecycleShieldPreparationAPI interface {
 	// ShieldDeadline 仅在普通盾原操作时点求值严格期限。
 	ShieldDeadline(op planbundle.CompiledOperation, ability planbundle.CompiledAbility) (int64, *model.EngineError)
+	// LinkedShieldContext 在原期限求值之后准备实际双方的应用读值。
+	LinkedShieldContext(ability planbundle.CompiledAbility, source, target string) formula.GenericEvalContext
+	// LinkedShieldStaging 在前置检查成功后借用原同帧效果暂存。
+	LinkedShieldStaging(target string) lifecycle.LinkedShieldStage
 }
 
 type lifecycleShieldPreparation Frame
@@ -67,23 +107,26 @@ var _ lifecycleProviderPreparationAPI = (*lifecycleProviderPreparation)(nil)
 
 var _ lifecycle.ProviderOperationPreparation = (*lifecycleProviderPreparation)(nil)
 
-var _ lifecycleExpiredEffectsAPI = (*lifecycleExpiredEffects)(nil)
+var _ lifecycle.ProviderDurationPreparation = (*lifecycleProviderPreparation)(nil)
 
-var _ lifecycle.ExpiredEffects = (*lifecycleExpiredEffects)(nil)
+var _ lifecycleLiveEffectsAPI = (*lifecycleLiveEffects)(nil)
+
+var _ lifecycle.ExpiredEffects = (*lifecycleLiveEffects)(nil)
+
+var _ lifecycle.ProviderWork = (*lifecycleLiveEffects)(nil)
+
+var _ lifecycle.ExpiryExecution = (*lifecycleLiveEffects)(nil)
+
+var _ lifecycle.ProjectedEffectPublication = (*lifecycleLiveEffects)(nil)
 
 var _ lifecycleShieldPreparationAPI = (*lifecycleShieldPreparation)(nil)
 
 var _ lifecycle.ShieldPreparation = (*lifecycleShieldPreparation)(nil)
 
+var _ lifecycle.LinkedShieldPreparation = (*lifecycleShieldPreparation)(nil)
+
 func (f *Frame) commitProjectedProviderLifecycles() {
-	for index := 0; index < f.effectProjection.ChangeCount(); index++ {
-		change := f.effectProjection.ChangeAt(index)
-		inst := change.Instance
-		if change.EnqueueExpiry && inst.ExpireAt > 0 {
-			f.run.enqueueExpireCleanup(inst.ExpireAt, effectpkg.ExpiryPayload{CombatantKey: inst.Owner, ProviderRef: inst.ProviderRef, Kind: "provider"})
-		}
-		f.run.recordProviderLifecycleEvidence(change.Kind, inst)
-	}
+	f.effectProjection.Publish((*lifecycleLiveEffects)(f.run))
 }
 
 func (f *Frame) flushDynamicProviders() {
@@ -141,29 +184,7 @@ func (f *Frame) evalShieldDuration(op planbundle.CompiledOperation, ability plan
 }
 
 func (f *Frame) enqueueCommittedTimedShields() {
-	for _, pending := range f.pendingShieldExpires {
-		if pending.expireAt <= 0 || pending.shieldRef == "" {
-			continue
-		}
-		c, ok := f.run.combatants[pending.combatantKey]
-		if !ok {
-			continue
-		}
-		for instanceIndex, instanceValues := 0, c.instances.Shields(); instanceIndex < instanceValues.Len(); instanceIndex++ {
-			sh := instanceValues.At(instanceIndex)
-			if sh.ShieldRef != pending.shieldRef {
-				continue
-			}
-			if sh.ExpireAt > 0 {
-				f.run.enqueueExpireCleanup(pending.expireAt, effectpkg.ExpiryPayload{
-					CombatantKey: pending.combatantKey,
-					ShieldRef:    pending.shieldRef,
-					Kind:         "shield",
-				})
-			}
-			break
-		}
-	}
+	lifecycle.PublishShieldExpiries(f.pendingShieldExpires, (*lifecycleLiveShieldExpiryReads)(f.run), (*lifecycleExpiryRequests)(f.run))
 }
 
 func (r *lifecycleProjectionReads) ApplicationContext(source, target string) formula.GenericEvalContext {
@@ -228,6 +249,19 @@ func (r *lifecycleProviderPreparation) ExpireEventProvider(operation planbundle.
 	return (*Frame)(r).expireProviderFromEvent(operation)
 }
 
+func (r *lifecycleProviderPreparation) PrepareDurationRead() *model.EngineError {
+	frame := (*Frame)(r)
+	frame.flushDynamicProviders()
+	if frame.fatal {
+		return frame.fatalErr
+	}
+	return nil
+}
+
+func (r *lifecycleProviderPreparation) DurationProviders(owner string) effectpkg.ProviderList {
+	return (*Frame)(r).stageFor(owner).instances.Providers()
+}
+
 func (f *Frame) providerPreparationInput(definition, reference, source, target string, ability planbundle.CompiledAbility) lifecycle.ProviderPreparationInput {
 	actor, exists := f.run.combatants[target]
 	providers := actor.instances.Providers()
@@ -254,17 +288,26 @@ func (f *Frame) stageProviderOperation(operation planbundle.CompiledOperation, a
 	return nil
 }
 
-func (r *lifecycleExpiredEffects) RemoveExpiredProvider(owner, provider, source string) {
+func (r *lifecycleLiveEffects) RemoveExpiredProvider(owner, provider, source string) {
 	s := (*Engine)(r)
 	s.removeProviderInstance(owner, provider, s.evalContextForCombatants(source, owner), model.EvidenceKindProviderExpire)
 }
 
-func (r *lifecycleExpiredEffects) RemoveExpiredShield(owner, reference string) {
+func (r *lifecycleLiveEffects) RemoveExpiredShield(owner, reference string) {
 	(*Engine)(r).removeShieldInstance(owner, reference, model.EvidenceKindProviderExpire)
 }
 
 func (r *lifecycleShieldPreparation) ShieldDeadline(op planbundle.CompiledOperation, ability planbundle.CompiledAbility) (int64, *model.EngineError) {
 	return (*Frame)(r).evalShieldDuration(op, ability)
+}
+
+func (r *lifecycleShieldPreparation) LinkedShieldContext(ability planbundle.CompiledAbility, source, target string) formula.GenericEvalContext {
+	return (*Frame)(r).evalContextForProviderApply(ability, source, target)
+}
+
+func (r *lifecycleShieldPreparation) LinkedShieldStaging(target string) lifecycle.LinkedShieldStage {
+	staged := (*Frame)(r).stageFor(target)
+	return lifecycle.LinkedShieldStage{Instances: &staged.instances, Mutations: staged.providerOps}
 }
 
 func sameHealthMaximum(a, b float64) bool { return lifecycle.SameHealthMaximum(a, b) }
@@ -318,41 +361,6 @@ func (f *Frame) skipInstalledPermanentResourceMax(op planbundle.CompiledOperatio
 	return executor.PermanentOperationConsumed(op, f.ownerCombatantKey, f.ownerProviderRef, f.run.effectInitialization.Active(), f.run.loop.TimeMs())
 }
 
-func (s *Engine) nextProviderRef(definitionRef string) string {
-	if !s.effectIdentities.ProvidersSeeded() {
-		s.effectIdentities.SeedProviders()
-		for _, c := range s.combatants {
-			for instanceIndex, instanceValues := 0, c.instances.Providers(); instanceIndex < instanceValues.Len(); instanceIndex++ {
-				inst := instanceValues.At(instanceIndex)
-				s.effectIdentities.ReserveProvider(inst.ProviderRef)
-			}
-		}
-	}
-	return s.effectIdentities.NextProvider(definitionRef)
-}
-
-func (s *Engine) nextShieldRef(definitionRef string) string {
-	s.reserveShieldRef("")
-	return s.effectIdentities.NextShield(definitionRef)
-}
-
-func (s *Engine) reserveShieldRef(ref string) {
-	if !s.effectIdentities.ShieldsSeeded() {
-		s.effectIdentities.SeedShields()
-		for _, c := range s.combatants {
-			for instanceIndex, instanceValues := 0, c.instances.Shields(); instanceIndex < instanceValues.Len(); instanceIndex++ {
-				sh := instanceValues.At(instanceIndex)
-				if sh.ShieldRef != "" {
-					s.effectIdentities.ReserveShield(sh.ShieldRef)
-				}
-			}
-		}
-	}
-	if ref != "" {
-		s.effectIdentities.ReserveShield(ref)
-	}
-}
-
 func (s *Engine) findProviderDefinitionIndex(key string) (uint16, bool) {
 	executor := s.lifecycleExecutor()
 	return executor.FindDefinition(key)
@@ -381,83 +389,12 @@ func (s *Engine) applyProviderInstance(targetKey, sourceKey, definitionRef strin
 
 func (s *Engine) applyProviderInstanceWithRef(target, source, definition, assigned string, expiry int64, hasExpiry bool, contributions effectpkg.ContributionView) *model.EngineError {
 	executor := s.lifecycleExecutor()
-	decision, err := executor.DecideApplication(definition, source, target, s.combatants[target].instances.Providers(), s.loop.TimeMs())
-	if err != nil {
-		return err
-	}
-	if decision.ExpiredRef != "" {
-		s.removeProviderInstance(target, decision.ExpiredRef, s.evalContextForCombatants(source, target), model.EvidenceKindProviderExpire)
-		decision.Existing, decision.ExistingIndex, decision.Replace = s.combatants[target].instances.Providers().FindSourceTarget(definition, source, target, s.loop.TimeMs())
-	}
-	if decision.Replace {
-		return s.replaceProviderInstance(target, decision.ExistingIndex, decision.Existing, expiry, hasExpiry, contributions, model.EvidenceKindProviderRefresh)
-	}
-	reference := assigned
-	if reference == "" {
-		reference = s.nextProviderRef(definition)
-	}
-	if !hasExpiry {
-		expiry = 0
-	}
-	return s.mountFreshProviderInstance(target, source, decision.DefinitionIndex, reference, expiry, contributions)
-}
-
-func (s *Engine) mountFreshProviderInstance(targetKey, sourceKey string, defIdx uint16, providerRef string, expireAt int64, contributions effectpkg.ContributionView) *model.EngineError {
-	executor := s.lifecycleExecutor()
-	inst := executor.FreshProvider(defIdx, providerRef, sourceKey, targetKey, expireAt, s.loop.TimeMs(), contributions)
-	c := s.combatants[targetKey]
-	c.instances.AppendProvider(inst)
-	s.combatants[targetKey] = c
-	mountProviderModifiersAcross(s.combatants, targetKey, inst, s.compiled)
-	s.reResolveAfterProviderChange(targetKey, sourceKey)
-	if expireAt > 0 {
-		s.enqueueExpireCleanup(expireAt, effectpkg.ExpiryPayload{
-			CombatantKey: targetKey,
-			ProviderRef:  providerRef,
-			Kind:         "provider",
-		})
-	}
-	s.scheduleInitialProviderTick(targetKey, providerRef, defIdx, expireAt, inst.Source)
-	s.recordProviderLifecycleEvidence(model.EvidenceKindProviderApply, inst)
-	return s.bindProviderInstanceListeners(inst)
-}
-
-func (s *Engine) replaceProviderInstance(target string, index int, instance effectpkg.Provider, expiry int64, hasExpiry bool, contributions effectpkg.ContributionView, kind model.EvidenceKind) *model.EngineError {
-	executor := s.lifecycleExecutor()
-	change := executor.ReplaceProvider(instance, expiry, hasExpiry, contributions, s.loop.TimeMs())
-	if change.EnqueueExpiry {
-		s.enqueueExpireCleanup(change.Instance.ExpireAt, effectpkg.ExpiryPayload{CombatantKey: target, ProviderRef: instance.ProviderRef, Kind: "provider"})
-	}
-	actor := s.combatants[target]
-	actor.instances.ReplaceProvider(index, change.Instance)
-	s.combatants[target] = actor
-	s.reResolveAfterProviderChange(target, change.Instance.Source)
-	s.recordProviderLifecycleEvidence(kind, change.Instance)
-	return nil
+	return executor.ApplyLive(lifecycle.ProviderApplication{Owner: target, Source: source, Definition: definition, Reference: assigned, Expiry: expiry, HasExpiry: hasExpiry, Contributions: contributions}, s.loop.TimeMs(), (*lifecycleLiveEffects)(s))
 }
 
 func (s *Engine) refreshProviderInstance(target, reference string, expiry int64, hasExpiry bool, contributions effectpkg.ContributionView) *model.EngineError {
-	actor, exists := s.combatants[target]
-	if !exists {
-		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown combatant: "+target, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
-	}
-	instance, index, exists := actor.instances.Providers().Find(reference)
-	if !exists {
-		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown providerRef: "+reference, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
-	}
 	executor := s.lifecycleExecutor()
-	change, err := executor.RefreshProvider(instance, expiry, hasExpiry, contributions, s.loop.TimeMs())
-	if err != nil {
-		return err
-	}
-	if change.EnqueueExpiry {
-		s.enqueueExpireCleanup(change.Instance.ExpireAt, effectpkg.ExpiryPayload{CombatantKey: target, ProviderRef: reference, Kind: "provider"})
-	}
-	actor.instances.ReplaceProvider(index, change.Instance)
-	s.combatants[target] = actor
-	s.reResolveAfterProviderChange(target, change.Instance.Source)
-	s.recordProviderLifecycleEvidence(model.EvidenceKindProviderRefresh, change.Instance)
-	return nil
+	return executor.RefreshLive(target, reference, expiry, hasExpiry, contributions, s.loop.TimeMs(), (*lifecycleLiveEffects)(s))
 }
 
 func (s *Engine) reResolveAfterProviderChange(targetKey, sourceKey string) {
@@ -487,168 +424,27 @@ func (s *Engine) expireProviderInstance(targetKey, providerRef string, evalCtx f
 }
 
 func (s *Engine) removeProviderInstance(targetKey, providerRef string, evalCtx formula.GenericEvalContext, kind model.EvidenceKind) {
-	c, ok := s.combatants[targetKey]
-	if !ok {
+	executor := s.lifecycleExecutor()
+	executor.RemoveLive(targetKey, providerRef, evalCtx, kind, s.loop.TimeMs(), (*lifecycleLiveEffects)(s))
+}
+
+func (s *Engine) handleExpireCleanup(event scheduler.GenericEvent) {
+	if event.DriverEntryIndex < 0 || event.DriverEntryIndex >= s.effectTimers.ExpiryCount() {
+		s.sweepExpiredInstances()
 		return
 	}
 	executor := s.lifecycleExecutor()
-	inst, ok := executor.PrepareProviderRemoval(&c.instances, providerRef)
-	if !ok {
-		return
-	}
-	s.actions.RemoveAmmoProvider(targetKey, providerRef)
-	s.unbindProviderInstanceListeners(targetKey, providerRef)
-	lifecycle.RemoveProviderState(targetKey, providerRef, &c.instances, &c.providerState, &c.cooldowns, s.loop.TimeMs())
-	s.combatants[targetKey] = c
-	unmountProviderModifiersAcross(s.combatants, targetKey, providerRef)
-	c = s.combatants[targetKey]
-	resolved := s.resolveAttributesFor(targetKey, c.attributesView(), evalCtx, "")
-	c = s.combatants[targetKey]
-
-	c.setAttributes(resolved)
-	s.combatants[targetKey] = c
-	if opp := opponentCombatantKey(targetKey); opp != "" {
-		if oc, ok := s.combatants[opp]; ok {
-			resolved := s.resolveAttributesFor(opp, oc.attributesView(), evalCtx, "")
-			oc = s.combatants[opp]
-
-			oc.setAttributes(resolved)
-			s.combatants[opp] = oc
-		}
-	}
-	if kind != "" {
-		s.recordProviderLifecycleEvidence(kind, inst)
-	}
-}
-
-func (s *Engine) handleExpireCleanup(ev scheduler.GenericEvent) {
-	if ev.DriverEntryIndex < 0 || ev.DriverEntryIndex >= s.effectTimers.ExpiryCount() {
-		s.sweepExpiredInstances()
-		return
-	}
-	payload := s.effectTimers.ExpiryAt(ev.DriverEntryIndex)
-	switch payload.Kind {
-	case "provider_cooldown":
-		s.applyInternalCooldownExpiry(payload)
-	case "provider":
-		if payload.ProviderRef != "" {
-			if c, ok := s.combatants[payload.CombatantKey]; ok {
-				if inst, _, found := c.instances.Providers().Find(payload.ProviderRef); found {
-					if inst.ExpireAt > s.loop.TimeMs() {
-						return
-					}
-				}
-			}
-			evalCtx := s.evalContextForCombatants(model.SelectorSource, model.SelectorTarget)
-			if !s.automatedRun() && !s.compiled.HasResourceMax && !s.compiled.HasCooldownDuration && !s.compiled.HasProviderDurationChange && !s.compiled.HasStagedLinkedShield && !s.compiled.HasModifierSnapshots {
-				s.removeProviderInstance(payload.CombatantKey, payload.ProviderRef, evalCtx, model.EvidenceKindProviderExpire)
-			} else {
-				var frameStorage Frame
-				s.initExecutionFrame(&frameStorage, model.SelectorSource, model.SelectorTarget, "provider_expiry:"+payload.ProviderRef)
-				frame := &frameStorage
-				if err := frame.consumeCommands(1); err != nil {
-					s.processFailure = err
-					return
-				}
-				staged := frame.stageFor(payload.CombatantKey)
-				staged.providerOps = append(staged.providerOps, stagedProviderMutation{Kind: "expire", TargetKey: payload.CombatantKey,
-					ProviderRef: payload.ProviderRef, EvidenceKind: model.EvidenceKindProviderExpire})
-				frame.commit()
-				if frame.fatal {
-					s.processFailure = frame.fatalErr
-				}
-			}
-		}
-	case "target_timing":
-		s.applyTargetTimingExpiry(payload)
-	case "provider_target_state":
-		s.applyProviderTargetStateExpiry(payload)
-	case "provider_source_state":
-		s.applyProviderSourceStateExpiry(payload)
-	case "shield":
-		s.removeExpiredShieldInstance(payload.CombatantKey, payload.ShieldRef)
-	default:
-		s.sweepExpiredInstances()
-	}
+	executor.HandleExpiry(s.effectTimers.ExpiryAt(event.DriverEntryIndex), s.loop.TimeMs(), s.automatedRun(), (*lifecycleLiveEffects)(s), (*lifecycleLiveEffects)(s))
 }
 
 func (s *Engine) sweepExpiredInstances() {
-	if s.compiled.HasShieldLifecycle {
-		s.sweepExpiredLinkedInstances()
-		return
-	}
-	evalCtx := s.evalContextForCombatants(model.SelectorSource, model.SelectorTarget)
-	for key, c := range s.combatants {
-		sweep := lifecycle.SweepExpiredState(&c.instances, &c.providerState, s.loop.TimeMs())
-		if sweep.Changed {
-
-			s.combatants[key] = c
-			for _, ref := range sweep.Refs {
-				unmountProviderModifiersAcross(s.combatants, key, ref)
-			}
-			c = s.combatants[key]
-			resolved := s.resolveAttributesFor(key, c.attributesView(), evalCtx, "")
-			c = s.combatants[key]
-
-			c.setAttributes(resolved)
-			s.combatants[key] = c
-			if opp := opponentCombatantKey(key); opp != "" {
-				if oc, ok := s.combatants[opp]; ok {
-					resolved := s.resolveAttributesFor(opp, oc.attributesView(), evalCtx, "")
-					oc = s.combatants[opp]
-
-					oc.setAttributes(resolved)
-					s.combatants[opp] = oc
-				}
-			}
-			for instanceIndex, instanceValues := 0, sweep.Expired; instanceIndex < instanceValues.Len(); instanceIndex++ {
-				inst := instanceValues.At(instanceIndex)
-				s.recordProviderLifecycleEvidence(model.EvidenceKindProviderExpire, inst)
-			}
-			continue
-		}
-		s.combatants[key] = c
-	}
+	executor := s.lifecycleExecutor()
+	executor.SweepLive(s.loop.TimeMs(), (*lifecycleLiveEffects)(s), (*lifecycleLiveEffects)(s))
 }
 
-func (s *Engine) removeExpiredShieldInstance(combatantKey, shieldRef string) {
-	c, ok := s.combatants[combatantKey]
-	if !ok {
-		return
-	}
-	if s.compiled.HasShieldLifecycle {
-		if c.instances.Shields().HasExpiredRef(shieldRef, s.loop.TimeMs()) {
-			s.removeShieldInstance(combatantKey, shieldRef, model.EvidenceKindProviderExpire)
-		}
-		return
-	}
-	c.instances.SetShields(c.instances.Shields().RemoveExpiredRef(shieldRef, s.loop.TimeMs()))
-	s.combatants[combatantKey] = c
-}
-
-func (s *Engine) addShieldInstance(targetKey, sourceKey string, amount float64, shieldRef string, priority int16, expireAt int64) {
-	c := s.combatants[targetKey]
-	if shieldRef == "" {
-		shieldRef = fmt.Sprintf("shield#%d", c.instances.Shields().Len()+1)
-	}
-	s.reserveShieldRef(shieldRef)
-	c.instances.SetShields(c.instances.Shields().Append(effectpkg.Shield{
-		ShieldRef: shieldRef,
-		Source:    sourceKey,
-		Owner:     targetKey,
-		Remaining: amount,
-		Priority:  priority,
-		ExpireAt:  expireAt,
-		State:     effectpkg.ObjectState(map[string]interface{}{}),
-	}))
-	s.combatants[targetKey] = c
-	if expireAt > 0 {
-		s.enqueueExpireCleanup(expireAt, effectpkg.ExpiryPayload{
-			CombatantKey: targetKey,
-			ShieldRef:    shieldRef,
-			Kind:         "shield",
-		})
-	}
+func (s *Engine) removeExpiredShieldInstance(owner, reference string) {
+	executor := s.lifecycleExecutor()
+	executor.RemoveExpiredShield(owner, reference, s.loop.TimeMs(), (*lifecycleLiveEffects)(s), (*lifecycleLiveEffects)(s))
 }
 
 func (s *Engine) seedExpireCleanups() {
@@ -857,19 +653,11 @@ func remountAllProviderModifiers(combatants map[string]combatantRuntime, compile
 func (f *Frame) applyProviderEnsureRemaining(operation planbundle.CompiledOperation) *model.EngineError {
 	executor := f.run.lifecycleExecutor()
 	owner := f.providerOwnerKey()
-	deadline, err := executor.DurationExtensionDeadline(operation, owner, f.sourceKey, f.ownerProviderRef, f.run.loop.TimeMs())
-	if err != nil {
-		return err
-	}
-	f.flushDynamicProviders()
-	if f.fatal {
-		return f.fatalErr
-	}
-	staged := f.stageFor(owner)
-	mutation, changed, err := executor.PrepareDurationExtension(operation, owner, staged.instances.Providers(), deadline, f.run.loop.TimeMs())
+	mutation, changed, err := executor.PrepareDurationChange(operation, owner, f.sourceKey, f.ownerProviderRef, f.run.loop.TimeMs(), (*lifecycleProviderPreparation)(f))
 	if err != nil || !changed {
 		return err
 	}
+	staged := f.stageFor(owner)
 	staged.providerOps = append(staged.providerOps, mutation)
 	staged.dirty = true
 	f.effectProjection.MarkDirty()
@@ -964,31 +752,18 @@ func (f *Frame) linkedShieldPresent(index uint16) (float64, error) {
 
 func (f *Frame) stageLifecycleShield(op planbundle.CompiledOperation, ability planbundle.CompiledAbility, target string, amount float64) *model.EngineError {
 	executor := f.run.lifecycleExecutor()
-	provider, err := executor.BindLinkedShield(op, amount)
-	if err != nil {
-		return err
-	}
-	expires := int64(0)
-	if op.HasShieldDuration {
-		expires, err = f.evalShieldDuration(op, ability)
-		if err != nil {
-			return err
-		}
-	}
-	context := f.evalContextForProviderApply(ability, f.sourceKey, target)
-	context.StrictReads = true
-	staged := f.stageFor(target)
-	projected, err := executor.StageLinkedShield(op, provider, f.sourceKey, target, amount, expires, f.run.loop.TimeMs(), context, &staged.instances, staged.providerOps)
+	projected, err := executor.ExecuteLinkedShield(op, ability, f.sourceKey, target, amount, f.run.loop.TimeMs(), (*lifecycleShieldPreparation)(f))
 	if err != nil {
 		return f.preserveLifecycleFormulaError(err)
 	}
+	staged := f.stageFor(target)
 	previousCount := len(staged.providerOps)
 	staged.providerOps, staged.dirty = projected.Mutations, true
 	if projected.Changed || len(projected.Mutations) != previousCount {
 		f.effectProjection.MarkDirty()
 	}
 	if projected.Expiry.ExpireAt > 0 {
-		f.pendingShieldExpires = append(f.pendingShieldExpires, pendingShieldExpire{combatantKey: projected.Expiry.CombatantKey, shieldRef: projected.Expiry.ShieldRef, expireAt: projected.Expiry.ExpireAt})
+		f.pendingShieldExpires = append(f.pendingShieldExpires, projected.Expiry)
 	}
 	return nil
 }
@@ -1021,50 +796,9 @@ func (f *Frame) prepareShieldLifecycleRemovals() {
 	})
 }
 
-func removeShieldsForProvider(shields effectpkg.ShieldList, ref string) effectpkg.ShieldList {
-	return shields.WithoutProvider(ref)
-}
-
-func (s *Engine) removeShieldInstance(owner, shieldRef string, kind model.EvidenceKind) {
-	c, found := s.combatants[owner]
-	if !found {
-		return
-	}
+func (s *Engine) removeShieldInstance(owner, reference string, kind model.EvidenceKind) {
 	executor := s.lifecycleExecutor()
-	decision := executor.DecideShieldRemoval(c.instances, shieldRef)
-	if !decision.Found {
-		return
-	}
-	if decision.Atomic {
-		var storage Frame
-		s.initExecutionFrame(&storage, decision.Shield.Source, owner, "shield_expiry:"+shieldRef)
-		f := &storage
-		if err := f.consumeCommands(1); err != nil {
-			s.processFailure = err
-			return
-		}
-		staged := f.stageFor(owner)
-		staged.providerOps = append(staged.providerOps, stagedProviderMutation{Kind: "expire", ProviderRef: decision.Shield.LifecycleProviderRef, TargetKey: owner, EvidenceKind: kind})
-		staged.dirty = true
-		f.effectProjection.MarkDirty()
-		f.commit()
-		if f.fatal {
-			s.processFailure = f.fatalErr
-		}
-		return
-	}
-	c.instances.SetShields(c.instances.Shields().Remove(decision.Index))
-	s.combatants[owner] = c
-	if decision.Shield.LifecycleProviderRef != "" {
-		s.removeProviderInstance(owner, decision.Shield.LifecycleProviderRef, s.evalContextForCombatants(decision.Shield.Source, owner), kind)
-	}
-}
-
-func (s *Engine) sweepExpiredLinkedInstances() {
-	for _, owner := range [2]string{model.SelectorSource, model.SelectorTarget} {
-		lifecycle.SweepLinkedProviders(owner, s.combatants[owner].instances.Providers(), s.loop.TimeMs(), (*lifecycleExpiredEffects)(s))
-		lifecycle.SweepLinkedShields(owner, s.combatants[owner].instances.Shields(), s.loop.TimeMs(), (*lifecycleExpiredEffects)(s))
-	}
+	executor.RemoveLiveShield(owner, reference, kind, s.loop.TimeMs(), (*lifecycleLiveEffects)(s), (*lifecycleLiveEffects)(s))
 }
 
 func validateShieldLifecycleSnapshot(snapshot model.Snapshot, compiled planbundle.CompiledSession, sessionID string) *model.EngineError {
@@ -1113,3 +847,117 @@ func (s *Engine) recordProviderLifecycleEvidence(kind model.EvidenceKind, inst e
 		}
 	})
 }
+
+func (r *lifecycleLiveEffects) ReadEffects(owner string) (lifecycle.LiveEffects, bool) {
+	actor, exists := (*Engine)(r).combatants[owner]
+	return lifecycle.LiveEffects{Instances: actor.instances, Bags: actor.providerState, Cooldowns: actor.cooldowns}, exists
+}
+
+func (r *lifecycleLiveEffects) EffectOwnerOrder(buffer []string) []string {
+	for owner := range (*Engine)(r).combatants {
+		buffer = append(buffer, owner)
+	}
+	return buffer
+}
+
+func (r *lifecycleLiveEffects) PublishEffects(owner string, effects lifecycle.LiveEffects) {
+	s := (*Engine)(r)
+	actor := s.combatants[owner]
+	actor.instances, actor.providerState, actor.cooldowns = effects.Instances, effects.Bags, effects.Cooldowns
+	s.combatants[owner] = actor
+}
+
+func (r *lifecycleLiveEffects) ProviderRemovalContext(source, target string) formula.GenericEvalContext {
+	return (*Engine)(r).evalContextForCombatants(source, target)
+}
+
+func (r *lifecycleLiveEffects) MountEffectModifiers(owner string, instance effectpkg.Provider) {
+	s := (*Engine)(r)
+	mountProviderModifiersAcross(s.combatants, owner, instance, s.compiled)
+}
+
+func (r *lifecycleLiveEffects) UnmountEffectModifiers(owner, reference string) {
+	unmountProviderModifiersAcross((*Engine)(r).combatants, owner, reference)
+}
+
+func (r *lifecycleLiveEffects) ResolveAppliedEffects(owner, source string) {
+	(*Engine)(r).reResolveAfterProviderChange(owner, source)
+}
+
+func (r *lifecycleLiveEffects) ResolveRemovedEffects(owner string, context formula.GenericEvalContext) {
+	s := (*Engine)(r)
+	c := s.combatants[owner]
+	resolved := s.resolveAttributesFor(owner, c.attributesView(), context, "")
+	c = s.combatants[owner]
+	c.setAttributes(resolved)
+	s.combatants[owner] = c
+	if opponent := opponentCombatantKey(owner); opponent != "" {
+		if other, exists := s.combatants[opponent]; exists {
+			resolved := s.resolveAttributesFor(opponent, other.attributesView(), context, "")
+			other = s.combatants[opponent]
+			other.setAttributes(resolved)
+			s.combatants[opponent] = other
+		}
+	}
+}
+
+func (r *lifecycleLiveEffects) RemoveEffectDependents(owner, reference string) {
+	s := (*Engine)(r)
+	s.actions.RemoveAmmoProvider(owner, reference)
+	s.unbindProviderInstanceListeners(owner, reference)
+}
+
+func (r *lifecycleLiveEffects) ScheduleEffectTick(instance effectpkg.Provider) {
+	(*Engine)(r).scheduleInitialProviderTick(instance.Owner, instance.ProviderRef, instance.DefinitionIndex, instance.ExpireAt, instance.Source)
+}
+
+func (r *lifecycleLiveEffects) RecordEffect(kind model.EvidenceKind, instance effectpkg.Provider) {
+	(*Engine)(r).recordProviderLifecycleEvidence(kind, instance)
+}
+
+func (r *lifecycleLiveEffects) BindEffectListeners(instance effectpkg.Provider) *model.EngineError {
+	return (*Engine)(r).bindProviderInstanceListeners(instance)
+}
+
+func (r *lifecycleLiveEffects) BindImmediateEffectUse(owner, source, definition, use string) {
+	(*Engine)(r).bindImmediatePeriodicUse(owner, source, definition, use)
+}
+
+func (r *lifecycleLiveEffects) EnqueueExpiry(at int64, payload effectpkg.ExpiryPayload) {
+	(*Engine)(r).enqueueExpireCleanup(at, payload)
+}
+
+func (r *lifecycleLiveEffects) CommitEffectExpiry(command lifecycle.ExpiryFrame) {
+	s := (*Engine)(r)
+	var frame Frame
+	s.initExecutionFrame(&frame, command.Source, command.Target, command.AbilityRef)
+	if err := frame.consumeCommands(1); err != nil {
+		s.processFailure = err
+		return
+	}
+	staged := frame.stageFor(command.Owner)
+	executor := s.lifecycleExecutor()
+	staged.providerOps = executor.StageExpiryFrame(command, staged.providerOps, &frame.effectProjection, &staged.dirty)
+	frame.commit()
+	if frame.fatal {
+		s.processFailure = frame.fatalErr
+	}
+}
+
+func (r *lifecycleLiveEffects) ExpireProviderCooldown(payload effectpkg.ExpiryPayload) {
+	(*Engine)(r).applyInternalCooldownExpiry(payload)
+}
+
+func (r *lifecycleLiveEffects) ExpireTargetTiming(payload effectpkg.ExpiryPayload) {
+	(*Engine)(r).applyTargetTimingExpiry(payload)
+}
+
+func (r *lifecycleLiveEffects) ExpireTargetState(payload effectpkg.ExpiryPayload) {
+	(*Engine)(r).applyProviderTargetStateExpiry(payload)
+}
+
+func (r *lifecycleLiveEffects) ExpireSourceState(payload effectpkg.ExpiryPayload) {
+	(*Engine)(r).applyProviderSourceStateExpiry(payload)
+}
+
+func (r *lifecycleLiveEffects) SweepEffects() { (*Engine)(r).sweepExpiredInstances() }

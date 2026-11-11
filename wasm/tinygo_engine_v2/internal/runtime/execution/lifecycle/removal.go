@@ -5,13 +5,13 @@ import (
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 )
 
-type ExpiredSweep struct {
+type expiredSweep struct {
 	Changed bool
 	Refs    []string
 	Expired effectpkg.ProviderList
 }
 
-type ShieldRemoval struct {
+type shieldRemoval struct {
 	Shield effectpkg.Shield
 	Index  int
 	Atomic bool
@@ -26,7 +26,7 @@ type ExpiredEffects interface {
 	RemoveExpiredShield(owner, reference string)
 }
 
-func (e *Executor) PrepareProviderRemoval(instances *effectpkg.InstanceState, reference string) (effectpkg.Provider, bool) {
+func (e *Executor) prepareProviderRemoval(instances *effectpkg.InstanceState, reference string) (effectpkg.Provider, bool) {
 	if e.compiled.HasShieldLifecycle {
 		instances.SetShields(instances.Shields().WithoutProvider(reference))
 	}
@@ -34,17 +34,17 @@ func (e *Executor) PrepareProviderRemoval(instances *effectpkg.InstanceState, re
 	return instance, exists
 }
 
-// RemoveProviderState 在行动及监听清理已同步完成后移除效果、状态和真实冷却归属。
-func RemoveProviderState(owner, reference string, instances *effectpkg.InstanceState, bags *effectpkg.BagState, cooldowns **actionpkg.CooldownLedger, now int64) {
+// removeProviderState 在行动及监听清理已同步完成后移除效果、状态和真实冷却归属。
+func removeProviderState(owner, reference string, instances *effectpkg.InstanceState, bags *effectpkg.BagState, cooldowns **actionpkg.CooldownLedger, now int64) {
 	*cooldowns = (*cooldowns).Clone()
 	(*cooldowns).RemoveProvider(owner, reference, now)
 	instances.SetProviders(instances.Providers().RemoveRef(reference))
 	bags.Remove(reference)
 }
 
-// SweepExpiredState 只修改该拥有者的效果状态，交付后续跨双方卸载和属性更新所需原实例事实。
-func SweepExpiredState(instances *effectpkg.InstanceState, bags *effectpkg.BagState, now int64) ExpiredSweep {
-	result := ExpiredSweep{Refs: make([]string, 0)}
+// sweepExpiredState 只修改该拥有者的效果状态，交付后续跨双方卸载和属性更新所需原实例事实。
+func sweepExpiredState(instances *effectpkg.InstanceState, bags *effectpkg.BagState, now int64) expiredSweep {
+	result := expiredSweep{Refs: make([]string, 0)}
 	active := effectpkg.ProviderList{}
 	for index, values := 0, instances.Providers(); index < values.Len(); index++ {
 		instance := values.At(index)
@@ -65,17 +65,17 @@ func SweepExpiredState(instances *effectpkg.InstanceState, bags *effectpkg.BagSt
 	return result
 }
 
-func (e *Executor) DecideShieldRemoval(instances effectpkg.InstanceState, reference string) ShieldRemoval {
+func (e *Executor) decideShieldRemoval(instances effectpkg.InstanceState, reference string) shieldRemoval {
 	for index, shields := 0, instances.Shields(); index < shields.Len(); index++ {
 		shield := shields.At(index)
 		if shield.ShieldRef != reference {
 			continue
 		}
 		provider, _, found := instances.Providers().Find(shield.LifecycleProviderRef)
-		return ShieldRemoval{Shield: shield, Index: index, Found: true,
+		return shieldRemoval{Shield: shield, Index: index, Found: true,
 			Atomic: found && e.compiled.Providers[provider.DefinitionIndex].AtomicLinkedShield}
 	}
-	return ShieldRemoval{}
+	return shieldRemoval{}
 }
 
 // SweepLinkedProviders 按清扫开始时借用的稳定实例顺序逐个卸载，保留每次卸载的真实发布边界。

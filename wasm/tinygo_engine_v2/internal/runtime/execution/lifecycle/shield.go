@@ -22,6 +22,39 @@ type ShieldProjection struct {
 	Changed   bool
 }
 
+// LinkedShieldStage 仅借用原操作准备完成后的同帧效果暂存，不发布或延长借用。
+type LinkedShieldStage struct {
+	Instances *effectpkg.InstanceChangeSet
+	Mutations []Mutation
+}
+
+// LinkedShieldPreparation 只提供原盾操作所需的期限、应用上下文及随后才借用的所属暂存。
+type LinkedShieldPreparation interface {
+	ShieldPreparation
+	// LinkedShieldContext 在期限求值完成后准备原实际双方上下文。
+	LinkedShieldContext(ability plan.CompiledAbility, source, target string) formula.GenericEvalContext
+	// LinkedShieldStaging 在金额、绑定及读值准备成功后取得原同帧暂存。
+	LinkedShieldStaging(target string) LinkedShieldStage
+}
+
+func (e *Executor) ExecuteLinkedShield(op plan.CompiledOperation, ability plan.CompiledAbility, source, target string, amount float64, now int64, reads LinkedShieldPreparation) (ShieldProjection, *model.EngineError) {
+	provider, err := e.bindLinkedShield(op, amount)
+	if err != nil {
+		return ShieldProjection{}, err
+	}
+	expires := int64(0)
+	if op.HasShieldDuration {
+		expires, err = reads.ShieldDeadline(op, ability)
+		if err != nil {
+			return ShieldProjection{}, err
+		}
+	}
+	context := reads.LinkedShieldContext(ability, source, target)
+	context.StrictReads = true
+	stage := reads.LinkedShieldStaging(target)
+	return e.stageLinkedShield(op, provider, source, target, amount, expires, now, context, stage.Instances, stage.Mutations)
+}
+
 func (e *Executor) LinkedShieldPresent(index uint16, provider, owner string, instances effectpkg.ProviderList, shields effectpkg.ShieldList, mutations []Mutation, now int64) (float64, error) {
 	if int(index) >= len(e.compiled.Providers) || provider == "" {
 		return 0, errors.New("linked shield presence requires a bound actual provider")
@@ -57,7 +90,7 @@ func (e *Executor) LinkedShieldPresent(index uint16, provider, owner string, ins
 	return 0, nil
 }
 
-func (e *Executor) BindLinkedShield(op plan.CompiledOperation, amount float64) (plan.CompiledProvider, *model.EngineError) {
+func (e *Executor) bindLinkedShield(op plan.CompiledOperation, amount float64) (plan.CompiledProvider, *model.EngineError) {
 	if math.IsNaN(amount) || math.IsInf(amount, 0) || amount < 0 {
 		return plan.CompiledProvider{}, e.invariant(op.Path, "linked shield amount must be finite and non-negative", op.ShieldRef)
 	}
@@ -90,7 +123,7 @@ func (e *Executor) ShieldDuration(op plan.CompiledOperation, context formula.Gen
 	return deadline, nil
 }
 
-func (e *Executor) StageLinkedShield(op plan.CompiledOperation, provider plan.CompiledProvider, source, target string, amount float64, expires, now int64, context formula.GenericEvalContext, instances *effectpkg.InstanceChangeSet, mutations []Mutation) (ShieldProjection, *model.EngineError) {
+func (e *Executor) stageLinkedShield(op plan.CompiledOperation, provider plan.CompiledProvider, source, target string, amount float64, expires, now int64, context formula.GenericEvalContext, instances *effectpkg.InstanceChangeSet, mutations []Mutation) (ShieldProjection, *model.EngineError) {
 	if provider.Lifecycle != nil && provider.Lifecycle.HasDuration {
 		deadline, err := e.preparedDuration(provider, context, now)
 		if err != nil {
