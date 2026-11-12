@@ -45,6 +45,23 @@ function compare(raw, expected = calculatePlan(plan())) {
   return compareResults(expected, [{ id: 'normal', result: raw }]);
 }
 
+test('不要求资料元信息，直接采用给定预期或执行给定算式', () => {
+  const expected = calculatePlan({ cases: [{
+    id: 'ready-text',
+    inputs: { attack: 80 },
+    checks: [
+      { pointer: '/complete', value: true },
+      { pointer: '/amount', value: 100, comparison: 'amount' },
+      { pointer: '/amount', expression: '60 + 0.5 * attack', comparison: 'amount' },
+      { pointer: '/timeMs', value: 250 },
+    ],
+  }] });
+  const actual = { complete: true, amount: 100, timeMs: 250 };
+  assert.equal(compareResults(expected, [{ id: 'ready-text', result: actual }]).pass, true);
+  assert.equal(compareResults(expected, [{ id: 'ready-text', result: { ...actual, timeMs: 251 } }]).pass, false);
+  assert.throws(() => calculatePlan(null), /计划必须是对象/);
+});
+
 test('按数学优先级执行分步公式、负指数与有限函数', () => {
   const values = new Map([['attack', 80]]);
   assert.equal(evaluateArithmetic('60 + 0.5 * attack', values), 100);

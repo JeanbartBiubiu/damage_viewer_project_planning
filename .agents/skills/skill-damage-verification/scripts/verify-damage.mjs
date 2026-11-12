@@ -112,7 +112,8 @@ function scalar(value) {
 }
 
 export function calculatePlan(plan) {
-  nonempty(plan?.basis, '规则来源与取舍说明');
+  requireCondition(plan !== null && typeof plan === 'object' && !Array.isArray(plan), '场景计划必须是对象。');
+  if (own(plan, 'basis')) nonempty(plan.basis, '算例说明');
   requireCondition(Array.isArray(plan.cases) && plan.cases.length > 0, '场景不能为空。');
   const ids = new Set();
   const cases = plan.cases.map(item => {
@@ -231,7 +232,7 @@ function main(args) {
   });
   const output = { ...compareResults(expected.data, actualCases), calculatorSha256, expectedSha256: expected.sha256, manifestSha256: manifest.sha256, actualFiles };
   writeNew(options.get('--output'), output);
-  console.log(`数值字段对照${output.pass ? '通过' : '不通过'}：${output.cases.length} 个场景；真实运行身份和覆盖范围仍须核对。`);
+  console.log(`已声明字段对照${output.pass ? '通过' : '不通过'}：${output.cases.length} 个场景。`);
   if (!output.pass) process.exitCode = 1;
 }
 
