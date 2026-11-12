@@ -67,7 +67,7 @@ export function runExecutor(command, task, outputDirectory) {
       if (code !== 0 || overflow) { rej(new Error('AI执行器失败，任务保留待核对。')); return; }
       try { res(validateResult(JSON.parse(stdout), task)); } catch { rej(new Error('AI执行器返回无效结果。')); }
     });
-    child.stdin.on('error', () => {});
+    child.stdin.on('error', () => { clearTimeout(timeout); child.kill(); rej(new Error('AI执行器未确认接收任务输入。')); });
     child.stdin.end(JSON.stringify({ task, outputDirectory }));
   });
 }
