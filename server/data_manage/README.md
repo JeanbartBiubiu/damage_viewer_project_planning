@@ -11,7 +11,7 @@
 | 能力 | 当前入口 |
 | --- | --- |
 | 公共游戏列表 | `GET /api/games`，支持ETag条件请求，`controller/publicapi/GamePublicController.java` |
-| 访问统计 | 匿名上报、编辑账号查询近30天；[统计口径、接口及独立建表入口](../../db/visit_statistics/README.md) |
+| 访问统计 | 匿名上报、私有运维查询近30天；[统计口径、接口及独立建表入口](../../db/visit_statistics/README.md) |
 | 公共图片同步 | `GET /api/games/{gameId}/images?updatedAfter=...`，按时间游标做全量／增量同步 |
 | 各类管理读写 | `controller/adminapi/`；游戏、属性、角色、装备、构筑、技能组成、状态、乘区、图片及关系 |
 | 技能统一配置 | `GET/POST/PATCH /skills/{skillKey}/configuration`，`SkillConfigurationAdminController` 及 `SkillConfigurationService` |
@@ -43,17 +43,33 @@
 
 ## 鉴权与编辑留痕
 
-账号入口位于 `support/account/`，共享字段、阶段和权限以[账号方案](../../文档记录/详细设计/项目/账号注册登录与权限接入技术方案.md)为准。全部游戏 GET 及只读 `POST /api/admin/games/{gameId}/simulation-snapshot` 匿名开放，即使携带失效 Cookie 也不检查会话；账号私有操作、计算票据和游戏写入按各自凭证检查。游戏写入要求已开通的正式会话及编辑资格，`AccountGameWriteGuard` 在真实写事务开始后先持有账号共享锁并复核版本，再进入游戏业务。旧手填令牌、邮箱身份和鉴权关闭开关已移除。
+账号入口位于 `support/account/`，账号流程以[账号方案](../../文档记录/详细设计/项目/账号注册登录与权限接入技术方案.md)为准。明确登记的游戏读取及只读 `POST /api/admin/games/{gameId}/simulation-snapshot` 匿名开放。所有玩家均为查看者；游戏写入要求独立维护会话、已验证批次和对应维护窗口。控制器外层事务统一包住原服务、编辑留痕及批次提交事实，真实事务复核维护主体和凭据版本，保留原有游戏锁与引用校验。旧手填令牌、玩家编辑资格和鉴权关闭开关已移除。
 
-注册必须完成验证器绑定及恢复码保存确认；正确密码可续办未完成注册。账号开通只由独立内网凭据调用 `POST /internal/accounts/{accountId}/enable-login`；请求头 `X-Damage-Internal-Token` 的值从私密文件读取，不使用玩家会话。请求体为 `{enablementReference}`。相同关联编号可重试，冲突不覆盖首次开通。禁用和编辑资格维护由 `AccountMaintenance.changeAccess` 在账号排他锁内完成并提升凭证版本，当前没有普通玩家权限管理路由。
+注册必须完成验证器绑定及恢复码保存确认；正确密码可续办未完成注册。账号开通只由独立内网凭据调用 `POST /internal/accounts/{accountId}/enable-login`；请求头 `X-Damage-Internal-Token` 的值从私密文件读取，不使用玩家会话。请求体为 `{enablementReference}`。相同关联编号可重试，冲突不覆盖首次开通。禁用由 `AccountMaintenance.changeAccess` 在账号排他锁内完成并提升凭证版本，当前没有普通玩家权限管理路由。
 
 正式会话、流程及对应防跨站请求伪造值使用独立的安全 Cookie，不写浏览器存储。账号及写入请求必须带允许的精确 `Origin`、`Content-Type: application/json` 和 `X-Damage-Client: web`；有会话／流程的状态变更再核对各自可读 Cookie、`X-CSRF-Token` 和数据库摘要。初始化注册、登录及恢复请求忽略残留 Cookie；安全变更起点用会话防伪值，后续流程用流程防伪值。流程 GET（材料与状态）也要求流程防伪证明；创建及已验证的流程响应用 `X-Damage-Flow-CSRF` 返回本流程的绑定值，页面固定该值后发请求，防止多标签页 Cookie 切换误确认另一批材料。完成流程只保留到原截止时间的状态回查，临时密文立即擦除。
 
 跨域配置由 `WebCorsConfig` 按操作区分：游戏公共读取允许无凭据跨域，账号及写入仅允许配置中的来源并允许受控凭据。账号响应均禁止缓存。浏览器与接口须使用同源 HTTPS；本地通过 HTTPS 前端代理访问回环后端，不能去掉 Cookie 的安全属性。
 
-编辑记录由 `AdminEditLogHelper`、`PostgresWriteStore` 及对应mapper维护，身份是账号 UUID 与当时用户名快照；迁移保留历史邮箱列及原记录。记录序列化或持久化失败会向调用方抛出：使用 `AdminEditLogHelper` 的管理操作按既有策略报告并跳过日志失败，构筑、技能关系和代表图操作则在控制器事务中连同业务变更一起回滚。账号安全事件完全独立，关键状态与事件同事务提交，绝不向编辑日志传递密码、动态码、种子或恢复材料。新库及一次性迁移入口见[账号数据库说明](../../db/user_manage/README.md)。
+新维护记录使用独立主体编号及显示名快照，历史账号和邮箱身份保留。`MaintenanceWriteAspect` 将管理控制器、业务服务、编辑留痕及 `auth.maintenance_commits` 纳入同一事务；任一必要留痕失败全部回滚，不跳过记录继续返回成功。维护批次绑定问题或任务编号、冻结请求及独立验证回执。账号安全事件继续使用独立规则，不记录密码、动态码、种子或恢复材料。新库及一次性迁移入口见[账号数据库说明](../../db/user_manage/README.md)。
 
 每小时清理超过七天、从未开通的账号，按 200 个一批持锁重新核对，单轮最多 20 批；满七天整不删除，已开通过的禁用账号保留。过期流程、会话、限流记录及超过 30 天安全事件另作有界清理。默认启用，隔离验证时可暂停调度；上线前核对候选、备份与内网接口外部不可达。应用不会自动运行建表或迁移。
+
+## 私有维护与公网入口
+
+跨端接口及票据定义见[维护契约](../../contracts/maintenance/README.md)。唯一接口分类为 [api-access.json](src/main/resources/api-access.json)，启动时和单测均检查真实路由的完整对应；新增未分类接口失败关闭。公网代理只导出公开类别，私有入口与后端端口的监听及网络隔离由部署仓库落实。
+
+维护会话仅经私有 `/internal/maintenance/**` 建立，玩家安全 Cookie 不授予维护资格。宿主长期凭据、部署窗口凭据、账号开通凭据三者隔离；普通维护会话不能查询运维统计或控制窗口。短期维护会话固定30分钟到期，撤销与版本变化在写事务内复核。玩家计算票据仍为24小时；维护计算票据不超会话截止，双方使用第2版协议及对应正式引擎。
+
+私有配置绑定 `app.maintenance`：`principal-id`（稳定UUID）、`display-name`、`credential-version`、`token-path`、`deployment-token-path`、`validation-public-key-path`（Ed25519 X.509 DER公钥）、`allowed-origins` 和 `trusted-addresses`。缺少文件或主体配置拒绝维护；长期秘密仅经私有文件提供。默认来源为 `https://localhost:5174`，默认可信地址仅回环；远程入口必须按实际受控链路配置，不依据客户端转发头识别可信来源。
+
+首次有效宿主认证建立独立主体记录；轮换需提供更高的凭据版本，撤销后旧版本不能重新登录。配置原始正文摘要严格匹配冻结字节，不能在提交前重排JSON；超时先查询批次及实际配置，不自动重放。
+
+新库执行当前账号建表脚本。旧现行账号库仅在核对结构和备份后执行 `db/user_manage/migrations/20261113_viewer_maintenance_identity.sql`；它保留账号、会话及历史编辑日志，移除玩家编辑字段并新增独立维护存储。源码和测试通过不表示真实部署已应用迁移。
+
+窗口由部署凭据打开并持久化，后端重启不解除。窗口内公网游戏读取及玩家取票返回503，有效私有维护会话可回读；批次顺序、基线和审计同事务提交。全部操作完成且证明交接与私有验收通过后，部署者显式完成批次再恢复入口。未完成或结果未知时保持窗口并回查，不自动回滚真实账号数据。
+
+显式隔离验收入口为 `MaintenanceDatabaseIT`：环境变量 `DAMAGE_MAINTENANCE_IT_ALLOW_MUTATION=isolated-maintenance-tests` 及 `DAMAGE_MAINTENANCE_IT_CONFIG` 指向私密测试连接文件，仅在确认的测试实例创建随机 `dv_maint_verify_20261113_*` 库，初始化、迁移及真实HTTP后清理；默认 `mvn test` 不运行该实库用例。
 
 ## 本地开发与配置
 

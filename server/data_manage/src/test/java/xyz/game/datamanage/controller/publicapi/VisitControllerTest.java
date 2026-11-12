@@ -28,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class VisitControllerTest {
     private final VisitStatisticsService statistics = mock(VisitStatisticsService.class);
     private final AccountSessions sessions = mock(AccountSessions.class);
+    private final xyz.game.datamanage.support.maintenance.MaintenanceSessions maintenance=mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class);
     private MockMvc mvc;
 
     @BeforeEach
@@ -35,11 +36,13 @@ class VisitControllerTest {
         var properties = new AccountProperties();
         var json = new ObjectMapper().findAndRegisterModules()
             .disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        mvc = MockMvcBuilders.standaloneSetup(new VisitPublicController(statistics), new VisitStatisticsAdminController(statistics))
+        var maintenanceProperties=new xyz.game.datamanage.support.maintenance.MaintenanceProperties();maintenanceProperties.setAllowedOrigins(List.of("https://localhost:5173"));
+        doThrow(xyz.game.datamanage.support.maintenance.MaintenanceJson.denied()).when(maintenance).credential(any(),eq(true));
+        mvc = MockMvcBuilders.standaloneSetup(new VisitPublicController(statistics), new VisitStatisticsAdminController(statistics,maintenance))
             .setControllerAdvice(new GlobalExceptionHandler())
             .setMessageConverters(new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter(json))
-            .addFilters(new WebCorsConfig().accountCorsFilter(properties).getFilter(),
-                new AdminAuthFilter(json, sessions, new AccountBrowser(properties)))
+            .addFilters(new WebCorsConfig().accountCorsFilter(properties,maintenanceProperties).getFilter(),
+                new AdminAuthFilter(json, sessions, new AccountBrowser(properties), maintenance))
             .build();
     }
 
@@ -80,7 +83,7 @@ class VisitControllerTest {
 
     @Test
     void getCannotIncrementVisitsAndPreflightIsAllowedWithoutSession() throws Exception {
-        mvc.perform(get("/api/visits")).andExpect(status().isMethodNotAllowed());
+        mvc.perform(get("/api/visits")).andExpect(status().isForbidden());
         mvc.perform(options("/api/visits").header(HttpHeaders.ORIGIN, "https://localhost:5173")
                 .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "POST")
                 .header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "Content-Type,X-Damage-Client"))
@@ -89,9 +92,9 @@ class VisitControllerTest {
     }
 
     @Test
-    void statisticsRequireSessionAndEditorPrivilege() throws Exception {
+    void statisticsRejectPlayerSessionAndRequireSeparateDeploymentCredential() throws Exception {
         when(sessions.resolve(null)).thenThrow(AccountErrors.invalid());
-        mvc.perform(get("/api/admin/visits/last30days")).andExpect(status().isUnauthorized());
+        mvc.perform(get("/api/admin/visits/last30days")).andExpect(status().isForbidden());
         AuthContext editor = AccountControllerTestConfig.editor();
         AuthContext reader = new AuthContext(editor.accountId(), editor.username(), false, editor.sessionId(), editor.authEpoch(), editor.expiresAt());
         doReturn(new AccountSessions.Resolved(reader, new byte[32])).when(sessions).resolve(null);
@@ -100,7 +103,8 @@ class VisitControllerTest {
     }
 
     @Test
-    void editorReadsStatisticsWithoutAllowingAnonymousCorsOrCaching() throws Exception {
+    void privateOperationsCredentialReadsStatisticsWithoutAllowingAnonymousCorsOrCaching() throws Exception {
+        doNothing().when(maintenance).credential(any(),eq(true));
         when(sessions.resolve(null)).thenReturn(new AccountSessions.Resolved(AccountControllerTestConfig.editor(), new byte[32]));
         when(statistics.last30Days()).thenReturn(List.of(new DayStatistics(LocalDate.of(2026, 11, 5), 12, 3)));
         mvc.perform(get("/api/admin/visits/last30days").header("Origin", "https://localhost:5173"))

@@ -49,7 +49,7 @@ class SimulationSnapshotAdminControllerTest {
         mvc = MockMvcBuilders.standaloneSetup(new SimulationSnapshotAdminController(service))
             .setControllerAdvice(new GlobalExceptionHandler())
             .setMessageConverters(new MappingJackson2HttpMessageConverter(json))
-            .addFilters(new AdminAuthFilter(json, verifier, new AccountBrowser(new AccountProperties()))).build();
+            .addFilters(new AdminAuthFilter(json, verifier, new AccountBrowser(new AccountProperties()),org.mockito.Mockito.mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class))).build();
     }
 
     @Test
@@ -65,7 +65,7 @@ class SimulationSnapshotAdminControllerTest {
             .andExpect(jsonPath("$.snapshotDigest").value("scene-digest"))
             .andExpect(jsonPath("$.readAt").isString());
         verify(service).get("lol", CHOICE);
-        mvc.perform(get(URL)).andExpect(status().isMethodNotAllowed());
+        mvc.perform(get(URL)).andExpect(status().isForbidden());
         verifyNoMoreInteractions(service);
     }
 

@@ -10,7 +10,7 @@ import type { DoneResult } from '../types/genericEngine';
 import { assembleSimulation, inspectSimulationSnapshot } from './simulationAdapter';
 import { automaticSkillRequest } from './automaticSkillRequest';
 import { assessAutomaticSkillResult } from './automaticSkillResult';
-import { TinyGoV2Bridge } from './tinygoV2Bridge';
+import { TinyGoV2Bridge } from '../../tests/fixtures/authorizedBridge';
 import { parseCompileResult, parseDoneResult, parseReleaseResult } from './genericEngineClient';
 import { describeCombatSkill } from '../pages/simulation/combatSkillRoster';
 

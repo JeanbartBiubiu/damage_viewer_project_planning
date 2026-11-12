@@ -1,4 +1,4 @@
-import { fulfillAuthSession } from '../fixtures/authSession';
+import { fulfillAuthSession, openMaintenancePage } from '../fixtures/authSession';
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -182,7 +182,7 @@ async function setupPlan(page: Page) {
 
 test('最终Worker：分类与费用全部改名，明确费用引用的完整计划同会话100次且未绑定消费者拒绝', async ({ page }, info) => {
   const state = await installApi(page);
-  await page.goto('/?classification-worker=1');
+  await openMaintenancePage(page, '/?classification-worker=1');
   await verifyWasm(page);
   const result = await page.evaluate(async () => {
     const fixturePath = '/tests/fixtures/classificationCostBindings.ts', workerPath = '/tests/fixtures/simulationMixedWorker.ts';
@@ -224,7 +224,7 @@ test('最终Worker：分类与费用全部改名，明确费用引用的完整�
 
 test('最终Worker普通basic_attack作者分类不会变成普攻，真实SKILL命中和分类吸血匹配保持100次', async ({ page }, info) => {
   const state = await installApi(page);
-  await page.goto('/?ordinary-category=1');
+  await openMaintenancePage(page, '/?ordinary-category=1');
   await verifyWasm(page);
   const data = await page.evaluate(async () => {
     const fixturePath = '/tests/fixtures/classificationCostBindings.ts', workerPath = '/tests/fixtures/simulationMixedWorker.ts';
@@ -269,7 +269,7 @@ test('真实选择与计划页：普通费用自动识别并入档案，快照�
   state.directoryRules = structuredClone(state.rules);
   state.directoryRules.configuration!.basicAttackCategoryKey = 'earlier_strike';
   state.earlierSkillCategory = 'earlier_strike';
-  await page.goto('/?classification-plan=1#/simulation/basic-attack');
+  await openMaintenancePage(page, '/?classification-plan=1#/simulation/basic-attack');
   await verifyWasm(page);
   await setupPlan(page);
   const read = page.getByRole('button', { name: '读取场景快照', exact: true });
@@ -334,7 +334,7 @@ for (const kind of ['necessary_resource', 'wrong_binding', 'ambiguous_payment'] 
     const effect = skill.effects.find(row => row.effectKey === authoredCostRef.effectKey)!;
     effect.results.push({ ...structuredClone(effect.results[0]!), resultKey: 'necessary_payment', name: '同一普通资源的第二笔必要消费' });
   }
-  await page.goto('/#/simulation/basic-attack');
+  await openMaintenancePage(page, '/#/simulation/basic-attack');
   await setupPlan(page);
   const read = page.getByRole('button', { name: '读取场景快照', exact: true });
   await read.click(); await expect(read).toBeEnabled();
@@ -352,7 +352,7 @@ for (const kind of ['unbound', 'read_failure'] as const) test(`选择页${kind}�
   const state = await installApi(page);
   if (kind === 'unbound') state.rules.configuration!.basicAttackCategoryKey = null;
   else state.rulesFailure = true;
-  await page.goto('/#/simulation/basic-attack');
+  await openMaintenancePage(page, '/#/simulation/basic-attack');
   await chooseSimulationEntity(page, '攻击方角色', 'actor_a');
   if (kind === 'unbound') {
     await expect(page.getByText('尚未配置普通攻击分类用途绑定。', { exact: true })).toBeVisible();
@@ -375,7 +375,7 @@ test('选择页切换游戏后迟到绑定不覆盖新上下文，取消切换�
   const state = await installApi(page);
   let deliver!: () => void;
   state.gate = { gameId: 'demo', wait: new Promise<void>(resolve => { deliver = resolve; }) };
-  await page.goto('/#/simulation/basic-attack');
+  await openMaintenancePage(page, '/#/simulation/basic-attack');
   await chooseSimulationEntity(page, '攻击方角色', 'actor_a');
   await expect.poll(() => state.reads.filter(path => path === 'demo/calculation-rules').length).toBeGreaterThanOrEqual(1);
   await chooseOtherGame(page);
@@ -414,7 +414,7 @@ test('游戏计算规则页面：真实目录选择、完整保护保存、失�
   state.rules.configuration!.equipmentPassiveCategoryKey = null;
   state.rules.configuration!.ignorableCastCostAttributeKeys = [];
   const original = structuredClone(state.rules);
-  await page.goto('/#/game-settings');
+  await openMaintenancePage(page, '/#/game-settings');
   const basic = page.locator('.arco-select[aria-label="普通攻击分类"]');
   await expect(basic).not.toHaveClass(/arco-select-disabled/);
   await expect(basic).not.toContainText('authored_strike');
@@ -450,7 +450,7 @@ test('游戏计算规则迟到读取不串游戏，取消刷新保留费用与�
   const state = await installApi(page);
   let deliver!: () => void;
   state.gate = { gameId: 'demo', wait: new Promise<void>(resolve => { deliver = resolve; }) };
-  await page.goto('/#/game-settings');
+  await openMaintenancePage(page, '/#/game-settings');
   await expect.poll(() => state.reads.filter(path => path === 'demo/calculation-rules').length).toBeGreaterThanOrEqual(1);
   await chooseOtherGame(page);
   const basic = page.locator('.arco-select[aria-label="普通攻击分类"]');
@@ -472,7 +472,7 @@ test('游戏计算规则迟到读取不串游戏，取消刷新保留费用与�
 for (const different of [false, true]) test(`最终Worker两个独立永久光环：${different ? '不同' : '同一'}重命名对手属性完整叠加、100次及释放重编`, async ({ page }, info) => {
   const state = await installApi(page);
   const snapshot = authoredAuraPairSample(different);
-  await page.goto('/?classification-auras=1');
+  await openMaintenancePage(page, '/?classification-auras=1');
   await verifyWasm(page);
   const data = await page.evaluate(async snapshot => {
     const adapterPath = '/src/engine/simulationAdapter.ts', clientPath = '/src/engine/genericEngineClient.ts';

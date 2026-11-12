@@ -6,7 +6,7 @@ import { skillActionRequest } from './skillActionRequest';
 import { inspectSimulationSnapshot as raw_inspectSimulationSnapshot } from './simulationAdapter';
 import { plannedSkillsFromActions } from '../pages/simulation/simulationSkillActionDrafts';
 import { fixedValue } from '../types/numericValue';
-import { TinyGoV2Bridge } from './tinygoV2Bridge';
+import { TinyGoV2Bridge } from '../../tests/fixtures/authorizedBridge';
 import { parseCompileResult, parseDoneResult, parseReleaseResult } from './genericEngineClient';
 import { assessSkillActionResult } from './skillActionResult';
 import { hasDynamicSpeedDependency } from './simulationCalculationRules';

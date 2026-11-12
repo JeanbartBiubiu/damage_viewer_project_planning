@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { simulationActiveAmmo } from '../../tests/fixtures/simulationActiveAmmo';
-import { TinyGoV2Bridge } from './tinygoV2Bridge';
+import { TinyGoV2Bridge } from '../../tests/fixtures/authorizedBridge';
 import { parseCompileResult, parseDoneResult, parseReleaseResult } from './genericEngineClient';
 import { skillFormulaPreflightRequest, snapshotFormulaProofIdentity } from './skillFormulaPreflight';
 import { rememberApprovedFormulaValues, selectFormulaProofScope } from './approvedFormulaValues';

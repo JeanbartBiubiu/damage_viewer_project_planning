@@ -1,4 +1,4 @@
-import { fulfillAuthSession } from '../fixtures/authSession';
+import { fulfillAuthSession, openMaintenancePage } from '../fixtures/authSession';
 import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { expect, test, type Page } from '@playwright/test';
 import type { SkillConfiguration, SkillConfigurationChange } from '../../src/types/skillConfiguration';
@@ -84,7 +84,7 @@ async function install(page: Page, rejectWrite = false) {
       await respond({ items: [], total: 0 });
     } else { state.unexpected.push(`${request.method()} ${url.pathname}`); await route.abort(); }
   });
-  await page.goto('/#/skills');
+  await openMaintenancePage(page, '/#/skills');
   await page.locator('tr', { hasText: 'window_sample' }).getByRole('button', { name: '编辑配置', exact: true }).click();
   const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
   await expect(workspace).toBeVisible();

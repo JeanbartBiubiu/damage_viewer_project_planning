@@ -28,6 +28,7 @@ export async function installSimulationSelectionApi(page: Page, api: string, gam
   const targetKey = selectionSample || gameId === 'demo' ? sample.selection.targetCharacterKey : 'target_sample';
   const skillKey = selectionSample || gameId === 'demo' ? sample.selection.basicAttackSkillKey : 'shared_basic_attack';
   await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
+  await page.route('**/api/auth/wasm-grant', route => fulfillAuthSession(route, false).then(() => undefined));
   await page.route(`**/api/admin/games/${gameId}/calculation-rules`, route => route.fulfill({ json: {
     ...sample.catalogs.calculationRules, gameId
   } }));

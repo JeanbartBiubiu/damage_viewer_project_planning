@@ -21,12 +21,12 @@ type SessionAPI interface {
 	ClearOutbox()
 	// CompileFrame 校验编译帧并编译其载荷，结果沿出箱返回；成功返回0，失败返回-1。
 	CompileFrame(input []byte) int32
-	// CompileJSON 先核验计算授权，再编译作者载荷并登记绑定账号的可复用计划；写出失败时撤销本次登记。
+	// CompileJSON 先核验计算授权，再编译作者载荷并登记绑定主体类别和编号的可复用计划；写出失败时撤销本次登记。
 	// 成功返回0，编译拒绝或执行失败返回-1；错误输出超限时尝试固定短错误，连短错误也无法容纳则清空出箱。
 	CompileJSON(payload []byte) int32
 	// RunFrame 校验运行帧后执行其载荷，结果沿出箱返回；成功返回0，失败返回-1。
 	RunFrame(input []byte) int32
-	// RunJSON 先核验本次票据及编译账号，再校验规则身份和运行输入，创建独立战斗状态执行既有计划。
+	// RunJSON 先核验本次票据及编译主体，再校验规则身份和运行输入，创建独立战斗状态执行既有计划。
 	// 结果沿出箱返回，成功返回0，失败返回-1。
 	RunJSON(payload []byte) int32
 	// ReleaseSessionFrame 校验释放帧后释放指定会话，释放结果沿出箱返回。
@@ -52,7 +52,7 @@ type genericSessionEntry struct {
 	schemaVersion string
 	schemaHash    string
 	rulesHash     string
-	accountID     string
+	subjectID     string
 	compiled      planbundle.CompiledSession
 }
 
@@ -99,7 +99,7 @@ func (s *Session) CompileJSON(payload []byte) int32 {
 		s.writeGenericError(model.GenericPhaseParse, model.GenericErrJSONParseError, err.Error(), "", "", "")
 		return -1
 	}
-	accountID, failure := authorization.Verify(s.authorization, req.Authorization, s.authorizationTime())
+	subjectID, failure := authorization.Verify(s.authorization, req.Authorization, s.authorizationTime())
 	if failure != "" {
 		s.writeGenericError(model.GenericPhaseCompile, model.GenericErrCode(failure), "计算授权无效或不可用", "", "", "")
 		return -1
@@ -109,7 +109,7 @@ func (s *Session) CompileJSON(payload []byte) int32 {
 		s.writeGenericCompileResult(compiled.Result)
 		return -1
 	}
-	sessionID := s.registerGenericSession(compiled.Session, accountID)
+	sessionID := s.registerGenericSession(compiled.Session, subjectID)
 	result := compiled.Result
 	result.SessionID = sessionID
 	if !s.writeGenericFrame(model.FrameKindGenericCompileResult, result) {
@@ -138,7 +138,7 @@ func (s *Session) RunJSON(payload []byte) int32 {
 		s.writeGenericError(model.GenericPhaseParse, model.GenericErrJSONParseError, err.Error(), "", "", "")
 		return -1
 	}
-	accountID, failure := authorization.Verify(s.authorization, req.Authorization, s.authorizationTime())
+	subjectID, failure := authorization.Verify(s.authorization, req.Authorization, s.authorizationTime())
 	if failure != "" {
 		s.writeGenericError(model.GenericPhaseRun, model.GenericErrCode(failure), "计算授权无效或不可用", "", "", req.SessionID)
 		return -1
@@ -152,8 +152,8 @@ func (s *Session) RunJSON(payload []byte) int32 {
 		s.writeGenericError(model.GenericPhaseRun, model.GenericErrSessionNotFound, "session not found", "", "", req.SessionID)
 		return -1
 	}
-	if entry.accountID != accountID {
-		s.writeGenericError(model.GenericPhaseRun, model.GenericErrAuthorizationAccountMismatch, "计算授权账号与编译会话不一致", entry.schemaHash, entry.rulesHash, req.SessionID)
+	if entry.subjectID != subjectID {
+		s.writeGenericError(model.GenericPhaseRun, model.GenericErrAuthorizationAccountMismatch, "计算授权主体与编译会话不一致", entry.schemaHash, entry.rulesHash, req.SessionID)
 		return -1
 	}
 	if req.ExpectedRulesHash == "" {
@@ -224,7 +224,7 @@ func (s *Session) ReleaseSessionJSON(payload []byte) int32 {
 	return 0
 }
 
-func (s *Session) registerGenericSession(session planbundle.CompiledSession, accountID string) string {
+func (s *Session) registerGenericSession(session planbundle.CompiledSession, subjectID string) string {
 	s.nextGenericSessionID++
 	sessionID := "generic-session-" + strconv.FormatUint(uint64(s.nextGenericSessionID), 10)
 	s.genericSessions[sessionID] = genericSessionEntry{
@@ -232,7 +232,7 @@ func (s *Session) registerGenericSession(session planbundle.CompiledSession, acc
 		schemaVersion: session.SchemaVersion,
 		schemaHash:    session.SchemaHash,
 		rulesHash:     session.RulesHash,
-		accountID:     accountID,
+		subjectID:     subjectID,
 		compiled:      session,
 	}
 	return sessionID

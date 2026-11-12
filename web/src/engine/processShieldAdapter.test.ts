@@ -6,7 +6,7 @@ import { fixedValue } from '../types/numericValue';
 import { adaptProcessProgram, withProcessProgram, type AuthoredProcessProgram } from './processAdapter';
 import { compileLinkedShieldEffect } from './shieldEffectAdapter';
 import { createNumericCompileState } from './numericAdapter';
-import { TinyGoV2Bridge, TinyGoV2InvocationError, OUTBOX_GENERIC_DONE } from './tinygoV2Bridge';
+import { TinyGoV2Bridge, TinyGoV2InvocationError, OUTBOX_GENERIC_DONE } from '../../tests/fixtures/authorizedBridge';
 import { parseCompileResult, parseDoneResult, parseEngineError, parseReleaseResult } from './genericEngineClient';
 import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { simulationActiveSample } from '../../tests/fixtures/simulationActiveSkill';

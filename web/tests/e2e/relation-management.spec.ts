@@ -1,4 +1,4 @@
-import { fulfillAuthSession } from '../fixtures/authSession';
+import { fulfillAuthSession, openMaintenancePage } from '../fixtures/authSession';
 /**
  * 阶段 9 的有状态桌面浏览器回归。接口全部由当前文件替代，不能作为实库验收证据。
  * 两端入口共享同一份替身状态，验证的是页面请求、交互、回读与游戏隔离。
@@ -326,7 +326,7 @@ async function prepare(page: Page, api: RelationApi) {
   await api.install(page);
   await page.addInitScript(apiBase => {
   }, API);
-  await page.goto('/#/characters');
+  await openMaintenancePage(page, '/#/characters');
   await expect(page.locator('.app-toolbar-field--game')).toContainText(FIRST_GAME);
   return () => {
     expect(errors, '未捕获浏览器异常').toEqual([]);

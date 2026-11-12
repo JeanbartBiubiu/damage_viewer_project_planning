@@ -1,4 +1,4 @@
-import { fulfillAuthSession } from '../fixtures/authSession';
+import { fulfillAuthSession, openMaintenancePage } from '../fixtures/authSession';
 import { expect, test, type Locator, type Page, type Route } from '@playwright/test';
 import { mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -351,7 +351,7 @@ async function prepare(page: Page, api: AuthoringP6Api, hash = '/#/skills') {
     localStorage.clear();
     sessionStorage.clear();
   }, API);
-  await page.goto(hash);
+  await openMaintenancePage(page, hash);
   return () => {
     expect(errors, '未捕获浏览器异常').toEqual([]);
     expect(api.unexpected, '未定义或已删除接口请求').toEqual([]);

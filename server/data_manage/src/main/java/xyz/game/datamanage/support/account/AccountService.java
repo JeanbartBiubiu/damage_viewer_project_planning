@@ -220,7 +220,7 @@ public class AccountService {
             store.jdbc().update("INSERT INTO auth.sessions(id,account_id,token_hash,csrf_hash,auth_epoch,expires_at) VALUES (?,?,?,?,?,CURRENT_TIMESTAMP+INTERVAL '30 days')",id,a.id(),AccountCrypto.hash(token),AccountCrypto.hash(csrf),a.epoch());
             Session s=store.session(id);
             store.finish(f.id()); store.event(a.id(),a.id(),"account","account.login");
-            return new Issued(Map.of("accountId",a.id(),"username",a.username(),"canLogin",1,"canEdit",a.canEdit(),"expiresAt",s.expiresAt()),token,csrf,store.now(),s.expiresAt(),true);
+            return new Issued(Map.of("accountId",a.id(),"username",a.username(),"canLogin",1,"expiresAt",s.expiresAt()),token,csrf,store.now(),s.expiresAt(),true);
         }));
     }
     private UUID recoveryId(Account account,String code) {

@@ -1,4 +1,4 @@
-import { fulfillAuthSession } from '../fixtures/authSession';
+import { fulfillAuthSession, openMaintenancePage } from '../fixtures/authSession';
 import { expect, test, type Page, type Route } from '@playwright/test';
 
 const API = 'http://127.0.0.1:8080';
@@ -63,7 +63,7 @@ async function installApi(page: Page) {
 
 test('构筑管理编辑器不猜规则，试配遵守角色位置并保护草稿', async ({ page }) => {
   const unexpected = await installApi(page);
-  await page.goto('/#/builds');
+  await openMaintenancePage(page, '/#/builds');
   await expect(page.locator('.app-main').getByText('构筑系统管理', { exact: true }).first()).toBeVisible();
 
   await page.getByRole('button', { name: '新增构筑系统', exact: true }).click();

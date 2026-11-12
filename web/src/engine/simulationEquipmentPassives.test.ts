@@ -8,7 +8,7 @@ import { equipmentRangeRequirements } from './simulationEquipmentRange';
 import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { compileFixtureWithNative } from '../../tests/fixtures/nativeFormulaProof';
 import { readFileSync } from 'node:fs';
-import { TinyGoV2Bridge } from './tinygoV2Bridge';
+import { TinyGoV2Bridge } from '../../tests/fixtures/authorizedBridge';
 import { parseCompileResult, parseDoneResult, parseReleaseResult } from './genericEngineClient';
 import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { assessContinuousAttackResult } from './continuousAttackResult';

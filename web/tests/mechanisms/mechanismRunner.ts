@@ -25,6 +25,7 @@ import { projectUseTriggerLedger } from './useTriggerProjection';
 import { projectShieldAbsorptions, projectShieldWaits } from './shieldAbsorptionProjection';
 import { projectFiniteRecasts } from './finiteRecastProjection';
 import { projectActiveAmmo } from './ammoProjection';
+import { mechanismAuthorization } from './testAuthorization';
 
 export const WASM_PATH = new URL('../../src/engine/wasm/tinygo_engine_v2.wasm', import.meta.url);
 
@@ -33,13 +34,15 @@ class NodeEngineClient {
   constructor(private readonly bridge: TinyGoV2Bridge) {}
   get hasLiveWorker() { return true; }
   async compile(request: CompileRequest): Promise<CompileResult> {
-    const result = parseCompileResult(this.bridge.compile(request));
+    const authorization = mechanismAuthorization();
+    const result = parseCompileResult(this.bridge.compile({ ...request, ...(authorization ? { authorization } : {}) }));
     if (result.ok) for (const formula of request.formulas ?? []) registerFormulaForApprovedReads(formula);
     return result;
   }
   async run(request: RunRequest): Promise<DoneResult> {
     assertResourceRecordBudget(request);
-    return parseDoneResult(this.bridge.run(request));
+    const authorization = mechanismAuthorization();
+    return parseDoneResult(this.bridge.run({ ...request, ...(authorization ? { authorization } : {}) }));
   }
   async release(sessionId: string, expectedRulesHash?: string): Promise<GenericReleaseDonePayload> {
     const result = parseReleaseResult(this.bridge.releaseSession(sessionId, expectedRulesHash));

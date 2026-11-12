@@ -1,5 +1,7 @@
 import type { ApiErrorResponse, GameSummary } from '../types/api';
 import { getAuthRevision, setAuthSession, showLoginRequired } from './authState';
+import { captureMaintenanceRequest, getMaintenanceBatch, getMaintenanceRevision, getMaintenanceSession, maintenanceCapturesOnly, setMaintenanceSession } from './maintenanceState';
+import { DEPLOYMENT_MODE } from '../config/deployment';
 
 const DEFAULT_API_BASE_URL = typeof window === 'undefined' ? 'http://localhost:8080' : window.location.origin;
 
@@ -12,7 +14,7 @@ export type ApiResult<T> = {
 
 export type ApiRequestOptions = Omit<RequestInit, 'credentials'> & {
   ifNoneMatch?: string;
-  authentication?: 'anonymous' | 'bootstrap' | 'session' | 'flow';
+  authentication?: 'anonymous' | 'bootstrap' | 'session' | 'flow' | 'maintenance';
   authFailure?: 'silent' | 'prompt';
   loginPrompt?: 'operation' | 'compute';
   preserveSessionOn401?: boolean;
@@ -44,7 +46,6 @@ export function getErrorMessage(error: unknown): string {
   if (error instanceof ApiRequestError) {
     if (error.code === 'AUTH.LOGIN_NOT_ENABLED') return '账号尚未开通，请完成开通后重新登录。';
     if (error.code === 'AUTH.ACCOUNT_DISABLED') return '账号已被禁用，请联系维护者。';
-    if (error.code === 'AUTH.EDIT_REQUIRED') return '当前账号没有编辑资格，可以继续浏览游戏资料。';
     return error.code ? `${error.code}: ${error.message}` : error.message;
   }
   if (error instanceof Error) {
@@ -88,11 +89,24 @@ export async function requestJson<T>(
   const { authentication, authFailure = 'prompt', loginPrompt = 'operation', preserveSessionOn401 = false, csrfToken, ifNoneMatch, ...requestOptions } = options;
   const method = (options.method ?? 'GET').toUpperCase();
   const authRevision = getAuthRevision();
-  const access = authentication ?? ((method === 'GET' || method === 'HEAD' || /\/simulation-snapshot(?:\?|$)/.test(path)) ? 'anonymous' : 'session');
+  const maintenanceRevision = DEPLOYMENT_MODE === 'maintenance' ? getMaintenanceRevision() : 0;
+  const snapshotRead = method === 'POST' && /^\/api\/admin\/games\/[^/?]+\/simulation-snapshot(?:\?|$)/.test(path);
+  const configurationWrite = /^\/api\/admin\/games(?:\/|$)/.test(path) && !['GET', 'HEAD', 'OPTIONS'].includes(method) && !snapshotRead;
+  if (DEPLOYMENT_MODE === 'viewer' && configurationWrite) throw new ApiRequestError('公共查看端不能修改游戏配置。', 403, 'PUBLIC.CONFIGURATION_READ_ONLY');
+  const access = authentication ?? ((method === 'GET' || method === 'HEAD' || snapshotRead) ? 'anonymous' : configurationWrite ? 'maintenance' : 'session');
   headers.delete('Authorization');
   headers.delete('Cookie');
   headers.delete('X-CSRF-Token');
   headers.delete('X-Damage-Client');
+  headers.delete('X-Damage-Maintenance-Token');
+  if (DEPLOYMENT_MODE === 'maintenance') headers.delete('X-Damage-Maintenance-Batch');
+  if (DEPLOYMENT_MODE === 'maintenance' && configurationWrite && access === 'maintenance') {
+    if (typeof options.body !== 'string' && options.body !== undefined) throw new ApiRequestError('候选保存只接受明确的 JSON 请求。', 400, 'MAINTENANCE.REQUEST_INVALID');
+    captureMaintenanceRequest({ method, path, body: typeof options.body === 'string' ? options.body : null });
+    if (maintenanceCapturesOnly()) throw new ApiRequestError('候选请求已记录，请下载并独立验证；当前草稿未写入数据库。', 409, 'MAINTENANCE.CANDIDATE_CAPTURED');
+    const batch = getMaintenanceBatch();
+    if (batch) headers.set('X-Damage-Maintenance-Batch', batch);
+  }
   if (access !== 'anonymous' || !['GET', 'HEAD', 'OPTIONS'].includes(method)) {
     headers.set('X-Damage-Client', 'web');
   }
@@ -100,8 +114,8 @@ export async function requestJson<T>(
     if (method !== 'GET' && method !== 'HEAD') {
       headers.set('Content-Type', 'application/json');
     }
-    if (access === 'flow' || (access === 'session' && method !== 'GET' && method !== 'HEAD')) {
-      const csrf = csrfToken === undefined ? readAuthCsrf(access) : csrfToken;
+    if (access === 'flow' || ((access === 'session' || access === 'maintenance') && method !== 'GET' && method !== 'HEAD')) {
+      const csrf = csrfToken === undefined ? access === 'maintenance' ? readCookie('__Host-damage-maint-csrf') : readAuthCsrf(access) : csrfToken;
       if (csrf) headers.set('X-CSRF-Token', csrf);
     }
   }
@@ -120,6 +134,13 @@ export async function requestJson<T>(
 
   if (!response.ok) {
     const error = toRequestError(response, body);
+    // 正常读取继续匿名；维护窗口中仅私有版以有效维护会话补做一次只读回查。
+    if (DEPLOYMENT_MODE === 'maintenance' && access === 'anonymous' && getMaintenanceSession()
+      && response.status === 503 && error.code === 'MAINTENANCE.WINDOW_OPEN'
+      && ((method === 'GET' || method === 'HEAD') && /^\/api\/(?:admin\/)?games(?:\/|$)/.test(path) || snapshotRead)) {
+      return requestJson<T>(apiBaseUrl, path, { ...options, authentication: 'maintenance' });
+    }
+    if (DEPLOYMENT_MODE === 'maintenance' && access === 'maintenance' && response.status === 401 && maintenanceRevision === getMaintenanceRevision()) setMaintenanceSession(null);
     if (access === 'session' && response.status === 401 && !preserveSessionOn401 && authRevision === getAuthRevision()) {
       setAuthSession(null, authFailure === 'prompt');
       if (authFailure === 'prompt') {
@@ -131,6 +152,10 @@ export async function requestJson<T>(
       setAuthSession(null, authFailure === 'prompt');
     }
     throw error;
+  }
+
+  if (DEPLOYMENT_MODE === 'maintenance' && configurationWrite && access === 'maintenance' && maintenanceRevision !== getMaintenanceRevision()) {
+    throw new ApiRequestError('维护身份已变化，请独立回读本次保存结果；页面不会自动重发。', 409, 'MAINTENANCE.SESSION_CHANGED');
   }
 
   const flowCsrf = response.headers.get('X-Damage-Flow-CSRF');

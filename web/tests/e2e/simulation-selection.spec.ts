@@ -1,5 +1,5 @@
 import { fulfillAuthSession } from '../fixtures/authSession';
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page, type Route } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
@@ -646,12 +646,13 @@ test('目录失败有重试，技能失败不伪装成没有普攻，输入不�
   await expect(page.getByText(/角色列表读取失败/)).toBeVisible();
   failing = false;
   await page.getByRole('button', { name: '重试角色列表' }).click();
-  await page.route(`**/api/admin/games/demo/character-skill-relations?**`, route => route.fulfill({ status: 500, json: { error: { message: '技能失败' } } }));
+  const failedSkillDirectory = (route: Route) => route.fulfill({ status: 500, json: { error: { message: '技能失败' } } });
+  await page.route(`**/api/admin/games/demo/character-skill-relations?**`, failedSkillDirectory);
   await chooseSimulationEntity(page, '攻击方角色', 'hero_alpha');
   await expect(page.getByText(/普攻列表读取失败/)).toBeVisible();
   await expect(select(page, '攻击方角色')).toContainText('英雄甲');
   await expect(page.getByRole('button', { name: '读取场景快照' })).toBeDisabled();
-  await page.unroute(`${API}/api/admin/games/demo/character-skill-relations?**`);
+  await page.unroute(`**/api/admin/games/demo/character-skill-relations?**`, failedSkillDirectory);
   await page.getByRole('button', { name: '重试普攻列表' }).click();
   await chooseSimulationEntity(page, '普攻技能', 'attack_alpha');
   diagnostics.assertClean();
@@ -676,8 +677,8 @@ test('攻击方和游戏切换后迟到目录不覆盖新选项', async ({ page 
   release();
   await expect(page.getByText(/旧目录迟到错误/)).toHaveCount(0);
   await expect(select(page, '普攻技能')).toContainText('普通攻击乙');
-  await page.locator('.app-toolbar-field--game .arco-select').click();
-  await options(page).filter({ hasText: 'other /' }).click();
+  await page.locator('.arco-select[aria-label="游戏"]').click();
+  await options(page).filter({ hasText: '其他游戏' }).click();
   await expect(select(page, '攻击方角色')).not.toContainText('英雄乙');
   await expect(select(page, '普攻技能')).toHaveClass(/arco-select-disabled/);
   await chooseSimulationEntity(page, '攻击方角色', 'hero_alpha');
@@ -764,8 +765,8 @@ test('切换游戏时丢弃迟到等级范围，旧等级选择不会带入新�
   await page.goto('/#/simulation/basic-attack');
   await expect.poll(() => started).toBe(true);
   await expect(levelSelect(page, '攻击方等级')).toHaveClass(/arco-select-disabled/);
-  await page.locator('.app-toolbar-field--game .arco-select').click();
-  await options(page).filter({ hasText: 'other /' }).click();
+  await page.locator('.arco-select[aria-label="游戏"]').click();
+  await options(page).filter({ hasText: '其他游戏' }).click();
   await chooseSimulationLevel(page, '攻击方等级', 2);
   release();
   await levelSelect(page, '目标等级').click();

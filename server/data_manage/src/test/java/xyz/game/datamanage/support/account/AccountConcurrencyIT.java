@@ -35,7 +35,7 @@ class AccountConcurrencyIT {
         if (!database.equals(jdbc.queryForObject("SELECT current_database()",String.class))) throw new IllegalStateException("隔离库名称不匹配");
         store=new AccountStore(jdbc,new DataSourceTransactionManager(source));
         store.tx(()-> {
-            jdbc.update("INSERT INTO auth.accounts(id,username,password_hash,status,can_login,can_edit,login_enabled_at,enablement_reference,recovery_batch_id) VALUES (?,?,'isolated-fixture','active',1,true,CURRENT_TIMESTAMP,?,?)",account,username,"it:"+account,UUID.randomUUID());
+            jdbc.update("INSERT INTO auth.accounts(id,username,password_hash,status,can_login,login_enabled_at,enablement_reference,recovery_batch_id) VALUES (?,?,'isolated-fixture','active',1,CURRENT_TIMESTAMP,?,?)",account,username,"it:"+account,UUID.randomUUID());
             jdbc.update("INSERT INTO auth.totp_credentials(account_id,secret_ciphertext,encryption_key_id,last_used_step) VALUES (?,?,'isolated-fixture',0)",account,new byte[]{1});
             jdbc.update("INSERT INTO auth.sessions(id,account_id,token_hash,csrf_hash,auth_epoch,expires_at) VALUES (?,?,?,?,1,CURRENT_TIMESTAMP+INTERVAL '7 days')",session,account,AccountCrypto.hash("session:"+session),AccountCrypto.hash("csrf:"+session));
             jdbc.update("INSERT INTO auth.flows(id,account_id,token_hash,csrf_hash,auth_epoch,purpose,expires_at) VALUES (?,?,?,?,1,'login',CURRENT_TIMESTAMP+INTERVAL '5 minutes')",flow,account,AccountCrypto.hash("flow:"+flow),AccountCrypto.hash("csrf:"+flow));
@@ -64,41 +64,6 @@ class AccountConcurrencyIT {
             for(var result:futures) result.get(15,TimeUnit.SECONDS);
             assertEquals(5,guesses.get());assertEquals(7,denied.get());
             assertEquals(5,jdbc.queryForObject("SELECT attempt_count FROM auth.rate_limits WHERE scope='totp_flow' AND subject_hash=?",Integer.class,AccountCrypto.hash(flow.toString())));
-        } finally { callers.shutdownNow(); }
-    }
-    @Test void writeWaitingBehindLogoutSeesRevokedSessionAfterItObtainsAccountLock() throws Exception {
-        var callers=Executors.newSingleThreadExecutor();var attempted=new CountDownLatch(1);
-        var waitingPid=new AtomicInteger();
-        var auth=new AuthContext(account,username,true,session,1,Instant.now().plusSeconds(600));
-        var sessions=new AccountSessions(store);
-        try {
-            java.util.concurrent.Future<?> waiter=store.tx(()-> {
-                jdbc.queryForObject("SELECT id FROM auth.accounts WHERE id=? FOR UPDATE",UUID.class,account);
-                var future=callers.submit(()->store.tx(()-> {
-                    waitingPid.set(jdbc.queryForObject("SELECT pg_backend_pid()",Integer.class));
-                    attempted.countDown();sessions.lockEditor(auth);return null;
-                }));
-                try {
-                    assertTrue(attempted.await(5,TimeUnit.SECONDS));
-                    long deadline=System.nanoTime()+TimeUnit.SECONDS.toNanos(5);
-                    boolean waiting=false;
-                    while (System.nanoTime()<deadline) {
-                        if (future.isDone()) {
-                            try { future.get(); }
-                            catch (java.util.concurrent.ExecutionException e) { throw new AssertionError("写入任务在等待前失败："+e.getCause().getClass().getSimpleName()); }
-                            throw new AssertionError("写入任务未等待账号锁");
-                        }
-                        jdbc.execute("SELECT pg_stat_clear_snapshot()");
-                        waiting=Boolean.TRUE.equals(jdbc.queryForObject("SELECT EXISTS (SELECT 1 FROM pg_stat_activity WHERE pid=? AND datname=current_database() AND wait_event_type='Lock' AND pg_backend_pid()=ANY(pg_blocking_pids(pid)))",Boolean.class,waitingPid.get()));
-                        if(waiting) break;Thread.sleep(10);
-                    }
-                    assertTrue(waiting,"账号共享锁请求没有进入真实数据库等待");
-                } catch (InterruptedException e) { Thread.currentThread().interrupt();throw new AssertionError(e); }
-                jdbc.update("UPDATE auth.sessions SET revoked_at=CURRENT_TIMESTAMP WHERE id=?",session);
-                return future;
-            });
-            var thrown=assertThrows(java.util.concurrent.ExecutionException.class,()->waiter.get(10,TimeUnit.SECONDS));
-            assertTrue(thrown.getCause() instanceof ApiException);assertEquals(401,((ApiException)thrown.getCause()).getStatus().value());
         } finally { callers.shutdownNow(); }
     }
 }

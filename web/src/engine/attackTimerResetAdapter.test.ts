@@ -7,7 +7,7 @@ import { fixedValue } from '../types/numericValue';
 import { assembleSimulation, inspectSimulationSnapshot } from './simulationAdapter';
 import { skillActionRequest } from './skillActionRequest';
 import { assessContinuousAttackResult } from './continuousAttackResult';
-import { TinyGoV2Bridge } from './tinygoV2Bridge';
+import { TinyGoV2Bridge } from '../../tests/fixtures/authorizedBridge';
 import { parseCompileResult, parseDoneResult, parseReleaseResult } from './genericEngineClient';
 import { adaptProcessProgram, type AuthoredProcessProgram, type ProcessBasicAttackContext } from './processAdapter';
 

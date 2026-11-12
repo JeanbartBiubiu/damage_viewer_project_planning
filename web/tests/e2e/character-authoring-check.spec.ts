@@ -1,4 +1,4 @@
-import { fulfillAuthSession } from '../fixtures/authSession';
+import { fulfillAuthSession, openMaintenancePage } from '../fixtures/authSession';
 import { expect, test, type Route } from '@playwright/test';
 
 test('角色录入检查失败重试、技能往返和迟到响应隔离', async ({ page }) => {
@@ -49,7 +49,7 @@ test('角色录入检查失败重试、技能往返和迟到响应隔离', async
     localStorage.clear();
     sessionStorage.clear();
   }, { base });
-  await page.goto('/#/characters');
+  await openMaintenancePage(page, '/#/characters');
   const ez = page.getByRole('row').filter({ has: page.getByText('伊泽瑞尔', { exact: true }) });
   await expect(ez).toBeVisible();
   await page.getByRole('textbox', { name: '角色关键词', exact: true }).fill('保留的筛选草稿');

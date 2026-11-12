@@ -17,7 +17,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 /** 账号锁先于凭证、流程、会话；所有授权期限以数据库时间为准。 */
 @Repository
 public class AccountStore {
-    public record Account(UUID id, String username, String passwordHash, String status, int canLogin, boolean canEdit,
+    public record Account(UUID id, String username, String passwordHash, String status, int canLogin,
                           long epoch, UUID batchId, Instant enabledAt, String enablementReference) {}
     public record Flow(UUID id, UUID accountId, long epoch, String purpose, String phase, UUID sourceSession,
                        UUID recoveryCodeId, byte[] candidate, Long candidateVersion, Long candidateStep, byte[] material,
@@ -67,7 +67,7 @@ public class AccountStore {
     }
     static UUID uuid(ResultSet r, String field) throws SQLException { return r.getObject(field, UUID.class); }
     static Instant instant(ResultSet r, String field) throws SQLException { Timestamp t = r.getTimestamp(field); return t == null ? null : t.toInstant(); }
-    static final RowMapper<Account> ACCOUNT = (r, n) -> new Account(uuid(r,"id"), r.getString("username"), r.getString("password_hash"),r.getString("status"),r.getInt("can_login"), r.getBoolean("can_edit"),r.getLong("auth_epoch"),uuid(r,"recovery_batch_id"),instant(r,"login_enabled_at"),r.getString("enablement_reference"));
+    static final RowMapper<Account> ACCOUNT = (r, n) -> new Account(uuid(r,"id"), r.getString("username"), r.getString("password_hash"),r.getString("status"),r.getInt("can_login"),r.getLong("auth_epoch"),uuid(r,"recovery_batch_id"),instant(r,"login_enabled_at"),r.getString("enablement_reference"));
     static final RowMapper<Session> SESSION = (r, n) -> new Session(uuid(r,"id"),uuid(r,"account_id"),r.getLong("auth_epoch"),r.getBytes("csrf_hash"),instant(r,"expires_at"),instant(r,"revoked_at"));
     static final RowMapper<Flow> FLOW = (r, n) -> new Flow(uuid(r,"id"),uuid(r,"account_id"),r.getLong("auth_epoch"),r.getString("purpose"),r.getString("phase"),uuid(r,"source_session_id"),uuid(r,"verified_recovery_code_id"),r.getBytes("candidate_secret_ciphertext"),r.getObject("candidate_credential_version",Long.class),r.getObject("candidate_last_used_step",Long.class),r.getBytes("recovery_material_ciphertext"),r.getString("encryption_key_id"),r.getBytes("csrf_hash"),instant(r,"expires_at"));
 }

@@ -1,4 +1,4 @@
-import { fulfillAuthSession } from '../fixtures/authSession';
+import { fulfillAuthSession, openMaintenancePage } from '../fixtures/authSession';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -170,14 +170,14 @@ async function fillSimulationSelection(page: Page) {
 test('根地址与未知完整路径回到管理，模拟直达和刷新保持完整路径与菜单', async ({ page }) => {
   const diagnostics = await installApi(page);
   for (const hash of ['', '#/', '#/simulation', '#/simulation/unknown', '#/characters/unexpected']) {
-    await page.goto(`/${hash}`);
+    await openMaintenancePage(page, `/${hash}`);
     await waitForGame(page);
     await expect(page).toHaveURL(/#\/attributes$/);
     await expectMode(page, 'management');
     await expect(page.getByRole('button', { name: '新增属性', exact: true })).toBeVisible();
   }
   for (const [path, title] of [['basic-attack', '普攻模拟'], ['combat-analysis', '混合战斗分析']]) {
-    await page.goto(`/#/simulation/${path}`);
+    await openMaintenancePage(page, `/#/simulation/${path}`);
     await waitForGame(page);
     await expectMode(page, 'simulation');
     await expect(page.getByRole('heading', { name: title, exact: true })).toBeVisible();
@@ -189,9 +189,9 @@ test('根地址与未知完整路径回到管理，模拟直达和刷新保持�
   diagnostics.assertClean();
 });
 
-test('两模式共享所选游戏，访客切换不启动计算或写管理数据', async ({ page }) => {
+test('私有两工作模式共享所选游戏，切换不启动计算或写管理数据', async ({ page }) => {
   const diagnostics = await installApi(page);
-  await page.goto('/#/attributes');
+  await openMaintenancePage(page, '/#/attributes');
   await waitForGame(page);
   await page.locator('.app-toolbar-field--game .arco-select').click();
   await page.locator('.arco-select-option:visible').filter({ hasText: 'other_workspace /' }).click();
@@ -200,7 +200,7 @@ test('两模式共享所选游戏，访客切换不启动计算或写管理数�
   await expect(page).toHaveURL(/#\/simulation\/basic-attack$/);
   await expectMode(page, 'simulation');
   await expect(page.getByText('当前游戏：other_workspace', { exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: '登录', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '刷新维护会话', exact: true })).toBeVisible();
   await page.getByRole('button', { name: '切换到数据管理', exact: true }).click();
   await expect(page).toHaveURL(/#\/attributes$/);
   await expectMode(page, 'management');
@@ -210,7 +210,7 @@ test('两模式共享所选游戏，访客切换不启动计算或写管理数�
 
 test('直接改地址、浏览器后退与前进按路由同步两种模式', async ({ page }) => {
   const diagnostics = await installApi(page);
-  await page.goto('/#/characters');
+  await openMaintenancePage(page, '/#/characters');
   await waitForGame(page);
   await expectMode(page, 'management');
   await page.getByRole('button', { name: '切换到计算模拟', exact: true }).click();
@@ -239,7 +239,7 @@ test('直接改地址、浏览器后退与前进按路由同步两种模式', as
 
 test('真实游戏配置草稿拒绝切模式保留地址菜单与数值，确认后才切换', async ({ page }) => {
   const diagnostics = await installApi(page);
-  await page.goto('/#/game-settings');
+  await openMaintenancePage(page, '/#/game-settings');
   await waitForGame(page);
   const maximum = page.getByRole('spinbutton', { name: '最大等级', exact: true });
   await expect(maximum).toHaveValue('18');
@@ -260,7 +260,7 @@ test('真实游戏配置草稿拒绝切模式保留地址菜单与数值，确�
 
 test('真实属性弹窗草稿拒绝直接模拟地址与未知地址后保留，确认可离开', async ({ page }) => {
   const diagnostics = await installApi(page);
-  await page.goto('/#/attributes');
+  await openMaintenancePage(page, '/#/attributes');
   await waitForGame(page);
   await page.getByRole('button', { name: '新增属性', exact: true }).click();
   const modal = page.getByRole('dialog').filter({ hasText: '新增属性' });
@@ -279,7 +279,7 @@ test('真实属性弹窗草稿拒绝直接模拟地址与未知地址后保留�
 
 test('原页只保留普攻与固定计划，自动入口进入独立页面且页面状态不互相继承', async ({ page }) => {
   const diagnostics = await installApi(page);
-  await page.goto('/#/simulation/basic-attack');
+  await openMaintenancePage(page, '/#/simulation/basic-attack');
   await waitForGame(page);
   await expect(page.getByRole('checkbox', { name: '指定技能行动计划', exact: true }).locator('xpath=ancestor::label')).toBeVisible();
   await expect(page.getByRole('button', { name: '添加自动技能', exact: true })).toHaveCount(0);
@@ -302,7 +302,7 @@ test('原页只保留普攻与固定计划，自动入口进入独立页面且�
 
 test('真实草稿反复取消历史后退与前进后仍能确认离开', async ({ page }) => {
   const diagnostics = await installApi(page);
-  await page.goto('/#/simulation/basic-attack');
+  await openMaintenancePage(page, '/#/simulation/basic-attack');
   await waitForGame(page);
   await page.evaluate(() => { window.location.hash = '#/game-settings'; });
   const maximum = page.getByRole('spinbutton', { name: '最大等级', exact: true });
@@ -354,7 +354,7 @@ test('真实草稿反复取消历史后退与前进后仍能确认离开', async
 test('窄屏导航关闭时总切换常驻，切模式后只展开对应菜单', async ({ page }) => {
   const diagnostics = await installApi(page);
   await page.setViewportSize({ width: 820, height: 900 });
-  await page.goto('/#/attributes');
+  await openMaintenancePage(page, '/#/attributes');
   await waitForGame(page);
   const navigation = page.getByRole('region', { name: '主导航', exact: true });
   const menu = page.getByRole('button', { name: '主导航', exact: true });
@@ -392,7 +392,7 @@ test('场景读取中拒绝离开保留输入，确认离开后迟到错误不�
     } catch { /* 浏览器已经取消这次读取。 */ }
     finally { responseFinished(); }
   });
-  await page.goto('/#/simulation/basic-attack');
+  await openMaintenancePage(page, '/#/simulation/basic-attack');
   await waitForGame(page);
   await fillSimulationSelection(page);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
@@ -441,7 +441,7 @@ test('取消读取后可重新请求，旧请求结束不会清除新请求忙�
     } catch { /* 被取消的请求可能已经断开。 */ }
     finally { finish(); }
   });
-  await page.goto('/#/simulation/basic-attack');
+  await openMaintenancePage(page, '/#/simulation/basic-attack');
   await waitForGame(page);
   await fillSimulationSelection(page);
   const read = page.getByRole('button', { name: '读取场景快照', exact: true });
@@ -488,7 +488,7 @@ test('初始当前生命保持未填写与0区别，明确点击才使用快照�
     expect(route.request().method()).toBe('POST');
     return respond(route, simulationSnapshotWithSelection(snapshot, route.request().postDataJSON()));
   });
-  await page.goto('/#/simulation/basic-attack');
+  await openMaintenancePage(page, '/#/simulation/basic-attack');
   await waitForGame(page, snapshot.gameId);
   await chooseSimulationEntity(page, '攻击方角色', snapshot.selection.sourceCharacterKey);
   await chooseSimulationLevel(page, '攻击方等级', snapshot.selection.sourceLevel);
@@ -592,7 +592,7 @@ test('混合战斗完整页面：普攻与主动共用时钟，真实编译运�
     return respond(route, simulationSnapshotWithSelection(snapshot, route.request().postDataJSON()));
   });
 
-  await page.goto('/#/simulation/combat-analysis');
+  await openMaintenancePage(page, '/#/simulation/combat-analysis');
   await waitForGame(page, snapshot.gameId);
   await chooseSimulationEntity(page, '攻击方角色', snapshot.selection.sourceCharacterKey);
   await chooseSimulationLevel(page, '攻击方等级', snapshot.selection.sourceLevel);
@@ -629,6 +629,8 @@ test('混合战斗完整页面：普攻与主动共用时钟，真实编译运�
   expect(observation.released).toContainEqual({ worker: run[0]!.worker, sessionId: archive.runRequest!.sessionId, ok: true, released: true });
   await page.getByRole('link', { name: '普攻模拟', exact: false }).click();
   await expect(page).toHaveURL(/#\/simulation\/basic-attack$/);
+  await expect.poll(() => page.evaluate(() => (window as typeof window & { combatRuntimeObservation: RuntimeObservation }).combatRuntimeObservation.terminated))
+    .toContain(run[0]!.worker);
   const afterLeave = await page.evaluate(() => (window as typeof window & { combatRuntimeObservation: RuntimeObservation }).combatRuntimeObservation);
   expect(afterLeave.terminated).toContain(run[0]!.worker);
   await testInfo.attach('混合页面真实运行及会话清理', { body: JSON.stringify({ archive, observation: afterLeave }), contentType: 'application/json' });

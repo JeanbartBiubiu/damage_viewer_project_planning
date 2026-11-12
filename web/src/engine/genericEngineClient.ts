@@ -5,6 +5,10 @@ import { assertTargetMarkOutputShape } from './targetMarkContract';
 import { WASM_IDENTITY } from './wasmIdentity';
 import { ApiRequestError, resolveApiBaseUrl } from '../services/apiClient';
 import { getWasmGrant, onAuthSessionChanged } from '../services/authClient';
+import { getMaintenanceWasmGrant } from '../services/maintenanceClient';
+import { onMaintenanceSessionChanged } from '../services/maintenanceState';
+import { DEPLOYMENT_MODE } from '../config/deployment';
+import { maintenanceNotBefore } from './maintenanceGrant';
 import {
   OUTBOX_GENERIC_COMPILE_RESULT,
   OUTBOX_GENERIC_DONE,
@@ -163,6 +167,7 @@ export class GenericEngineClient {
     const authorized = WASM_IDENTITY.authorizationRequired ? await this.authorize(request) : request;
     this.assertAccountUnchanged(epoch);
     const frames = await this.send('compile', { request: authorized }, false);
+    this.assertAccountUnchanged(epoch);
     const result = parseCompileResult(frames);
     if (result.ok) for (const formula of request.formulas ?? []) registerFormulaForApprovedReads(formula);
     return result;
@@ -174,6 +179,7 @@ export class GenericEngineClient {
     const authorized = WASM_IDENTITY.authorizationRequired ? await this.authorize(request) : request;
     this.assertAccountUnchanged(epoch);
     const frames = await this.send('run', { request: authorized }, true);
+    this.assertAccountUnchanged(epoch);
     return parseDoneResult(frames);
   }
 
@@ -199,7 +205,8 @@ export class GenericEngineClient {
 
   private observeAccount(): void {
     if (this.unsubscribeAuth) return;
-    this.unsubscribeAuth = onAuthSessionChanged(() => {
+    const observe = DEPLOYMENT_MODE === 'maintenance' ? onMaintenanceSessionChanged : onAuthSessionChanged;
+    this.unsubscribeAuth = observe(() => {
       this.invalidateAuthorization();
       this.discardWorker(new GenericEngineClientError('账号状态已变化，请重新发起计算。'));
     });
@@ -222,7 +229,8 @@ export class GenericEngineClient {
     if (!authorization || authorization.expiresAt <= Date.now() + 5000) {
       let pending = this.pendingAuthorization;
       if (!pending) {
-        pending = getWasmGrant(this.apiBaseUrl).then(async response => {
+        const grantRequest = DEPLOYMENT_MODE === 'maintenance' ? getMaintenanceWasmGrant : getWasmGrant;
+        pending = grantRequest(this.apiBaseUrl).then(async response => {
           this.assertAccountUnchanged(epoch);
           const expiresAt = Date.parse(response.expiresAt);
           if (typeof response.grant !== 'string' || !response.grant || response.grant.length > 4096
@@ -230,7 +238,7 @@ export class GenericEngineClient {
             throw new ApiRequestError('计算授权响应不完整或已过期，请重试。', 502, 'AUTH.INVALID_WASM_GRANT');
           }
           // 票据固定 nbf=iat、exp=iat+86400；只等待可用时点，Wasm 仍独立验证全部签名与期限。
-          const notBefore = expiresAt - AUTHORIZATION_LIFETIME_MS;
+          const notBefore = DEPLOYMENT_MODE === 'maintenance' ? maintenanceNotBefore(response.grant, expiresAt) : expiresAt - AUTHORIZATION_LIFETIME_MS;
           const waitMs = notBefore - Date.now();
           if (waitMs > MAX_AUTHORIZATION_CLOCK_WAIT_MS) {
             throw new ApiRequestError('设备时间与服务时间相差过大，请同步设备时间后重试。', 502, 'AUTH.CLOCK_SKEW');

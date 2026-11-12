@@ -1,6 +1,6 @@
 import { beforeAll } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { TinyGoV2Bridge } from '../../src/engine/tinygoV2Bridge';
+import { TinyGoV2Bridge } from './authorizedBridge';
 import { parseCompileResult, parseReleaseResult } from '../../src/engine/genericEngineClient';
 import { createNumericCompileState, registerCommonFormula } from '../../src/engine/numericAdapter';
 import { rememberApprovedFormulaValues, selectFormulaProofScope } from '../../src/engine/approvedFormulaValues';

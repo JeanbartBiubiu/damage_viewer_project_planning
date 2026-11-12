@@ -8,7 +8,7 @@ import { compileNumericValue, createNumericCompileState } from './numericAdapter
 import { compileLinkedShieldEffect } from './shieldEffectAdapter';
 import { validateStoredSkillFormula } from '../services/skillFormulaContract';
 import { readFileSync } from 'node:fs';
-import { TinyGoV2Bridge } from './tinygoV2Bridge';
+import { TinyGoV2Bridge } from '../../tests/fixtures/authorizedBridge';
 import { parseCompileResult, parseDoneResult, parseReleaseResult } from './genericEngineClient';
 import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import type { CompileRequest } from '../types/genericEngine';

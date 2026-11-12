@@ -39,13 +39,24 @@ function requireFlowCsrf(value: string | undefined): string {
   return value;
 }
 
+function playerSession(value: unknown): SessionView {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new ApiRequestError('玩家会话响应不完整。', 502, 'AUTH.RESPONSE_INVALID');
+  const row = value as Record<string, unknown>;
+  if (row.canLogin === 0) throw new ApiRequestError('账号尚未开通。', 403, 'AUTH.LOGIN_NOT_ENABLED');
+  if (typeof row.accountId !== 'string' || !row.accountId || typeof row.username !== 'string' || !row.username
+    || row.canLogin !== 1 || typeof row.expiresAt !== 'string' || !Number.isFinite(Date.parse(row.expiresAt))) {
+    throw new ApiRequestError('玩家会话响应不完整。', 502, 'AUTH.RESPONSE_INVALID');
+  }
+  return { accountId: row.accountId, username: row.username, canLogin: 1, expiresAt: row.expiresAt };
+}
+
 export const registerAccount = (api: string, username: string, password: string): Promise<FlowView> => authRequest(api, 'register', 'bootstrap', { username, password });
 export const startLogin = (api: string, username: string, password: string): Promise<FlowView> => authRequest(api, 'login', 'bootstrap', { username, password });
 export async function finishLogin(api: string, totpCode: string): Promise<SessionView> {
-  const next = await authRequest<SessionView>(api, 'login/totp', 'flow', { totpCode });
-  if (next.canLogin !== 1) throw new ApiRequestError('账号尚未开通。', 403, 'AUTH.LOGIN_NOT_ENABLED');
-  setAuthSession(next, true);
-  return next;
+  const next = await authRequest<unknown>(api, 'login/totp', 'flow', { totpCode });
+  const player = playerSession(next);
+  setAuthSession(player, true);
+  return player;
 }
 export const getFlowStatus = (api: string): Promise<FlowStatus> => authRequest(api, 'flow/status', 'flow');
 export const setupTotp = (api: string): Promise<TotpSetup> => authRequest(api, 'flow/totp/setup', 'flow', {});
@@ -88,13 +99,16 @@ export async function startSecurityFlow(api: string, kind: 'password' | 'totp' |
 export async function restoreSession(api: string): Promise<SessionView | null> {
   const revision = getAuthRevision();
   try {
-    const next = await authRequest<SessionView>(api, 'me', 'session');
+    const next = await authRequest<unknown>(api, 'me', 'session');
     if (revision !== getAuthRevision()) return getAuthSession();
-    if (next.canLogin !== 1) { setAuthSession(null); return null; }
-    setAuthSession(next);
+    setAuthSession(playerSession(next));
     return getAuthSession();
   } catch (error) {
     if (error instanceof ApiRequestError && error.status === 401) return null;
+    if (error instanceof ApiRequestError && error.code === 'AUTH.LOGIN_NOT_ENABLED') {
+      if (revision === getAuthRevision()) setAuthSession(null);
+      return getAuthSession();
+    }
     throw error;
   }
 }

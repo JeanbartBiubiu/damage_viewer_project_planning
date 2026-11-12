@@ -59,15 +59,16 @@
 
 ### 管理接口认证
 
-认证接线于2026-11-07核对：真源为[来源与防伪校验](../../../../server/data_manage/src/main/java/xyz/game/datamanage/support/account/AccountBrowser.java)、[会话鉴权](../../../../server/data_manage/src/main/java/xyz/game/datamanage/support/auth/AdminAuthFilter.java)及[前端请求接线](../../../../web/src/services/apiClient.ts)。写入需要同一有效会话的两个凭据、编辑权限及服务允许的来源；脚本不自行登录、不提取浏览器凭据，也不修改后端权限。缺少会话时先完成已有登录流程，不能使用任意测试令牌或借用他人会话。
+认证接线于2026-11-13调整：身份、会话和批次统一以[维护契约](../../../../contracts/maintenance/README.md)为准。写入要求有效的独立维护会话、同一会话的防伪值、服务允许的维护来源及已验证批次；普通玩家会话不能维护配置。脚本不自行登录、不提取浏览器凭据，也不修改后端权限，缺少维护会话时先由受控宿主建立。
 
 在当前进程提供以下环境变量，具体值不进入命令参数、冻结计划、证据或输出：
 
 | 环境变量 | 内容 |
 | --- | --- |
-| `DAMAGE_AUTHORING_SESSION` | 当前已授权会话的 `__Host-dv_session` 原始值，43位网址安全编码字符 |
-| `DAMAGE_AUTHORING_CSRF` | 同一会话的 `__Host-dv_csrf` 防伪值，格式同上 |
+| `DAMAGE_AUTHORING_SESSION` | 当前独立维护会话的 `__Host-damage-maint-session` 原始值，43位网址安全编码字符 |
+| `DAMAGE_AUTHORING_CSRF` | 同一维护会话的 `__Host-damage-maint-csrf` 防伪值，格式同上 |
 | `DAMAGE_AUTHORING_ORIGIN` | 服务已允许的页面来源地址，仅含协议、主机和可选端口；不能包含凭据、路径、查询或片段 |
+| `DAMAGE_AUTHORING_BATCH` | 正式写入时必需，已验证并登记、处于维护窗口内的批次 UUID；它不是身份凭据 |
 
 脚本发送这两个 Cookie（会话凭据）、`Origin`（请求来源）与 `X-Damage-Client: web`；`PATCH` 同时发送 `X-CSRF-Token`（防伪请求头）及 JSON 内容类型，不发送旧 `Authorization: Bearer`。默认只读检查也先核对这三项输入，但不据此证明会话有效或可以写入；实际有效性由服务校验。会话过期、权限或来源拒绝时保留独立回读并停批，不自动登录、降级认证或重放写入。
 

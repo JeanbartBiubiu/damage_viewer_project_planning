@@ -32,13 +32,14 @@ type BuildConfig struct {
 type Failure string
 
 const (
-	grantLifetimeSeconds         = 24 * 60 * 60
-	Version                      = 1
-	MaxGrantBytes                = 4096
-	Required             Failure = "authorization_required"
-	Invalid              Failure = "authorization_invalid"
-	Expired              Failure = "authorization_expired"
-	AccountMismatch      Failure = "authorization_account_mismatch"
+	playerGrantLifetimeSeconds         = 24 * 60 * 60
+	maintenanceLifetimeSeconds         = 30 * 60
+	Version                            = 2
+	MaxGrantBytes                      = 4096
+	Required                   Failure = "authorization_required"
+	Invalid                    Failure = "authorization_invalid"
+	Expired                    Failure = "authorization_expired"
+	AccountMismatch            Failure = "authorization_account_mismatch"
 )
 
 // TinyGo 0.40.1 会以源码初值覆盖链接赋值，因此必须保留无初值的字符串变量。
@@ -92,7 +93,7 @@ func NewPolicy(required bool, keyID string, publicKey []byte) Policy {
 	return policy
 }
 
-// Verify 核验原始紧凑票据并返回规范化账号编号；关闭模式直接放行且不读取票据。
+// Verify 核验原始紧凑票据并返回“主体类别:小写UUID”；关闭模式直接放行且不读取票据。
 // now 是入口取得的整数秒，验签成功后才解释正文，不在计算循环中调用。
 func Verify(policy Policy, token string, now int64) (string, Failure) {
 	if policy.disabled {
@@ -124,15 +125,14 @@ func Verify(policy Policy, token string, now int64) (string, Failure) {
 	if !ok || len(signature) != ed25519.SignatureSize || !ed25519.Verify(policy.key, []byte(parts[0]+"."+parts[1]), signature) {
 		return "", Invalid
 	}
-	payload, ok := strictObject(payloadBytes, []string{"iss", "aud", "sub", "canLogin", "scope", "iat", "nbf", "exp", "authorizationVersion", "jti"})
+	payload, subjectType, ok := subjectClaims(payloadBytes)
 	if !ok || !equalString(payload["iss"], "damage-viewer") || !equalString(payload["aud"], "damage-viewer-wasm") {
 		return "", Invalid
 	}
 	sub, subOK := stringValue(payload["sub"])
 	jti, jtiOK := stringValue(payload["jti"])
-	canLogin, loginOK := integerValue(payload["canLogin"])
 	version, versionOK := integerValue(payload["authorizationVersion"])
-	if !subOK || !validUUID(sub) || !jtiOK || !validUUID(jti) || !loginOK || canLogin != 1 || !versionOK || version != Version {
+	if !subOK || !validUUID(sub) || !jtiOK || !validUUID(jti) || !versionOK || version != Version {
 		return "", Invalid
 	}
 	var scope []string
@@ -142,7 +142,7 @@ func Verify(policy Policy, token string, now int64) (string, Failure) {
 	iat, iatOK := integerValue(payload["iat"])
 	nbf, nbfOK := integerValue(payload["nbf"])
 	exp, expOK := integerValue(payload["exp"])
-	if !iatOK || !nbfOK || !expOK || nbf != iat || iat > math.MaxInt64-grantLifetimeSeconds || exp != iat+grantLifetimeSeconds {
+	if !iatOK || !nbfOK || !expOK || nbf != iat || !validLifetime(subjectType, iat, exp) {
 		return "", Invalid
 	}
 	if now < nbf {
@@ -151,7 +151,26 @@ func Verify(policy Policy, token string, now int64) (string, Failure) {
 	if now >= exp {
 		return "", Expired
 	}
-	return strings.ToLower(sub), ""
+	return subjectType + ":" + strings.ToLower(sub), ""
+}
+
+// 两种主体分别使用完整字段集合，维护主体不能携带或伪造玩家开通字段。
+func subjectClaims(data []byte) (map[string]json.RawMessage, string, bool) {
+	player, ok := strictObject(data, []string{"iss", "aud", "sub", "subjectType", "canLogin", "scope", "iat", "nbf", "exp", "authorizationVersion", "jti"})
+	if ok {
+		canLogin, loginOK := integerValue(player["canLogin"])
+		return player, "PLAYER", equalString(player["subjectType"], "PLAYER") && loginOK && canLogin == 1
+	}
+	maintenance, ok := strictObject(data, []string{"iss", "aud", "sub", "subjectType", "scope", "iat", "nbf", "exp", "authorizationVersion", "jti"})
+	return maintenance, "MAINTENANCE", ok && equalString(maintenance["subjectType"], "MAINTENANCE")
+}
+
+func validLifetime(subjectType string, issuedAt, expiresAt int64) bool {
+	if subjectType == "PLAYER" {
+		return issuedAt <= math.MaxInt64-playerGrantLifetimeSeconds && expiresAt == issuedAt+playerGrantLifetimeSeconds
+	}
+	// 不先相减，避免恶意跨越 int64 两端的期限溢出。
+	return expiresAt > issuedAt && (issuedAt > math.MaxInt64-maintenanceLifetimeSeconds || expiresAt <= issuedAt+maintenanceLifetimeSeconds)
 }
 
 func decodeSegment(value string) ([]byte, bool) {

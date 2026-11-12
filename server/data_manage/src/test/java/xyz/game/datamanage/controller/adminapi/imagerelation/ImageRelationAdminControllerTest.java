@@ -144,13 +144,13 @@ class ImageRelationAdminControllerTest {
 
     @Test
     void oldRuneImageRoutesAreAbsent() throws Exception {
-        mvc.perform(get(ROOT + "/runes/focus/representative-image")).andExpect(status().isNotFound());
-        mvc.perform(get(ROOT + "/rune-paths/precision/representative-image")).andExpect(status().isNotFound());
+        mvc.perform(get(ROOT + "/runes/focus/representative-image")).andExpect(status().isForbidden());
+        mvc.perform(get(ROOT + "/rune-paths/precision/representative-image")).andExpect(status().isForbidden());
     }
 
     @Test
     void genericSourceWriteRouteDoesNotExist() throws Exception {
         mvc.perform(put(ROOT + "/image-relations/CHARACTER/ezreal").contentType(MediaType.APPLICATION_JSON).content("{\"imageKey\":\"icon\"}"))
-            .andExpect(status().isNotFound());
+            .andExpect(status().isForbidden());
     }
 }

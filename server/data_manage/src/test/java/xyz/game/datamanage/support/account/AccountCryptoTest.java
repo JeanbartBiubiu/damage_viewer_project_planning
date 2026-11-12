@@ -44,7 +44,7 @@ class AccountCryptoTest {
         ObjectMapper json=new ObjectMapper();
         var header=json.readTree(Base64.getUrlDecoder().decode(parts[0])); var body=json.readTree(Base64.getUrlDecoder().decode(parts[1]));
         assertEquals(3,header.size()); assertEquals("Ed25519",header.path("alg").asText()); assertEquals("dv-wasm-grant+jwt",header.path("typ").asText());
-        assertEquals("wasm-1",header.path("kid").asText()); assertEquals(10,body.size());
+        assertEquals("wasm-1",header.path("kid").asText()); assertEquals(11,body.size());assertEquals("PLAYER",body.path("subjectType").asText());
         assertEquals("damage-viewer",body.path("iss").asText());assertEquals("damage-viewer-wasm",body.path("aud").asText());
         assertEquals(account.toString(),body.path("sub").asText()); assertTrue(body.path("canLogin").isIntegralNumber());assertEquals(1,body.path("canLogin").asInt());
         assertEquals("engine:compute",body.path("scope").get(0).asText());assertEquals(1,body.path("scope").size());
@@ -52,7 +52,7 @@ class AccountCryptoTest {
         assertEquals(1_793_750_400L,body.path("iat").asLong());
         assertEquals(1_793_750_400L,body.path("nbf").asLong());
         assertEquals(1_793_836_800L,body.path("exp").asLong());
-        assertEquals(1,body.path("authorizationVersion").asInt());assertDoesNotThrow(()->UUID.fromString(body.path("jti").asText()));
+        assertEquals(2,body.path("authorizationVersion").asInt());assertDoesNotThrow(()->UUID.fromString(body.path("jti").asText()));
         var metadata=json.readTree(Files.readAllBytes(directory.resolve("grant-public.json")));
         byte[] raw=Base64.getUrlDecoder().decode(metadata.path("publicKeyBase64Url").asText());
         byte[] der=new byte[44];System.arraycopy(HexFormat.of().parseHex("302a300506032b6570032100"),0,der,0,12);System.arraycopy(raw,0,der,12,32);
@@ -68,6 +68,15 @@ class AccountCryptoTest {
         assertAccountError(401,"AUTH.INVALID_CREDENTIALS",()->crypto.matchingStep(secret,code,now,step+1));
         assertAccountError(401,"AUTH.INVALID_CREDENTIALS",()->crypto.matchingStep(secret,hotp.generate(step+4),now,step));
         assertAccountError(401,"AUTH.INVALID_CREDENTIALS",()->crypto.matchingStep(secret,"12345",now,-1));
+    }
+    @Test void maintenanceGrantHasIndependentSubjectAndNoPlayerPaymentClaim() throws Exception {
+        AccountCrypto crypto=crypto();UUID subject=UUID.randomUUID();Instant now=Instant.parse("2026-11-13T00:00:00Z");
+        var result=crypto.grant(subject,"MAINTENANCE",now,now.plusSeconds(600));
+        String[] parts=((String)result.get("grant")).split("\\.");var body=new ObjectMapper().readTree(Base64.getUrlDecoder().decode(parts[1]));
+        assertEquals("MAINTENANCE",body.path("subjectType").asText());assertEquals(subject.toString(),body.path("sub").asText());assertFalse(body.has("canLogin"));
+        assertEquals(600,body.path("exp").asLong()-body.path("iat").asLong());assertEquals(2,body.path("authorizationVersion").asInt());
+        assertAccountError(503,"AUTH.UNAVAILABLE",()->crypto.grant(subject,"MAINTENANCE",now,now.plusSeconds(1801)));
+        assertAccountError(503,"AUTH.UNAVAILABLE",()->crypto.grant(subject,"UNKNOWN",now,now.plusSeconds(600)));
     }
     @Test void missingPrivateConfigurationFailsClosed() {
         AccountProperties p=new AccountProperties();p.setAeadKeysetPath(directory.resolve("missing"));p.setGrantPrivateKeyPath(directory.resolve("missing"));

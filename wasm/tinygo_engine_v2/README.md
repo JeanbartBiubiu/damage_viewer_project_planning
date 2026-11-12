@@ -77,7 +77,9 @@ node .\scripts\bench-node.mjs --mode generic-run --iterations 10 --warmup 2
 
 普通 Go 数学回归使用仅在非 TinyGo 构建存在的 `NewMathSession()`，固定输入不保存长期票据；正式导出始终使用固化构建策略的 `NewSession()`，缺配置时拒绝计算。Node 验证宿主可用 `WASM_AUTHORIZATION_FILE` 指向受控签发方提供的原始短期票据文件，每次编译和运行重新读取；集成工具也可调用 `setNodeAuthorizationProvider()` 按次提供票据。两者仅给真实请求附加字段，不能跳过产物验签，显式请求票据优先，底层 `invokeFrame()` 不自动注入。
 
-`node scripts/authorization-smoke-node.mjs` 使用进程内临时密钥在 `target/account-authorization/` 分别构建关闭版和隔离启用版，验证真实入口拒绝、续票、释放、规则身份及数值一致性，并记录包体与入口往返耗时。Windows 可加 `--shell bash` 验证类 Unix 脚本；工具不会写私钥或长期票据。隔离构建不能替代正式公钥产物及真实服务签发的联调。
+计算票据只接受第 2 版，主体类别明确区分玩家与维护程序。玩家票据要求开通标记并固定有效 24 小时；维护票据不携带玩家开通字段，有效期为正且最多 30 分钟。编译与运行共同绑定主体类别和 UUID，同 UUID 的不同类别也不能复用计划。字段及签发约束以[维护共享契约](../../contracts/maintenance/README.md)为准；签发端还须限制维护票据不晚于维护会话截止。
+
+`node scripts/authorization-smoke-node.mjs` 使用进程内临时密钥在 `target/account-authorization/` 分别构建关闭版和隔离启用版，验证第 2 版两类主体、跨类别拒绝、期限、旧版拒绝、续票、释放、规则身份及数值一致性，并记录包体与入口往返耗时。Windows 可加 `--shell bash` 验证类 Unix 脚本；工具不会写私钥或长期票据。隔离构建不能替代正式公钥产物及真实服务签发的联调。
 
 保留旧 `generic_p0_basic_damage.json` 基准字节，不修改或复制来迁就实现；当前基准由 `scripts/formula-phase4-input.mjs` 和独立显式公式样例构造。测试不固化已录入英雄配置或资料摘要。
 

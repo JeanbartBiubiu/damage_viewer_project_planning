@@ -33,7 +33,7 @@ class AccountServiceTest {
     private AccountService service;
     private final UUID id=UUID.randomUUID(), flowId=UUID.randomUUID(), codeId=UUID.randomUUID(), batch=UUID.randomUUID();
     private final Instant now=Instant.parse("2026-11-04T00:00:00Z");
-    private Account account(String status,long epoch) { return new Account(id,"fixture_author","password-hash",status,1,false,epoch,batch,now,"ref"); }
+    private Account account(String status,long epoch) { return new Account(id,"fixture_author","password-hash",status,1,epoch,batch,now,"ref"); }
     private Flow flow(String purpose,String phase,long epoch) {
         return new Flow(flowId,id,epoch,purpose,phase,null,"reset_password".equals(purpose)?codeId:null,
             null,null,null,null,null,AccountCrypto.hash("c".repeat(43)),now.plusSeconds(600));

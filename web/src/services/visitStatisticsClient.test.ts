@@ -67,7 +67,7 @@ describe('访问统计', () => {
 
   it.each(['network', '401', '503'])('上报失败%s静默结束、不重试、不改变登录状态', async failure => {
     const { setAuthSession, getAuthSession, onLoginRequired } = await import('./authState');
-    const session = { accountId: 'fixture', username: 'fixture', canLogin: 1 as const, canEdit: true, expiresAt: new Date(Date.now() + 60_000).toISOString() };
+    const session = { accountId: 'fixture', username: 'fixture', canLogin: 1 as const, expiresAt: new Date(Date.now() + 60_000).toISOString() };
     setAuthSession(session); const prompt = vi.fn(); const stop = onLoginRequired(prompt);
     const fetchMock = vi.fn(async () => {
       if (failure === 'network') throw new Error('network failure');
@@ -79,15 +79,4 @@ describe('访问统计', () => {
     stop();
   });
 
-  it('统计查询明确携带正式会话并传递取消信号，日期原样返回', async () => {
-    const controller = new AbortController();
-    const days = [{ date: '2026-11-05', pv: 7, uv: 3 }];
-    vi.stubGlobal('fetch', vi.fn(async (url: RequestInfo | URL, init: RequestInit) => {
-      expect(String(url)).toBe(`${API}/api/admin/visits/last30days`);
-      expect(init.credentials).toBe('include'); expect(init.cache).toBe('no-store'); expect(init.signal).toBe(controller.signal);
-      expect(new Headers(init.headers).get('X-CSRF-Token')).toBeNull();
-      return new Response(JSON.stringify(days), { status: 200 });
-    }));
-    expect(await (await import('./visitStatisticsClient')).listVisitStatistics(API, controller.signal)).toEqual(days);
-  });
 });

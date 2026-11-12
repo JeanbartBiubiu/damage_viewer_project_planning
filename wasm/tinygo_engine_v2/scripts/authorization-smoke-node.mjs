@@ -13,9 +13,11 @@ import {
 } from './generic-abi-host.mjs';
 import { createFormulaPhase4Input } from './formula-phase4-input.mjs';
 
-function claims(account = randomUUID(), iat = Math.floor(Date.now() / 1000) - 1) {
-  return { iss: 'damage-viewer', aud: 'damage-viewer-wasm', sub: account, canLogin: 1,
-    scope: ['engine:compute'], iat, nbf: iat, exp: iat + 86_400, authorizationVersion: 1, jti: randomUUID() };
+function claims(subject = randomUUID(), iat = Math.floor(Date.now() / 1000) - 1, subjectType = 'PLAYER') {
+  return { iss: 'damage-viewer', aud: 'damage-viewer-wasm', sub: subject, subjectType,
+    ...(subjectType === 'PLAYER' ? { canLogin: 1 } : {}),
+    scope: ['engine:compute'], iat, nbf: iat, exp: iat + (subjectType === 'PLAYER' ? 86_400 : 1800),
+    authorizationVersion: 2, jti: randomUUID() };
 }
 
 function authorizedFixture(authorization) {
@@ -31,7 +33,7 @@ function checkIdentity(path, required, keyID, publicKey) {
   assert.equal(identity.bytes, bytes.length);
   assert.equal(identity.sha256, createHash('sha256').update(bytes).digest('hex'));
   assert.equal(identity.authorizationRequired, required);
-  assert.equal(identity.authorizationVersion, 1);
+  assert.equal(identity.authorizationVersion, 2);
   assert.equal(identity.authorizationKeyId, required ? keyID : null);
   assert.equal(identity.authorizationPublicKey, required ? publicKey : null);
   return { ...identity, gzipBytes: gzipSync(bytes).length };
@@ -91,7 +93,11 @@ export async function verifyAuthorizationArtifacts({ disabledPath, enabledPath, 
     ['unpaid', { ...validClaims, canLogin: 0 }],
     ['wrong-purpose', { ...validClaims, scope: ['edit'] }],
     ['wrong-audience', { ...validClaims, aud: 'another-service' }],
-    ['wrong-version', { ...validClaims, authorizationVersion: 2 }],
+    ['old-version', { ...validClaims, authorizationVersion: 1 }],
+    ['unknown-version', { ...validClaims, authorizationVersion: 3 }],
+    ['unknown-subject', { ...validClaims, subjectType: 'ADMIN' }],
+    ['maintenance-with-paid-claim', { ...validClaims, subjectType: 'MAINTENANCE', exp: validClaims.iat + 1800 }],
+    ['unknown-claim', { ...validClaims, extra: false }],
     ['long-life', { ...validClaims, exp: validClaims.exp + 1 }],
     ['old-five-minute-life', { ...validClaims, exp: validClaims.iat + 300 }],
     ['noninteger-paid', { ...validClaims, canLogin: true }],
@@ -119,6 +125,32 @@ export async function verifyAuthorizationArtifacts({ disabledPath, enabledPath, 
   assert.deepEqual(runCanonicalSession(enabled.exports, cached, compiled.sessionId, compiled.rulesHash), enabledDone);
   const renewed = authorizedFixture(grant({ ...validClaims, jti: randomUUID() }));
   assert.deepEqual(runCanonicalSession(enabled.exports, renewed, compiled.sessionId, compiled.rulesHash), enabledDone);
+
+  const maintenanceClaims = claims(account, validClaims.iat, 'MAINTENANCE');
+  const maintenanceFixture = authorizedFixture(grant(maintenanceClaims));
+  expectRejected(enabled, 'run', { ...runRequest, authorization: maintenanceFixture.runRequest.authorization }, 'authorization_account_mismatch');
+  const maintenanceCompiled = compileCanonicalSession(enabled.exports, maintenanceFixture);
+  const maintenanceRequest = { ...maintenanceFixture.runRequest, sessionId: maintenanceCompiled.sessionId, expectedRulesHash: maintenanceCompiled.rulesHash };
+  expectRejected(enabled, 'run', { ...maintenanceRequest, authorization: valid }, 'authorization_account_mismatch');
+  assert.deepEqual(runCanonicalSession(enabled.exports, maintenanceFixture, maintenanceCompiled.sessionId, maintenanceCompiled.rulesHash), enabledDone);
+  for (const payload of [
+    { ...maintenanceClaims, exp: maintenanceClaims.iat },
+    { ...maintenanceClaims, exp: maintenanceClaims.iat - 1 },
+    { ...maintenanceClaims, exp: maintenanceClaims.iat + 1801 },
+    { ...maintenanceClaims, exp: maintenanceClaims.iat + 86_400 },
+    { ...maintenanceClaims, canLogin: 1 },
+    { ...maintenanceClaims, canLogin: null },
+    { ...maintenanceClaims, authorizationVersion: 1 },
+  ]) {
+    expectRejected(enabled, 'run', { ...maintenanceRequest, authorization: grant(payload) }, 'authorization_invalid');
+  }
+  expectRejected(enabled, 'run', { ...maintenanceRequest, authorization: grant(claims(account, Math.floor(Date.now() / 1000) - 1801, 'MAINTENANCE')) }, 'authorization_expired');
+  const shortMaintenance = authorizedFixture(grant({ ...maintenanceClaims, exp: Math.floor(Date.now() / 1000) + 30 }));
+  assert.deepEqual(runCanonicalSession(enabled.exports, shortMaintenance, maintenanceCompiled.sessionId, maintenanceCompiled.rulesHash), enabledDone);
+  const maintenanceRenewed = authorizedFixture(grant({ ...maintenanceClaims, jti: randomUUID() }));
+  assert.deepEqual(runCanonicalSession(enabled.exports, maintenanceRenewed, maintenanceCompiled.sessionId, maintenanceCompiled.rulesHash), enabledDone);
+  releaseCanonicalSession(enabled.exports, maintenanceCompiled.sessionId, maintenanceCompiled.rulesHash);
+  expectRejected(enabled, 'run', maintenanceRequest, 'session_not_found');
   // 释放没有 authorization；前一个失败请求已使用过期票据。
   expectRejected(enabled, 'run', { ...runRequest, authorization: grant(claims(account, Math.floor(Date.now() / 1000) - 86_401)) }, 'authorization_expired');
   releaseCanonicalSession(enabled.exports, compiled.sessionId, compiled.rulesHash);
@@ -131,7 +163,7 @@ export async function verifyAuthorizationArtifacts({ disabledPath, enabledPath, 
   const anonymous = createFormulaPhase4Input();
   assert.deepEqual(runCanonicalSession(disabled.exports, anonymous, disabledCompiled.sessionId, disabledCompiled.rulesHash), enabledDone);
   releaseCanonicalSession(disabled.exports, disabledCompiled.sessionId, disabledCompiled.rulesHash);
-  return { assertions: '签名、篡改、用途、付费资格、账号、期限、重复键、密钥、开关、释放、身份与数值一致性',
+  return { assertions: '第2版签名、玩家资格、维护期限、同UUID跨类别隔离、旧版拒绝、篡改、用途、重复键、密钥、开关、释放、身份与数值一致性',
     disabled: { ...disabledIdentity, entrance: entranceMeasurement(disabled, anonymous) },
     enabled: { ...enabledIdentity, entrance: entranceMeasurement(enabled, renewed) } };
 }

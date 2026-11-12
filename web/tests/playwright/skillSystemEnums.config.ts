@@ -2,10 +2,10 @@ import { webRoot } from './paths';
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  testDir: '../e2e', testMatch: /(?:authoring-p6|channel-window-authoring|simulation-selection)\.spec\.ts/,
+  testDir: '../e2e', testMatch: /(?:authoring-p6|channel-window-authoring)\.spec\.ts/,
   grep: /系统枚举专项/,
   outputDir: '../../output/system-enums/web', timeout: 60_000, workers: 1, retries: 0,
   use: { ...devices['Desktop Chrome'], baseURL: 'http://127.0.0.1:4233', screenshot: 'only-on-failure' },
-  webServer: { cwd: webRoot, command: 'npm run dev -- --host 127.0.0.1 --port 4233 --strictPort',
+  webServer: { cwd: webRoot, env: { DEV_HTTPS_KEY_PATH: '', DEV_HTTPS_CERT_PATH: '' }, command: 'npm run dev:maintenance -- --host 127.0.0.1 --port 4233 --strictPort',
     url: 'http://127.0.0.1:4233', reuseExistingServer: false, timeout: 60_000 }
 });

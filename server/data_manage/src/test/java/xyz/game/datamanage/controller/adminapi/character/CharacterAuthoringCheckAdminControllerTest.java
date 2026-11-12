@@ -38,7 +38,7 @@ class CharacterAuthoringCheckAdminControllerTest {
         mvc = MockMvcBuilders.standaloneSetup(new CharacterAuthoringCheckAdminController(service))
             .setControllerAdvice(new GlobalExceptionHandler())
             .setMessageConverters(new MappingJackson2HttpMessageConverter(objectMapper))
-            .addFilters(new AdminAuthFilter(objectMapper, verifier, new AccountBrowser(new AccountProperties()))).build();
+            .addFilters(new AdminAuthFilter(objectMapper, verifier, new AccountBrowser(new AccountProperties()),org.mockito.Mockito.mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class))).build();
     }
 
     @Test

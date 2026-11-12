@@ -3,6 +3,7 @@ import { clearFormulaProofScope, validateConsumedFormulaValues, validateApproved
 import { Alert, Button, Checkbox, Form, InputNumber, Select, Space, Table, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { JsonBlock } from '../../components/JsonBlock';
+import { ProblemReport } from '../../components/ProblemReport';
 import { GenericEngineClient, GenericEngineClientError } from '../../engine/genericEngineClient';
 import { WASM_IDENTITY } from '../../engine/wasmIdentity';
 import { inspectSimulationSnapshot, prepareSimulation, singleAttackRequest, SIMULATION_ADAPTER_VERSION } from '../../engine/simulationAdapter';
@@ -1372,6 +1373,10 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, onDi
         <Typography.Paragraph type="secondary">记录上限可显式为0；各类预算独立，不改变完整累计或结算。</Typography.Paragraph>
       </section> : null}
       {error ? <Alert key="task-error" type="error" content={<span style={{ whiteSpace: 'pre-wrap' }}>{error}</span>} /> : null}
+      <ProblemReport key="problem-report" gameId={selectedGameId} mode={mode}
+        material={{ snapshot, input: { selection, attributeDrafts, initialHealth, resourceDrafts, mechanicDrafts, sceneParameterDrafts,
+          auraConfirmed, durationMs, skillMode, backgroundAttack, skillInputs, automaticInputs, recordTimeSeries },
+          result: archive, error, resultStale, phase }} />
 
       {snapshot ? <ScenarioDetails key="configuration-version" collapsed title="配置版本">
         {snapshot.skillConfigurations.map(configuration => <Typography.Paragraph key={configuration.skill.skillKey} style={{ overflowWrap: 'anywhere' }}>

@@ -1,4 +1,4 @@
-import { fulfillAuthSession } from '../fixtures/authSession';
+import { fulfillAuthSession, openMaintenancePage } from '../fixtures/authSession';
 import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { fixedValue, formulaValue, type NumericValue } from '../../src/types/numericValue';
 import type { GameVampRule } from '../../src/types/gameVamp';
@@ -2840,61 +2840,61 @@ async function waitForGame(page: Page): Promise<void> {
 }
 
 async function openAttributes(page: Page): Promise<void> {
-  await page.goto('/#/attributes');
+  await openMaintenancePage(page, '/#/attributes');
   await waitForGame(page);
   await expect(page.locator('.app-main').getByText('属性管理', { exact: true }).first()).toBeVisible();
 }
 
 async function openCharacters(page: Page): Promise<void> {
-  await page.goto('/#/characters');
+  await openMaintenancePage(page, '/#/characters');
   await waitForGame(page);
   await expect(page.locator('.app-main').getByText('角色管理', { exact: true }).first()).toBeVisible();
 }
 
 async function openEquipment(page: Page): Promise<void> {
-  await page.goto('/#/equipment');
+  await openMaintenancePage(page, '/#/equipment');
   await waitForGame(page);
   await expect(page.locator('.app-main').getByText('装备管理', { exact: true }).first()).toBeVisible();
 }
 
 async function openSkillCategories(page: Page): Promise<void> {
-  await page.goto('/#/skill-categories');
+  await openMaintenancePage(page, '/#/skill-categories');
   await waitForGame(page);
   await expect(page.locator('.app-main').getByText('技能分类管理', { exact: true }).first()).toBeVisible();
 }
 
 async function openDamageTypes(page: Page): Promise<void> {
-  await page.goto('/#/damage-types');
+  await openMaintenancePage(page, '/#/damage-types');
   await waitForGame(page);
   await expect(page.locator('.app-main').getByText('伤害类型管理', { exact: true }).first()).toBeVisible();
 }
 
 async function openModifierZones(page: Page): Promise<void> {
-  await page.goto('/#/modifier-zones');
+  await openMaintenancePage(page, '/#/modifier-zones');
   await waitForGame(page);
   await expect(page.locator('.app-main').getByText('乘区管理', { exact: true }).first()).toBeVisible();
 }
 
 async function openSkills(page: Page): Promise<void> {
-  await page.goto('/#/skills');
+  await openMaintenancePage(page, '/#/skills');
   await waitForGame(page);
   await expect(page.locator('.app-main').getByText('技能管理', { exact: true }).first()).toBeVisible();
 }
 
 async function openStatuses(page: Page): Promise<void> {
-  await page.goto('/#/statuses');
+  await openMaintenancePage(page, '/#/statuses');
   await waitForGame(page);
   await expect(page.locator('.app-main').getByText('状态管理', { exact: true }).first()).toBeVisible();
 }
 
 async function openGameSettings(page: Page): Promise<void> {
-  await page.goto('/#/game-settings');
+  await openMaintenancePage(page, '/#/game-settings');
   await waitForGame(page);
   await expect(page.locator('.app-main').getByText('游戏配置', { exact: true }).first()).toBeVisible();
 }
 
 async function openImages(page: Page): Promise<void> {
-  await page.goto('/#/images');
+  await openMaintenancePage(page, '/#/images');
   await waitForGame(page);
   await expect(page.locator('.app-main').getByText('图片管理', { exact: true }).first()).toBeVisible();
 }
@@ -4016,7 +4016,7 @@ test.describe('authoring input safety', () => {
     diagnostics.assertClean('level retry');
   });
 
-  test('level drafts survive account dialog, rejected refresh and game switches', async ({ page }) => {
+  test('level drafts survive maintenance session refresh, rejected refresh and game switches', async ({ page }) => {
     const mock = new MockApi();
     const diagnostics = await prepare(page, mock);
     await installSecondSafetyGame(page, mock);
@@ -4031,11 +4031,9 @@ test.describe('authoring input safety', () => {
       await dialog.dismiss();
     };
     page.on('dialog', dismissUnexpected);
-    await page.getByRole('button', { name: '已开通', exact: true }).click();
-    await page.getByText('账号安全', { exact: true }).click();
-    await expect(page.locator('.account-dialog')).toBeVisible();
-    await page.locator('.account-dialog').getByRole('button', { name: 'Close', exact: true }).click();
-    await expect(page.locator('.account-dialog')).toHaveCount(0);
+    const refreshed = page.waitForResponse(response => new URL(response.url()).pathname === '/internal/maintenance/me');
+    await page.getByRole('button', { name: '刷新维护会话', exact: true }).click();
+    await refreshed;
     await expect(page.getByLabel('最大等级', { exact: true })).toHaveValue('4');
     page.off('dialog', dismissUnexpected);
     expect(unexpectedDialogs).toEqual([]);
@@ -8246,7 +8244,7 @@ test.describe('attribute management without Wasm', () => {
     await expect(page).toHaveURL(/#\/characters$/);
     await expect(page.locator('.app-main').getByText('角色管理', { exact: true }).first()).toBeVisible();
 
-    await page.goto('/#/attributes');
+    await openMaintenancePage(page, '/#/attributes');
     await waitForGame(page);
     modal = await fillCreateDraft(page, { key: 'unsaved_refresh', name: '未保存刷新' });
     let sawBeforeUnload = false;
@@ -8265,12 +8263,12 @@ test.describe('attribute management without Wasm', () => {
     const mock = new MockApi();
     const diagnostics = await prepare(page, mock);
 
-    await page.goto('/');
+    await openMaintenancePage(page, '/');
     await waitForGame(page);
     await expect(page).toHaveURL(/#\/attributes$/);
     await expect(page.locator('.app-main').getByText('属性管理', { exact: true }).first()).toBeVisible();
 
-    await page.goto('/#/');
+    await openMaintenancePage(page, '/#/');
     await waitForGame(page);
     await expect(page).toHaveURL(/#\/attributes$/);
     await expect(page.locator('.app-main').getByText('属性管理', { exact: true }).first()).toBeVisible();
@@ -8293,7 +8291,7 @@ test.describe('attribute management without Wasm', () => {
     ];
 
     for (const hash of legacyHashes) {
-      await page.goto(`/${hash}`);
+      await openMaintenancePage(page, `/${hash}`);
       await waitForGame(page);
       await expect(page).toHaveURL(/#\/attributes$/);
       await expect(page.locator('.app-main').getByText('属性管理', { exact: true }).first()).toBeVisible();
@@ -8314,7 +8312,7 @@ test.describe('attribute management without Wasm', () => {
     ];
 
     for (const [hash, title] of currentPages) {
-      await page.goto(`/${hash}`);
+      await openMaintenancePage(page, `/${hash}`);
       await waitForGame(page);
       await expect(page).toHaveURL(new RegExp(`${hash.replace('/', '\\/')}$`));
       await expect(page.locator('.app-main').getByText(title, { exact: true }).first()).toBeVisible();

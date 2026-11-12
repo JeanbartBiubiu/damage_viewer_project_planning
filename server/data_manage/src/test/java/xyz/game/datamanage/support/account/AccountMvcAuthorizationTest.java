@@ -20,8 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AccountMvcAuthorizationTest {
     static class Registry extends InterceptorRegistry { List<Object> items() { return getInterceptors(); } }
     @Test void actualMappedAdminWriteRequiresSessionEvenWhenAllFiltersAreAbsent() throws Exception {
-        AccountSessions sessions=mock(AccountSessions.class);when(sessions.resolve(null)).thenThrow(AccountErrors.invalid());
-        var registry=new Registry();new AccountMvcAuthorization(sessions,new AccountBrowser(new AccountProperties())).addInterceptors(registry);
+        xyz.game.datamanage.support.maintenance.MaintenanceSessions sessions=mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class);when(sessions.require(any(),eq(true))).thenThrow(AccountErrors.invalid());
+        var registry=new Registry();new AccountMvcAuthorization(sessions).addInterceptors(registry);
         AttributeService service=mock(AttributeService.class);
         var mvc=MockMvcBuilders.standaloneSetup(new AttributeAdminController(service,mock(AdminEditLogHelper.class),new ObjectMapper()))
             .setControllerAdvice(new GlobalExceptionHandler()).addInterceptors((HandlerInterceptor)registry.items().getFirst()).build();
@@ -32,7 +32,7 @@ class AccountMvcAuthorizationTest {
         verifyNoInteractions(service);
     }
     @Test void actualMappedGameReadNeverCreatesAnAuthenticationContext() throws Exception {
-        AccountSessions sessions=mock(AccountSessions.class);var registry=new Registry();new AccountMvcAuthorization(sessions,new AccountBrowser(new AccountProperties())).addInterceptors(registry);
+        xyz.game.datamanage.support.maintenance.MaintenanceSessions sessions=mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class);var registry=new Registry();new AccountMvcAuthorization(sessions).addInterceptors(registry);
         AttributeService service=mock(AttributeService.class);
         var mvc=MockMvcBuilders.standaloneSetup(new AttributeAdminController(service,mock(AdminEditLogHelper.class),new ObjectMapper()))
             .setControllerAdvice(new GlobalExceptionHandler()).addInterceptors((HandlerInterceptor)registry.items().getFirst()).build();

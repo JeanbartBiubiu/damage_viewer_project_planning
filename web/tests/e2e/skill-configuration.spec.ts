@@ -1,4 +1,4 @@
-import { fulfillAuthSession } from '../fixtures/authSession';
+import { fulfillAuthSession, openMaintenancePage } from '../fixtures/authSession';
 import { skillFormulaDefinition } from '../fixtures/skillFormulaDefinition';
 import { expect, test, type Page, type Route } from '@playwright/test';
 import { configurationMatchesRequest } from '../../src/pages/admin/skills/skillConfigurationDraft';
@@ -141,7 +141,7 @@ class ConfigurationApi {
 }
 
 async function openSkills(page: Page) {
-  await page.goto('/#/skills');
+  await openMaintenancePage(page, '/#/skills');
   await expect(page.locator('tr', { hasText: 'sample_q' })).toBeVisible();
 }
 
@@ -683,7 +683,7 @@ test('隔离服务真接口：页面同次创建参数与引用公式，重开�
     if (['POST', 'PATCH', 'PUT', 'DELETE'].includes(req.method())) writes.push(
       `${req.method()} ${new URL(req.url()).pathname}`);
   });
-  await page.goto('/#/skills');
+  await openMaintenancePage(page, '/#/skills');
   await page.getByRole('button', { name: '新增技能' }).click();
   const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
   await workspace.getByLabel('技能标识').fill(key);
@@ -744,7 +744,7 @@ test('隔离服务真接口：页面同次创建内部状态与带结果的效�
     if (['POST', 'PATCH', 'PUT', 'DELETE'].includes(req.method())) writes.push(
       `${req.method()} ${new URL(req.url()).pathname}`);
   });
-  await page.goto('/#/skills');
+  await openMaintenancePage(page, '/#/skills');
   await page.getByRole('button', { name: '新增技能' }).click();
   const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
   await workspace.getByLabel('技能标识').fill(key);
@@ -821,7 +821,7 @@ test('隔离服务真接口：六模块同次保存并独立回读', async ({ pa
       savedSkill = body.skill;
     }
   });
-  await page.goto('/#/skills');
+  await openMaintenancePage(page, '/#/skills');
   await page.getByRole('button', { name: '新增技能' }).click();
   const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
   const navigation = workspace.getByRole('navigation', { name: '技能配置模块' });

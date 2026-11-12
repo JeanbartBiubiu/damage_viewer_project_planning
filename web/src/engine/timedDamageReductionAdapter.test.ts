@@ -9,7 +9,7 @@ import { fixedValue } from '../types/numericValue';
 import { createNumericCompileState } from './numericAdapter';
 import { compileTimedDamageReduction } from './timedDamageReductionAdapter';
 import { adaptProcessProgram, withProcessProgram } from './processAdapter';
-import { TinyGoV2Bridge } from './tinygoV2Bridge';
+import { TinyGoV2Bridge } from '../../tests/fixtures/authorizedBridge';
 import { parseCompileResult, parseDoneResult, parseReleaseResult } from './genericEngineClient';
 import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { authoredConstantDefense } from '../../tests/fixtures/authoredDamageFormula';

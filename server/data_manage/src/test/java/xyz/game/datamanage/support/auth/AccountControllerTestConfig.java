@@ -19,13 +19,24 @@ public class AccountControllerTestConfig {
     @Bean AccountProperties accountProperties() { return new AccountProperties(); }
     @Bean AccountBrowser accountBrowser(AccountProperties properties) { return new AccountBrowser(properties); }
     @Bean InternalAccountGuard internalAccountGuard(AccountProperties properties) { return new InternalAccountGuard(properties); }
+    @Bean xyz.game.datamanage.support.maintenance.MaintenanceProperties maintenanceProperties() {
+        var properties=new xyz.game.datamanage.support.maintenance.MaintenanceProperties();properties.setAllowedOrigins(java.util.List.of("https://localhost:5173"));return properties;
+    }
+    @Bean xyz.game.datamanage.support.maintenance.MaintenanceSessions maintenanceSessions() {
+        var mock=mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class);
+        when(mock.require(any(),anyBoolean())).thenReturn(new xyz.game.datamanage.support.maintenance.MaintenanceSessions.Resolved(editor(),AccountCrypto.hash("c".repeat(43))));
+        return mock;
+    }
+    @Bean org.springframework.jdbc.core.JdbcTemplate maintenanceJdbc() {
+        var mock=mock(org.springframework.jdbc.core.JdbcTemplate.class);when(mock.queryForObject(anyString(),eq(Boolean.class))).thenReturn(false);return mock;
+    }
     @Bean AccountSessions accountSessions() {
         AccountSessions mock=mock(AccountSessions.class);
         when(mock.resolve(anyString())).thenReturn(new AccountSessions.Resolved(editor(),AccountCrypto.hash("c".repeat(43))));
         return mock;
     }
     @Bean MockMvcBuilderCustomizer accountTestRequest() {
-        return builder->builder.defaultRequest(get("/").cookie(new Cookie(AccountBrowser.SESSION,"s".repeat(43)),new Cookie(AccountBrowser.CSRF,"c".repeat(43)))
+        return builder->builder.defaultRequest(get("/").cookie(new Cookie(AccountBrowser.SESSION,"s".repeat(43)),new Cookie(AccountBrowser.CSRF,"c".repeat(43)),new Cookie(xyz.game.datamanage.support.maintenance.MaintenanceSessions.SESSION,"s".repeat(43)),new Cookie(xyz.game.datamanage.support.maintenance.MaintenanceSessions.CSRF,"c".repeat(43)))
             .header("Origin","https://localhost:5173").header("X-Damage-Client","web").header("X-CSRF-Token","c".repeat(43)).contentType("application/json"));
     }
 }

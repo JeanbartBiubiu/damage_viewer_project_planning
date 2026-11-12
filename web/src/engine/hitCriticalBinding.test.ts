@@ -11,7 +11,7 @@ import { simulationCriticalBinding } from './simulationCalculationRules';
 import { assembleSimulation, inspectSimulationSnapshot } from './simulationAdapter';
 import { automaticSkillRequest } from './automaticSkillRequest';
 import { assessAutomaticSkillResult } from './automaticSkillResult';
-import { TinyGoV2Bridge } from './tinygoV2Bridge';
+import { TinyGoV2Bridge } from '../../tests/fixtures/authorizedBridge';
 import { WASM_IDENTITY } from './wasmIdentity';
 import { parseCompileResult, parseDoneResult, parseReleaseResult } from './genericEngineClient';
 

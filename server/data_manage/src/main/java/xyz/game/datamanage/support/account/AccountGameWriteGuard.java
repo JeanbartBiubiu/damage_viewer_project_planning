@@ -18,16 +18,16 @@ import xyz.game.datamanage.support.auth.AuthContext;
 @Order(1)
 @EnableTransactionManagement(order=0)
 public class AccountGameWriteGuard {
-    private final AccountSessions sessions;
-    public AccountGameWriteGuard(AccountSessions sessions) { this.sessions = sessions; }
+    private final xyz.game.datamanage.support.maintenance.MaintenanceSessions sessions;
+    public AccountGameWriteGuard(xyz.game.datamanage.support.maintenance.MaintenanceSessions sessions) { this.sessions = sessions; }
     @Around("(execution(public * xyz.game.datamanage.service..*(..)) || execution(public * xyz.game.datamanage.controller.adminapi..*(..))) && (@annotation(org.springframework.transaction.annotation.Transactional) || @within(org.springframework.transaction.annotation.Transactional))")
     public Object guard(ProceedingJoinPoint invocation) throws Throwable {
         if (RequestContextHolder.getRequestAttributes() instanceof ServletRequestAttributes attributes) {
             HttpServletRequest request=attributes.getRequest();
-            if (!AdminAuthFilter.publicGameRead(request)) {
+            if (AccountRequestPath.path(request).startsWith("/api/admin/games/") && !AdminAuthFilter.publicGameRead(request)) {
                 Object context=request.getAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR);
                 if (!(context instanceof AuthContext auth)) throw AccountErrors.invalid();
-                if (!TransactionSynchronizationManager.isCurrentTransactionReadOnly()) sessions.lockEditor(auth);
+                if (!TransactionSynchronizationManager.isCurrentTransactionReadOnly()) sessions.lock(auth);
             }
         }
         return invocation.proceed();

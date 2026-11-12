@@ -30,7 +30,7 @@ func TestIdentityMatchesArtifactAndBuildMode(t *testing.T) {
 			t.Fatal(err)
 		}
 		digest := sha256.Sum256(data)
-		if identity.Bytes != len(data) || identity.SHA256 != hex.EncodeToString(digest[:]) || identity.AuthorizationRequired != config.Required || identity.AuthorizationVersion != 1 {
+		if identity.Bytes != len(data) || identity.SHA256 != hex.EncodeToString(digest[:]) || identity.AuthorizationRequired != config.Required || identity.AuthorizationVersion != 2 {
 			t.Fatal("identity does not match artifact and mode")
 		}
 		if config.Required && (identity.AuthorizationKeyID == nil || *identity.AuthorizationKeyID != config.KeyID || identity.AuthorizationPublicKey == nil || *identity.AuthorizationPublicKey != config.PublicKey) {

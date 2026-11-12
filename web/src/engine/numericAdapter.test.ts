@@ -3,7 +3,7 @@ import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { simulationSample } from '../../tests/fixtures/simulationSnapshot';
 import type { CompileResult } from '../types/genericEngine';
-import { TinyGoV2Bridge } from './tinygoV2Bridge';
+import { TinyGoV2Bridge } from '../../tests/fixtures/authorizedBridge';
 import { GenericEngineClient, parseCompileResult, parseReleaseResult } from './genericEngineClient';
 import { preflightSkillFormulas, skillFormulaPreflightRequest, snapshotFormulaProofIdentity } from './skillFormulaPreflight';
 import { approvedFormulaValue, clearFormulaProofScope, collectedCommonFormulaDefinitions, consumedApprovedFormulaValues,

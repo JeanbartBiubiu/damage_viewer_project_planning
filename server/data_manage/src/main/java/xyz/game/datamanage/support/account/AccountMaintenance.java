@@ -34,13 +34,13 @@ public class AccountMaintenance {
         }); } catch (DuplicateKeyException e) { throw conflict(); }
     }
     private ApiException conflict() { return new ApiException(HttpStatus.CONFLICT,"AUTH.ENABLEMENT_CONFLICT","账号已开通或关联编号冲突"); }
-    /** 运维服务调用，无浏览器路由；禁用及编辑资格变更持有排他账号锁。 */
-    public void changeAccess(UUID id,boolean disabled,boolean canEdit) {
+    /** 运维服务调用，无浏览器路由；禁用变更持有排他账号锁。 */
+    public void changeAccess(UUID id,boolean disabled) {
         store.tx(()-> {
             AccountStore.Account a=store.account(id,true);
             if (a==null) throw new ApiException(HttpStatus.NOT_FOUND,"AUTH.ACCOUNT_NOT_FOUND","账号不存在");
             String status=disabled?"disabled":(a.batchId()==null?"pending":"active");
-            store.jdbc().update("UPDATE auth.accounts SET status=?,can_edit=?,auth_epoch=auth_epoch+1,updated_at=CURRENT_TIMESTAMP WHERE id=?",status,canEdit,id);
+            store.jdbc().update("UPDATE auth.accounts SET status=?,auth_epoch=auth_epoch+1,updated_at=CURRENT_TIMESTAMP WHERE id=?",status,id);
             store.revokeSessions(id,UUID.randomUUID()); store.event(id,null,"internal","account.access_changed"); return null;
         });
     }

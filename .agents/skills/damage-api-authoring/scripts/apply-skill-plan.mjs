@@ -241,7 +241,7 @@ function apiBase(value) {
     || !/^\/(?:[a-zA-Z0-9_-]+\/?)*$/.test(url.pathname)) fail('api-base', '只允许无凭据和查询串的HTTP(S)基址');
   return url.toString().replace(/\/$/, '');
 }
-function authoringAuthentication(env) {
+function authoringAuthentication(env, apply) {
   const session = env.DAMAGE_AUTHORING_SESSION;
   const csrf = env.DAMAGE_AUTHORING_CSRF;
   for (const [name, value] of [['DAMAGE_AUTHORING_SESSION', session], ['DAMAGE_AUTHORING_CSRF', csrf]]) {
@@ -256,7 +256,11 @@ function authoringAuthentication(env) {
   if (origin.username || origin.password || origin.search || origin.hash || origin.pathname !== '/') {
     fail('DAMAGE_AUTHORING_ORIGIN', '来源不能包含凭据、路径、查询或片段');
   }
-  return { session, csrf, origin: origin.origin };
+  const batch = env.DAMAGE_AUTHORING_BATCH;
+  if (apply && (typeof batch !== 'string' || !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(batch))) {
+    fail('DAMAGE_AUTHORING_BATCH', '正式写入需要已验证、已登记并打开维护窗口的批次编号');
+  }
+  return { session, csrf, origin: origin.origin, batch };
 }
 const credentialValues = env => [env.DAMAGE_AUTHORING_SESSION, env.DAMAGE_AUTHORING_CSRF]
   .filter(value => typeof value === 'string' && value);
@@ -278,7 +282,7 @@ const DEFAULT_TIMEOUT_MS = 60000;
 /** 会话凭据与来源仅从env取得；fetchImpl只供本地传输测试；timeoutMs覆盖响应头和完整响应体读取。 */
 export async function runSkillPlan({ apiBase: suppliedBase, planPath, outputDir, apply = false, env = process.env,
   fetchImpl = globalThis.fetch, timeoutMs = DEFAULT_TIMEOUT_MS }) {
-  const authentication = authoringAuthentication(env);
+  const authentication = authoringAuthentication(env, apply);
   const secrets = credentialValues(env);
   const base = apiBase(suppliedBase);
   if (typeof planPath !== 'string' || !planPath || typeof outputDir !== 'string' || !outputDir) fail('paths', '必须明确提供plan和output-dir');
@@ -291,9 +295,10 @@ export async function runSkillPlan({ apiBase: suppliedBase, planPath, outputDir,
   async function exchange(method, url, body) {
     try {
       const response = await fetchImpl(url, { method, headers: {
-        Cookie: `__Host-dv_session=${authentication.session}; __Host-dv_csrf=${authentication.csrf}`,
+        Cookie: `__Host-damage-maint-session=${authentication.session}; __Host-damage-maint-csrf=${authentication.csrf}`,
         Origin: authentication.origin, 'X-Damage-Client': 'web',
-        ...(method === 'PATCH' ? { 'Content-Type': 'application/json', 'X-CSRF-Token': authentication.csrf } : {}) },
+        ...(method === 'PATCH' ? { 'Content-Type': 'application/json', 'X-CSRF-Token': authentication.csrf,
+          'X-Damage-Maintenance-Batch': authentication.batch } : {}) },
         ...(method === 'PATCH' ? { body: JSON.stringify(body) } : {}), redirect: 'error', signal: AbortSignal.timeout(timeoutMs) });
       const text = await response.text();
       let data;

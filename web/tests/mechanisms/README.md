@@ -7,6 +7,8 @@ npm run test:mechanisms   # 只跑机制回归；npm test 也会包含
 npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐字节比对
 ```
 
+分发产物启用计算验签时，Node 数值宿主也签发真实的第 2 版短期维护票据，不关闭验签。签名材料仅从本机忽略目录 `config/auth/grant-private.pk8` 或明确的 `DAMAGE_TEST_GRANT_PRIVATE_KEY_PATH` 读取，先核对与分发声明的受信公钥匹配，不写入证据。纯传输替身用例单独限定其模拟授权策略，正式协议拒绝与真实产物计算分别验证。
+
 ## 链路与比对
 
 `mechanisms.test.ts` 对每个用例走与战斗分析页相同的生产链路：快照校验、公式预检、适配层装配、编译、按模式生成运行请求、真实 Wasm（`src/engine/wasm/tinygo_engine_v2.wasm`）运行、结果完整性核对、同会话重放一致、释放会话。

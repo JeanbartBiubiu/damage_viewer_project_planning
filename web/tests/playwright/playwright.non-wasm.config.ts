@@ -38,7 +38,8 @@ export default defineConfig({
     ? {}
     : {
         webServer: { cwd: webRoot,
-          command: `npm run preview -- --host 127.0.0.1 --port ${NON_WASM_PREVIEW_PORT} --strictPort`,
+          env: { DEV_HTTPS_KEY_PATH: '', DEV_HTTPS_CERT_PATH: '' },
+          command: `npm run preview -- --mode maintenance --outDir dist-maintenance --host 127.0.0.1 --port ${NON_WASM_PREVIEW_PORT} --strictPort`,
           url: webBaseUrl,
           reuseExistingServer: false,
           timeout: 120_000

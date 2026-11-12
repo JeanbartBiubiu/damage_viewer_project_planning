@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev:maintenance": "vite --mode maintenance",
+    "build": "tsc -b && vite build && node scripts/check-deployment-artifact.mjs viewer",
+    "build:maintenance": "tsc -b && vite build --mode maintenance && node scripts/check-deployment-artifact.mjs maintenance",
+    "test:e2e:deployment-modes": "playwright test --config tests/playwright/playwright.deployment-modes.config.ts",
     "preview": "vite preview",
     "lint": "node scripts/lint-no-legacy.mjs",
     "typecheck": "tsc -b --pretty false && tsc -p tsconfig.mechanisms.json --pretty false",

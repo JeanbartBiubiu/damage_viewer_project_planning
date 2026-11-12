@@ -1,0 +1,102 @@
+import { randomUUID } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { validatePlan, sameConfiguration, businessConfiguration } from '../../.agents/skills/damage-api-authoring/scripts/apply-skill-plan.mjs';
+import { calculatePlan } from '../../.agents/skills/skill-damage-verification/scripts/verify-damage.mjs';
+import { exactKeys, requireValue, isUuid, isDigest, digestJson, sha256, containedFile, readJson, writeNew, options } from './artifacts.mjs';
+
+const fields = ['version', 'batchId', 'principalId', 'gameId', 'reference', 'sourceRevision', 'baselineDigest', 'skillPlan', 'scenes', 'expectedPlan'];
+function dependencyShape(value, field = '') {
+  if (typeof value === 'number' && field !== 'sortOrder') return ['number'];
+  if (['name', 'description', 'createdAt', 'updatedAt', 'baseDigest'].includes(field)) return ['metadata'];
+  if (Array.isArray(value)) return ['array', value.map(row => dependencyShape(row))];
+  if (value && typeof value === 'object') return ['object', Object.keys(value).sort().map(key => [key, dependencyShape(value[key], key)])];
+  return [value === null ? 'null' : typeof value, value];
+}
+export function stableCandidateDependencies(before, after) {
+  return before.skill.maxLevel === after.skill.maxLevel
+    && digestJson(dependencyShape(businessConfiguration(before))) === digestJson(dependencyShape(businessConfiguration(after)));
+}
+export function operationRequests(candidate) {
+  return candidate.skillPlan.items.map(item => {
+    const body = JSON.stringify(item.request);
+    return { method: 'PATCH', path: `/api/admin/games/${candidate.gameId}/skills/${item.skillKey}/configuration`, body,
+      bodySha256: sha256(body) };
+  });
+}
+export const operationsForBatch = candidate => operationRequests(candidate).map(({ method, path, bodySha256 }) => ({ method, path, bodySha256 }));
+
+/** 只支持能由现行统一技能协议完整证明的候选；其余维护需求明确交回开发。 */
+export function validateCandidate(input) {
+  exactKeys(input, fields, ['candidateDigest']);
+  requireValue(input.version === 'maintenance-candidate-v1' && isUuid(input.batchId) && isUuid(input.principalId), '候选版本或身份错误。');
+  requireValue(typeof input.gameId === 'string' && /^[a-z0-9_-]{1,64}$/.test(input.gameId), '游戏标识错误。');
+  for (const key of ['reference', 'sourceRevision']) requireValue(typeof input[key] === 'string' && input[key].trim().length > 0 && input[key].length <= 256, '问题或证据修订不能为空且不能超过256字符。');
+  requireValue(isDigest(input.baselineDigest), '缺少真实游戏基线摘要。');
+  validatePlan(input.skillPlan);
+  requireValue(input.skillPlan.gameId === input.gameId && input.skillPlan.items.length <= 100, '技能计划不属于该游戏或过大。');
+  for (const item of input.skillPlan.items) requireValue(stableCandidateDependencies(item.before, item.expected),
+    '当前自动候选仅支持保持来源、引用、排序和结构不变的数值或说明修正；新增组成、来源和依赖须转入开发验证。');
+  requireValue(Array.isArray(input.scenes) && input.scenes.length > 0 && input.scenes.length <= 100, '候选需要有界非空场景。');
+  const expectations = calculatePlan(input.expectedPlan);
+  const ids = new Set(), covered = new Set();
+  for (const scene of input.scenes) {
+    exactKeys(scene, ['id', 'snapshot', 'scenario']);
+    requireValue(typeof scene.id === 'string' && /^[a-z][a-z0-9_-]{0,95}$/.test(scene.id) && !ids.has(scene.id), '场景标识错误或重复。');
+    ids.add(scene.id);
+    requireValue(scene.snapshot?.gameId === input.gameId && Array.isArray(scene.snapshot.skillConfigurations), '场景缺少同游戏完整快照。');
+    requireValue(scene.scenario?.mode === 'fixed' || scene.scenario?.mode === 'continuous', '场景模式不支持。');
+    for (const item of input.skillPlan.items) {
+      const before = scene.snapshot.skillConfigurations.find(row => row.skill?.skillKey === item.skillKey);
+      if (before) {
+        requireValue(sameConfiguration(before, item.before), '场景技能与冻结基线不符。');
+        covered.add(item.skillKey);
+      }
+    }
+  }
+  requireValue(input.skillPlan.items.every(item => covered.has(item.skillKey)), '有变更技能未被任何候选场景覆盖。');
+  requireValue(expectations.cases.length === ids.size && expectations.cases.every(item => ids.has(item.id)), '预期与运行场景不一一对应。');
+  const content = Object.fromEntries(fields.map(key => [key, input[key]]));
+  const candidateDigest = digestJson(content);
+  if (Object.hasOwn(input, 'candidateDigest')) requireValue(input.candidateDigest === candidateDigest, '冻结候选摘要已变化。');
+  return { ...structuredClone(content), candidateDigest };
+}
+
+export function candidateSnapshot(candidate, scene) {
+  const snapshot = structuredClone(scene.snapshot);
+  for (const item of candidate.skillPlan.items) {
+    const index = snapshot.skillConfigurations.findIndex(row => row.skill.skillKey === item.skillKey);
+    if (index < 0) continue;
+    const replacement = structuredClone(item.expected);
+    replacement.baseDigest = digestJson(businessConfiguration(replacement));
+    snapshot.skillConfigurations[index] = replacement;
+  }
+  // 标识本地候选内容，原服务快照与原 readAt 始终保存在冻结档案中。
+  snapshot.snapshotDigest = digestJson({ candidate: candidate.candidateDigest, scene: scene.id, snapshot });
+  return snapshot;
+}
+
+export function verifySourceEvidence(candidate, directory) {
+  for (const item of candidate.skillPlan.items) for (const evidence of item.sourceEvidence) {
+    const path = containedFile(directory, evidence.path);
+    requireValue(sha256(readFileSync(path)) === evidence.sha256.toLowerCase(), '资料证据文件与冻结摘要不符。');
+  }
+}
+
+function main(args) {
+  if (!args.length || args[0] === '--help') {
+    console.log('冻结同游戏技能候选；不写业务数据。\nnode tools/maintenance/candidate.mjs --input <计划.json> --output <新候选.json>');
+    return;
+  }
+  const opts = options(args, ['--input', '--output']);
+  requireValue(dirname(resolve(opts['--input'])) === dirname(resolve(opts['--output'])), '冻结文件须与输入计划同目录，保持资料引用的解析基准。');
+  const input = readJson(opts['--input']);
+  const candidate = validateCandidate({ version: 'maintenance-candidate-v1', batchId: randomUUID(), ...input });
+  verifySourceEvidence(candidate, dirname(resolve(opts['--input'])));
+  writeNew(opts['--output'], candidate);
+  console.log(JSON.stringify({ candidateDigest: candidate.candidateDigest, scenes: candidate.scenes.length, operations: operationsForBatch(candidate).length }));
+}
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  try { main(process.argv.slice(2)); } catch { console.error('候选冻结失败，请核对字段、资料摘要、场景与预期。'); process.exitCode = 1; }
+}

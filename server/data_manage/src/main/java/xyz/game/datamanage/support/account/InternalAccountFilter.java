@@ -20,7 +20,7 @@ public class InternalAccountFilter extends OncePerRequestFilter {
     private final ObjectMapper json;
     public InternalAccountFilter(InternalAccountGuard guard,ObjectMapper json) { this.guard=guard; this.json=json; }
     @Override protected boolean shouldNotFilter(HttpServletRequest request) {
-        return !AccountRequestPath.path(request).startsWith("/internal/");
+        return !AccountRequestPath.path(request).startsWith("/internal/accounts/");
     }
     @Override protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response,FilterChain chain) throws ServletException,IOException {
         response.setHeader("Cache-Control","no-store");

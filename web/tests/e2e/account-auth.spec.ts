@@ -1,5 +1,6 @@
 import { expect, test, type BrowserContext, type Page, type Route } from '@playwright/test';
 import { fulfillVisitReport } from '../fixtures/authSession';
+import { installSimulationSelectionApi } from '../fixtures/simulationSelection';
 
 // 全部凭据和恢复材料都是隔离替身；此处验证浏览器接线，不替代真实后端安全验证。
 const PASSWORD = 'fixture-password-123';
@@ -22,7 +23,7 @@ class AccountApi {
   unexpected: string[] = [];
   publicCredentialLeaks: string[] = [];
   constructor(private context: BrowserContext) {}
-  session() { return { accountId: ACCOUNT_ID, username: 'fixture_player', canLogin: 1, canEdit: true, expiresAt: this.sessionExpiresAt }; }
+  session() { return { accountId: ACCOUNT_ID, username: 'fixture_player', canLogin: 1, expiresAt: this.sessionExpiresAt }; }
   flow() { return { accountId: ACCOUNT_ID, purpose: this.purpose, phase: this.phase, expiresAt: expiry() }; }
   async install() { await this.context.route('**/api/**', route => this.handle(route)); }
   private async cookies(url: string, flow: boolean) {
@@ -88,7 +89,23 @@ class AccountApi {
 }
 
 const dialog = (page: Page) => page.locator('.account-dialog');
-async function open(page: Page, api: AccountApi) { await page.goto('/#/attributes'); await expect(page.getByRole('heading', { name: '属性管理', exact: true })).toBeVisible(); expect(api.unexpected).toEqual([]); }
+async function open(page: Page, api: AccountApi) {
+  await installSimulationSelectionApi(page, 'http://127.0.0.1:4185', 'demo');
+  await page.unroute('**/api/auth/me');
+  await page.goto('/#/simulation/basic-attack');
+  await expect(page.getByRole('heading', { name: '普攻模拟', exact: true })).toBeVisible();
+  expect(api.unexpected).toEqual([]);
+}
+async function keepSceneInput(page: Page, value: string) {
+  await page.getByRole('button', { name: '报告问题', exact: true }).click();
+  await page.getByLabel('问题说明', { exact: true }).fill(value);
+  await page.getByRole('dialog').filter({ hasText: '报告计算或资料问题' }).getByRole('button', { name: '关闭', exact: true }).click();
+}
+async function expectSceneInput(page: Page, value: string) {
+  await page.getByRole('button', { name: '报告问题', exact: true }).click();
+  await expect(page.getByLabel('问题说明', { exact: true })).toHaveValue(value);
+  await page.getByRole('dialog').filter({ hasText: '报告计算或资料问题' }).getByRole('button', { name: '关闭', exact: true }).click();
+}
 async function credentials(page: Page, username = 'fixture_player') {
   await dialog(page).getByLabel('用户名', { exact: true }).fill(username);
   await dialog(page).getByLabel('密码', { exact: true }).fill(PASSWORD);
@@ -103,26 +120,21 @@ async function saveCodes(page: Page) {
   await dialog(page).getByRole('button', { name: '确认已保存，完成操作', exact: true }).click();
 }
 
-test('访客读取安静，受保护保存仅显示需要登录且保留草稿，不重放', async ({ page, context }) => {
+test('访客可读取与设置场景，公共端不提供配置写入或维护入口', async ({ page, context }) => {
   const api = new AccountApi(context); await api.install(); await open(page, api);
   await expect(page.getByRole('dialog')).toHaveCount(0);
-  await page.getByRole('button', { name: '新增属性', exact: true }).click();
-  const editor = page.getByRole('dialog').filter({ hasText: '新增属性' });
-  await editor.getByLabel('稳定标识', { exact: true }).fill('keep_draft'); await editor.getByLabel('属性名称', { exact: true }).fill('保留草稿');
-  await editor.getByRole('button', { name: '保存', exact: true }).click();
-  const prompt = page.getByRole('dialog').filter({ hasText: '需要登录' });
-  await expect(prompt).toContainText('请先通过右上角入口登录，再进行此操作。');
-  await expect(prompt.getByRole('button', { name: '知道了', exact: true })).toBeVisible();
-  await expect(dialog(page)).toHaveCount(0); await prompt.getByRole('button', { name: '知道了', exact: true }).click();
-  await expect(editor.getByLabel('稳定标识', { exact: true })).toHaveValue('keep_draft');
-  await expect(editor.getByLabel('属性名称', { exact: true })).toHaveValue('保留草稿');
-  expect(api.calls.filter(call => call.method === 'POST' && call.path.endsWith('/attributes'))).toHaveLength(1);
+  await expect(page.getByRole('button', { name: '新增属性', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '刷新维护会话', exact: true })).toHaveCount(0);
+  await page.goto('/#/attributes');
+  await expect(page).toHaveURL(/#\/simulation\/combat-analysis$/);
+  await expect(page.getByRole('button', { name: '新增属性', exact: true })).toHaveCount(0);
+  expect(api.calls.filter(call => call.method !== 'GET' && !call.path.startsWith('/api/auth/'))).toHaveLength(0);
   expect(api.publicCredentialLeaks).toEqual([]);
 });
 
-test('右上角手动两步登录，表单错误局部展示，刷新恢复身份且筛选输入保留', async ({ page, context }) => {
+test('右上角手动两步登录，表单错误局部展示，刷新恢复身份且场景输入保留', async ({ page, context }) => {
   const api = new AccountApi(context); await api.install(); await open(page, api);
-  await page.getByLabel('关键词', { exact: true }).fill('保留筛选');
+  await keepSceneInput(page, '保留筛选');
   await page.getByRole('button', { name: '登录', exact: true }).click(); await credentials(page, 'bad');
   await dialog(page).getByRole('button', { name: '下一步', exact: true }).click();
   await expect(dialog(page).getByText('AUTH.INVALID_CREDENTIALS: 测试凭据无效或会话已结束。', { exact: true })).toBeVisible();
@@ -130,7 +142,7 @@ test('右上角手动两步登录，表单错误局部展示，刷新恢复身�
   await credentials(page); await dialog(page).getByRole('button', { name: '下一步', exact: true }).click();
   await expect(page.getByRole('button', { name: '已开通', exact: true })).toHaveCount(0);
   await otp(page); await expect(page.getByRole('button', { name: '已开通', exact: true })).toBeVisible();
-  await expect(page.getByLabel('关键词', { exact: true })).toHaveValue('保留筛选');
+  await expectSceneInput(page, '保留筛选');
   expect(api.calls.find(call => call.path.endsWith('/login/totp'))?.body).toEqual({ totpCode: '001234' });
   expect(api.calls.find(call => call.path.endsWith('/login/totp'))?.csrf).toBe('fixture-flow-csrf');
   expect(api.calls.filter(call => call.path === '/api/auth/login').every(call => call.csrf === undefined)).toBe(true);
@@ -235,20 +247,21 @@ for (const kind of ['password', 'totp', 'recovery-codes'] as const) test(`正常
 test('全部退出跨标签页失效，保留两个页面的当前输入', async ({ page, context }) => {
   const api = new AccountApi(context); api.signedIn = true; await api.install(); await open(page, api);
   const second = await context.newPage(); await open(second, api);
-  await page.getByLabel('关键词', { exact: true }).fill('页面甲草稿'); await second.getByLabel('关键词', { exact: true }).fill('页面乙草稿');
+  await keepSceneInput(page, '页面甲草稿'); await keepSceneInput(second, '页面乙草稿');
   await page.getByRole('button', { name: '已开通', exact: true }).click(); await page.getByText('退出全部设备', { exact: true }).click();
   await expect(page.getByRole('button', { name: '登录', exact: true })).toBeVisible(); await expect(second.getByRole('button', { name: '登录', exact: true })).toBeVisible();
-  await expect(page.getByLabel('关键词', { exact: true })).toHaveValue('页面甲草稿'); await expect(second.getByLabel('关键词', { exact: true })).toHaveValue('页面乙草稿');
+  await expectSceneInput(page, '页面甲草稿'); await expectSceneInput(second, '页面乙草稿');
   await expect(second.getByRole('dialog')).toHaveCount(0);
 });
 
-test('无编辑资格的403保留编辑草稿并展示资格提示', async ({ page, context }) => {
-  const api = new AccountApi(context); api.signedIn = true; api.writeCode = 'AUTH.EDIT_REQUIRED'; await api.install(); await open(page, api);
-  await page.getByRole('button', { name: '新增属性', exact: true }).click(); const editor = page.getByRole('dialog').filter({ hasText: '新增属性' });
-  await editor.getByLabel('稳定标识', { exact: true }).fill('keep_draft'); await editor.getByLabel('属性名称', { exact: true }).fill('保留草稿');
-  await editor.getByRole('button', { name: '保存', exact: true }).click();
-  await expect(editor).toContainText('当前账号没有编辑资格，可以继续浏览游戏资料。'); await expect(page.getByRole('dialog').filter({ hasText: '需要登录' })).toHaveCount(0);
-  await expect(editor.getByLabel('属性名称', { exact: true })).toHaveValue('保留草稿');
+test('已开通玩家同样只有查看与计算入口，不能通过旧编辑网址取得配置维护', async ({ page, context }) => {
+  const api = new AccountApi(context); api.signedIn = true; await api.install(); await open(page, api);
+  await expect(page.getByRole('button', { name: '已开通', exact: true })).toBeVisible();
+  await page.goto('/#/skills');
+  await expect(page).toHaveURL(/#\/simulation\/combat-analysis$/);
+  await expect(page.getByRole('button', { name: '新增技能', exact: true })).toHaveCount(0);
+  await expect(page.getByLabel('已验证维护批次')).toHaveCount(0);
+  expect(api.calls.filter(call => call.path.startsWith('/internal/'))).toHaveLength(0);
 });
 
 test('安全证明错误仅在表单内提示，会话失效才出现需要登录且不重放原操作', async ({ page, context }) => {
@@ -267,33 +280,27 @@ test('安全证明错误仅在表单内提示，会话失效才出现需要登�
   await expect(page.getByRole('button', { name: '登录', exact: true })).toBeVisible();
 });
 
-test('会话固定期限到达后静默恢复访客并保留当前筛选输入', async ({ page, context }) => {
+test('会话固定期限到达后静默恢复访客并保留当前场景输入', async ({ page, context }) => {
   const api = new AccountApi(context); api.signedIn = true; api.sessionExpiresAt = new Date(Date.now() + 2500).toISOString(); await api.install(); await open(page, api);
   await expect(page.getByRole('button', { name: '已开通', exact: true })).toBeVisible();
-  await page.getByLabel('关键词', { exact: true }).fill('过期后仍保留');
+  await keepSceneInput(page, '过期后仍保留');
   await expect(page.getByRole('button', { name: '登录', exact: true })).toBeVisible();
-  await expect(page.getByLabel('关键词', { exact: true })).toHaveValue('过期后仍保留');
+  await expectSceneInput(page, '过期后仍保留');
   await expect(page.getByRole('dialog')).toHaveCount(0); expect(api.calls.every(call => call.method === 'GET')).toBe(true);
 });
 
-test('图片上传401仅显示登录提示并保留文件，不拼接失败说明或自动重放', async ({ page, context }) => {
-  const api = new AccountApi(context);
-  api.attributeRows = [{ gameId: 'demo', attributeKey: 'attack', name: '测试属性', valueType: 'DECIMAL', minValue: 0, maxValue: null,
-    description: null, status: 'ENABLED', sortOrder: 0, createdAt: expiry(), updatedAt: expiry() }];
-  await api.install(); await open(page, api);
-  await page.getByRole('row').filter({ has: page.getByText('测试属性', { exact: true }) }).getByRole('button', { name: '代表图片', exact: true }).click();
-  const editor = page.getByRole('dialog', { name: '测试属性 · 代表图片', exact: true });
-  const dataUrl = await page.evaluate(() => {
-    const canvas = document.createElement('canvas'); canvas.width = 4; canvas.height = 4;
-    canvas.getContext('2d')!.fillRect(0, 0, 4, 4); return canvas.toDataURL('image/png');
-  });
-  await editor.getByLabel('选择图片文件', { exact: true }).setInputFiles({ name: 'fixture.png', mimeType: 'image/png', buffer: Buffer.from(dataUrl.split(',')[1]!, 'base64') });
-  await expect(editor.getByRole('button', { name: '上传并使用', exact: true })).toBeEnabled();
-  await editor.getByRole('button', { name: '上传并使用', exact: true }).click();
-  const prompt = page.getByRole('dialog').filter({ hasText: '需要登录' }); await expect(prompt).toBeVisible();
-  await expect(editor.locator('.arco-alert-error')).toHaveCount(0);
-  await prompt.getByRole('button', { name: '知道了', exact: true }).click();
-  await expect(editor).toContainText('fixture.png'); await expect(editor.getByRole('button', { name: '上传并使用', exact: true })).toBeEnabled();
-  expect(api.calls.filter(call => call.method === 'POST' && call.path.endsWith('/images'))).toHaveLength(1);
-  expect(api.calls.filter(call => call.method === 'PUT' && call.path.endsWith('/representative-image'))).toHaveLength(0);
+test('问题报告可下载场景复现材料，不附带玩家会话和恢复凭据', async ({ page, context }) => {
+  const api = new AccountApi(context); api.signedIn = true; await api.install(); await open(page, api);
+  await page.getByRole('button', { name: '报告问题', exact: true }).click();
+  await page.getByLabel('问题说明', { exact: true }).fill('相同装备下伤害与预期不符');
+  const download = page.waitForEvent('download');
+  await page.getByRole('button', { name: '下载复现材料', exact: true }).click();
+  const result = await download;
+  expect(result.suggestedFilename()).toBe('damage-problem-report.json');
+  const stream = await result.createReadStream();
+  const chunks: Buffer[] = []; for await (const chunk of stream!) chunks.push(Buffer.from(chunk));
+  const content = Buffer.concat(chunks).toString('utf8');
+  expect(content).toContain('相同装备下伤害与预期不符');
+  expect(content).not.toMatch(/fixture-session|fixture-opaque|fixture-password|fixture-recovery|__Host-dv/);
+  expect(JSON.parse(content).format).toBe('damage-problem-report-v1');
 });

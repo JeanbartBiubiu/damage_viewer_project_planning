@@ -1,0 +1,920 @@
+{
+  "version": 1,
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/attributes",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/attributes",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/attributes/{attributeKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/attributes/{attributeKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/attributes/{attributeKey}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/attributes/{attributeKey}/representative-image",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/attributes/{attributeKey}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/build-option-skill-relations",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/build-option-skill-relations",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/build-option-skill-relations/{systemKey}/{optionKey}/{skillKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/build-option-skill-relations/{systemKey}/{optionKey}/{skillKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/build-systems",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/build-systems",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/definition",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/groups",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/groups",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/groups/{groupKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/groups/{groupKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/groups/{groupKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/groups/{groupKey}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/groups/{groupKey}/representative-image",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/groups/{groupKey}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/options",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/options",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/options/{optionKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/options/{optionKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/options/{optionKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/options/{optionKey}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/options/{optionKey}/representative-image",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/build-systems/{systemKey}/options/{optionKey}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/calculation-rules",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/calculation-rules",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/character-skill-relations",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/character-skill-relations",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/character-skill-relations/{characterKey}/{skillKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/character-skill-relations/{characterKey}/{skillKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/characters",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/characters",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/characters/{characterKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/characters/{characterKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/characters/{characterKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/characters/{characterKey}/attributes",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/characters/{characterKey}/attributes",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/characters/{characterKey}/authoring-check",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/characters/{characterKey}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/characters/{characterKey}/representative-image",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/characters/{characterKey}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/configuration-reference-audit",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/damage-types",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/damage-types",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/damage-types/{damageTypeKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/damage-types/{damageTypeKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/damage-types/{damageTypeKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/damage-types/{damageTypeKey}/formula",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/damage-types/{damageTypeKey}/formula",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/damage-types/{damageTypeKey}/formula",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/equipment",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/equipment",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/equipment-skill-relations",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/equipment-skill-relations",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/equipment-skill-relations/{equipmentKey}/{skillKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/equipment-skill-relations/{equipmentKey}/{skillKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/equipment/{equipmentKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/equipment/{equipmentKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/equipment/{equipmentKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/equipment/{equipmentKey}/attributes",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/equipment/{equipmentKey}/attributes",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/equipment/{equipmentKey}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/equipment/{equipmentKey}/representative-image",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/equipment/{equipmentKey}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/image-options",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/images",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/images",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/images/{imageKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/images/{imageKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/images/{imageKey}/usages",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/level-config",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/level-config",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/modifier-zones",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/modifier-zones",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/modifier-zones/{modifierZoneKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/modifier-zones/{modifierZoneKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/modifier-zones/{modifierZoneKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/representative-image",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/simulation-availability",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/simulation-snapshot",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skill-categories",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/skill-categories",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/skill-categories/{skillCategoryKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skill-categories/{skillCategoryKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/skill-categories/{skillCategoryKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/skills",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/configuration",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/configuration",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/configuration",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/effects",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/effects",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/effects/{effectKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/effects/{effectKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/effects/{effectKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/effects/{effectKey}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/effects/{effectKey}/representative-image",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/effects/{effectKey}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/formulas",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/formulas",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/formulas/{formulaKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/formulas/{formulaKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/formulas/{formulaKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/internal-states",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/internal-states",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/internal-states/{stateKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/internal-states/{stateKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/internal-states/{stateKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/parameters",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/parameters",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/parameters/{parameterKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/parameters/{parameterKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/parameters/{parameterKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/processes",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/processes",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/processes/{processKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/processes/{processKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/processes/{processKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/representative-image",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/trigger-rules",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/trigger-rules",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/trigger-rules/{ruleKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/trigger-rules/{ruleKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/skills/{skillKey}/trigger-rules/{ruleKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/statuses",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/admin/games/{gameId}/statuses",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/statuses/{statusKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/statuses/{statusKey}",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/statuses/{statusKey}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/admin/games/{gameId}/statuses/{statusKey}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/statuses/{statusKey}/representative-image",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/statuses/{statusKey}/representative-image",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/{gameId}/vamp-rules",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/{gameId}/vamp-rules",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/visits/last30days",
+      "access": "DEPLOYMENT"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/flow/complete",
+      "access": "PUBLIC_ACCOUNT"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/flow/recovery-codes",
+      "access": "PUBLIC_ACCOUNT"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/flow/recovery-codes/confirm",
+      "access": "PUBLIC_ACCOUNT"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/flow/status",
+      "access": "PUBLIC_ACCOUNT"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/flow/totp/setup",
+      "access": "PUBLIC_ACCOUNT"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/flow/totp/verify",
+      "access": "PUBLIC_ACCOUNT"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "access": "PUBLIC_ACCOUNT"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login/totp",
+      "access": "PUBLIC_ACCOUNT"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "access": "PUBLIC_ACCOUNT"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout-all",
+      "access": "PUBLIC_ACCOUNT"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "access": "PUBLIC_ACCOUNT"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/recovery/password",
+      "access": "PUBLIC_ACCOUNT"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/recovery/totp",
+      "access": "PUBLIC_ACCOUNT"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "access": "PUBLIC_ACCOUNT"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/security/{operation}",
+      "access": "PUBLIC_ACCOUNT"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/wasm-grant",
+      "access": "PUBLIC_ACCOUNT"
+    },
+    {
+      "method": "GET",
+      "path": "/api/games",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "GET",
+      "path": "/api/games/{gameId}/images",
+      "access": "PUBLIC_READ"
+    },
+    {
+      "method": "POST",
+      "path": "/api/visits",
+      "access": "PUBLIC_REPORT"
+    },
+    {
+      "method": "POST",
+      "path": "/internal/accounts/{accountId}/enable-login",
+      "access": "ACCOUNT_INTERNAL"
+    },
+    {
+      "method": "POST",
+      "path": "/internal/maintenance/batches",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/internal/maintenance/batches/{batchId}",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/internal/maintenance/batches/{batchId}/complete",
+      "access": "DEPLOYMENT"
+    },
+    {
+      "method": "POST",
+      "path": "/internal/maintenance/batches/{batchId}/open",
+      "access": "DEPLOYMENT"
+    },
+    {
+      "method": "POST",
+      "path": "/internal/maintenance/batches/{batchId}/recover/{recoveryId}",
+      "access": "DEPLOYMENT"
+    },
+    {
+      "method": "POST",
+      "path": "/internal/maintenance/batches/{batchId}/renew",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/internal/maintenance/games/{gameId}/baseline",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/internal/maintenance/logout",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/internal/maintenance/me",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/internal/maintenance/revoke",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/internal/maintenance/sessions",
+      "access": "MAINTENANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/internal/maintenance/wasm-grant",
+      "access": "MAINTENANCE"
+    }
+  ]
+}

@@ -1,4 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+// 本文件只验证替身 Worker 的传输与生命周期；启用验签的授权由独立用例和真实产物覆盖。
+vi.mock('./wasmIdentity', () => ({ WASM_IDENTITY: { authorizationRequired: false } }));
 import type { CompileRequest, DoneResult, RunRequest } from '../types/genericEngine';
 import {
   OUTBOX_GENERIC_COMPILE_RESULT,

@@ -29,7 +29,7 @@ class AccountControllerTest {
         ObjectMapper json=Jackson2ObjectMapperBuilder.json().featuresToEnable(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY)
             .featuresToDisable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS).build();
         mvc=MockMvcBuilders.standaloneSetup(new AccountController(service,browser)).setControllerAdvice(new AccountExceptionHandler())
-            .setMessageConverters(new MappingJackson2HttpMessageConverter(json)).addFilters(new AdminAuthFilter(json,sessions,browser)).build();
+            .setMessageConverters(new MappingJackson2HttpMessageConverter(json)).addFilters(new AdminAuthFilter(json,sessions,browser,org.mockito.Mockito.mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class))).build();
     }
     private MockHttpServletRequestBuilder postJson(String path,String body) {
         return post("/api/auth/"+path).contentType("application/json").header("Origin","https://localhost:5173").header("X-Damage-Client","web").content(body);
@@ -60,9 +60,9 @@ class AccountControllerTest {
     @Test void totpStringPreservesLeadingZeroAndSessionResponseMatchesMeContract() throws Exception {
         UUID account=UUID.randomUUID();
         Instant expiry=now.plus(java.time.Duration.ofDays(30));
-        when(service.loginTotp(any(),eq("012345"))).thenReturn(new AccountService.Issued(Map.of("accountId",account,"username","fixture_author","canLogin",1,"canEdit",false,"expiresAt",expiry),"s".repeat(43),"c".repeat(43),now,expiry,true));
+        when(service.loginTotp(any(),eq("012345"))).thenReturn(new AccountService.Issued(Map.of("accountId",account,"username","fixture_author","canLogin",1,"expiresAt",expiry),"s".repeat(43),"c".repeat(43),now,expiry,true));
         var response=mvc.perform(postJson("login/totp","{\"totpCode\":\"012345\"}"))
-            .andExpect(status().isOk()).andExpect(jsonPath("$.canLogin").value(1)).andExpect(jsonPath("$.canEdit").value(false))
+            .andExpect(status().isOk()).andExpect(jsonPath("$.canLogin").value(1)).andExpect(jsonPath("$.canEdit").doesNotExist())
             .andExpect(jsonPath("$.username").value("fixture_author")).andExpect(jsonPath("$.expiresAt").value(expiry.toString()))
             .andReturn().getResponse();
         var issued=response.getHeaders("Set-Cookie");

@@ -31,9 +31,9 @@ test('只接受当前重建与声明、分发字节全部一致；失败不修�
 
 test('重建沿用分发产物的实际授权策略，不能用环境默认值代替', () => {
   const basic = { bytes: 8, sha256: 'a'.repeat(64) };
-  const disabled = { ...basic, authorizationRequired: false, authorizationVersion: 1,
+  const disabled = { ...basic, authorizationRequired: false, authorizationVersion: 2,
     authorizationKeyId: null, authorizationPublicKey: null };
-  const enabled = { ...basic, authorizationRequired: true, authorizationVersion: 1,
+  const enabled = { ...basic, authorizationRequired: true, authorizationVersion: 2,
     authorizationKeyId: 'local-key-1', authorizationPublicKey: Buffer.alloc(32, 1).toString('base64url') };
   assert.equal(validateWasmAuthorizationIdentity(enabled), enabled);
   assert.deepEqual(wasmAuthorizationBuildEnvironment(disabled), { WASM_AUTH_REQUIRED: 'false', WASM_AUTH_KEY_ID: '', WASM_AUTH_PUBLIC_KEY: '' });
@@ -45,11 +45,12 @@ test('重建沿用分发产物的实际授权策略，不能用环境默认值�
   assert.throws(() => validateWasmAuthorizationIdentity({ ...enabled, authorizationPublicKey: 'not-a-public-key' }), /32字节公钥/);
   assert.throws(() => validateWasmAuthorizationIdentity({ ...disabled, authorizationKeyId: 'unexpected-key' }), /关闭授权/);
   assert.throws(() => validateWasmAuthorizationIdentity({ ...disabled, authorizationRequired: undefined }), /构建元信息/);
+  assert.throws(() => validateWasmAuthorizationIdentity({ ...enabled, authorizationVersion: 1 }), /构建元信息/);
 });
 
 test('读取声明时要求显式授权策略与匹配密钥元信息', () => {
   const source = `export const WASM_IDENTITY = { bytes: 8, sha256: '${'b'.repeat(64)}',
-    authorizationRequired: false, authorizationVersion: 1, authorizationKeyId: null, authorizationPublicKey: null } as const;`;
+    authorizationRequired: false, authorizationVersion: 2, authorizationKeyId: null, authorizationPublicKey: null } as const;`;
   assert.equal(readDeclaredWasmIdentity(source).authorizationRequired, false);
   assert.throws(() => readDeclaredWasmIdentity(source.replace('authorizationRequired: false,', '')), /构建元信息/);
   assert.throws(() => readDeclaredWasmIdentity(source.replace('authorizationPublicKey: null', 'authorizationPublicKey: "unexpected"')), /关闭授权/);

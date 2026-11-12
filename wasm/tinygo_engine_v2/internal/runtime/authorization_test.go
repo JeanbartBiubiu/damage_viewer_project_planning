@@ -66,14 +66,74 @@ func assertAuthorizationError(t *testing.T, session *Session, code int32, want m
 
 func sessionGrant(t *testing.T, key ed25519.PrivateKey, account string, iat int64) string {
 	t.Helper()
+	return sessionSubjectGrant(t, key, account, "PLAYER", iat)
+}
+
+func sessionSubjectGrant(t *testing.T, key ed25519.PrivateKey, subject, subjectType string, iat int64) string {
+	t.Helper()
 	header := base64.RawURLEncoding.EncodeToString([]byte(`{"alg":"Ed25519","typ":"dv-wasm-grant+jwt","kid":"runtime-isolated-key"}`))
-	body := authorizationJSON(t, map[string]any{
-		"iss": "damage-viewer", "aud": "damage-viewer-wasm", "sub": account, "canLogin": 1,
+	claims := map[string]any{
+		"iss": "damage-viewer", "aud": "damage-viewer-wasm", "sub": subject, "subjectType": subjectType,
 		"scope": []string{"engine:compute"}, "iat": iat, "nbf": iat, "exp": iat + 86_400,
-		"authorizationVersion": 1, "jti": "ae08810a-aec8-4635-9d7d-06080818262d",
-	})
+		"authorizationVersion": 2, "jti": "ae08810a-aec8-4635-9d7d-06080818262d",
+	}
+	if subjectType == "PLAYER" {
+		claims["canLogin"] = 1
+	} else {
+		claims["exp"] = iat + 1800
+	}
+	body := authorizationJSON(t, claims)
 	message := header + "." + base64.RawURLEncoding.EncodeToString(body)
 	return message + "." + base64.RawURLEncoding.EncodeToString(ed25519.Sign(key, []byte(message)))
+}
+
+func TestMaintenanceCompileRunExpiryAndCrossSubjectIsolation(t *testing.T) {
+	publicKey, key, err := ed25519.GenerateKey(rand.Reader)
+	if err != nil {
+		t.Fatal(err)
+	}
+	now := int64(1000)
+	session := newSession(authorization.NewPolicy(true, "runtime-isolated-key", publicKey), func() int64 { return now })
+	for _, subjectType := range []string{"PLAYER", "MAINTENANCE"} {
+		t.Run(subjectType, func(t *testing.T) {
+			compileRequest, runRequest := authorizationFixture(t)
+			compileRequest.Authorization = sessionSubjectGrant(t, key, authorizationAccount, subjectType, 1000)
+			if code := session.CompileJSON(authorizationJSON(t, compileRequest)); code != 0 {
+				t.Fatal("authorized subject could not compile")
+			}
+			var compiled model.CompileResult
+			authorizationPayload(t, session, &compiled)
+			runRequest.SessionID, runRequest.ExpectedRulesHash = compiled.SessionID, compiled.RulesHash
+			otherType := "PLAYER"
+			if subjectType == "PLAYER" {
+				otherType = "MAINTENANCE"
+			}
+			runRequest.Authorization = sessionSubjectGrant(t, key, authorizationAccount, otherType, 1000)
+			assertAuthorizationError(t, session, session.RunJSON(authorizationJSON(t, runRequest)), model.GenericErrAuthorizationAccountMismatch)
+			runRequest.Authorization = compileRequest.Authorization
+			if code := session.RunJSON(authorizationJSON(t, runRequest)); code != 0 {
+				t.Fatal("same subject could not run")
+			}
+			var done model.DoneResult
+			authorizationPayload(t, session, &done)
+			if !done.OK || done.Summary.TargetFinalHp != 900 {
+				t.Fatal("subject type changed the mathematical result")
+			}
+			if subjectType == "MAINTENANCE" {
+				now = 2800
+				assertAuthorizationError(t, session, session.RunJSON(authorizationJSON(t, runRequest)), model.GenericErrAuthorizationExpired)
+				runRequest.Authorization = sessionSubjectGrant(t, key, authorizationAccount, subjectType, now)
+				if code := session.RunJSON(authorizationJSON(t, runRequest)); code != 0 {
+					t.Fatal("same maintenance subject could not renew")
+				}
+				session.ClearOutbox()
+			}
+			if code := session.ReleaseSessionJSON(authorizationJSON(t, model.ReleaseSessionRequest{SessionID: compiled.SessionID, ExpectedRulesHash: compiled.RulesHash})); code != 0 {
+				t.Fatal("release failed")
+			}
+			session.ClearOutbox()
+		})
+	}
 }
 
 func TestAuthorizedCompileRunRenewalAndRelease(t *testing.T) {

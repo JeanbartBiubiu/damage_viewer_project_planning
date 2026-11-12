@@ -14,9 +14,10 @@ import java.util.List;
 @Configuration
 public class WebCorsConfig {
     @Bean
-    public FilterRegistrationBean<CorsFilter> accountCorsFilter(AccountProperties properties) {
+    public FilterRegistrationBean<CorsFilter> accountCorsFilter(AccountProperties properties,xyz.game.datamanage.support.maintenance.MaintenanceProperties maintenance) {
         CorsFilter filter=new CorsFilter(request -> {
-            if (!xyz.game.datamanage.support.account.AccountRequestPath.path(request).startsWith("/api/")) return null;
+            String path=xyz.game.datamanage.support.account.AccountRequestPath.path(request);
+            if (!path.startsWith("/api/") && !path.startsWith("/internal/maintenance/")) return null;
             jakarta.servlet.http.HttpServletRequest effective=request;
             if (org.springframework.web.cors.CorsUtils.isPreFlightRequest(request)) {
                 effective=new jakarta.servlet.http.HttpServletRequestWrapper(request) {
@@ -25,9 +26,9 @@ public class WebCorsConfig {
             }
             boolean publicRead=AdminAuthFilter.publicGameRead(effective);
             CorsConfiguration config=new CorsConfiguration();
-            config.setAllowedOrigins(publicRead?List.of("*"):properties.getAllowedOrigins());
+            config.setAllowedOrigins(publicRead?List.of("*"):(path.startsWith("/api/auth/") || path.equals("/api/visits")?properties.getAllowedOrigins():maintenance.getAllowedOrigins()));
             config.setAllowedMethods(List.of("GET","HEAD","POST","PUT","PATCH","DELETE","OPTIONS"));
-            config.setAllowedHeaders(List.of("Content-Type","X-Damage-Client","X-CSRF-Token","If-None-Match"));
+            config.setAllowedHeaders(List.of("Content-Type","X-Damage-Client","X-CSRF-Token","X-Damage-Maintenance-Batch","If-None-Match"));
             config.setExposedHeaders(List.of(HttpHeaders.ETAG,"Retry-After","X-Damage-Flow-CSRF"));
             config.setAllowCredentials(!publicRead); config.setMaxAge(3600L); return config;
         });

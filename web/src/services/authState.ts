@@ -2,7 +2,6 @@ export type SessionView = {
   accountId: string;
   username: string;
   canLogin: 1;
-  canEdit: boolean;
   expiresAt: string;
 };
 

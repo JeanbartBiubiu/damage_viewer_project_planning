@@ -8,7 +8,7 @@ import {
 import { AUTH_CHANGE_STORAGE_KEY, getAuthRevision, getAuthSession, onAuthSessionChanged, onLoginRequired, setAuthSession, type SessionView } from './authState';
 
 const api = 'https://damage.example';
-const session = (): SessionView => ({ accountId: 'test-account', username: 'player', canLogin: 1, canEdit: false, expiresAt: new Date(Date.now() + 3_600_000).toISOString() });
+const session = (): SessionView => ({ accountId: 'test-account', username: 'player', canLogin: 1, expiresAt: new Date(Date.now() + 3_600_000).toISOString() });
 const json = (status: number, body?: unknown, csrf = readAuthCsrf('flow') ?? 'flow-csrf') => new Response(status === 204 ? null : JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', 'X-Damage-Flow-CSRF': csrf } });
 
 beforeEach(() => {
@@ -33,8 +33,8 @@ describe('账号请求凭据边界', () => {
     await requestJson(api, '/api/admin/games/demo/simulation-snapshot', { method: 'POST', body: '{}' });
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
-  it('管理写入只附带正式会话CSRF，流程操作只附带流程CSRF，初始化不使用残留CSRF', async () => {
-    vi.stubGlobal('document', { cookie: '__Host-dv_csrf=session-csrf; __Host-dv_flow_csrf=flow-csrf' });
+  it('配置维护使用独立CSRF，玩家安全和流程操作分别使用各自CSRF，初始化不使用残留CSRF', async () => {
+    vi.stubGlobal('document', { cookie: '__Host-damage-maint-csrf=maintenance-csrf; __Host-dv_csrf=session-csrf; __Host-dv_flow_csrf=flow-csrf' });
     const calls: { path: string; csrf: string | null; body: unknown }[] = [];
     vi.stubGlobal('fetch', vi.fn(async (url, init: RequestInit) => {
       const headers = new Headers(init.headers);
@@ -48,7 +48,7 @@ describe('账号请求凭据边界', () => {
     await recoverPassword(api, 'player', '001234', 'test-recovery'); await recoverTotp(api, 'player', 'test-password', 'test-recovery');
     await setupTotp(api); await verifyTotp(api, '000123');
     await startSecurityFlow(api, 'password', { currentPassword: 'test-password', totpCode: '001234' });
-    expect(calls.map(call => call.csrf)).toEqual(['session-csrf', null, null, null, null, 'flow-csrf', 'flow-csrf', 'session-csrf']);
+    expect(calls.map(call => call.csrf)).toEqual(['maintenance-csrf', null, null, null, null, 'flow-csrf', 'flow-csrf', 'session-csrf']);
     expect(calls[3].body).toEqual({ username: 'player', totpCode: '001234', recoveryCode: 'test-recovery' });
     expect(calls[6].body).toEqual({ totpCode: '000123' });
     expect(calls[7].body).toEqual({ currentPassword: 'test-password', totpCode: '001234' });
@@ -118,6 +118,11 @@ describe('会话与登录提示', () => {
     await expect(finishLogin(api, '001234')).rejects.toMatchObject({ code: 'AUTH.LOGIN_NOT_ENABLED' });
     expect(getAuthSession()).toBeNull();
   });
+  it.each([null, [], { principalId: 'maintenance', displayName: '维护', expiresAt: '2099-01-01T00:00:00Z' }, { ...session(), accountId: 1 }])('拒绝非法或维护身份响应冒充玩家会话：%j', async value => {
+    vi.stubGlobal('fetch', vi.fn(async () => json(200, value)));
+    await expect(restoreSession(api)).rejects.toMatchObject({ code: 'AUTH.RESPONSE_INVALID' });
+    expect(getAuthSession()).toBeNull();
+  });
   it('受保护401只提示一次且不自动重试，清除旧会话并通知Worker订阅方', async () => {
     setAuthSession(session());
     const prompt = vi.fn(), changed = vi.fn(), offPrompt = onLoginRequired(prompt), offChanged = onAuthSessionChanged(changed);
@@ -128,11 +133,11 @@ describe('会话与登录提示', () => {
     expect(getAuthSession()).toBeNull(); expect(fetchMock).toHaveBeenCalledTimes(1);
     offPrompt(); offChanged();
   });
-  it.each(['AUTH.LOGIN_NOT_ENABLED', 'AUTH.ACCOUNT_DISABLED', 'AUTH.EDIT_REQUIRED'])('403按原因展示且不误报需要登录：%s', async code => {
+  it.each(['AUTH.LOGIN_NOT_ENABLED', 'AUTH.ACCOUNT_DISABLED'])('403按原因展示且不误报需要登录：%s', async code => {
     const prompt = vi.fn(), off = onLoginRequired(prompt);
     vi.stubGlobal('fetch', vi.fn(async () => json(403, { error: { code, message: '拒绝' } })));
     const cause = await getWasmGrant(api).catch((error: unknown) => error);
-    expect(getErrorMessage(cause)).toMatch(/开通|禁用|编辑资格/); expect(prompt).not.toHaveBeenCalled(); off();
+    expect(getErrorMessage(cause)).toMatch(/开通|禁用/); expect(prompt).not.toHaveBeenCalled(); off();
   });
   it('会话到期主动失效，不弹登录提示，也不等待下次取数', () => {
     vi.useFakeTimers(); const prompt = vi.fn(), changed = vi.fn();

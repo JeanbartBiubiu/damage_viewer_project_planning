@@ -75,9 +75,9 @@ class BuildSystemAdminControllerTest {
 
     @Test
     void oldRuneRoutesAreAbsent() throws Exception {
-        mvc.perform(get(ROOT + "/runes")).andExpect(status().isNotFound());
-        mvc.perform(get(ROOT + "/rune-paths")).andExpect(status().isNotFound());
-        mvc.perform(get(ROOT + "/rune-skill-relations")).andExpect(status().isNotFound());
+        mvc.perform(get(ROOT + "/runes")).andExpect(status().isForbidden());
+        mvc.perform(get(ROOT + "/rune-paths")).andExpect(status().isForbidden());
+        mvc.perform(get(ROOT + "/rune-skill-relations")).andExpect(status().isForbidden());
     }
 
     @TestConfiguration

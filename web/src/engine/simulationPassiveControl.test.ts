@@ -10,7 +10,7 @@ import { assembleSimulation, inspectSimulationSnapshot } from './simulationAdapt
 import { permanentModifier, type PermanentResultContext } from './simulationPermanentResults';
 import { naturalRuleKeys } from './simulation/sources/description';
 import { readFileSync } from 'node:fs';
-import { TinyGoV2Bridge } from './tinygoV2Bridge';
+import { TinyGoV2Bridge } from '../../tests/fixtures/authorizedBridge';
 import { parseCompileResult, parseDoneResult, parseReleaseResult } from './genericEngineClient';
 import { skillActionRequest } from './skillActionRequest';
 import { assessSkillActionResult } from './skillActionResult';

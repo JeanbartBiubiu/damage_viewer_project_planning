@@ -8,6 +8,7 @@ export default defineConfig({
   use: { baseURL, screenshot: 'only-on-failure', trace: 'off', video: 'off' },
   projects: [{ name: 'Desktop Chrome', use: { ...devices['Desktop Chrome'] } }],
   ...(!process.env.AUTH_WEB_BASE_URL?.trim() ? { webServer: { cwd: webRoot,
+    env: { DEV_HTTPS_KEY_PATH: '', DEV_HTTPS_CERT_PATH: '' },
     command: 'npm run preview -- --host 127.0.0.1 --port 4185 --strictPort', url: baseURL,
     reuseExistingServer: false, timeout: 120_000
   } } : {})

@@ -27,12 +27,12 @@ import static org.mockito.ArgumentMatchers.*;
 class AccountGameWriteGuardTest {
     private AnnotationConfigApplicationContext context;
     private PostgresWriteStore writes;
-    private AccountSessions sessions;
+    private xyz.game.datamanage.support.maintenance.MaintenanceSessions sessions;
     private EditLogMapper mapper;
     private Transactions transactions;
     @BeforeEach void setup() {
         context=new AnnotationConfigApplicationContext(Config.class);writes=context.getBean(PostgresWriteStore.class);
-        sessions=context.getBean(AccountSessions.class);mapper=context.getBean(EditLogMapper.class);transactions=context.getBean(Transactions.class);
+        sessions=context.getBean(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class);mapper=context.getBean(EditLogMapper.class);transactions=context.getBean(Transactions.class);
         var request=new MockHttpServletRequest("PUT","/api/admin/games/lol/attributes");
         request.setAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR,AccountControllerTestConfig.editor());
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
@@ -40,13 +40,13 @@ class AccountGameWriteGuardTest {
     @AfterEach void cleanup() { RequestContextHolder.resetRequestAttributes();context.close(); }
     @Test void authorizationLockRunsInsideTransactionProxyBeforeBusinessWrite() {
         List<String> order=new ArrayList<>();
-        doAnswer(i->{assertTrue(TransactionSynchronizationManager.isActualTransactionActive());order.add("account");return null;}).when(sessions).lockEditor(any());
+        doAnswer(i->{assertTrue(TransactionSynchronizationManager.isActualTransactionActive());order.add("account");return null;}).when(sessions).lock(any());
         when(mapper.insertEditLog(any(),anyString(),anyString())).thenAnswer(i->{assertEquals(List.of("account"),order);order.add("write");return 1;});
         var auth=AccountControllerTestConfig.editor();writes.recordEditLog(auth.accountId(),auth.username(),"PUT","/api/admin/games/lol/attributes",null,200);
         assertEquals(List.of("account","write"),order);assertEquals(1,transactions.commits);assertEquals(0,transactions.rollbacks);
     }
     @Test void revocationDenialTriggersRollbackAndPreventsEveryBusinessStatement() {
-        ApiException revoked=AccountErrors.invalid();doThrow(revoked).when(sessions).lockEditor(any());
+        ApiException revoked=AccountErrors.invalid();doThrow(revoked).when(sessions).lock(any());
         var auth=AccountControllerTestConfig.editor();
         assertSame(revoked,assertThrows(ApiException.class,()->writes.recordEditLog(auth.accountId(),auth.username(),"PUT","/api/admin/games/lol/attributes",null,200)));
         verifyNoInteractions(mapper);assertEquals(0,transactions.commits);assertEquals(1,transactions.rollbacks);
@@ -62,7 +62,7 @@ class AccountGameWriteGuardTest {
     }
     @Configuration @EnableAspectJAutoProxy @Import({AccountGameWriteGuard.class,PostgresWriteStore.class})
     static class Config {
-        @Bean AccountSessions accountSessions() { return mock(AccountSessions.class); }
+        @Bean xyz.game.datamanage.support.maintenance.MaintenanceSessions accountSessions() { return mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class); }
         @Bean EditLogMapper mapper() { return mock(EditLogMapper.class); }
         @Bean ObjectMapper json() { return new ObjectMapper(); }
         @Bean Transactions transactions() { return new Transactions(); }

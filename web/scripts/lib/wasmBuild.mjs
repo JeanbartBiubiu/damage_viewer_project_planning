@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 const AUTHORIZATION_FIELDS = ['authorizationRequired', 'authorizationVersion', 'authorizationKeyId', 'authorizationPublicKey'];
 
 export function validateWasmAuthorizationIdentity(identity) {
-  if (typeof identity?.authorizationRequired !== 'boolean' || identity.authorizationVersion !== 1) {
+  if (typeof identity?.authorizationRequired !== 'boolean' || identity.authorizationVersion !== 2) {
     throw new Error('Wasm身份缺少有效的计算授权构建元信息');
   }
   if (!identity.authorizationRequired) {

@@ -10,8 +10,9 @@ import { parseCli, runSkillPlan, sameConfiguration, validatePlan, validateConfig
 const SESSION = 'test_session_'.padEnd(43, 's');
 const CSRF = 'test_csrf_'.padEnd(43, 'c');
 const ORIGIN = 'https://authoring.example.invalid';
-const COOKIE = `__Host-dv_session=${SESSION}; __Host-dv_csrf=${CSRF}`;
-const ENV = { DAMAGE_AUTHORING_SESSION: SESSION, DAMAGE_AUTHORING_CSRF: CSRF, DAMAGE_AUTHORING_ORIGIN: ORIGIN };
+const COOKIE = `__Host-damage-maint-session=${SESSION}; __Host-damage-maint-csrf=${CSRF}`;
+const BATCH = '0f053196-ddbb-4e83-9a77-818c51b21268';
+const ENV = { DAMAGE_AUTHORING_SESSION: SESSION, DAMAGE_AUTHORING_CSRF: CSRF, DAMAGE_AUTHORING_ORIGIN: ORIGIN, DAMAGE_AUTHORING_BATCH: BATCH };
 const READ_HEADERS = { Cookie: COOKIE, Origin: ORIGIN, 'X-Damage-Client': 'web' };
 const sha = data => createHash('sha256').update(data).digest('hex');
 const copy = value => JSON.parse(JSON.stringify(value));
@@ -129,6 +130,7 @@ async function fixture(t, { count = 1, patch, get } = {}) {
       if (req.method === 'PATCH') {
         assert.equal(req.headers['content-type'], 'application/json');
         assert.equal(req.headers['x-csrf-token'], CSRF);
+        assert.equal(req.headers['x-damage-maintenance-batch'], BATCH);
       } else assert.equal(req.headers['x-csrf-token'], undefined);
       const match = /^\/api\/admin\/games\/demo\/skills\/([a-z][a-z0-9_]*)\/configuration$/.exec(req.url);
       assert.ok(match, 'only the fixed aggregate endpoint is allowed');
@@ -681,7 +683,7 @@ test('合法来源只保留规范化来源地址', async t => {
   assert.deepEqual(f.calls, ['GET:sample_q', 'PATCH:sample_q', 'GET:sample_q']);
 });
 
-test('会话过期或编辑权限被拒绝时只尝试一次写入，独立回读后停批', async t => {
+test('维护会话过期或维护批次被拒绝时只尝试一次写入，独立回读后停批', async t => {
   for (const status of [401, 403]) {
     const f = await fixture(t, { count: 2, patch({ reply }) { reply(status, { error: { code: `AUTH.${status}` } }); } });
     const summary = await f.run({ apply: true });
@@ -691,6 +693,14 @@ test('会话过期或编辑权限被拒绝时只尝试一次写入，独立回�
     assert.equal(summary.patchCount, 1);
     assert.deepEqual(f.calls, ['GET:sample_q', 'PATCH:sample_q', 'GET:sample_q']);
   }
+});
+
+test('正式写入缺少有效维护批次时在请求前拒绝', async t => {
+  const f = await fixture(t);
+  for (const batch of [undefined, '', 'not-a-batch']) {
+    await assert.rejects(() => f.run({ env: { ...ENV, DAMAGE_AUTHORING_BATCH: batch }, apply: true }), /DAMAGE_AUTHORING_BATCH/);
+  }
+  assert.deepEqual(f.calls, []);
 });
 
 test('传输异常反射两个凭据时摘要与证据都不包含秘密值', async t => {

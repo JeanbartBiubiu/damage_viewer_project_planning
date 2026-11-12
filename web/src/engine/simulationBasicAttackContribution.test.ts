@@ -6,7 +6,7 @@ import { syncSimulationSkillSources } from '../../tests/fixtures/simulationSkill
 import { assembleSimulation, inspectSimulationSnapshot, singleAttackRequest } from './simulationAdapter';
 import { continuousAttackRequest } from './continuousAttackRequest';
 import { assessContinuousAttackResult } from './continuousAttackResult';
-import { TinyGoV2Bridge } from './tinygoV2Bridge';
+import { TinyGoV2Bridge } from '../../tests/fixtures/authorizedBridge';
 import { parseCompileResult, parseDoneResult, parseReleaseResult } from './genericEngineClient';
 import { basicAttackContributionAuthorMatches } from './basicAttackContributionContract';
 import type { CompileRequest, RunRequest } from '../types/genericEngine';

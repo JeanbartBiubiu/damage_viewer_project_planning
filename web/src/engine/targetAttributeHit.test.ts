@@ -5,7 +5,7 @@ import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof'
 import { assembleSimulation, inspectSimulationSnapshot } from './simulationAdapter';
 import { skillActionRequest } from './skillActionRequest';
 import { assessSkillActionResult } from './skillActionResult';
-import { TinyGoV2Bridge } from './tinygoV2Bridge';
+import { TinyGoV2Bridge } from '../../tests/fixtures/authorizedBridge';
 import { parseCompileResult, parseDoneResult, parseReleaseResult } from './genericEngineClient';
 import type { CompileRequest, RunRequest } from '../types/genericEngine';
 

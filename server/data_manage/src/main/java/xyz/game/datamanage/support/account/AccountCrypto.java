@@ -85,13 +85,22 @@ public class AccountCrypto {
         } catch (Exception e) { throw AccountErrors.unavailable(); }
     }
     public Map<String, Object> grant(UUID account, Instant now) {
+        return grant(account,"PLAYER",now,now.plusSeconds(86_400));
+    }
+    /** 维护与玩家计算共用签名器，主体类别和期限由各自授权服务决定。 */
+    public Map<String, Object> grant(UUID subject, String subjectType, Instant now, Instant expiry) {
         try {
             long second = now.getEpochSecond();
-            long expiresAt = second + 86_400;
+            long expiresAt = expiry.getEpochSecond();
+            if (!("PLAYER".equals(subjectType) && expiresAt==second+86_400)
+                && !("MAINTENANCE".equals(subjectType) && expiresAt>second && expiresAt<=second+1800)) throw AccountErrors.unavailable();
             String header = b64(json.writeValueAsBytes(Map.of("alg", "Ed25519", "typ", "dv-wasm-grant+jwt", "kid", properties.getGrantKeyId())));
-            String body = b64(json.writeValueAsBytes(Map.of("iss", "damage-viewer", "aud", "damage-viewer-wasm", "sub", account.toString(),
-                "canLogin", 1, "scope", List.of("engine:compute"), "iat", second, "nbf", second, "exp", expiresAt,
-                "authorizationVersion", 1, "jti", UUID.randomUUID().toString())));
+            Map<String,Object> claims=new java.util.LinkedHashMap<>();
+            claims.put("iss","damage-viewer");claims.put("aud","damage-viewer-wasm");claims.put("sub",subject.toString());claims.put("subjectType",subjectType);
+            if("PLAYER".equals(subjectType)) claims.put("canLogin",1);
+            claims.put("scope",List.of("engine:compute"));claims.put("iat",second);claims.put("nbf",second);claims.put("exp",expiresAt);
+            claims.put("authorizationVersion",2);claims.put("jti",UUID.randomUUID().toString());
+            String body=b64(json.writeValueAsBytes(claims));
             Signature signature = Signature.getInstance("Ed25519");
             signature.initSign(KeyFactory.getInstance("Ed25519").generatePrivate(new PKCS8EncodedKeySpec(Files.readAllBytes(properties.getGrantPrivateKeyPath()))));
             String input = header + "." + body;
