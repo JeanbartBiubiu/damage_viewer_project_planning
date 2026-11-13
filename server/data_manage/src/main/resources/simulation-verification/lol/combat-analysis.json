@@ -3997,6 +3997,110 @@
         "output/full-authoring-20261113/shared-proof/rebind-equivalence.json#sha256=e140e70e0805c7e47a31aacebdc6c1203bbf26d5d3564c60ba74766c4c269a90"
       ],
       "issues": []
+    },
+    {
+      "kind": "CHARACTER",
+      "key": "champion_ahri",
+      "contentDigest": "3462a72a173d01e4b669dbe8f00d65aaeafb9c0ae78694b943f3bd9e6956b4e7",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "ahri_e",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "ahri_p",
+            "levels": [
+              1
+            ]
+          },
+          {
+            "skillKey": "ahri_q",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "ahri_r",
+            "levels": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "skillKey": "ahri_w",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "shared_basic_attack",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "each-declared-level",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "none"
+      },
+      "evidenceRefs": [
+        "output/full-authoring-20261113/ahri-completion/completion.json#sha256=dccc5731c3ff9d60b9dab897df9eb6d12f41af31bb84faa0821cff9a60dd3ded",
+        "output/full-authoring-20261113/ahri-completion/final-review.json#sha256=170c5b105f2a46c2da5e06f35e5779eba4a167763d7142f79b1a5c4127daea63",
+        "output/full-authoring-20261113/ahri-full-matrix/result.json#sha256=abfd18c3c0b7186a71b4e5bbadff5c12526589427785a7738e87e61a5d5fd6af",
+        "output/full-authoring-20261113/ahri-full-matrix/comparison.json#sha256=4d97a2f63720eb5c2ef58c7af7921d730289439e2ff1740e8b85f0f3ebb25b8d",
+        "output/full-authoring-20261113/ahri-joint/comparison-final.json#sha256=43a8eb3af809b4435c023e7003b7da3c0ab5113f9485089e1869e86aeef7e6a8",
+        "output/full-authoring-20261113/ahri-kill-return/result.json#sha256=714b7cc473637f6137324d894a18575db1482cf6e9c7c23d4e444284fce03591",
+        "output/full-authoring-20261113/ahri-w/completion.json#sha256=e46a5020d88f6f5920bc6fe4ac97b13650c2c45f97e3426ef54730bd6b2adb2a",
+        "output/full-authoring-20261113/ahri-cooldown/result-saved-v3.json#sha256=ac639e05447539fc767450fdc60041466e0852a26e8c079e1e7f6c2480805d86",
+        "output/full-authoring-20261113/ahri-cooldown/zero-haste-equivalence.json#sha256=7d617978284fa147e0cc3e84da7206e1667ea688178ae8ffdd2d346a6cf06617",
+        "output/full-authoring-20261113/ahri-readiness/result.json#sha256=c477355e10a5afd2186b7bd8e1a69dbcdce5c0e4d94d537ac43f2c369db22820"
+      ],
+      "issues": []
     }
   ]
 }
