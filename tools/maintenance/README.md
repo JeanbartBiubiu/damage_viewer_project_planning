@@ -23,7 +23,7 @@ node tools/maintenance/accept-public.mjs --help
 
 当前自动候选仅接受不改变来源、引用、枚举、排序、集合结构和最高等级的数值或说明修正。新增组成、触发入口、依赖、类别或其他配置对象交回开发验证，不沿用旧快照的派生信息。此限制由代码拒绝，不能用替换摘要绕过。
 
-开发录入新增组成时，显式使用 `candidate.mjs --mode development`，冻结为独立的开发候选。场景除原始 `snapshot` 外还提供 `previewSnapshot`，后者必须来自私有只读 `POST /internal/maintenance/games/{gameId}/simulation-preview`。请求为 `{selection, updates:[{skillKey, request}]}`，只提交本场包含的已有技能更新；后端核对原摘要，用现行配置准备和场景装配重建来源、引用及目录，不写业务数据。验证执行者再次向真实服务读取原始和预检快照，逐字段核对后才运行并签发。正式保存后的对象仍用普通快照验收；开发预检不替代保存或完整对象准入。
+开发录入新增组成时，显式使用 `candidate.mjs --mode development`，冻结为独立的开发候选。场景除原始 `snapshot` 外还提供 `previewSnapshot`，后者必须来自私有只读 `POST /internal/maintenance/games/{gameId}/simulation-preview`。请求为 `{selection, updates:[{skillKey, request}]}`，按真实快照 `references` 的来源和目标技能筛选本场实际执行闭包内的更新；完整配置列表中的其它本批技能保持原基线，每项变更至少在一场实际进入闭包，缺少执行引用则拒绝。后端核对原摘要，用现行配置准备和场景装配重建来源、引用及目录，不写业务数据。验证执行者再次向真实服务读取原始和预检快照，逐字段核对后才运行并签发。正式保存后的对象仍用普通快照验收；开发预检不替代保存或完整对象准入。
 
 真实 Node 计算由 `engine-client.ts` 共用正式桥接与维护票据接线。票据文件只取后端维护取票接口的响应，每次编译和运行重新读取，主体变化、过期或错误类别失败，不访问测试签名材料；最终签名和权限仍由启用第 2 版验签的正式 Wasm 独立核验。
 

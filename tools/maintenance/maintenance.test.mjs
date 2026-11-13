@@ -74,11 +74,65 @@ function developmentFixture() {
     valueType: 'INTEGER', valueMode: 'FIXED', fixedValue: 2000, levelValues: null };
   item.request.changes.push({ objectType: 'PARAMETER', operation: 'CREATE', key: 'duration_ms', value: parameter });
   item.expected.parameters.push({ ...parameter, gameId: 'lol', skillKey: 'q' });
+  input.scenes[0].snapshot.references = [executionReference('q')];
   input.scenes[0].previewSnapshot = { ...structuredClone(input.scenes[0].snapshot),
     skillConfigurations: [structuredClone(item.expected)], snapshotDigest: 'b'.repeat(64),
     catalogs: { modifierZones: [{ modifierZoneKey: 'existing_real_zone' }] } };
   return input;
 }
+
+function executionReference(sourceSkillKey, targetSkillKey = sourceSkillKey) {
+  return { sourceType: 'TRIGGER_RULE', sourceSkillKey, sourceKey: 'on_used', fieldPath: 'actions[0].processKey',
+    targetType: 'PROCESS', targetSkillKey, targetKey: 'cast', targetSubKey: '' };
+}
+
+function developmentBatchFixture() {
+  const input = developmentFixture(), q = input.skillPlan.items[0], e = structuredClone(q);
+  e.skillKey = 'e'; e.before.skill.skillKey = 'e'; e.expected.skill.skillKey = 'e';
+  for (const parameter of e.expected.parameters) parameter.skillKey = 'e';
+  input.skillPlan.items.push(e);
+  const qScene = input.scenes[0];
+  qScene.snapshot.skillConfigurations.push(structuredClone(e.before));
+  qScene.previewSnapshot.skillConfigurations.push(structuredClone(e.before));
+  const eScene = structuredClone(qScene); eScene.id = 'e_only';
+  eScene.snapshot.references = [executionReference('e')];
+  eScene.previewSnapshot.references = structuredClone(eScene.snapshot.references);
+  eScene.previewSnapshot.skillConfigurations = [structuredClone(q.before), structuredClone(e.expected)];
+  input.scenes.push(eScene);
+  input.expectedPlan.cases.push({ ...structuredClone(input.expectedPlan.cases[0]), id: eScene.id });
+  return input;
+}
+
+test('同批技能分别进入场景闭包，预检只更新实际消费项并保留其它完整配置', () => {
+  const input = developmentBatchFixture(), copy = structuredClone(input), candidate = validateCandidate(input);
+  assert.deepEqual(candidate.scenes.map(scene => previewUpdates(candidate, scene).map(item => item.skillKey)), [['q'], ['e']]);
+  assert.equal(operationRequests(candidate).length, 2);
+  assert.deepEqual(candidate.scenes[0].previewSnapshot.skillConfigurations[1], input.skillPlan.items[1].before);
+  assert.deepEqual(candidate.scenes[1].previewSnapshot.skillConfigurations[0], input.skillPlan.items[0].before);
+  assert.deepEqual(input, copy);
+});
+
+test('未消费技能不能在预检中变化，也不能凭完整配置列表充当变更覆盖', () => {
+  const changed = developmentBatchFixture();
+  changed.scenes[0].previewSnapshot.skillConfigurations[1] = structuredClone(changed.skillPlan.items[1].expected);
+  assert.throws(() => validateCandidate(changed), /未进入本场执行闭包.*完整基线/);
+  const uncovered = developmentBatchFixture();
+  uncovered.scenes.pop(); uncovered.expectedPlan.cases.pop();
+  assert.throws(() => validateCandidate(uncovered), /未被任何候选场景覆盖/);
+  for (const references of [undefined, null, {}, [null], [{ sourceSkillKey: 'q' }]]) {
+    const missing = developmentFixture(); missing.scenes[0].snapshot.references = references;
+    assert.throws(() => validateCandidate(missing), /执行引用/);
+  }
+});
+
+test('跨技能执行引用的目标进入预检，未收录配置仍不能凭引用加入', () => {
+  const input = developmentBatchFixture(), scene = input.scenes[0];
+  scene.snapshot.references.push(executionReference('q', 'e'), executionReference('q', 'not_selected'));
+  scene.previewSnapshot.references = structuredClone(scene.snapshot.references);
+  scene.previewSnapshot.skillConfigurations[1] = structuredClone(input.skillPlan.items[1].expected);
+  const candidate = validateCandidate(input);
+  assert.deepEqual(previewUpdates(candidate, candidate.scenes[0]).map(item => item.skillKey), ['q', 'e']);
+});
 
 test('结构变化必须显式选择开发候选，并保留后端预检的完整派生场景', () => {
   const input = developmentFixture(), candidate = validateCandidate(input);

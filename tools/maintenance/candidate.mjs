@@ -28,8 +28,14 @@ export function operationRequests(candidate) {
 export const operationsForBatch = candidate => operationRequests(candidate).map(({ method, path, bodySha256 }) => ({ method, path, bodySha256 }));
 export const isDevelopmentCandidate = candidate => candidate.version === 'maintenance-development-candidate-v1';
 export function previewUpdates(candidate, scene) {
+  requireValue(Array.isArray(scene.snapshot.references), '开发场景缺少实际执行引用。');
   const included = new Set(scene.snapshot.skillConfigurations.map(row => row.skill.skillKey));
-  return candidate.skillPlan.items.filter(item => included.has(item.skillKey))
+  const consumed = new Set(scene.snapshot.references.flatMap(reference => {
+    requireValue(reference && typeof reference.sourceSkillKey === 'string'
+      && typeof reference.targetSkillKey === 'string', '开发场景执行引用不合法。');
+    return [reference.sourceSkillKey, reference.targetSkillKey].filter(key => key.length > 0);
+  }));
+  return candidate.skillPlan.items.filter(item => included.has(item.skillKey) && consumed.has(item.skillKey))
     .map(item => ({ skillKey: item.skillKey, request: item.request }));
 }
 
@@ -55,10 +61,11 @@ export function validateCandidate(input) {
     ids.add(scene.id);
     requireValue(scene.snapshot?.gameId === input.gameId && Array.isArray(scene.snapshot.skillConfigurations), '场景缺少同游戏完整快照。');
     requireValue(scene.scenario?.mode === 'fixed' || scene.scenario?.mode === 'continuous', '场景模式不支持。');
+    const updatedSkills = development ? new Set(previewUpdates(input, scene).map(item => item.skillKey)) : null;
     if (development) {
       requireValue(scene.previewSnapshot?.gameId === input.gameId && Array.isArray(scene.previewSnapshot.skillConfigurations)
         && digestJson(scene.previewSnapshot.selection) === digestJson(scene.snapshot.selection), '开发候选缺少同一选择的后端预检快照。');
-      requireValue(previewUpdates(input, scene).length > 0, '开发场景没有对应的配置变更。');
+      requireValue(updatedSkills.size > 0, '开发场景没有对应的配置变更。');
     }
     for (const item of input.skillPlan.items) {
       const before = scene.snapshot.skillConfigurations.find(row => row.skill?.skillKey === item.skillKey);
@@ -66,9 +73,11 @@ export function validateCandidate(input) {
         requireValue(sameConfiguration(before, item.before), '场景技能与冻结基线不符。');
         if (development) {
           const projected = scene.previewSnapshot.skillConfigurations.find(row => row.skill?.skillKey === item.skillKey);
-          requireValue(projected && sameConfiguration(projected, item.expected), '后端预检配置不等于冻结请求的完整预期。');
+          const updated = updatedSkills.has(item.skillKey);
+          requireValue(projected && sameConfiguration(projected, updated ? item.expected : item.before), updated
+            ? '后端预检配置不等于冻结请求的完整预期。' : '未进入本场执行闭包的技能必须保持完整基线。');
         }
-        covered.add(item.skillKey);
+        if (!development || updatedSkills.has(item.skillKey)) covered.add(item.skillKey);
       }
     }
   }

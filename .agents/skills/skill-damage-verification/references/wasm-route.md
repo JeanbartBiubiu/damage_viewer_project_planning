@@ -8,6 +8,8 @@
 - 需要读取已保存配置：用 `web/src/services/simulationSnapshotClient.ts` 的 `getSimulationSnapshot` 获取本次场景；明确选择需要的技能和输入，不默认开启全部角色来源。
 - 已提供引擎请求：经当前宿主入口直接编译和运行，无需重新装配管理数据。
 
+读取固定技能场景的新快照时，先确定实际 `actions`，复用 `web/src/pages/simulation/simulationSkillActionDrafts.ts` 的 `plannedSkillsFromActions` 生成 `selection.plannedSkills`，再请求快照。不要用全部可选主动技能池代替本场计划；保留真实自然来源设置，由正式接口给出未计划主动来源的状态。已有快照与指令不一致时，按相同业务动作重新读取快照并保留原件，不手改来源或摘要，也不先假定为引擎机制缺口。
+
 浏览器接线参考 `web/tests/fixtures/firstHeroWorker.ts`，真实维护的 Node 接线复用 `tools/maintenance/engine-client.ts`。它只读取正式后端签发的维护计算票据，并校验最终分发产物；固定机制测试的签发材料不用于真实对象验证。本次场景采用调用方给定的结构和条件。
 
 按主动、自动或条件触发选择对应请求；间接效果要带实际消费它的后续动作。运行后保存结构化结果，检查本次所需明细是否完整，并释放本次会话。无法运行时返回具体错误或缺项，不在本技能内启动引擎开发、重建正式证明或整角色验收。
