@@ -115,10 +115,18 @@
         FOR UPDATE
     </select>
 
-    <select id="findLevelConfigForUpdate" resultMap="levelConfig">
+    <sql id="levelConfigRead">
         SELECT game_id, min_level, max_level
         FROM public.game_level_configs
         WHERE game_id = #{gameId}
+    </sql>
+
+    <select id="findLevelConfig" resultMap="levelConfig">
+        <include refid="levelConfigRead"/>
+    </select>
+
+    <select id="findLevelConfigForUpdate" resultMap="levelConfig">
+        <include refid="levelConfigRead"/>
         FOR UPDATE
     </select>
 

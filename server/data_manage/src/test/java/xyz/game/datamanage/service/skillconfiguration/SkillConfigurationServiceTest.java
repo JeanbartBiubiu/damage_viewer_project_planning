@@ -685,6 +685,48 @@ class SkillConfigurationServiceTest {
         verify(manager, never()).commit(status);
     }
 
+    @Test
+    void previewProjectsCompleteTypedChangesWithoutEnteringSaveOrLockValidation() throws Exception {
+        var before = service.get(GAME, SKILL);
+        var parameter = new SkillConfigurationChange("PARAMETER", "CREATE", "coefficient", json.readTree("""
+            {"parameterKey":"coefficient","name":" 系数 ","valueType":"DECIMAL","valueMode":"FIXED",
+             "fixedValue":0.4,"levelValues":null,"description":null,"sortOrder":1}
+            """));
+        var formula = new SkillConfigurationChange("FORMULA", "CREATE", "ratio", json.readTree("""
+            {"formulaKey":"ratio","name":"比例","description":null,"sortOrder":2,"expression":{
+             "inputs":[{"key":"coefficient","binding":{"kind":"parameter","skillKey":"ezreal_q","parameterKey":"coefficient"}}],
+             "stages":[{"key":"value","expression":{"op":"read","inputKey":"coefficient"}}],"outputStageKey":"value"}}
+            """));
+        var result = service.previewUpdate(GAME, SKILL, new SkillConfigurationSaveRequest(before.baseDigest(),
+            skillValue(5), List.of(parameter, formula)));
+        assertEquals("系数", result.parameters().getFirst().name());
+        assertEquals(0, new BigDecimal("0.4").compareTo(result.parameters().getFirst().fixedValue()));
+        assertEquals("ratio", result.formulas().getFirst().formulaKey());
+        assertNotEquals(before.baseDigest(), result.baseDigest());
+        assertEquals(before, service.get(GAME, SKILL));
+        org.mockito.Mockito.verifyNoInteractions(guard, skillMapper);
+        verify(skillService, never()).updateWithinConfiguration(any(), any(), any());
+        verify(parameterService, never()).createWithinConfiguration(any(), any(), any(), anyInt());
+        verify(formulaService).validateConfigurationCreate(eq(GAME), eq(SKILL), any(), eq(Set.of("coefficient")));
+        verify(formulaService, never()).createWithinConfiguration(any(), any(), any(), any());
+        verify(effectService, never()).validateConfigurationCreate(any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void previewRefusesStaleDigestUnknownFieldsAndDeletesWithoutAnyWrite() throws Exception {
+        var before = service.get(GAME, SKILL);
+        assertEquals("409.SKILL_CONFIGURATION_CHANGED", assertThrows(ApiException.class, () ->
+            service.previewUpdate(GAME, SKILL, new SkillConfigurationSaveRequest("stale", skillValue(5), List.of()))).getCode());
+        assertThrows(ApiException.class, () -> service.previewUpdate(GAME, SKILL,
+            new SkillConfigurationSaveRequest(before.baseDigest(), null,
+                List.of(new SkillConfigurationChange("FORMULA", "DELETE", "any", null)))));
+        var body = (com.fasterxml.jackson.databind.node.ObjectNode) skillValue(5);
+        body.put("gameId", GAME);
+        assertThrows(ApiException.class, () -> service.previewUpdate(GAME, SKILL,
+            new SkillConfigurationSaveRequest(before.baseDigest(), body, List.of())));
+        org.mockito.Mockito.verifyNoInteractions(guard, skillMapper);
+    }
+
     private JsonNode skillValue(int maxLevel) throws Exception {
         return json.readTree("""
             {"name":"秘术射击","description":null,"maxLevel":%d,"status":"ENABLED",

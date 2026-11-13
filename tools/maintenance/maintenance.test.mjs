@@ -5,10 +5,10 @@ import { mkdtempSync, realpathSync, rmSync, writeFileSync, readFileSync } from '
 import { tmpdir } from 'node:os';
 import { createServer } from 'node:http';
 import { resolve, dirname, basename } from 'node:path';
-import { validateCandidate, candidateSnapshot, operationRequests, operationsForBatch, stableCandidateDependencies } from './candidate.mjs';
+import { validateCandidate, candidateSnapshot, operationRequests, operationsForBatch, stableCandidateDependencies, previewUpdates } from './candidate.mjs';
 import { sha256, digestJson, canonical, containedFile } from './artifacts.mjs';
 import { signReceipt, validationPayload, verifyDatabaseInputs } from './verify-candidate.mjs';
-import { makeClient, validateBase, applyCandidate } from './client.mjs';
+import { makeClient, validateBase, applyCandidate, reconcileCandidate } from './client.mjs';
 import { verifyWebhook, feedbackTask, enqueueFeedback, validateResult, processJob, verifyAcceptance, publishReply } from './feedback.mjs';
 import { publicRoutes, renderNginx } from './generate-nginx.mjs';
 
@@ -65,6 +65,55 @@ test('改变来源、引用、排序或结构不能沿用旧依赖闭包签发',
   const first = structuredClone(before); first.parameters = [{ fixedValue: 10, valueMode: 'FIXED' }];
   const second = structuredClone(first); second.parameters[0].fixedValue = 20;
   assert.equal(stableCandidateDependencies(first, second), true);
+});
+
+function developmentFixture() {
+  const input = fixture(), item = input.skillPlan.items[0];
+  input.version = 'maintenance-development-candidate-v1';
+  const parameter = { parameterKey: 'duration_ms', name: '持续毫秒', description: null, sortOrder: 10,
+    valueType: 'INTEGER', valueMode: 'FIXED', fixedValue: 2000, levelValues: null };
+  item.request.changes.push({ objectType: 'PARAMETER', operation: 'CREATE', key: 'duration_ms', value: parameter });
+  item.expected.parameters.push({ ...parameter, gameId: 'lol', skillKey: 'q' });
+  input.scenes[0].previewSnapshot = { ...structuredClone(input.scenes[0].snapshot),
+    skillConfigurations: [structuredClone(item.expected)], snapshotDigest: 'b'.repeat(64),
+    catalogs: { modifierZones: [{ modifierZoneKey: 'existing_real_zone' }] } };
+  return input;
+}
+
+test('结构变化必须显式选择开发候选，并保留后端预检的完整派生场景', () => {
+  const input = developmentFixture(), candidate = validateCandidate(input);
+  assert.deepEqual(candidateSnapshot(candidate, candidate.scenes[0]), input.scenes[0].previewSnapshot);
+  assert.deepEqual(previewUpdates(candidate, candidate.scenes[0]), [{ skillKey: 'q', request: input.skillPlan.items[0].request }]);
+  const automatic = structuredClone(input); automatic.version = 'maintenance-candidate-v1';
+  delete automatic.scenes[0].previewSnapshot;
+  assert.throws(() => validateCandidate(automatic), /自动候选/);
+  for (const mutate of [value => delete value.scenes[0].previewSnapshot,
+    value => value.scenes[0].previewSnapshot.selection.sourceLevel = 2,
+    value => value.scenes[0].previewSnapshot.skillConfigurations[0].parameters[0].fixedValue = 9]) {
+    const malformed = developmentFixture(); mutate(malformed);
+    assert.throws(() => validateCandidate(malformed));
+  }
+});
+
+test('开发签发独立读取后端预检，伪造目录即使重新冻结仍拒绝', async () => {
+  const candidate = validateCandidate(developmentFixture()), paths = [];
+  const client = { request: async (method, path, body) => {
+    paths.push(path);
+    if (method === 'GET') return { data: { baselineDigest: hash } };
+    if (path.endsWith('/simulation-preview')) {
+      assert.deepEqual(JSON.parse(body), { selection: candidate.scenes[0].snapshot.selection,
+        updates: previewUpdates(candidate, candidate.scenes[0]) });
+      return { data: { ...candidate.scenes[0].previewSnapshot, readAt: 'fresh' } };
+    }
+    return { data: candidate.scenes[0].snapshot };
+  } };
+  const checked = await verifyDatabaseInputs(candidate, client);
+  assert.equal(paths.filter(path => path.endsWith('/simulation-preview')).length, 1);
+  assert.equal(checked.scenes[0].previewSnapshotDigest, candidate.scenes[0].previewSnapshot.snapshotDigest);
+  const forgedInput = developmentFixture();
+  forgedInput.scenes[0].previewSnapshot.catalogs.modifierZones[0].modifierZoneKey = 'forged_zone';
+  const forged = validateCandidate(forgedInput);
+  await assert.rejects(verifyDatabaseInputs(forged, client), /后端重建/);
 });
 test('独立验证重新读取完整真实快照，伪造抗性和读取期间漂移失败', async () => {
   const candidate = validateCandidate(fixture());
@@ -196,5 +245,34 @@ test('旁路reply.close不能把候选或待补证据关闭', async t => {
       return { ok: true, json: async () => opts.method === 'GET' ? issue().issue : { id: 1 } };
     });
     assert.deepEqual(methods, ['GET', 'POST']);
+  }
+});
+
+test('响应丢失后只读确认真实提交，不再次发送配置请求', async t => {
+  const directory = temporary(t), candidate = validateCandidate(fixture());
+  let committed = false, writes = 0;
+  const calls = [];
+  const client = { request: async (method, path) => {
+    calls.push(method);
+    if (method === 'PATCH') { writes++; committed = true; throw new Error('response unconfirmed'); }
+    if (path.endsWith('/baseline')) return { data: { baselineDigest: 'b'.repeat(64) } };
+    if (path.includes('/batches/')) return { data: { batchId: id, gameId: 'lol', state: 'OPEN',
+      nextOperation: committed ? 1 : 0, operationCount: 1, currentDigest: committed ? 'b'.repeat(64) : hash } };
+    return { data: candidate.skillPlan.items[0].expected };
+  } };
+  await assert.rejects(applyCandidate(client, candidate, resolve(directory, 'attempt')), /unconfirmed/);
+  assert.equal(writes, 1);
+  calls.length = 0;
+  const actual = await reconcileCandidate(client, candidate, resolve(directory, 'readback'));
+  assert.equal(actual.allOperationsConfirmed, true);
+  assert.equal(actual.confirmedOperations, 1);
+  assert.equal(actual.businessWrites, 0);
+  assert(calls.every(method => method === 'GET'));
+  assert.equal(writes, 1);
+});
+
+test('维护超时配置拒绝过小、过大、非整数及文本值', () => {
+  for (const requestTimeoutMs of [0, 999, 300001, 1.5, '60000']) {
+    assert.throws(() => makeClient({ apiBase: 'http://127.0.0.1:8080', origin: 'https://localhost:5174', requestTimeoutMs }, '.'), /超时/);
   }
 });

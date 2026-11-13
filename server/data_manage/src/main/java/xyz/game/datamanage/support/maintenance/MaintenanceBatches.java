@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 import xyz.game.datamanage.support.account.AccountRequestPath;
 import xyz.game.datamanage.support.account.AccountStore;
+import xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard;
 import xyz.game.datamanage.support.auth.AuthContext;
 
 @Component
@@ -18,8 +19,9 @@ public class MaintenanceBatches {
     private final MaintenanceBaseline baseline;
     private final MaintenanceReceiptVerifier receipts;
     private final MaintenanceSessions sessions;
-    public MaintenanceBatches(AccountStore store,ObjectMapper json,MaintenanceBaseline baseline,MaintenanceReceiptVerifier receipts,MaintenanceSessions sessions) {
-        this.store=store;this.json=json;this.baseline=baseline;this.receipts=receipts;this.sessions=sessions;
+    private final GameConfigurationWriteGuard configurations;
+    public MaintenanceBatches(AccountStore store,ObjectMapper json,MaintenanceBaseline baseline,MaintenanceReceiptVerifier receipts,MaintenanceSessions sessions,GameConfigurationWriteGuard configurations) {
+        this.store=store;this.json=json;this.baseline=baseline;this.receipts=receipts;this.sessions=sessions;this.configurations=configurations;
     }
     public Object create(AuthContext auth,JsonNode request) {
         MaintenanceJson.fields(request,"batchId","gameId","reference","sourceRevision","baselineDigest","candidateDigest","operations","receipt");
@@ -108,7 +110,10 @@ public class MaintenanceBatches {
             JsonNode operation=row.operations().get(row.index());String path=AccountRequestPath.path(request);
             if(!operation.path("method").asText().equals(request.getMethod()) || !operation.path("path").asText().equals(path)
                 || !operation.path("bodySha256").asText().equals(MaintenanceJson.sha(body(request))) || !baseline.digest(row.gameId()).equals(row.currentDigest())) throw MaintenanceJson.conflict();
-            Object result=action.get();String after=baseline.digest(row.gameId());
+            Object result=action.get();
+            // 引用索引属于游戏业务基线，须先完成同事务最终态同步，再记录提交摘要。
+            configurations.validatePending();
+            String after=baseline.digest(row.gameId());
             store.jdbc().update("INSERT INTO auth.maintenance_commits(batch_id,operation_index,principal_id,method,path,body_sha256,before_digest,after_digest) VALUES (?,?,?,?,?,?,?,?)",id,row.index(),auth.accountId(),request.getMethod(),path,operation.path("bodySha256").asText(),row.currentDigest(),after);
             store.jdbc().update("UPDATE auth.maintenance_batches SET next_operation=next_operation+1,current_digest=?,updated_at=clock_timestamp() WHERE id=?",after,id);
             return result;

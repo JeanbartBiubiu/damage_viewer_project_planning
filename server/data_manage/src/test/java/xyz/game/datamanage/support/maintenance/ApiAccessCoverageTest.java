@@ -33,6 +33,8 @@ class ApiAccessCoverageTest {
         assertEquals("PUBLIC_READ",ApiAccessCatalog.access("HEAD","/api/admin/games/lol/skills/q/configuration"));
         assertEquals("PUBLIC_READ",ApiAccessCatalog.access("POST","/api/admin/games/lol/simulation-snapshot"));
         assertEquals("MAINTENANCE",ApiAccessCatalog.access("PATCH","/api/admin/games/lol/skills/q/configuration"));
+        assertEquals("MAINTENANCE",ApiAccessCatalog.access("POST","/internal/maintenance/games/lol/simulation-preview"));
+        assertEquals("DENY",ApiAccessCatalog.access("GET","/internal/maintenance/games/lol/simulation-preview"));
         assertEquals("DEPLOYMENT",ApiAccessCatalog.access("GET","/api/admin/visits/last30days"));
         assertEquals("DENY",ApiAccessCatalog.access("GET","/api/admin/personnel"));
         assertEquals("DENY",ApiAccessCatalog.access("GET","/api/admin/games/lol/skills/q/configuration;edit"));

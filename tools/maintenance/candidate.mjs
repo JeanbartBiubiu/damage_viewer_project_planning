@@ -26,31 +26,48 @@ export function operationRequests(candidate) {
   });
 }
 export const operationsForBatch = candidate => operationRequests(candidate).map(({ method, path, bodySha256 }) => ({ method, path, bodySha256 }));
+export const isDevelopmentCandidate = candidate => candidate.version === 'maintenance-development-candidate-v1';
+export function previewUpdates(candidate, scene) {
+  const included = new Set(scene.snapshot.skillConfigurations.map(row => row.skill.skillKey));
+  return candidate.skillPlan.items.filter(item => included.has(item.skillKey))
+    .map(item => ({ skillKey: item.skillKey, request: item.request }));
+}
 
 /** 只支持能由现行统一技能协议完整证明的候选；其余维护需求明确交回开发。 */
 export function validateCandidate(input) {
   exactKeys(input, fields, ['candidateDigest']);
-  requireValue(input.version === 'maintenance-candidate-v1' && isUuid(input.batchId) && isUuid(input.principalId), '候选版本或身份错误。');
+  requireValue(['maintenance-candidate-v1', 'maintenance-development-candidate-v1'].includes(input.version)
+    && isUuid(input.batchId) && isUuid(input.principalId), '候选版本或身份错误。');
+  const development = isDevelopmentCandidate(input);
   requireValue(typeof input.gameId === 'string' && /^[a-z0-9_-]{1,64}$/.test(input.gameId), '游戏标识错误。');
   for (const key of ['reference', 'sourceRevision']) requireValue(typeof input[key] === 'string' && input[key].trim().length > 0 && input[key].length <= 256, '问题或证据修订不能为空且不能超过256字符。');
   requireValue(isDigest(input.baselineDigest), '缺少真实游戏基线摘要。');
   validatePlan(input.skillPlan);
   requireValue(input.skillPlan.gameId === input.gameId && input.skillPlan.items.length <= 100, '技能计划不属于该游戏或过大。');
-  for (const item of input.skillPlan.items) requireValue(stableCandidateDependencies(item.before, item.expected),
+  if (!development) for (const item of input.skillPlan.items) requireValue(stableCandidateDependencies(item.before, item.expected),
     '当前自动候选仅支持保持来源、引用、排序和结构不变的数值或说明修正；新增组成、来源和依赖须转入开发验证。');
   requireValue(Array.isArray(input.scenes) && input.scenes.length > 0 && input.scenes.length <= 100, '候选需要有界非空场景。');
   const expectations = calculatePlan(input.expectedPlan);
   const ids = new Set(), covered = new Set();
   for (const scene of input.scenes) {
-    exactKeys(scene, ['id', 'snapshot', 'scenario']);
+    exactKeys(scene, development ? ['id', 'snapshot', 'scenario', 'previewSnapshot'] : ['id', 'snapshot', 'scenario']);
     requireValue(typeof scene.id === 'string' && /^[a-z][a-z0-9_-]{0,95}$/.test(scene.id) && !ids.has(scene.id), '场景标识错误或重复。');
     ids.add(scene.id);
     requireValue(scene.snapshot?.gameId === input.gameId && Array.isArray(scene.snapshot.skillConfigurations), '场景缺少同游戏完整快照。');
     requireValue(scene.scenario?.mode === 'fixed' || scene.scenario?.mode === 'continuous', '场景模式不支持。');
+    if (development) {
+      requireValue(scene.previewSnapshot?.gameId === input.gameId && Array.isArray(scene.previewSnapshot.skillConfigurations)
+        && digestJson(scene.previewSnapshot.selection) === digestJson(scene.snapshot.selection), '开发候选缺少同一选择的后端预检快照。');
+      requireValue(previewUpdates(input, scene).length > 0, '开发场景没有对应的配置变更。');
+    }
     for (const item of input.skillPlan.items) {
       const before = scene.snapshot.skillConfigurations.find(row => row.skill?.skillKey === item.skillKey);
       if (before) {
         requireValue(sameConfiguration(before, item.before), '场景技能与冻结基线不符。');
+        if (development) {
+          const projected = scene.previewSnapshot.skillConfigurations.find(row => row.skill?.skillKey === item.skillKey);
+          requireValue(projected && sameConfiguration(projected, item.expected), '后端预检配置不等于冻结请求的完整预期。');
+        }
         covered.add(item.skillKey);
       }
     }
@@ -64,6 +81,7 @@ export function validateCandidate(input) {
 }
 
 export function candidateSnapshot(candidate, scene) {
+  if (isDevelopmentCandidate(candidate)) return structuredClone(scene.previewSnapshot);
   const snapshot = structuredClone(scene.snapshot);
   for (const item of candidate.skillPlan.items) {
     const index = snapshot.skillConfigurations.findIndex(row => row.skill.skillKey === item.skillKey);
@@ -86,13 +104,16 @@ export function verifySourceEvidence(candidate, directory) {
 
 function main(args) {
   if (!args.length || args[0] === '--help') {
-    console.log('冻结同游戏技能候选；不写业务数据。\nnode tools/maintenance/candidate.mjs --input <计划.json> --output <新候选.json>');
+    console.log('冻结同游戏技能候选；不写业务数据。\nnode tools/maintenance/candidate.mjs --input <计划.json> --output <新候选.json> [--mode automatic|development]');
     return;
   }
-  const opts = options(args, ['--input', '--output']);
+  const opts = options(args, ['--input', '--output', '--mode'], ['--input', '--output']);
+  requireValue(opts['--mode'] === undefined || ['automatic', 'development'].includes(opts['--mode']), '候选模式错误。');
   requireValue(dirname(resolve(opts['--input'])) === dirname(resolve(opts['--output'])), '冻结文件须与输入计划同目录，保持资料引用的解析基准。');
   const input = readJson(opts['--input']);
-  const candidate = validateCandidate({ version: 'maintenance-candidate-v1', batchId: randomUUID(), ...input });
+  requireValue(!Object.hasOwn(input, 'version') && !Object.hasOwn(input, 'batchId'), '输入不能覆盖冻结模式或批次身份。');
+  const candidate = validateCandidate({ ...input, version: opts['--mode'] === 'development'
+    ? 'maintenance-development-candidate-v1' : 'maintenance-candidate-v1', batchId: randomUUID() });
   verifySourceEvidence(candidate, dirname(resolve(opts['--input'])));
   writeNew(opts['--output'], candidate);
   console.log(JSON.stringify({ candidateDigest: candidate.candidateDigest, scenes: candidate.scenes.length, operations: operationsForBatch(candidate).length }));

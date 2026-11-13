@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
@@ -298,7 +299,9 @@ public class SkillParameterService {
         if (mode != SkillParameterValueMode.CHARACTER_LEVEL) {
             return null;
         }
-        LevelConfigResponse config = parameterMapper.findLevelConfigForUpdate(gameId);
+        LevelConfigResponse config = TransactionSynchronizationManager.isCurrentTransactionReadOnly()
+            ? parameterMapper.findLevelConfig(gameId)
+            : parameterMapper.findLevelConfigForUpdate(gameId);
         if (config == null) {
             throw levelConfigRequired(gameId);
         }

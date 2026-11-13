@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
+import java.util.function.Function;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -188,6 +190,93 @@ public class SkillConfigurationService {
         return readConfiguration(gameId, skillKey);
     }
 
+    /** 只投影已有技能的候选；正式保存仍单独执行带锁引用及最终态校验。 */
+    @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
+    public SkillConfigurationResponse previewUpdate(String gameId, String skillKey, SkillConfigurationSaveRequest request) {
+        requireRequest(request);
+        if (request.baseDigest() == null || request.baseDigest().isBlank()) {
+            throw invalid("baseDigest", "REQUIRED", "必须提供读取时的配置摘要", "skill", skillKey);
+        }
+        SkillConfigurationResponse before = readConfiguration(gameId, skillKey);
+        if (!before.baseDigest().equals(request.baseDigest())) {
+            throw conflict("409.SKILL_CONFIGURATION_CHANGED", "技能配置已被其他保存修改，请重新读取", "skill", skillKey);
+        }
+        if (request.changes() != null && request.changes().stream().anyMatch(change -> change != null
+            && "DELETE".equals(change.operation()))) {
+            throw invalid("changes", "PREVIEW_DELETE_FORBIDDEN", "候选场景不接受删除操作", "skill", skillKey);
+        }
+        SkillUpdateRequest skill = parseSkill(request.skill(), false);
+        int maximum = skill == null ? before.skill().maxLevel() : skill.maxLevel();
+        PreparedConfiguration candidate = prepareChangeShapes(gameId, skillKey, request.changes(),
+            before.parameters(), before.formulas(), before.effects(), before.internalStates(), before.processes(),
+            before.triggerRules(), before.skill().maxLevel(), maximum);
+        if (candidate.changes().stream().anyMatch(change -> "EFFECT".equals(change.type()))) {
+            effectService.validateConfigurationFinalTargets(skillKey, candidate.finalEffects(), candidate.effectLifecycles());
+        }
+        return projectConfiguration(gameId, skillKey, before, skill, candidate);
+    }
+
+    private SkillConfigurationResponse projectConfiguration(String gameId, String skillKey,
+        SkillConfigurationResponse before, SkillUpdateRequest skill, PreparedConfiguration candidate) {
+        Map<String, SkillParameterResponse> parameters = indexed(before.parameters(), SkillParameterResponse::parameterKey);
+        Map<String, SkillFormulaDetailResponse> formulas = indexed(before.formulas(), SkillFormulaDetailResponse::formulaKey);
+        Map<String, SkillEffectDetailResponse> effects = indexed(before.effects(), SkillEffectDetailResponse::effectKey);
+        Map<String, SkillProcessDetailResponse> processes = indexed(before.processes(), SkillProcessDetailResponse::processKey);
+        Map<String, SkillInternalStateDetailResponse> states = indexed(before.internalStates(), SkillInternalStateDetailResponse::stateKey);
+        Map<String, SkillTriggerRuleDetailResponse> rules = indexed(before.triggerRules(), SkillTriggerRuleDetailResponse::ruleKey);
+        for (PreparedChange change : candidate.changes()) {
+            String key = change.key();
+            boolean creating = change.operation() == Operation.CREATE;
+            switch (change.type()) {
+                case "PARAMETER" -> {
+                    SkillParameterResponse prior = parameters.get(key);
+                    SkillParameterCreateRequest value = creating ? change.parameterCreate() : new SkillParameterCreateRequest(key,
+                        change.parameterUpdate().name(), change.parameterUpdate().valueType(), change.parameterUpdate().valueMode(),
+                        change.parameterUpdate().fixedValue(), change.parameterUpdate().levelValues(),
+                        change.parameterUpdate().description(), change.parameterUpdate().sortOrder());
+                    parameters.put(key, new SkillParameterResponse(gameId, skillKey, key, value.name(), value.valueType(),
+                        value.valueMode(), value.fixedValue(), value.levelValues(), value.description(), value.sortOrder(),
+                        prior == null ? null : prior.createdAt(), prior == null ? null : prior.updatedAt()));
+                }
+                case "FORMULA" -> {
+                    SkillFormulaDetailResponse prior = formulas.get(key);
+                    SkillFormulaCreateRequest value = creating ? change.formulaCreate() : new SkillFormulaCreateRequest(key,
+                        change.formulaUpdate().name(), change.formulaUpdate().description(), change.formulaUpdate().sortOrder(),
+                        change.formulaUpdate().expression());
+                    formulas.put(key, new SkillFormulaDetailResponse(gameId, skillKey, key, value.name(), value.description(),
+                        value.sortOrder(), value.expression(), prior == null ? null : prior.createdAt(), prior == null ? null : prior.updatedAt()));
+                }
+                case "EFFECT" -> effects.put(key, effectService.projectConfiguration(gameId, skillKey,
+                    candidate.finalEffects().get(key), effects.get(key)));
+                case "PROCESS" -> processes.put(key, processService.projectPrepared(gameId, skillKey,
+                    change.processPrepared(), processes.get(key)));
+                case "INTERNAL_STATE" -> {
+                    SkillInternalStateCreateRequest value = creating ? change.stateCreate() : new SkillInternalStateCreateRequest(key,
+                        change.stateUpdate().name(), change.stateUpdate().stateType(), change.stateUpdate().scope(),
+                        change.stateUpdate().description(), change.stateUpdate().sortOrder(), change.stateUpdate().detail());
+                    states.put(key, internalStateService.projectConfiguration(gameId, skillKey, value, states.get(key)));
+                }
+                case "TRIGGER_RULE" -> rules.put(key, triggerRuleService.projectPrepared(gameId, skillKey, change.rulePrepared()));
+                default -> throw new IllegalStateException("已准备的候选包含未知组成");
+            }
+        }
+        SkillResponse prior = before.skill();
+        SkillResponse projectedSkill = skill == null ? prior : new SkillResponse(gameId, skillKey, skill.name(),
+            skill.description(), skill.maxLevel(), skill.status(), skill.sortOrder(), skill.skillCategoryKeys(),
+            prior.createdAt(), prior.updatedAt());
+        SkillConfigurationResponse content = new SkillConfigurationResponse(projectedSkill, List.copyOf(parameters.values()),
+            List.copyOf(formulas.values()), List.copyOf(effects.values()), List.copyOf(processes.values()),
+            List.copyOf(states.values()), List.copyOf(rules.values()), null);
+        return new SkillConfigurationResponse(content.skill(), content.parameters(), content.formulas(), content.effects(),
+            content.processes(), content.internalStates(), content.triggerRules(), digest(content));
+    }
+
+    private static <T> Map<String, T> indexed(List<T> rows, Function<T, String> key) {
+        Map<String, T> result = new TreeMap<>();
+        rows.forEach(row -> result.put(key.apply(row), row));
+        return result;
+    }
+
     private SkillConfigurationResponse readConfiguration(String gameId, String skillKey) {
         SkillResponse skill = skillService.get(gameId, skillKey);
         List<SkillParameterResponse> parameters = parameterService.list(gameId, skillKey).stream()
@@ -227,6 +316,19 @@ public class SkillConfigurationService {
     }
 
     private PreparedConfiguration prepareChanges(
+        String gameId, String skillKey, List<SkillConfigurationChange> submitted,
+        List<SkillParameterResponse> currentParameters, List<SkillFormulaDetailResponse> currentFormulas,
+        List<SkillEffectDetailResponse> currentEffects, List<SkillInternalStateDetailResponse> currentStates,
+        List<SkillProcessDetailResponse> currentProcesses, List<SkillTriggerRuleDetailResponse> currentRules,
+        Integer oldMaxLevel, int finalMaxLevel
+    ) {
+        PreparedConfiguration candidate = prepareChangeShapes(gameId, skillKey, submitted, currentParameters,
+            currentFormulas, currentEffects, currentStates, currentProcesses, currentRules, oldMaxLevel, finalMaxLevel);
+        validatePreparedReferences(gameId, skillKey, candidate);
+        return candidate;
+    }
+
+    private PreparedConfiguration prepareChangeShapes(
         String gameId, String skillKey, List<SkillConfigurationChange> submitted,
         List<SkillParameterResponse> currentParameters, List<SkillFormulaDetailResponse> currentFormulas,
         List<SkillEffectDetailResponse> currentEffects, List<SkillInternalStateDetailResponse> currentStates,
@@ -512,6 +614,20 @@ public class SkillConfigurationService {
         });
         Map<String, SkillEffectLifecycleRequest> finalLifecycles = new HashMap<>();
         finalEffects.forEach((key, effect) -> finalLifecycles.put(key, effect.lifecycle()));
+        return new PreparedConfiguration(List.copyOf(prepared), Set.copyOf(finalParameterKeys), finalFormulaKeys,
+            Set.copyOf(runtimeFormulas), Collections.unmodifiableMap(new HashMap<>(finalLifecycles)),
+            Set.copyOf(finalStateKeys), deferRelatedReferences,
+            Map.copyOf(finalEffects));
+    }
+
+    /** 正式保存的引用与目录锁；只读候选不调用任何带写锁的保存校验。 */
+    private void validatePreparedReferences(String gameId, String skillKey, PreparedConfiguration candidate) {
+        List<PreparedChange> prepared = candidate.changes();
+        Set<String> finalFormulaKeys = candidate.formulaKeys();
+        Set<String> runtimeFormulas = candidate.runtimeFormulaKeys();
+        Map<String, SkillEffectCreateRequest> finalEffects = candidate.finalEffects();
+        Map<String, SkillEffectLifecycleRequest> finalLifecycles = candidate.effectLifecycles();
+        boolean deferRelatedReferences = candidate.deferRelatedReferences();
         for (String type : List.of("INTERNAL_STATE", "EFFECT")) {
             for (PreparedChange change : prepared) {
                 if (change.operation() == Operation.DELETE || !type.equals(change.type())) continue;
@@ -542,9 +658,6 @@ public class SkillConfigurationService {
         if (prepared.stream().anyMatch(change -> "EFFECT".equals(change.type()))) {
             effectService.validateConfigurationFinalTargets(skillKey, finalEffects, finalLifecycles);
         }
-        return new PreparedConfiguration(List.copyOf(prepared), Set.copyOf(finalParameterKeys), finalFormulaKeys,
-            Set.copyOf(runtimeFormulas), Collections.unmodifiableMap(new HashMap<>(finalLifecycles)),
-            Set.copyOf(finalStateKeys), deferRelatedReferences);
     }
 
     private void applyChanges(String gameId, String skillKey, int finalMaxLevel, PreparedConfiguration candidate) {
@@ -798,6 +911,7 @@ public class SkillConfigurationService {
     private record PreparedConfiguration(
         List<PreparedChange> changes, Set<String> parameterKeys, Set<String> formulaKeys,
         Set<String> runtimeFormulaKeys, Map<String, SkillEffectLifecycleRequest> effectLifecycles,
-        Set<String> stateKeys, boolean deferRelatedReferences
+        Set<String> stateKeys, boolean deferRelatedReferences,
+        Map<String, SkillEffectCreateRequest> finalEffects
     ) {}
 }

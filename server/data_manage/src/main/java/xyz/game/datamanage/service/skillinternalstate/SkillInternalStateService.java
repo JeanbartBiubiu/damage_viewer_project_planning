@@ -133,14 +133,7 @@ public class SkillInternalStateService {
         if (existing == null) {
             throw stateNotFound(stateKey);
         }
-        List<Map<String, String>> issues = new ArrayList<>();
-        if (existing.stateType() != values.stateType()) {
-            issues.add(fieldIssue("stateType", "IMMUTABLE", "内部状态种类不能修改"));
-        }
-        if (existing.scope() != values.scope()) {
-            issues.add(fieldIssue("scope", "IMMUTABLE", "内部状态范围不能修改"));
-        }
-        throwIfInvalid(issues);
+        assertStateIdentity(values, existing.stateType(), existing.scope());
         List<FormulaRef> refs = collectAndValidateDetail(values, false);
         requireAmmoRecoveryStartCondition(values);
         lockAndValidateFormulas(gameId, skillKey, refs);
@@ -202,14 +195,7 @@ public class SkillInternalStateService {
         ValidatedState values = validateUpdate(request, stateKey);
         SkillInternalStateRow existing = mapper.findStateForUpdate(gameId, skillKey, stateKey);
         if (existing == null) throw stateNotFound(stateKey);
-        List<Map<String, String>> issues = new ArrayList<>();
-        if (existing.stateType() != values.stateType()) {
-            issues.add(fieldIssue("stateType", "IMMUTABLE", "内部状态种类不能修改"));
-        }
-        if (existing.scope() != values.scope()) {
-            issues.add(fieldIssue("scope", "IMMUTABLE", "内部状态范围不能修改"));
-        }
-        throwIfInvalid(issues);
+        assertStateIdentity(values, existing.stateType(), existing.scope());
         validateCandidateFormulas(collectAndValidateDetail(values, false), candidateFormulaKeys);
         requireAmmoRecoveryStartCondition(values);
         if (!deferRelatedReferences && values.stateType() == SkillInternalStateType.MODE) {
@@ -286,6 +272,25 @@ public class SkillInternalStateService {
             throw stateNotFound(stateKey);
         }
         return assembleDetail(state);
+    }
+
+    /** 只读候选复用内部状态形状与不可变身份检查。 */
+    public SkillInternalStateDetailResponse projectConfiguration(String gameId, String skillKey,
+        SkillInternalStateCreateRequest request, SkillInternalStateDetailResponse before) {
+        ValidatedState values = validateCreate(request);
+        if (before != null) assertStateIdentity(values, before.stateType(), before.scope());
+        collectAndValidateDetail(values, before == null);
+        requireAmmoRecoveryStartCondition(values);
+        return new SkillInternalStateDetailResponse(gameId, skillKey, values.stateKey(), values.name(), values.stateType(),
+            values.scope(), values.description(), values.sortOrder(), values.detail(),
+            before == null ? null : before.createdAt(), before == null ? null : before.updatedAt());
+    }
+
+    private void assertStateIdentity(ValidatedState values, SkillInternalStateType type, SkillInternalStateScope scope) {
+        List<Map<String, String>> issues = new ArrayList<>();
+        if (type != values.stateType()) issues.add(fieldIssue("stateType", "IMMUTABLE", "内部状态种类不能修改"));
+        if (scope != values.scope()) issues.add(fieldIssue("scope", "IMMUTABLE", "内部状态范围不能修改"));
+        throwIfInvalid(issues);
     }
 
     private SkillInternalStateDetailResponse assembleDetail(SkillInternalStateRow state) {

@@ -225,20 +225,9 @@ public class SkillEffectService {
             result.target(), result.description(), result.sortOrder()
         )).toList();
         SkillEffectLifecycleRow existingLifecycle = SkillEffectAggregate.lifecycleRow(existingEffect);
-        Map<String, SkillEffectResultRow> existingByKey = indexExistingResults(existingRows);
-        List<Map<String, String>> typeIssues = new ArrayList<>();
-        for (int i = 0; i < values.results().size(); i++) {
-            SkillEffectResultRequest result = values.results().get(i);
-            SkillEffectResultRow existing = existingByKey.get(result.resultKey());
-            if (existing != null && existing.resultType() != result.resultType()) {
-                typeIssues.add(fieldIssue(
-                    resultPath(i, "resultType"),
-                    "IMMUTABLE",
-                    "结果种类不能修改"
-                ));
-            }
-        }
-        throwIfInvalid(typeIssues);
+        Map<String, SkillEffectResultType> existingTypes = new HashMap<>();
+        existingResults.forEach(result -> existingTypes.put(result.resultKey(), result.resultType()));
+        assertRetainedResultTypes(values.results(), existingTypes);
 
         Set<String> requestedKeys = new LinkedHashSet<>();
         for (SkillEffectResultRequest result : values.results()) {
@@ -379,17 +368,9 @@ public class SkillEffectService {
         SkillEffectRow existing = mapper.findEffectForUpdate(gameId, skillKey, effectKey);
         if (existing == null) throw effectNotFound(effectKey);
         List<SkillEffectResultRequest> existingResults = SkillEffectAggregate.readResults(existing.results());
-        Map<String, SkillEffectResultRequest> existingByKey = new HashMap<>();
-        for (SkillEffectResultRequest result : existingResults) existingByKey.put(result.resultKey(), result);
-        List<Map<String, String>> typeIssues = new ArrayList<>();
-        for (int i = 0; i < values.results().size(); i++) {
-            SkillEffectResultRequest result = values.results().get(i);
-            SkillEffectResultRequest prior = existingByKey.get(result.resultKey());
-            if (prior != null && prior.resultType() != result.resultType()) {
-                typeIssues.add(fieldIssue(resultPath(i, "resultType"), "IMMUTABLE", "结果种类不能修改"));
-            }
-        }
-        throwIfInvalid(typeIssues);
+        Map<String, SkillEffectResultType> existingTypes = new HashMap<>();
+        existingResults.forEach(result -> existingTypes.put(result.resultKey(), result.resultType()));
+        assertRetainedResultTypes(values.results(), existingTypes);
         SkillEffectLifecycleRow previousLifecycle = SkillEffectAggregate.lifecycleRow(existing);
         if (!deferRuleReferences) {
             List<String> retainedKeys = values.results().stream().map(SkillEffectResultRequest::resultKey).toList();
@@ -482,6 +463,32 @@ public class SkillEffectService {
             throw effectNotFound(effectKey);
         }
         return assembleDetail(effect);
+    }
+
+    /** 候选投影复用正式结果编解码与排序，不读取或锁定目录。 */
+    public SkillEffectDetailResponse projectConfiguration(String gameId, String skillKey,
+        SkillEffectCreateRequest request, SkillEffectDetailResponse before) {
+        ValidatedEffect values = validateCreate(request);
+        if (before != null) {
+            Map<String, SkillEffectResultType> existingTypes = new HashMap<>();
+            before.results().forEach(result -> existingTypes.put(result.resultKey(), result.resultType()));
+            assertRetainedResultTypes(values.results(), existingTypes);
+        }
+        collectAndValidateResults(values.lifecycle(), values.results(), Map.of(), skillKey, values.effectKey(), null);
+        return assembleDetail(new SkillEffectRow(gameId, skillKey, values.effectKey(), values.name(), values.description(),
+            values.sortOrder(), SkillEffectAggregate.writeResults(values.results()), AggregateJson.write(values.lifecycle()),
+            before == null ? null : before.createdAt(), before == null ? null : before.updatedAt()));
+    }
+
+    private void assertRetainedResultTypes(List<SkillEffectResultRequest> results, Map<String, SkillEffectResultType> prior) {
+        List<Map<String, String>> issues = new ArrayList<>();
+        for (int index = 0; index < results.size(); index++) {
+            SkillEffectResultRequest result = results.get(index);
+            if (prior.containsKey(result.resultKey()) && prior.get(result.resultKey()) != result.resultType()) {
+                issues.add(fieldIssue(resultPath(index, "resultType"), "IMMUTABLE", "结果种类不能修改"));
+            }
+        }
+        throwIfInvalid(issues);
     }
 
     private SkillEffectDetailResponse assembleDetail(SkillEffectRow effect) {
@@ -2405,14 +2412,6 @@ public class SkillEffectService {
         if (count == null || count <= 0) {
             throw gameNotFound(gameId);
         }
-    }
-
-    private static Map<String, SkillEffectResultRow> indexExistingResults(List<SkillEffectResultRow> rows) {
-        Map<String, SkillEffectResultRow> indexed = new LinkedHashMap<>();
-        for (SkillEffectResultRow row : rows) {
-            indexed.put(row.resultKey(), row);
-        }
-        return indexed;
     }
 
     private static boolean isRetained(

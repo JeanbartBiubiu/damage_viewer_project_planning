@@ -99,6 +99,16 @@ public class SkillTriggerRuleService {
         return new Prepared(values, baselineDetail, false);
     }
 
+    /** 使用正式存储与回读的规范顺序构造只读候选。 */
+    public SkillTriggerRuleDetailResponse projectPrepared(String gameId, String skillKey, Prepared prepared) {
+        ValidatedRule values = prepared.values;
+        return assembler.assemble(new SkillTriggerRuleRow(gameId, skillKey, values.ruleKey(), values.name(),
+            values.description(), values.sortOrder(), values.eventSource().eventType(), null, null,
+            AggregateJson.write(values.eventSource()), AggregateJson.write(SkillTriggerRuleAssembler.orderedGroups(values.conditionGroups())),
+            AggregateJson.write(SkillTriggerRuleAssembler.orderedActions(values.actions())),
+            AggregateJson.write(new SkillTriggerRuleAssembler.Limits(values.perTargetCooldown(), values.maxTriggersPerProcess(), values.oncePerUse()))));
+    }
+
     public void writePreparedWithinConfiguration(String gameId, String skillKey, Prepared prepared) {
         ValidatedRule values = prepared.values;
         try {

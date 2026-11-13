@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { isDeepStrictEqual } from 'node:util';
-import { mechanismEngine } from '../../../../web/tests/mechanisms/mechanismRunner';
+import { createMaintenanceEngine } from '../../../../tools/maintenance/engine-client';
 import { validateSimulationSnapshot } from '../../../../web/src/services/simulationSnapshotClient';
 import { inspectSimulationSnapshot, prepareSimulation, SIMULATION_ADAPTER_VERSION } from '../../../../web/src/engine/simulationAdapter';
 import type { SimulationCastCostRef } from '../../../../web/src/engine/simulationActiveSkills';
@@ -27,7 +27,7 @@ type Scenario = {
   mechanicStateInputs?: SimulationMechanicStateInput[]; sceneParameterInputs?: SceneInitialParameterInput[];
   initialResourceInputs?: SimulationInitialResourceInput[]; ignoredCastCosts?: SimulationCastCostRef[];
 };
-type Engine = Awaited<ReturnType<typeof mechanismEngine>>;
+type Engine = Awaited<ReturnType<typeof createMaintenanceEngine>>;
 type Evidence = {
   id: string; complete: boolean; scene: Scenario; adapterVersion: string; wasmSha256: string; wasmBytes: number;
   snapshotFileSha256?: string; snapshotDigest?: string;
@@ -170,12 +170,12 @@ function parseArguments(args: string[]) {
   const values = new Map<string, string>();
   for (let index = 0; index < args.length; index += 2) {
     const key = args[index], value = args[index + 1];
-    requireValue((key === '--plan' || key === '--output') && !values.has(key) && value && !value.startsWith('--'),
-      '只接受一次--plan和--output，且均须提供路径。');
+    requireValue(['--plan', '--output', '--grant-file'].includes(key) && !values.has(key) && value && !value.startsWith('--'),
+      '只接受一次--plan、--output和--grant-file，且均须提供路径。');
     values.set(key, resolve(value));
   }
-  requireValue(values.size === 2, '需要--plan和--output。');
-  return { plan: values.get('--plan')!, output: values.get('--output')! };
+  requireValue(values.size === 3, '需要--plan、--output和--grant-file。');
+  return { plan: values.get('--plan')!, output: values.get('--output')!, grantFile: values.get('--grant-file')! };
 }
 
 async function main() {
@@ -183,7 +183,7 @@ async function main() {
   if (!options) {
     console.log('按给定快照及明确输入运行Wasm场景；不生成预期或写业务数据。\n'
       + '在web目录执行：\nnode node_modules/vite-node/vite-node.mjs ../.agents/skills/skill-damage-verification/scripts/run-wasm-scenarios.ts '
-      + '--plan <场景计划.json> --output <新的证据目录>');
+      + '--plan <场景计划.json> --output <新的证据目录> --grant-file <后端维护计算票据文件>');
     return;
   }
   const planBytes = readFileSync(options.plan);
@@ -194,7 +194,7 @@ async function main() {
     cases: { id: string; complete: boolean; error?: Evidence['error']; releaseError?: string }[];
     initializationError?: string } = { complete: false, requested: scenes.length, completed: 0, planSha256: hash(planBytes), cases: [] };
   try {
-    const engine = await mechanismEngine();
+    const engine = await createMaintenanceEngine(options.grantFile);
     for (const scene of scenes) {
       const evidence = await runScenario(scene, dirname(options.plan), engine);
       const file = `${scene.id}.json`;

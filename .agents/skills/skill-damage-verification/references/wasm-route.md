@@ -8,7 +8,7 @@
 - 需要读取已保存配置：用 `web/src/services/simulationSnapshotClient.ts` 的 `getSimulationSnapshot` 获取本次场景；明确选择需要的技能和输入，不默认开启全部角色来源。
 - 已提供引擎请求：经当前宿主入口直接编译和运行，无需重新装配管理数据。
 
-浏览器接线参考 `web/tests/fixtures/firstHeroWorker.ts`，Node 接线参考 `web/tests/mechanisms/mechanismRunner.ts` 的 `mechanismEngine()`。只复用接线，不沿用示例中的合成数据、半血初值或背景普攻；本次场景仍采用调用方给定的结构和条件。
+浏览器接线参考 `web/tests/fixtures/firstHeroWorker.ts`，真实维护的 Node 接线复用 `tools/maintenance/engine-client.ts`。它只读取正式后端签发的维护计算票据，并校验最终分发产物；固定机制测试的签发材料不用于真实对象验证。本次场景采用调用方给定的结构和条件。
 
 按主动、自动或条件触发选择对应请求；间接效果要带实际消费它的后续动作。运行后保存结构化结果，检查本次所需明细是否完整，并释放本次会话。无法运行时返回具体错误或缺项，不在本技能内启动引擎开发、重建正式证明或整角色验收。
 
@@ -19,10 +19,10 @@
 已有场景快照文件时，可复用 `scripts/run-wasm-scenarios.ts`，避免逐次编写运行接线。在 `web/` 目录执行：
 
 ```powershell
-node node_modules/vite-node/vite-node.mjs ../.agents/skills/skill-damage-verification/scripts/run-wasm-scenarios.ts --plan <场景计划.json> --output <新的证据目录>
+node node_modules/vite-node/vite-node.mjs ../.agents/skills/skill-damage-verification/scripts/run-wasm-scenarios.ts --plan <场景计划.json> --output <新的证据目录> --grant-file <后端维护计算票据文件>
 ```
 
-计划顶层只有 `cases`。每个场景必须提供：
+票据按 `tools/maintenance/README.md` 经正式维护会话取得，私密文件不进入场景计划、证据或输出。每次编译和运行重新读取，过期、错误类别或主体变化立即失败；不能回退到测试票据或关闭验签。计划顶层只有 `cases`。每个场景必须提供：
 
 - `id`：唯一小写字母、数字、下划线或连字符标识，用作输出文件名。
 - `snapshotFile`：场景快照文件，路径相对计划文件。

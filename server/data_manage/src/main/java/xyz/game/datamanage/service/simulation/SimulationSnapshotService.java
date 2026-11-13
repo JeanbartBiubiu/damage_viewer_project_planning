@@ -31,6 +31,7 @@ import xyz.game.datamanage.mapper.equipment.EquipmentMapper;
 import xyz.game.datamanage.model.attribute.AttributeResponse;
 import xyz.game.datamanage.model.attribute.AttributeValueType;
 import xyz.game.datamanage.model.build.BuildConfiguration;
+import xyz.game.datamanage.model.build.BuildDefinitionResponse;
 import xyz.game.datamanage.model.character.CharacterAttributesResponse;
 import xyz.game.datamanage.model.character.CharacterResponse;
 import xyz.game.datamanage.model.character.LevelConfigResponse;
@@ -53,8 +54,10 @@ import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.SkillSett
 import xyz.game.datamanage.model.skill.SkillStatus;
 import xyz.game.datamanage.model.skillcategory.SkillCategoryResponse;
 import xyz.game.datamanage.model.skillconfiguration.SkillConfigurationResponse;
+import xyz.game.datamanage.model.simulation.SimulationPreviewUpdate;
 import xyz.game.datamanage.model.skillrelation.CharacterSkillRelationResponse;
 import xyz.game.datamanage.model.skillrelation.EquipmentSkillRelationResponse;
+import xyz.game.datamanage.model.skillrelation.BuildOptionSkillRelationResponse;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneResponse;
 import xyz.game.datamanage.model.status.StatusResponse;
 import xyz.game.datamanage.service.attribute.AttributeService;
@@ -124,6 +127,29 @@ public class SimulationSnapshotService {
 
     @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
     public SimulationSnapshotResponse get(String gameId, Selection selection) {
+        return assemble(gameId, selection, Map.of());
+    }
+
+    /** 候选投影、真实来源选择及依赖目录在同一个只读快照内装配。 */
+    @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
+    public SimulationSnapshotResponse preview(String gameId, Selection selection, List<SimulationPreviewUpdate> updates) {
+        if (updates == null || updates.isEmpty() || updates.size() > 32) {
+            throw invalid("updates", "PREVIEW_UPDATES_REQUIRED", "候选场景需要1至32份明确技能修改");
+        }
+        Map<String, SkillConfigurationResponse> overrides = new TreeMap<>();
+        for (int index = 0; index < updates.size(); index++) {
+            SimulationPreviewUpdate update = updates.get(index);
+            if (update == null || update.skillKey() == null || !update.skillKey().matches("^[a-z][a-z0-9_]{0,63}$")
+                || update.request() == null || overrides.containsKey(update.skillKey())) {
+                throw invalid("updates[" + index + "]", "INVALID_PREVIEW_UPDATE", "候选修改身份或完整请求不合法，且技能不能重复");
+            }
+            overrides.put(update.skillKey(), configurations.previewUpdate(gameId, update.skillKey(), update.request()));
+        }
+        return assemble(gameId, selection, Map.copyOf(overrides));
+    }
+
+    private SimulationSnapshotResponse assemble(String gameId, Selection selection,
+        Map<String, SkillConfigurationResponse> overrides) {
         if (selection == null) throw SnapshotIssues.request("selection", "REQUIRED", "必须提供场景选择");
         SnapshotSelectionParser.parse(json.valueToTree(selection));
         Selection choice = new Selection(selection.sourceCharacterKey(), selection.sourceLevel(),
@@ -145,6 +171,8 @@ public class SimulationSnapshotService {
             choice.sourceEquipmentKeys(), selection.sourceBuildConfigurations(), "source");
         Combatant target = combatant(gameId, choice.targetCharacterKey(), choice.targetLevel(),
             choice.targetEquipmentKeys(), selection.targetBuildConfigurations(), "target");
+        source = projectedSkillMetadata(source, overrides);
+        target = projectedSkillMetadata(target, overrides);
         if (choice.basicAttackSkillKey() != null
             && source.attachedSkills().stream().noneMatch(relation -> choice.basicAttackSkillKey().equals(relation.skillKey()))) {
             throw invalid("source.attachedSkills", "SKILL_NOT_ATTACHED", "A 未挂载所选普通攻击");
@@ -153,7 +181,7 @@ public class SimulationSnapshotService {
         sources.addAll(SnapshotSources.collect(source, "source", choice.sourceLevel(), choice.basicAttackSkillKey(), choice.basicAttackLevel()));
         sources.addAll(SnapshotSources.collect(target, "target", choice.targetLevel(), choice.basicAttackSkillKey(), choice.basicAttackLevel()));
         sources.sort(SnapshotSources.ORDER);
-        Map<String, SkillConfigurationResponse> selected = selectedSkillConfigurations(gameId, sources);
+        Map<String, SkillConfigurationResponse> selected = selectedSkillConfigurations(gameId, sources, overrides);
         if (choice.basicAttackSkillKey() != null) {
             if (basicAttackCategoryKey == null) throw invalid("catalogs.calculationRules.configuration.basicAttackCategoryKey",
                 "CATEGORY_BINDING_MISSING", "所选普通攻击需要明确绑定游戏普通攻击分类用途");
@@ -165,8 +193,12 @@ public class SimulationSnapshotService {
         SnapshotSources.apply(sources, selection.targetSkillSettings(), "target", choice.basicAttackSkillKey());
         SnapshotSources.plan(sources, selection.plannedSkills());
         SnapshotSkillClosure closure = new SnapshotSkillClosure(gameId, choice.basicAttackSkillKey(), basicAttackCategoryKey, json, sources, selected,
-            (key, path) -> readSkillConfiguration(gameId, key, path));
+            (key, path) -> readSkillConfiguration(gameId, key, path, overrides));
         SnapshotSkillClosure.Result execution = closure.collect();
+        Set<String> consumedSkills = execution.objects().stream().map(Aggregate::skillKey).collect(java.util.stream.Collectors.toSet());
+        for (String key : overrides.keySet()) if (!consumedSkills.contains(key)) {
+            throw invalid("updates." + key, "PREVIEW_UPDATE_NOT_CONSUMED", "候选技能未进入本场实际执行闭包");
+        }
         List<SkillConfigurationResponse> skills = execution.configurations();
         source = withSources(source, sources, "source");
         target = withSources(target, sources, "target");
@@ -434,6 +466,33 @@ public class SimulationSnapshotService {
                 .map(SnapshotSources.Source::response).toList());
     }
 
+    /** 关系身份来自实际数据库；仅将关联查询中的技能名称与状态同步为本次投影值。 */
+    private static Combatant projectedSkillMetadata(Combatant actor, Map<String, SkillConfigurationResponse> overrides) {
+        if (overrides.isEmpty()) return actor;
+        List<CharacterSkillRelationResponse> attached = actor.attachedSkills().stream().map(row -> {
+            var candidate = overrides.get(row.skillKey());
+            return candidate == null ? row : new CharacterSkillRelationResponse(row.gameId(), row.characterKey(), row.characterName(),
+                row.skillKey(), candidate.skill().name(), candidate.skill().status(), row.sortOrder());
+        }).toList();
+        List<SelectedEquipment> items = actor.selectedEquipment().stream().map(item -> new SelectedEquipment(item.equipment(), item.attributes(),
+            item.attachedSkills().stream().map(row -> {
+                var candidate = overrides.get(row.skillKey());
+                return candidate == null ? row : new EquipmentSkillRelationResponse(row.gameId(), row.equipmentKey(), row.equipmentName(),
+                    row.skillKey(), candidate.skill().name(), candidate.skill().status(), row.sortOrder());
+            }).toList())).toList();
+        List<SelectedBuild> builds = actor.selectedBuilds().stream().map(build -> {
+            var definition = build.definition();
+            var relations = definition.skillRelations().stream().map(row -> {
+                var candidate = overrides.get(row.skillKey());
+                return candidate == null ? row : new BuildOptionSkillRelationResponse(row.gameId(), row.systemKey(), row.optionKey(),
+                    row.optionName(), row.skillKey(), candidate.skill().name(), candidate.skill().status(), row.activationRank(),
+                    row.skillLevelMode(), row.fixedSkillLevel(), row.sortOrder());
+            }).toList();
+            return new SelectedBuild(new BuildDefinitionResponse(definition.system(), definition.groups(), definition.options(), relations), build.configuration());
+        }).toList();
+        return new Combatant(actor.character(), actor.attributes(), actor.selectedLevelValues(), attached, items, builds, actor.skillSources());
+    }
+
     private List<SelectedEquipment> selectedEquipment(String gameId, List<String> keys, String side) {
         List<SelectedEquipment> selected = new ArrayList<>();
         for (int equipmentIndex = 0; equipmentIndex < keys.size(); equipmentIndex++) {
@@ -498,7 +557,8 @@ public class SimulationSnapshotService {
         return List.copyOf(selected);
     }
 
-    private Map<String, SkillConfigurationResponse> selectedSkillConfigurations(String gameId, List<SnapshotSources.Source> sources) {
+    private Map<String, SkillConfigurationResponse> selectedSkillConfigurations(String gameId, List<SnapshotSources.Source> sources,
+        Map<String, SkillConfigurationResponse> overrides) {
         Map<String, String> selectedKeys = new TreeMap<>();
         sources.forEach(source -> selectedKeys.putIfAbsent(source.skillKey, source.path));
         if (selectedKeys.size() > 32) {
@@ -506,7 +566,7 @@ public class SimulationSnapshotService {
         }
         Map<String, SkillConfigurationResponse> selected = new TreeMap<>();
         for (var entry : selectedKeys.entrySet()) {
-            SkillConfigurationResponse skill = readSkillConfiguration(gameId, entry.getKey(), entry.getValue());
+            SkillConfigurationResponse skill = readSkillConfiguration(gameId, entry.getKey(), entry.getValue(), overrides);
             selected.put(entry.getKey(), skill);
         }
         for (SnapshotSources.Source source : sources) {
@@ -516,8 +576,10 @@ public class SimulationSnapshotService {
         return selected;
     }
 
-    private SkillConfigurationResponse readSkillConfiguration(String gameId, String key, String path) {
-        SkillConfigurationResponse skill = readDependency(() -> configurations.get(gameId, key), path);
+    private SkillConfigurationResponse readSkillConfiguration(String gameId, String key, String path,
+        Map<String, SkillConfigurationResponse> overrides) {
+        SkillConfigurationResponse skill = overrides.containsKey(key) ? overrides.get(key)
+            : readDependency(() -> configurations.get(gameId, key), path);
         if (!key.equals(skill.skill().skillKey()) || !gameId.equals(skill.skill().gameId())) {
             throw invalid(path, "REFERENCE_OUT_OF_SCOPE", "读取的完整技能定义不属于实际游戏与技能身份");
         }

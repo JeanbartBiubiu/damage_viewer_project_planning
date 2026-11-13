@@ -2,9 +2,8 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 import { isDeepStrictEqual } from 'node:util';
-import { TinyGoV2Bridge } from '../../web/src/engine/tinygoV2Bridge';
-import { parseCompileResult, parseDoneResult, parseReleaseResult, type GenericEngineClient } from '../../web/src/engine/genericEngineClient';
-import { registerFormulaForApprovedReads, validateApprovedFormulaValues, validateConsumedFormulaValues } from '../../web/src/engine/approvedFormulaValues';
+import type { GenericEngineClient } from '../../web/src/engine/genericEngineClient';
+import { validateApprovedFormulaValues, validateConsumedFormulaValues } from '../../web/src/engine/approvedFormulaValues';
 import { validateSimulationSnapshot } from '../../web/src/services/simulationSnapshotClient';
 import { preflightSkillFormulas } from '../../web/src/engine/skillFormulaPreflight';
 import { inspectSimulationSnapshot, prepareSimulation, SIMULATION_ADAPTER_VERSION } from '../../web/src/engine/simulationAdapter';
@@ -13,17 +12,20 @@ import { skillActionRequest, type SkillActionInput } from '../../web/src/engine/
 import { assessContinuousAttackResult } from '../../web/src/engine/continuousAttackResult';
 import { assessSkillActionResult } from '../../web/src/engine/skillActionResult';
 import { WASM_IDENTITY } from '../../web/src/engine/wasmIdentity';
-import type { CompileRequest, RunRequest } from '../../web/src/types/genericEngine';
+import type { RunRequest } from '../../web/src/types/genericEngine';
 import type { SimulationSnapshot, SimulationAttributeInputs, SimulationInitialHealth, SimulationEquipmentAssumption,
   SimulationMechanicStateInput, SimulationInitialResourceInput } from '../../web/src/types/simulationSnapshot';
 import type { SimulationCastCostRef } from '../../web/src/engine/simulationActiveSkills';
 import type { SceneInitialParameterInput } from '../../web/src/engine/sceneInitialParameterInput';
 import { validateCandidate, candidateSnapshot } from './candidate.mjs';
+import { createMaintenanceEngine } from './engine-client';
 
 type Scenario = { mode: 'fixed' | 'continuous'; durationMs: number; attributeInputs: SimulationAttributeInputs;
   initialHealth: SimulationInitialHealth; actions?: SkillActionInput[]; equipmentAssumptions?: SimulationEquipmentAssumption[];
   mechanicStateInputs?: SimulationMechanicStateInput[]; sceneParameterInputs?: SceneInitialParameterInput[];
   initialResourceInputs?: SimulationInitialResourceInput[]; ignoredCastCosts?: SimulationCastCostRef[] };
+type CandidateInput = { candidateDigest: string; principalId: string; gameId: string;
+  scenes: { id: string; snapshot: SimulationSnapshot; previewSnapshot?: SimulationSnapshot; scenario: Scenario }[] };
 const ensure: (value: unknown, message: string) => asserts value = (value, message) => { if (!value) throw new Error(message); };
 const args = new Map<string, string>();
 for (let i = 2; i < process.argv.length; i += 2) {
@@ -32,33 +34,10 @@ for (let i = 2; i < process.argv.length; i += 2) {
   args.set(name, value);
 }
 ensure(args.has('--candidate') && args.has('--output'), '缺少候选或输出目录。');
-const candidate = validateCandidate(JSON.parse(readFileSync(args.get('--candidate')!, 'utf8')));
-const bytes = readFileSync(new URL('../../web/src/engine/wasm/tinygo_engine_v2.wasm', import.meta.url));
-const engineDigest = createHash('sha256').update(bytes).digest('hex');
-ensure(engineDigest === WASM_IDENTITY.sha256 && bytes.length === WASM_IDENTITY.bytes, '引擎分发身份不符。');
-let grant: string | undefined;
-if (WASM_IDENTITY.authorizationRequired) {
-  ensure(args.has('--grant-file'), '正式候选计算需要维护计算票据文件。');
-  const input: unknown = JSON.parse(readFileSync(args.get('--grant-file')!, 'utf8'));
-  ensure(input && typeof input === 'object' && 'grant' in input && typeof input.grant === 'string', '计算票据文件无效。');
-  grant = input.grant;
-  const parts = grant.split('.');
-  ensure(parts.length === 3, '维护票据格式错误。');
-  const claims = JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf8')) as Record<string, unknown>;
-  ensure(claims.subjectType === 'MAINTENANCE' && claims.sub === candidate.principalId && claims.authorizationVersion === 2,
-    '票据不属于本次维护主体。');
-}
-const bridge = await TinyGoV2Bridge.create({ wasmUrl: `data:application/wasm;base64,${bytes.toString('base64')}` });
-const node = {
-  hasLiveWorker: true,
-  async compile(request: CompileRequest) {
-    const response = parseCompileResult(bridge.compile({ ...request, ...(grant ? { authorization: grant } : {}) }));
-    if (response.ok) for (const formula of request.formulas ?? []) registerFormulaForApprovedReads(formula);
-    return response;
-  },
-  async run(request: RunRequest) { return parseDoneResult(bridge.run({ ...request, ...(grant ? { authorization: grant } : {}) })); },
-  async release(sessionId: string, expectedRulesHash?: string) { return parseReleaseResult(bridge.releaseSession(sessionId, expectedRulesHash)); }
-};
+// JavaScript 边界已严格验证候选身份、场景集合与冻结摘要；此类型只描述本执行器消费的字段。
+const candidate = validateCandidate(JSON.parse(readFileSync(args.get('--candidate')!, 'utf8'))) as CandidateInput;
+ensure(args.has('--grant-file'), '正式候选计算需要维护计算票据文件。');
+const { client: node, wasmSha256: engineDigest } = await createMaintenanceEngine(args.get('--grant-file')!, candidate.principalId);
 const client = node as unknown as GenericEngineClient;
 const files: { id: string; file: string; sha256: string }[] = [];
 let completed = 0;

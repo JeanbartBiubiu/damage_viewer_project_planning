@@ -156,13 +156,14 @@ public class GameConfigurationWriteGuard {
         }
     }
 
-    /** 一次性受保护转换在提交前读回索引；仍复用正常提交守卫，不能绕过游戏锁或事务。 */
+    /** 维护提交在计算最终摘要前同步已登记游戏；普通提交仍由 beforeCommit 复核最终态。 */
     public void validatePending() {
         Pending pending = (Pending) TransactionSynchronizationManager.getResource(this);
         if (!TransactionSynchronizationManager.isActualTransactionActive()
-            || TransactionSynchronizationManager.isCurrentTransactionReadOnly() || pending == null) {
-            throw new IllegalStateException("最终配置校验必须位于已锁游戏的可写事务中");
+            || TransactionSynchronizationManager.isCurrentTransactionReadOnly()) {
+            throw new IllegalStateException("最终配置校验必须位于真实可写事务中");
         }
+        if (pending == null) return;
         for (String game : pending.games) validateAndReplace(game, pending.before.get(game), pending.beforeCalculations.get(game));
     }
 

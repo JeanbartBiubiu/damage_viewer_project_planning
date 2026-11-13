@@ -4,7 +4,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { calculatePlan, compareResults } from '../../.agents/skills/skill-damage-verification/scripts/verify-damage.mjs';
-import { validateCandidate, verifySourceEvidence, operationsForBatch } from './candidate.mjs';
+import { validateCandidate, verifySourceEvidence, operationsForBatch, isDevelopmentCandidate, previewUpdates } from './candidate.mjs';
 import { readJson, writeNew, requireValue, sha256, digestJson, options, containedFile } from './artifacts.mjs';
 import { makeClient } from './client.mjs';
 
@@ -12,12 +12,22 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 export async function verifyDatabaseInputs(candidate, client) {
   const path = `/internal/maintenance/games/${candidate.gameId}/baseline`;
   requireValue((await client.request('GET', path)).data.baselineDigest === candidate.baselineDigest, '真实游戏基线已变化。');
+  const scenes = [];
   for (const scene of candidate.scenes) {
     const actual = (await client.request('POST', `/api/admin/games/${candidate.gameId}/simulation-snapshot`, JSON.stringify(scene.snapshot.selection))).data;
     const stable = snapshot => ({ ...snapshot, readAt: null });
     requireValue(digestJson(stable(actual)) === digestJson(stable(scene.snapshot)), '候选快照并非当前真实场景；不能改抗性或目录后自报基线。');
+    const evidence = { id: scene.id, originalSnapshotDigest: actual.snapshotDigest };
+    if (isDevelopmentCandidate(candidate)) {
+      const preview = (await client.request('POST', `/internal/maintenance/games/${candidate.gameId}/simulation-preview`,
+        JSON.stringify({ selection: scene.snapshot.selection, updates: previewUpdates(candidate, scene) }))).data;
+      requireValue(digestJson(stable(preview)) === digestJson(stable(scene.previewSnapshot)), '开发候选预检快照并非当前后端重建的完整场景。');
+      evidence.previewSnapshotDigest = preview.snapshotDigest;
+    }
+    scenes.push(evidence);
   }
   requireValue((await client.request('GET', path)).data.baselineDigest === candidate.baselineDigest, '读取场景期间游戏基线已变化。');
+  return { baselineDigest: candidate.baselineDigest, scenes };
 }
 export function validationPayload(candidate, summary, report, evidenceDigest, now = Math.floor(Date.now() / 1000)) {
   requireValue(summary.complete && summary.requested === candidate.scenes.length && summary.completed === candidate.scenes.length
@@ -46,15 +56,17 @@ async function main(args) {
   verifySourceEvidence(candidate, dirname(path));
   requireValue(!opts['--private-key'] || opts['--read-config'], '正式签发必须独立读取真实基线及场景。');
   let client;
+  let databaseInputs;
   if (opts['--read-config']) {
     const configPath = resolve(opts['--read-config']);
     client = makeClient(readJson(configPath), dirname(configPath));
-    await verifyDatabaseInputs(candidate, client);
+    databaseInputs = await verifyDatabaseInputs(candidate, client);
   }
   const expected = calculatePlan(candidate.expectedPlan);
   const output = resolve(opts['--output']);
   mkdirSync(output);
   writeNew(resolve(output, 'expected.json'), expected);
+  if (databaseInputs) writeNew(resolve(output, 'database-inputs-before.json'), databaseInputs);
   const command = [resolve(root, 'web/node_modules/vite-node/vite-node.mjs'), resolve(root, 'tools/maintenance/run-candidate.ts'),
     '--candidate', path, '--output', output];
   if (opts['--grant-file']) command.push('--grant-file', resolve(opts['--grant-file']));
@@ -72,7 +84,7 @@ async function main(args) {
   writeNew(resolve(output, 'comparison.json'), report);
   requireValue(report.pass, '候选与独立预期不一致；不签发回执。');
   if (opts['--private-key']) {
-    await verifyDatabaseInputs(candidate, client);
+    writeNew(resolve(output, 'database-inputs-after.json'), await verifyDatabaseInputs(candidate, client));
     const evidenceDigest = digestJson({ summary, expected, report });
     const payload = validationPayload(candidate, summary, report, evidenceDigest);
     const receipt = signReceipt(payload, readFileSync(opts['--private-key']));

@@ -79,6 +79,8 @@ public interface SkillParameterMapper {
 
     LevelConfigResponse findLevelConfigForUpdate(@Param("gameId") String gameId);
 
+    LevelConfigResponse findLevelConfig(@Param("gameId") String gameId);
+
     List<SkillParameterRow> lockSkillLevelParamsForSkill(
         @Param("gameId") String gameId,
         @Param("skillKey") String skillKey

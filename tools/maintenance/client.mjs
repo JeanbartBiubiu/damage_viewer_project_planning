@@ -13,6 +13,9 @@ export function validateBase(value) {
 }
 export function makeClient(config, configurationDirectory, fetcher = fetch) {
   const base = validateBase(config.apiBase), origin = new URL(config.origin).origin;
+  const requestTimeoutMs = config.requestTimeoutMs ?? 60_000;
+  requireValue(Number.isSafeInteger(requestTimeoutMs) && requestTimeoutMs >= 1000 && requestTimeoutMs <= 300_000,
+    '维护请求超时须为1000～300000整数毫秒。');
   const secret = field => readFileSync(resolve(configurationDirectory, config[field]), 'utf8').trim();
   const session = () => readJson(resolve(configurationDirectory, config.sessionFile));
   async function request(method, path, body, kind = 'session', extraHeaders = {}) {
@@ -28,7 +31,7 @@ export function makeClient(config, configurationDirectory, fetcher = fetch) {
       if (method !== 'GET') headers['X-CSRF-Token'] = current.csrf;
     }
     let response;
-    try { response = await fetcher(`${base}${path}`, { method, headers, body, redirect: 'error', signal: AbortSignal.timeout(30_000) }); }
+    try { response = await fetcher(`${base}${path}`, { method, headers, body, redirect: 'error', signal: AbortSignal.timeout(requestTimeoutMs) }); }
     catch { throw new Error('维护请求未确认；请先查询批次与实际配置，禁止直接重放。'); }
     requireValue(response.ok, `维护接口拒绝，HTTP ${response.status}；未自动重试。`);
     const data = response.status === 204 ? null : await response.json();
@@ -67,15 +70,40 @@ export async function applyCandidate(client, candidate, outputDirectory) {
   }
   return { batchId: checked.batchId, applied: operations.length, publicEnabled: false };
 }
+/** 响应不明后只核对已提交部分，不重新发送任何配置请求。 */
+export async function reconcileCandidate(client, candidate, outputDirectory) {
+  const checked = validateCandidate(candidate), operations = operationRequests(checked);
+  const statePath = `/internal/maintenance/batches/${checked.batchId}`;
+  const state = (await client.request('GET', statePath)).data;
+  requireValue(state.batchId === checked.batchId && state.gameId === checked.gameId
+    && state.operationCount === operations.length && Number.isSafeInteger(state.nextOperation)
+    && state.nextOperation >= 0 && state.nextOperation <= operations.length, '批次提交事实与冻结候选不符。');
+  mkdirSync(outputDirectory);
+  writeNew(resolve(outputDirectory, 'state-before.json'), state);
+  for (let index = 0; index < state.nextOperation; index++) {
+    const actual = (await client.request('GET', operations[index].path)).data;
+    requireValue(sameConfiguration(actual, checked.skillPlan.items[index].expected), '已提交对象的独立回读不等于冻结预期。');
+    writeNew(resolve(outputDirectory, `${index + 1}-readback.json`), { confirmedByReadback: true, actual });
+  }
+  const after = (await client.request('GET', statePath)).data;
+  requireValue(after.state === state.state && after.nextOperation === state.nextOperation
+    && after.currentDigest === state.currentDigest, '回读期间批次发生变化，请重新核对现场。');
+  const baseline = (await client.request('GET', `/internal/maintenance/games/${checked.gameId}/baseline`)).data;
+  requireValue(baseline.baselineDigest === state.currentDigest, '实际游戏基线不等于批次最后提交状态。');
+  const result = { batchId: checked.batchId, state: state.state, confirmedOperations: state.nextOperation,
+    operationCount: operations.length, allOperationsConfirmed: state.nextOperation === operations.length, businessWrites: 0 };
+  writeNew(resolve(outputDirectory, 'summary.json'), result);
+  return result;
+}
 async function main(args) {
   const [action, ...rest] = args;
   if (!action || action === '--help') {
     console.log('私有维护客户端（不输出凭据、不自动开维护或恢复公网）\n'
-      + 'node tools/maintenance/client.mjs <session|grant|baseline|register|state|open|complete|renew|recover|apply|logout> --config <私密配置.json> '
+      + 'node tools/maintenance/client.mjs <session|grant|baseline|register|state|open|complete|renew|recover|apply|reconcile|logout> --config <私密配置.json> '
       + '[--game <游戏>] [--batch-id <UUID>] [--recovery-id <新恢复UUID>] [--receipt <新回执文件>] [--batch <批次.json>] [--candidate <候选.json>] [--output <新文件或目录>]');
     return;
   }
-  requireValue(['session', 'grant', 'baseline', 'register', 'state', 'open', 'complete', 'renew', 'recover', 'apply', 'logout'].includes(action), '维护操作未知。');
+  requireValue(['session', 'grant', 'baseline', 'register', 'state', 'open', 'complete', 'renew', 'recover', 'apply', 'reconcile', 'logout'].includes(action), '维护操作未知。');
   const opts = options(rest, ['--config', '--game', '--batch-id', '--recovery-id', '--receipt', '--batch', '--candidate', '--output'], ['--config']);
   const configPath = resolve(opts['--config']), config = readJson(configPath), client = makeClient(config, dirname(configPath));
   const batchId = opts['--batch-id'];
@@ -112,10 +140,10 @@ async function main(args) {
     await client.request('POST', '/internal/maintenance/logout', '{}'); result = { loggedOut: true };
   } else {
     requireValue(opts['--candidate'] && opts['--output'], '需要冻结候选与新证据目录。');
-    result = await applyCandidate(client, readJson(opts['--candidate']), resolve(opts['--output']));
+    result = await (action === 'reconcile' ? reconcileCandidate : applyCandidate)(client, readJson(opts['--candidate']), resolve(opts['--output']));
   }
-  if (opts['--output'] && !['session', 'grant', 'apply'].includes(action)) writeNew(opts['--output'], result);
-  console.log(JSON.stringify(['baseline', 'state', 'apply', 'logout'].includes(action) ? result : { action, complete: true }));
+  if (opts['--output'] && !['session', 'grant', 'apply', 'reconcile'].includes(action)) writeNew(opts['--output'], result);
+  console.log(JSON.stringify(['baseline', 'state', 'apply', 'reconcile', 'logout'].includes(action) ? result : { action, complete: true }));
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   main(process.argv.slice(2)).catch(() => { console.error('维护操作未完成；保留已有证据并先独立回读，不自动重试。'); process.exitCode = 1; });

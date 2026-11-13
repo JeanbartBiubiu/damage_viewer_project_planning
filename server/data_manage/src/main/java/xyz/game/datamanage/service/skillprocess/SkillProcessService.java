@@ -171,6 +171,17 @@ public class SkillProcessService {
         return new Prepared(values, collectAndValidateAggregate(values, Map.of(), Map.of(), true), false);
     }
 
+    /** 经相同存储顺序和读取装配投影，不调用持久化或目录加锁。 */
+    public SkillProcessDetailResponse projectPrepared(String gameId, String skillKey, Prepared prepared,
+        SkillProcessDetailResponse before) {
+        ValidatedProcess values = prepared.values;
+        return assembleDetail(new SkillProcessRow(gameId, skillKey, values.processKey(), values.name(),
+            values.activationType(), values.description(), values.sortOrder(),
+            before == null ? null : before.createdAt(), before == null ? null : before.updatedAt(),
+            writeSteps(values.steps()), AggregateJson.write(values.cooldown()), writeBindings(values.effectBindings()),
+            writeOperations(values.stateOperations())));
+    }
+
     public void writePreparedWithinConfiguration(String gameId, String skillKey, Prepared prepared) {
         ValidatedProcess values = prepared.values;
         try {

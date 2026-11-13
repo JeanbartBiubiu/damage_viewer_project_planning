@@ -82,6 +82,21 @@ class SkillProcessServiceTest {
     private SkillProcessService service;
     private SkillProcessRow stored;
 
+    @Test
+    void candidateProjectionUsesTheSameNestedStorageOrderWithoutAnyDatabaseAccess() {
+        var request = new SkillProcessCreateRequest(PROCESS_KEY, "施放", SkillProcessActivationType.ACTIVE,
+            null, 0, null,
+            List.of(new SkillProcessStepRequest("second", "后一步", SkillProcessStepType.IMMEDIATE, null, 20, false, new SkillProcessImmediateStepDetail()),
+                new SkillProcessStepRequest("first", "前一步", SkillProcessStepType.IMMEDIATE, null, 10, false, new SkillProcessImmediateStepDetail())),
+            List.of(new SkillProcessEffectBindingRequest("later", EFFECT_KEY, new SkillProcessMoment(SkillProcessMomentType.PROCESS_START, null), 20),
+                new SkillProcessEffectBindingRequest("earlier", EFFECT_KEY, new SkillProcessMoment(SkillProcessMomentType.PROCESS_START, null), 10)),
+            List.of());
+        var projected = service.projectPrepared(GAME_ID, SKILL_KEY, service.prepareConfigurationCreate(request), null);
+        assertEquals(List.of("first", "second"), projected.steps().stream().map(step -> step.stepKey()).toList());
+        assertEquals(List.of("earlier", "later"), projected.effectBindings().stream().map(binding -> binding.bindingKey()).toList());
+        org.mockito.Mockito.verifyNoInteractions(gamesMapper, skillMapper, mapper, triggerCycles);
+    }
+
     @BeforeEach
     void setUp() {
         service = new SkillProcessService(

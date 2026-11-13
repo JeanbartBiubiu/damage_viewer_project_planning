@@ -137,7 +137,57 @@ class MaintenanceDatabaseIT {
         assertEquals(200,send("POST","/internal/maintenance/batches/"+batch+"/complete","{}",Map.of("X-Damage-Deployment-Token",deploymentToken),false).statusCode());
         assertEquals(200,send("GET","/api/games",null,null,false).statusCode());
     }
-    @Test @Order(4) void writeWaitingBehindRevocationCannotReuseTheOldMaintenanceVersion() throws Exception {
+    @Test @Order(3) void referenceSynchronizationPrecedesCommitDigestAndItsFailureRollsBackTheWholeWrite() throws Exception {
+        String path="/api/admin/games/lol/skills/q/configuration";
+        String body=referenceConfiguration("recorded",path);
+        String before=currentDigest();UUID accepted=UUID.randomUUID();
+        assertEquals(200,send("POST","/internal/maintenance/batches",batch(accepted,before,"PATCH",path,body).toString(),null,true).statusCode());
+        assertEquals(200,send("POST","/internal/maintenance/batches/"+accepted+"/open","{}",Map.of("X-Damage-Deployment-Token",deploymentToken),false).statusCode());
+        Reply written=send("PATCH",path,body,Map.of("X-Damage-Maintenance-Batch",accepted.toString()),true);
+        assertEquals(200,written.statusCode(),written.body());
+        assertEquals(1,jdbc.queryForObject("SELECT count(*) FROM public.skill_object_references WHERE game_id='lol' AND source_key='recorded_formula' AND target_key='recorded_value'",Integer.class));
+        String finalDigest=currentDigest();assertNotEquals(before,finalDigest);
+        assertEquals(finalDigest,jdbc.queryForObject("SELECT current_digest FROM auth.maintenance_batches WHERE id=?",String.class,accepted));
+        assertEquals(finalDigest,jdbc.queryForObject("SELECT after_digest FROM auth.maintenance_commits WHERE batch_id=?",String.class,accepted));
+        assertEquals(200,send("POST","/internal/maintenance/batches/"+accepted+"/complete","{}",Map.of("X-Damage-Deployment-Token",deploymentToken),false).statusCode());
+
+        String rejectedBody=referenceConfiguration("rollback",path);UUID rejected=UUID.randomUUID();
+        int auditBefore=jdbc.queryForObject("SELECT count(*) FROM \"user\".edit_log",Integer.class);
+        int referencesBefore=jdbc.queryForObject("SELECT count(*) FROM public.skill_object_references",Integer.class);
+        assertEquals(200,send("POST","/internal/maintenance/batches",batch(rejected,finalDigest,"PATCH",path,rejectedBody).toString(),null,true).statusCode());
+        assertEquals(200,send("POST","/internal/maintenance/batches/"+rejected+"/open","{}",Map.of("X-Damage-Deployment-Token",deploymentToken),false).statusCode());
+        jdbc.execute("ALTER TABLE public.skill_object_references ADD CONSTRAINT force_reference_fixture_failure CHECK (source_key<>'rollback_formula') NOT VALID");
+        try {
+            assertEquals(500,send("PATCH",path,rejectedBody,Map.of("X-Damage-Maintenance-Batch",rejected.toString()),true).statusCode());
+            assertEquals(0,jdbc.queryForObject("SELECT count(*) FROM public.skill_parameters WHERE parameter_key='rollback_value'",Integer.class));
+            assertEquals(0,jdbc.queryForObject("SELECT count(*) FROM public.skill_formulas WHERE formula_key='rollback_formula'",Integer.class));
+            assertEquals(referencesBefore,jdbc.queryForObject("SELECT count(*) FROM public.skill_object_references",Integer.class));
+            assertEquals(auditBefore,jdbc.queryForObject("SELECT count(*) FROM \"user\".edit_log",Integer.class));
+            assertEquals(0,jdbc.queryForObject("SELECT count(*) FROM auth.maintenance_commits WHERE batch_id=?",Integer.class,rejected));
+            assertEquals(0,jdbc.queryForObject("SELECT next_operation FROM auth.maintenance_batches WHERE id=?",Integer.class,rejected));
+            assertEquals(finalDigest,currentDigest());
+        } finally {jdbc.execute("ALTER TABLE public.skill_object_references DROP CONSTRAINT force_reference_fixture_failure");}
+        // 已通过独立读取证明整笔回滚，移除本用例的强制失败后，才提交原冻结请求。
+        assertEquals(200,send("PATCH",path,rejectedBody,Map.of("X-Damage-Maintenance-Batch",rejected.toString()),true).statusCode());
+        assertEquals(currentDigest(),jdbc.queryForObject("SELECT current_digest FROM auth.maintenance_batches WHERE id=?",String.class,rejected));
+        assertEquals(200,send("POST","/internal/maintenance/batches/"+rejected+"/complete","{}",Map.of("X-Damage-Deployment-Token",deploymentToken),false).statusCode());
+    }
+    private String currentDigest() throws Exception {
+        return json.readTree(send("GET","/internal/maintenance/games/lol/baseline",null,null,true).body()).path("baselineDigest").asText();
+    }
+    private String referenceConfiguration(String prefix,String path) throws Exception {
+        ObjectNode request=json.createObjectNode().put("baseDigest",json.readTree(send("GET",path,null,null,true).body()).path("baseDigest").asText());
+        ArrayNode changes=request.putArray("changes");
+        ObjectNode parameter=changes.addObject().put("objectType","PARAMETER").put("operation","CREATE").put("key",prefix+"_value").putObject("value");
+        parameter.put("parameterKey",prefix+"_value").put("name",prefix+"数值").put("valueType","DECIMAL").put("valueMode","FIXED").put("fixedValue",42).putNull("levelValues").putNull("description").put("sortOrder",0);
+        ObjectNode formula=changes.addObject().put("objectType","FORMULA").put("operation","CREATE").put("key",prefix+"_formula").putObject("value");
+        formula.put("formulaKey",prefix+"_formula").put("name",prefix+"公式").putNull("description").put("sortOrder",0);
+        ObjectNode expression=formula.putObject("expression").put("outputStageKey","output");
+        expression.putArray("inputs").addObject().put("key","input_0").putObject("binding").put("kind","parameter").put("skillKey","q").put("parameterKey",prefix+"_value");
+        expression.putArray("stages").addObject().put("key","output").put("name","输出").putObject("expression").put("op","read").put("inputKey","input_0");
+        return request.toString();
+    }
+    @Test @Order(5) void writeWaitingBehindRevocationCannotReuseTheOldMaintenanceVersion() throws Exception {
         var store=context.getBean(xyz.game.datamanage.support.account.AccountStore.class);
         var sessions=context.getBean(MaintenanceSessions.class);
         var lockedJdbc=store.jdbc();
@@ -164,7 +214,7 @@ class MaintenanceDatabaseIT {
             assertEquals(403,((xyz.game.datamanage.support.error.ApiException)rejected.getCause()).getStatus().value());
         }finally{executor.shutdownNow();}
     }
-    @Test @Order(3) void auditFailureRollsBackBusinessAndProgressAndRevocationInvalidatesExistingSession() throws Exception {
+    @Test @Order(4) void auditFailureRollsBackBusinessAndProgressAndRevocationInvalidatesExistingSession() throws Exception {
         String path="/api/admin/games/lol/skills/q",body="{\"name\":\"必须回滚\",\"description\":null,\"maxLevel\":1,\"status\":\"ENABLED\",\"sortOrder\":0,\"skillCategoryKeys\":[]}";
         String digest=json.readTree(send("GET","/internal/maintenance/games/lol/baseline",null,null,true).body()).path("baselineDigest").asText();UUID batch=UUID.randomUUID();
         assertEquals(200,send("POST","/internal/maintenance/batches",batch(batch,digest,path,body).toString(),null,true).statusCode());
@@ -192,7 +242,10 @@ class MaintenanceDatabaseIT {
         assertEquals(200,send("GET","/api/games",null,null,false).statusCode());
     }
     private ObjectNode batch(UUID id,String baseline,String path,String body) throws Exception {
-        ArrayNode operations=json.createArrayNode().add(json.createObjectNode().put("method","PUT").put("path",path).put("bodySha256",MaintenanceJson.sha(body.getBytes(StandardCharsets.UTF_8))));
+        return batch(id,baseline,"PUT",path,body);
+    }
+    private ObjectNode batch(UUID id,String baseline,String method,String path,String body) throws Exception {
+        ArrayNode operations=json.createArrayNode().add(json.createObjectNode().put("method",method).put("path",path).put("bodySha256",MaintenanceJson.sha(body.getBytes(StandardCharsets.UTF_8))));
         ObjectNode payload=json.createObjectNode().put("version","maintenance-validation-v1").put("batchId",id.toString()).put("principalId",principal.toString()).put("gameId","lol")
             .put("reference","fixture:maintenance-http").put("sourceRevision","fixture:1").put("baselineDigest",baseline).put("candidateDigest","b".repeat(64)).put("operationsDigest",MaintenanceJson.hash(json,operations))
             .put("evidenceDigest","c".repeat(64)).put("engineDigest","d".repeat(64)).put("adapterVersion","fixture-v2").put("issuedAt",Instant.now().minusSeconds(1).getEpochSecond()).put("expiresAt",Instant.now().plusSeconds(600).getEpochSecond()).put("outcome","PASSED");
@@ -202,6 +255,14 @@ class MaintenanceDatabaseIT {
     }
     private record Reply(int statusCode,String body,java.net.http.HttpHeaders headers) {}
     private Reply send(String method,String path,String body,Map<String,String> headers,boolean session) throws Exception {
+        if(method.equals("PATCH")) {
+            var builder=HttpRequest.newBuilder(URI.create(base+path)).timeout(java.time.Duration.ofSeconds(30))
+                .header("Origin","https://localhost:5174").header("X-Damage-Client","web").header("Content-Type","application/json");
+            if(headers!=null)headers.forEach(builder::header);
+            if(session) builder.header("Cookie",String.join("; ",cookies.entrySet().stream().map(e->e.getKey()+"="+e.getValue()).toList())).header("X-CSRF-Token",cookies.get(MaintenanceSessions.CSRF));
+            var response=HttpClient.newHttpClient().send(builder.method(method,HttpRequest.BodyPublishers.ofString(body)).build(),HttpResponse.BodyHandlers.ofString());
+            return new Reply(response.statusCode(),response.body(),response.headers());
+        }
         var connection=(java.net.HttpURLConnection)URI.create(base+path).toURL().openConnection();
         connection.setConnectTimeout(10000);connection.setReadTimeout(10000);connection.setRequestMethod(method);
         connection.setRequestProperty("Origin","https://localhost:5174");connection.setRequestProperty("X-Damage-Client","web");

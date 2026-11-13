@@ -21,8 +21,11 @@
 | `GET /me` | 返回 `{principalId, displayName, expiresAt}` |
 | `POST /logout` | 撤销当前会话，清理维护 Cookie |
 | `POST /wasm-grant` | 有效维护会话及防伪；返回 `{grant, expiresAt}` |
+| `POST /games/{gameId}/simulation-preview` | 有效维护会话及防伪；接收 `{selection, updates:[{skillKey, request}]}`，返回按候选配置重建的完整场景快照，不持久化 |
 
 维护 Cookie 名称固定 `__Host-damage-maint-session`（只限 HTTP 的安全 Cookie）和 `__Host-damage-maint-csrf`（页面可读），路径 `/`，不设置共享域。状态变更携带 `Origin`、`X-Damage-Client: web` 和 `X-CSRF-Token`。会话 30 分钟固定到期，撤销和凭据版本复核须在真实写事务中继续成立。
+
+候选预检只支持已有技能的聚合新增或修改，`request` 沿现行技能 `PATCH` 类型并携带当前 `baseDigest`，不接受删除或技能新建。一次一致性只读事务核对基线并用现有装配器重新计算执行闭包、引用和目录；未进入本场景的覆盖项拒绝。它不调用写入守卫或持久化方法，不需要正式批次窗口；后续业务保存仍须独立验证回执及已打开的匹配批次。
 
 普通玩家会话响应移除 `canEdit`，不因此取得维护身份。维护客户端通过 `X-Damage-Maintenance-Batch` 携带已验证批次编号；无批次不能保存生产配置。私有页面可以编辑草稿和导出候选请求，正式保存只提交与批次完全匹配的请求。
 
@@ -41,6 +44,8 @@
 `receipt` 为 `{payload, signature}`，两者均无填充 base64url；payload 为 UTF-8 JSON 原始字节，signature 为受信 Ed25519 对这些字节的签名。payload 精确字段为 `{version, batchId, principalId, gameId, reference, sourceRevision, baselineDigest, candidateDigest, operationsDigest, evidenceDigest, engineDigest, adapterVersion, issuedAt, expiresAt, outcome}`；`version=maintenance-validation-v1`、`outcome=PASSED`，`issuedAt/expiresAt` 为整数秒，期限正且不超过 3600 秒。其余身份均与冻结批次一致。后端只配置验证公钥，配置写入客户端不得取得私钥。
 
 `GET /batches/{batchId}` 返回 `{batchId, gameId, state, nextOperation, operationCount, currentDigest}`。新批次状态 `PREPARED`；私有运维部署凭据 `X-Damage-Deployment-Token` 调用 `POST /batches/{batchId}/open` 后为 `OPEN`，每个游戏只能有一个 OPEN 批次；此凭据与维护凭据和账号开通凭据分离。open 的空 JSON 请求只在公网实际维护并排空相关请求后执行。配置请求携带 `X-Damage-Maintenance-Batch`，真实事务锁定维护主体、批次和游戏，匹配下一项方法/路径/原始正文摘要并复核当前基线。业务写入、维护审计、nextOperation 和 currentDigest 同事务提交；失败回滚，未知结果先 GET 批次及独立配置回读，不重放。
+
+批次提交摘要包含最终引用索引。业务动作返回后，先由游戏配置守卫在同一事务内完成最终校验和引用同步，再计算摘要及记录提交事实；普通提交前复核仍保留。最终校验、引用同步或维护审计任一步失败，业务、索引和批次进度全部回滚。
 
 全部操作完成后 `POST /batches/{batchId}/complete` 仅部署凭据可调用，将状态改为 `COMPLETE` 并解除游戏批次占用；部署者只有在正式证明交接和私有验收完成后才能 complete、恢复公网。失败保持 OPEN，可查询已提交事实，不自动解除。维护会话和验证回执在每次正式写入继续复核期限与身份，过期须重新验证形成新回执，不允许调大过期时间沿用旧签名。所有批次内部接口公网拒绝。
 
