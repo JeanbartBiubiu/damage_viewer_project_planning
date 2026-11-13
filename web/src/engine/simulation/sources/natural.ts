@@ -16,6 +16,7 @@ import { skillFormulaReachableInputs } from '../../../services/skillFormulaContr
 import { bindShieldAttributeDependencies } from '../../shieldAttributeDependency';
 import { receivedCooldownDormancy } from '../../receivedCooldownDormancy';
 import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource, type SceneInitialParameterInput } from '../../sceneInitialParameterInput';
+import { TypeCatalogEntries } from '../../typeCatalogEntries';
 
 
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
@@ -28,6 +29,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
   const mounts: Array<{ side: Side; providerRef: string; definitionRef: string }> = [];
   const origins: SimulationSkillOriginTrace[] = [];
   const coverage: SimulationCoverage[] = [];
+  const types = new TypeCatalogEntries();
   const required: Record<Side, Set<string>> = { source: new Set(), target: new Set() };
   const changed = changedAttributes();
   const derivations: SimulationAttributeDerivation[] = [];
@@ -192,6 +194,11 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
               continue;
             }
             const effectRef = [providerRef, source.skillKey, effect.effectKey, result.resultKey].join('/');
+            if (result.resultType === 'DAMAGE_MODIFIER' && result.detail.damageTypeKey) {
+              types.set(result.detail.damageTypeKey, 'damage');
+              coverage.push({ authorPath: `catalogs.damageTypes.${result.detail.damageTypeKey}.type`,
+                compiledPath: `sharedProviders[${effectRef}].modifiers[0].condition` });
+            }
             if (modifier.maximumReductionRatio !== undefined) {
               if (++cappedCount[side] > 1) fail(resultPath, '同一实际拥有者不接受重复或重叠的封顶平减');
               if (result.valueRule?.value.kind === 'FORMULA') {
@@ -229,5 +236,6 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
     for (const key of triggered.required[side]) required[side].add(key);
     for (const key of triggered.changedAttributes[side]) changed[side].add(key);
   }
-  return { providers, mounts, origins, coverage, required, changedAttributes: changed, derivations, triggered, targetMarkSources };
+  return { providers, mounts, origins, coverage, types: [...types].map(([key, domain]) => ({ key, domain })),
+    required, changedAttributes: changed, derivations, triggered, targetMarkSources };
 }

@@ -176,6 +176,7 @@ function program(snapshot: SimulationSnapshot, ignoredCosts: readonly Simulation
   for (const side of ['source', 'target'] as const) for (const key of triggered.required[side]) required.get(side)!.add(key);
   for (const side of ['source', 'target'] as const) for (const key of natural.required[side]) required.get(side)!.add(key);
   for (const type of triggeredPrograms.flatMap(assembly => assembly.types)) types.set(type.key, type.domain);
+  for (const type of natural.types) types.set(type.key, type.domain);
   if (natural.mounts.length) types.set('event/source_initialized', 'event');
   if (ammo.schema) types.set('state_scope/provider', 'state_scope');
   if (game.derivations.length || natural.derivations.length) rules.attributeDerivations = [...game.derivations, ...natural.derivations];
@@ -505,7 +506,7 @@ function activeProgram(snapshot: SimulationSnapshot, ignoredCosts: readonly Simu
       rules.vampRules = assembly.rules.vampRules;
     }
   }
-  const types = new TypeCatalogEntries([...assemblies.flatMap(assembly => assembly.types)].map(type => [type.key, type.domain]));
+  const types = new TypeCatalogEntries([...assemblies.flatMap(assembly => assembly.types), ...natural.types].map(type => [type.key, type.domain]));
   if (natural.mounts.length) types.set('event/source_initialized', 'event');
   const required = new Map<'source' | 'target', Set<string>>((['source', 'target'] as const).map(side =>
     [side, new Set(['hp', ...equipment.required[side], ...game.required[side], ...triggered.required[side], ...natural.required[side]])]));

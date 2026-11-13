@@ -9,6 +9,7 @@ import { loadMechanismCases } from '../../tests/mechanisms/mechanismCase';
 import { inspectSimulationSnapshot, assembleSimulation } from './simulationAdapter';
 import { syncSimulationSkillSources } from '../../tests/fixtures/simulationSkillSources';
 import { simulationAutomaticCastCosts } from './simulationActiveSkills';
+import { simulationActiveSample } from '../../tests/fixtures/simulationActiveSkill';
 
 function compile(input: ReturnType<typeof cappedPhysicalReductionSample>) {
   for (const side of ['source', 'target'] as const) for (const source of input.snapshot[side].skillSources) {
@@ -23,6 +24,43 @@ function lower(input: ReturnType<typeof cappedPhysicalReductionSample>) {
 }
 
 describe('完整真实角色初始化的分支封顶平减', () => {
+  it.each([false, true])('背景普攻%s时自身初始化的伤害条件依赖完整合并且类型不重复', backgroundAttack => {
+    const input = cappedPhysicalReductionSample();
+    const active = simulationActiveSample(true);
+    const configuration = structuredClone(active.skillConfigurations.find(row => row.skill.skillKey === 'sample_active')!);
+    configuration.skill.gameId = input.snapshot.gameId;
+    for (const effect of configuration.effects) effect.gameId = input.snapshot.gameId;
+    for (const process of configuration.processes) process.gameId = input.snapshot.gameId;
+    input.snapshot.skillConfigurations.push(configuration);
+    input.snapshot.catalogs.skillCategories.push({ ...active.catalogs.skillCategories.find(row => row.skillCategoryKey === 'active')!, gameId: input.snapshot.gameId });
+    const origin = { kind: 'CHARACTER' as const, characterKey: input.snapshot.source.character.characterKey };
+    input.snapshot.source.attachedSkills.push({ ...input.snapshot.source.attachedSkills[0]!, skillKey: configuration.skill.skillKey, skillName: configuration.skill.name });
+    input.snapshot.selection.sourceSkillSettings.push({ origin, skillKey: configuration.skill.skillKey, enabled: true, skillLevel: 1 });
+    input.snapshot.selection.plannedSkills = [{ origin, skillKey: configuration.skill.skillKey, skillLevel: 1, phaseKinds: ['INITIAL'] }];
+    if (!backgroundAttack) {
+      input.snapshot.selection.basicAttackSkillKey = null;
+      input.snapshot.selection.basicAttackLevel = null;
+    }
+    syncSimulationSkillSources(input.snapshot);
+    approveSnapshotFixture(input.snapshot);
+    const attributes = { source: {} as Record<string, number>, target: {} as Record<string, number> };
+    for (const row of inspectSimulationSnapshot(input.snapshot).requirements) if (row.storedValue === undefined) attributes[row.side][row.attribute.attributeKey] = 0;
+    const prepared = assembleSimulation(input.snapshot, attributes, { source: 250, target: 500 });
+    expect(prepared.compileRequest.typeCatalog.types.filter(row => row.domain === 'damage' && row.key === 'physics')).toEqual([{ key: 'physics', domain: 'damage' }]);
+    const providerIndex = prepared.compileRequest.sharedProviders!.findIndex(row => row.modifiers?.some(modifier => modifier.maximumReductionRatio !== undefined));
+    expect(providerIndex).toBeGreaterThanOrEqual(0);
+    expect(prepared.coverage).toContainEqual({ authorPath: 'catalogs.damageTypes.physics.type', compiledPath: `sharedProviders[${providerIndex}].modifiers[0].condition` });
+  });
+  it('自身初始化按实际作者目录登记任意伤害类型', () => {
+    const input = cappedPhysicalReductionSample();
+    const type = input.snapshot.catalogs.damageTypes.find(row => row.type.damageTypeKey === 'physics')!;
+    type.type.damageTypeKey = 'authored_branch';
+    type.formula.damageTypeKey = 'authored_branch';
+    input.result.detail.damageTypeKey = 'authored_branch';
+    const out = compile(input);
+    expect(out.types).toContainEqual({ key: 'authored_branch', domain: 'damage' });
+    expect(out.types.some(row => row.key === 'physics' && row.domain === 'damage')).toBe(false);
+  });
   it.each(['source', 'target'] as const)('%s只挂一个真实永久status，编译明确cap与单类型条件', side => {
     const input = cappedPhysicalReductionSample(side), original = structuredClone(input.configuration), out = compile(input);
     const cap = out.providers.find(p => p.modifiers?.some(m => m.maximumReductionRatio !== undefined))!;
