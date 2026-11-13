@@ -1,0 +1,896 @@
+{
+  "schemaVersion": "mechanism-case-v1",
+  "caseKey": "spell_shield_initialized_skill",
+  "title": "来源初始化法盾与精确消费：skill",
+  "mechanisms": [
+    "shield.authored_initialization",
+    "shield.frozen_instance_consumption",
+    "skill.real_spell_shield_witness"
+  ],
+  "derivation": [
+    "完整合成输入：攻击方装备初始化一层自身法盾，目标角色自然来源也初始化一层；双方各一层，不涉及同目标多盾优先级。",
+    "唯一主动于0毫秒开始，200毫秒执行同一效果的三笔100真实伤害，明确SKILL粒度。",
+    "首笔按同技能使用粒度冻结阻挡，三个结果全部被挡，伤害0，目标生命1000。",
+    "成功阻挡仅移除被冻结目标实例，攻击方装备法盾保持；父来源和主动挂载仍存在，全部实例列表精确比较。"
+  ],
+  "catalog": "mechanism_lab",
+  "snapshot": {
+    "selection": {
+      "sourceCharacterKey": "lab_attacker",
+      "sourceLevel": 1,
+      "targetCharacterKey": "lab_dummy",
+      "targetLevel": 1,
+      "basicAttackSkillKey": null,
+      "basicAttackLevel": null,
+      "plannedSkills": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_true_strike",
+          "skillLevel": 1,
+          "phaseKinds": [
+            "INITIAL"
+          ]
+        }
+      ],
+      "sourceEquipmentKeys": [
+        "lab_guard_item"
+      ],
+      "targetEquipmentKeys": [],
+      "sourceBuildConfigurations": [],
+      "targetBuildConfigurations": [],
+      "targetSkillSettings": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_dummy"
+          },
+          "skillKey": "lab_target_guard",
+          "enabled": true,
+          "skillLevel": 1
+        }
+      ],
+      "sourceSkillSettings": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_true_strike",
+          "enabled": true,
+          "skillLevel": 1
+        }
+      ]
+    },
+    "source": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_attacker",
+        "name": "机制攻击方",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_attacker",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 1000,
+            "attack_damage": 0,
+            "attack_speed": 1,
+            "armor": 0,
+            "magic_resist": 0,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "ability_power": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 1000,
+        "attack_damage": 0,
+        "attack_speed": 1,
+        "armor": 0,
+        "magic_resist": 0,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 0
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_true_strike",
+          "skillName": "机制真实打击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "selectedEquipment": [
+        {
+          "equipment": {
+            "gameId": "mechanism_lab",
+            "equipmentKey": "lab_guard_item",
+            "name": "独立合成法盾装备",
+            "description": null,
+            "createdAt": "",
+            "updatedAt": ""
+          },
+          "attributes": {
+            "equipmentKey": "lab_guard_item",
+            "attributeValues": {}
+          },
+          "attachedSkills": [
+            {
+              "gameId": "mechanism_lab",
+              "equipmentKey": "lab_guard_item",
+              "equipmentName": "独立合成法盾装备",
+              "skillKey": "lab_source_guard",
+              "skillName": "独立初始化法盾",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            }
+          ]
+        }
+      ],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_true_strike",
+          "skillName": "机制真实打击",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "first_cast",
+            "on_hit"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "EQUIPMENT",
+            "equipmentKey": "lab_guard_item"
+          },
+          "skillKey": "lab_source_guard",
+          "skillName": "独立初始化法盾",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "initialize"
+          ],
+          "inactiveReason": null
+        }
+      ]
+    },
+    "target": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_dummy",
+        "name": "机制木桩",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_dummy",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 1000,
+            "attack_damage": 0,
+            "attack_speed": 1,
+            "armor": 100,
+            "magic_resist": 100,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "ability_power": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 1000,
+        "attack_damage": 0,
+        "attack_speed": 1,
+        "armor": 100,
+        "magic_resist": 100,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 0
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_dummy",
+          "characterName": "机制木桩",
+          "skillKey": "lab_target_guard",
+          "skillName": "独立初始化法盾",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_dummy"
+          },
+          "skillKey": "lab_target_guard",
+          "skillName": "独立初始化法盾",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "initialize"
+          ],
+          "inactiveReason": null
+        }
+      ]
+    },
+    "skillConfigurations": [
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_true_strike",
+          "name": "机制真实打击",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "active"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [],
+        "formulas": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_true_strike",
+            "effectKey": "hit",
+            "name": "技能效果",
+            "description": null,
+            "sortOrder": 0,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage_0",
+                "name": "伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 100
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "SKILL"
+              },
+              {
+                "resultKey": "damage_1",
+                "name": "伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 1,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 100
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "SKILL"
+              },
+              {
+                "resultKey": "damage_2",
+                "name": "伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 2,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 100
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "SKILL"
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_true_strike",
+            "processKey": "cast",
+            "name": "施放",
+            "activationType": "ACTIVE",
+            "description": null,
+            "sortOrder": 0,
+            "steps": [
+              {
+                "stepKey": "delay",
+                "name": "施放延时",
+                "description": null,
+                "sortOrder": 0,
+                "occupiesAction": true,
+                "stepType": "DELAY",
+                "detail": {
+                  "delayValue": {
+                    "kind": "FIXED",
+                    "value": 200
+                  }
+                }
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 2500
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [],
+            "stateOperations": [],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "first_cast",
+            "name": "首次施放",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_true_strike",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_process",
+                "name": "首次施放",
+                "sortOrder": 0,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "cast"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "on_hit",
+            "name": "技能命中",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_true_strike"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "execute_effect",
+                "name": "技能命中",
+                "sortOrder": 0,
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_lab_lab_true_strike"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_source_guard",
+          "name": "独立初始化法盾",
+          "description": null,
+          "status": "ENABLED",
+          "maxLevel": 1,
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "sortOrder": 0,
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [],
+        "formulas": [],
+        "processes": [],
+        "internalStates": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_source_guard",
+            "effectKey": "shield",
+            "name": "明确自身法盾",
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": "",
+            "lifecycle": {
+              "instanceScope": "SOURCE",
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null,
+              "endWhenShieldEndsResultKey": null
+            },
+            "results": [
+              {
+                "resultKey": "shield",
+                "name": "无数值法盾",
+                "description": null,
+                "resultType": "SPELL_SHIELD",
+                "target": "SOURCE",
+                "sortOrder": 0,
+                "valueRule": null,
+                "spellShieldBlockScope": null,
+                "detail": {},
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": null,
+                  "stackValueMode": null,
+                  "reapplicationValueMode": null,
+                  "periodicExecutionMode": null
+                }
+              }
+            ]
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_source_guard",
+            "effectKey": "consume",
+            "name": "消费被挡实例",
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": "",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "remove",
+                "name": "严格移除本盾",
+                "description": null,
+                "resultType": "LIFECYCLE_OPERATION",
+                "target": "SOURCE",
+                "sortOrder": 0,
+                "valueRule": null,
+                "spellShieldBlockScope": null,
+                "detail": {
+                  "operation": "REMOVE",
+                  "targetEffectKey": "shield"
+                },
+                "lifecycleBehavior": null
+              }
+            ]
+          }
+        ],
+        "triggerRules": [
+          {
+            "ruleKey": "initialize",
+            "name": "真实来源初始化",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SOURCE_INITIALIZED",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "actions": [
+              {
+                "actionKey": "apply",
+                "name": "施盾",
+                "sortOrder": 0,
+                "actionType": "EXECUTE_EFFECT",
+                "targetContext": "EVENT_SOURCE",
+                "detail": {
+                  "effectKey": "shield"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ]
+          },
+          {
+            "ruleKey": "consume",
+            "name": "消费真实被冻结盾",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "SPELL_SHIELD_BLOCKED",
+              "detail": {
+                "shieldEffectKey": "shield"
+              }
+            },
+            "conditionGroups": [],
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "actions": [
+              {
+                "actionKey": "consume",
+                "name": "消费本盾",
+                "sortOrder": 0,
+                "actionType": "EXECUTE_EFFECT",
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "consume"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ]
+          }
+        ],
+        "baseDigest": "independent_initialized_shield_sample"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_target_guard",
+          "name": "独立初始化法盾",
+          "description": null,
+          "status": "ENABLED",
+          "maxLevel": 1,
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "sortOrder": 0,
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [],
+        "formulas": [],
+        "processes": [],
+        "internalStates": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_target_guard",
+            "effectKey": "shield",
+            "name": "明确自身法盾",
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": "",
+            "lifecycle": {
+              "instanceScope": "SOURCE",
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null,
+              "endWhenShieldEndsResultKey": null
+            },
+            "results": [
+              {
+                "resultKey": "shield",
+                "name": "无数值法盾",
+                "description": null,
+                "resultType": "SPELL_SHIELD",
+                "target": "SOURCE",
+                "sortOrder": 0,
+                "valueRule": null,
+                "spellShieldBlockScope": null,
+                "detail": {},
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": null,
+                  "stackValueMode": null,
+                  "reapplicationValueMode": null,
+                  "periodicExecutionMode": null
+                }
+              }
+            ]
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_target_guard",
+            "effectKey": "consume",
+            "name": "消费被挡实例",
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": "",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "remove",
+                "name": "严格移除本盾",
+                "description": null,
+                "resultType": "LIFECYCLE_OPERATION",
+                "target": "SOURCE",
+                "sortOrder": 0,
+                "valueRule": null,
+                "spellShieldBlockScope": null,
+                "detail": {
+                  "operation": "REMOVE",
+                  "targetEffectKey": "shield"
+                },
+                "lifecycleBehavior": null
+              }
+            ]
+          }
+        ],
+        "triggerRules": [
+          {
+            "ruleKey": "initialize",
+            "name": "真实来源初始化",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SOURCE_INITIALIZED",
+              "detail": {}
+            },
+            "conditionGroups": [],
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "actions": [
+              {
+                "actionKey": "apply",
+                "name": "施盾",
+                "sortOrder": 0,
+                "actionType": "EXECUTE_EFFECT",
+                "targetContext": "EVENT_SOURCE",
+                "detail": {
+                  "effectKey": "shield"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ]
+          },
+          {
+            "ruleKey": "consume",
+            "name": "消费真实被冻结盾",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "SPELL_SHIELD_BLOCKED",
+              "detail": {
+                "shieldEffectKey": "shield"
+              }
+            },
+            "conditionGroups": [],
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "actions": [
+              {
+                "actionKey": "consume",
+                "name": "消费本盾",
+                "sortOrder": 0,
+                "actionType": "EXECUTE_EFFECT",
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "consume"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ]
+          }
+        ],
+        "baseDigest": "independent_initialized_shield_sample"
+      }
+    ],
+    "references": []
+  },
+  "scenario": {
+    "mode": "skill_action",
+    "durationMs": 1000,
+    "initialHealth": {
+      "source": 1000,
+      "target": 1000
+    },
+    "actions": [
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_true_strike",
+        "skillLevel": 1,
+        "instructionKey": "probe",
+        "atMs": 0,
+        "sortOrder": 0,
+        "targetSide": "target",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": "TARGET_HIT"
+      }
+    ]
+  },
+  "expected": {
+    "summary": {
+      "stopReason": "duration_reached",
+      "sourceFinalHp": 1000,
+      "targetFinalHp": 1000,
+      "sourceDamageDealt": 0,
+      "targetHpLoss": 0,
+      "basicAttackStarted": 0
+    },
+    "attackStarts": [],
+    "skillStarts": [
+      {
+        "timeMs": 0,
+        "skillKey": "lab_true_strike"
+      }
+    ],
+    "damage": [],
+    "finalProviders": [
+      {
+        "owner": "source",
+        "source": "source",
+        "definitionRef": "source_equipment_lab_guard_item_definition",
+        "stacks": 1,
+        "expireAt": null
+      },
+      {
+        "owner": "source",
+        "source": "source",
+        "definitionRef": "source_lab_guard_item_passive_definition",
+        "stacks": 1,
+        "expireAt": null
+      },
+      {
+        "owner": "source",
+        "source": "source",
+        "definitionRef": "source_lab_guard_item_passive_definition/lab_source_guard/shield/spell_shield",
+        "stacks": 1,
+        "expireAt": null
+      },
+      {
+        "owner": "source",
+        "source": "source",
+        "definitionRef": "source_natural_skill_0_definition",
+        "stacks": 1,
+        "expireAt": null
+      },
+      {
+        "owner": "target",
+        "source": "target",
+        "definitionRef": "target_natural_skill_0_definition",
+        "stacks": 1,
+        "expireAt": null
+      }
+    ]
+  }
+}

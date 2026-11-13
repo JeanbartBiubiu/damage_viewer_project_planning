@@ -32,6 +32,7 @@ import { compileSkillOncePerUse, validateHitRuleGroups, validateProviderOncePerU
 import { compileSkillHitCooldownReduction, type SkillHitCooldownReduction } from './skillHitCooldownReduction';
 import { staticEffectAmount } from './staticEffectValue';
 import type { SiblingTargetCounterReadResolver } from './siblingTargetCounterRead';
+import { compileSpellShieldDefinition, compileSpellShieldConsumption } from './spellShieldAdapter';
 
 export class HitAdaptationError extends NumericAdaptationError {
   constructor(path: string, message: string) {
@@ -822,21 +823,12 @@ function compileShieldProvider(
   if (result.target !== 'SOURCE') return fail(`${path}.target`, '只有 SOURCE 范围且全部 self 时可证明原身份等价');
   if (result.spellShieldBlockScope !== null) return fail(`${path}.spellShieldBlockScope`, 'SPELL_SHIELD 必须使用 null 粒度');
   assertStandardLifecycle(effect, `${planPath(authored.skillKey, `effects.${effect.effectKey}`)}.lifecycle`, 'SOURCE');
-  if (compileLifecycleNumber(effect.lifecycle!.maxStacksValue, `${path}.maxStacksValue`, authored, '层数') !== 1
-    || compileLifecycleNumber(effect.lifecycle!.applicationStacksValue, `${path}.applicationStacksValue`, authored, '层数') !== 1) {
-    return fail(`${path}.lifecycle`, '本期只支持单层和每次施加一层，不能丢弃层数配置');
-  }
-  typeEntries.set('provider/spell_shield', 'provider');
-  typeEntries.set('event/spell_shield_blocked', 'event');
-  return {
-    providerKey: spellShieldProviderKey(authored.skillKey, effect.effectKey), skillKey: authored.skillKey, kind: 'status', stableId: spellShieldProviderKey(authored.skillKey, effect.effectKey),
-    types: ['provider/spell_shield'],
-    lifecycle: {
-      durationMs: compileDuration(effect, authored, `${planPath(authored.skillKey, `effects.${effect.effectKey}`)}.lifecycle.durationValue`, state),
-      maxStacks: 1, refreshPolicy: 'replace'
-    },
-    listeners: []
-  };
+  return compileSpellShieldDefinition(effect, {
+    providerKey: spellShieldProviderKey(authored.skillKey, effect.effectKey),
+    effectPath: planPath(authored.skillKey, `effects.${effect.effectKey}`),
+    stackValue: (value, authorPath) => compileLifecycleNumber(value, authorPath, authored, '层数'),
+    duration: compileDuration(effect, authored, `${planPath(authored.skillKey, `effects.${effect.effectKey}`)}.lifecycle.durationValue`, state)
+  }, typeEntries, fail);
 }
 
 function compileConsumeOperations(
@@ -845,47 +837,13 @@ function compileConsumeOperations(
   shieldEffectKey: string,
   state: NumericCompileState
 ): OperationDefinition[] {
-  const root = planPath(authored.skillKey, `rules.${rule.ruleKey}`);
-  if (rule.eventSource.eventType !== 'SPELL_SHIELD_BLOCKED') return fail(`${root}.eventSource`, '消费监听器只接受真实 SPELL_SHIELD_BLOCKED');
-  if (rule.eventSource.detail.shieldEffectKey !== shieldEffectKey) {
-    return fail(`${root}.eventSource.detail.shieldEffectKey`, 'successful_spell_block 必须对应真实 shieldEffectKey');
-  }
-  if (rule.conditionGroups.length) return fail(`${root}.conditionGroups`, '本期消费监听器不支持额外条件');
-  if (rule.perTargetCooldown || rule.maxTriggersPerProcess || ('oncePerUse' in rule && rule.oncePerUse)) {
-    return fail(`${root}.limits`, '本期消费监听器不支持触发限制');
-  }
-  const actions = stableSorted(rule.actions, (item) => item.sortOrder);
-  const operations: OperationDefinition[] = [];
-  for (const action of actions) {
-    const actionPath = `${root}.actions.${action.actionKey}`;
-    if (action.actionType !== 'EXECUTE_EFFECT') return fail(`${actionPath}.actionType`, '未支持的过程或动作依赖，按共享契约整体拒绝');
-    if (action.targetContext !== 'CURRENT_TARGET') return fail(`${actionPath}.targetContext`, '未支持的目标上下文');
-    if (action.runtimeInputBindings.length || action.resultModifiers.length) {
-      return fail(`${actionPath}.runtimeInputBindings`, '未支持的动作依赖、来源或目标，按共享契约整体拒绝');
-    }
-    const effect = lookupEffect(authored, action.detail.effectKey, `${actionPath}.detail.effectKey`);
-    for (const result of stableSorted(effect.results, (item) => item.sortOrder)) {
-      const resultPath = planPath(authored.skillKey, `effects.${effect.effectKey}.results.${result.resultKey}`);
-      if (result.spellShieldBlockScope !== null || momentOf(result) !== 'INSTANT') {
-        return fail(resultPath, '消费动作只支持无阻挡粒度的即时结果');
-      }
-      if (result.resultType === 'DIRECT_HEAL') {
-        operations.push(compileHeal(result, resultPath, state));
-        continue;
-      }
-      if (result.resultType === 'LIFECYCLE_OPERATION' && result.detail.operation === 'REMOVE') {
-        if (result.detail.targetEffectKey !== shieldEffectKey) {
-          return fail(`${resultPath}.detail.targetEffectKey`, 'LIFECYCLE REMOVE 必须指向本盾');
-        }
-        if (result.target !== 'SOURCE') return fail(`${resultPath}.target`, 'LIFECYCLE REMOVE 须译 self');
-        operations.push({ operation: 'expire_provider', target: 'self', providerRefFromEvent: true });
-        continue;
-      }
-      return fail(`${resultPath}.resultType`, '未支持的消费结果');
-    }
-  }
-  if (!operations.length) return fail(root, '消费监听器没有可执行动作');
-  return operations;
+  return compileSpellShieldConsumption(rule, shieldEffectKey, {
+    rulePath: planPath(authored.skillKey, `rules.${rule.ruleKey}`),
+    effect: (key, authorPath) => lookupEffect(authored, key, authorPath),
+    resultPath: (effect, result) => planPath(authored.skillKey, `effects.${effect.effectKey}.results.${result.resultKey}`),
+    immediate: (result, authorPath) => result.resultType === 'DIRECT_HEAL'
+      ? compileHeal(result, authorPath, state) : fail(authorPath, '未支持的消费结果')
+  }, fail);
 }
 
 function assertHitRule(rule: SkillTriggerRuleDetail, authored: AuthoredHitProgram, resolveKind: HitResolveKind): void {

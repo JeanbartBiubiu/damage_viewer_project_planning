@@ -23,6 +23,7 @@ import { compileSkillOncePerUse } from '../../skillOncePerUse';
 import { compileSimulationStatusCondition } from '../../simulationPrimaryAttack';
 import { compileLinkedShieldEffect } from '../../shieldEffectAdapter';
 import { compileHitIdentityCondition, compilePassiveHitControl } from '../../hitAdapter';
+import { compileSpellShieldDefinition, compileSpellShieldConsumption } from '../../spellShieldAdapter';
 import { lowerBasicAttackContributionValue, lowerBasicAttackContributionValueRule, type BasicAttackContributionFormulaPurpose, type LoweredBasicAttackContributionFormula } from '../../basicAttackContributionFormula';
 import { basicAttackContributionKey, isBasicAttackContributionRule, type BasicAttackContribution } from '../../basicAttackContributionContract';
 import { compileStateFieldSchema } from '../../processStateAdapter';
@@ -199,6 +200,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const abilities: AbilityDefinition[] = [];
         const stackEffects = new Map<string, { key: string; amount: number; policy: string }>();
         const periodicEffects = new Map<string, { definition: ProviderDefinition; dynamic: boolean }>();
+        const initializedSpellShields = new Map<string, ProviderDefinition>();
         const activeProcesses = new Set<string>();
         let timingPayload = false;
         const empoweredProcesses = new Set<string>();
@@ -1017,6 +1019,25 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (activeEffects.has(authored.effectKey)) fail(effectPath, '效果接线循环');
           activeEffects.add(authored.effectKey);
           try {
+            if (event === 'SOURCE_INITIALIZED' && authored.results.some(result => result.resultType === 'SPELL_SHIELD')) {
+              if (context !== 'self' || authored.lifecycle?.expiryMode !== 'EXPLICIT_ONLY') fail(effectPath, '来源初始化法盾只接真实自身显式移除生命周期');
+              for (const result of authored.results) resultShape(result, `${effectPath}.results.${result.resultKey}`);
+              const key = [definitionRef, skillKey, authored.effectKey, 'spell_shield'].join('/');
+              const compiled = compileSpellShieldDefinition(authored, { providerKey: key, effectPath,
+                stackValue: (value, authorPath) => constant(value, authorPath, true, 1) }, types, fail);
+              const previous = initializedSpellShields.get(authored.effectKey);
+              if (previous && JSON.stringify(previous) !== JSON.stringify(compiled)) fail(effectPath, '同来源法盾定义冲突');
+              if (!previous) { providers.push(compiled); initializedSpellShields.set(authored.effectKey, compiled); }
+              const operationPath = `${outputRoot}[${output.length}]`;
+              output.push({ operation: 'apply_provider', target: 'self', providerDefinitionRef: key, providerRef: key,
+                ref: `${effectPath}.results.${authored.results[0]!.resultKey}` });
+              for (const result of authored.results) origin(result, authored, abilityRef, [operationPath]);
+              noteNumeric(authored.lifecycle.maxStacksValue); noteNumeric(authored.lifecycle.applicationStacksValue);
+              cover(effectPath, `sharedProviders.${key}`);
+              cover(`${effectPath}.lifecycle`, `sharedProviders.${key}.lifecycle`);
+              cover(`${effectPath}.results.${authored.results[0]!.resultKey}.resultType`, `sharedProviders.${key}.types[0]`);
+              return;
+            }
             if (authored.lifecycle?.expiryMode === 'ALL_AT_ONCE' && authored.results.some(result => result.resultType === 'DAMAGE_MODIFIER'
               && snapshot.catalogs.modifierZones.some(zone => zone.modifierZoneKey === result.detail.modifierZoneKey && zone.calculationMode === 'RATIO_GROUP_ADD'))) {
               if (event === 'SOURCE_INITIALIZED') fail(effectPath, '有限同组增幅须由真实过程或已支持的命中/施放触发，不能借用永久初始化入口');
@@ -1519,7 +1540,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
               continue;
             }
           }
-          if (event === 'PROCESS_MOMENT' || event === 'LIFECYCLE_MOMENT') continue;
+          if (event === 'PROCESS_MOMENT' || event === 'LIFECYCLE_MOMENT' || event === 'SPELL_SHIELD_BLOCKED') continue;
           if (ownExpiry && ownExpiry.ruleKey === rule.ruleKey) {
             const state = lookupState(ownExpiry.stateKey, skillKey, rulePath);
             if (state.stateType !== 'COUNTER' || !state.detail.durationValue) fail(rulePath, '自身回盾计数缺少到期时长');
@@ -1720,6 +1741,38 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             if (chain) operations.forEach((_, index) => cover(`${rulePath}.conditionGroups`, `${outputRoot}[${index}].condition`));
             else cover(`${rulePath}.conditionGroups`, `${abilityRoot}.listenerSpec.condition`);
           }
+        }
+        for (const rule of ordered(configuration.triggerRules, `${root}.triggerRules`)) {
+          if (rule.eventSource.eventType !== 'SPELL_SHIELD_BLOCKED') continue;
+          const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
+          exact(rule.eventSource.detail, ['shieldEffectKey'], `${rulePath}.eventSource.detail`);
+          const shieldKey = stableKey(rule.eventSource.detail.shieldEffectKey, `${rulePath}.eventSource.detail.shieldEffectKey`);
+          const shield = initializedSpellShields.get(shieldKey);
+          if (!shield) fail(rulePath, '法盾消费必须绑定本来源真实初始化的实际盾实例');
+          if (shield.listeners!.length) fail(rulePath, '同一实际法盾暂不接受多个独立消费监听');
+          for (const action of rule.actions) actionShape(action, `${rulePath}.actions.${action.actionKey}`, rule);
+          const operations = compileSpellShieldConsumption(rule, shieldKey, {
+            rulePath, effect,
+            resultPath: (authored, result) => `${root}.effects.${authored.effectKey}.results.${result.resultKey}`
+          }, fail);
+          if (!operations.some(operation => operation.operation === 'expire_provider')) fail(rulePath, '法盾消费缺少实际实例移除');
+          const listenerIndex = shield.listeners!.length;
+          shield.listeners!.push({ listenerKey: namedKey(skillKey, rule.ruleKey), eventMatcher: { all: ['event/spell_shield_blocked'] },
+            maxTriggersPerEvent: 1, operations });
+          let operationIndex = 0;
+          for (const action of ordered(rule.actions, `${rulePath}.actions`)) {
+            if (action.actionType !== 'EXECUTE_EFFECT') fail(rulePath, '法盾消费必须执行完整即时效果');
+            const authored = effect(action.detail.effectKey, rulePath);
+            appliedEffects.add(authored.effectKey);
+            for (const result of ordered(authored.results, `${root}.effects.${authored.effectKey}.results`)) {
+              resultShape(result, `${root}.effects.${authored.effectKey}.results.${result.resultKey}`);
+              origin(result, authored, `${side}.provider[${shield.providerKey}]`,
+                [`sharedProviders.${shield.providerKey}.listeners[${listenerIndex}].operations[${operationIndex++}]`], shield.providerKey);
+            }
+          }
+          usedRules.add(rule.ruleKey);
+          cover(rulePath, `sharedProviders.${shield.providerKey}.listeners[${listenerIndex}]`);
+          cover(`${rulePath}.eventSource`, `sharedProviders.${shield.providerKey}.listeners[${listenerIndex}].eventMatcher`);
         }
         for (const effectKey of absorbedShieldEffects) if (!appliedEffects.has(effectKey)) fail(`${root}.effects.${effectKey}`, '指定吸收事实的自身盾必须有本来源实际创建操作');
         for (const authored of configuration.effects) if (!usedEffects.has(authored.effectKey) || !appliedEffects.has(authored.effectKey) && !queriedShieldEffects.has(authored.effectKey) && !queriedDurationEffects.has(authored.effectKey)) fail(`${root}.effects.${authored.effectKey}`, '存在未接入的作者效果，不能丢弃后成功');

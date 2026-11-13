@@ -119,7 +119,8 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
           && rule.eventSource.eventType === 'SOURCE_INITIALIZED' && rule.conditionGroups.length === 0
           && rule.oncePerUse === null && rule.perTargetCooldown === null && rule.maxTriggersPerProcess === null;
       }) && configuration.effects.length > 0 && configuration.effects.every(effect => effect.lifecycle?.expiryMode === 'EXPLICIT_ONLY'
-        && effect.lifecycle.periodicIntervalValue === null && effect.lifecycle.firstPeriodicExecution === null);
+        && effect.lifecycle.periodicIntervalValue === null && effect.lifecycle.firstPeriodicExecution === null
+        && effect.results.every(result => result.resultType !== 'SPELL_SHIELD'));
       if (!permanentInitialization) {
         descriptions.push({ side, kind: source.origin.kind === 'CHARACTER' ? 'character' : 'build',
           stableId: definitionRef, providerRef, definitionRef, path: root, skills: [{
