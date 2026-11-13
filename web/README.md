@@ -32,13 +32,24 @@
 
 ## 连接与本地开发
 
-依赖和工具版本以 `package.json`、锁文件及已验证工具链为准。浏览器默认同源访问 `/api`；可通过构建环境中的 `VITE_API_BASE_URL` 显式指定精确来源，不在页面编辑或保存任意 API 地址。开发服务将 `/api` 代理到 `DEV_API_TARGET`，缺省为 `http://127.0.0.1:8080`；只有私有维护模式代理 `/internal/maintenance`。公共端的 API 客户端也拒绝游戏配置写入，但最终权限边界由 Nginx 和后端实际路由守卫执行。
+Node 版本由 `.node-version` 固定，允许范围见 `package.json`；`.npmrc` 拒绝使用不符合要求的工具链安装依赖。64 位 Windows 在仓库根目录通过项目入口运行：
+
+```powershell
+.\tools\web.ps1 npm ci
+.\tools\web.ps1 npm run dev
+```
+
+该入口从 Node 官网下载并校验指定版本，保存在忽略目录 `.tools/`，只为当前命令及其子进程设置环境，不修改系统 Node。支持 `node`、`npm` 和 `npx`，均在 `web/` 中执行，例如 `.\tools\web.ps1 node --version`。已配置匹配工具链的环境可直接使用下文的 `npm` 命令。依赖版本以 `package.json` 和锁文件为准。
+
+PowerShell 会消费未加引号的 `--`。向 npm 脚本继续传参时将分隔符写为 `'--'`，例如 `.\tools\web.ps1 npm run dev:maintenance '--' --host 127.0.0.1 --port 5174 --strictPort`。
+
+浏览器默认同源访问 `/api`；可通过构建环境中的 `VITE_API_BASE_URL` 显式指定精确来源，不在页面编辑或保存任意 API 地址。开发服务将 `/api` 代理到 `DEV_API_TARGET`，缺省为 `http://127.0.0.1:8080`；只有私有维护模式代理 `/internal/maintenance`。公共端的 API 客户端也拒绝游戏配置写入，但最终权限边界由 Nginx 和后端实际路由守卫执行。
 
 账号采用浏览器安全凭据（Cookie），本地账号联调需要加密访问（HTTPS）。在未提交的本地环境文件中配置 `DEV_HTTPS_KEY_PATH` 与 `DEV_HTTPS_CERT_PATH`，分别指向可信本地证书的私钥与证书；二者必须同时提供。后端受控来源配置须包含实际前端来源，代理保留原来源。不要将证书私钥提交到仓库。
 
 顶栏右上角手动进入登录或注册。所有账号均须验证器动态码；注册绑定验证器并确认保存恢复码后等待开通，未完成注册可用原用户名和密码从登录入口继续。会话通过 `/me` 静默恢复；游戏资料读取与只读场景快照始终匿名，不等待会话恢复。未登录或会话失效的受保护操作只弹出“需要登录”提示，用户自行登录后重新操作，当前页面和输入保留。账号安全支持修改密码、更换验证器、重新生成恢复码及退出全部设备。密码、绑定材料、恢复码和会话值不写入浏览器本地存储。
 
-在 `web/` 目录执行：
+已激活项目要求的工具链时，在 `web/` 目录执行：
 
 ```powershell
 npm ci
@@ -52,6 +63,20 @@ npm run dev
 维护页面不提供玩家登录入口。宿主按共享契约建立独立维护会话后，页面刷新 `/internal/maintenance/me`；长期维护凭据不进入页面或浏览器存储。默认只编辑候选，点击保存会记录原始请求并保留草稿，可下载 `damage-maintenance-request-v1` 文件，冻结请求正文保持原字节；独立验证后选择已登记的维护批次，正式请求附批次编号，由后端核对冻结内容、基线、有效验证回执及维护窗口。页面不自动创建或打开发布批次，也不在会话失效后重放写入。
 
 计算客户端按构建选择玩家或维护取票入口，维护会话到期、退出或主体变化时清理票据和工作线程。玩家计算资格不因查看版部署改变。反馈仓库使用构建变量 `VITE_FEEDBACK_REPOSITORY`，仅接受 `https://github.com/所有者/仓库`；发布及资料身份可通过 `VITE_RELEASE_ID`、`VITE_GAME_DATA_VERSION` 提供，缺失显示未知。完整场景、运行档案和媒体不放入问题链接查询串；用户下载脱敏复现材料后作为附件提交。
+
+## 浏览器开发指导
+
+已将 [Modern Web Guidance（现代浏览器开发指导）](https://github.com/GoogleChrome/modern-web-guidance) 安装到项目技能目录 [`.agents/skills/modern-web-guidance`](../.agents/skills/modern-web-guidance/SKILL.md)，保留上游指导和许可证；命令工具作为固定版本的开发依赖安装。修改页面、样式和浏览器脚本前，按技能检索相关主题并读取指导，结合当前组件库与浏览器支持范围判断适用性。
+
+在仓库根目录执行检索和旧模式扫描：
+
+```powershell
+.\tools\web.ps1 npx modern-web-guidance search "accessible page navigation"
+.\tools\web.ps1 npx modern-web-guidance retrieve "accessibility"
+.\tools\web.ps1 npm run guidance:scan
+```
+
+扫描仅检查指导中可静态检测的一部分旧模式，不能替代键盘、无障碍、窄屏及实际浏览器验证，也不把无命中解释为全部指导已满足。只修复核实的问题，不因静态命中替换已有正确的组件库封装或必要浏览器降级行为。
 
 ## 验证与正式产物
 

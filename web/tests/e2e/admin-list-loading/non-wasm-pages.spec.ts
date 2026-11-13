@@ -2,7 +2,7 @@ import { fulfillAuthSession, openMaintenancePage } from '../../fixtures/authSess
 import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
 import { expect, test, type Page, type Route } from '@playwright/test';
-import { createServer, transformWithEsbuild, type ViteDevServer } from 'vite';
+import { createServer, transformWithOxc, type ViteDevServer } from 'vite';
 
 // 仅在测试内提供组件页，不加入产品路由或生产构建。所有接口均为固定测试替身。
 const GAME_ID = 'demo';
@@ -68,7 +68,7 @@ test.beforeAll(async () => {
         },
         async load(id) {
           if (id === `\0${HARNESS_MODULE}`) {
-            return (await transformWithEsbuild(source, HARNESS_MODULE, { jsx: 'automatic' })).code;
+            return (await transformWithOxc(source, HARNESS_MODULE, { jsx: { runtime: 'automatic' } })).code;
           }
         },
         configureServer(viteServer) {

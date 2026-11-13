@@ -1,5 +1,82 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { installSimulationSelectionApi } from '../fixtures/simulationSelection';
+
+async function installNavigationApi(page: Page, baseURL: string) {
+  await page.route('**/api/**', route => {
+    const path = new URL(route.request().url()).pathname;
+    if (path === '/api/visits') return route.fulfill({ status: 204 });
+    if (path === '/api/games') return route.fulfill({ json: [{ gameId: 'demo', gameName: '隔离测试游戏', representativeImageKey: null }] });
+    return route.fulfill({ json: { items: [], total: 0 } });
+  });
+  await page.route('**/internal/maintenance/me', route => route.fulfill({ status: 401, json: {
+    error: { code: 'MAINTENANCE.SESSION_REQUIRED', message: '需要维护会话' }
+  } }));
+  await installSimulationSelectionApi(page, baseURL, 'demo');
+}
+
+test('键盘可跳过导航，游戏选择器与当前页面具有可访问名称', async ({ page, baseURL }, info) => {
+  if (!baseURL) throw new Error('部署模式验收需要预览地址');
+  await installNavigationApi(page, baseURL);
+  const viewer = info.project.name === 'viewer';
+  const firstTitle = viewer ? '混合战斗分析' : '属性管理';
+  const firstHash = viewer ? '#/simulation/combat-analysis' : '#/attributes';
+  await page.goto(`/${firstHash}`);
+  await expect(page.getByRole('main').getByRole('heading', { name: firstTitle, exact: true })).toBeVisible();
+  await expect(page).toHaveTitle(new RegExp(`^${firstTitle} \\| Damage Viewer`));
+  await expect(page.getByRole('combobox', { name: '游戏', exact: true })).toBeVisible();
+  const firstLink = page.getByRole('link', { name: new RegExp(`^${firstTitle}`) });
+  await expect(firstLink).toHaveAttribute('aria-current', 'page');
+
+  await page.keyboard.press('Tab');
+  const skip = page.getByRole('link', { name: '跳到主要内容', exact: true });
+  await expect(skip).toBeFocused();
+  await expect(skip).toBeInViewport();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('main').getByRole('heading', { name: firstTitle, exact: true })).toBeFocused();
+  await expect(page).toHaveURL(new RegExp(`${firstHash}$`));
+
+  const nextTitle = viewer ? '普攻模拟' : '角色管理';
+  await page.getByRole('link', { name: new RegExp(`^${nextTitle}`) }).click();
+  await expect(page.getByRole('main').getByRole('heading', { name: nextTitle, exact: true })).toBeVisible();
+  await expect(page).toHaveTitle(new RegExp(`^${nextTitle} \\| Damage Viewer`));
+  await expect(firstLink).not.toHaveAttribute('aria-current', 'page');
+  await expect(page.getByRole('link', { name: new RegExp(`^${nextTitle}`) })).toHaveAttribute('aria-current', 'page');
+});
+
+test('页面分块加载中保留导航，失败可切页并通过刷新恢复', async ({ page, baseURL }, info) => {
+  if (!baseURL) throw new Error('部署模式验收需要预览地址');
+  await installNavigationApi(page, baseURL);
+  const viewer = info.project.name === 'viewer';
+  const firstTitle = viewer ? '混合战斗分析' : '属性管理';
+  const nextTitle = viewer ? '普攻模拟' : '角色管理';
+  await page.goto(viewer ? '/#/simulation/combat-analysis' : '/#/attributes');
+  await expect(page.getByRole('main').getByRole('heading', { name: firstTitle, exact: true })).toBeVisible();
+
+  let releaseChunk = () => {};
+  const blocked = new Promise<void>(resolve => { releaseChunk = resolve; });
+  await page.route('**/assets/**', async route => {
+    if (route.request().resourceType() !== 'script') return route.continue();
+    await blocked;
+    return route.abort('failed');
+  });
+  try {
+    await page.getByRole('link', { name: new RegExp(`^${nextTitle}`) }).click();
+    await expect(page.getByRole('progressbar', { name: '正在加载页面' })).toBeVisible();
+    await expect(page.getByRole('link', { name: new RegExp(`^${firstTitle}`) })).toBeVisible();
+    releaseChunk();
+    await expect(page.getByRole('main').getByRole('alert')).toContainText('页面加载失败');
+  } finally {
+    releaseChunk();
+    await page.unroute('**/assets/**');
+  }
+
+  await page.getByRole('link', { name: new RegExp(`^${firstTitle}`) }).click();
+  await expect(page.getByRole('main').getByRole('heading', { name: firstTitle, exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '刷新页面', exact: true })).toHaveCount(0);
+  await page.getByRole('link', { name: new RegExp(`^${nextTitle}`) }).click();
+  await page.getByRole('button', { name: '刷新页面', exact: true }).click();
+  await expect(page.getByRole('main').getByRole('heading', { name: nextTitle, exact: true })).toBeVisible();
+});
 
 test('部署产物只提供对应入口，维护草稿需要独立验证批次', async ({ page }, info) => {
   const writes: Array<{ path: string; batch: string | undefined; csrf: string | undefined }> = [];

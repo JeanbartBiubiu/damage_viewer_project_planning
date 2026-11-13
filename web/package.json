@@ -3,6 +3,10 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "engines": {
+    "node": ">=26.13.1 <27",
+    "npm": ">=11 <12"
+  },
   "scripts": {
     "dev": "vite",
     "dev:maintenance": "vite --mode maintenance",
@@ -11,6 +15,7 @@
     "test:e2e:deployment-modes": "playwright test --config tests/playwright/playwright.deployment-modes.config.ts",
     "preview": "vite preview",
     "lint": "node scripts/lint-no-legacy.mjs",
+    "guidance:scan": "modern-web-guidance legacy-scan src --json",
     "typecheck": "tsc -b --pretty false && tsc -p tsconfig.mechanisms.json --pretty false",
     "test": "node --test scripts/verificationRegression.test.mjs scripts/wasmBuild.test.mjs && vitest run --config vitest.config.ts",
     "test:mechanisms": "vitest run --config vitest.config.ts tests/mechanisms",
@@ -32,9 +37,10 @@
     "@types/node": "^26.1.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.3.4",
+    "@vitejs/plugin-react": "^6.3.0",
+    "modern-web-guidance": "1.0.0",
     "typescript": "^5.6.3",
-    "vite": "^5.4.11",
-    "vitest": "^2.1.8"
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
   }
 }
