@@ -713,6 +713,57 @@ class SkillConfigurationServiceTest {
     }
 
     @Test
+    void previewNewPassiveDelayAndItsTailUsesTheFinalCombinedConfiguration() throws Exception {
+        var leaf = process(false);
+        when(processService.list(GAME, SKILL)).thenReturn(List.of(new xyz.game.datamanage.model.skillprocess.SkillProcessSummaryResponse(
+            GAME, SKILL, "cast", "施放", SkillProcessActivationType.ACTIVE, null, 0, 1, 0, 0, TIME, TIME)));
+        when(processService.get(GAME, SKILL, "cast")).thenReturn(leaf);
+        var before = service.get(GAME, SKILL);
+        var processPrepared = mock(SkillProcessService.Prepared.class);
+        when(processService.prepareConfigurationCreate(any())).thenReturn(processPrepared);
+        var deferred = json.treeToValue(passiveDelayChange().value(), SkillProcessCreateRequest.class);
+        var projected = new SkillProcessDetailResponse(GAME, SKILL, "deferred", "延迟检查", SkillProcessActivationType.PASSIVE,
+            null, 0, null, deferred.steps().stream().map(step -> new SkillProcessStepResponse(step.stepKey(), step.name(),
+                step.stepType(), step.description(), step.sortOrder(), step.occupiesAction(), step.detail())).toList(), List.of(), List.of(), TIME, TIME);
+        when(processService.projectPrepared(GAME, SKILL, processPrepared, null)).thenReturn(projected);
+        var noTail = assertThrows(ApiException.class, () -> service.previewUpdate(GAME, SKILL,
+            new SkillConfigurationSaveRequest(before.baseDigest(), null, List.of(passiveDelayChange()))));
+        assertTrue(noTail.getDetails().toString().contains("PROCESS_BEHAVIOR_REQUIRED"));
+
+        var rulePrepared = mock(SkillTriggerRuleService.Prepared.class);
+        var tailValue = json.readTree("""
+            {"ruleKey":"tail","name":"延后实际行为","description":null,"sortOrder":0,
+             "eventSource":{"eventType":"PROCESS_MOMENT","detail":{"processKey":"deferred",
+               "moment":{"momentType":"STEP_EXECUTION","stepKey":"wait"}}},
+             "conditionGroups":[],"actions":[{"actionKey":"start_leaf","name":"启动叶过程","actionType":"START_PROCESS",
+               "targetContext":"CURRENT_TARGET","sortOrder":0,"detail":{"processKey":"cast"},"runtimeInputBindings":[],"resultModifiers":[]}],
+             "perTargetCooldown":null,"maxTriggersPerProcess":null,"oncePerUse":null}
+            """);
+        var tail = json.treeToValue(tailValue, xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleCreateRequest.class);
+        when(triggerRuleService.prepareConfigurationCreate(any())).thenReturn(rulePrepared);
+        when(triggerRuleService.projectPrepared(GAME, SKILL, rulePrepared)).thenReturn(
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleDetailResponse(tail.ruleKey(), tail.name(), tail.description(),
+                tail.sortOrder(), tail.eventSource(), tail.conditionGroups(), tail.actions(), null, null, null));
+        var result = service.previewUpdate(GAME, SKILL, new SkillConfigurationSaveRequest(before.baseDigest(), null,
+            List.of(passiveDelayChange(), new SkillConfigurationChange("TRIGGER_RULE", "CREATE", "tail", tailValue))));
+        assertEquals(2, result.processes().size());
+        assertEquals(1, result.triggerRules().size());
+        org.mockito.Mockito.verifyNoInteractions(guard, skillMapper);
+        verify(processService, never()).writePreparedWithinConfiguration(any(), any(), any());
+        verify(triggerRuleService, never()).writePreparedWithinConfiguration(any(), any(), any());
+    }
+
+    private SkillConfigurationChange passiveDelayChange() throws Exception {
+        return new SkillConfigurationChange("PROCESS", "CREATE", "deferred", json.readTree("""
+            {"processKey":"deferred","name":"延迟检查","activationType":"PASSIVE","description":null,
+             "sortOrder":0,"cooldown":null,
+             "steps":[{"stepKey":"wait","name":"等待","stepType":"DELAY","description":null,"sortOrder":0,
+               "occupiesAction":false,"detail":{"delayValue":{"kind":"FIXED","value":300}}}],
+             "effectBindings":[],"stateOperations":[]}
+            """));
+    }
+
+    @Test
     void previewRefusesStaleDigestUnknownFieldsAndDeletesWithoutAnyWrite() throws Exception {
         var before = service.get(GAME, SKILL);
         assertEquals("409.SKILL_CONFIGURATION_CHANGED", assertThrows(ApiException.class, () ->

@@ -64,6 +64,9 @@ import xyz.game.datamanage.service.skillprocess.SkillProcessService;
 import xyz.game.datamanage.service.skillinternalstate.SkillInternalStateService;
 import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard;
+import xyz.game.datamanage.support.authoring.SkillProcessBehaviorSemantics;
+import xyz.game.datamanage.support.authoring.SkillObjectReferences.Aggregate;
+import xyz.game.datamanage.support.authoring.SkillObjectReferences.SourceType;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
@@ -267,6 +270,12 @@ public class SkillConfigurationService {
         SkillConfigurationResponse content = new SkillConfigurationResponse(projectedSkill, List.copyOf(parameters.values()),
             List.copyOf(formulas.values()), List.copyOf(effects.values()), List.copyOf(processes.values()),
             List.copyOf(states.values()), List.copyOf(rules.values()), null);
+        List<Aggregate> behaviorContext = new ArrayList<>();
+        content.processes().forEach(row -> behaviorContext.add(new Aggregate(SourceType.PROCESS, skillKey, row.processKey(), objectMapper.valueToTree(row))));
+        content.effects().forEach(row -> behaviorContext.add(new Aggregate(SourceType.EFFECT, skillKey, row.effectKey(), objectMapper.valueToTree(row))));
+        content.internalStates().forEach(row -> behaviorContext.add(new Aggregate(SourceType.STATE, skillKey, row.stateKey(), objectMapper.valueToTree(row))));
+        content.triggerRules().forEach(row -> behaviorContext.add(new Aggregate(SourceType.TRIGGER, skillKey, row.ruleKey(), objectMapper.valueToTree(row))));
+        SkillProcessBehaviorSemantics.validate(Set.of(skillKey), behaviorContext);
         return new SkillConfigurationResponse(content.skill(), content.parameters(), content.formulas(), content.effects(),
             content.processes(), content.internalStates(), content.triggerRules(), digest(content));
     }

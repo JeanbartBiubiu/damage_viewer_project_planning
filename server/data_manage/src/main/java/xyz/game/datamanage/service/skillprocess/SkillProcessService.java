@@ -463,7 +463,9 @@ public class SkillProcessService {
             effectBindings == null ? List.of() : List.copyOf(effectBindings);
         List<SkillProcessStateOperationRequest> operations =
             stateOperations == null ? List.of() : List.copyOf(stateOperations);
-        if (cooldown == null && bindings.isEmpty() && operations.isEmpty()) {
+        // 被动过程的时点规则在完整最终图检查；局部形状不能提前否定同批新增尾行为。
+        if (cooldown == null && bindings.isEmpty() && operations.isEmpty()
+            && activationType != SkillProcessActivationType.PASSIVE) {
             throw new ApiException(
                 HttpStatus.BAD_REQUEST,
                 "400.VALIDATION_FAILED",

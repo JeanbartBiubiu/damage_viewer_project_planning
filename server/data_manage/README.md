@@ -31,6 +31,8 @@
 
 `GameConfigurationWriteGuard` 以 `READ COMMITTED` 事务和游戏行锁串行化同游戏配置写入，核对受影响来源及引用链并定向更新 `skill_object_references`。`SkillObjectReferences` 提取完整引用，`SkillNumericSemantics` 检查实际数值用途。直接SQL不会自动执行这些服务校验。
 
+无直接冷却、效果挂接或状态操作的过程，仅允许明确不占用行动的有限 `PASSIVE` 即时／延迟步骤，并要求其真实过程时点规则可达实际效果、状态操作或已有行为过程。`SkillProcessBehaviorSemantics` 在完整候选预检和事务最终态共用检查；单独删除最后一条尾规则或叶行为也会回滚，局部过程形状通过不表示完整配置已通过。
+
 场景快照使用一致性只读事务，保留完整作者数据、所选构筑、真实来源身份和等级，不持久化场景或执行战斗。可用目录中的历史证明须重新匹配当前内容与运行身份，不能由管理保存或组件通过直接授予完整对象准入。
 
 私有 `POST /internal/maintenance/games/{gameId}/simulation-preview` 接受 `{selection, updates:[{skillKey, request}]}`；`selection` 沿现行场景选择，`request` 沿已有技能的统一修改请求并携带原 `baseDigest`。一次只读事务投影1至32份无重复的已有技能修改，再由同一快照装配链重建来源、引用及实际目录；不调用业务写入，不接受删除或未进入本场执行闭包的覆盖。此入口要求维护会话与防伪证明，不要求或打开提交窗口。候选运行只证明给定场景，正式保存继续经过原批次、游戏锁、引用和最终态校验，保存后仍须读取真实快照验收。

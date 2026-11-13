@@ -75,6 +75,39 @@ class GameConfigurationWriteGuardTest {
     }
 
     @Test
+    void finalPassiveDelayWithARealTailCanCommitTogether() throws Exception {
+        Connection connection = connection();
+        var objects = List.of(ProcessBehaviorTestData.row(ProcessBehaviorTestData.waitProcess("waiter")),
+            ProcessBehaviorTestData.row(ProcessBehaviorTestData.rule("after", "waiter", "consume")),
+            ProcessBehaviorTestData.row(ProcessBehaviorTestData.leafProcess("consume")));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(objects);
+        transaction(connection).execute(tx -> { guard.begin("lol"); jdbc.update("isolated complete passive process graph"); return null; });
+        verify(connection).commit(); verify(connection, never()).rollback();
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"last_tail_removed", "last_leaf_behavior_removed"})
+    void deletingTheLastPassiveTailBehaviorRollsBackBeforeReferenceReplacement(String scenario) throws Exception {
+        Connection connection = connection();
+        var wait = ProcessBehaviorTestData.row(ProcessBehaviorTestData.waitProcess("waiter"));
+        var tail = ProcessBehaviorTestData.row(ProcessBehaviorTestData.rule("after", "waiter", "consume"));
+        var leaf = ProcessBehaviorTestData.row(ProcessBehaviorTestData.leafProcess("consume"));
+        var before = List.of(wait, tail, leaf);
+        var after = scenario.equals("last_tail_removed") ? List.of(wait, leaf)
+            : List.of(wait, tail, ProcessBehaviorTestData.row(ProcessBehaviorTestData.waitProcess("consume")));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol"))
+            .thenReturn(snapshotRows(before), snapshotRows(after));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(after);
+        var error = assertThrows(ApiException.class, () -> transaction(connection).execute(tx -> {
+            guard.begin("lol"); jdbc.update("isolated remove last passive behavior"); return null;
+        }));
+        assertEquals("400.VALIDATION_FAILED", error.getCode());
+        assertTrue(error.getDetails().toString().contains("PROCESS_BEHAVIOR_REQUIRED"));
+        verify(connection).rollback(); verify(connection, never()).commit();
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
+    }
+
+    @Test
     void changingOnlyMultiplierParameterRevalidatesTheUnchangedEffectBeforeCommit() throws Exception {
         Connection connection = connection();
         var effect = CooldownDurationTestData.effect();

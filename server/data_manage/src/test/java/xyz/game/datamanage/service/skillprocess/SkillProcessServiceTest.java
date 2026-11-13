@@ -206,6 +206,20 @@ class SkillProcessServiceTest {
     }
 
     @Test
+    void passiveDelayShapeDefersItsBehaviorToTheCompleteConfiguration() {
+        var request = new SkillProcessCreateRequest("deferred", "延后检查", SkillProcessActivationType.PASSIVE,
+            null, 0, null,
+            List.of(new SkillProcessStepRequest("wait", "等待", SkillProcessStepType.DELAY, null, 0, false,
+                new SkillProcessDelayStepDetail(SkillNumericValue.fixed(new java.math.BigDecimal("300"))))),
+            List.of(), List.of());
+        var prepared = service.prepareConfigurationCreate(request);
+        var projected = service.projectPrepared(GAME_ID, SKILL_KEY, prepared, null);
+        assertEquals("deferred", projected.processKey());
+        assertEquals(1, projected.steps().size());
+        verify(mapper, never()).insertProcess(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
     void emptyBindingsAndOperationsReturnDualFieldErrorBeforeDatabaseWrites() {
         ApiException exception = assertThrows(
             ApiException.class,
