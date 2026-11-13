@@ -7,6 +7,7 @@ import { validateAutomaticSkillRelations } from './automaticSkillRequest';
 import { inspectContinuousAttackSeries } from './continuousAttackSeries';
 import { assessContinuousAttackResult } from './continuousAttackResult';
 import { inspectSimulationProcessFacts } from './simulationProcessFacts';
+import { passiveProcessDamagePath, passiveProcessOperation } from './passiveProcessFacts';
 import { inspectSimulationHealthLedger } from './simulationHealthLedger';
 import { inspectResourceChangeContract } from './resourceChangeContract';
 import { inspectPermanentHealthInitialization } from './permanentHealthInitialization';
@@ -17,7 +18,7 @@ import { empoweredAttackBinding, empoweredAttackIdentityGaps, empoweredDamagePro
 import { tryFoldConstant } from './numericAdapter';
 import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
 import { automaticProcessStepsAllowed } from './processSkillHitStages';
-import { inspectProcessSkillHitStages, processSkillHitTimes, skillHitStageStoppedByTargetDeath } from './processSkillHitStageFacts';
+import { inspectProcessSkillHitStages, processSkillHitIdentityMatches, processSkillHitTimes, skillHitStageStoppedByTargetDeath } from './processSkillHitStageFacts';
 import { finiteRecastControls, processForSkillUse, recastUseOrdinal } from './finiteRecast';
 import { inspectSkillHitChainResult } from './skillHitChainResult';
 import { inspectTargetMarkResult } from './targetMarkResultContract';
@@ -377,6 +378,8 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
       const hitIdentities = new Map<string, { useRef: string; timeMs: number; hitBindingKey: string }>();
       const executionHits = new Map<string, string>();
       for (const row of damages) {
+        if (passiveProcessDamagePath(compile, row.operationPath)) check(!!passiveProcessOperation(processFacts.passiveFacts, row),
+          'damageRecords.passiveOrigin', '被动尾伤必须来自已核定实例、原自动使用和精确时点叶操作');
         const ability = simulationAbility(compile, row.abilityRef);
         check((!!ability || finiteImmediatePeriodicDamageSource(compile, row, done.finalSnapshot.processInstances))
           && row.abilityRef.startsWith(`${row.owner}.provider[`) && row.timeMs >= 0 && row.timeMs <= duration, 'damageRecords', '伤害拥有者、引用或时刻不一致');
@@ -394,12 +397,16 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
           const process = findProcess(row.useRef);
           const contextKey = process && ruleForUse(process.useKey);
           const context = contextKey ? contexts.get(contextKey) : undefined;
-          const hit = binding.hitBindings.find(hit => hit.hitAbilityRef === row.abilityRef);
-          const step = context?.process.steps.find(step => step.stepKey === hit?.moment.stepKey);
-          const times = process && hit ? processSkillHitTimes(process, hit, row.useRef, context?.process) ?? (step?.stepType === 'CHANNEL' && hit.moment.momentType === 'STEP_EXECUTION'
-            ? committedChannelTimes(process, step) : process.lastExecutionAtMs === null ? [] : [process.lastExecutionAtMs]) : [];
+          const matches = binding.hitBindings.filter(hit => {
+            if (hit.hitAbilityRef !== row.abilityRef || !process) return false;
+            const step = context?.process.steps.find(step => step.stepKey === hit.moment.stepKey);
+            const times = processSkillHitTimes(process, hit, row.useRef, context?.process) ?? (step?.stepType === 'CHANNEL' && hit.moment.momentType === 'STEP_EXECUTION'
+              ? committedChannelTimes(process, step) : process.lastExecutionAtMs === null ? [] : [process.lastExecutionAtMs]);
+            return times.includes(row.timeMs) && processSkillHitIdentityMatches(process, hit, row.timeMs, row.hitRef);
+          });
+          const hit = matches.length === 1 ? matches[0] : undefined;
           check(!!process && !!context && context.binding === binding && row.source === process.owner && row.target === process.target
-            && times.includes(row.timeMs), 'damageRecords.timeMs', '主动伤害必须来自该次使用已提交的实际圈时点');
+            && !!hit, 'damageRecords.timeMs', '主动伤害必须来自该次使用同原HIT编号的唯一实际圈时点');
           if (process && context) {
             const ordinal = recastUseOrdinal(process, context.process, row.useRef);
             if (ordinal !== null) {
@@ -407,7 +414,7 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
               check(row.instructionKey === (ordinal === 0 ? first : `${first}:recast:${ordinal}`), 'damageRecords.instructionKey', '逐发自动指令必须从真实窗口和已提交序号导出');
             }
           }
-          if (typeof row.hitRef === 'string' && row.hitRef) {
+          if (hit && typeof row.hitRef === 'string' && row.hitRef) {
             const prior = hitIdentities.get(row.hitRef), executionKey = `${row.useRef}/${hit?.hitBindingKey}/${row.timeMs}`;
             check(!prior || prior.useRef === row.useRef && prior.timeMs === row.timeMs && prior.hitBindingKey === hit?.hitBindingKey,
               'damageRecords.hitRef', '同一命中身份不能跨使用、阶段或执行时刻复用');
@@ -418,7 +425,8 @@ export function assessAutomaticSkillResult(compile: CompileRequest, request: Run
       }
       for (const row of healing) {
         const ability = simulationAbility(compile, row.abilityRef);
-        check(!!ability && row.abilityRef.startsWith(`${row.source}.provider[`) && ability.ability.listenerSpec?.operations?.some(operation => operation.operation === 'heal' && operation.ref === row.operationRef) === true
+        check(!!ability && row.abilityRef.startsWith(`${row.source}.provider[`) && (ability.ability.listenerSpec?.operations?.some(operation => operation.operation === 'heal' && operation.ref === row.operationRef) === true
+          || !!passiveProcessOperation(processFacts.passiveFacts, row))
           && row.timeMs >= 0 && row.timeMs <= duration, 'healingRecords', '直接治疗必须保留实际编译来源和观察时刻');
         for (const field of ['rawAmount', 'healingAfterDone', 'healingAfterModifiers', 'actualHealing', 'overheal', 'hpBefore', 'hpAfter'] as const) number(row[field], `healingRecords.${field}`, false);
         check(close(row.actualHealing + row.overheal, row.healingAfterModifiers) && close(row.hpBefore + row.actualHealing, row.hpAfter), 'healingRecords', '治疗及溢出与生命变化不守恒');

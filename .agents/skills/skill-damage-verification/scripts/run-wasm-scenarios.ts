@@ -3,6 +3,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { isDeepStrictEqual } from 'node:util';
 import { createMaintenanceEngine } from '../../../../tools/maintenance/engine-client';
+import { passiveProcessObservations } from '../../../../tools/maintenance/result-observations.mjs';
 import { validateSimulationSnapshot } from '../../../../web/src/services/simulationSnapshotClient';
 import { inspectSimulationSnapshot, prepareSimulation, SIMULATION_ADAPTER_VERSION } from '../../../../web/src/engine/simulationAdapter';
 import type { SimulationCastCostRef } from '../../../../web/src/engine/simulationActiveSkills';
@@ -34,6 +35,7 @@ type Evidence = {
   preflight?: Awaited<ReturnType<typeof preflightSkillFormulas>>;
   prepared?: Awaited<ReturnType<typeof prepareSimulation>>; compiled?: CompileResult;
   runRequest?: RunRequest; done?: DoneResult;
+  passiveProcesses?: NonNullable<DoneResult['finalSnapshot']['processInstances']>;
   assessment?: ReturnType<typeof assessSkillActionResult> | ReturnType<typeof assessContinuousAttackResult>;
   repeatIdentical?: boolean; runs?: number; release?: GenericReleaseDonePayload;
   error?: { stage: string; message: string }; releaseError?: string;
@@ -144,6 +146,7 @@ async function runScenario(scene: Scenario, planDirectory: string, engine: Engin
     requireValue(recording, '结果缺少记录完整性信息。');
     requireValue(!Object.entries(recording).some(([key, value]) => key.endsWith('Truncated') && value === true),
       '结果明细发生截断，无法用于完整对照。');
+    evidence.passiveProcesses = passiveProcessObservations(evidence.prepared.compileRequest, evidence.done);
     stage = '同会话重复运行';
     const repeated = await client.run(built.runRequest);
     evidence.runs = 2;

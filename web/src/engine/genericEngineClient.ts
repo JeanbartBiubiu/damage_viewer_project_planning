@@ -2,6 +2,8 @@ import { registerFormulaForApprovedReads } from './approvedFormulaValues';
 import { assertResourceChangeOutputShape, assertResourceRecordBudget } from './resourceChangeContract';
 import { assertAttributeSnapshotOutputShape } from './attributeSnapshotContract';
 import { assertTargetMarkOutputShape } from './targetMarkContract';
+import { assertPassiveProcessOutputShape } from './passiveProcessFacts';
+import { assertProcessSkillHitStagesOutputShape } from './processSkillHitStageShape';
 import { WASM_IDENTITY } from './wasmIdentity';
 import { ApiRequestError, resolveApiBaseUrl } from '../services/apiClient';
 import { getWasmGrant, onAuthSessionChanged } from '../services/authClient';
@@ -123,6 +125,8 @@ export function parseDoneResult(frames: TinyGoV2Frame[]): DoneResult {
   assertResourceChangeOutputShape(result);
   assertAttributeSnapshotOutputShape(result);
   assertTargetMarkOutputShape(result);
+  assertPassiveProcessOutputShape(result);
+  assertProcessSkillHitStagesOutputShape(result);
   return result;
 }
 

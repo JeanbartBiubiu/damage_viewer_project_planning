@@ -8,8 +8,13 @@ import (
 
 // ValidateEquipmentHitDefinition 校验常驻触发来源的能力和自有属性，不执行其监听。
 func ValidateEquipmentHitDefinition(input Input, provider planbundle.CompiledProvider, owner string) *model.EngineError {
-	if (provider.Kind != "item" && provider.Kind != "character" && provider.Kind != "build") || provider.StableID == "" || provider.Lifecycle != nil || len(provider.Processes)+len(provider.StatusContributions) != 0 {
+	if (provider.Kind != "item" && provider.Kind != "character" && provider.Kind != "build") || provider.StableID == "" || provider.Lifecycle != nil || len(provider.StatusContributions) != 0 {
 		return fail(input, "triggered skill must remain an owned permanent passive source", "initialSnapshot.combatants.providers")
+	}
+	for _, process := range provider.Processes {
+		if process.EntryKind != model.ProcessEntrySkillHitPassive || process.InitialAbilityIndex >= 0 || len(process.Costs) != 0 || process.Cooldown != nil {
+			return fail(input, "permanent passive source only admits compiled skill-hit passive process entries", process.Path)
+		}
 	}
 	for _, ability := range input.Compiled.Abilities[int(provider.AbilityStart) : int(provider.AbilityStart)+int(provider.AbilityCount)] {
 		if ability.Kind != "passive_listener" || ability.ProcessControl != nil || ability.Cost != nil || ability.Cooldown != nil || ability.HasCastCondition || ability.TickSpec != nil || ability.HasSkillHit {

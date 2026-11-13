@@ -14,6 +14,9 @@ type ProcessCompletion interface {
 }
 
 func (s ProcessExecutor) PublishResolved(process *actionpkg.ProcessView, declared bool, completion ProcessCompletion) *model.EngineError {
+	if process.Definition().EntryKind == model.ProcessEntrySkillHitPassive {
+		return nil
+	}
 	if process.HasEmpoweredWindow() && (process.Status() != "complete" || process.WindowPending() != 0 || process.EmpoweredResolvedPublished()) {
 		return nil
 	}

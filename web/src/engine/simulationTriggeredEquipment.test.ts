@@ -1126,7 +1126,7 @@ describe('配置驱动装备通用节点编译', () => {
     const compiled = compileWithInputs(snapshot);
     expect(compiled.compileRequest.combatants.every(combatant => combatant.providers.every(mount => mount.definitionRef !== temporary.providerKey))).toBe(true);
     expect(compiled.operationOrigins.find(origin => origin.providerDefinitionRef === temporary.providerKey)!.compiledPaths[0]).toMatch(/^sharedProviders\[\d+\]\.abilities\[0\]\.tickSpec.onTick\[0\]$/);
-    expect(SIMULATION_ADAPTER_VERSION).toBe('v51-grouped-amplification');
+    expect(SIMULATION_ADAPTER_VERSION).toBe('v52-skill-hit-passive-delay');
   });
 
   it('异名有期周期、改参改首跳只读取作者配置，3秒参数不自动成为常驻周期', () => {
@@ -1170,7 +1170,7 @@ describe('配置驱动装备通用节点编译', () => {
     ]) {
       const snapshot = counterSample();
       mutate(snapshot);
-      expect(() => assembleTriggeredEquipment(snapshot)).toThrow(/IMMEDIATE|冷却|时点|排序|循环/);
+      expect(() => assembleTriggeredEquipment(snapshot)).toThrow(/IMMEDIATE|冷却|时点|排序|循环|不占用行动/);
     }
   });
 

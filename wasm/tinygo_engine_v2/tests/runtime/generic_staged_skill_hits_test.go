@@ -299,7 +299,7 @@ func TestStagedSkillAutomaticPreparationPreservesBackgroundAttacks(t *testing.T)
 	}
 }
 
-func TestStagedSkillEmptyFactsBeforeExecutionAndLegacyOmission(t *testing.T) {
+func TestStagedSkillEmptyBeforeExecutionAndSimpleCompletionFacts(t *testing.T) {
 	for _, automatic := range []bool{false, true} {
 		c, r := stagedSkillInput(3)
 		r.StopPolicy.DurationMs = 249
@@ -320,8 +320,31 @@ func TestStagedSkillEmptyFactsBeforeExecutionAndLegacyOmission(t *testing.T) {
 		}
 		done := timedShieldMustRun(t, c, r)
 		encoded, err := json.Marshal(done.FinalSnapshot.ProcessInstances[0])
-		if err != nil || done.FinalSnapshot.ProcessInstances[0].SkillHitStages != nil || strings.Contains(string(encoded), "skillHitStages") {
-			t.Fatal("old implicit or complex process gained stage facts", string(encoded), err)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if complex {
+			if done.FinalSnapshot.ProcessInstances[0].SkillHitStages != nil || strings.Contains(string(encoded), "skillHitStages") {
+				t.Fatal("complex process gained unsupported stage facts", string(encoded))
+			}
+		} else {
+			facts := done.FinalSnapshot.ProcessInstances[0].SkillHitStages
+			if facts == nil || len(*facts) != 1 || !(*facts)[0].Contact || (*facts)[0].TimeMs != 350 || (*facts)[0].HitOccurrenceID == nil {
+				t.Fatal("simple completion omitted actual hit stage", string(encoded))
+			}
+		}
+	}
+	for _, window := range []int64{349, 350} {
+		c, r := singleSkillInput(false)
+		r.StopPolicy.DurationMs = window
+		done := timedShieldMustRun(t, c, r)
+		facts := done.FinalSnapshot.ProcessInstances[0].SkillHitStages
+		want := 0
+		if window == 350 {
+			want = 1
+		}
+		if facts == nil || len(*facts) != want {
+			t.Fatal("completion stage appeared before real completion", window, facts)
 		}
 	}
 }

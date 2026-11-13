@@ -22,6 +22,7 @@ import { inspectSkillHitLinkEvidence, skillHitLinkListenerEvent } from './skillH
 import { inspectTargetMarkResult, targetMarkDamageOriginMatches } from './targetMarkResultContract';
 import { inspectDamageStateBefore, targetTimingDamageOriginMatches } from './targetTimingResultContract';
 import { inspectPermanentPeriodicResult } from './permanentPeriodicResultContract';
+import { passiveProcessDamagePath, passiveProcessOperation } from './passiveProcessFacts';
 
 export type ContinuousAttackAssessment = {
   complete: boolean; issues: string[]; execution: ExecutionSummary;
@@ -34,7 +35,7 @@ export type ContinuousAttackAssessment = {
   attackRecords: AttackRecord[]; damageRecords: DamageRecord[]; mechanicRecords: MechanicRecord[]; recording: RecordingSummary;
 };
 type Row = Record<string, unknown>;
-type DamageContract = { kind: 'attack' | 'periodic' | 'target_window' | 'target_mark' | 'reaction' | 'linked' | 'active'; required: boolean; allowed: boolean; origin: OperationOrigin;
+type DamageContract = { kind: 'attack' | 'periodic' | 'target_window' | 'target_mark' | 'reaction' | 'linked' | 'active' | 'passive_process'; required: boolean; allowed: boolean; origin: OperationOrigin;
   requiredContribution?: boolean;
   attackOnly?: boolean;
   permanent?: boolean;
@@ -212,6 +213,8 @@ export function assessContinuousAttackResult(
   const final = object(result.finalSnapshot, 'runResult.finalSnapshot');
   const issues: string[] = [];
   const identityGaps: string[] = [];
+  const processFacts = inspectSimulationProcessFacts(input, request, done);
+  issues.push(...processFacts.issues);
   issues.push(...inspectResourceChangeContract(input, request, done));
   const initializedHealth = inspectPermanentHealthInitialization(input, request, done);
   issues.push(...initializedHealth.issues); identityGaps.push(...initializedHealth.identityGaps);
@@ -300,6 +303,7 @@ export function assessContinuousAttackResult(
   array(final.processInstances ?? [], 'finalSnapshot.processInstances').forEach((value, index) => {
     const path = `finalSnapshot.processInstances[${index}]`; const row = object(value, path);
     const use = text(row.useKey, `${path}.useKey`);
+    if (processFacts.passiveProcesses.some(process => process === value)) return;
     if (mixed && row.providerRef !== controlMatch?.[1]) {
       check(input.rules.skillActionBindings?.some(binding => row.owner === binding.source && row.skillKey === binding.skillKey
         && row.providerRef === binding.providerRef && binding.controls.some(control => control.processKey === row.processKey)) === true,
@@ -363,7 +367,9 @@ export function assessContinuousAttackResult(
         && origin.abilityRef === plan.initialControlAbilityRef && ability?.processControl?.processKey === process.processKey
         && ability.processControl.action === 'INITIAL' && ability.processControl.useRefFromEvent === true
         && process.skillKey === plan.skillKey && moment.momentType === 'PROCESS_START' && moment.stepKey === null && moment.failureReason === null;
-      const contract = targetMarkDamageOriginMatches(input, origin, path)
+      const contract = passiveProcessDamagePath(input, path)
+        ? { kind: 'passive_process' as const, allowed: true, required: false, origin }
+        : targetMarkDamageOriginMatches(input, origin, path)
         ? { kind: 'target_mark' as const, allowed: true, required: false, origin }
         : ability && definition && targetTimingDamageOriginMatches(input, definition, ability, origin, operation)
           && (path.startsWith(`${abilityPath}.tickSpec.onTick[`) || path.startsWith(`${abilityPath}.targetExpirySpec.onExpire[`))
@@ -480,8 +486,6 @@ export function assessContinuousAttackResult(
   const initialAmmo = ammoDeclarations.length === 1 ? ammoDeclarations[0]![1].defaultValue : undefined;
   const initialMechanicReadyAt = nullableTime(basic.initialMechanicReadyAtMs ?? null, 'summary.basicAttack.initialMechanicReadyAtMs');
   const initialActionReadyAt = nullableTime(basic.initialActionReadyAtMs, 'summary.basicAttack.initialActionReadyAtMs');
-  const processFacts = mixed ? inspectSimulationProcessFacts(input, request, done) : { issues: [], occupancies: [], processes: [], empoweredSuccessions: new Map() };
-  issues.push(...processFacts.issues);
   issues.push(...inspectActiveAmmoMechanics(input, request, done, processFacts.processes, mechanics.filter(row => !isPrimaryMechanic(row))));
   const actualAttackStarts = [...processUses.values()].map(process => process.startedAtMs as number).sort((first, second) => first - second);
   const firstActualStart = actualAttackStarts[0] ?? Infinity;
@@ -613,7 +617,8 @@ export function assessContinuousAttackResult(
     }
     check(operation?.operation === 'damage' && operation.ref === row.operationRef && operation.damageType === row.damageType
       && !!contract && contract.origin === origin && contract.allowed && (contract.kind === 'target_window' ? independentWindow : contract.kind === 'periodic' ? contract.permanent ? independentPermanent : independentPeriodic || contract.tick?.startDelayMs !== 0 && attackIndex === 0
-        : contract.kind === 'active' ? empowered ? attackIndex !== null && attackIndex > 0 : attackIndex === null : contract.kind === 'reaction' && !contract.attackOnly ? true
+        : contract.kind === 'passive_process' ? attackIndex === null && !!passiveProcessOperation(processFacts.passiveFacts, row as unknown as DamageRecord)
+          : contract.kind === 'active' ? empowered ? attackIndex !== null && attackIndex > 0 : attackIndex === null : contract.kind === 'reaction' && !contract.attackOnly ? true
           : (contract.kind === 'linked' || contract.kind === 'target_mark') && attackIndex === null ? mixed && !!row.instructionKey : attackIndex !== null && attackIndex > 0),
     path, '伤害节点、类型或独立周期与攻击关联不一致');
     if (contract?.tick) {

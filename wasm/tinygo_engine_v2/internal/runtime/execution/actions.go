@@ -58,6 +58,9 @@ type gateCheckResult struct {
 type committedSkillActionHit struct {
 	useRef        string
 	occurrenceID  uint64
+	sequence      int
+	hasSequence   bool
+	blocked       float64
 	evidenceIndex int
 }
 
@@ -1096,8 +1099,11 @@ func (frame *Frame) skillActionUseRef() string {
 }
 
 // 与对应命中证据一起暂存，只有成功提交后发布使用记录与命中统计。
-func (frame *Frame) recordSkillActionHit(useRef string, occurrenceID uint64) {
+func (frame *Frame) recordSkillActionHit(useRef string, occurrenceID uint64, sequence *int, blocked float64) {
 	fact := committedSkillActionHit{useRef: useRef, occurrenceID: occurrenceID, evidenceIndex: frame.pendingEvidenceIndex()}
+	if sequence != nil {
+		fact.sequence, fact.hasSequence, fact.blocked = *sequence, true, blocked
+	}
 	if frame.committed {
 		frame.run.recordSkillActionHit(fact)
 		return
@@ -1110,7 +1116,7 @@ func (state *Engine) recordSkillActionHit(fact committedSkillActionHit) {
 	if use := state.skillUses[fact.useRef]; use != nil {
 		actual = use.identity
 	}
-	state.skillActionFlowExecutor().RecordCommittedHit(fact.useRef, actual, state.hits.OccurrenceCount(), skillEventsBridge{engine: state})
+	state.skillActionFlowExecutor().RecordCommittedHit(fact.useRef, actual, actionflow.CommittedSkillHit{OccurrenceID: fact.occurrenceID, Sequence: fact.sequence, HasSequence: fact.hasSequence, Blocked: fact.blocked, TimeMs: state.loop.TimeMs()}, skillEventsBridge{engine: state})
 }
 
 func (state *Engine) recordDirectHealing(record model.DirectHealingRecord) {

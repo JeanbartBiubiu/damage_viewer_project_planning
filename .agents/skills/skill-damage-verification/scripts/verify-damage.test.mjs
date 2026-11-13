@@ -153,6 +153,51 @@ test('字段路径转义正确，不把不存在的键或错误结构当成数�
   assert.throws(() => compare(notArray), /需要数组/);
 });
 
+function presenceExpected(pointer, value) {
+  return calculatePlan({ cases: [{ id: 'normal', checks: [{ pointer, measure: 'exists', value }] }] });
+}
+
+test('存在性区分末级属性缺失、有效0和null，不把缺失当作数值0', () => {
+  const absent = presenceExpected('/provider/targetState', false);
+  const present = presenceExpected('/provider/targetState', true);
+  assert.equal(compare({ provider: {} }, absent).pass, true);
+  assert.equal(compare({ provider: {} }, present).pass, false);
+  for (const value of [0, null]) {
+    assert.equal(compare({ provider: { targetState: value } }, present).pass, true);
+    assert.equal(compare({ provider: { targetState: value } }, absent).pass, false);
+  }
+  assert.equal(compare(null, presenceExpected('', true)).pass, true);
+});
+
+test('存在性不接受缺失或非对象的父路径，数值和长度缺字段仍失败', () => {
+  const expected = presenceExpected('/provider/targetState', false);
+  for (const raw of [{}, { provider: null }, { provider: 0 }]) {
+    assert.throws(() => compare(raw, expected), /缺少字段/);
+  }
+  assert.throws(() => compare({ provider: {} }, presenceExpected('/provider/targetState/values', false)), /缺少字段/);
+  for (const measure of ['value', 'length']) {
+    const strict = calculatePlan({ cases: [{ id: 'normal', checks: [{ pointer: '/provider/targetState', measure, value: 0 }] }] });
+    assert.throws(() => compare({ provider: {} }, strict), /缺少字段/);
+  }
+});
+
+test('存在性只接受固定布尔预期与精确比较', () => {
+  const invalid = [
+    { value: 0 }, { value: 'false' }, { value: null }, { expression: '0' },
+    { value: false, comparison: 'amount' },
+  ];
+  for (const check of invalid) {
+    assert.throws(() => calculatePlan({ cases: [{ id: 'normal', checks: [{ pointer: '/field', measure: 'exists', ...check }] }] }), /存在性/);
+  }
+});
+
+test('存在性复用JSON Pointer转义并严格区分末级与父级缺失', () => {
+  assert.equal(compare({ 'a/b': { '~count': null } }, presenceExpected('/a~1b/~0count', true)).pass, true);
+  assert.equal(compare({ 'a/b': {} }, presenceExpected('/a~1b/~0count', false)).pass, true);
+  assert.throws(() => compare({}, presenceExpected('/a~1b/~0count', false)), /缺少字段/);
+  assert.throws(() => presenceExpected('/bad~2', false), /转义/);
+});
+
 test('命令两阶段读原始文件、绑定摘要、失败退出并保护已有证据', t => {
   const temporaryRoot = resolve(tmpdir());
   const directory = mkdtempSync(join(temporaryRoot, 'damage-skill-verification-'));

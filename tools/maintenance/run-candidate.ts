@@ -18,6 +18,7 @@ import type { SimulationSnapshot, SimulationAttributeInputs, SimulationInitialHe
 import type { SimulationCastCostRef } from '../../web/src/engine/simulationActiveSkills';
 import type { SceneInitialParameterInput } from '../../web/src/engine/sceneInitialParameterInput';
 import { validateCandidate, candidateSnapshot } from './candidate.mjs';
+import { passiveProcessObservations } from './result-observations.mjs';
 import { createMaintenanceEngine } from './engine-client';
 
 type Scenario = { mode: 'fixed' | 'continuous'; durationMs: number; attributeInputs: SimulationAttributeInputs;
@@ -90,7 +91,8 @@ try {
     }
     ensure(done && request && released, '缺少真实运行或释放。');
     const result = { id: scene.id, complete: true, candidateDigest: candidate.candidateDigest, engineDigest,
-      adapterVersion: SIMULATION_ADAPTER_VERSION, snapshotDigest: snapshot.snapshotDigest, runRequest: request, done, released, runs: 2 };
+      adapterVersion: SIMULATION_ADAPTER_VERSION, snapshotDigest: snapshot.snapshotDigest, runRequest: request, done,
+      passiveProcesses: passiveProcessObservations(prepared.compileRequest, done), released, runs: 2 };
     const text = `${JSON.stringify(result, null, 2)}\n`, filename = `${scene.id}.json`;
     writeFileSync(resolve(directory, filename), text, { flag: 'wx', mode: 0o600 });
     files.push({ id: scene.id, file: filename, sha256: createHash('sha256').update(text).digest('hex') });

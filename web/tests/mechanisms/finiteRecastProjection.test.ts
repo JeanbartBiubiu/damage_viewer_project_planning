@@ -30,9 +30,12 @@ async function synthetic(name = 'manual_three') {
   const input = await authored(name), { definition, request } = input, expected = definition.expected;
   const { bindingKey: _binding, providerDefinitionRef: _definition, maximumRecastCount: _maximum, intervalMs: _interval,
     windowMs: _window, ...window } = structuredClone(expected.finiteRecastWindows![0]!);
-  const process: ProcessInstanceSnapshot = { ...window, skillHitStages: expected.finiteRecastStages!.map(s => ({
-    hitBindingKey: s.hitBindingKey, stepKey: s.stepKey, timeMs: s.timeMs, released: s.released, contact: s.contact, completed: s.completed
-  })) };
+  const syntheticContacts = [{ hitSequence: 2, hitOccurrenceId: 13 }, { hitSequence: 7, hitOccurrenceId: 21 }, { hitSequence: 15, hitOccurrenceId: 34 }];
+  const process: ProcessInstanceSnapshot = { ...window, skillHitStages: expected.finiteRecastStages!.map((s, index) => {
+    const base = { hitBindingKey: s.hitBindingKey, stepKey: s.stepKey, timeMs: s.timeMs, released: s.released, completed: s.completed };
+    return s.contact ? { ...base, contact: true as const, ...syntheticContacts[index]!, hitBlocked: 0 as const }
+      : { ...base, contact: false as const };
+  }) };
   const finalSnapshot = structuredClone(request.initialSnapshot);
   finalSnapshot.timeMs = expected.summary!.targetKilledAtMs ?? definition.scenario.durationMs;
   finalSnapshot.processInstances = [process];
@@ -84,6 +87,8 @@ describe('有限重施固定作者与不可截断事实投影（不运行Wasm）
     expect(projectUseTriggerLedger(prepared.compileRequest, request, done)).toEqual(c.expected.finalUseTriggerLedger);
     expect(projected.finiteRecastWindows).toHaveLength(1);
     expect(projected.finiteRecastStages.every(s => !Object.prototype.hasOwnProperty.call(s, 'castInstanceId'))).toBe(true);
+    // 原始九字段先经严格核验；此稳定业务投影不把不要求连续的原生编号变成手算数值。
+    expect(projected.finiteRecastStages.every(s => !['hitSequence', 'hitOccurrenceId', 'hitBlocked'].some(key => Object.prototype.hasOwnProperty.call(s, key)))).toBe(true);
   });
   it.each(['missing_stage', 'duplicate_stage', 'extra_stage_field', 'wrong_order', 'short_interval', 'refreshed_deadline', 'wrong_index', 'fake_completion',
     'wrong_owner', 'wrong_mount', 'wrong_skill', 'wrong_process', 'wrong_binding_mount', 'wrong_definition', 'wrong_control', 'wrong_hit_ability', 'wrong_target', 'wrong_parent',

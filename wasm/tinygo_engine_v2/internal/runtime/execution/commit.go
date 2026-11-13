@@ -103,6 +103,9 @@ func (f *Frame) commit() {
 	if f.empowered != nil {
 		f.commitEmpoweredProcesses()
 	}
+	for i := 0; i < f.pendingPassiveProcesses.Len(); i++ {
+		f.run.actions.AddProcess(f.pendingPassiveProcesses.At(i))
+	}
 	f.run.freezeActionDeaths()
 	f.commitFrameQueues()
 	if f.run.processFailure != nil {

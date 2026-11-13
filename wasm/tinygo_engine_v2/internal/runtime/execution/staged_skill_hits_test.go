@@ -92,8 +92,13 @@ func TestStagedSkillFactsUseActualDynamicTimeAndAreCopied(t *testing.T) {
 		}
 	}
 	(*row.SkillHitStages)[0].Contact = false
+	occurrence := *(*row.SkillHitStages)[0].HitOccurrenceID
+	*(*row.SkillHitStages)[0].HitOccurrenceID = 999
 	if !(*s.actions.ProcessAt(0).SkillHitStages())[0].Contact {
 		t.Fatal("output aliases runtime facts")
+	}
+	if *(*s.actions.ProcessAt(0).SkillHitStages())[0].HitOccurrenceID != occurrence {
+		t.Fatal("output native contact identity aliases runtime facts")
 	}
 	var frame Frame
 	s.initProcessFrame(&frame, s.actions.ProcessAt(0))
@@ -154,6 +159,12 @@ func TestStagedSkillFailedContactDoesNotQualify(t *testing.T) {
 			}
 			if !stage.Released || stage.Contact != (kind != "cast_gate") || stage.Completed != (kind == "cast_gate") || a.Uses().HitCount != wantHits {
 				t.Fatal("root fact, complete stage and dependency qualification were conflated", kind, stage, a.Uses())
+			}
+			if stage.Contact && (stage.HitSequence == nil || stage.HitOccurrenceID == nil || stage.HitBlocked == nil || *stage.HitSequence < 1 || *stage.HitOccurrenceID == 0 || *stage.HitBlocked != 0) {
+				t.Fatal("committed contact lost native identity on failed synchronous tail", kind, stage)
+			}
+			if !stage.Contact && (stage.HitSequence != nil || stage.HitOccurrenceID != nil || stage.HitBlocked != nil) {
+				t.Fatal("uncommitted contact fabricated native identity", stage)
 			}
 		})
 	}

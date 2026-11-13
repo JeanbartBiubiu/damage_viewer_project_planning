@@ -242,7 +242,8 @@ describe('有限重施的真实作者、Ui及不可截断关系', () => {
   it('首发MISS不阻止后发，尚有额度的死亡停止保留active且原窗口不续期', async () => {
     const { binding, definition } = await prepared(), p = state(binding, definition);
     const presets = binding.hitBindings.map((h, i) => ({ hitBindingKey: h.hitBindingKey, preset: i === 0 ? 'MISS' as const : 'TARGET_HIT' as const }));
-    p.skillHitStages![1]!.contact = true; p.skillHitStages![2]!.contact = true;
+    Object.assign(p.skillHitStages![1]!, { contact: true, hitSequence: 1, hitOccurrenceId: 13, hitBlocked: 0 });
+    Object.assign(p.skillHitStages![2]!, { contact: true, hitSequence: 1, hitOccurrenceId: 21, hitBlocked: 0 });
     expect(inspectProcessSkillHitStages(binding, definition, p, presets, 2001)).toHaveLength(3);
     p.skillHitStages!.pop(); p.stepExecutionIndex = 1; p.lastExecutionAtMs = 1000; p.status = 'active'; p.finishedAtMs = null; p.stepCompletedAtMs = null; p.advanceAtMs = 2000;
     expect(inspectProcessSkillHitStages(binding, definition, p, presets, 1000)).toHaveLength(2);

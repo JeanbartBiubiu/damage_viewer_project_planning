@@ -10,6 +10,7 @@ import (
 	actionpkg "tinygo_engine_v2/internal/runtime/action"
 	"tinygo_engine_v2/internal/runtime/actor"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
+	"tinygo_engine_v2/internal/runtime/execution/actionflow"
 	"tinygo_engine_v2/internal/runtime/execution/continuation"
 	"tinygo_engine_v2/internal/runtime/execution/hit"
 	"tinygo_engine_v2/internal/runtime/execution/lifecycle"
@@ -225,21 +226,22 @@ type Frame struct {
 	pendingEvidenceKinds []model.EvidenceKind
 	pendingSkillHits     []committedSkillActionHit
 
-	pendingContinuation   continuation.Pending
-	pendingStateExpiry    []pendingFrameStateExpiry
-	pendingAnchoredTicks  []pendingFrameAnchoredTick
-	pendingProviderTick   *pendingFrameProviderTick
-	providerDefinitionRef string
-	providerActivatedAtMs *int64
-	damageOwnerKey        string
-	pendingProcess        *actionpkg.ProcessView
-	processChanges        *actionpkg.ProcessChangeSet
-	processOriginal       *actionpkg.ProcessView
-	processIsNew          bool
-	pendingProcessTimer   bool
-	countCastOnCommit     bool
-	castStatRef           string
-	statRef               string
+	pendingContinuation     continuation.Pending
+	pendingStateExpiry      []pendingFrameStateExpiry
+	pendingAnchoredTicks    []pendingFrameAnchoredTick
+	pendingProviderTick     *pendingFrameProviderTick
+	providerDefinitionRef   string
+	providerActivatedAtMs   *int64
+	damageOwnerKey          string
+	pendingProcess          *actionpkg.ProcessView
+	pendingPassiveProcesses actionflow.PassiveProcessStarts
+	processChanges          *actionpkg.ProcessChangeSet
+	processOriginal         *actionpkg.ProcessView
+	processIsNew            bool
+	pendingProcessTimer     bool
+	countCastOnCommit       bool
+	castStatRef             string
+	statRef                 string
 }
 
 type frameStagedEntry struct {

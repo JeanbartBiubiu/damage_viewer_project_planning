@@ -143,8 +143,8 @@ type SkillActionExecutorAPI interface {
 	ConditionGate(index int, ability planbundle.CompiledAbility, reads GateConditions) (bool, *model.EngineError)
 	// ApplyCooldown 按实际操作策略核定原冷却、金额和安全期限，全部写入仍沿本帧暂存。
 	ApplyCooldown(input CooldownOperationInput, operation planbundle.CompiledOperation, ability planbundle.CompiledAbility, now int64, work CooldownOperationWork) *model.EngineError
-	// RecordCommittedHit 仅对真实已接受使用累计命中并沿提交时全局发生计数记录原过程。
-	RecordCommittedHit(key string, actual *actionpkg.UseView, occurrence uint64, observer SkillActionObserver)
+	// RecordCommittedHit 仅对真实已接受使用累计命中并保存原帧提交的实际序号、发生身份和阻挡事实。
+	RecordCommittedHit(key string, actual *actionpkg.UseView, hitFact CommittedSkillHit, observer SkillActionObserver)
 	// PublishAmmoWait 发布本库存所属的唯一等待并投影实际普攻记录，返回是否需交原队列安排回充。
 	PublishAmmoWait(ammo *actionpkg.AmmoView, wait actionpkg.AmmoWait, alive bool) bool
 }

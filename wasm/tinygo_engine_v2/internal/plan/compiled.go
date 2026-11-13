@@ -314,6 +314,7 @@ type CompiledAbility struct {
 
 // CompiledOperation 是 compile 后的 operation 定义。
 type CompiledOperation struct {
+	PassiveProcessIndex          int
 	TotalCooldownTarget          *CompiledCooldownDurationTarget
 	TotalCooldownRatio           float64
 	TargetMark                   *CompiledTargetMark
@@ -451,6 +452,7 @@ type CompiledAmmoBinding struct {
 
 // CompiledProcess 保存有序步骤和作者顺序的时点操作，不持有运行实例。
 type CompiledProcess struct {
+	EntryKind           string
 	StartStateKeys      []string
 	ProcessKey          string
 	SkillKey            string

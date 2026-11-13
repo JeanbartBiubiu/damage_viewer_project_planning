@@ -228,21 +228,24 @@ const (
 	OperationKindRepeat              = "repeat"
 	OperationKindExecuteThreshold    = "execute_threshold"
 	OperationKindStateDurationChange = "state_duration_change"
+	OperationKindStartPassiveProcess = "start_passive_process"
 	RepeatScopeCopyableOnHit         = "copyable_on_hit"
 )
 
 // OperationDefinition 是 ability 成功执行后的 operation。
 type OperationDefinition struct {
-	TargetMark   *TargetMarkDefinition `json:"targetMark,omitempty"`
-	Operation    string                `json:"operation"`
-	Target       string                `json:"target"`
-	Amount       *GenericFormulaExpr   `json:"amount,omitempty"`
-	ValuePolicy  string                `json:"valuePolicy,omitempty"`
-	DamageType   string                `json:"damageType,omitempty"`
-	ResourceKey  string                `json:"resourceKey,omitempty"`
-	AttributeKey string                `json:"attributeKey,omitempty"`
-	AbilityRef   string                `json:"abilityRef,omitempty"`
-	ShieldRef    string                `json:"shieldRef,omitempty"`
+	TargetMark *TargetMarkDefinition `json:"targetMark,omitempty"`
+	Operation  string                `json:"operation"`
+	// ProcessKey 仅start_passive_process引用本挂载的有限被动过程。
+	ProcessKey   string              `json:"processKey,omitempty"`
+	Target       string              `json:"target"`
+	Amount       *GenericFormulaExpr `json:"amount,omitempty"`
+	ValuePolicy  string              `json:"valuePolicy,omitempty"`
+	DamageType   string              `json:"damageType,omitempty"`
+	ResourceKey  string              `json:"resourceKey,omitempty"`
+	AttributeKey string              `json:"attributeKey,omitempty"`
+	AbilityRef   string              `json:"abilityRef,omitempty"`
+	ShieldRef    string              `json:"shieldRef,omitempty"`
 	// ShieldLifecycleProviderDefinitionRef binds a fresh dynamic provider to this actual shield.
 	// Only shield operations with an explicit static shieldRef may declare it.
 	ShieldLifecycleProviderDefinitionRef string                 `json:"shieldLifecycleProviderDefinitionRef,omitempty"`

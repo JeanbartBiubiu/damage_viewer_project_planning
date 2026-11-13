@@ -132,8 +132,10 @@ export function calculatePlan(plan) {
       const comparison = check.comparison ?? 'exact';
       const measure = check.measure ?? 'value';
       requireCondition(['exact', 'amount'].includes(comparison), '比较方式只接受 exact 或 amount。');
-      requireCondition(['value', 'length'].includes(measure), '取值方式只接受 value 或 length。');
+      requireCondition(['value', 'length', 'exists'].includes(measure), '取值方式只接受 value、length 或 exists。');
       requireCondition(measure !== 'length' || comparison === 'exact', '数组长度必须精确比较。');
+      if (measure === 'exists') requireCondition(comparison === 'exact' && own(check, 'value')
+        && typeof check.value === 'boolean' && !own(check, 'expression'), '存在性对照必须精确比较固定布尔值。');
       requireCondition(own(check, 'expression') !== own(check, 'value'), '每项须且只能提供算式或固定值。');
       const expected = own(check, 'expression') ? evaluateArithmetic(check.expression, values) : scalar(check.value);
       if (comparison === 'amount') finite(expected);
@@ -144,14 +146,19 @@ export function calculatePlan(plan) {
   return { version: 1, plan, cases };
 }
 
-function readPointer(result, pointer) {
+function readPointer(result, pointer, presenceOnly = false) {
   let value = result;
-  for (const part of pointer === '' ? [] : pointer.slice(1).split('/')) {
+  const parts = pointer === '' ? [] : pointer.slice(1).split('/');
+  for (const [index, part] of parts.entries()) {
     const key = part.replace(/~1/g, '/').replace(/~0/g, '~');
+    if (presenceOnly && index === parts.length - 1) {
+      requireCondition(value !== null && typeof value === 'object', `实际结果缺少字段：${pointer}`);
+      return own(value, key);
+    }
     requireCondition(value !== null && typeof value === 'object' && own(value, key), `实际结果缺少字段：${pointer}`);
     value = value[key];
   }
-  return value;
+  return presenceOnly ? true : value;
 }
 
 export function compareResults(expected, actualCases) {
@@ -167,7 +174,7 @@ export function compareResults(expected, actualCases) {
   const cases = expected.cases.map(item => {
     requireCondition(actualById.has(item.id), `缺少实际场景：${item.id}`);
     const checks = item.checks.map(check => {
-      const value = readPointer(actualById.get(item.id), check.pointer);
+      const value = readPointer(actualById.get(item.id), check.pointer, check.measure === 'exists');
       if (check.measure === 'length') requireCondition(Array.isArray(value), `需要数组：${check.pointer}`);
       const actual = scalar(check.measure === 'length' ? value.length : value);
       const tolerance = check.comparison === 'amount' ? 1e-9 * Math.max(1, Math.abs(check.expected)) : 0;

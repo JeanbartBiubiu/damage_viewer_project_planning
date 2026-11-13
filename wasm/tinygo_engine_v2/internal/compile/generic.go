@@ -23,6 +23,7 @@ type GenericCompileResult struct {
 }
 
 type genericCompileContext struct {
+	sourceProviders            []model.ProviderDefinition
 	currentSkillKey            string
 	currentProcess             *plan.CompiledProcess
 	currentProcessMoment       *model.ProcessMomentDefinition
@@ -37,6 +38,7 @@ type genericCompileContext struct {
 	providerAbilityIndex       map[uint16]map[string]uint16
 	healGroupModes             map[string]healGroupModeSeen
 	currentListener            *model.ListenerDefinition
+	currentAbility             *model.AbilityDefinition
 	compilingListenerCondition bool
 	outputUnitRefs             map[string]int
 	outputUnitIndex            int
@@ -76,6 +78,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 		Settings:        normalizeGenericSettings(req.Settings, collector),
 	}
 	ctx := &genericCompileContext{
+		sourceProviders:  req.SharedProviders,
 		collector:        collector,
 		session:          &session,
 		catalog:          catalog,
@@ -180,6 +183,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	finalizeIncomingCappedFlatModifiers(req, ctx)
 	validateProviderElapsedReads(ctx)
 	finalizeListenerIndex(ctx)
+	finalizePassiveProcesses(ctx)
 	finalizePermanentResourceMax(ctx)
 	finalizeAttackStartStateReads(ctx)
 	compileAmmoBindings(ctx)
@@ -476,6 +480,11 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 			compiled.CastConditionProgram, compiled.HasCastCondition = ctx.registerFormula(key, instr)
 		}
 	}
+	previousAbility, previousListener := ctx.currentAbility, ctx.currentListener
+	ctx.currentAbility = &ability
+	if ability.Kind == "passive_listener" {
+		ctx.currentListener = ability.ListenerSpec
+	}
 	compiled.OperationStart = uint16(len(session.Operations))
 	if skillHitOp, ok := uniqueResolveSkillHit(ability.Operations); ok {
 		if ability.Kind != "active" {
@@ -603,6 +612,7 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 		collector.addError(model.GenericErrMissingRequiredField, path+".listenerSpec", "passive_listener requires listenerSpec", ability.AbilityKey)
 	}
 	validateVampAbilityInputs(ability, compiled, path, ctx)
+	ctx.currentAbility, ctx.currentListener = previousAbility, previousListener
 }
 
 func compileRulesOperations(rules model.RulesContainer, ctx *genericCompileContext) {
@@ -983,6 +993,13 @@ func (ctx *genericCompileContext) registerFormula(key string, instr []formula.Ge
 }
 
 func compileOperation(op model.OperationDefinition, path string, ownerProviderIndex int, ctx *genericCompileContext) {
+	if op.Operation == model.OperationKindStartPassiveProcess {
+		compilePassiveProcessStart(op, path, ownerProviderIndex, ctx)
+		return
+	}
+	if op.ProcessKey != "" {
+		ctx.collector.addError(model.GenericErrUnknownRef, path+".processKey", "processKey belongs only to start_passive_process", op.ProcessKey)
+	}
 	if op.Operation == model.OperationKindConsumeTargetMark {
 		compileTargetMarkOperation(op, path, ownerProviderIndex, ctx)
 		return

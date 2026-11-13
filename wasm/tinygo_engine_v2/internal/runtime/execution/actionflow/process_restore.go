@@ -37,11 +37,14 @@ func (s ProcessExecutor) Restore(row model.ProcessInstanceSnapshot, path string,
 	bad := func(field, message string) (*actionpkg.ProcessView, *model.EngineError) {
 		return nil, s.error(path+field, message, row.UseKey)
 	}
-	if row.SkillHitStages != nil {
-		return bad(".skillHitStages", "planned skill hit stages are output facts and cannot be restored")
+	if row.PassiveOrigin != nil {
+		return bad(".passiveOrigin", "passive continuation instances require fresh native skill-hit provenance and cannot be restored")
 	}
 	if row.EmpoweredPredecessorUseRef != nil {
 		return bad(".empoweredPredecessorUseRef", "empowered predecessor provenance cannot be restored in this stage")
+	}
+	if row.SkillHitStages != nil && len(*row.SkillHitStages) != 0 {
+		return bad(".skillHitStages", "planned skill hit stages are output facts and cannot be restored")
 	}
 	if !facts.ProcessActorExists(row.Owner) || !facts.ProcessActorExists(row.Target) || strings.TrimSpace(row.UseKey) == "" || strings.TrimSpace(row.ProviderRef) == "" {
 		return bad("", "process identity requires explicit real owner, target, provider and use")
@@ -68,6 +71,9 @@ func (s ProcessExecutor) Restore(row model.ProcessInstanceSnapshot, path string,
 	}
 	if def == nil || def.SkillKey != row.SkillKey || !facts.ProcessMounted(row.Owner, row.ProviderRef, providerIndex) {
 		return bad(".processKey", "process snapshot must match a real mounted definition and skill")
+	}
+	if def.EntryKind == model.ProcessEntrySkillHitPassive {
+		return bad(".processKey", "passive continuation requires a fresh native hit and cannot be restored as an active process")
 	}
 	if planbundle.FiniteRecastProcess(def) {
 		return bad("", "finite recast windows require a fresh runtime use")

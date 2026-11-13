@@ -14,9 +14,10 @@ import type { OperationOrigin } from './simulation/model';
 import { committedSkillControl, inspectSimulationProcessFacts } from './simulationProcessFacts';
 import { empoweredAttackBinding, empoweredAttackIdentityGaps, empoweredDamageProcess, empoweredUseRecordIssue, requireEmpoweredBasicAttack } from './empoweredAttackContract';
 import { inspectActiveAmmoMechanics } from './simulationAmmoMechanics';
-import { hasProcessSkillHitStages, inspectProcessSkillHitStages, processSkillHitTimes, skillHitStageStoppedByTargetDeath, type SkillHitStageFact } from './processSkillHitStageFacts';
+import { hasProcessSkillHitStages, inspectProcessSkillHitStages, processSkillHitIdentityMatches, processSkillHitTimes, skillHitStageStoppedByTargetDeath, type SkillHitStageFact } from './processSkillHitStageFacts';
 import { processForSkillUse, recastDefinition, recastUseOrdinal, recastUseRef } from './finiteRecast';
 import { inspectSkillHitChainResult } from './skillHitChainResult';
+import { passiveProcessDamagePath, passiveProcessOperation } from './passiveProcessFacts';
 
 export type SkillActionAssessment = { complete: boolean; factsValid: boolean; detailIdentityVerified: boolean; identityGaps: string[]; issues: string[] };
 const close = (first: number, second: number) => Math.abs(first - second) <= 1e-9 * Math.max(1, Math.abs(first), Math.abs(second));
@@ -106,10 +107,12 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
     check(duration <= request.stopPolicy.durationMs, 'summary.durationMs', '超过观察终点');
     check(done.finalSnapshot.timeMs === duration, 'finalSnapshot.timeMs', '最终快照时刻与公共停止时刻不一致');
     const stagedByUse = new Map<string, SkillHitStageFact[]>();
+    const processFacts = inspectSimulationProcessFacts(compile, request, done);
+    issues.push(...processFacts.issues);
     const definitions = compile.sharedProviders?.flatMap(p => p.processes ?? []) ?? [];
-    const processForUse = (ref: string) => processForSkillUse(done.finalSnapshot.processInstances ?? [], definitions, ref);
+    const processForUse = (ref: string) => processForSkillUse(processFacts.processes, definitions, ref);
     let allStaged = true, stagedReleases = 0, stagedContacts = 0;
-    for (const process of done.finalSnapshot.processInstances ?? []) {
+    for (const process of processFacts.processes) {
       const matches = [...contexts.values()].filter(context => context.instruction.action === 'INITIAL'
         && context.binding.providerRef === process.providerRef && context.binding.skillKey === process.skillKey
         && context.control.processKey === process.processKey && context.instruction.firstAtMs === process.startedAtMs
@@ -346,7 +349,8 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
       const healingAbility = simulationAbility(compile, row.abilityRef);
       check(['source', 'target'].includes(row.source) && ['source', 'target'].includes(row.target)
         && !!healingAbility && row.abilityRef.startsWith(`${row.source}.provider[`)
-        && healingAbility.ability.listenerSpec?.operations?.some(operation => operation.operation === 'heal' && operation.ref === row.operationRef) === true
+        && (healingAbility.ability.listenerSpec?.operations?.some(operation => operation.operation === 'heal' && operation.ref === row.operationRef) === true
+          || !!passiveProcessOperation(processFacts.passiveFacts, row))
         && typeof row.operationRef === 'string' && !!row.operationRef
         && row.timeMs <= duration, 'healingRecords', '治疗来源或观察时刻不合法');
       for (const field of ['rawAmount', 'healingAfterDone', 'healingAfterModifiers', 'actualHealing', 'overheal', 'hpBefore', 'hpAfter'] as const) amount(row[field], `healingRecords.${field}`);
@@ -367,6 +371,9 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
       if (!done.recording.healingRecordsTruncated) check(close(retained, total), 'healingRecords', '完整治疗明细与实际治疗累计不一致');
     }
     for (const row of damageRecords) {
+      const passiveOperation = passiveProcessOperation(processFacts.passiveFacts, row);
+      if (passiveProcessDamagePath(compile, row.operationPath)) check(!!passiveOperation, 'damageRecords.passiveOrigin',
+        '被动尾伤必须来自已核定实例、原命中因果和精确过程时点叶路径');
       const ability = simulationAbility(compile, row.abilityRef);
       const finitePeriodic = !ability && finiteImmediatePeriodicDamageSource(compile, row, done.finalSnapshot.processInstances);
       check((request.driverPlan.basicAttack ? row.attackIndex === null || Number.isSafeInteger(row.attackIndex) && row.attackIndex >= 0 : row.attackIndex === null || finitePeriodic)
@@ -382,9 +389,10 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
       if (hitBinding) {
         const process = processForUse(row.useRef);
         const definition = definitions.find(p => p.processKey === process?.processKey && p.skillKey === process?.skillKey);
-        const hit = hitBinding.hitBindings.find(hit => hit.hitAbilityRef === row.abilityRef)!;
-        const times = process && processSkillHitTimes(process, hit, row.useRef, definition);
-        if (times) check(times.includes(row.timeMs), 'damageRecords.timeMs', '阶段伤害缺少同使用、同绑定的真实提交接触');
+        const candidates = hitBinding.hitBindings.filter(hit => hit.hitAbilityRef === row.abilityRef);
+        if (process?.skillHitStages) check(candidates.filter(hit => processSkillHitTimes(process, hit, row.useRef, definition)?.includes(row.timeMs)
+          && processSkillHitIdentityMatches(process, hit, row.timeMs, row.hitRef)).length === 1,
+        'damageRecords.timeMs', '阶段伤害缺少同使用、同绑定和原HIT编号的唯一真实提交接触');
       }
       const listener = ability?.ability.listenerSpec;
       const hitListener = listener?.eventMatcher.all?.includes('event/skill_hit') && listener.eventMatcher.all.includes('event/source_owner');
@@ -400,7 +408,7 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
         'damageRecords.useRef', '主动命中及其真实监听伤害必须保留原指令、使用与命中身份，不能借用普攻或另造命中');
         if (!done.recording.skillUseRecordsTruncated) {
           const hit = hitRefs.get(empowered ? `${row.useRef}/${row.hitRef}` : row.hitRef!);
-          check(hit?.useRef === row.useRef && hit.instructionKey === row.instructionKey && hit.timeMs === row.timeMs,
+          check(hit?.useRef === row.useRef && hit.instructionKey === row.instructionKey && (hit.timeMs === row.timeMs || !!passiveOperation),
             'damageRecords.hitRef', '伤害命中身份与真实使用事实不一致');
         }
       }
@@ -440,8 +448,7 @@ export function assessSkillActionResult(compile: CompileRequest, request: RunReq
       issues.push(...continuous.issues);
       identityGaps.push(...continuous.identityGaps);
     } else {
-      const processFacts = inspectSimulationProcessFacts(compile, request, done);
-      issues.push(...processFacts.issues, ...inspectActiveAmmoMechanics(compile, request, done, processFacts.processes));
+      issues.push(...inspectActiveAmmoMechanics(compile, request, done, processFacts.processes));
       if (done.resourceChangeSummary || healingRecords.length || damageRecords.length) issues.push(...inspectSimulationHealthLedger(compile, request, done));
     }
     check(done.ok === true, 'done.ok', '原生执行未返回成功载荷');

@@ -1,6 +1,7 @@
 package xyz.game.datamanage.service.skilltrigger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleTestSupport.*;
@@ -39,7 +40,7 @@ class SkillTriggerTargetCategoryConditionServiceTest {
     }
 
     @ParameterizedTest
-    @EnumSource(value = SkillTriggerEventType.class, names = {"SKILL_HIT", "BASIC_ATTACK_HIT", "BASIC_ATTACK_RECEIVED", "KILL", "TAKEDOWN", "DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN"})
+    @EnumSource(value = SkillTriggerEventType.class, names = {"SKILL_HIT", "BASIC_ATTACK_HIT", "BASIC_ATTACK_RECEIVED", "KILL", "TAKEDOWN", "DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN", "PROCESS_MOMENT"})
     void allFiveOpponentCategoriesSurviveParentRequestStorageAndReadBack(SkillTriggerEventType event) {
         List<SkillTriggerTargetCategory> categories = List.of(SkillTriggerTargetCategory.STRUCTURE,
             SkillTriggerTargetCategory.CHAMPION, SkillTriggerTargetCategory.EPIC_MONSTER,
@@ -103,12 +104,25 @@ class SkillTriggerTargetCategoryConditionServiceTest {
             updateFromCreate(request(validDetail(), SkillTriggerEventType.BASIC_ATTACK_START)))), PATH + ".categories", "EVENT_VALUE_NOT_AVAILABLE");
     }
 
+    @Test
+    void unifiedConfigurationProjectionAndFinalValidationShareTheActualProcessTarget() {
+        var input = request(validDetail(), SkillTriggerEventType.PROCESS_MOMENT);
+        var prepared = service.prepareConfigurationCreate(input);
+        var projected = service.projectPrepared(GAME_ID, SKILL_KEY, prepared);
+        assertEquals(input.eventSource(), projected.eventSource());
+        assertEquals(input.conditionGroups(), projected.conditionGroups());
+        assertDoesNotThrow(() -> service.validatePreparedAgainstFinalDatabase(GAME_ID, SKILL_KEY, prepared));
+    }
+
     private static SkillTriggerTargetCategoryConditionDetail validDetail() {
         return new SkillTriggerTargetCategoryConditionDetail(List.of(SkillTriggerTargetCategory.CHAMPION));
     }
 
     private static SkillTriggerRuleCreateRequest request(SkillTriggerTargetCategoryConditionDetail detail, SkillTriggerEventType event) {
         SkillTriggerEventDetail eventDetail = switch (event) {
+            case PROCESS_MOMENT -> new SkillTriggerProcessEventDetail(PROCESS_KEY,
+                new xyz.game.datamanage.model.skillprocess.SkillProcessMoment(
+                    xyz.game.datamanage.model.skillprocess.SkillProcessMomentType.PROCESS_COMPLETE, null));
             case SKILL_HIT -> new SkillTriggerSkillEventDetail(null, null);
             case SKILL_USED -> new SkillTriggerSkillEventDetail(null, SkillTriggerEventUseKind.ANY, xyz.game.datamanage.model.skilltrigger.SkillTriggerCastPhase.INITIAL);
             case DAMAGE_PENDING, DAMAGE_DEALT, DAMAGE_TAKEN ->

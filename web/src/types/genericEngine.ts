@@ -125,6 +125,8 @@ export type GenericVampOverride =
 export type OperationDefinition = {
   operation: string;
   target: string;
+  /** 仅 start_passive_process 引用本供值器声明的有限被动过程。 */
+  processKey?: string;
   amount?: GenericFormulaExpr;
   valuePolicy?: string;
   damageType?: string;
@@ -697,6 +699,8 @@ export type ProcessMomentOperations = {
 export type ProcessDefinition = {
   processKey: string;
   skillKey: string;
+  /** 真实同拥有者技能命中启动；与主动、普攻过程入口互斥。 */
+  entryKind?: 'SKILL_HIT_PASSIVE';
   steps: ProcessStepDefinition[];
   costs: ProcessCostDefinition[];
   cooldown: ProcessCooldownDefinition | null;
@@ -738,8 +742,27 @@ export type EmpoweredAttackWindow = {
     hitRef: string | null; hitSequence: number | null; resolvedAtMs: number | null }>;
 };
 
+/** 接触后的原命中身份来自提交事实；未接触时不补造三个字段。 */
+export type ProcessSkillHitStage = {
+  hitBindingKey: string;
+  stepKey: string;
+  timeMs: number;
+  released: boolean;
+  completed: boolean;
+} & ({ contact: true; hitSequence: number; hitOccurrenceId: number; hitBlocked: 0 | 1 }
+  | { contact: false; hitSequence?: never; hitOccurrenceId?: never; hitBlocked?: never });
+
 export type ProcessInstanceSnapshot = {
-  skillHitStages?: Array<{ hitBindingKey: string; stepKey: string; timeMs: number; released: boolean; contact: boolean; completed: boolean }>;
+  /** 被动实例拥有独立 useKey；这里保留原技能真实使用与命中因果。 */
+  passiveOrigin?: {
+    useSource: 'source' | 'target';
+    useKey: string;
+    useSkillKey: string;
+    hitAbilityRef: string;
+    hitSequence: number;
+    hitOccurrenceId: number;
+  };
+  skillHitStages?: ProcessSkillHitStage[];
   owner: 'source' | 'target';
   providerRef: string;
   processKey: string;

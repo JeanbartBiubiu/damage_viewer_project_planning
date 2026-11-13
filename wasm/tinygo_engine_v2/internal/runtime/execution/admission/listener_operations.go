@@ -19,6 +19,12 @@ func ValidateEquipmentHitListener(input Input, listener planbundle.CompiledListe
 	}
 	types := input.Compiled.RuntimeTypes
 	for _, operation := range input.Compiled.Operations[int(listener.OperationStart) : int(listener.OperationStart)+int(listener.OperationCount)] {
+		if operation.Operation == model.OperationKindStartPassiveProcess {
+			if err := validatePassiveProcessListener(input, listener, operation, sources); err != nil {
+				return err
+			}
+			continue
+		}
 		if operation.Operation == model.OperationKindConsumeTargetMark && targetMarkListenerOwned(input, listener, operation) {
 			continue
 		}

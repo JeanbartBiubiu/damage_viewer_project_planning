@@ -36,7 +36,7 @@ describe('首批场景装配', () => {
     const prepared = await prepareSimulation(snapshot, zeroInputs(snapshot), initialHealth);
     const base = { snapshotDigest: snapshot.snapshotDigest, attributeInputs: prepared.attributeInputs,
       initialHealth, equipmentAssumptions: prepared.equipmentAssumptions, request: prepared.compileRequest };
-    expect(SIMULATION_ADAPTER_VERSION).toBe('v51-grouped-amplification');
+    expect(SIMULATION_ADAPTER_VERSION).toBe('v52-skill-hit-passive-delay');
     expect(prepared.compileRequest.rulesHash).not.toBe(await simulationHash({ ...base, adapter: 'v8-default-skill-sources' }));
   });
 

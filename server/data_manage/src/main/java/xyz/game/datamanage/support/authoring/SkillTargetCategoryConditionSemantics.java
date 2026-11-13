@@ -15,7 +15,7 @@ import xyz.game.datamanage.support.authoring.SkillObjectReferences.Aggregate;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.SourceType;
 import xyz.game.datamanage.support.error.ApiException;
 
-/** 事件对方类别条件；命中事件读取实际命中对象，击杀和参与击杀事件读取本次死亡对象，造成伤害读取本次伤害承受对象，伤害待结算和受到伤害读取本次伤害来源对象；不读取属性或产生执行依赖。 */
+/** 事件对方类别条件；命中读取实际命中对象，过程时点读取过程实例的目标，击杀和参与击杀读取本次死亡对象，造成伤害读取本次伤害承受对象，伤害待结算和受到伤害读取本次伤害来源对象；不读取属性或产生执行依赖。 */
 public final class SkillTargetCategoryConditionSemantics {
     private SkillTargetCategoryConditionSemantics() { }
 
@@ -37,6 +37,7 @@ public final class SkillTargetCategoryConditionSemantics {
 
     public static List<Map<String, String>> eventIssues(SkillTriggerEventType eventType, String path) {
         if (eventType == SkillTriggerEventType.SKILL_HIT
+            || eventType == SkillTriggerEventType.PROCESS_MOMENT
             || eventType == SkillTriggerEventType.BASIC_ATTACK_HIT
             || eventType == SkillTriggerEventType.BASIC_ATTACK_RECEIVED
             || eventType == SkillTriggerEventType.KILL
@@ -45,7 +46,7 @@ public final class SkillTargetCategoryConditionSemantics {
             || eventType == SkillTriggerEventType.DAMAGE_DEALT
             || eventType == SkillTriggerEventType.DAMAGE_TAKEN) return List.of();
         return List.of(issue(path + ".categories", "EVENT_VALUE_NOT_AVAILABLE",
-            "事件对方类别只适用于技能命中、普攻命中、普通攻击命中接收、来源对象完成击杀、来源对象参与击杀、伤害待结算、造成伤害或受到伤害事件"));
+            "事件对方类别只适用于技能命中、过程时点、普攻命中、普通攻击命中接收、来源对象完成击杀、来源对象参与击杀、伤害待结算、造成伤害或受到伤害事件"));
     }
 
     public static void validate(List<Aggregate> aggregates) {

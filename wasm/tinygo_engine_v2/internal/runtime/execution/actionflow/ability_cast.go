@@ -98,6 +98,13 @@ func (s SkillActionExecutor) prepareCast(request AbilityCastRequest, definitions
 	if int(end) > len(definitions.Operations) {
 		return PreparedAbility{}, s.castError(model.GenericErrRuntimeInvariantFailed, "operation range out of bounds")
 	}
+	if !cooldownFirst {
+		for _, operation := range definitions.Operations[start:end] {
+			if operation.Operation == model.OperationKindStartPassiveProcess {
+				return PreparedAbility{}, s.error("skill-hit passive process entry cannot be invoked by a direct driver", "abilityRef")
+			}
+		}
+	}
 	request.AbilityRef = ref
 	prepared := PreparedAbility{Kind: AbilityCastFrame, Request: request, Ability: ability, Operations: definitions.Operations[start:end]}
 	if int(bound.CombatantIndex) < len(definitions.Combatants) {

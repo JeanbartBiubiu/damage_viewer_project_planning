@@ -44,6 +44,16 @@ func (v *OperationDefinition) UnmarshalJSON(data []byte) error {
 	} else if present {
 		return errors.New("targetMark is only allowed on consume_target_mark")
 	}
+	if decoded.Operation == OperationKindStartPassiveProcess {
+		if err := processJSONShape(data, "start_passive_process", "operation target processKey condition ref", "operation target processKey"); err != nil {
+			return err
+		}
+		if raw, present := fields["condition"]; present && string(raw) == "null" {
+			return errors.New("start_passive_process.condition cannot be null")
+		}
+	} else if _, present := fields["processKey"]; present {
+		return errors.New("processKey is only allowed on start_passive_process")
+	}
 	*v = OperationDefinition(decoded)
 	return nil
 }

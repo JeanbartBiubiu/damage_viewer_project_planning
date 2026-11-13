@@ -27,7 +27,8 @@ func compileProviderProcesses(provider model.ProviderDefinition, path string, ct
 			ctx.collector.addError(model.GenericErrUnknownRef, p+".skillKey", "process skill must match its provider", def.SkillKey)
 		}
 		ctx.currentSkillKey = def.SkillKey
-		compiled := plan.CompiledProcess{ProcessKey: def.ProcessKey, SkillKey: def.SkillKey, InitialAbilityIndex: -1, Path: p}
+		compiled := plan.CompiledProcess{EntryKind: def.EntryKind, ProcessKey: def.ProcessKey, SkillKey: def.SkillKey, InitialAbilityIndex: -1, Path: p}
+		validatePassiveProcessShape(def, provider, p, ctx)
 		validateProcessKey(def.ProcessKey, p+".processKey", ctx)
 		validateProcessKey(def.SkillKey, p+".skillKey", ctx)
 		if seen[def.ProcessKey] {
@@ -140,7 +141,10 @@ func compileProviderProcesses(provider model.ProviderDefinition, path string, ct
 		}
 	}
 	for i, count := range initialCounts {
-		if count == 0 {
+		passive := provider.Processes[i].EntryKind == model.ProcessEntrySkillHitPassive
+		if passive && count > 0 {
+			ctx.collector.addError(model.GenericErrUnknownRef, path+".processes["+itoa(i)+"]", "passive process cannot have an INITIAL control", provider.Processes[i].ProcessKey)
+		} else if !passive && count == 0 {
 			ctx.collector.addError(model.GenericErrMissingRequiredField, path+".processes["+itoa(i)+"]", "process requires exactly one INITIAL ability", provider.Processes[i].ProcessKey)
 		}
 	}
@@ -471,6 +475,8 @@ func validateProcessControl(ability model.AbilityDefinition, path string, provid
 	}
 	if process == nil {
 		ctx.collector.addError(model.GenericErrUnknownRef, cp+".processKey", "process control must reference its own provider process", def.ProcessKey)
+	} else if process.EntryKind == model.ProcessEntrySkillHitPassive {
+		ctx.collector.addError(model.GenericErrUnknownRef, cp+".processKey", "passive process cannot borrow an active or basic-attack control", def.ProcessKey)
 	} else if ability.SkillKey == "" || ability.SkillKey != process.SkillKey {
 		ctx.collector.addError(model.GenericErrUnknownRef, path+".skillKey", "control ability must retain the process skill key", ability.SkillKey)
 	}

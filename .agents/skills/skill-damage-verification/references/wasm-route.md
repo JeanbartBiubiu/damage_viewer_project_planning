@@ -38,3 +38,5 @@ node node_modules/vite-node/vite-node.mjs ../.agents/skills/skill-damage-verific
 每场经生产校验、预检、装配后，以正式分发 Wasm 编译、运行两次并比较完整结果，最后释放会话。输出 `<id>.json` 的 `prepared / runRequest / done / assessment / release` 等原始内容，以及供离线对照使用的 `results.json` 和执行汇总 `summary.json`。脚本不读取资料、不生成数值期望、不写接口或数据库。
 
 输出目录必须不存在，父目录须先存在。首场非预期错误、结果截断、重复不一致或释放失败立即停止，保留已有证据并以退出码1结束；全部完成为0。`summary.complete` 只表示这些场景运行完整，不表示数值已与预期一致。
+
+`passiveProcesses` 与维护候选运行器共用同一过程观测投影，形状及排序见[维护工具说明](../../../../tools/maintenance/README.md)。用它声明被动过程的数量、时刻、状态及原使用断言；原始过程和因果仍完整保存在 `done` 中，不由投影补造缺失状态。

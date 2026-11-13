@@ -38,13 +38,22 @@ type SkillHitPhases interface {
 	ExecutePlannedHit(process *actionpkg.ProcessView, action *actionpkg.SkillActionView, hit model.SkillActionHitBinding, sequence int) *model.EngineError
 }
 
+// CommittedSkillHit 只交接命中原帧提交的有限身份和阻挡数，不从展示记录或尾伤反推。
+type CommittedSkillHit struct {
+	OccurrenceID uint64
+	Sequence     int
+	HasSequence  bool
+	Blocked      float64
+	TimeMs       int64
+}
+
 func (s SkillActionExecutor) PublishStart(process *actionpkg.ProcessView, observer SkillActionObserver) {
 	action := s.actions.ActionForUse(process.UseKey())
 	if action == nil || action.Accepted() || process.UseKey() != action.UseRef() || process.AbilityRef() != action.Plan().AbilityRef() {
 		return
 	}
 	s.actions.Accept(action, "", true)
-	if HasSimpleStepHits(process.Definition(), action.Binding()) {
+	if HasSimpleProcessHitFacts(process.Definition(), action.Binding()) {
 		s.actions.InitSkillHitStages(process)
 	}
 	observer.RegisterActionUse(s.actions.NewUse(actionpkg.UseSeed{UseKey: process.UseKey(), Source: process.Owner(), SkillKey: process.SkillKey(), HistoryState: model.SkillHitHistoryComplete, ProcessRef: process.Reference(), ActionRef: action.Reference(), CastID: process.CastID()}))
@@ -182,7 +191,7 @@ func (s SkillActionExecutor) ResolveMoment(process *actionpkg.ProcessView, kind 
 	return nil
 }
 
-func (s SkillActionExecutor) RecordCommittedHit(key string, actual *actionpkg.UseView, occurrence uint64, observer SkillActionObserver) {
+func (s SkillActionExecutor) RecordCommittedHit(key string, actual *actionpkg.UseView, hitFact CommittedSkillHit, observer SkillActionObserver) {
 	var process *actionpkg.ProcessView
 	if actual != nil {
 		process = s.actions.Process(actual.ProcessReference())
@@ -194,11 +203,14 @@ func (s SkillActionExecutor) RecordCommittedHit(key string, actual *actionpkg.Us
 	if action == nil || !action.Accepted() {
 		return
 	}
+	if process != nil && hitFact.HasSequence && hitFact.Sequence > 0 && hitFact.OccurrenceID > 0 {
+		s.actions.RecordSkillHitContact(process, hitFact.TimeMs, hitFact.Sequence, hitFact.OccurrenceID, hitFact.Blocked)
+	}
 	s.actions.RecordUse(action, "HIT")
 	for index := 0; index < s.actions.ProcessCount(); index++ {
 		process := s.actions.ProcessAt(index)
 		if process.UseKey() == action.UseRef() {
-			hit := "hit:" + strconv.FormatUint(occurrence, 10)
+			hit := "hit:" + strconv.FormatUint(hitFact.OccurrenceID, 10)
 			observer.ObserveActionUse(process, "HIT", &hit, nil)
 			return
 		}

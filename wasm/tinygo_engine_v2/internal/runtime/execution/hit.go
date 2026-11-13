@@ -487,7 +487,7 @@ func (f *Frame) resolveSkillHit(op planbundle.CompiledOperation, ability planbun
 		snap.HasSkillHit = true
 		snap.SkillHit = freeze.FrozenFacts()
 	}
-	f.recordSkillActionHit(freeze.View().UseRef, freeze.View().OccurrenceID)
+	f.recordSkillActionHit(freeze.View().UseRef, freeze.View().OccurrenceID, freeze.View().HitSequence, freeze.View().Blocked)
 	if f.run.detailedOutput() {
 		f.recordEvidence(model.EvidenceItem{
 			TimeMs: f.run.loop.TimeMs(),

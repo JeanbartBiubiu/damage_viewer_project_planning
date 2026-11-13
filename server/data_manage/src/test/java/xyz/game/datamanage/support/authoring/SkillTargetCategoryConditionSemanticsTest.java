@@ -48,8 +48,20 @@ class SkillTargetCategoryConditionSemanticsTest {
         assertDoesNotThrow(() -> SkillNumericSemantics.validate(objects, List.of()));
     }
 
+    @Test
+    void processMomentCategoriesReadTheExistingProcessInstanceTarget() {
+        assertEquals("目标过程实例的目标；没有时为来源对象",
+            SkillTriggerEventCapabilities.currentTargetBindings().get(SkillTriggerEventType.PROCESS_MOMENT));
+        var process = new Aggregate(SourceType.PROCESS, "skill", "cast",
+            ProcessBehaviorTestData.leafProcess("cast").data());
+        List<Aggregate> objects = List.of(process, rule("PROCESS_MOMENT", "{\"categories\":[\"CHAMPION\",\"EPIC_MONSTER\"]}"));
+        assertDoesNotThrow(() -> SkillObjectReferences.extractAndValidate("lol", objects, Set.of()));
+        assertDoesNotThrow(() -> SkillTargetCategoryConditionSemantics.validate(objects));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(objects, List.of()));
+    }
+
     @ParameterizedTest
-    @ValueSource(strings = {"SKILL_USED", "RESULT_AVAILABLE", "BASIC_ATTACK_START"})
+    @ValueSource(strings = {"SKILL_USED", "RESULT_AVAILABLE", "BASIC_ATTACK_START", "SOURCE_INITIALIZED", "INTERNAL_STATE_CHANGED"})
     void finalEventStateCannotRetainTargetCategoryCondition(String event) {
         ApiException error = assertThrows(ApiException.class, () -> SkillTargetCategoryConditionSemantics.validate(
             List.of(rule(event, "{\"categories\":[\"CHAMPION\"]}"))));
@@ -68,6 +80,7 @@ class SkillTargetCategoryConditionSemanticsTest {
 
     static Aggregate rule(String event, String detail) {
         String eventDetail = switch (event) {
+            case "PROCESS_MOMENT" -> "{\"processKey\":\"cast\",\"moment\":{\"momentType\":\"PROCESS_COMPLETE\"}}";
             case "DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN"
                 -> AggregateJson.write(new SkillTriggerDamageEventDetail(
                     null, null, SkillTriggerDamageDeliveryKind.ANY, SkillTriggerDamageOriginKind.ANY));

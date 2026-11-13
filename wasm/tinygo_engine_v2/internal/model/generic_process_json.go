@@ -37,7 +37,10 @@ func processJSONShape(data []byte, name, allowed, required string) error {
 	// Nullable fields are still part of the frozen new object shape.
 	if name == "ProcessDefinition" || name == "ProcessMomentDefinition" || name == "ProcessInstanceSnapshot" || name == "ProcessRepeatSnapshot" || name == "ProcessActionOccupancy" {
 		for _, k := range strings.Fields(allowed) {
-			if name == "ProcessInstanceSnapshot" && (k == "empoweredAttack" || k == "empoweredAttackWindow" || k == "empoweredPredecessorUseRef" || k == "skillHitStages") {
+			if name == "ProcessDefinition" && k == "entryKind" {
+				continue
+			}
+			if name == "ProcessInstanceSnapshot" && (k == "passiveOrigin" || k == "empoweredAttack" || k == "empoweredAttackWindow" || k == "empoweredPredecessorUseRef" || k == "skillHitStages") {
 				continue
 			}
 			if _, present := fields[k]; !present {
@@ -46,6 +49,9 @@ func processJSONShape(data []byte, name, allowed, required string) error {
 		}
 	}
 	if name == "ProcessInstanceSnapshot" {
+		if raw, present := fields["passiveOrigin"]; present && string(raw) == "null" {
+			return errors.New(name + ".passiveOrigin must contain actual native origin facts")
+		}
 		if raw, present := fields["empoweredAttackWindow"]; present && string(raw) == "null" {
 			return errors.New(name + ".empoweredAttackWindow must be an actual counted window")
 		}
@@ -105,13 +111,17 @@ func processJSONShape(data []byte, name, allowed, required string) error {
 	return nil
 }
 func (v *ProcessDefinition) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "ProcessDefinition", "processKey skillKey steps costs cooldown momentOperations", "processKey skillKey steps costs momentOperations"); err != nil {
+	if err := processJSONShape(data, "ProcessDefinition", "processKey skillKey entryKind steps costs cooldown momentOperations", "processKey skillKey steps costs momentOperations"); err != nil {
 		return err
 	}
 	type plain ProcessDefinition
 	var value plain
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
+	}
+	fields, _ := strictJSONObject(data, "ProcessDefinition")
+	if raw, present := fields["entryKind"]; present && (string(raw) == "null" || value.EntryKind != ProcessEntrySkillHitPassive) {
+		return errors.New("ProcessDefinition.entryKind must be SKILL_HIT_PASSIVE when present")
 	}
 	*v = ProcessDefinition(value)
 	return nil
@@ -210,7 +220,7 @@ func (v *ProcessCommandFact) UnmarshalJSON(data []byte) error {
 	return nil
 }
 func (v *ProcessInstanceSnapshot) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "ProcessInstanceSnapshot", "owner providerRef processKey skillKey useKey target stepKey stepVersion stepExecutionIndex lastExecutionAtMs stepCompletedAtMs startedAtMs stepStartedAtMs advanceAtMs expiresAtMs actualCosts cooldownStarted status failureReason finishedAtMs repeat actionOccupancies empoweredAttack empoweredAttackWindow empoweredPredecessorUseRef skillHitStages", "owner providerRef processKey skillKey useKey target stepKey stepVersion stepExecutionIndex startedAtMs stepStartedAtMs advanceAtMs actualCosts cooldownStarted status actionOccupancies"); err != nil {
+	if err := processJSONShape(data, "ProcessInstanceSnapshot", "owner providerRef processKey skillKey useKey target stepKey stepVersion stepExecutionIndex lastExecutionAtMs stepCompletedAtMs startedAtMs stepStartedAtMs advanceAtMs expiresAtMs actualCosts cooldownStarted status failureReason finishedAtMs repeat actionOccupancies empoweredAttack empoweredAttackWindow empoweredPredecessorUseRef skillHitStages passiveOrigin", "owner providerRef processKey skillKey useKey target stepKey stepVersion stepExecutionIndex startedAtMs stepStartedAtMs advanceAtMs actualCosts cooldownStarted status actionOccupancies"); err != nil {
 		return err
 	}
 	type plain ProcessInstanceSnapshot
@@ -225,9 +235,26 @@ func (v *ProcessInstanceSnapshot) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+func (v *PassiveProcessOrigin) UnmarshalJSON(data []byte) error {
+	const fields = "useSource useKey useSkillKey hitAbilityRef hitSequence hitOccurrenceId"
+	if err := processJSONShape(data, "PassiveProcessOrigin", fields, fields); err != nil {
+		return err
+	}
+	type plain PassiveProcessOrigin
+	var value plain
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	if strings.TrimSpace(value.UseSource) == "" || strings.TrimSpace(value.UseKey) == "" || strings.TrimSpace(value.UseSkillKey) == "" || strings.TrimSpace(value.HitAbilityRef) == "" || value.HitSequence < 1 || uint64(value.HitSequence) > 9007199254740991 || value.HitOccurrenceID == 0 || value.HitOccurrenceID > 9007199254740991 {
+		return errors.New("PassiveProcessOrigin requires complete native skill-hit identity")
+	}
+	*v = PassiveProcessOrigin(value)
+	return nil
+}
+
 func (v *ProcessSkillHitStage) UnmarshalJSON(data []byte) error {
 	const fields = "hitBindingKey stepKey timeMs released contact completed"
-	if err := processJSONShape(data, "ProcessSkillHitStage", fields, fields); err != nil {
+	if err := processJSONShape(data, "ProcessSkillHitStage", fields+" hitSequence hitOccurrenceId hitBlocked", fields); err != nil {
 		return err
 	}
 	type plain ProcessSkillHitStage
@@ -237,6 +264,19 @@ func (v *ProcessSkillHitStage) UnmarshalJSON(data []byte) error {
 	}
 	if strings.TrimSpace(value.HitBindingKey) == "" || strings.TrimSpace(value.StepKey) == "" || value.TimeMs < 0 || value.Contact && !value.Released {
 		return errors.New("ProcessSkillHitStage requires actual identity, nonnegative time and released contact")
+	}
+	if value.Contact {
+		if value.HitSequence == nil || value.HitOccurrenceID == nil || value.HitBlocked == nil || *value.HitSequence < 1 || uint64(*value.HitSequence) > 9007199254740991 || *value.HitOccurrenceID == 0 || *value.HitOccurrenceID > 9007199254740991 || *value.HitBlocked != 0 && *value.HitBlocked != 1 {
+			return errors.New("ProcessSkillHitStage contact requires complete actual native hit identity and blocked count")
+		}
+	} else if value.HitSequence != nil || value.HitOccurrenceID != nil || value.HitBlocked != nil {
+		return errors.New("ProcessSkillHitStage without contact cannot carry native hit identity")
+	}
+	rawFields, _ := strictJSONObject(data, "ProcessSkillHitStage")
+	for _, key := range []string{"hitSequence", "hitOccurrenceId", "hitBlocked"} {
+		if raw, present := rawFields[key]; present && (!value.Contact || string(raw) == "null") {
+			return errors.New("ProcessSkillHitStage native hit fields must be actual contact facts")
+		}
 	}
 	*v = ProcessSkillHitStage(value)
 	return nil

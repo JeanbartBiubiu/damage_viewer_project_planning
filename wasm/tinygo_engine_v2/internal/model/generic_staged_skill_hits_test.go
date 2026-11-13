@@ -28,7 +28,8 @@ func TestStagedSkillHitDependencyJSONShape(t *testing.T) {
 
 func TestStagedSkillFactsJSONShape(t *testing.T) {
 	valid := `{"hitBindingKey":"first","stepKey":"first","timeMs":0,"released":false,"contact":false,"completed":true}`
-	for _, raw := range []string{valid, strings.Replace(valid, `"released":false,"contact":false`, `"released":true,"contact":true`, 1)} {
+	contact := strings.TrimSuffix(strings.Replace(valid, `"released":false,"contact":false`, `"released":true,"contact":true`, 1), "}") + `,"hitSequence":1,"hitOccurrenceId":1,"hitBlocked":0}`
+	for _, raw := range []string{valid, contact} {
 		var stage ProcessSkillHitStage
 		if err := json.Unmarshal([]byte(raw), &stage); err != nil {
 			t.Fatal(err)
@@ -38,6 +39,18 @@ func TestStagedSkillFactsJSONShape(t *testing.T) {
 		var stage ProcessSkillHitStage
 		if json.Unmarshal([]byte(raw), &stage) == nil {
 			t.Fatal("invalid output fact admitted", raw)
+		}
+	}
+	for _, raw := range []string{
+		strings.Replace(contact, `"hitBlocked":0`, `"hitBlocked":2`, 1),
+		strings.Replace(contact, `"hitBlocked":0`, `"hitBlocked":null`, 1),
+		strings.Replace(contact, `"hitSequence":1`, `"hitSequence":9007199254740992`, 1),
+		strings.Replace(contact, `"hitOccurrenceId":1`, `"hitOccurrenceId":9007199254740992`, 1),
+		strings.TrimSuffix(valid, "}") + `,"hitSequence":null}`,
+	} {
+		var stage ProcessSkillHitStage
+		if json.Unmarshal([]byte(raw), &stage) == nil {
+			t.Fatal("invalid native contact shape admitted", raw)
 		}
 	}
 	base, err := json.Marshal(ProcessInstanceSnapshot{ActualCosts: map[string]float64{}, ActionOccupancies: []ProcessActionOccupancy{}})

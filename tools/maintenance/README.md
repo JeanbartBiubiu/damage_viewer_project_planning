@@ -21,6 +21,8 @@ node tools/maintenance/accept-public.mjs --help
 
 候选输入包含 `principalId / gameId / reference / sourceRevision / baselineDigest / skillPlan / scenes / expectedPlan`。`skillPlan` 使用现行 `skill-configuration-plan-v1` 的完整基线、请求和完整预期。每个 `scenes` 项含唯一 `id`、完整原始 `snapshot` 和明确 `scenario`；场景模式为 `fixed` 或 `continuous`，给出时长、双方生命、必要属性及技能动作等本场输入。独立预期使用[离线对照格式](../../.agents/skills/skill-damage-verification/references/calculation-tool.md)，字段路径相对运行档案，例如 `/done/summary/sourceDamageDealt`、`/done/damageRecords` 的长度及逐笔字段。预期与场景一一对应；涉及多段或时序时声明逐笔内容，不能只比较总额。
 
+通过生产结果准入的运行档案另有 `passiveProcesses`：从原始过程快照选择被动实例，按拥有者、挂载、过程、开始时刻和实例标识稳定排序，不改原始 `done`。冻结预期可直接比较其数量、期限、状态及原使用归属，并在正式签发前参与同一轮对照；声明了被动过程却缺少过程快照时直接失败。
+
 当前自动候选仅接受不改变来源、引用、枚举、排序、集合结构和最高等级的数值或说明修正。新增组成、触发入口、依赖、类别或其他配置对象交回开发验证，不沿用旧快照的派生信息。此限制由代码拒绝，不能用替换摘要绕过。
 
 开发录入新增组成时，显式使用 `candidate.mjs --mode development`，冻结为独立的开发候选。场景除原始 `snapshot` 外还提供 `previewSnapshot`，后者必须来自私有只读 `POST /internal/maintenance/games/{gameId}/simulation-preview`。请求为 `{selection, updates:[{skillKey, request}]}`，按真实快照 `references` 的来源和目标技能筛选本场实际执行闭包内的更新；完整配置列表中的其它本批技能保持原基线，每项变更至少在一场实际进入闭包，缺少执行引用则拒绝。后端核对原摘要，用现行配置准备和场景装配重建来源、引用及目录，不写业务数据。验证执行者再次向真实服务读取原始和预检快照，逐字段核对后才运行并签发。正式保存后的对象仍用普通快照验收；开发预检不替代保存或完整对象准入。

@@ -31,6 +31,12 @@ func (s *Engine) recordCommittedDamage(f *Frame, ev genericDamageEvidence) {
 		if hit == 0 && f.eventCtx != nil && f.eventCtx.SkillHit != nil {
 			hit = f.eventCtx.SkillHit.OccurrenceID
 		}
+		if hit == 0 && f.pendingProcess != nil {
+			if origin, passive := f.pendingProcess.PassiveOrigin(); passive {
+				// 尾结果保留原命中归属，不重建或重新派发旧命中事件。
+				hit = origin.HitOccurrenceID
+			}
+		}
 		ownership.HitOccurrenceID = hit
 	}
 	if use := f.skillActionUseRef(); use != "" {

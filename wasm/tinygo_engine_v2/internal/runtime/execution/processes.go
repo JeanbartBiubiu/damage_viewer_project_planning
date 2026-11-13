@@ -514,6 +514,10 @@ func (s *Engine) initProcessFrame(f *Frame, p *actionpkg.ProcessView) {
 	if p.CastUseKey() != "" {
 		f.processUseKey = p.CastUseKey()
 	}
+	if origin, passive := p.PassiveOrigin(); passive {
+		// 只恢复真实原使用身份；本时点属性、状态与事件入口视图仍由新帧读取。
+		f.processUseKey, f.processUseSource, f.processUseSkillKey = origin.UseKey, origin.UseSource, origin.UseSkillKey
+	}
 }
 
 // Condition false is represented by a normal process rejection; formula failures remain errors.

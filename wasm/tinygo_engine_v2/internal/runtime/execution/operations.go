@@ -246,6 +246,8 @@ func (r *operationReads) CollectNumericDamage(op planbundle.CompiledOperation, a
 func (r *operationReads) DispatchSpecializedOperation(ability planbundle.CompiledAbility, op *planbundle.CompiledOperation, targetKey string, amount float64) *model.EngineError {
 	f := (*Frame)(r)
 	switch op.Operation {
+	case model.OperationKindStartPassiveProcess:
+		return f.stagePassiveProcess(ability, *op)
 	case model.OperationKindConsumeTargetMark:
 		return f.consumeTargetMark(*op, ability)
 	case model.OperationKindApplyAttackLink, model.OperationKindApplyHitLink:

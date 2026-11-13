@@ -5,6 +5,7 @@ import { inspectEmpoweredPredecessors } from './empoweredAttackContract';
 import { empoweredWindowHitCount } from './empoweredAttackWindowContract';
 import { recastDefinition } from './finiteRecast';
 import { inspectProcessSkillHitStages } from './processSkillHitStageFacts';
+import { inspectPassiveProcessFacts } from './passiveProcessFacts';
 
 function channelWindowExecutionOffset(first: number, last: number, count: number, ordinal: number): number {
   if (count === 1) return first;
@@ -53,12 +54,27 @@ export function inspectSimulationProcessFacts(compile: CompileRequest, request: 
   const bindings = compile.rules.skillActionBindings ?? [];
   const actions = request.driverPlan.skillActions ?? [];
   const automaticRules = request.driverPlan.automaticSkills?.rules;
+  const passive = inspectPassiveProcessFacts(compile, request, done);
+  issues.push(...passive.issues);
   if (!Array.isArray(done.finalSnapshot.processInstances)) {
-    return { issues: ['finalSnapshot.processInstances: 缺少完整过程快照'], occupancies, processes, empoweredSuccessions: empowered.successions };
+    return { issues: ['finalSnapshot.processInstances: 缺少完整过程快照'], occupancies, processes,
+      passiveProcesses: passive.processes, passiveFacts: passive.facts, empoweredSuccessions: empowered.successions };
   }
   for (const process of done.finalSnapshot.processInstances) {
+    if (process.passiveOrigin !== undefined || passive.processes.includes(process)) continue;
     const binding = bindings.find(binding => binding.providerRef === process.providerRef && binding.source === process.owner);
-    if (!binding) continue;
+    if (!binding) {
+      const basic = request.driverPlan.basicAttack;
+      const expected = basic?.initialControlAbilityRef;
+      const match = expected && /^(source|target)\.provider\[([^\]]+)\]\.ability\[([^\]]+)\]$/.exec(expected);
+      const mounted = compile.combatants.find(actor => actor.key === process.owner)?.providers.find(mount => mount.providerRef === process.providerRef);
+      const provider = compile.sharedProviders?.find(provider => provider.providerKey === mounted?.definitionRef);
+      const control = provider?.abilities?.find(ability => ability.abilityKey === match?.[3])?.processControl;
+      check(!!basic && process.owner === match?.[1] && process.providerRef === match?.[2]
+        && process.skillKey === basic.skillKey && process.processKey === control?.processKey,
+      `processInstances.${process.useKey}`, '未知过程不能绕过真实主动、普攻或已核定被动来源');
+      continue;
+    }
     const path = `processInstances.${process.useKey}`;
     const definition = compile.sharedProviders?.find(provider => provider.providerKey === binding.providerDefinitionRef)
       ?.processes?.find(definition => definition.processKey === process.processKey);
@@ -288,7 +304,8 @@ export function inspectSimulationProcessFacts(compile: CompileRequest, request: 
   }
   if (summary && done.summary.skillActions) check(done.summary.skillActions.acceptedCount === summary.startedCount + controls.size + recastControls,
     'summary.skillActions.acceptedCount', '完整控制接受累计须对应原使用实际执行或主动取消，零明细不得绕过');
-  return { issues, occupancies, processes, empoweredSuccessions: empowered.successions };
+  return { issues, occupancies, processes, passiveProcesses: passive.processes, passiveFacts: passive.facts,
+    empoweredSuccessions: empowered.successions };
 }
 
 export function simulationActionContribution(occupancies: readonly ProcessActionOccupancy[], start: number, end: number): number | null {

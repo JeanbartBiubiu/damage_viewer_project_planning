@@ -109,7 +109,9 @@ export function projectFiniteRecasts(compile: CompileRequest, request: RunReques
         if (!actions[sameTimeOrdinal]) fail('手动已接受重施缺少原首次关联和实际排序');
       }
       result.finiteRecastStages.push({ owner: p.owner, providerRef: p.providerRef, bindingKey: binding.bindingKey, skillKey: p.skillKey,
-        processKey: p.processKey, windowUseRef: p.useKey, useRef, executionOrdinal: ordinal, ...stage });
+        processKey: p.processKey, windowUseRef: p.useKey, useRef, executionOrdinal: ordinal,
+        hitBindingKey: stage.hitBindingKey, stepKey: stage.stepKey, timeMs: stage.timeMs, released: stage.released,
+        contact: stage.contact, completed: stage.completed });
     }
     const { skillHitStages: _stages, ...window } = p;
     result.finiteRecastWindows.push({ ...window, bindingKey: binding.bindingKey, providerDefinitionRef: binding.providerDefinitionRef,

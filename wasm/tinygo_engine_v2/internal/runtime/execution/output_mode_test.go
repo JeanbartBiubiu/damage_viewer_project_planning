@@ -42,7 +42,7 @@ func TestSummaryOutputFailedHitFramePublishesNoFacts(t *testing.T) {
 		action := state.actions.ActionForUse("skill:cast_once")
 		state.actions.Accept(action, "", false)
 		frame := state.newExecutionFrame("source", "target", "source.provider[caster].ability[hit]")
-		frame.recordSkillActionHit(action.UseRef(), 1)
+		frame.recordSkillActionHit(action.UseRef(), 1, nil, 0)
 		frame.recordEvidenceLazy(model.EvidenceKindSkillHit, func() model.EvidenceItem {
 			return model.EvidenceItem{Kind: model.EvidenceKindSkillHit, Data: map[string]interface{}{"useRef": action.UseRef()}}
 		})

@@ -101,10 +101,10 @@ func TestFrameSummaryEvidenceHitIndexesFollowMixedKindsDespiteTruncation(t *test
 		state.actions.AddProcess(actionpkg.NewProcess(actionpkg.ProcessSeed{Snapshot: model.ProcessInstanceSnapshot{UseKey: action.UseRef(), Owner: "source", Target: "target", Status: "complete"}}))
 		frame := state.newExecutionFrame("source", "target", "")
 		frame.recordEvidence(model.EvidenceItem{Kind: model.EvidenceKindHeal})
-		frame.recordSkillActionHit(action.UseRef(), 1)
+		frame.recordSkillActionHit(action.UseRef(), 1, nil, 0)
 		frame.recordEvidence(model.EvidenceItem{Kind: model.EvidenceKindSkillHit})
 		frame.recordEvidence(model.EvidenceItem{Kind: model.EvidenceKindEmittedEvent})
-		frame.recordSkillActionHit(action.UseRef(), 2)
+		frame.recordSkillActionHit(action.UseRef(), 2, nil, 0)
 		frame.recordEvidence(model.EvidenceItem{Kind: model.EvidenceKindSkillHit})
 		if len(frame.pendingSkillHits) != 2 || frame.pendingSkillHits[0].evidenceIndex != 1 || frame.pendingSkillHits[1].evidenceIndex != 3 || action.Uses().HitCount != 0 {
 			t.Fatal("mixed compact evidence lost the hit's original pending position")
@@ -113,7 +113,7 @@ func TestFrameSummaryEvidenceHitIndexesFollowMixedKindsDespiteTruncation(t *test
 		if action.Uses().HitCount != 2 || state.recordingSummary().SkillUseRecordCount != 2 || state.report.Snapshot().Evidence.CountsByKind[string(model.EvidenceKindSkillHit)] != 2 || state.report.Snapshot().Evidence.TruncatedEvidenceCount != 3 {
 			t.Fatal("evidence truncation changed committed hit facts", mode)
 		}
-		frame.recordSkillActionHit(action.UseRef(), 3)
+		frame.recordSkillActionHit(action.UseRef(), 3, nil, 0)
 		frame.recordEvidence(model.EvidenceItem{Kind: model.EvidenceKindSkillHit})
 		if action.Uses().HitCount != 3 || state.recordingSummary().SkillUseRecordCount != 3 || len(frame.pendingSkillHits) != 2 || state.report.Snapshot().Evidence.CountsByKind[string(model.EvidenceKindSkillHit)] != 3 {
 			t.Fatal("post-commit hit or evidence was restaged", mode)

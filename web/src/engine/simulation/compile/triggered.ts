@@ -3,7 +3,7 @@ import { sameFormulaPayload } from '../../../services/skillFormulaContract';
 import { skillFormulaParameterKeys, skillFormulaReachableInputs } from '../../../services/skillFormulaContract';
 import { TypeCatalogEntries } from '../../typeCatalogEntries';
 import { SKILL_CATEGORY_TYPE_PREFIX, skillCategoryTypeKey } from '../../skillCategoryType';
-import type { GenericFormulaExpr, GenericRules, NamedFormula, AbilityDefinition, ModifierDefinition, OperationDefinition, ProviderDefinition, ProviderStateFieldSchema } from '../../../types/genericEngine';
+import type { GenericFormulaExpr, GenericRules, NamedFormula, AbilityDefinition, ModifierDefinition, OperationDefinition, ProcessDefinition, ProviderDefinition, ProviderStateFieldSchema } from '../../../types/genericEngine';
 import type { NumericValue } from '../../../types/numericValue';
 import type { SkillEffect, SkillEffectDamageResult, SkillEffectLifecycle, SkillEffectResult, SkillEffectValueRule } from '../../../types/skillEffect';
 import type { SkillInternalState } from '../../../types/skillInternalState';
@@ -202,6 +202,8 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const periodicEffects = new Map<string, { definition: ProviderDefinition; dynamic: boolean }>();
         const initializedSpellShields = new Map<string, ProviderDefinition>();
         const activeProcesses = new Set<string>();
+        let delayedPassiveDepth = 0;
+        const delayedPassiveEntries = new Map<string, string>();
         let timingPayload = false;
         const empoweredProcesses = new Set<string>();
         const deferredAbilities: AbilityDefinition[] = [];
@@ -401,7 +403,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           exact(authored, ['gameId', 'skillKey', 'processKey', 'activationType', 'cooldown', 'steps', 'effectBindings', 'stateOperations', ...METADATA], authorPath);
           const empowered = authored.steps.length === 1 && authored.steps[0]!.stepType === 'EMPOWERED_BASIC_ATTACK';
           if (authored.gameId !== snapshot.gameId || authored.skillKey !== skillKey || (empowered ? authored.activationType !== 'ACTIVE' : authored.activationType !== 'PASSIVE')
-            || authored.cooldown !== null) fail(authorPath, '仅支持无费用、无冷却的完整即时被动过程');
+            || authored.cooldown !== null) fail(authorPath, '仅支持无费用、无冷却的完整被动过程');
           uniqueRows(authored.steps, row => row.stepKey, `${authorPath}.steps`);
           uniqueRows(authored.effectBindings, row => row.bindingKey, `${authorPath}.effectBindings`);
           uniqueRows(authored.stateOperations, row => row.operationKey, `${authorPath}.stateOperations`);
@@ -413,8 +415,13 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
               exact(step.detail, ['windowValue', 'consumeMoment'], `${authorPath}.steps.${step.stepKey}.detail`);
               if (step.detail.consumeMoment !== 'ATTACK_HIT' || step.occupiesAction !== false) fail(authorPath, '强化待击只开放明确不占用行动、实际命中一次消费');
             } else {
-              if (step.stepType !== 'IMMEDIATE') fail(`${authorPath}.steps.${step.stepKey}`, '只静态展开即时步骤或单段强化待击，不伪造延迟或循环');
-              exact(step.detail, [], `${authorPath}.steps.${step.stepKey}.detail`);
+              if (step.stepType === 'DELAY') {
+                if (step.occupiesAction !== false) fail(`${authorPath}.steps.${step.stepKey}`, '被动延迟必须明确不占用行动');
+                exact(step.detail, ['delayValue'], `${authorPath}.steps.${step.stepKey}.detail`);
+              } else {
+                if (step.stepType !== 'IMMEDIATE') fail(`${authorPath}.steps.${step.stepKey}`, '只接有限即时或延迟被动步骤及单段强化待击');
+                exact(step.detail, [], `${authorPath}.steps.${step.stepKey}.detail`);
+              }
             }
           }
           usedProcesses.add(key);
@@ -1369,6 +1376,10 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         };
         function compileProcess(authored: SkillProcess, output: OperationDefinition[], outputRoot: string, abilityRef: string, event: string, context: string) {
           const processPath = `${root}.processes.${authored.processKey}`;
+          if (authored.steps.some(step => step.stepType === 'DELAY')) {
+            compileDelayedPassiveProcess(authored, output, abilityRef, event, context);
+            return;
+          }
           if (activeProcesses.has(authored.processKey)) fail(processPath, '即时被动过程存在循环');
           activeProcesses.add(authored.processKey);
           try {
@@ -1403,6 +1414,87 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             for (const step of ordered(authored.steps, `${processPath}.steps`)) cover(`${processPath}.steps.${step.stepKey}`, outputRoot);
             cover(processPath, outputRoot);
           } finally { activeProcesses.delete(authored.processKey); }
+        }
+        function compileDelayedPassiveProcess(authored: SkillProcess, output: OperationDefinition[],
+          abilityRef: string, event: string, context: string) {
+          const processPath = `${root}.processes.${authored.processKey}`;
+          if (delayedPassiveDepth > 0 || activeProcesses.has(authored.processKey) || event !== 'SKILL_HIT'
+            || rootEventSource?.eventType !== 'SKILL_HIT' || context !== 'target') {
+            fail(processPath, '被动延迟仅由本拥有者真实技能命中启动，不能从尾过程再预约或冒充主动入口');
+          }
+          const nativeProcessKey = namedKey(skillKey, authored.processKey);
+          const processIndex = provider.processes?.findIndex(row => row.processKey === nativeProcessKey) ?? -1;
+          const existing = provider.processes?.[processIndex];
+          const compiledProcessRoot = `${compiledRoot}.processes[${existing ? processIndex : (provider.processes?.length ?? 0)}]`;
+          if (existing) {
+            if (existing.entryKind !== 'SKILL_HIT_PASSIVE' || delayedPassiveEntries.get(nativeProcessKey) !== abilityRef) {
+              fail(processPath, '被动延迟过程必须保持唯一真实监听入口，不能混用另一组输入归属');
+            }
+            output.push({ operation: 'start_passive_process', target: 'self', processKey: nativeProcessKey, ref: processPath });
+            cover(processPath, compiledProcessRoot);
+            return;
+          }
+          const steps = ordered(authored.steps, `${processPath}.steps`).map(step => {
+            if (step.occupiesAction !== false || (step.stepType !== 'IMMEDIATE' && step.stepType !== 'DELAY')) {
+              fail(`${processPath}.steps.${step.stepKey}`, '有限被动过程的每步必须明确不占行动');
+            }
+            const delay = step.stepType === 'DELAY'
+              ? value(step.detail.delayValue, `${processPath}.steps.${step.stepKey}.detail.delayValue`) : null;
+            const folded = delay && tryFoldConstant(delay);
+            if (typeof folded === 'number' && (!Number.isSafeInteger(folded) || folded < 0)) {
+              fail(`${processPath}.steps.${step.stepKey}`, '被动延迟须为有限非负整数毫秒');
+            }
+            cover(`${processPath}.steps.${step.stepKey}`, `${compiledProcessRoot}.steps`);
+            return { stepKey: step.stepKey, stepType: step.stepType, occupiesAction: false,
+              ...(delay ? { delayMs: delay } : {}) };
+          });
+          const groups: ProcessDefinition['momentOperations'] = [];
+          const groupsByOrder = new Map<number, ProcessDefinition['momentOperations'][number]>();
+          const scheduled: Array<{ moment: SkillProcessMoment; sortOrder: number; key: string; run: (operations: OperationDefinition[], path: string) => void }> = [];
+          for (const operation of ordered(authored.stateOperations, `${processPath}.stateOperations`)) {
+            const path = `${processPath}.stateOperations.${operation.operationKey}`;
+            scheduled.push({ moment: operation.moment, sortOrder: operation.sortOrder, key: path, run: (operations, targetPath) => {
+              operations.push(compileStateOperation(operation, path)); cover(path, targetPath);
+            } });
+          }
+          for (const binding of ordered(authored.effectBindings, `${processPath}.effectBindings`)) {
+            const path = `${processPath}.effectBindings.${binding.bindingKey}`;
+            exact(binding, ['bindingKey', 'effectKey', 'moment', 'sortOrder'], path);
+            scheduled.push({ moment: binding.moment, sortOrder: binding.sortOrder, key: path, run: (operations, targetPath) => {
+              executeEffect(effect(binding.effectKey, path), operations, targetPath, abilityRef, 'PROCESS_MOMENT', path, context);
+              cover(path, targetPath);
+            } });
+          }
+          for (const rule of configuration.triggerRules) if (rule.eventSource.eventType === 'PROCESS_MOMENT'
+            && rule.eventSource.detail.processKey === authored.processKey) {
+            const path = `${root}.triggerRules.${rule.ruleKey}`;
+            exact(rule.eventSource.detail, ['processKey', 'moment'], `${path}.eventSource.detail`);
+            scheduled.push({ moment: rule.eventSource.detail.moment, sortOrder: rule.sortOrder, key: path,
+              run: (operations, targetPath) => executeMomentRule(rule, operations, targetPath, abilityRef, 'PROCESS_MOMENT') });
+          }
+          scheduled.sort((a, b) => momentOrder(a.moment, authored, a.key) - momentOrder(b.moment, authored, b.key)
+            || a.sortOrder - b.sortOrder);
+          activeProcesses.add(authored.processKey);
+          delayedPassiveDepth++;
+          try {
+            for (const [index, entry] of scheduled.entries()) {
+              if (index && momentOrder(scheduled[index - 1]!.moment, authored, entry.key) === momentOrder(entry.moment, authored, entry.key)
+                && scheduled[index - 1]!.sortOrder === entry.sortOrder) fail(entry.key, '被动时点跨节点排序不明确');
+              const order = momentOrder(entry.moment, authored, entry.key);
+              let group = groupsByOrder.get(order);
+              if (!group) {
+                group = { moment: { ...entry.moment, failureReason: null }, operations: [] };
+                groups.push(group); groupsByOrder.set(order, group);
+              }
+              entry.run(group.operations, `${compiledProcessRoot}.momentOperations[${groups.indexOf(group)}].operations`);
+            }
+          } finally { delayedPassiveDepth--; activeProcesses.delete(authored.processKey); }
+          if (!groups.some(group => group.operations.length)) fail(processPath, '被动延迟过程没有真实可达叶行为');
+          (provider.processes ??= []).push({ processKey: nativeProcessKey, skillKey, entryKind: 'SKILL_HIT_PASSIVE',
+            steps, costs: [], cooldown: null, momentOperations: groups });
+          delayedPassiveEntries.set(nativeProcessKey, abilityRef);
+          output.push({ operation: 'start_passive_process', target: 'self', processKey: nativeProcessKey, ref: processPath });
+          cover(processPath, compiledProcessRoot);
         }
         function compilePeriodic(authored: SkillEffect, output: OperationDefinition[], outputRoot: string, event: string, actionPath: string) {
           const effectPath = `${root}.effects.${authored.effectKey}`;
@@ -1819,6 +1911,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           ability.params = { ...numeric.params };
           collectAttributes(ability, side, required);
         }
+        for (const process of provider.processes ?? []) if (process.skillKey === skillKey) collectAttributes(process, side, required);
         for (const formula of formulas.values()) if (formula.key.startsWith(`${numeric.formulaNamespace}/`)) collectAttributes(formula.expression, side, required);
         for (const keys of ammoRecoveryFormulaKeys.values()) for (const key of keys) {
           const formula = numeric.namedFormulas.get(key);

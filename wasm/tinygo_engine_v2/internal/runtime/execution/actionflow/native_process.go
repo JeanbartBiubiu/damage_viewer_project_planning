@@ -23,11 +23,11 @@ type PreparedNativeProcess struct {
 	Definition    *planbundle.CompiledProcess
 }
 
-// NativeProcessReads 只读取真实开始事实的使用、挂载、生命和冷却，不接收同步启动上下文。
+// NativeProcessReads 只读取真实原事件的使用、挂载、生命和冷却，不接收同步启动上下文。
 type NativeProcessReads interface {
-	// NativeProcessUse 返回当前已登记的原普攻使用，缺失返回nil。
+	// NativeProcessUse 返回当前已登记的真实原使用，缺失返回nil。
 	NativeProcessUse(use string) *actionpkg.UseView
-	// NativeProcessMounted 核对实际普攻来源的有效挂载。
+	// NativeProcessMounted 核对实际过程或原命中来源的有效挂载。
 	NativeProcessMounted(owner, provider string, definition uint16) bool
 	// NativeProcessDead 查询拥有者是否存在明确且归零的当前生命。
 	NativeProcessDead(owner string) bool

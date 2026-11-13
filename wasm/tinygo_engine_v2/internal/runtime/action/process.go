@@ -230,6 +230,8 @@ type StateAPI interface {
 	AppendSkillHitStage(p *ProcessView, stage model.ProcessSkillHitStage)
 	// CompleteSkillHitStage 从后向前更新匹配阶段的接触和完成标记。
 	CompleteSkillHitStage(p *ProcessView, key string, contact, completed bool)
+	// RecordSkillHitContact 仅填本时刻首个已释放未完成阶段的真实接触身份；未提交命中不调用。
+	RecordSkillHitContact(p *ProcessView, now int64, sequence int, occurrence uint64, blocked float64)
 	// ProcessViews 复制过程指针列表；各元素仍是活借用，保存历史需Freeze或Snapshot。
 	ProcessViews() []*ProcessView
 	// EmpoweredCount 返回当前强化等待索引中的过程数。
@@ -357,6 +359,7 @@ func cloneOptional[T any](value *T) *T {
 }
 
 func cloneProcessSnapshot(row model.ProcessInstanceSnapshot) model.ProcessInstanceSnapshot {
+	row.PassiveOrigin = cloneOptional(row.PassiveOrigin)
 	row.LastExecutionAtMs = cloneOptional(row.LastExecutionAtMs)
 	row.StepCompletedAtMs = cloneOptional(row.StepCompletedAtMs)
 	row.ExpiresAtMs = cloneOptional(row.ExpiresAtMs)
@@ -374,7 +377,7 @@ func cloneProcessSnapshot(row model.ProcessInstanceSnapshot) model.ProcessInstan
 		row.Repeat = &repeat
 	}
 	if row.SkillHitStages != nil {
-		rows := append([]model.ProcessSkillHitStage{}, (*row.SkillHitStages)...)
+		rows := cloneSkillHitStages(*row.SkillHitStages)
 		row.SkillHitStages = &rows
 	}
 	if row.EmpoweredAttack != nil {
@@ -433,10 +436,19 @@ func (p *ProcessView) StartStateValues() []formula.ProcessStartStateValue {
 func (p *ProcessView) StartState() formula.ProcessStartStateView {
 	return formula.BorrowProcessStartState(p.data.startStateValues)
 }
-func (p *ProcessView) Owner() string           { return p.data.snapshot.Owner }
-func (p *ProcessView) ProviderRef() string     { return p.data.snapshot.ProviderRef }
-func (p *ProcessView) ProcessKey() string      { return p.data.snapshot.ProcessKey }
-func (p *ProcessView) SkillKey() string        { return p.data.snapshot.SkillKey }
+func (p *ProcessView) Owner() string       { return p.data.snapshot.Owner }
+func (p *ProcessView) ProviderRef() string { return p.data.snapshot.ProviderRef }
+func (p *ProcessView) ProcessKey() string  { return p.data.snapshot.ProcessKey }
+func (p *ProcessView) SkillKey() string    { return p.data.snapshot.SkillKey }
+
+// PassiveOrigin返回有限因果值及存在标记，不借出可写指针。
+func (p *ProcessView) PassiveOrigin() (model.PassiveProcessOrigin, bool) {
+	if p.data.snapshot.PassiveOrigin == nil {
+		return model.PassiveProcessOrigin{}, false
+	}
+	return *p.data.snapshot.PassiveOrigin, true
+}
+
 func (p *ProcessView) UseKey() string          { return p.data.snapshot.UseKey }
 func (p *ProcessView) Target() string          { return p.data.snapshot.Target }
 func (p *ProcessView) StepKey() string         { return p.data.snapshot.StepKey }
@@ -527,8 +539,18 @@ func (p *ProcessView) SkillHitStages() *[]model.ProcessSkillHitStage {
 	if p.data.snapshot.SkillHitStages == nil {
 		return nil
 	}
-	out := append([]model.ProcessSkillHitStage{}, (*p.data.snapshot.SkillHitStages)...)
+	out := cloneSkillHitStages(*p.data.snapshot.SkillHitStages)
 	return &out
+}
+
+func cloneSkillHitStages(stages []model.ProcessSkillHitStage) []model.ProcessSkillHitStage {
+	rows := append([]model.ProcessSkillHitStage{}, stages...)
+	for index := range rows {
+		rows[index].HitSequence = cloneOptional(rows[index].HitSequence)
+		rows[index].HitOccurrenceID = cloneOptional(rows[index].HitOccurrenceID)
+		rows[index].HitBlocked = cloneOptional(rows[index].HitBlocked)
+	}
+	return rows
 }
 func (p *ProcessView) EmpoweredAttack() *model.ProcessEmpoweredAttack {
 	if p.data.snapshot.EmpoweredAttack == nil {
@@ -710,6 +732,21 @@ func (s *State) CompleteSkillHitStage(p *ProcessView, key string, contact, compl
 	for index := len(items) - 1; index >= 0; index-- {
 		if items[index].HitBindingKey == key {
 			items[index].Contact, items[index].Completed = contact, completed
+			return
+		}
+	}
+}
+
+func (s *State) RecordSkillHitContact(p *ProcessView, now int64, sequence int, occurrence uint64, blocked float64) {
+	if p.data.snapshot.SkillHitStages == nil {
+		return
+	}
+	items := *p.data.snapshot.SkillHitStages
+	for index := range items {
+		stage := &items[index]
+		if stage.TimeMs == now && stage.Released && !stage.Completed && !stage.Contact {
+			stage.Contact = true
+			stage.HitSequence, stage.HitOccurrenceID, stage.HitBlocked = cloneOptional(&sequence), cloneOptional(&occurrence), cloneOptional(&blocked)
 			return
 		}
 	}

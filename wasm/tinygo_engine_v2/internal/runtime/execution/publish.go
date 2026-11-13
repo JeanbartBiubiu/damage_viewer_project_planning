@@ -136,6 +136,10 @@ func (f *Frame) commitKeysAndPreflight(keyBuffer []string) ([]string, *model.Eng
 	if f.pendingProcessTimer {
 		count++
 	}
+	count += f.pendingPassiveProcesses.Len()
+	if f.plannedProcessCount() > f.run.budget.MaxProcessInstances {
+		return nil, f.run.budgetError(model.BudgetCauseMaxProcessInstances, "passive process instance budget exceeded")
+	}
 	count += lifecycle.CountShieldExpiries(f.pendingShieldExpires, (*lifecycleStagedShieldExpiryReads)(f))
 	// 只对本帧有生命周期操作的挂载列表做小范围预演。队列、历史与过程总表不复制。
 	for _, key := range keys {
@@ -197,5 +201,8 @@ func (f *Frame) commitFrameQueues() {
 	f.enqueueCommittedTimedShields()
 	if f.pendingProcessTimer {
 		f.run.processFailure = f.run.enqueueProcessTimer(f.processOriginal)
+	}
+	for i := 0; i < f.pendingPassiveProcesses.Len() && f.run.processFailure == nil; i++ {
+		f.run.processFailure = f.run.enqueueProcessTimer(f.pendingPassiveProcesses.At(i))
 	}
 }

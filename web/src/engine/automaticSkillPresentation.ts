@@ -21,6 +21,7 @@ export type IndexedHealing = { recordIndex: number; row: HealingRecord };
 export type AutomaticUseContext = {
   automatic: AutomaticSkillRecord[]; attacks: AttackRecord[]; damage: DamageRecord[];
   healing: IndexedHealing[]; resources: ResourceChangeRecord[]; processes: ProcessInstanceSnapshot[];
+  passiveProcesses: ProcessInstanceSnapshot[];
 };
 export type AutomaticPresentationIndex = {
   automatic: AutomaticSkillRecord[]; attacks: AttackRecord[]; damage: DamageRecord[]; healing: IndexedHealing[]; resources: ResourceChangeRecord[];
@@ -39,7 +40,7 @@ export function indexAutomaticPresentation(done: DoneResult): AutomaticPresentat
   const context = (useRef: string | null) => {
     if (!useRef) return null;
     let found = byUse.get(useRef);
-    if (!found) { found = { automatic: [], attacks: [], damage: [], healing: [], resources: [], processes: [] }; byUse.set(useRef, found); }
+    if (!found) { found = { automatic: [], attacks: [], damage: [], healing: [], resources: [], processes: [], passiveProcesses: [] }; byUse.set(useRef, found); }
     return found;
   };
   for (const row of automatic) context(row.useRef)?.automatic.push(row);
@@ -47,7 +48,10 @@ export function indexAutomaticPresentation(done: DoneResult): AutomaticPresentat
   for (const row of damage) context(row.useRef)?.damage.push(row);
   for (const row of healing) context(row.row.useRef)?.healing.push(row);
   for (const row of resources) for (const useRef of new Set(row.contributors.map(contributor => contributor.useRef).filter((value): value is string => !!value))) context(useRef)?.resources.push(row);
-  for (const row of done.finalSnapshot.processInstances ?? []) context(row.useKey)?.processes.push(row);
+  for (const row of done.finalSnapshot.processInstances ?? []) {
+    if (row.passiveOrigin) context(row.passiveOrigin.useKey)?.passiveProcesses.push(row);
+    else context(row.useKey)?.processes.push(row);
+  }
   return { automatic, attacks, damage, healing, resources, byUse,
     automaticBySequence: new Map(automatic.map(row => [row.sequence, row])), damageById: new Map(damage.map(row => [row.damageId, row])),
     attackByIdentity: new Map(attacks.map(row => [automaticAttackKey(row), row])) };

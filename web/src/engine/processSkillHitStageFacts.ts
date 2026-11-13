@@ -1,6 +1,7 @@
 import type { CompileRequest, DoneResult, ProcessDefinition, ProcessInstanceSnapshot, SkillActionBinding, SkillActionPlan } from '../types/genericEngine';
 import { finiteRecastShape, recastDefinition, recastUseOrdinal } from './finiteRecast';
 import { inspectSkillHitChainStageTimes } from './skillHitChainResult';
+import { assertProcessSkillHitStageShape } from './processSkillHitStageShape';
 
 type Hit = SkillActionBinding['hitBindings'][number];
 export type SkillHitStageFact = NonNullable<ProcessInstanceSnapshot['skillHitStages']>[number];
@@ -20,7 +21,7 @@ export function skillHitStageStoppedByTargetDeath(process: ProcessInstanceSnapsh
 
 export function hasProcessSkillHitStages(binding: SkillActionBinding, process: ProcessDefinition): boolean {
   return (process.steps.every(step => ['IMMEDIATE', 'DELAY'].includes(step.stepType)) || recastDefinition(process) !== null)
-    && binding.hitBindings.some(hit => hit.moment.momentType === 'STEP_EXECUTION');
+    && binding.hitBindings.some(hit => ['STEP_EXECUTION', 'PROCESS_COMPLETE'].includes(hit.moment.momentType));
 }
 
 /** 使用不可截断的原生提交事实，不由详细记录或初始属性重算动态步骤时刻。 */
@@ -34,9 +35,14 @@ export function inspectProcessSkillHitStages(binding: SkillActionBinding, defini
   if (!Array.isArray(facts) || facts.length > 64 || binding.hitBindings.length > 64) fail('缺少完整有限阶段事实');
   const byKey = new Map<string, Hit>();
   const indices = new Map(definition.steps.map((step, index) => [step.stepKey, index]));
+  const completeBinding = binding.hitBindings.some(hit => hit.moment.momentType === 'PROCESS_COMPLETE');
+  if (completeBinding && (binding.hitBindings.length !== 1 || !definition.steps.every(step => ['IMMEDIATE', 'DELAY'].includes(step.stepType)))) {
+    fail('完成命中不能与显式步骤混用，且仅接有限简单过程');
+  }
   for (const hit of binding.hitBindings) {
-    if (byKey.has(hit.hitBindingKey) || hit.processKey !== definition.processKey || hit.moment.momentType !== 'STEP_EXECUTION'
-      || !indices.has(hit.moment.stepKey ?? '')) fail('绑定缺少唯一真实过程执行时点');
+    if (byKey.has(hit.hitBindingKey) || hit.processKey !== definition.processKey || hit.moment.failureReason != null
+      || (completeBinding ? hit.moment.momentType !== 'PROCESS_COMPLETE' || hit.moment.stepKey != null
+        : hit.moment.momentType !== 'STEP_EXECUTION' || !indices.has(hit.moment.stepKey ?? ''))) fail('绑定缺少唯一真实过程执行时点');
     byKey.set(hit.hitBindingKey, hit);
   }
   const byFact = new Map<string, SkillHitStageFact>();
@@ -45,15 +51,23 @@ export function inspectProcessSkillHitStages(binding: SkillActionBinding, defini
   if (recast && binding.hitBindings.filter(hit => hit.moment.stepKey === terminal.stepKey).length !== 1) fail('重施步骤必须对应唯一真实命中绑定');
   const recastFacts: SkillHitStageFact[] = [];
   let previousIndex = -1, previousAt = process.startedAtMs;
+  const occurrences = new Set<number>();
   for (const fact of facts) {
+    assertProcessSkillHitStageShape(fact);
     const hit = byKey.get(fact.hitBindingKey);
     const index = indices.get(fact.stepKey) ?? -1;
-    if (Object.keys(fact).length !== 6 || Object.keys(fact).some(key => !['hitBindingKey', 'stepKey', 'timeMs', 'released', 'contact', 'completed'].includes(key))
-      || !hit || hit.moment.stepKey !== fact.stepKey
+    if (!hit || (completeBinding ? fact.stepKey !== terminal.stepKey : hit.moment.stepKey !== fact.stepKey)
       || (recast && fact.stepKey === terminal.stepKey ? index < previousIndex || !finiteRecastShape(definition.steps) && recastFacts.length > 0
         : byFact.has(fact.hitBindingKey) || index <= previousIndex)
-      || !Number.isSafeInteger(fact.timeMs) || fact.timeMs < previousAt || fact.timeMs > observationEndMs
-      || typeof fact.released !== 'boolean' || typeof fact.contact !== 'boolean' || typeof fact.completed !== 'boolean') fail('阶段身份、顺序或真实执行时刻不合法');
+      || fact.timeMs < previousAt || fact.timeMs > observationEndMs) fail('阶段身份、顺序或真实执行时刻不合法');
+    if (fact.contact) {
+      if (occurrences.has(fact.hitOccurrenceId)) fail('命中发生编号重复归入不同阶段');
+      occurrences.add(fact.hitOccurrenceId);
+    }
+    if (completeBinding && (process.status === 'active' || process.finishedAtMs !== fact.timeMs
+      || process.stepCompletedAtMs !== fact.timeMs || process.stepVersion !== definition.steps.length)) {
+      fail('完成命中必须来自真实完成时点，不能从末步执行提前推断');
+    }
     const priorKey = hit.requiresPriorHitBindingKey;
     if (recast && finiteRecastShape(definition.steps) && priorKey) fail('有限重施不依赖前段接触');
     const prior = priorKey ? byFact.get(priorKey) : undefined;
@@ -72,6 +86,12 @@ export function inspectProcessSkillHitStages(binding: SkillActionBinding, defini
     byFact.set(fact.hitBindingKey, fact); previousIndex = index; previousAt = fact.timeMs;
   }
   for (const hit of binding.hitBindings) {
+    if (completeBinding) {
+      if (process.status === 'complete' && !byFact.has(hit.hitBindingKey) || process.status === 'active' && byFact.has(hit.hitBindingKey)) {
+        fail('完成命中阶段与真正进入完成时点的状态不一致');
+      }
+      continue;
+    }
     const index = indices.get(hit.moment.stepKey!)!;
     const executed = index + 1 < process.stepVersion || index + 1 === process.stepVersion && process.stepExecutionIndex > 0;
     if (recast && hit.moment.stepKey === terminal.stepKey) {
@@ -108,4 +128,11 @@ export function processSkillHitTimes(process: ProcessInstanceSnapshot, hit: Hit,
     facts = hit.moment.stepKey === definition.steps[definition.steps.length - 1]?.stepKey ? ordinal > 0 ? facts.slice(ordinal - 1, ordinal) : [] : ordinal === 0 ? facts : [];
   }
   return facts.filter(fact => fact.contact).map(fact => fact.timeMs);
+}
+
+/** 同一命中能力可以供多个真实绑定复用；有阶段事实时再以原HIT发生编号消歧。 */
+export function processSkillHitIdentityMatches(process: ProcessInstanceSnapshot, hit: Hit, timeMs: number, hitRef: unknown): boolean {
+  if (!process.skillHitStages) return true;
+  return process.skillHitStages.some(fact => fact.contact && fact.hitBindingKey === hit.hitBindingKey
+    && fact.timeMs === timeMs && hitRef === `hit:${fact.hitOccurrenceId}`);
 }

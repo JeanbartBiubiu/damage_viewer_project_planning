@@ -512,6 +512,19 @@ class GameConfigurationWriteGuardTest {
         verify(connection, never()).commit();
     }
 
+    @Test
+    void finalProcessMomentCategoryConditionKeepsItsReferencedProcessTarget() throws Exception {
+        Connection connection = connection();
+        var rule = SkillTargetCategoryConditionSemanticsTest.rule("PROCESS_MOMENT", "{\"categories\":[\"CHAMPION\"]}");
+        var process = new SkillObjectReferences.Aggregate(SkillObjectReferences.SourceType.PROCESS, rule.skillKey(), "cast",
+            ProcessBehaviorTestData.leafProcess("cast").data());
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(List.of(
+            ProcessBehaviorTestData.row(process), ProcessBehaviorTestData.row(rule)));
+        transaction(connection).execute(status -> { guard.begin("lol"); return null; });
+        verify(connection).commit();
+        verify(connection, never()).rollback();
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"SKILL_USED", "BASIC_ATTACK_START"})
     void finalTargetCategoryEventChangeRollsBackBeforeReferenceReplacement(String event) throws Exception {

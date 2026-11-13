@@ -2,6 +2,8 @@ package model
 
 const EventTypeProcessResolved = "event/process_resolved"
 
+const ProcessEntrySkillHitPassive = "SKILL_HIT_PASSIVE"
+
 // 第4项 casting-runtime-r2：主动过程、明确控制事实与可恢复实例。
 type ProcessControlDefinition struct {
 	ProcessKey    string `json:"processKey"`
@@ -58,6 +60,8 @@ type ProcessMomentOperations struct {
 }
 
 type ProcessDefinition struct {
+	// EntryKind 省略时沿用主动或普攻控制；新被动变体只能由真实自有技能命中启动。
+	EntryKind        string                     `json:"entryKind,omitempty"`
 	ProcessKey       string                     `json:"processKey"`
 	SkillKey         string                     `json:"skillKey"`
 	Steps            []ProcessStepDefinition    `json:"steps"`
@@ -132,15 +136,31 @@ type BasicAttackPrimaryIdentity struct {
 
 // 已执行的显式简单阶段事实；不受展示记录预算影响，也不用于恢复资格。
 type ProcessSkillHitStage struct {
-	HitBindingKey string `json:"hitBindingKey"`
-	StepKey       string `json:"stepKey"`
-	TimeMs        int64  `json:"timeMs"`
-	Released      bool   `json:"released"`
-	Contact       bool   `json:"contact"`
-	Completed     bool   `json:"completed"`
+	HitSequence     *int     `json:"hitSequence,omitempty"`
+	HitOccurrenceID *uint64  `json:"hitOccurrenceId,omitempty"`
+	HitBlocked      *float64 `json:"hitBlocked,omitempty"`
+	HitBindingKey   string   `json:"hitBindingKey"`
+	StepKey         string   `json:"stepKey"`
+	TimeMs          int64    `json:"timeMs"`
+	Released        bool     `json:"released"`
+	Contact         bool     `json:"contact"`
+	Completed       bool     `json:"completed"`
+}
+
+// PassiveProcessOrigin保留原生技能命中的有限因果，不保存旧属性或事件大快照。
+// 被动过程的UseKey只标识过程实例；这里的UseKey才是原真实技能使用，不登记新主动使用。
+type PassiveProcessOrigin struct {
+	UseSource       string `json:"useSource"`
+	UseKey          string `json:"useKey"`
+	UseSkillKey     string `json:"useSkillKey"`
+	HitAbilityRef   string `json:"hitAbilityRef"`
+	HitSequence     int    `json:"hitSequence"`
+	HitOccurrenceID uint64 `json:"hitOccurrenceId"`
 }
 
 type ProcessInstanceSnapshot struct {
+	// PassiveOrigin仅输出真实被动续接因果；当前阶段明确拒绝恢复此类过程。
+	PassiveOrigin              *PassiveProcessOrigin         `json:"passiveOrigin,omitempty"`
 	Owner                      string                        `json:"owner"`
 	ProviderRef                string                        `json:"providerRef"`
 	ProcessKey                 string                        `json:"processKey"`

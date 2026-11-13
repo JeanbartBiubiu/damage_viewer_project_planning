@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import type { DoneResult, ProcessDefinition, ProcessInstanceSnapshot, SkillActionBinding, SkillActionPlan } from '../types/genericEngine';
 import { inspectProcessSkillHitStages, processSkillHitTimes } from './processSkillHitStageFacts';
+import { assertProcessSkillHitStagesOutputShape } from './processSkillHitStageShape';
+
+function withoutContact(fact: NonNullable<ProcessInstanceSnapshot['skillHitStages']>[number]) {
+  fact.contact = false;
+  for (const key of ['hitSequence', 'hitOccurrenceId', 'hitBlocked']) Reflect.deleteProperty(fact, key);
+}
 
 function sample() {
   const definition: ProcessDefinition = { processKey: 'cast', skillKey: 'staged', steps: [250, 750, 750].map((delay, index) => ({
@@ -15,7 +21,8 @@ function sample() {
     startedAtMs: 0, stepKey: 'phase_2', stepVersion: 3, stepExecutionIndex: 1, lastExecutionAtMs: 1750, stepCompletedAtMs: 1750,
     stepStartedAtMs: 1000, advanceAtMs: 1750, expiresAtMs: null, actualCosts: {}, cooldownStarted: true, status: 'complete', failureReason: null,
     finishedAtMs: 1750, repeat: null, actionOccupancies: [], skillHitStages: [250, 1000, 1750].map((timeMs, index) => ({
-      hitBindingKey: `hit_${index}`, stepKey: `phase_${index}`, timeMs, released: true, contact: true, completed: true
+      hitBindingKey: `hit_${index}`, stepKey: `phase_${index}`, timeMs, released: true, contact: true,
+      hitSequence: [2, 5, 9][index]!, hitOccurrenceId: [11, 19, 24][index]!, hitBlocked: 0, completed: true
     })) };
   const presets: SkillActionPlan['hitBindings'] = binding.hitBindings.map(hit => ({ hitBindingKey: hit.hitBindingKey, preset: 'TARGET_HIT' }));
   return { binding, definition, process, presets };
@@ -37,8 +44,8 @@ describe('不可截断阶段提交事实', () => {
 
   it('首段MISS只释放首段，后续步骤可以执行但不得发布释放或接触', () => {
     const { binding, definition, process, presets } = sample();
-    presets[0]!.preset = 'MISS'; process.skillHitStages![0]!.contact = false;
-    for (const fact of process.skillHitStages!.slice(1)) { fact.contact = false; fact.released = false; }
+    presets[0]!.preset = 'MISS'; withoutContact(process.skillHitStages![0]!);
+    for (const fact of process.skillHitStages!.slice(1)) { withoutContact(fact); fact.released = false; }
     expect(inspectProcessSkillHitStages(binding, definition, process, presets, 2000)?.filter(fact => fact.released)).toHaveLength(1);
     expect(processSkillHitTimes(process, binding.hitBindings[1]!)).toEqual([]);
   });
@@ -47,7 +54,7 @@ describe('不可截断阶段提交事实', () => {
     const { binding, definition, process, presets } = sample();
     process.status = 'active'; process.finishedAtMs = null;
     process.skillHitStages![0]!.completed = false;
-    for (const fact of process.skillHitStages!.slice(1)) { fact.contact = false; fact.released = false; }
+    for (const fact of process.skillHitStages!.slice(1)) { withoutContact(fact); fact.released = false; }
     expect(inspectProcessSkillHitStages(binding, definition, process, presets, 2000)?.[0]).toMatchObject({ contact: true, completed: false });
     process.skillHitStages![1]!.released = true;
     expect(() => inspectProcessSkillHitStages(binding, definition, process, presets, 2000)).toThrow('前置资格');
@@ -57,7 +64,8 @@ describe('不可截断阶段提交事实', () => {
     const { binding, definition, process, presets } = sample();
     for (const hit of binding.hitBindings) delete hit.requiresPriorHitBindingKey;
     process.skillHitStages![1]!.timeMs = 1750;
-    Object.assign(process.skillHitStages![2]!, { contact: false, completed: false });
+    withoutContact(process.skillHitStages![2]!);
+    process.skillHitStages![2]!.completed = false;
     const done = { ok: true, summary: { stopReason: 'target_dead', durationMs: 1750, targetFinalHp: 0,
       execution: { requestedDurationMs: 2000, complete: true, incompleteReason: null, budgetCause: null, targetKilled: true, targetKilledAtMs: 1750 } },
       finalSnapshot: { timeMs: 1750, combatants: [{ key: 'target', attributes: { hp: { current: 0, max: 1000 } } }] } } as DoneResult;
@@ -108,13 +116,57 @@ describe('不可截断阶段提交事实', () => {
     }
   );
 
-  it('首段前保留明确空数组，旧隐式末尾不要求新字段', () => {
+  it('首段前和真正完成前均保留明确空数组，缺失不能按旧隐式末尾通过', () => {
     const { binding, definition, process, presets } = sample();
     process.stepKey = 'phase_0'; process.stepVersion = 1; process.stepExecutionIndex = 0; process.skillHitStages = [];
     process.status = 'active'; process.lastExecutionAtMs = null; process.finishedAtMs = null;
     expect(inspectProcessSkillHitStages(binding, definition, process, presets, 2000)).toEqual([]);
     binding.hitBindings = [{ ...binding.hitBindings[0]!, moment: { momentType: 'PROCESS_COMPLETE', stepKey: null, failureReason: null } }];
+    expect(inspectProcessSkillHitStages(binding, definition, process, presets, 2000)).toEqual([]);
     process.skillHitStages = undefined;
-    expect(inspectProcessSkillHitStages(binding, definition, process, presets, 2000)).toBeUndefined();
+    expect(() => inspectProcessSkillHitStages(binding, definition, process, presets, 2000)).toThrow('完整有限阶段');
+  });
+  it('单段完成阶段对齐真实finishedAt，不从末步执行提前生成', () => {
+    const { binding, definition, process, presets } = sample();
+    binding.hitBindings = [{ ...binding.hitBindings[0]!, moment: { momentType: 'PROCESS_COMPLETE', stepKey: null, failureReason: null } }];
+    process.skillHitStages = [{ ...process.skillHitStages![0]!, stepKey: 'phase_2', timeMs: 1750 }];
+    expect(inspectProcessSkillHitStages(binding, definition, process, presets, 2000)).toHaveLength(1);
+    Reflect.deleteProperty(binding.hitBindings[0]!.moment, 'stepKey');
+    Reflect.deleteProperty(binding.hitBindings[0]!.moment, 'failureReason');
+    expect(inspectProcessSkillHitStages(binding, definition, process, presets, 2000)).toHaveLength(1);
+    process.status = 'active'; process.finishedAtMs = null; process.stepCompletedAtMs = null;
+    expect(() => inspectProcessSkillHitStages(binding, definition, process, presets, 2000)).toThrow('完成命中');
+    process.skillHitStages = [];
+    expect(inspectProcessSkillHitStages(binding, definition, process, presets, 2000)).toEqual([]);
+  });
+  it.each(['missing_identity', 'identity_null', 'identity_zero', 'unsafe_identity', 'blocked_two', 'extra_field', 'non_contact_identity'])(
+    '真实接触九字段与未接触六字段严格区分：%s', kind => {
+      const { binding, definition, process, presets } = sample();
+      const fact = process.skillHitStages![0]!;
+      if (kind === 'missing_identity') Reflect.deleteProperty(fact, 'hitSequence');
+      if (kind === 'identity_null') Object.assign(fact, { hitOccurrenceId: null });
+      if (kind === 'identity_zero') Object.assign(fact, { hitSequence: 0 });
+      if (kind === 'unsafe_identity') Object.assign(fact, { hitOccurrenceId: Number.MAX_SAFE_INTEGER + 1 });
+      if (kind === 'blocked_two') Object.assign(fact, { hitBlocked: 2 });
+      if (kind === 'extra_field') Object.assign(fact, { unrelated: true });
+      if (kind === 'non_contact_identity') fact.contact = false;
+      expect(() => inspectProcessSkillHitStages(binding, definition, process, presets, 2000)).toThrow('九字段或六字段');
+    });
+  it('法盾阻挡仍有真实接触身份，零阻挡不能因有效0而省略', () => {
+    const { binding, definition, process, presets } = sample();
+    Object.assign(process.skillHitStages![0]!, { hitBlocked: 1 });
+    expect(inspectProcessSkillHitStages(binding, definition, process, presets, 2000)?.[0]).toMatchObject({ contact: true, hitBlocked: 1 });
+    Reflect.deleteProperty(process.skillHitStages![1]!, 'hitBlocked');
+    expect(() => inspectProcessSkillHitStages(binding, definition, process, presets, 2000)).toThrow('九字段或六字段');
+  });
+  it('命中发生编号不能在本次运行跨过程重复登记', () => {
+    const { process } = sample();
+    const second = structuredClone(process);
+    second.useKey = 'other_use';
+    second.skillHitStages = second.skillHitStages!.map(fact => fact.contact ? { ...fact, hitOccurrenceId: fact.hitOccurrenceId + 100 } : fact);
+    const done = { finalSnapshot: { processInstances: [process, second] } };
+    expect(() => assertProcessSkillHitStagesOutputShape(done)).not.toThrow();
+    Object.assign(second.skillHitStages![0]!, { hitOccurrenceId: 11 });
+    expect(() => assertProcessSkillHitStagesOutputShape(done)).toThrow('不能重复归入');
   });
 });

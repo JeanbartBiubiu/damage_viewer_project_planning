@@ -290,6 +290,16 @@ func (s BasicAttackExecutor) Initialize(input SkillAdmission, stopOnTargetDeath 
 				}
 				for _, operation := range definitions.Operations[int(entry.OperationStart) : int(entry.OperationStart)+int(entry.OperationCount)] {
 					triggerOperations[operation.Path] = true
+					if operation.Operation != model.OperationKindStartPassiveProcess {
+						continue
+					}
+					// 完整来源和监听准入已核对新入口；只登记该编译过程的真实尾操作。
+					passive := definitions.Providers[operation.OwnerProviderIndex].Processes[operation.PassiveProcessIndex]
+					for _, moment := range passive.MomentOperations {
+						for _, leaf := range definitions.Operations[int(moment.OperationStart) : int(moment.OperationStart)+int(moment.OperationCount)] {
+							triggerOperations[leaf.Path] = true
+						}
+					}
 				}
 				continue
 			}

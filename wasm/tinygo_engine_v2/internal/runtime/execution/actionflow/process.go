@@ -115,6 +115,8 @@ type ProcessExecutorAPI interface {
 	// PrepareNativeProcess 核对真实普攻开始事实、完整使用与当前过程集合，只返回原启动或普通拒绝决定。
 	// 根层保留原同步深度及复制收集器的局部参数，不将其装入接口适配对象或计时。
 	PrepareNativeProcess(input NativeProcessStart, ability planbundle.CompiledAbility, providers []planbundle.CompiledProvider, reads NativeProcessReads) (PreparedNativeProcess, *model.EngineError)
+	// PreparePassiveProcess核对当前原生命中及实际来源，创建未发布独立实例；不登记主动使用或计费。
+	PreparePassiveProcess(input PassiveProcessStart, ability planbundle.CompiledAbility, operation planbundle.CompiledOperation, providers []planbundle.CompiledProvider, reads NativeProcessReads) (*actionpkg.ProcessView, *model.EngineError)
 	// RequireAttackProcess 完整遍历实际过程，核对本次普攻命中依附其原成功开始使用。
 	RequireAttackProcess(ability planbundle.CompiledAbility, skill, use, ref, source, target, driver string, now int64, providers []planbundle.CompiledProvider, abilities []planbundle.CompiledAbility) *model.EngineError
 	// CaptureStartState 在原启动位置核对强化使用与全部显式安全整数，失败不保存部分捕获。
@@ -219,6 +221,11 @@ func (s ProcessExecutor) HandleTimer(timer ProcessTimer, now int64, phases Proce
 		return nil
 	}
 	if process.StepVersion() == 0 {
+		if process.Definition().EntryKind == model.ProcessEntrySkillHitPassive {
+			if err := s.Moment(process, "PROCESS_START", "", phases); err != nil {
+				return err
+			}
+		}
 		return s.EnterStep(process, 0, now, phases)
 	}
 	if process.HasStepCompletion() {
