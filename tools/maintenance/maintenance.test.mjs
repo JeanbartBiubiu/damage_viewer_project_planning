@@ -9,6 +9,7 @@ import { validateCandidate, candidateSnapshot, operationRequests, operationsForB
 import { sha256, digestJson, canonical, containedFile } from './artifacts.mjs';
 import { signReceipt, validationPayload, verifyDatabaseInputs } from './verify-candidate.mjs';
 import { makeClient, validateBase, applyCandidate, reconcileCandidate } from './client.mjs';
+import { collectSavedScenes } from './collect-saved-scenes.mjs';
 import { verifyWebhook, feedbackTask, enqueueFeedback, validateResult, processJob, verifyAcceptance, publishReply } from './feedback.mjs';
 import { publicRoutes, renderNginx } from './generate-nginx.mjs';
 
@@ -33,6 +34,24 @@ function temporary(t) {
   t.after(() => { const target = realpathSync(directory); assert.equal(dirname(target), parent); assert.match(basename(target), /^damage-maintenance-test-/); rmSync(target, { recursive: true }); });
   return directory;
 }
+
+test('保存后采集复用原场景和独立预期，配置漂移不生成成功计划', async t => {
+  const candidate = validateCandidate(fixture()), calls = [], output = resolve(temporary(t), 'saved');
+  const client = { request: async (method, path, body) => {
+    calls.push({ method, path });
+    if (path.endsWith('/baseline')) return { data: { baselineDigest: hash } };
+    if (path.endsWith('/configuration')) return { data: candidate.skillPlan.items[0].expected };
+    assert.equal(method, 'POST'); assert.ok(path.endsWith('/simulation-snapshot'));
+    return { data: { ...candidate.scenes[0].snapshot, selection: JSON.parse(body), skillConfigurations: [candidate.skillPlan.items[0].expected] } };
+  } };
+  const result = await collectSavedScenes(client, candidate, output);
+  assert.equal(result.complete, true); assert.equal(result.scenes, 1);
+  assert.deepEqual(JSON.parse(readFileSync(resolve(output, 'expected-plan.json'))), candidate.expectedPlan);
+  assert.deepEqual(JSON.parse(readFileSync(resolve(output, 'scenes.json'))).cases[0], { id: 'normal', snapshotFile: 'snapshots/normal.json', mode: 'fixed' });
+  assert.ok(calls.every(row => row.method === 'GET' || row.path.endsWith('/simulation-snapshot')));
+  const drift = { request: async (_method, path) => ({ data: path.endsWith('/baseline') ? { baselineDigest: hash } : candidate.skillPlan.items[0].before }) };
+  await assert.rejects(collectSavedScenes(drift, candidate, resolve(temporary(t), 'drift')), /完整配置与冻结预期不符/);
+});
 function issue(body = '实际伤害与预期不同。', updatedAt = '2026-11-13T00:00:00Z') {
   return { action: 'opened', repository: { full_name: 'test/feedback' }, sender: { type: 'User' },
     issue: { number: 1, title: '伤害问题', body, updated_at: updatedAt, html_url: 'https://github.com/test/feedback/issues/1' } };

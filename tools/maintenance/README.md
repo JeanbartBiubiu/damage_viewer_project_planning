@@ -16,6 +16,7 @@
 node tools/maintenance/client.mjs --help
 node tools/maintenance/candidate.mjs --help
 node tools/maintenance/verify-candidate.mjs --help
+node tools/maintenance/collect-saved-scenes.mjs --help
 node tools/maintenance/accept-public.mjs --help
 ```
 
@@ -32,6 +33,8 @@ node tools/maintenance/accept-public.mjs --help
 真实 Node 计算由 `engine-client.ts` 共用正式桥接与维护票据接线。票据文件只取后端维护取票接口的响应，每次编译和运行重新读取，主体变化、过期或错误类别失败，不访问测试签名材料；最终签名和权限仍由启用第 2 版验签的正式 Wasm 独立核验。
 
 `verify-candidate.mjs` 不提供密钥时可生成诊断证据；正式签发另需 `--read-config`（受信真实服务读取配置）及隔离签发私钥，输出独占创建，不覆盖旧证据。输入快照、被冻结的服务配置及原始独立预期始终保留。诊断通过不授予整角色计算资格。
+
+保存后使用 `collect-saved-scenes.mjs --candidate <冻结候选> --read-config <私密读取配置> --output <新目录>`，独立核对各技能完整预期、读取同选择的普通实库快照，并确认采集期间游戏基线稳定。生成的 `scenes.json` 直接交给技能场景运行脚本，`expected-plan.json` 复用候选独立预期。该工具不写业务、不自动计算或提升准入；中途失败保留已有文件且不生成成功汇总，避免每批重写相同采集接线。
 
 维护请求默认等待60000毫秒，私密客户端配置可用 `requestTimeoutMs` 在1000～300000整数毫秒内调整，期限包含完整响应体。响应不明不代表未保存；使用 `client.mjs reconcile --config <私密配置> --candidate <冻结候选> --output <新回读目录>` 核对批次已提交序号、完整配置和实际游戏基线。该命令只读取，不重发配置、不自动续写或完成批次；原失败尝试保持。
 
