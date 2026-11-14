@@ -193,21 +193,26 @@ export function validatePlan(plan) {
       const changePath = `${where}.request.changes[${changeIndex}]`;
       object(change, ['objectType', 'operation', 'key', 'value'], changePath);
       const collection = own(CHANGE_COLLECTIONS, change.objectType) ? CHANGE_COLLECTIONS[change.objectType] : null;
-      if (!collection || !['CREATE', 'UPDATE'].includes(change.operation)) fail(changePath, '仅允许六种技能组成的CREATE或UPDATE，不执行删除');
+      if (!collection || !['CREATE', 'UPDATE', 'DELETE'].includes(change.operation)) fail(changePath, '仅允许六种技能组成的CREATE、UPDATE或DELETE');
       stableKey(change.key, `${changePath}.key`);
       const identity = `${change.objectType}/${change.key}`;
       if (changedObjects.has(identity)) fail(changePath, '同一对象重复');
       changedObjects.add(identity);
       const keyField = COLLECTIONS[collection];
       const creating = change.operation === 'CREATE';
+      const position = projected[collection].findIndex(row => row[keyField] === change.key);
+      if (creating && position >= 0) fail(`${changePath}.key`, '新增对象已经存在');
+      if (!creating && position < 0) fail(`${changePath}.key`, '原对象不存在');
+      if (change.operation === 'DELETE') {
+        if (change.value !== null) fail(`${changePath}.value`, '删除操作必须明确为null');
+        projected[collection].splice(position, 1);
+        continue;
+      }
       const writeFields = ROW_FIELDS[collection].filter(field => !['gameId', 'skillKey'].includes(field)
         && (creating || field !== keyField));
       object(change.value, writeFields, `${changePath}.value`);
       if (creating && change.value[keyField] !== change.key) fail(`${changePath}.value.${keyField}`, '新增值标识必须等于变更键');
       if (collection === 'triggerRules') rule(change.value, `${changePath}.value`, creating);
-      const position = projected[collection].findIndex(row => row[keyField] === change.key);
-      if (creating && position >= 0) fail(`${changePath}.key`, '新增对象已经存在');
-      if (!creating && position < 0) fail(`${changePath}.key`, '原对象不存在');
       const currentRow = creating ? {} : projected[collection][position];
       const replacement = { ...(collection === 'triggerRules' ? {} : { gameId: plan.gameId, skillKey: item.skillKey }),
         [keyField]: change.key, ...clone(change.value),

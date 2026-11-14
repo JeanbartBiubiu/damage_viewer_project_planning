@@ -109,6 +109,7 @@ async function fixture(t, { count = 1, patch, get } = {}) {
     for (const change of body.changes) {
       const [collection, key] = TYPES[change.objectType];
       const index = state[collection].findIndex(row => row[key] === change.key);
+      if (change.operation === 'DELETE') { state[collection].splice(index, 1); continue; }
       const row = { ...(collection === 'triggerRules' ? {} : { gameId: 'demo', skillKey }),
         [key]: change.key, ...copy(change.value) };
       if (change.operation === 'CREATE') state[collection].push(row);
@@ -118,7 +119,7 @@ async function fixture(t, { count = 1, patch, get } = {}) {
       a[key] < b[key] ? -1 : a[key] > b[key] ? 1 : 0);
     state.baseDigest = 'b'.repeat(64);
     state.skill.updatedAt = '2026-10-17T01:00:00Z';
-    state.parameters[0].updatedAt = '2026-10-17T01:00:00Z';
+    if (state.parameters[0]) state.parameters[0].updatedAt = '2026-10-17T01:00:00Z';
     return copy(state);
   };
   const server = createServer(async (req, res) => {
@@ -429,6 +430,55 @@ test('六种组成的新增与修改同一摘要保护PATCH，完整独立回读
   assert.equal(rerun.passed, true);
   assert.equal(rerun.patchCount, 0);
   assert.equal(f.requests.length, 1);
+});
+
+function allObjectDeletes(item) {
+  item.request.changes = [];
+  item.expected = copy(item.before);
+  for (const [objectType, [collection, keyField]] of Object.entries(TYPES)) {
+    item.request.changes.push({ objectType, operation: 'DELETE', key: item.before[collection][0][keyField], value: null });
+    item.expected[collection] = [];
+  }
+}
+
+test('六种组成删除采用同一次保护保存和完整回读，结果已落地时跳过重放', async t => {
+  const f = await fixture(t);
+  allObjectDeletes(f.plan.items[0]);
+  const summary = await f.run({ apply: true });
+  assert.equal(summary.passed, true, JSON.stringify(summary.error));
+  assert.equal(summary.patchCount, 1);
+  assert.equal(f.requests[0].body.changes.length, 6);
+  assert.equal(sameConfiguration(f.current.get('sample_q'), f.plan.items[0].expected), true);
+  const repeated = await f.run({ apply: true });
+  assert.equal(repeated.passed, true);
+  assert.equal(repeated.patchCount, 0);
+  assert.equal(f.requests.length, 1);
+});
+
+test('删除保存响应不明先独立回读确认，不重放DELETE', async t => {
+  const f = await fixture(t, { patch({ skillKey, body, commit, res }) { commit(skillKey, body); res.destroy(); } });
+  allObjectDeletes(f.plan.items[0]);
+  const summary = await f.run({ apply: true });
+  assert.equal(summary.passed, true, JSON.stringify(summary.error));
+  assert.equal(summary.items[0].status, 'applied-confirmed-after-uncertain');
+  assert.equal(f.requests.length, 1);
+});
+
+for (const [name, mutate] of [
+  ['DELETE不存在', item => { item.request.changes[0].key = 'missing_key'; }],
+  ['DELETE夹带对象', item => { item.request.changes[0].value = {}; }],
+  ['DELETE缺失value', item => { delete item.request.changes[0].value; }],
+  ['DELETE重复对象', item => { item.request.changes.push(copy(item.request.changes[0])); }],
+  ['DELETE预期未移除', item => { item.expected.effects = copy(item.before.effects); }],
+  ['DELETE预期额外丢失', item => { item.expected.skill.description = '未声明修改'; }]
+]) test(`${name}在任何读取或写入前拒绝`, async t => {
+  const f = await fixture(t);
+  allObjectDeletes(f.plan.items[0]);
+  mutate(f.plan.items[0]);
+  const summary = await f.run({ apply: true });
+  assert.equal(summary.passed, false);
+  assert.equal(f.calls.length, 0);
+  assert.equal(f.requests.length, 0);
 });
 
 test('新组成保存结果不明也只回读，不重放CREATE', async t => {

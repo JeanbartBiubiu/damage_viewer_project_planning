@@ -26,7 +26,7 @@ node tools/maintenance/accept-public.mjs --help
 
 当前自动候选仅接受不改变来源、引用、枚举、排序、集合结构和最高等级的数值或说明修正。新增组成、触发入口、依赖、类别或其他配置对象交回开发验证，不沿用旧快照的派生信息。此限制由代码拒绝，不能用替换摘要绕过。
 
-开发录入新增组成时，显式使用 `candidate.mjs --mode development`，冻结为独立的开发候选。场景除原始 `snapshot` 外还提供 `previewSnapshot`，后者必须来自私有只读 `POST /internal/maintenance/games/{gameId}/simulation-preview`。请求为 `{selection, updates:[{skillKey, request}]}`，按真实快照 `references` 的来源和目标技能筛选本场实际执行闭包内的更新；完整配置列表中的其它本批技能保持原基线，每项变更至少在一场实际进入闭包，缺少执行引用则拒绝。后端核对原摘要，用现行配置准备和场景装配重建来源、引用及目录，不写业务数据。验证执行者再次向真实服务读取原始和预检快照，逐字段核对后才运行并签发。正式保存后的对象仍用普通快照验收；开发预检不替代保存或完整对象准入。
+开发录入新增组成时，显式使用 `candidate.mjs --mode development`，冻结为独立的开发候选。场景除原始 `snapshot` 外还提供 `previewSnapshot`，后者必须来自私有只读 `POST /internal/maintenance/games/{gameId}/simulation-preview`。请求为 `{selection, updates:[{skillKey, request}]}`，按真实快照 `references` 的来源和目标技能筛选本场实际执行闭包内的更新；完整配置列表中的其它本批技能保持原基线，每项变更至少在一场实际进入闭包，缺少执行引用则拒绝。后端核对原摘要，用现行配置准备和场景装配重建来源、引用及目录，不写业务数据。开发候选允许已授权的组成`DELETE/null`，并检查完整最终聚合中的本地引用；自动候选仍拒绝结构删除。验证执行者再次向真实服务读取原始和预检快照，逐字段核对后才运行并签发。正式保存后的对象仍用普通快照验收；开发预检不替代保存或完整对象准入。
 
 新增主动入口等结构修复可能使修前普通快照无法生成。仅开发候选可明确填写 `snapshot: null`，保留真实 `previewSnapshot`；不省略字段或伪造普通快照。此时验证前后独立读取本批全部技能的完整配置，分别核对冻结 `before` 的业务内容与 `baseDigest`，再按预检选择和真实执行引用重建、核对整个后端预检场景。原始配置、预检与全游戏基线证据同时保留；正式保存后仍通过普通场景快照验证。
 

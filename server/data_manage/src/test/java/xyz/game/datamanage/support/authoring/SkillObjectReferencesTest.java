@@ -29,6 +29,34 @@ import xyz.game.datamanage.support.error.ApiException;
 
 class SkillObjectReferencesTest {
     @Test
+    void localCandidateChecksRealParametersAndNestedTargetsWithoutClaimingExternalValidity() {
+        var formula = aggregate(SourceType.FORMULA, "s1", "damage", "{\"expression\":"
+            + xyz.game.datamanage.support.formula.SkillFormulaFixtures.parameter("s1", "base") + "}");
+        var external = aggregate(SourceType.TRIGGER, "s1", "external_change", """
+            {"eventSource":{"eventType":"INTERNAL_STATE_CHANGED","detail":{"stateSkillKey":"other","stateKey":"external"}},
+             "conditionGroups":[],"actions":[]}
+            """);
+        var effect = aggregate(SourceType.EFFECT, "s1", "hit", """
+            {"results":[{"resultKey":"damage","resultType":"DAMAGE",
+              "valueRule":{"value":{"kind":"FORMULA","formulaKey":"damage"}},"detail":{}}]}
+            """);
+        var trigger = aggregate(SourceType.TRIGGER, "s1", "on_damage", """
+            {"eventSource":{"eventType":"RESULT_AVAILABLE","detail":{"effectKey":"hit","resultKey":"damage"}},
+             "conditionGroups":[],"actions":[]}
+            """);
+        List<Aggregate> complete = List.of(formula, effect, trigger, external);
+        SkillObjectReferences.validateLocalTargets("lol", "s1", complete, Set.of("base"));
+        assertThrows(ApiException.class, () -> SkillObjectReferences.validateLocalTargets("lol", "s1", complete, Set.of()));
+        assertThrows(ApiException.class, () -> SkillObjectReferences.validateLocalTargets("lol", "s1", List.of(formula, trigger), Set.of("base")));
+        assertThrows(ApiException.class, () -> SkillObjectReferences.validateLocalTargets("lol", "s1", List.of(effect, trigger), Set.of("base")));
+        var missingChild = aggregate(SourceType.EFFECT, "s1", "hit", "{\"results\":[]}");
+        assertThrows(ApiException.class, () -> SkillObjectReferences.validateLocalTargets("lol", "s1", List.of(formula, missingChild, trigger), Set.of("base")));
+        // 本地检查并不替外部参数造目标；完整引用校验仍会拒绝该缺失外部目标。
+        assertThrows(ApiException.class, () -> SkillObjectReferences.extractAndValidate("lol", complete,
+            Set.of(new Target(TargetType.PARAMETER, "s1", "base", ""))));
+    }
+
+    @Test
     void damageTypeSourceKeepsEmptySkillScopeAndPreciseInputAttributePath() {
         var formula = xyz.game.datamanage.support.formula.DamageTypeFormulaFixtures.definition("1", "armor");
         var data = new com.fasterxml.jackson.databind.ObjectMapper().createObjectNode().set("formula", formula);

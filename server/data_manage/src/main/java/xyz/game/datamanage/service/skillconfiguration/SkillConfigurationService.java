@@ -64,6 +64,7 @@ import xyz.game.datamanage.service.skillprocess.SkillProcessService;
 import xyz.game.datamanage.service.skillinternalstate.SkillInternalStateService;
 import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard;
+import xyz.game.datamanage.support.authoring.SkillObjectReferences;
 import xyz.game.datamanage.support.authoring.SkillProcessBehaviorSemantics;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.Aggregate;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.SourceType;
@@ -204,10 +205,6 @@ public class SkillConfigurationService {
         if (!before.baseDigest().equals(request.baseDigest())) {
             throw conflict("409.SKILL_CONFIGURATION_CHANGED", "技能配置已被其他保存修改，请重新读取", "skill", skillKey);
         }
-        if (request.changes() != null && request.changes().stream().anyMatch(change -> change != null
-            && "DELETE".equals(change.operation()))) {
-            throw invalid("changes", "PREVIEW_DELETE_FORBIDDEN", "候选场景不接受删除操作", "skill", skillKey);
-        }
         SkillUpdateRequest skill = parseSkill(request.skill(), false);
         int maximum = skill == null ? before.skill().maxLevel() : skill.maxLevel();
         PreparedConfiguration candidate = prepareChangeShapes(gameId, skillKey, request.changes(),
@@ -229,6 +226,18 @@ public class SkillConfigurationService {
         Map<String, SkillTriggerRuleDetailResponse> rules = indexed(before.triggerRules(), SkillTriggerRuleDetailResponse::ruleKey);
         for (PreparedChange change : candidate.changes()) {
             String key = change.key();
+            if (change.operation() == Operation.DELETE) {
+                switch (change.type()) {
+                    case "PARAMETER" -> parameters.remove(key);
+                    case "FORMULA" -> formulas.remove(key);
+                    case "EFFECT" -> effects.remove(key);
+                    case "PROCESS" -> processes.remove(key);
+                    case "INTERNAL_STATE" -> states.remove(key);
+                    case "TRIGGER_RULE" -> rules.remove(key);
+                    default -> throw new IllegalStateException("已准备的候选包含未知组成");
+                }
+                continue;
+            }
             boolean creating = change.operation() == Operation.CREATE;
             switch (change.type()) {
                 case "PARAMETER" -> {
@@ -275,6 +284,9 @@ public class SkillConfigurationService {
         content.effects().forEach(row -> behaviorContext.add(new Aggregate(SourceType.EFFECT, skillKey, row.effectKey(), objectMapper.valueToTree(row))));
         content.internalStates().forEach(row -> behaviorContext.add(new Aggregate(SourceType.STATE, skillKey, row.stateKey(), objectMapper.valueToTree(row))));
         content.triggerRules().forEach(row -> behaviorContext.add(new Aggregate(SourceType.TRIGGER, skillKey, row.ruleKey(), objectMapper.valueToTree(row))));
+        List<Aggregate> referenceContext = new ArrayList<>(behaviorContext);
+        content.formulas().forEach(row -> referenceContext.add(new Aggregate(SourceType.FORMULA, skillKey, row.formulaKey(), objectMapper.valueToTree(row))));
+        SkillObjectReferences.validateLocalTargets(gameId, skillKey, referenceContext, candidate.parameterKeys());
         SkillProcessBehaviorSemantics.validate(Set.of(skillKey), behaviorContext);
         return new SkillConfigurationResponse(content.skill(), content.parameters(), content.formulas(), content.effects(),
             content.processes(), content.internalStates(), content.triggerRules(), digest(content));

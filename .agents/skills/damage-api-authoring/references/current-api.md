@@ -14,7 +14,7 @@
 | 构筑系统与选项 | `src/services/buildClient.ts`及`src/types/build.ts` | `controller/adminapi/build/`与实际服务；按当前映射定位 |
 | 计算可用目录 | `src/services/simulationAvailabilityClient.ts`及`src/types/simulationAvailability.ts` | `controller/adminapi/simulation/SimulationAvailabilityAdminController.java`、`service/simulation/availability/` |
 
-读取技能聚合使用`GET /api/admin/games/{gameId}/skills/{skillKey}/configuration`。修改已有技能使用同一路径的`PATCH`，顶层为`baseDigest`、可选的`skill`、`changes`；配套脚本接受同一形状。`skill`提供完整`name / description / maxLevel / status / sortOrder / skillCategoryKeys`，不带`skillKey / gameId / createdAt / updatedAt`，未改字段按冻结基线保留。每项组成变化为`objectType / operation / key / value`，脚本支持六种组成的`CREATE / UPDATE`；`value`使用完整请求类型，不带所属对象和时间戳。`CREATE`带与`key`一致的组成标识，`UPDATE`不带标识。仅修改主体时`changes`可为空；未提供主体时至少有一项组成变更。完整规则的未变动作、条件、保护配置仍保留。
+读取技能聚合使用`GET /api/admin/games/{gameId}/skills/{skillKey}/configuration`。修改已有技能使用同一路径的`PATCH`，顶层为`baseDigest`、可选的`skill`、`changes`；配套脚本接受同一形状。`skill`提供完整`name / description / maxLevel / status / sortOrder / skillCategoryKeys`，不带`skillKey / gameId / createdAt / updatedAt`，未改字段按冻结基线保留。每项组成变化为`objectType / operation / key / value`，脚本支持六种组成的`CREATE / UPDATE / DELETE`；`value`使用完整请求类型，不带所属对象和时间戳。`CREATE`带与`key`一致的组成标识，`UPDATE`不带标识。仅修改主体时`changes`可为空；未提供主体时至少有一项组成变更。完整规则的未变动作、条件、保护配置仍保留。
 
 | objectType | 组成标识 | 完整读取集合 |
 | --- | --- | --- |
@@ -27,7 +27,7 @@
 
 冻结计划中的 `sourceEvidence[].path` 相对计划文件所在目录解析；先核对每个实际文件和摘要，再运行只读预检。它不以当前命令所在的仓库目录为基准。
 
-新建技能的同路由`POST`要求完整主体且不允许基线摘要，不能将更新请求改方法后直接复用。配套脚本不执行技能新建或任何删除。角色、属性、关系及构筑各有自己的保护与返回形状，先读对应客户端与后端，不能套用技能的摘要协议。
+新建技能的同路由`POST`要求完整主体且不允许基线摘要，不能将更新请求改方法后直接复用。配套脚本不执行技能新建或删除技能主体。六类组成的`DELETE`须有授权，提供原目标键及明确的`value: null`；同批清理必要引用，完整预期移除对应组成。只读候选核对完整最终聚合的本地引用，外部引用仍由场景闭包解析，正式保存重新检查完整引用和并发保护。结构删除仅走开发候选，自动候选不接受。角色、属性、关系及构筑各有自己的保护与返回形状，先读对应客户端与后端，不能套用技能的摘要协议。
 
 过程的冷却起点、效果挂接、状态操作时点，以及 `PROCESS_MOMENT` 事件的 `detail.moment`，均使用后端 `SkillProcessMoment`：回读会省略空 `failureReason`，前端解析为 `null`；保护脚本仅在这四处把缺失与空失败原因视为相同。明确失败原因及其它嵌套业务字段仍完整比较，不递归忽略空值。
 

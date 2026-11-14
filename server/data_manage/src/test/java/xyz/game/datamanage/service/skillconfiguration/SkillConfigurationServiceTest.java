@@ -695,7 +695,7 @@ class SkillConfigurationServiceTest {
         var formula = new SkillConfigurationChange("FORMULA", "CREATE", "ratio", json.readTree("""
             {"formulaKey":"ratio","name":"比例","description":null,"sortOrder":2,"expression":{
              "inputs":[{"key":"coefficient","binding":{"kind":"parameter","skillKey":"ezreal_q","parameterKey":"coefficient"}}],
-             "stages":[{"key":"value","expression":{"op":"read","inputKey":"coefficient"}}],"outputStageKey":"value"}}
+             "stages":[{"key":"value","name":"比例","expression":{"op":"read","inputKey":"coefficient"}}],"outputStageKey":"value"}}
             """));
         var result = service.previewUpdate(GAME, SKILL, new SkillConfigurationSaveRequest(before.baseDigest(),
             skillValue(5), List.of(parameter, formula)));
@@ -764,7 +764,7 @@ class SkillConfigurationServiceTest {
     }
 
     @Test
-    void previewRefusesStaleDigestUnknownFieldsAndDeletesWithoutAnyWrite() throws Exception {
+    void previewRefusesStaleDigestUnknownFieldsAndMissingDeleteTargetWithoutAnyWrite() throws Exception {
         var before = service.get(GAME, SKILL);
         assertEquals("409.SKILL_CONFIGURATION_CHANGED", assertThrows(ApiException.class, () ->
             service.previewUpdate(GAME, SKILL, new SkillConfigurationSaveRequest("stale", skillValue(5), List.of()))).getCode());
@@ -776,6 +776,77 @@ class SkillConfigurationServiceTest {
         assertThrows(ApiException.class, () -> service.previewUpdate(GAME, SKILL,
             new SkillConfigurationSaveRequest(before.baseDigest(), body, List.of())));
         org.mockito.Mockito.verifyNoInteractions(guard, skillMapper);
+    }
+
+    @Test
+    void previewDeletesAllSixKindsAndTheirReferencesWithoutWritingOrChangingBaseline() throws Exception {
+        existingStateAndEffect();
+        existingPreviewRule();
+        when(parameterService.list(GAME, SKILL)).thenReturn(List.of(parameter("base", null)));
+        when(formulaService.list(GAME, SKILL)).thenReturn(List.of(new SkillFormulaSummaryResponse(
+            GAME, SKILL, "damage", "伤害", null, 0, TIME, TIME)));
+        when(formulaService.get(GAME, SKILL, "damage")).thenReturn(new SkillFormulaDetailResponse(
+            GAME, SKILL, "damage", "伤害", null, 0,
+            xyz.game.datamanage.support.formula.SkillFormulaFixtures.parameter(SKILL, "base"), TIME, TIME));
+        when(processService.list(GAME, SKILL)).thenReturn(List.of(new SkillProcessSummaryResponse(
+            GAME, SKILL, "cast", "施放", SkillProcessActivationType.ACTIVE, null, 0, 1, 0, 0, TIME, TIME)));
+        when(processService.get(GAME, SKILL, "cast")).thenReturn(process(false));
+        var before = service.get(GAME, SKILL);
+        var result = service.previewUpdate(GAME, SKILL, new SkillConfigurationSaveRequest(before.baseDigest(), null, List.of(
+            new SkillConfigurationChange("PARAMETER", "DELETE", "base", null),
+            new SkillConfigurationChange("FORMULA", "DELETE", "damage", null),
+            new SkillConfigurationChange("EFFECT", "DELETE", "old_effect", null),
+            new SkillConfigurationChange("PROCESS", "DELETE", "cast", null),
+            new SkillConfigurationChange("INTERNAL_STATE", "DELETE", "flag", null),
+            new SkillConfigurationChange("TRIGGER_RULE", "DELETE", "on_hit", null))));
+        assertTrue(result.parameters().isEmpty());
+        assertTrue(result.formulas().isEmpty());
+        assertTrue(result.effects().isEmpty());
+        assertTrue(result.processes().isEmpty());
+        assertTrue(result.internalStates().isEmpty());
+        assertTrue(result.triggerRules().isEmpty());
+        assertNotEquals(before.baseDigest(), result.baseDigest());
+        assertEquals(before, service.get(GAME, SKILL));
+        org.mockito.Mockito.verifyNoInteractions(guard, skillMapper);
+        verify(effectService, never()).deleteWithinConfiguration(any(), any(), any());
+        verify(parameterService, never()).deleteWithinConfiguration(any(), any(), any());
+        verify(formulaService, never()).deleteWithinConfiguration(any(), any(), any());
+        verify(processService, never()).deleteWithinConfiguration(any(), any(), any());
+        verify(internalStateService, never()).deleteWithinConfiguration(any(), any(), any());
+        verify(triggerRuleService, never()).deleteWithinConfiguration(any(), any(), any());
+    }
+
+    @Test
+    void previewRejectsRetainedUnexecutedReferenceAndNonNullDeletePayload() throws Exception {
+        existingStateAndEffect();
+        existingPreviewRule();
+        var before = service.get(GAME, SKILL);
+        var dangling = assertThrows(ApiException.class, () -> service.previewUpdate(GAME, SKILL,
+            new SkillConfigurationSaveRequest(before.baseDigest(), null,
+                List.of(new SkillConfigurationChange("EFFECT", "DELETE", "old_effect", null)))));
+        assertEquals("409.SKILL_OBJECT_REFERENCE_INVALID", dangling.getCode());
+        assertTrue(dangling.getDetails().toString().contains("old_effect"));
+        var payload = assertThrows(ApiException.class, () -> service.previewUpdate(GAME, SKILL,
+            new SkillConfigurationSaveRequest(before.baseDigest(), null,
+                List.of(new SkillConfigurationChange("EFFECT", "DELETE", "old_effect", json.readTree("{}"))))));
+        assertTrue(payload.getDetails().toString().contains("FORBIDDEN"));
+        assertEquals(before, service.get(GAME, SKILL));
+        org.mockito.Mockito.verifyNoInteractions(guard, skillMapper);
+        verify(effectService, never()).deleteWithinConfiguration(any(), any(), any());
+    }
+
+    private void existingPreviewRule() throws Exception {
+        when(triggerRuleService.list(GAME, SKILL)).thenReturn(List.of(
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleSummaryResponse("on_hit", "命中", null,
+                xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType.SKILL_HIT, 0, 1, false, false, false, 0, TIME)));
+        when(triggerRuleService.get(GAME, SKILL, "on_hit")).thenReturn(json.readValue("""
+            {"ruleKey":"on_hit","name":"命中","description":null,"sortOrder":0,
+             "eventSource":{"eventType":"SKILL_HIT","detail":{"sourceSkillKey":null}},"conditionGroups":[],
+             "actions":[{"actionKey":"apply","name":"应用","actionType":"EXECUTE_EFFECT",
+               "detail":{"effectKey":"old_effect"},"sortOrder":0,"targetContext":"CURRENT_TARGET",
+               "runtimeInputBindings":[],"resultModifiers":[]}],
+             "perTargetCooldown":null,"maxTriggersPerProcess":null,"oncePerUse":null}
+            """, xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleDetailResponse.class));
     }
 
     private JsonNode skillValue(int maxLevel) throws Exception {

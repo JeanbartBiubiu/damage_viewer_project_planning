@@ -40,6 +40,17 @@ public final class SkillObjectReferences {
         return List.copyOf(references);
     }
 
+    /** 检查完整候选中指向本技能的引用；外部技能与字典仍由场景闭包及正式保存解析。 */
+    public static void validateLocalTargets(String gameId, String skillKey, List<Aggregate> finalAggregates,
+                                           Set<String> finalParameterKeys) {
+        Set<Target> targets = new HashSet<>();
+        for (String key : finalParameterKeys) targets.add(new Target(TargetType.PARAMETER, skillKey, key, ""));
+        for (Aggregate aggregate : finalAggregates) index(aggregate, targets);
+        List<Reference> local = extract(gameId, finalAggregates).stream()
+            .filter(reference -> skillKey.equals(reference.target().skillKey())).toList();
+        validateTargets(local, targets);
+    }
+
     /** 字典和参数由保留表提供；五类对象与结果、生命周期、模式、步骤和动作从当前聚合生成。 */
     public static List<Reference> extractAndValidate(String gameId, List<Aggregate> aggregates,
                                                     Set<Target> dictionaryAndParameters) {

@@ -105,6 +105,21 @@ function executionReference(sourceSkillKey, targetSkillKey = sourceSkillKey) {
     targetType: 'PROCESS', targetSkillKey, targetKey: 'cast', targetSubKey: '' };
 }
 
+test('已授权组成删除仅接受开发候选，自动候选继续拒绝结构删除', () => {
+  const input = fixture(), item = input.skillPlan.items[0];
+  item.before.parameters.push({ gameId: 'lol', skillKey: 'q', parameterKey: 'unused', name: '待清理参数',
+    description: null, sortOrder: 0, valueType: 'INTEGER', valueMode: 'FIXED', fixedValue: 1, levelValues: null });
+  item.request.changes.push({ objectType: 'PARAMETER', operation: 'DELETE', key: 'unused', value: null });
+  input.scenes[0].snapshot.references = [executionReference('q')];
+  input.scenes[0].previewSnapshot = { ...structuredClone(input.scenes[0].snapshot), skillConfigurations: [structuredClone(item.expected)] };
+  input.version = 'maintenance-development-candidate-v1';
+  assert.equal(validateCandidate(input).version, 'maintenance-development-candidate-v1');
+  const automatic = structuredClone(input);
+  automatic.version = 'maintenance-candidate-v1';
+  delete automatic.scenes[0].previewSnapshot;
+  assert.throws(() => validateCandidate(automatic), /自动候选/);
+});
+
 function developmentBatchFixture() {
   const input = developmentFixture(), q = input.skillPlan.items[0], e = structuredClone(q);
   e.skillKey = 'e'; e.before.skill.skillKey = 'e'; e.expected.skill.skillKey = 'e';
