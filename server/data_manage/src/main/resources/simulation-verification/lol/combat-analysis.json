@@ -5,20 +5,20 @@
   "digestVersion": "simulation-availability-v1",
   "scopeDigest": "67dfb77d447e5cee0c664d71be9bf2c062f518ff9b6b97bf157f4a530e0d5e41",
   "sharedDigest": "dac177599b5baa56c23dcbd2199f43095e5a164d2c0c53296732191492db8c35",
-  "wasmSha256": "e076ccadef423046b5ebd3b22911dc880e587f5d64889a8392b244ea3b58da29",
-  "adapterVersion": "v51-grouped-amplification",
+  "wasmSha256": "c4f08f8b22de00442089604106e9f966c55de302d051ccfa19a7d9f94b9e7884",
+  "adapterVersion": "v52-skill-hit-passive-delay",
   "mechanismRegression": {
-    "sourceCommit": "1e285a39c520773d7f9bcffea2d0439fbe134423",
-    "caseCount": 263,
-    "casesDigest": "0e367c9f06ae09a5076a5a517ab7b89cf6d6f7b506b195c25c0ada16919a1c42",
+    "sourceCommit": "6658640c40882edb17c3387cd09df06712c32bf7",
+    "caseCount": 267,
+    "casesDigest": "41feaa4bfd25f72db7c691bc0d244d686e2b8db8ef5026f00cae2a401cc92326",
     "coverageDigest": "60542b9d070f2ed5e62f7345ceaefd31f65562568cf151acd6cae298ef4f9e15",
-    "wasmBuildSha256": "e076ccadef423046b5ebd3b22911dc880e587f5d64889a8392b244ea3b58da29"
+    "wasmBuildSha256": "c4f08f8b22de00442089604106e9f966c55de302d051ccfa19a7d9f94b9e7884"
   },
   "entries": [
     {
       "kind": "CHARACTER",
       "key": "champion_annie",
-      "contentDigest": "9b0975dfc213e2d0c38b6e84cc220f95b4d30f2f28b6aae086c8ce5d1a7e6a25",
+      "contentDigest": "fcf947613e289cabd7a11c42b9f0743548b8b43baaeecf8138f9ec4e39d6d478",
       "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
       "outcome": "PASSED",
       "coverage": {
@@ -110,7 +110,8 @@
         "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-v4-matrix-review/review.json#sha256=d0305d1aebc8d221bf3eb2941a951de5b045cd7ef4cb16867c05db3524fb1705",
         "C:/project/damage_viewer_project_planning/outputs/priority-adaptation-2026-10-18/nasus-next/final-release-review/review.json#sha256=9a96b9c18cbb6a0b8333108f0375f275d41dfd80041e90164be9fee863e6c3b3",
         "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/target/nasus-mechanisms-2026-10-19/native-v4/final-receipt-02.json#sha256=eb360e2cc3b7af572829213a6d95aa30b06363af88a88afe739aca81c28279dc",
-        "output/full-authoring-20261113/shared-proof/rebind-equivalence.json#sha256=e140e70e0805c7e47a31aacebdc6c1203bbf26d5d3564c60ba74766c4c269a90"
+        "output/full-authoring-20261113/shared-proof/rebind-equivalence.json#sha256=e140e70e0805c7e47a31aacebdc6c1203bbf26d5d3564c60ba74766c4c269a90",
+        "output/authoring-20261114/annie-proof-equivalence.json#sha256=f773aba3cfd8516cc026d78c3ca14210805330396e2116f80f052c6203442a61"
       ],
       "issues": []
     },
