@@ -51,7 +51,7 @@ func (e *Executor) HandleExpiry(payload effectpkg.ExpiryPayload, now int64, auto
 			}
 		}
 		context := work.ProviderRemovalContext(model.SelectorSource, model.SelectorTarget)
-		if !automated && !e.compiled.HasResourceMax && !e.compiled.HasCooldownDuration && !e.compiled.HasProviderDurationChange && !e.compiled.HasStagedLinkedShield && !e.compiled.HasModifierSnapshots {
+		if !automated && !e.compiled.HasActionStun && !e.compiled.HasResourceMax && !e.compiled.HasCooldownDuration && !e.compiled.HasProviderDurationChange && !e.compiled.HasStagedLinkedShield && !e.compiled.HasModifierSnapshots {
 			e.RemoveLive(payload.CombatantKey, payload.ProviderRef, context, model.EvidenceKindProviderExpire, now, work)
 			return
 		}

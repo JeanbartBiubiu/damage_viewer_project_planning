@@ -179,6 +179,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	finalizeSkillHitPersistentAttributeProviders(ctx)
 	finalizeSkillHitHealingModifiers(req, ctx)
 	finalizeProviderDurationChanges(ctx)
+	finalizeOwnStatusExpiry(ctx)
 	finalizeOwnedHealthModifiers(ctx)
 	finalizeIncomingCappedFlatModifiers(req, ctx)
 	validateProviderElapsedReads(ctx)
@@ -1087,7 +1088,9 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 			collector.addError(model.GenericErrUnknownRef, path+".providerRefFromEvent", "providerRefFromEvent is only allowed on expire_provider", op.Operation)
 		}
 	case "expire_provider":
-		if op.ProviderRefFromEvent {
+		if op.ProviderDefinitionRef != "" {
+			validateOwnStatusExpiry(op, path, ownerProviderIndex, ctx)
+		} else if op.ProviderRefFromEvent {
 			validateProviderRefFromEvent(op, path, ownerProviderIndex, ctx.currentListener, ctx)
 		} else if op.ProviderRef == "" {
 			collector.addError(model.GenericErrMissingRequiredField, path+".providerRef", op.Operation+" requires providerRef", "")

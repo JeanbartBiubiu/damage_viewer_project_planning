@@ -1,0 +1,826 @@
+{
+  "schemaVersion": "mechanism-case-v1",
+  "caseKey": "process_charge_self_slow_release_credit",
+  "title": "真实蓄力扣减与自身减速按定义清理",
+  "mechanisms": [
+    "process.charge_duration_runtime",
+    "process.self_movement_slow",
+    "process.own_definition_expiry",
+    "process.charge_cooldown_credit"
+  ],
+  "derivation": [
+    "0ms开始CHARGE并获得20%自身普通减速，500ms主动释放；真实伤害50+0.1×500=100。",
+    "500ms提交3000ms普通冷却，再扣实际蓄力500ms，因此readyAt=500+3000-500=3000。",
+    "3000ms重新开始可获准，证明之前冷却扣减；第二轮保留至3100ms观察，形成唯一20%自身减速、expireAt=7000。第一轮减速已按定义清理，无旧实例残留。",
+    "不配置技能费用或后台普攻；本场不声称费用行为、真实控制打断或多来源效果。"
+  ],
+  "catalog": "mechanism_charge_cost",
+  "snapshot": {
+    "selection": {
+      "sourceCharacterKey": "lab_attacker",
+      "sourceLevel": 1,
+      "targetCharacterKey": "lab_dummy",
+      "targetLevel": 1,
+      "basicAttackSkillKey": null,
+      "basicAttackLevel": null,
+      "plannedSkills": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_charge",
+          "skillLevel": 1,
+          "phaseKinds": [
+            "INITIAL",
+            "CHARGE_RELEASE"
+          ]
+        }
+      ],
+      "sourceEquipmentKeys": [],
+      "targetEquipmentKeys": [],
+      "sourceBuildConfigurations": [],
+      "targetBuildConfigurations": [],
+      "targetSkillSettings": [],
+      "sourceSkillSettings": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_charge",
+          "enabled": true,
+          "skillLevel": 1
+        }
+      ]
+    },
+    "source": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_attacker",
+        "name": "机制攻击方",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_attacker",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 1000,
+            "attack_damage": 100,
+            "attack_speed": 1,
+            "armor": 0,
+            "magic_resist": 0,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "ability_power": 0,
+            "move_speed": 300
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 1000,
+        "attack_damage": 100,
+        "attack_speed": 1,
+        "armor": 0,
+        "magic_resist": 0,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 0,
+        "move_speed": 300
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_charge",
+          "skillName": "合成蓄力技能",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_charge",
+          "skillName": "合成蓄力技能",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "begin",
+            "hit",
+            "release"
+          ],
+          "inactiveReason": null
+        }
+      ]
+    },
+    "target": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_dummy",
+        "name": "机制木桩",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_dummy",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 10000,
+            "attack_damage": 0,
+            "attack_speed": 1,
+            "armor": 0,
+            "magic_resist": 100,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "ability_power": 0,
+            "move_speed": 340
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 10000,
+        "attack_damage": 0,
+        "attack_speed": 1,
+        "armor": 0,
+        "magic_resist": 100,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 0,
+        "move_speed": 340
+      },
+      "attachedSkills": [],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": []
+    },
+    "skillConfigurations": [
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_charge",
+          "createdAt": "",
+          "updatedAt": "",
+          "description": null,
+          "sortOrder": 0,
+          "name": "合成蓄力技能",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "skillCategoryKeys": [
+            "active"
+          ]
+        },
+        "parameters": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_charge",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "parameterKey": "held_ms",
+            "name": "held_ms",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null
+          }
+        ],
+        "formulas": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_charge",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "formulaKey": "charged_damage",
+            "name": "真实蓄力伤害",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "held",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_charge",
+                    "parameterKey": "held_ms"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "output",
+                  "name": "独立数值",
+                  "expression": {
+                    "op": "add",
+                    "args": [
+                      {
+                        "op": "const",
+                        "value": "50"
+                      },
+                      {
+                        "op": "mul",
+                        "args": [
+                          {
+                            "op": "const",
+                            "value": "0.1"
+                          },
+                          {
+                            "op": "read",
+                            "inputKey": "held"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "output"
+            }
+          }
+        ],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_charge",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "effectKey": "charge_slow",
+            "name": "charge_slow",
+            "lifecycle": {
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 4000
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null,
+              "endWhenShieldEndsResultKey": null
+            },
+            "results": [
+              {
+                "resultKey": "slow",
+                "name": "slow",
+                "resultType": "STATUS_OPERATION",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 0.2
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "statusKey": "lab_slow",
+                  "operation": "APPLY"
+                }
+              }
+            ]
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_charge",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "effectKey": "clear_slow",
+            "name": "clear_slow",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "remove",
+                "name": "remove",
+                "resultType": "LIFECYCLE_OPERATION",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": null,
+                "detail": {
+                  "targetEffectKey": "charge_slow",
+                  "operation": "REMOVE"
+                }
+              }
+            ]
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_charge",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "effectKey": "hit",
+            "name": "hit",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "damage",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "charged_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                }
+              }
+            ]
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_charge",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "effectKey": "credit",
+            "name": "credit",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "reduce",
+                "name": "reduce",
+                "resultType": "COOLDOWN_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "held_ms"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "operation": "REDUCE",
+                  "affectedSkillScope": {
+                    "mode": "SKILLS",
+                    "skillKeys": [
+                      "lab_charge"
+                    ],
+                    "skillCategoryKeys": []
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_charge",
+            "createdAt": "",
+            "updatedAt": "",
+            "description": null,
+            "sortOrder": 0,
+            "processKey": "charge",
+            "name": "机制蓄力",
+            "activationType": "ACTIVE",
+            "cooldown": {
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 3000
+              },
+              "startMoment": {
+                "momentType": "STEP_EXECUTION",
+                "stepKey": "hold",
+                "failureReason": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "hold",
+                "name": "蓄力",
+                "stepType": "CHARGE",
+                "description": null,
+                "sortOrder": 10,
+                "occupiesAction": true,
+                "detail": {
+                  "minimumChargeValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  },
+                  "maximumChargeValue": {
+                    "kind": "FIXED",
+                    "value": 4000
+                  },
+                  "releaseAtMaximum": false
+                }
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "slow",
+                "effectKey": "charge_slow",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null,
+                  "failureReason": null
+                },
+                "sortOrder": 10
+              },
+              {
+                "bindingKey": "clear_complete",
+                "effectKey": "clear_slow",
+                "moment": {
+                  "momentType": "PROCESS_COMPLETE",
+                  "stepKey": null,
+                  "failureReason": null
+                },
+                "sortOrder": 20
+              },
+              {
+                "bindingKey": "clear_failure",
+                "effectKey": "clear_slow",
+                "moment": {
+                  "momentType": "PROCESS_FAILURE",
+                  "stepKey": null,
+                  "failureReason": null
+                },
+                "sortOrder": 30
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "begin",
+            "name": "begin",
+            "description": null,
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_charge",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "begin",
+                "name": "begin",
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "charge"
+                },
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "release",
+            "name": "release",
+            "description": null,
+            "sortOrder": 20,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_charge",
+                "useKind": "ACTIVE",
+                "castPhase": "CHARGE_RELEASE"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "release",
+                "name": "release",
+                "actionType": "ADVANCE_PROCESS",
+                "detail": {
+                  "processKey": "charge",
+                  "stepKey": "hold"
+                },
+                "sortOrder": 10,
+                "targetContext": null,
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "hit",
+            "name": "hit",
+            "description": null,
+            "sortOrder": 30,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_charge"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "damage",
+                "name": "damage",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [
+                  {
+                    "bindingKey": "held",
+                    "parameterKey": "held_ms",
+                    "sourceType": "EVENT_VALUE",
+                    "detail": {
+                      "eventValueKey": "CHARGE_DURATION_MS"
+                    }
+                  }
+                ],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "credit",
+            "name": "credit",
+            "description": null,
+            "sortOrder": 40,
+            "eventSource": {
+              "eventType": "PROCESS_MOMENT",
+              "detail": {
+                "processKey": "charge",
+                "moment": {
+                  "momentType": "STEP_EXECUTION",
+                  "stepKey": "hold",
+                  "failureReason": null
+                }
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "credit",
+                "name": "credit",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "credit"
+                },
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [
+                  {
+                    "bindingKey": "held",
+                    "parameterKey": "held_ms",
+                    "sourceType": "EVENT_VALUE",
+                    "detail": {
+                      "eventValueKey": "CHARGE_DURATION_MS"
+                    }
+                  }
+                ],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    ],
+    "references": []
+  },
+  "scenario": {
+    "mode": "skill_action",
+    "durationMs": 3100,
+    "initialHealth": {
+      "source": 1000,
+      "target": 10000
+    },
+    "actions": [
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_charge",
+        "skillLevel": 1,
+        "instructionKey": "first",
+        "atMs": 0,
+        "sortOrder": 0,
+        "targetSide": "target",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": "TARGET_HIT"
+      },
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_charge",
+        "skillLevel": 1,
+        "instructionKey": "first_release",
+        "atMs": 500,
+        "sortOrder": 0,
+        "targetSide": "target",
+        "phaseKind": "CHARGE_RELEASE",
+        "parentInstructionKey": "first",
+        "hitPreset": null
+      },
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_charge",
+        "skillLevel": 1,
+        "instructionKey": "second",
+        "atMs": 3000,
+        "sortOrder": 0,
+        "targetSide": "target",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": "TARGET_HIT"
+      }
+    ]
+  },
+  "expected": {
+    "summary": {
+      "stopReason": "duration_reached",
+      "sourceFinalHp": 1000,
+      "targetFinalHp": 9900,
+      "sourceDamageDealt": 100,
+      "skillUseStarted": 2,
+      "skillUseReleased": 1,
+      "skillUseCompleted": 1,
+      "skillUseFailed": 0,
+      "skillUseInFlight": 1,
+      "basicAttackStarted": 0
+    },
+    "skillStarts": [
+      {
+        "timeMs": 0,
+        "skillKey": "lab_charge"
+      },
+      {
+        "timeMs": 3000,
+        "skillKey": "lab_charge"
+      }
+    ],
+    "attackStarts": [],
+    "damage": [
+      {
+        "timeMs": 500,
+        "skillKey": "lab_charge",
+        "effectKey": "hit",
+        "resultKey": "damage",
+        "damageType": "true",
+        "rawAmount": 100,
+        "postDefenseDamage": 100,
+        "shieldAbsorbed": 0,
+        "actualHpLoss": 100
+      }
+    ],
+    "healing": [],
+    "resourceChanges": [],
+    "finalCooldowns": [
+      {
+        "owner": "source",
+        "abilityRef": "source.provider[source_natural_skill_0].ability[begin]",
+        "readyAtMs": 3000,
+        "remainingMs": 0
+      }
+    ],
+    "finalProviders": [
+      {
+        "owner": "source",
+        "source": "source",
+        "definitionRef": "self_status/source_natural_skill_0_definition/lab_charge/charge_slow",
+        "stacks": 1,
+        "expireAt": 7000
+      },
+      {
+        "owner": "source",
+        "source": "source",
+        "definitionRef": "source_natural_skill_0_definition",
+        "stacks": 1,
+        "expireAt": null
+      }
+    ],
+    "finalStatusContributions": [
+      {
+        "owner": "source",
+        "source": "source",
+        "definitionRef": "self_status/source_natural_skill_0_definition/lab_charge/charge_slow",
+        "resultRef": "slow",
+        "statusKey": "lab_slow",
+        "statusKind": "movement_slow",
+        "strength": 0.2,
+        "appliedAtMs": null,
+        "expireAt": 7000
+      }
+    ],
+    "finalEffectiveStatuses": [
+      {
+        "owner": "source",
+        "statusKind": "movement_slow",
+        "strength": 0.2
+      }
+    ]
+  }
+}

@@ -17,6 +17,8 @@ type AttackReadiness interface {
 
 // AttackTimelineReads 只读取已提交普攻冷却和当前真实库存，不准备或修改状态。
 type AttackTimelineReads interface {
+	// AttackTimelinePermission 返回现有唯一等待登记的行动许可，不改写攻击冷却。
+	AttackTimelinePermission(owner string, key actionpkg.CooldownWaitKey) int64
 	// AttackTimelineCooldown 返回实际初始控制的已提交普通期限。
 	AttackTimelineCooldown(owner, ref string) int64
 	// AttackTimelineInventory 返回当前显式库存或声明默认，保持原有效0语义。
@@ -57,6 +59,9 @@ func (s BasicAttackExecutor) Admit(initializationPending int, reads AttackReadin
 func (s BasicAttackExecutor) NextTime(now int64, reads AttackTimelineReads) int64 {
 	attack := s.actions.BasicAttack()
 	ready := s.actions.ReadyAt(attack.Plan().Source, now)
+	if permission := reads.AttackTimelinePermission(attack.Plan().Source, AttackCooldownWaitKey(attack)); permission > ready {
+		ready = permission
+	}
 	if cooldown := reads.AttackTimelineCooldown(attack.Plan().Source, attack.Plan().InitialControlAbilityRef); cooldown > ready {
 		ready = cooldown
 	}

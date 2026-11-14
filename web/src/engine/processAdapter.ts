@@ -25,6 +25,7 @@ import { adaptEmpoweredProcessPayload, type AuthoredHitProgram, type AdaptedHitP
 import { staticEffectValue } from './staticEffectValue';
 import { finiteRecastShape, recastProofLevels } from './finiteRecast';
 import { compileFiniteImmediatePeriodic, type FinitePeriodicCompilation } from './finiteImmediatePeriodic';
+import { compileProcessSelfMovementSlow, type AdaptedPersistentResult } from './persistentResultAdapter';
 import type {
   SkillProcess, SkillProcessFailureReason, SkillProcessMoment, SkillProcessStep
 } from '../types/skillProcess';
@@ -84,7 +85,7 @@ export type AuthoredProcessProgram = {
   formulas?: readonly SkillFormula[];
   owner?: 'source' | 'target';
   castCosts: readonly CastCostRef[];
-  ignoreCastCosts?: boolean;
+  ignoredCastCosts?: readonly CastCostRef[];
   roundPositiveCooldownMs?: boolean;
   internalStates?: readonly SkillInternalState[];
   modifierZones?: readonly ModifierZone[];
@@ -504,30 +505,43 @@ function compileResult(
     return {
       operation: 'resource_change', target: 'source',
       resourceKey: catalogKey(result.detail.attributeKey, `${path}.detail.attributeKey`),
-      amount: result.detail.operation === 'CONSUME' ? negate(amount) : amount
+      amount: result.detail.operation === 'CONSUME' ? negate(amount) : amount,
+      ...(result.detail.operation === 'REFUND' ? { ref: path.replace(/^adapter\.processPlan\./, '') } : {})
     };
   }
   if (result.resultType === 'COOLDOWN_CHANGE') {
     if (result.target !== 'SOURCE') fail(`${path}.target`, '本期冷却变化只接受自身');
-    if (result.detail.operation !== 'SET_REMAINING' || result.valueRule === null) {
-      fail(`${path}.detail.operation`, '本期冷却变化只接受设置剩余时间');
+    if (!['SET_REMAINING', 'REDUCE'].includes(result.detail.operation) || result.valueRule === null) {
+      fail(`${path}.detail.operation`, '过程冷却变化只接受设置或减少剩余时间');
     }
     exactKeys(result.detail, ['affectedSkillScope', 'operation'], `${path}.detail`);
     const scope = result.detail.affectedSkillScope;
     exactKeys(scope, ['mode', 'skillKeys', 'skillCategoryKeys'], `${path}.detail.affectedSkillScope`);
     if (scope.mode !== 'SKILLS' || scope.skillKeys.length !== 1 || scope.skillKeys[0] !== state.skillKey || scope.skillCategoryKeys.length !== 0) {
-      fail(`${path}.detail.affectedSkillScope`, '设置剩余冷却只接受明确的本技能');
+      fail(`${path}.detail.affectedSkillScope`, '剩余冷却变化只接受明确的本技能');
     }
     const amount = compileScaled(result.valueRule, `${path}.valueRule`, state);
     const folded = tryFoldConstant(amount);
     if (folded !== null) assertTime(folded, `${path}.valueRule`, 'nonNegative');
     return {
-      operation: 'cooldown_change', target: 'source', valuePolicy: 'set_remaining',
+      operation: 'cooldown_change', target: 'source', valuePolicy: result.detail.operation === 'REDUCE' ? 'reduce' : 'set_remaining',
       abilityRef: `self.provider[${MOUNT_TOKEN}].ability[${initialAbilityKey}]`,
       amount: folded === null ? amount : constExpr(folded)
     };
   }
   return fail(`${path}.resultType`, '未支持的效果结果');
+}
+
+function compileOwnSlowEffect(effect: SkillEffect, authored: AuthoredProcessProgram): AdaptedPersistentResult {
+  const path = planPath(authored.skillKey, `effects.${effect.effectKey}`);
+  if (effect.lifecycle === null || effect.results.length !== 1 || (authored.owner ?? 'source') !== 'source') fail(path, '过程自身减速需要单结果有限来源效果');
+  const parent = authored.providerDefinitionRef ?? `process_${authored.skillKey}`;
+  const compiled = compileProcessSelfMovementSlow({ gameId: authored.gameId, skillKey: authored.skillKey,
+    skillLevel: authored.skillLevel, characterLevel: authored.characterLevel, effectKey: effect.effectKey,
+    lifecycle: effect.lifecycle, result: effect.results[0]!, parameters: authored.parameters, formulas: authored.formulas,
+    statuses: authored.hitContext?.statuses ?? [], modifierZones: [], source: 'source', target: 'source'
+  }, `self_status/${parent}/${authored.skillKey}/${effect.effectKey}`);
+  return { ...compiled, operation: { ...compiled.operation, ref: `skills.${authored.skillKey}.effects.${effect.effectKey}.results.${effect.results[0]!.resultKey}` } };
 }
 
 function compileEffectResults(
@@ -539,6 +553,29 @@ function compileEffectResults(
   context: { authored: AuthoredProcessProgram; providers: Map<string, ProviderDefinition>; finitePeriodic: FinitePeriodicCompilation[] }
 ): OperationDefinition[] {
   const path = planPath(effect.skillKey, `effects.${effect.effectKey}`);
+  if (effect.lifecycle && effect.results.some(result => result.resultType === 'STATUS_OPERATION' && result.target === 'SOURCE')) {
+    if (skip.size) fail(path, '过程自身减速不能复用为施放成本');
+    const compiled = compileOwnSlowEffect(effect, context.authored);
+    const previous = context.providers.get(compiled.provider.providerKey);
+    if (previous && !sameJson(previous, compiled.provider)) fail(path, '过程自身减速定义冲突');
+    context.providers.set(compiled.provider.providerKey, compiled.provider);
+    return [compiled.operation];
+  }
+  if (effect.results.some(result => result.resultType === 'LIFECYCLE_OPERATION' && result.detail.operation === 'REMOVE')) {
+    if (skip.size || effect.lifecycle !== null || effect.results.length !== 1) fail(path, '过程清理只接受单结果即时移除');
+    const result = effect.results[0]!;
+    const resultPath = `${path}.results.${result.resultKey}`;
+    if (result.resultType !== 'LIFECYCLE_OPERATION' || result.detail.operation !== 'REMOVE' || result.target !== 'SOURCE'
+      || result.valueRule !== null || result.lifecycleBehavior !== null || result.spellShieldBlockScope !== null) fail(resultPath, '过程清理只接受无数值的自身有限减速移除');
+    exactKeys(result.detail, ['targetEffectKey', 'operation'], `${resultPath}.detail`);
+    const target = lookupEffect(context.authored, result.detail.targetEffectKey, `${resultPath}.detail.targetEffectKey`);
+    const compiled = compileOwnSlowEffect(target, context.authored);
+    const previous = context.providers.get(compiled.provider.providerKey);
+    if (previous && !sameJson(previous, compiled.provider)) fail(path, '过程自身减速定义冲突');
+    context.providers.set(compiled.provider.providerKey, compiled.provider);
+    return [{ operation: 'expire_provider', target: 'self', providerDefinitionRef: compiled.provider.providerKey,
+      ref: `skills.${context.authored.skillKey}.effects.${effect.effectKey}.results.${result.resultKey}` }];
+  }
   if (effect.lifecycle?.firstPeriodicExecution === 'IMMEDIATE') {
     if (skip.size || moment.momentType !== 'PROCESS_START' || moment.stepKey !== null || moment.failureReason !== null) fail(path, '有限立即周期只能在真实PROCESS_START完整应用');
     const compiled = compileFiniteImmediatePeriodic(effect, state, context.authored);
@@ -607,6 +644,15 @@ function compileCosts(authored: AuthoredProcessProgram, process: SkillProcess, s
   const resources = new Set<string>();
   const seen = new Set<string>();
   const skipByBinding = new Map<string, Set<string>>();
+  const ignored = new Set<string>();
+  if (authored.ignoredCastCosts !== undefined && !Array.isArray(authored.ignoredCastCosts)) fail('ignoredCastCosts', '忽略成本必须是逐项引用数组');
+  for (const [index, ref] of (authored.ignoredCastCosts ?? []).entries()) {
+    const path = planPath(authored.skillKey, `ignoredCastCosts[${index}]`);
+    exactKeys(ref, ['bindingKey', 'effectKey', 'resultKey'], path);
+    const identity = ['bindingKey', 'effectKey', 'resultKey'].map(key => catalogKey(ref[key as keyof CastCostRef], `${path}.${key}`)).join('\0');
+    if (ignored.has(identity)) fail(path, '忽略成本引用重复');
+    ignored.add(identity);
+  }
   authored.castCosts.forEach((ref, index) => {
     const path = `${root}[${index}]`;
     if (!isRecord(ref)) fail(path, '成本引用必须是对象');
@@ -640,7 +686,7 @@ function compileCosts(authored: AuthoredProcessProgram, process: SkillProcess, s
     const folded = tryFoldConstant(amount);
     if (folded !== null && (!Number.isFinite(folded) || folded < 0)) fail(`${resultPath}.valueRule`, '施放成本必须是有限非负数值');
     // 原生逐笔验证后再按资源汇总，不能让正负成本在宿主提前抵消。
-    if (!authored.ignoreCastCosts) {
+    if (!ignored.has(identity)) {
       costs.push({ resourceKey, amount });
       resources.add(resourceKey);
     }
@@ -649,6 +695,7 @@ function compileCosts(authored: AuthoredProcessProgram, process: SkillProcess, s
     skipped.add(resultKey);
     skipByBinding.set(bindingIdentity, skipped);
   });
+  for (const identity of ignored) if (!seen.has(identity)) fail('ignoredCastCosts', '忽略引用不属于本过程完整成本集合');
   return {
     costs,
     resources,
@@ -1006,6 +1053,18 @@ function momentOperationsFor(
       for (const binding of action.runtimeInputBindings) {
         const bindingPath = `${actionPath}.runtimeInputBindings.${binding.bindingKey || 'missing'}`;
         exactKeys(binding, ['bindingKey', 'parameterKey', 'sourceType', 'detail'], bindingPath);
+        if (Object.prototype.hasOwnProperty.call(reads, binding.parameterKey)) fail(bindingPath, '同一动作不能重复绑定同一参数');
+        if (binding.sourceType === 'EVENT_VALUE') {
+          exactKeys(binding.detail, ['eventValueKey'], `${bindingPath}.detail`);
+          if (binding.detail.eventValueKey !== 'CHARGE_DURATION_MS' || moment.momentType !== 'STEP_EXECUTION'
+            || !process.steps.some(step => step.stepKey === moment.stepKey && step.stepType === 'CHARGE')) fail(bindingPath, '蓄力时长只能读取本过程真实CHARGE执行时点');
+          const matches = authored.parameters?.filter(item => item.parameterKey === binding.parameterKey) ?? [];
+          if (matches.length !== 1 || matches[0]!.gameId !== authored.gameId || matches[0]!.skillKey !== authored.skillKey
+            || matches[0]!.valueMode !== 'RUNTIME_INPUT' || matches[0]!.valueType !== 'DECIMAL'
+            || matches[0]!.fixedValue !== null || matches[0]!.levelValues !== null) fail(`${bindingPath}.parameterKey`, '蓄力时长只能绑定本技能无默认的计算时十进制参数');
+          reads[binding.parameterKey] = { op: 'read', path: 'use.charge_duration_ms' };
+          continue;
+        }
         if (binding.sourceType !== 'SOURCE_CAST_RESOURCE_COST') fail(`${bindingPath}.sourceType`, '本期过程只接受来源施放资源消耗');
         const allowed = moment.momentType === 'PROCESS_COMPLETE' || (moment.momentType === 'PROCESS_FAILURE' && moment.failureReason !== null);
         if (!allowed) fail(bindingPath, '施放成本只能在过程完成或带明确失败原因的失败时点读取');
@@ -1017,7 +1076,6 @@ function momentOperationsFor(
           || matches[0]!.valueMode !== 'RUNTIME_INPUT' || matches[0]!.valueType !== 'DECIMAL') {
           fail(`${bindingPath}.parameterKey`, '施放成本只能绑定本技能已有的计算时十进制参数');
         }
-        if (Object.prototype.hasOwnProperty.call(reads, binding.parameterKey)) fail(bindingPath, '同一动作不能重复绑定同一参数');
         reads[binding.parameterKey] = { op: 'read', path: `process.actual_cost.${resourceKey}` };
       }
       const effect = lookupEffect(authored, action.detail.effectKey, `${actionPath}.detail.effectKey`);
@@ -1057,10 +1115,9 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   if (!isRecord(authored)) fail('adapter.processPlan', '过程程序必须是对象');
   exactKeys(authored, [
     'gameId', 'skillKey', 'skillLevel', 'characterLevel', 'process', 'rules', 'effects',
-    'parameters', 'formulas', 'owner', 'castCosts', 'ignoreCastCosts', 'roundPositiveCooldownMs', 'internalStates', 'modifierZones', 'damageTypes', 'ammoRecoveryAttributes', 'basicAttackContext', 'hitContext', 'providerDefinitionRef', 'sceneAttributeInputs', 'stateInitialValues', 'payloadSceneParameterValues'
+    'parameters', 'formulas', 'owner', 'castCosts', 'ignoredCastCosts', 'roundPositiveCooldownMs', 'internalStates', 'modifierZones', 'damageTypes', 'ammoRecoveryAttributes', 'basicAttackContext', 'hitContext', 'providerDefinitionRef', 'sceneAttributeInputs', 'stateInitialValues', 'payloadSceneParameterValues'
   ], 'adapter.processPlan');
   const gameId = catalogKey(authored.gameId, 'gameId');
-  if (authored.ignoreCastCosts !== undefined && typeof authored.ignoreCastCosts !== 'boolean') fail('ignoreCastCosts', '忽略施法成本必须明确声明');
   if (authored.roundPositiveCooldownMs !== undefined && typeof authored.roundPositiveCooldownMs !== 'boolean') fail('roundPositiveCooldownMs', '正冷却离散化必须明确声明');
   const skillKey = catalogKey(authored.skillKey, 'skillKey');
   if (!Number.isInteger(authored.skillLevel) || authored.skillLevel < 1) fail('skillLevel', '本次等级必须明确且有效');
@@ -1199,6 +1256,7 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
     providers: [...providers.values()], ...(finitePeriodic.length ? { finitePeriodic } : {}), typeEntries: [
       ...finitePeriodic.flatMap(row => row.typeEntries),
       ...[...statePlan.scopes].map(key => ({ key, domain: 'state_scope' })),
+      ...[...new Set([...providers.values()].flatMap(provider => (provider.statusContributions ?? []).map(status => `status/${status.statusKey}`)))].map(key => ({ key, domain: 'status' })),
       ...[...new Set([...providers.values()].flatMap(provider => (provider.modifiers ?? [])
         .flatMap(modifier => modifier.condition?.op === 'read' && modifier.condition.path?.startsWith('damage.type.')
           ? [modifier.condition.path.slice('damage.type.'.length)] : [])))].map(key => ({ key, domain: 'damage' }))

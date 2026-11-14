@@ -81,6 +81,13 @@ func (bridge basicAttackBridge) AttackTimelineCooldown(owner, ref string) int64 
 	return bridge.engine.combatants[owner].cooldowns.AbilityReadyAt(owner, ref)
 }
 
+func (bridge basicAttackBridge) AttackTimelinePermission(owner string, key actionpkg.CooldownWaitKey) int64 {
+	if wait, exists := bridge.engine.combatants[owner].cooldowns.Wait(key); exists {
+		return wait.NotBefore
+	}
+	return 0
+}
+
 func (bridge basicAttackBridge) AttackTimelineInventory(ammo *actionpkg.AmmoView) float64 {
 	if bag := bridge.engine.combatants[ammo.Owner()].providerState.Lookup(ammo.ProviderRef()); bag.Present() {
 		return bag.State().At(ammo.Binding().StateKey)
@@ -562,6 +569,17 @@ func (s *Engine) finishCurrentAttackRecord() {
 }
 
 func (s *Engine) handleBasicAttack() (err *model.EngineError) {
+	if attack := s.actions.BasicAttack(); attack != nil {
+		if until, err := s.stunUntil(attack.Plan().Source); err != nil {
+			return err
+		} else if until > s.loop.TimeMs() {
+			var frame Frame
+			s.initExecutionFrame(&frame, attack.Plan().Source, attack.Plan().Target, attack.Plan().InitialControlAbilityRef)
+			frame.pendingActionWait = true
+			frame.commit()
+			return frame.fatalErr
+		}
+	}
 	admitted, err := s.basicAttackFlowExecutor().Admit(s.effectInitialization.Pending(), basicAttackBridge{engine: s})
 	if err != nil || !admitted {
 		return err
@@ -661,6 +679,9 @@ func (f *Frame) prepareBasicAttackWait() (int, *model.EngineError) {
 	}
 	if f.run.actions.BasicAttack() == nil {
 		return 0, nil
+	}
+	if err := f.prepareStunAttackPermission(); err != nil {
+		return 0, err
 	}
 	var preview Frame
 	result, err := f.run.basicAttackFlowExecutor().PrepareWait(f.run.loop.TimeMs(), f.attackWaitInput(), f.processOriginal, f.pendingProcess, attackWaitBridge{frame: f, preview: &preview})

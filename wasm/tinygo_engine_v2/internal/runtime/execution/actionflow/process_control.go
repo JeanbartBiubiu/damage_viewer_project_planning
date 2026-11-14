@@ -8,6 +8,8 @@ import (
 
 // ProcessControlWork 只交换本次控制的入口事实与真实阶段，不提供任意能力执行。
 type ProcessControlWork interface {
+	// ControlStunUntil 在接纳和付款前读取实际拥有者有限眩晕。
+	ControlStunUntil(owner string) (int64, *model.EngineError)
 	// ResolveProcessActor 按原驱动语义解析真实双方。
 	ResolveProcessActor(selector, source string) (string, bool)
 	// RejectProcessControl 记录普通控制拒绝，不创建使用或消耗额度。
@@ -50,6 +52,11 @@ func (s ProcessExecutor) Control(entry model.DriverEntry, entryIndex int, contro
 		return ActionResult{Reason: "provider_unavailable"}, work.RejectProcessControl(entry, "provider_unavailable")
 	}
 	if control.Action == "INITIAL" {
+		if until, err := work.ControlStunUntil(source); err != nil {
+			return ActionResult{}, err
+		} else if until > now {
+			return ActionResult{Reason: "controlled"}, work.RejectProcessControl(entry, "controlled")
+		}
 		if instance != nil {
 			return ActionResult{Reason: "use_already_started"}, work.RejectProcessControl(entry, "use_already_started")
 		}

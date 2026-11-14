@@ -275,10 +275,18 @@ func (f *Frame) providerPreparationInput(definition, reference, source, target s
 
 func (f *Frame) stageProviderOperation(operation planbundle.CompiledOperation, ability planbundle.CompiledAbility, target string) *model.EngineError {
 	executor := f.run.lifecycleExecutor()
-	mutation, appendMutation, err := executor.StageProviderOperation(lifecycle.ProviderOperationInput{
-		Operation: operation, Preparation: f.providerPreparationInput("", "", f.sourceKey, target, ability),
-		UseRef: f.skillActionUseRef(),
-	}, (*lifecycleProviderPreparation)(f))
+	var mutation lifecycle.Mutation
+	var appendMutation bool
+	var err *model.EngineError
+	if operation.Operation == "expire_provider" && operation.ProviderDefinitionRef != "" {
+		mutation, appendMutation, err = executor.PrepareOwnDefinitionExpiry(operation, f.providerOwnerKey(), f.sourceKey,
+			f.ownerProviderRef, target, f.run.loop.TimeMs(), (*lifecycleProviderPreparation)(f))
+	} else {
+		mutation, appendMutation, err = executor.StageProviderOperation(lifecycle.ProviderOperationInput{
+			Operation: operation, Preparation: f.providerPreparationInput("", "", f.sourceKey, target, ability),
+			UseRef: f.skillActionUseRef(),
+		}, (*lifecycleProviderPreparation)(f))
+	}
 	if err != nil || !appendMutation {
 		return f.preserveLifecycleFormulaError(err)
 	}

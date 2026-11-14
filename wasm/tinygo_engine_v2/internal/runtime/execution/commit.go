@@ -124,6 +124,12 @@ func (f *Frame) commit() {
 			f.fatalErr = f.run.processFailure
 		}
 	}
+	if f.run.processFailure == nil {
+		f.run.processFailure = f.run.failStunnedProcesses()
+		if f.run.processFailure != nil {
+			f.fatal, f.fatalErr = true, f.run.processFailure
+		}
+	}
 }
 
 // 只保存当前帧新增的事实，不复制整场伤害历史、过程列表或可靠记录。

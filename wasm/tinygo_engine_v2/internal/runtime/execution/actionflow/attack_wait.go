@@ -30,6 +30,8 @@ type InitialAttackWaitReads interface {
 
 // AttackWaitWork 只在当前帧准备期间借用等待相关属性、冷却与金额。
 type AttackWaitWork interface {
+	// AttackStunUntil 读取同帧投影后的实际有限眩晕期限；失败不发布等待。
+	AttackStunUntil(owner string) (int64, *model.EngineError)
 	// PreviewAttackWait 沿原位置准备必要动态投影及两遍派生，失败不使用半成品。
 	PreviewAttackWait() (float64, *model.EngineError)
 	// ReadAttackWaitPreview 仅在已有未就绪等待时借用预检双方和完整公式上下文。
@@ -72,10 +74,17 @@ func (s BasicAttackExecutor) PrepareWait(now int64, input AttackWaitInput, origi
 		return result, err
 	}
 	attack := s.actions.BasicAttack()
+	controlled, controlErr := work.AttackStunUntil(attack.Plan().Source)
+	if controlErr != nil {
+		return AttackWaitResult{}, controlErr
+	}
 	if result.Wait == nil && !input.PendingAmmo && !input.PendingAction {
 		return result, nil
 	}
 	notBefore := now
+	if controlled > notBefore {
+		notBefore = controlled
+	}
 	for index := 0; index < s.actions.ProcessCount(); index++ {
 		process := s.actions.ProcessAt(index)
 		if process != original && process.OccupiesAction(attack.Plan().Source) && process.ActionDeadline() > notBefore {

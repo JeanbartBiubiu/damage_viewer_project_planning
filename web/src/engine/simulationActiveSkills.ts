@@ -11,7 +11,7 @@ import { bindSkillHitCooldownReductions, type PendingSkillHitCooldownReduction }
 import { processSkillHitStages } from './processSkillHitStages';
 import { skillHitChainContract } from './skillHitChainContract';
 import { cooldownDurationProviderKey } from './cooldownDurationEffectAdapter';
-import { NumericAdaptationError } from './numericAdapter';
+import { NumericAdaptationError, tryFoldConstant } from './numericAdapter';
 import { finiteTargetCounterContract } from './finiteTargetCounterContract';
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
 import { naturalRuleKeys, plannedSkillRuleKeys, sourceIsPlanned, validateSimulationSkillSourceManifest } from './simulation/sources/description';
@@ -222,6 +222,14 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   if (ignoredCosts.some(cost => !candidates.some(candidate => costIdentity(candidate) === costIdentity(cost)))) {
     fail('ignoredCastCosts', '只允许逐项声明自身即时普通施法成本；弹药、充能、计数等必要消费不忽略');
   }
+  const castCosts = process.effectBindings.flatMap(binding => {
+    if (binding.moment.momentType !== 'PROCESS_START' || binding.moment.stepKey !== null || binding.moment.failureReason != null) return [];
+    const effect = configuration.effects.find(row => row.effectKey === binding.effectKey);
+    return effect?.lifecycle === null ? effect.results.filter(result => result.resultType === 'RESOURCE_CHANGE'
+      && result.target === 'SOURCE' && result.detail.operation === 'CONSUME' && result.lifecycleBehavior === null
+      && result.spellShieldBlockScope === null && result.valueRule !== null)
+      .map(result => ({ bindingKey: binding.bindingKey, effectKey: effect.effectKey, resultKey: result.resultKey })) : [];
+  });
   const sourceIndex = [...snapshot.source.skillSources].sort((left, right) => {
     const identity = (source: typeof left) => simulationSkillSourceIdentity(source.origin, source.skillKey);
     return identity(left) < identity(right) ? -1 : identity(left) > identity(right) ? 1 : 0;
@@ -248,7 +256,7 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
     hitContext: { statuses: snapshot.catalogs.statuses, skillCategoryKeys: configuration.skill.skillCategoryKeys,
       vampRules: snapshot.catalogs.vampRules.rules, identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } },
       criticalBinding: (forced, path) => simulationCriticalBinding(snapshot, forced, path) },
-    castCosts: ignoredCosts.map(({ skillKey: _skillKey, ...cost }) => cost), ignoreCastCosts: true, roundPositiveCooldownMs: true });
+    castCosts, ignoredCastCosts: ignoredCosts.map(({ skillKey: _skillKey, ...cost }) => cost), roundPositiveCooldownMs: true });
   if (adapted.controls.length !== plan.phaseKinds.length || plan.phaseKinds.some(phase => adapted.controls.filter(control => control.action === phase).length !== 1)) {
     fail(`${root}.triggerRules`, '每个选定阶段必须有唯一真实同源控制，取消必须沿过程取消请求与主动取消失败动作');
   }
@@ -316,7 +324,26 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
         note: '仅真实过程开始的自身整数计数设置，原作者公式保存在完整快照，帧状态读取有界展开为既有运算' });
     }
     if (operation.abilityRef) operation.abilityRef = operation.abilityRef.replace('self.provider[@mount]', `self.provider[${providerRef}]`);
-    if (operation.operation === 'resource_change') fail(`${root}.processes.${process.processKey}`, '未明确声明为施法成本的资源改变仍是必要结果，6A不支持时严格拒绝');
+    if (operation.operation === 'resource_change') {
+      const effect = configuration.effects.find(effect => effect.results.some(result => operation.ref === `${root}.effects.${effect.effectKey}.results.${result.resultKey}`));
+      const result = effect?.results.find(result => operation.ref === `${root}.effects.${effect!.effectKey}.results.${result.resultKey}`);
+      const validMoment = group.moment.momentType === 'PROCESS_COMPLETE'
+        || group.moment.momentType === 'PROCESS_FAILURE' && group.moment.failureReason != null;
+      if (!effect || result?.resultType !== 'RESOURCE_CHANGE' || result.target !== 'SOURCE' || result.detail.operation !== 'REFUND'
+        || result.detail.attributeKey !== operation.resourceKey || !validMoment || effect.lifecycle !== null
+        || result.lifecycleBehavior !== null || result.spellShieldBlockScope !== null) fail(`${root}.processes.${process.processKey}`, '未明确声明为施法成本的资源改变仍是必要结果，仅完整结束时点退款可执行');
+      const constant = operation.amount && tryFoldConstant(operation.amount);
+      const rule = result.valueRule;
+      const boundedNonNegative = rule.fixedMinValue !== null && rule.fixedMinValue >= 0
+        && (rule.fixedMaxValue === null || rule.fixedMaxValue >= 0);
+      if (!(typeof constant === 'number' && constant >= 0) && !boundedNonNegative) {
+        fail(`${operation.ref}.valueRule`, '退款必须可静态证明非负或明确配置非负上下限，不能转为二次扣费');
+      }
+      const compiledPath = `sharedProviders[${definitionRef}].processes[0].momentOperations[${groupIndex}].operations[${operationIndex}]`;
+      coverage.push({ authorPath: operation.ref!, compiledPath });
+      operationOrigins.push({ abilityRef: `source.provider[${providerRef}].ability[${adapted.initialAbilityKey}]`, operationRef: operation.ref!,
+        skillKey: plan.skillKey, effectKey: effect.effectKey, resultKey: result.resultKey, compiledPaths: [compiledPath], providerDefinitionRef: definitionRef });
+    }
     if (operation.operation === 'cooldown_change' && operation.ref) {
       const effect = configuration.effects.find(effect => effect.results.some(result => operation.ref === `${root}.effects.${effect.effectKey}.results.${result.resultKey}`));
       const result = effect?.results.find(result => operation.ref === `${root}.effects.${effect!.effectKey}.results.${result.resultKey}`);

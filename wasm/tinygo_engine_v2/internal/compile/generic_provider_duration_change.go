@@ -45,6 +45,35 @@ func pureFiniteOwnDurationProvider(provider planbundle.CompiledProvider, ctx *ge
 	return true
 }
 
+// 全部施加操作都须由同一个真实来源挂载拥有，未挂载的额外入口也不能忽略。
+func uniqueApplyingSourceMount(ctx *genericCompileContext, definition string, ownerIndex int) bool {
+	if ownerIndex < 0 || ownerIndex >= len(ctx.session.Providers) {
+		return false
+	}
+	mountCount := 0
+	for _, actor := range ctx.session.Combatants {
+		for _, mount := range actor.ProviderMounts {
+			if int(mount.DefinitionIndex) == ownerIndex {
+				mountCount++
+			}
+		}
+	}
+	if mountCount != 1 {
+		return false
+	}
+	found := false
+	for _, operation := range ctx.session.Operations {
+		if operation.Operation != "apply_provider" || operation.ProviderDefinitionRef != definition {
+			continue
+		}
+		found = true
+		if operation.OwnerProviderIndex != ownerIndex || (operation.Target != model.SelectorSelf && operation.Target != model.SelectorSource) {
+			return false
+		}
+	}
+	return found
+}
+
 // Every target definition is reachable from exactly one actual applying mount.
 // ProviderInstance does not preserve its original parent mount, so admitting
 // shared applying mounts here would let one source renew another's instance.
@@ -69,30 +98,7 @@ func finalizeProviderDurationChanges(ctx *genericCompileContext) {
 			fail("provider duration change requires static safe milliseconds and one pure same-skill finite own attribute instance")
 			continue
 		}
-		mounts := map[string]int{}
-		for _, applying := range ctx.session.Operations {
-			if applying.Operation != "apply_provider" || applying.ProviderDefinitionRef != operation.ProviderDefinitionRef {
-				continue
-			}
-			if applying.Target != model.SelectorSelf && applying.Target != model.SelectorSource {
-				fail("renewable attribute definition can only be applied to its actual source")
-				continue
-			}
-			for _, actor := range ctx.session.Combatants {
-				for _, mount := range actor.ProviderMounts {
-					if int(mount.DefinitionIndex) == applying.OwnerProviderIndex {
-						mounts[actor.Key+"\x00"+mount.ProviderRef] = applying.OwnerProviderIndex
-					}
-				}
-			}
-		}
-		validOwner := false
-		if len(mounts) == 1 {
-			for _, ownerIndex := range mounts {
-				validOwner = ownerIndex == operation.OwnerProviderIndex
-			}
-		}
-		if !validOwner {
+		if !uniqueApplyingSourceMount(ctx, operation.ProviderDefinitionRef, operation.OwnerProviderIndex) {
 			fail("renewable definition requires exactly one actual applying source mount shared with its duration operation")
 			continue
 		}

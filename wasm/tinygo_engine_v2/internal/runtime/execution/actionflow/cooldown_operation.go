@@ -74,7 +74,19 @@ func (s SkillActionExecutor) ApplyCooldown(input CooldownOperationInput, operati
 		if err != nil {
 			return err
 		}
-		if operation.ValuePolicy == "extend" {
+		if operation.ValuePolicy == "reduce" {
+			milliseconds, valid := actionpkg.ProcessTimeAfter(0, duration, true)
+			if !valid {
+				err := s.error("reduce requires finite non-negative safe integer milliseconds", "operation.cooldown_change.amount")
+				err.Ref = ref
+				return err
+			}
+			if existing <= now || milliseconds >= existing-now {
+				ready = now
+			} else {
+				ready = existing - milliseconds
+			}
+		} else if operation.ValuePolicy == "extend" {
 			base := existing
 			if base < now {
 				base = now

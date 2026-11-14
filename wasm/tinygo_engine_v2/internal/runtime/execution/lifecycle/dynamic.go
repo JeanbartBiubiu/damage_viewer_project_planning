@@ -2,6 +2,7 @@ package lifecycle
 
 import (
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 )
 
@@ -61,7 +62,7 @@ func (e *Executor) ProjectDynamic(input ProjectionInput) (bool, *model.EngineErr
 				changed, *sc.Dirty = true, true
 				continue
 			}
-			if !p.AtomicDynamic {
+			if !p.AtomicDynamic && !e.canProjectFiniteActionStun(p) {
 				continue
 			}
 			if mut.Kind == "ensure_remaining" {
@@ -113,7 +114,8 @@ func (e *Executor) ProjectDynamic(input ProjectionInput) (bool, *model.EngineErr
 						break
 					}
 				}
-				if inst, j, found := sc.Instances.Providers().FindSourceTarget(p.ProviderKey, mut.SourceKey, owner, input.Now); found {
+				inst, j, found := sc.Instances.Providers().FindSourceTarget(p.ProviderKey, mut.SourceKey, owner, input.Now)
+				if found && p.Lifecycle != nil && p.Lifecycle.AllowsSourceTargetReuse() {
 					old, oldIndex = inst, j
 					reason = "refresh"
 				} else {
@@ -135,6 +137,9 @@ func (e *Executor) ProjectDynamic(input ProjectionInput) (bool, *model.EngineErr
 				unmountAttributes(&input, owner, old.ProviderRef)
 				sc.Bags.Remove(old.ProviderRef)
 			} else {
+				if mut.Contributions.Present() {
+					old.StatusContributions = mut.Contributions
+				}
 				if p.HasModifierSnapshots {
 					old.ModifierSnapshots = model.BorrowNumericView(snapshots)
 					unmountAttributes(&input, owner, old.ProviderRef)
@@ -184,4 +189,13 @@ func (e *Executor) ProjectDynamic(input ProjectionInput) (bool, *model.EngineErr
 		}
 	}
 	return changed, nil
+}
+
+// 只为已启用同帧状态清理的计算组合纯有限眩晕；不改变其原实例复用政策。
+func (e *Executor) canProjectFiniteActionStun(provider plan.CompiledProvider) bool {
+	lifecycle := provider.Lifecycle
+	return e.compiled.HasProviderDurationChange && provider.ActionStun && provider.Kind == "status" &&
+		provider.AbilityCount == 0 && len(provider.Modifiers)+len(provider.Listeners)+len(provider.StateFields)+len(provider.Processes)+len(provider.StatusContributions) == 0 &&
+		provider.AmmoBinding == nil && provider.ShieldDefinitionRef == "" && !provider.NeedsElapsedTime &&
+		lifecycle != nil && lifecycle.HasDuration && lifecycle.MaxStacks == 1 && lifecycle.RefreshPolicy == model.RefreshPolicyReplace && lifecycle.TickIntervalMs == 0
 }

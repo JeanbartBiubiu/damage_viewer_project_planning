@@ -299,6 +299,7 @@ const (
 	AutomaticWaitRelatedCooldown         = "RELATED_COOLDOWN"
 	AutomaticWaitReleaseQualification    = "RELEASE_QUALIFICATION"
 	AutomaticWaitActionOccupied          = "ACTION_OCCUPIED"
+	AutomaticWaitControlled              = "CONTROLLED"
 	AutomaticWaitProcessActive           = "PROCESS_ACTIVE"
 	AutomaticWaitMechanicResource        = "MECHANIC_RESOURCE"
 	AutomaticWaitAuthorCondition         = "AUTHOR_CONDITION"

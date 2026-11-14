@@ -34,11 +34,15 @@ describe('本次快照分类和费用用途绑定', () => {
     expect(validateSimulationSnapshot(snapshot, snapshot.gameId, snapshot.selection)).toBe(snapshot);
     approveSnapshotFixture(snapshot);
     expect(simulationCastCostCandidates(snapshot)).toEqual([authoredCostRef]);
-    expect(() => inspectSimulationSnapshot(snapshot)).toThrow('资源改变');
+    const paidInspection = inspectSimulationSnapshot(snapshot);
+    expect(paidInspection.resourceRequirements).toEqual([{ side: 'source', resourceKey: 'spell_fee', resourceName: '作者明确费用', maxValue: undefined }]);
+    expect(snapshot.source.selectedLevelValues).not.toHaveProperty('spell_fee');
     const inspection = inspectSimulationSnapshot(snapshot, [authoredCostRef]);
     expect(inspection.requirements.some(row => row.attribute.attributeKey === 'spell_fee')).toBe(false);
+    expect(inspection.resourceRequirements).toEqual([]);
     const inputs = { source: {} as Record<string, number>, target: {} as Record<string, number> };
     for (const row of inspection.requirements) if (row.storedValue === undefined) inputs[row.side][row.attribute.attributeKey] = 0;
+    expect(() => assembleSimulation(snapshot, inputs, { source: 250, target: 500 })).toThrow(/明确填写.*初始当前值/);
     const prepared = assembleSimulation(snapshot, inputs, { source: 250, target: 500 }, [], [], [authoredCostRef]);
     expect(prepared.basicAttackBinding!.skillKey).toBe('sample_basic_attack');
     expect(prepared.compileRequest.sharedProviders!.some(row => row.kind === 'item' && row.skillKey === 'item_1043_passive')).toBe(true);
@@ -124,7 +128,10 @@ describe('本次快照分类和费用用途绑定', () => {
   it('名单本身不自动忽略；旧mana也不具备隐含费用资格，快照漂移拒绝旧确认', () => {
     const snapshot = classificationCostBindingsSample();
     approveSnapshotFixture(snapshot);
-    expect(() => assembleActiveSkills(snapshot)).toThrow('资源改变');
+    const paid = assembleActiveSkills(snapshot);
+    expect(paid.ignoredCastCosts).toEqual([]);
+    expect(paid.providers.flatMap(provider => provider.processes ?? []).flatMap(process => process.costs))
+      .toEqual([{ resourceKey: 'spell_fee', amount: { op: 'const', value: 7 } }]);
     const saved = structuredClone(authoredCostRef);
     snapshot.catalogs.calculationRules.configuration!.ignorableCastCostAttributeKeys = [];
     expect(simulationCastCostCandidates(snapshot)).toEqual([]);
@@ -179,7 +186,12 @@ describe('本次快照分类和费用用途绑定', () => {
     expect(snapshot).toEqual(before);
     snapshot.catalogs.calculationRules.configuration!.ignorableCastCostAttributeKeys = [];
     expect(simulationAutomaticCastCosts(snapshot)).toEqual([]);
-    expect(() => assembleActiveSkills(snapshot, simulationAutomaticCastCosts(snapshot))).toThrow('资源改变');
+    const paid = assembleActiveSkills(snapshot, simulationAutomaticCastCosts(snapshot));
+    expect(paid.ignoredCastCosts).toEqual([]);
+    expect(paid.providers.flatMap(provider => provider.processes ?? []).flatMap(process => process.costs))
+      .toEqual([{ resourceKey: 'spell_fee', amount: { op: 'const', value: 7 } }]);
+    expect(inspectSimulationSnapshot(snapshot).resourceRequirements)
+      .toEqual([{ side: 'source', resourceKey: 'spell_fee', resourceName: '作者明确费用', maxValue: undefined }]);
   });
 
   it.each(['extra_result', 'extra_binding'] as const)('自动识别拒绝同一普通资源的额外开始消费：%s', variant => {
@@ -200,7 +212,7 @@ describe('本次快照分类和费用用途绑定', () => {
     expect(snapshot).toEqual(before);
   });
 
-  it('伪造或重复确认费用及未处理的必要费用均拒绝，不改变作者快照', () => {
+  it('伪造或重复确认费用拒绝；显式忽略一项后其余必要费用仍真实支付，不改变作者快照', () => {
     const snapshot = classificationCostBindingsSample();
     approveSnapshotFixture(snapshot);
     const before = structuredClone(snapshot);
@@ -212,7 +224,16 @@ describe('本次快照分类和费用用途绑定', () => {
     const skill = snapshot.skillConfigurations.find(row => row.skill.skillKey === authoredCostRef.skillKey)!;
     const result = costResult(snapshot);
     skill.effects.find(row => row.effectKey === authoredCostRef.effectKey)!.results.push({ ...structuredClone(result), resultKey: 'necessary_payment' });
-    expect(() => assembleActiveSkills(snapshot, [authoredCostRef])).toThrow('资源改变');
+    const withNecessaryPayment = structuredClone(snapshot);
+    const paid = assembleActiveSkills(snapshot, [authoredCostRef]);
+    expect(paid.ignoredCastCosts).toEqual([authoredCostRef]);
+    const processes = paid.providers.flatMap(provider => provider.processes ?? []);
+    expect(processes.flatMap(process => process.costs)).toEqual([{ resourceKey: 'spell_fee', amount: { op: 'const', value: 7 } }]);
+    expect(processes.flatMap(process => process.momentOperations).flatMap(group => group.operations)
+      .some(operation => operation.operation === 'resource_change')).toBe(false);
+    expect(inspectSimulationSnapshot(snapshot, [authoredCostRef]).resourceRequirements)
+      .toEqual([{ side: 'source', resourceKey: 'spell_fee', resourceName: '作者明确费用', maxValue: undefined }]);
+    expect(snapshot).toEqual(withNecessaryPayment);
   });
 
   it('未消费的绑定仍要求合法目录，名单属性缺目录或停用仍拒绝', () => {

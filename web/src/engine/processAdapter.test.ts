@@ -355,7 +355,7 @@ describe('processAdapter', () => {
   });
 
   it.each(['PROCESS_START', 'PROCESS_COMPLETE'] as const)('忽略成本只命中特定挂接，同效果在%s的必要消费保留', momentType => {
-    const authored = program({ ignoreCastCosts: true, effects: [effect([resource('CONSUME', fixedValue(50))])] });
+    const authored = program({ ignoredCastCosts: [{ bindingKey: 'pay', effectKey: 'mana_cost', resultKey: 'consume_mana' }], effects: [effect([resource('CONSUME', fixedValue(50))])] });
     const moment = { momentType, stepKey: null, failureReason: null };
     authored.process.effectBindings.push({ bindingKey: 'necessary_spend', effectKey: 'mana_cost', moment, sortOrder: 20 });
     const adapted = adaptProcessProgram(authored).provider.processes[0]!;
@@ -366,7 +366,7 @@ describe('processAdapter', () => {
   });
 
   it('忽略过程开始成本不删除时点规则再次执行同效果的必要消费', () => {
-    const authored = program({ ignoreCastCosts: true, effects: [effect([resource('CONSUME', fixedValue(50))])] });
+    const authored = program({ ignoredCastCosts: [{ bindingKey: 'pay', effectKey: 'mana_cost', resultKey: 'consume_mana' }], effects: [effect([resource('CONSUME', fixedValue(50))])] });
     authored.rules.push(rule({ ruleKey: 'necessary_spend', eventSource: { eventType: 'PROCESS_MOMENT',
       detail: { processKey: 'cast', moment: complete() } }, actions: [{
         actionKey: 'consume', name: '必要消费', actionType: 'EXECUTE_EFFECT', sortOrder: 10, targetContext: 'CURRENT_TARGET',
@@ -704,3 +704,125 @@ describe('processAdapter', () => {
 });
 
 const adaptProcessProgram = (...args: Parameters<typeof raw_adaptProcessProgram>): ReturnType<typeof raw_adaptProcessProgram> => { approveAuthoredFixture(args[0]); return raw_adaptProcessProgram(...args); };
+
+describe('完整过程成本及显式忽略子集', () => {
+  it('未忽略的同资源逐笔成本进入真实过程，忽略只匹配精确引用', () => {
+    const authored = program({ effects: [effect([resource('CONSUME', fixedValue(80)), resource('CONSUME', fixedValue(10), 'second')])],
+      castCosts: [{ bindingKey: 'pay', effectKey: 'mana_cost', resultKey: 'consume_mana' }, { bindingKey: 'pay', effectKey: 'mana_cost', resultKey: 'second' }],
+      ignoredCastCosts: [{ bindingKey: 'pay', effectKey: 'mana_cost', resultKey: 'second' }] });
+    const process = adaptProcessProgram(authored).provider.processes[0]!;
+    expect(process.costs).toEqual([{ resourceKey: 'mana', amount: { op: 'const', value: 80 } }]);
+    expect(process.momentOperations).toEqual([]);
+    expect(() => adaptProcessProgram({ ...authored, ignoredCastCosts: [authored.ignoredCastCosts![0]!, authored.ignoredCastCosts![0]!] })).toThrow(/重复/);
+    expect(() => adaptProcessProgram({ ...authored, ignoredCastCosts: [{ bindingKey: 'unknown', effectKey: 'mana_cost', resultKey: 'second' }] })).toThrow(/完整成本集合/);
+  });
+
+  it('真实退款可读实际支付，显式忽略成本不能以补0通过退款读取', () => {
+    const authored = program({ parameters: [parameter(), parameter({ parameterKey: 'paid', valueMode: 'RUNTIME_INPUT', valueType: 'DECIMAL', fixedValue: null, levelValues: null })],
+      effects: [effect([resource('CONSUME', fixedValue(80))]), effect([resource('REFUND', parameterValue('paid'), 'refund')], 'refund')] });
+    authored.effects[1]!.results[0]!.valueRule!.fixedMultiplier = .5;
+    authored.rules.push(rule({ ruleKey: 'refund', eventSource: { eventType: 'PROCESS_MOMENT', detail: { processKey: 'cast', moment: failure('EVENT_ABORTED') } },
+      actions: [{ actionKey: 'refund', name: '按实付退款', actionType: 'EXECUTE_EFFECT', detail: { effectKey: 'refund' }, sortOrder: 10,
+        targetContext: 'CURRENT_TARGET', resultModifiers: [], runtimeInputBindings: [{ bindingKey: 'paid', parameterKey: 'paid', sourceType: 'SOURCE_CAST_RESOURCE_COST', detail: { attributeKey: 'mana' } }] }] }));
+    const value = adaptProcessProgram(authored).provider.processes[0]!;
+    expect(value.costs).toEqual([{ resourceKey: 'mana', amount: { op: 'const', value: 80 } }]);
+    expect(value.momentOperations[0]!.operations[0]).toMatchObject({ operation: 'resource_change', target: 'source', resourceKey: 'mana',
+      amount: { op: 'max', args: [{ op: 'mul', args: [{ op: 'read', path: 'process.actual_cost.mana' }, { op: 'const', value: .5 }] }, { op: 'const', value: 0 }] },
+      ref: 'skills.cast_skill.effects.refund.results.refund' });
+    expect(() => adaptProcessProgram({ ...authored, ignoredCastCosts: authored.castCosts })).toThrow(/不能补 0/);
+  });
+});
+
+describe('真实蓄力与自身状态接续', () => {
+  function chargingProgram(): AuthoredProcessProgram {
+    const value = program();
+    value.process.steps = [step('CHARGE', 'hold', { minimumChargeValue: fixedValue(0), maximumChargeValue: fixedValue(4000), releaseAtMaximum: false })];
+    value.process.cooldown = { durationValue: fixedValue(12000), startMoment: { momentType: 'STEP_EXECUTION', stepKey: 'hold' } };
+    value.parameters!.push(parameter({ parameterKey: 'held_ms', valueType: 'DECIMAL', valueMode: 'RUNTIME_INPUT', fixedValue: null, levelValues: null }));
+    value.effects.push(effect([{ resultKey: 'credit', name: '实际蓄力扣减', resultType: 'COOLDOWN_CHANGE', target: 'SOURCE',
+      description: null, sortOrder: 10, lifecycleBehavior: null, spellShieldBlockScope: null,
+      valueRule: { value: parameterValue('held_ms'), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null },
+      detail: { operation: 'REDUCE', affectedSkillScope: { mode: 'SKILLS', skillKeys: ['cast_skill'], skillCategoryKeys: [] } } }], 'credit'));
+    value.rules.push(rule({ ruleKey: 'release', sortOrder: 20,
+      eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: 'cast_skill', useKind: 'ACTIVE', castPhase: 'CHARGE_RELEASE' } },
+      actions: [{ actionKey: 'release', name: '释放', actionType: 'ADVANCE_PROCESS', sortOrder: 10, targetContext: null,
+        detail: { processKey: 'cast', stepKey: 'hold' }, runtimeInputBindings: [], resultModifiers: [] }] }),
+    rule({ ruleKey: 'credit', sortOrder: 30,
+      eventSource: { eventType: 'PROCESS_MOMENT', detail: { processKey: 'cast', moment: { momentType: 'STEP_EXECUTION', stepKey: 'hold' } } },
+      actions: [{ actionKey: 'credit', name: '扣减', actionType: 'EXECUTE_EFFECT', sortOrder: 10, targetContext: 'CURRENT_TARGET',
+        detail: { effectKey: 'credit' }, resultModifiers: [], runtimeInputBindings: [{ bindingKey: 'actual_charge', parameterKey: 'held_ms',
+          sourceType: 'EVENT_VALUE', detail: { eventValueKey: 'CHARGE_DURATION_MS' } }] }] }));
+    return value;
+  }
+
+  function withSelfSlow(): AuthoredProcessProgram {
+    const value = chargingProgram();
+    value.hitContext = { statuses: [{ statusKey: 'own_slow', statusKind: 'MOVEMENT_SLOW', status: 'ENABLED' }] };
+    const slow = effect([{ resultKey: 'slow', name: '自身减速', resultType: 'STATUS_OPERATION', target: 'SOURCE',
+      description: null, sortOrder: 10, spellShieldBlockScope: null,
+      lifecycleBehavior: { moment: 'PERSISTENT', valueReadMode: 'APPLICATION_SNAPSHOT', stackValueMode: 'SHARED', reapplicationValueMode: 'REPLACE', periodicExecutionMode: null },
+      valueRule: { value: fixedValue(.2), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: 1 }, detail: { statusKey: 'own_slow', operation: 'APPLY' } }], 'slow');
+    slow.lifecycle = { durationValue: fixedValue(4000), maxStacksValue: fixedValue(1), applicationStacksValue: fixedValue(1),
+      instanceScope: 'SOURCE', reapplicationStackMode: 'KEEP', reapplicationDurationMode: 'REFRESH_ALL', expiryMode: 'ALL_AT_ONCE',
+      periodicIntervalValue: null, firstPeriodicExecution: null, endWhenShieldEndsResultKey: null };
+    const remove = effect([{ resultKey: 'remove', name: '移除本次减速', resultType: 'LIFECYCLE_OPERATION', target: 'SOURCE',
+      description: null, sortOrder: 10, lifecycleBehavior: null, spellShieldBlockScope: null, valueRule: null,
+      detail: { targetEffectKey: 'slow', operation: 'REMOVE' } }], 'clear');
+    value.effects.push(slow, remove);
+    value.process.effectBindings.push({ bindingKey: 'slow', effectKey: 'slow', moment: start(), sortOrder: 20 },
+      { bindingKey: 'clear', effectKey: 'clear', moment: complete(), sortOrder: 30 },
+      { bindingKey: 'clear_failed', effectKey: 'clear', moment: failure(null), sortOrder: 40 });
+    return value;
+  }
+
+  it('实际CHARGE执行读取自身毫秒并扣减本技能INITIAL冷却', () => {
+    const value = adaptProcessProgram(chargingProgram());
+    const credit = value.provider.processes![0]!.momentOperations.find(row => row.moment.momentType === 'STEP_EXECUTION')!.operations[0]!;
+    expect(credit).toMatchObject({ operation: 'cooldown_change', valuePolicy: 'reduce', target: 'source',
+      amount: { op: 'max', args: [{ op: 'read', path: 'use.charge_duration_ms' }, { op: 'const', value: 0 }] },
+      abilityRef: `self.provider[@mount].ability[${value.initialAbilityKey}]` });
+    expect(value.provider.processes![0]!.cooldown?.durationMs).toEqual({ op: 'const', value: 12000 });
+  });
+
+  it('自身减速与正常/失败清理共享真实父定义，状态目录显式声明', () => {
+    const input = withSelfSlow(), before = structuredClone(input);
+    const adapted = adaptProcessProgram({ ...input, providerDefinitionRef: 'process_source_first' });
+    const slow = adapted.providers[0]!;
+    expect(slow.providerKey).toBe('self_status/process_source_first/cast_skill/slow');
+    const operations = adapted.provider.processes![0]!.momentOperations.flatMap(row => row.operations);
+    expect(operations.filter(op => op.operation === 'apply_provider')).toEqual([{ operation: 'apply_provider', target: 'self', providerDefinitionRef: slow.providerKey, ref: 'skills.cast_skill.effects.slow.results.slow' }]);
+    expect(operations.filter(op => op.operation === 'expire_provider')).toEqual([
+      { operation: 'expire_provider', target: 'self', providerDefinitionRef: slow.providerKey, ref: 'skills.cast_skill.effects.clear.results.remove' },
+      { operation: 'expire_provider', target: 'self', providerDefinitionRef: slow.providerKey, ref: 'skills.cast_skill.effects.clear.results.remove' }
+    ]);
+    expect(adapted.typeEntries).toContainEqual({ key: 'status/own_slow', domain: 'status' });
+    expect(adaptProcessProgram({ ...input, providerDefinitionRef: 'process_source_second' }).providers[0]!.providerKey).not.toBe(slow.providerKey);
+    expect(input).toEqual(before);
+  });
+
+  it('拒绝非真实充能时点、自由值、默认或异技能参数、重复供值及跨技能冷却', () => {
+    for (const mutate of [
+      (value: AuthoredProcessProgram) => { const event = value.rules[2]!.eventSource; if (event.eventType === 'PROCESS_MOMENT') event.detail.moment = start(); },
+      (value: AuthoredProcessProgram) => { value.process.steps[0] = step('IMMEDIATE', 'hold', {}); },
+      (value: AuthoredProcessProgram) => { const binding = value.rules[2]!.actions[0]!.runtimeInputBindings[0]!; if (binding.sourceType === 'EVENT_VALUE') binding.detail.eventValueKey = 'SKILL_HIT_SPELL_SHIELD_BLOCKED'; },
+      (value: AuthoredProcessProgram) => { value.parameters!.find(row => row.parameterKey === 'held_ms')!.fixedValue = 1; },
+      (value: AuthoredProcessProgram) => { value.process.cooldown!.durationValue = parameterValue('held_ms'); },
+      (value: AuthoredProcessProgram) => { value.process.steps[0] = step('CHARGE', 'hold', { minimumChargeValue: fixedValue(0), maximumChargeValue: parameterValue('held_ms'), releaseAtMaximum: false }); },
+      (value: AuthoredProcessProgram) => { value.effects[0]!.results[0]!.valueRule!.value = parameterValue('held_ms'); },
+      (value: AuthoredProcessProgram) => { value.parameters!.find(row => row.parameterKey === 'held_ms')!.skillKey = 'other'; },
+      (value: AuthoredProcessProgram) => { value.rules[2]!.actions[0]!.runtimeInputBindings.push({ ...value.rules[2]!.actions[0]!.runtimeInputBindings[0]!, bindingKey: 'duplicate' }); },
+      (value: AuthoredProcessProgram) => { const result = value.effects[1]!.results[0]!; if (result.resultType === 'COOLDOWN_CHANGE') result.detail.affectedSkillScope.skillKeys = ['other']; }
+    ]) { const value = chargingProgram(); mutate(value); expect(() => adaptProcessProgram(value)).toThrow(); }
+  });
+
+  it('拒绝非自身有限减速清理和混合副作用，不能按定义移除其它效果', () => {
+    for (const mutate of [
+      (value: AuthoredProcessProgram) => { value.effects.find(row => row.effectKey === 'slow')!.lifecycle!.instanceScope = 'SOURCE_TARGET'; },
+      (value: AuthoredProcessProgram) => { value.effects.find(row => row.effectKey === 'slow')!.results[0]!.target = 'TARGET'; },
+      (value: AuthoredProcessProgram) => { value.effects.find(row => row.effectKey === 'clear')!.results[0]!.valueRule = { value: fixedValue(0), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null }; },
+      (value: AuthoredProcessProgram) => { value.effects.find(row => row.effectKey === 'clear')!.results.push(resource('RESTORE', fixedValue(1))); },
+      (value: AuthoredProcessProgram) => { value.owner = 'target'; },
+      (value: AuthoredProcessProgram) => { value.hitContext = { statuses: [] }; }
+    ]) { const value = withSelfSlow(); mutate(value); expect(() => adaptProcessProgram(value)).toThrow(); }
+  });
+});

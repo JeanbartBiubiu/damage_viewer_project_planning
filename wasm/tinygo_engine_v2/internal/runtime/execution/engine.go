@@ -131,6 +131,7 @@ type Engine struct {
 	actions                    actionpkg.State
 	processFailure             *model.EngineError
 	settlingProcessDeaths      bool
+	settlingProcessStun        bool
 	compiled                   planbundle.CompiledSession
 	formulas                   formula.Library
 	req                        model.RunRequest
@@ -379,6 +380,14 @@ func New(compiled planbundle.CompiledSession, req model.RunRequest, loop *schedu
 		}
 		state.pushCombatEvent(scheduler.GenericEvent{TimeMs: state.loop.StartMs(), Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventBasicAttack, DriverEntryIndex: -1})
 	}
+	if compiled.HasActionStun && state.actions.ProcessCount() != 0 {
+		// 恢复输入已经带控制事实时，先按同一死亡/控制顺序收敛，
+		// 不能等待下一个过程时点提交后才阻止其负载。
+		state.checkDeathStopReason()
+		if state.processFailure != nil {
+			return nil, state.processFailure
+		}
+	}
 	return state, nil
 }
 
@@ -445,6 +454,9 @@ func (s *Engine) finalizeStopReason() { s.loop.Finalize(s.LoopStopState()) }
 func (s *Engine) checkDeathStopReason() {
 	if !s.settlingProcessDeaths && s.processFailure == nil {
 		s.processFailure = s.failDeadProcesses()
+	}
+	if s.processFailure == nil {
+		s.processFailure = s.failStunnedProcesses()
 	}
 	if s.loop.Stopped() {
 		return

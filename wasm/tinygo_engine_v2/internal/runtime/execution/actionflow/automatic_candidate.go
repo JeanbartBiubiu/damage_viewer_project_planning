@@ -8,6 +8,8 @@ import (
 
 // AutomaticReads 只提供候选入口的真实挂载、库存、作者条件和付款前成本检查。
 type AutomaticReads interface {
+	// CandidateStunUntil 查询真实来源眩晕许可期限，不修改费用或普通冷却。
+	CandidateStunUntil(owner string) (int64, *model.EngineError)
 	// RecastCandidate 检查已接受重施窗口的当前实际资格，不创建新的首次使用。
 	RecastCandidate(rule *actionpkg.AutomaticRuleView, process *actionpkg.ProcessView) (string, []string, int64, *model.EngineError)
 	// CandidateMounted 核对当前真实来源挂载，不以静态定义代替有效实例。
@@ -26,6 +28,19 @@ func (s SkillActionExecutor) Candidate(rule *actionpkg.AutomaticRuleView, now in
 		return model.AutomaticWaitReleaseQualification, []string{rule.Predecessor().Plan().RuleKey()}, 0, nil
 	}
 	ability := s.abilities[rule.ControlIndex()]
+	if until, err := reads.CandidateStunUntil(model.SelectorSource); err != nil {
+		return "", nil, 0, err
+	} else if until > now {
+		for index := 0; index < rule.DependencyCount(); index++ {
+			if ready := ledger.ReadyAt(rule.DependencyAt(index)); ready > until {
+				until = ready
+			}
+		}
+		if ready := s.actions.ReadyAt(model.SelectorSource, now); ready > until {
+			until = ready
+		}
+		return model.AutomaticWaitControlled, nil, until, nil
+	}
 	ammoAt, ammoReady := int64(0), true
 	hasAmmo := s.providers[ability.ProviderIndex].AmmoBinding != nil
 	if hasAmmo {

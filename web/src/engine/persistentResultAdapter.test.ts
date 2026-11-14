@@ -1,7 +1,7 @@
 import { approveAuthoredFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
-import { adaptPersistentResult as raw_adaptPersistentResult, compilePersistentResult, withPersistentResults, type AuthoredPersistentResult } from './persistentResultAdapter';
+import { adaptPersistentResult as raw_adaptPersistentResult, compilePersistentResult, compileProcessSelfMovementSlow, withPersistentResults, type AuthoredPersistentResult } from './persistentResultAdapter';
 import type { CompileRequest } from '../types/genericEngine';
 import { fixedValue, formulaValue, parameterValue } from '../types/numericValue';
 import type { SkillEffectLifecycle, SkillEffectResult } from '../types/skillEffect';
@@ -95,6 +95,52 @@ function request(): CompileRequest {
 const hash = { rulesHash: 'after' } as const;
 const bind = (row = authored(), providerKey = 'status:slow') => ({
   providerKey, applyProviderKey: 'champion', applyAbilityKey: 'apply', authored: row
+});
+
+describe('过程自身普通减速', () => {
+  function selfSlow(): AuthoredPersistentResult {
+    return authored('slow', { source: 'source', target: 'source', lifecycle: lifecycle({ instanceScope: 'SOURCE' }),
+      result: slowResult({ target: 'SOURCE', valueRule: { value: fixedValue(.2), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null } }) });
+  }
+
+  it('独立SOURCE入口复用真实减速定义，保留目标入口的原限制', () => {
+    const input = selfSlow();
+    input.parameters = [{ gameId: 'lol', skillKey: 'urgot_q', parameterKey: 'self_ratio', name: '自身减速比例',
+      valueType: 'DECIMAL', valueMode: 'FIXED', fixedValue: .2, levelValues: null, description: null, sortOrder: 0, createdAt: '', updatedAt: '' }];
+    input.result.valueRule!.value = parameterValue('self_ratio');
+    const before = structuredClone(input);
+    const result = compileProcessSelfMovementSlow(input, 'self_status/process_source_a/urgot_q/slow_effect');
+    expect(result.operation).toEqual({ operation: 'apply_provider', target: 'self', providerDefinitionRef: result.provider.providerKey });
+    expect(result.provider).toMatchObject({ skillKey: 'urgot_q', lifecycle: { durationMs: { op: 'const', value: 1000 },
+      maxStacks: 1, refreshPolicy: 'replace', instanceScope: 'source_target' },
+      statusContributions: [{ statusKey: 'slow_q', statusKind: 'movement_slow', strength: { op: 'const', value: .2 } }] });
+    expect(input).toEqual(before);
+    expect(() => compilePersistentResult(input, 'legacy_target')).toThrow(/TARGET|承受者/);
+  });
+
+  it('拒绝动态强度、非SOURCE范围、停用目录及额外生命周期能力', () => {
+    for (const mutate of [
+      (value: AuthoredPersistentResult) => { value.result = slowResult({ target: 'SOURCE', valueRule: { value: fixedValue(1.1), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null } }); },
+      (value: AuthoredPersistentResult) => { value.lifecycle.instanceScope = 'SOURCE_TARGET'; },
+      (value: AuthoredPersistentResult) => { value.lifecycle.maxStacksValue = fixedValue(2); },
+      (value: AuthoredPersistentResult) => { value.lifecycle.periodicIntervalValue = fixedValue(10); },
+      (value: AuthoredPersistentResult) => { value.lifecycle.endWhenShieldEndsResultKey = 'shield'; },
+      (value: AuthoredPersistentResult) => { (value.lifecycle as unknown as Record<string, unknown>).extraDurationRule = true; },
+      (value: AuthoredPersistentResult) => { value.statuses = [{ statusKey: 'slow_q', statusKind: 'MOVEMENT_SLOW', status: 'DISABLED' }]; },
+      (value: AuthoredPersistentResult) => { value.result.lifecycleBehavior!.valueReadMode = 'MOMENT_EVALUATION'; },
+      (value: AuthoredPersistentResult) => { value.target = 'target'; },
+      (value: AuthoredPersistentResult) => {
+        value.formulas = [{ gameId: 'lol', skillKey: 'urgot_q', formulaKey: 'target_strength', name: '动态目标属性', description: null,
+          sortOrder: 0, createdAt: '', updatedAt: '', expression: skillFormulaDefinition('urgot_q', { nodeType: 'ATTRIBUTE',
+            attributeOwner: 'TARGET', attributeKey: 'move_speed', attributeValueKind: 'TOTAL' }) }];
+        value.result.valueRule!.value = formulaValue('target_strength');
+        approveAuthoredFixture(value);
+      }
+    ]) {
+      const value = selfSlow(); mutate(value);
+      expect(() => compileProcessSelfMovementSlow(value, 'self_status/a/slow')).toThrow();
+    }
+  });
 });
 
 describe('有界持续结果适配', () => {

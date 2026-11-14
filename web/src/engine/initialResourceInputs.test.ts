@@ -1,9 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { approveSnapshotFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { loadMechanismCases } from '../../tests/mechanisms/mechanismCase';
-import { preparedActiveSample } from '../../tests/fixtures/simulationActiveSkill';
+import { preparedActiveSample, simulationActiveSample } from '../../tests/fixtures/simulationActiveSkill';
 import type { SimulationInitialResourceInput } from '../types/simulationSnapshot';
 import { inspectSimulationSnapshot, assembleSimulation, prepareSimulation } from './simulationAdapter';
+import { simulationCastCostCandidates } from './simulationActiveSkills';
+import { fixedValue, parameterValue } from '../types/numericValue';
+import type { SimulationSnapshot } from '../types/simulationSnapshot';
 
 function sample() {
   const definition = loadMechanismCases().find(row => row.caseKey === 'kill_restore_lethal')!;
@@ -73,5 +76,79 @@ describe('只为本场可达普通恢复明确提供当前资源', () => {
     expect(inspectSimulationSnapshot(f.snapshot).resourceRequirements).toEqual([]);
     expect(f.assemble([]).compileRequest.combatants[0]!.resources).toEqual({});
     expect(() => f.assemble()).toThrow(/不是本场需求/);
+  });
+});
+
+describe('真实计划过程成本与退款的初始资源', () => {
+  const initialHealth = { source: 250, target: 500 };
+  function explicitAttributes(snapshot: SimulationSnapshot) {
+    const values = { source: {} as Record<string, number>, target: {} as Record<string, number> };
+    for (const row of inspectSimulationSnapshot(snapshot).requirements) {
+      if (row.storedValue === undefined) values[row.side][row.attribute.attributeKey] = 0;
+    }
+    return values;
+  }
+
+  function activeCost(refund = false): SimulationSnapshot {
+    const snapshot = simulationActiveSample();
+    snapshot.catalogs.calculationRules.configuration!.ignorableCastCostAttributeKeys = ['mana'];
+    snapshot.catalogs.attributes.push({ ...snapshot.catalogs.attributes[0]!, attributeKey: 'mana', name: '法力' });
+    snapshot.source.selectedLevelValues.mana = 200;
+    const config = snapshot.skillConfigurations.find(row => row.skill.skillKey === 'sample_active')!;
+    const effect = { ...structuredClone(config.effects[0]!), effectKey: 'cost', lifecycle: null, results: [{
+      resultKey: 'pay', name: '真实费用', resultType: 'RESOURCE_CHANGE' as const, target: 'SOURCE' as const,
+      description: null, sortOrder: 0, lifecycleBehavior: null, spellShieldBlockScope: null,
+      valueRule: { value: fixedValue(80), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null },
+      detail: { operation: 'CONSUME' as const, attributeKey: 'mana' }
+    }] };
+    config.effects.push(effect);
+    config.processes[0]!.effectBindings.push({ bindingKey: 'pay', effectKey: 'cost', sortOrder: 0,
+      moment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null } });
+    if (refund) {
+      config.parameters.push({ gameId: snapshot.gameId, skillKey: 'sample_active', parameterKey: 'paid', name: '实付', description: null,
+        sortOrder: 0, valueType: 'DECIMAL', valueMode: 'RUNTIME_INPUT', fixedValue: null, levelValues: null, createdAt: '', updatedAt: '' });
+      config.effects.push({ ...effect, effectKey: 'refund', results: [{ ...effect.results[0]!, resultKey: 'refund',
+        valueRule: { value: parameterValue('paid'), fixedMultiplier: .5, fixedMinValue: 0, fixedMaxValue: null }, detail: { operation: 'REFUND', attributeKey: 'mana' } }] });
+      config.triggerRules.push({ ruleKey: 'refund', name: '结束退款', description: null, sortOrder: 30,
+        eventSource: { eventType: 'PROCESS_MOMENT', detail: { processKey: 'cast', moment: { momentType: 'PROCESS_COMPLETE', stepKey: null, failureReason: null } } },
+        conditionGroups: [], actions: [{ actionKey: 'refund', name: '实付一半退款', actionType: 'EXECUTE_EFFECT', detail: { effectKey: 'refund' },
+          targetContext: 'CURRENT_TARGET', sortOrder: 10, runtimeInputBindings: [{ bindingKey: 'paid', parameterKey: 'paid', sourceType: 'SOURCE_CAST_RESOURCE_COST', detail: { attributeKey: 'mana' } }], resultModifiers: [] }],
+        perTargetCooldown: null, maxTriggersPerProcess: null, oncePerUse: null });
+    }
+    approveSnapshotFixture(snapshot);
+    return snapshot;
+  }
+
+  it('实际已挂载主动费用收集需求，缺当前值拒绝，0与费用不足值保持显式', () => {
+    const snapshot = activeCost();
+    expect(inspectSimulationSnapshot(snapshot).resourceRequirements).toEqual([{ side: 'source', resourceKey: 'mana', resourceName: '法力', maxValue: 200 }]);
+    const assemble = (current?: number) => assembleSimulation(snapshot, explicitAttributes(snapshot), initialHealth, [], [], [], [],
+      current === undefined ? [] : [{ side: 'source', resourceKey: 'mana', current }]);
+    expect(() => assemble()).toThrow(/明确填写/);
+    for (const current of [0, 79, 200]) {
+      const prepared = assemble(current);
+      expect(prepared.compileRequest.combatants[0]!.resources.mana).toEqual({ current, max: 200 });
+      const binding = prepared.compileRequest.rules.skillActionBindings![0]!;
+      const process = prepared.compileRequest.sharedProviders!.find(row => row.providerKey === binding.providerDefinitionRef)!.processes![0]!;
+      expect(process.costs).toEqual([{ resourceKey: 'mana', amount: { op: 'const', value: 80 } }]);
+      expect(process.momentOperations.flatMap(row => row.operations).some(row => row.operation === 'resource_change')).toBe(false);
+    }
+  });
+
+  it('真实退款与成本共用一个资源需求，保留实付读取而非补0', () => {
+    const snapshot = activeCost(true), requirement = inspectSimulationSnapshot(snapshot).resourceRequirements;
+    expect(requirement).toHaveLength(1);
+    const prepared = assembleSimulation(snapshot, explicitAttributes(snapshot), initialHealth, [], [], [], [], [{ side: 'source', resourceKey: 'mana', current: 200 }]);
+    expect(prepared.compileRequest.combatants[0]!.resources.mana).toEqual({ current: 200, max: 200 });
+    expect(JSON.stringify(prepared.compileRequest.sharedProviders)).toContain('process.actual_cost.mana');
+  });
+
+  it('精确忽略费用不要求当前资源，忽略后仍配置实付退款的输入必须拒绝', () => {
+    const snapshot = activeCost(), ignored = simulationCastCostCandidates(snapshot);
+    expect(inspectSimulationSnapshot(snapshot, ignored).resourceRequirements).toEqual([]);
+    expect(assembleSimulation(snapshot, explicitAttributes(snapshot), initialHealth, [], [], ignored).compileRequest.combatants[0]!.resources).toEqual({});
+    expect(() => assembleSimulation(snapshot, explicitAttributes(snapshot), initialHealth, [], [], ignored, [], [{ side: 'source', resourceKey: 'mana', current: 200 }])).toThrow(/不是本场需求/);
+    const refundable = activeCost(true);
+    expect(() => inspectSimulationSnapshot(refundable, simulationCastCostCandidates(refundable))).toThrow(/不能补 0/);
   });
 });

@@ -59,7 +59,7 @@ node tools/system-enums/generate.mjs --target web --root (Get-Location).Path --c
 | 过程与步骤时点 | SkillProcessMomentType | `PROCESS_START`（过程开始）、`STEP_START`（步骤开始）、`STEP_EXECUTION`（步骤执行）、`STEP_COMPLETE`（步骤完成）、`STEP_TIMEOUT`（步骤超时）、`PROCESS_COMPLETE`（过程完成）、`PROCESS_FAILURE`（过程失败） |
 | 内部状态操作 | SkillProcessStateOperationKind | `INCREASE`（增加）、`DECREASE`（减少）、`CONSUME`（消耗）、`SET`（设置）、`RESET`（重置）、`SELECT`（选择）、`ENABLE`（启用）、`DISABLE`（停用）、`TOGGLE`（切换）、`START`（开始） |
 | 过程步骤 | SkillProcessStepType | `IMMEDIATE`（立即）、`DELAY`（延迟）、`MULTI_HIT`（多段）、`PERIODIC`（周期）、`CHANNEL`（引导）、`CHARGE`（蓄力）、`RECAST`（重施）、`EMPOWERED_BASIC_ATTACK`（强化下一次普通攻击） |
-| 自动技能等待原因 | AutomaticSkillWaitReason | `OWN_COOLDOWN`（自身冷却）、`RELATED_COOLDOWN`（关联冷却）、`RELEASE_QUALIFICATION`（缺释放资格）、`ACTION_OCCUPIED`（行动占用）、`PROCESS_ACTIVE`（同来源已有过程）、`MECHANIC_RESOURCE`（机制资源不足）、`AUTHOR_CONDITION`（作者条件不成立） |
+| 自动技能等待原因 | AutomaticSkillWaitReason | `OWN_COOLDOWN`（自身冷却）、`RELATED_COOLDOWN`（关联冷却）、`RELEASE_QUALIFICATION`（缺释放资格）、`ACTION_OCCUPIED`（行动占用）、`PROCESS_ACTIVE`（同来源已有过程）、`CONTROLLED`（受到控制）、`MECHANIC_RESOURCE`（机制资源不足）、`AUTHOR_CONDITION`（作者条件不成立） |
 | 自动技能记录类别 | AutomaticSkillRecordKind | `ATTEMPT_REJECTED`（尝试拒绝）、`ABORTED_BEFORE_START`（开始前中止）、`STARTED`（成功开始）、`COMPLETED`（成功终结）、`FAILED`（失败终结）、`QUALIFICATION_GRANTED`（资格授予）、`QUALIFICATION_CONSUMED`（资格消费）、`WAIT_CHANGED`（等待变化） |
 | 修正区域计算方式 | ModifierZoneCalculationMode | `FLAT_ADD`（固定值加算）、`RATIO_ADD`（比例加算）、`RATIO_MULTIPLY`（比例乘算）、`RATIO_GROUP_ADD`（同组增幅加算）、`RATIO_MAX`（比例减少取强）、`RATIO_COMPLEMENT_MULTIPLY`（剩余比例连乘） |
 <!-- system-enums:members:end -->

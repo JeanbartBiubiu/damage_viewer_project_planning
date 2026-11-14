@@ -39,7 +39,7 @@ import { permanentHealthIncreases } from './permanentHealthInitialization';
 import { assembleTargetMarkSource } from './targetMarkAdapter';
 import { validateMarkedRawDamageAssembly } from './markedRawDamageAssembly';
 
-export const SIMULATION_ADAPTER_VERSION = 'v55-process-status-presence';
+export const SIMULATION_ADAPTER_VERSION = 'v56-charge-control-costs';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v5';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -89,6 +89,11 @@ type Program = {
   triggered: ReturnType<typeof assembleTriggeredEquipment>;
   natural: ReturnType<typeof assembleNaturalSkillSources>;
 };
+
+function programResourceMounts(compiled: Program) {
+  return [...compiled.triggered.mounts, ...compiled.natural.mounts,
+    ...(compiled.active?.bindings ?? []).map(binding => ({ side: binding.source, providerRef: binding.providerRef, definitionRef: binding.providerDefinitionRef }))];
+}
 
 function programProviders(compiled: Program): ProviderDefinition[] {
   const providers = [...(compiled.provider ? [compiled.provider] : []), ...compiled.equipment.providers,
@@ -760,7 +765,7 @@ export function inspectSimulationSnapshot(snapshot: SimulationSnapshot, ignoredC
   }
   return { requirements, coverage: compiled.coverage, equipmentOrigins: compiled.equipment.origins,
     permanentHealthIncreases: permanentHealthIncreases(programProviders(compiled), compiled.natural.mounts),
-    resourceRequirements: initialResourceRequirements(snapshot, programProviders(compiled), [...compiled.triggered.mounts, ...compiled.natural.mounts]),
+    resourceRequirements: initialResourceRequirements(snapshot, programProviders(compiled), programResourceMounts(compiled)),
     mechanicRequirements: compiled.provider ? primaryMechanicRequirements(snapshot, compiled.provider.initialStateSchema) : [] };
 }
 
@@ -776,7 +781,7 @@ export function assembleSimulation(
   const sceneParameterInputs = normalizeSceneInitialParameterInputs(snapshot, sceneInputs);
   const compiled = program(snapshot, ignoredCosts, sceneParameterInputs);
   const resourceRequirements = initialResourceRequirements(snapshot, programProviders(compiled),
-    [...compiled.triggered.mounts, ...compiled.natural.mounts], attributeInputs);
+    programResourceMounts(compiled), attributeInputs);
   const initialResourceInputs = normalizeInitialResourceInputs(resourceRequirements, resourceInputs);
   const equipmentAssumptions = validateEquipmentAssumptions(snapshot, assumptions);
   const mechanicStateInputs = validateMechanicStateInputs(compiled.provider ? primaryMechanicRequirements(snapshot, compiled.provider.initialStateSchema) : [], mechanicInputs);

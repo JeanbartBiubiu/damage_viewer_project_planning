@@ -53,6 +53,7 @@ type CompiledSession struct {
 	PermanentResourceMax        []CompiledPermanentResourceMax
 	HasCooldownDuration         bool
 	HasProviderDurationChange   bool
+	HasActionStun               bool
 	StatusKeys                  []string
 	SchemaVersion               string
 	SchemaHash                  string
@@ -222,6 +223,8 @@ type CompiledProviderStateField struct {
 type CompiledProvider struct {
 	// ClosedStatusKey 来自已验证控制候选的实际状态键，只读绑定到本定义的有效实例。
 	ClosedStatusKey string
+	// ActionStun 来自已验证目录的眩晕类型，供实际拥有者的行动资格使用。
+	ActionStun bool
 	// FormulaLinkedReads 只准备此定义已获准读取的关联盾事实，不含监听专属回执。
 	FormulaLinkedReads        []formula.FactRequest
 	PermanentCharacterPeriod  bool

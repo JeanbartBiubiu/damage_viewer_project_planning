@@ -4,6 +4,16 @@ import "tinygo_engine_v2/internal/model"
 
 // 候选与全部定义完成后绑定真实逻辑状态键；控制类别和类型本身不充当状态键。
 func finalizeClosedStatusBindings(ctx *genericCompileContext) {
+	for index := range ctx.session.Providers {
+		provider := &ctx.session.Providers[index]
+		if providerHasTypeKey(ctx, provider.ProviderKey, model.ClosedStatusKindProviderType[model.StatusKindStun]) {
+			if provider.Kind != "status" {
+				ctx.collector.addError(model.GenericErrUnknownRef, "providers."+provider.ProviderKey, "stun action control requires an actual status definition", provider.ProviderKey)
+				continue
+			}
+			provider.ActionStun, ctx.session.HasActionStun = true, true
+		}
+	}
 	for _, operation := range ctx.session.Operations {
 		if operation.SkillHit == nil {
 			continue

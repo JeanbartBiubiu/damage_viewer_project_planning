@@ -59,15 +59,8 @@ func (e *Executor) durationExtensionDeadline(operation plan.CompiledOperation, o
 		owner != source || owner != model.SelectorSource || provider == "" || !operation.HasAmount {
 		return 0, e.invariant(operation.Path, "provider duration change requires its actual source owner and complete definition", operation.ProviderDefinitionRef)
 	}
-	owned := false
-	for _, actor := range e.compiled.Combatants {
-		for _, mount := range actor.ProviderMounts {
-			owned = owned || actor.Key == owner && mount.ProviderRef == provider && int(mount.DefinitionIndex) == operation.OwnerProviderIndex
-		}
-	}
-	index, exists := e.FindDefinition(operation.ProviderDefinitionRef)
-	if !owned || !exists || !e.compiled.Providers[index].AtomicDynamic {
-		return 0, e.invariant(operation.Path, "provider duration change references an unknown or foreign applying source", operation.ProviderDefinitionRef)
+	if _, err := e.actualOwnDefinition(operation, owner, source, provider); err != nil {
+		return 0, err
 	}
 	amount, static := e.formulas.Metadata.FoldStatic(operation.AmountProgram)
 	deadline, safe := actionpkg.ProcessTimeAfter(now, amount, true)
@@ -76,4 +69,62 @@ func (e *Executor) durationExtensionDeadline(operation plan.CompiledOperation, o
 		return 0, e.invariant(operation.Path, "provider duration change requires safe static nonnegative integer milliseconds", operation.ProviderDefinitionRef)
 	}
 	return deadline, nil
+}
+
+// 实际帧身份不能由事件来源或技能名替代，父挂载也必须与编译的拥有者一致。
+func (e *Executor) actualOwnDefinition(operation plan.CompiledOperation, owner, source, provider string) (uint16, *model.EngineError) {
+	if !e.compiled.HasProviderDurationChange || operation.Target != model.SelectorSelf || owner != source || provider == "" {
+		return 0, e.invariant(operation.Path, "own lifecycle change requires its actual source owner", operation.ProviderDefinitionRef)
+	}
+	owned := 0
+	for _, actor := range e.compiled.Combatants {
+		for _, mount := range actor.ProviderMounts {
+			if actor.Key == owner && mount.ProviderRef == provider && int(mount.DefinitionIndex) == operation.OwnerProviderIndex {
+				owned++
+			}
+		}
+	}
+	index, exists := e.FindDefinition(operation.ProviderDefinitionRef)
+	if owned != 1 || !exists || !e.compiled.Providers[index].AtomicDynamic {
+		return 0, e.invariant(operation.Path, "provider duration change references an unknown or foreign applying source", operation.ProviderDefinitionRef)
+	}
+	return index, nil
+}
+
+// PrepareOwnDefinitionExpiry 只移除核定来源自身的唯一有限实例；读取原位置的暂存投影。
+func (e *Executor) PrepareOwnDefinitionExpiry(operation plan.CompiledOperation, owner, source, provider, target string, now int64, reads ProviderDurationPreparation) (Mutation, bool, *model.EngineError) {
+	if operation.Operation != "expire_provider" || operation.ProviderDefinitionRef == "" || operation.ProviderRef != "" ||
+		operation.ProviderRefFromEvent || operation.HasAmount || operation.HasCondition || operation.ValuePolicy != "" || target != owner {
+		return Mutation{}, false, e.invariant(operation.Path, "definition expiry requires its actual own target and exclusive definition identity", operation.ProviderDefinitionRef)
+	}
+	index, err := e.actualOwnDefinition(operation, owner, source, provider)
+	if err != nil {
+		return Mutation{}, false, err
+	}
+	if err := reads.PrepareDurationRead(); err != nil {
+		return Mutation{}, false, err
+	}
+	instances := reads.DurationProviders(owner)
+	reference := ""
+	for slot := 0; slot < instances.Len(); slot++ {
+		instance := instances.At(slot)
+		if instance.DefinitionIndex != index {
+			continue
+		}
+		if instance.DefinitionRef != operation.ProviderDefinitionRef || instance.Owner != owner || instance.Source != source {
+			return Mutation{}, false, e.invariant(operation.Path, "definition expiry found a foreign source instance", operation.ProviderDefinitionRef)
+		}
+		if instance.Expired(now) {
+			continue
+		}
+		if reference != "" || instance.ExpireAt <= 0 {
+			return Mutation{}, false, e.invariant(operation.Path, "definition expiry requires one active finite own instance", operation.ProviderDefinitionRef)
+		}
+		reference = instance.ProviderRef
+	}
+	if reference == "" {
+		return Mutation{}, false, nil
+	}
+	return Mutation{Kind: "expire", DefinitionRef: operation.ProviderDefinitionRef, ProviderRef: reference,
+		TargetKey: owner, SourceKey: source, Strict: true}, true, nil
 }

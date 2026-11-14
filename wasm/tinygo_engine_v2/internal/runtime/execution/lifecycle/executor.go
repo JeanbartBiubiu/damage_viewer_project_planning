@@ -51,6 +51,9 @@ type ExecutorAPI interface {
 	CooldownDurationFactor(p *actionpkg.ProcessView, instances effectpkg.ProviderList, now int64) (float64, *model.EngineError)
 	// PrepareDurationChange 先核验原来源与静态期限，再准备动态投影并核定实际续时，不发布实例。
 	PrepareDurationChange(operation plan.CompiledOperation, owner, source, provider string, now int64, reads ProviderDurationPreparation) (Mutation, bool, *model.EngineError)
+	// PrepareOwnDefinitionExpiry 核对实际父挂载及自身来源，先准备投影，再借用当前列表定位唯一有限实例。
+	// 不发布状态或保存借用；缺失和精确到期为空操作，多实例或异源身份错误保持失败。
+	PrepareOwnDefinitionExpiry(operation plan.CompiledOperation, owner, source, provider, target string, now int64, reads ProviderDurationPreparation) (Mutation, bool, *model.EngineError)
 	// ExecuteStateDuration 拥有普通状态减时及两种目标续时的资格、金额短路和暂存流程。
 	ExecuteStateDuration(input StateExecutionInput, reads StateExecutionReads, attributes StateAttributeExecution, actions StateActionExecution, requests TimingRequests) *model.EngineError
 	// ExecuteStateWrite 拥有状态写入、期限和回充资格的完整流程；真实暂存和跨功能同步仍在原帧。

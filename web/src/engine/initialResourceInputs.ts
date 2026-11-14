@@ -17,23 +17,32 @@ export function initialResourceCapacity(snapshot: SimulationSnapshot, side: Side
   return maxValue;
 }
 
-/** 只从已装配且真实挂载的普通自身恢复闭包收集；无当前值也能报告容量需求。 */
+/** 从真实挂载的自身恢复与实际过程费用收集；无当前值也能报告容量需求。 */
 export function initialResourceRequirements(snapshot: SimulationSnapshot, providers: readonly ProviderDefinition[],
   mounts: readonly { side: Side; providerRef: string; definitionRef: string }[], attributes?: SimulationAttributeInputs): InitialResourceRequirement[] {
   const required = new Map<string, InitialResourceRequirement>();
+  const add = (side: Side, key: string | undefined): void => {
+    if (!key || key === 'hp') fail('普通资源成本或恢复需要明确非生命资源');
+    const entries = snapshot.catalogs.attributes.filter(row => row.attributeKey === key && row.gameId === snapshot.gameId && row.status === 'ENABLED');
+    if (entries.length !== 1) fail('资源缺少唯一已启用的真实属性目录');
+    required.set(initialResourceKey(side, key), { side, resourceKey: key, resourceName: entries[0]!.name,
+      maxValue: initialResourceCapacity(snapshot, side, key, attributes?.[side][key]) });
+  };
   for (const mount of mounts) {
     const definitions = providers.filter(provider => provider.providerKey === mount.definitionRef);
     if (definitions.length !== 1) fail('资源恢复缺少唯一真实挂载定义');
-    for (const ability of definitions[0]!.abilities ?? []) for (const operation of ability.listenerSpec?.operations ?? []) {
+    const definition = definitions[0]!;
+    for (const process of definition.processes ?? []) {
+      for (const cost of process.costs ?? []) add(mount.side, cost.resourceKey);
+      for (const group of process.momentOperations) for (const operation of group.operations) {
+        if (operation.operation === 'resource_change' && (operation.target === 'source' || operation.target === 'self')) add(mount.side, operation.resourceKey);
+      }
+    }
+    for (const ability of definition.abilities ?? []) for (const operation of ability.listenerSpec?.operations ?? []) {
       const mark = compiledTargetMark(operation, `providers.${mount.providerRef}.abilities.${ability.abilityKey}`);
       const restoration = mark ? mark.restore : operation;
       if (!restoration || restoration.operation !== 'resource_change' || restoration.target !== 'self') continue;
-      const key = restoration.resourceKey;
-      if (!key || key === 'hp') fail('普通资源恢复需要明确非生命资源');
-      const entries = snapshot.catalogs.attributes.filter(row => row.attributeKey === key && row.gameId === snapshot.gameId && row.status === 'ENABLED');
-      if (entries.length !== 1) fail('可恢复资源缺少唯一已启用的真实属性目录');
-      required.set(initialResourceKey(mount.side, key), { side: mount.side, resourceKey: key, resourceName: entries[0]!.name,
-        maxValue: initialResourceCapacity(snapshot, mount.side, key, attributes?.[mount.side][key]) });
+      add(mount.side, restoration.resourceKey);
     }
   }
   return [...required.values()].sort((a, b) => initialResourceKey(a.side, a.resourceKey).localeCompare(initialResourceKey(b.side, b.resourceKey)));

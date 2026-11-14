@@ -60,6 +60,11 @@ function fail(path: string, message: string): never {
 }
 const finite = (value: unknown, path: string): number => finiteNumber(value, path, fail);
 
+function onlyFields(value: unknown, fields: readonly string[], path: string): void {
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) fail(path, '需要完整对象');
+  for (const key of Object.keys(value)) if (!fields.includes(key)) fail(`${path}.${key}`, '此入口不接受额外语义');
+}
+
 function catalogKey(value: string, path: string): string {
   if (!/^[a-z][a-z0-9_]{0,63}$/.test(value)) fail(path, '需要合法标识');
   return value;
@@ -125,9 +130,9 @@ function compileDuration(authored: AuthoredPersistentResult, path: string, bindS
   return compileNumericValue(value, path, bindState, fail);
 }
 
-function assertParentLifecycle(authored: AuthoredPersistentResult, path: string): void {
+function assertParentLifecycle(authored: AuthoredPersistentResult, path: string, scope: 'SOURCE_TARGET' | 'SOURCE' = 'SOURCE_TARGET'): void {
   const lifecycle = authored.lifecycle;
-  if (lifecycle.instanceScope !== 'SOURCE_TARGET') fail(`${path}.instanceScope`, '本期只支持 SOURCE_TARGET');
+  if (lifecycle.instanceScope !== scope) fail(`${path}.instanceScope`, `此入口只支持 ${scope}`);
   if (lifecycle.reapplicationStackMode !== 'KEEP') fail(`${path}.reapplicationStackMode`, '本期只支持 KEEP');
   if (lifecycle.reapplicationDurationMode !== 'REFRESH_ALL') fail(`${path}.reapplicationDurationMode`, '本期只支持 REFRESH_ALL');
   if (lifecycle.expiryMode !== 'ALL_AT_ONCE') fail(`${path}.expiryMode`, '本期只支持 ALL_AT_ONCE');
@@ -181,7 +186,8 @@ function adaptMovementSlow(
   authored: AuthoredPersistentResult,
   providerKey: string,
   root: string,
-  resultPath: string
+  resultPath: string,
+  operationTarget: 'target' | 'self' = 'target'
 ): AdaptedPersistentResult {
   if (authored.result.resultType !== 'STATUS_OPERATION') {
     return fail(`${resultPath}.resultType`, '不是状态操作');
@@ -199,7 +205,7 @@ function adaptMovementSlow(
     if (issue) return fail(`${root}.lifecycle.${issue}`, '当前时点减速需要有限单层、同来源与目标、保留层数并刷新全部期限');
   }
   if (!result.valueRule) return fail(`${resultPath}.valueRule`, '减速强度缺失');
-  const bindState = numericState(authored, !moment, !moment);
+  const bindState = numericState(authored, operationTarget === 'target' && !moment, operationTarget === 'target' && !moment);
   if (moment) bindState.allowedContextKeys = new Set(['effect_elapsed_ms']);
   const duration = compileDuration(authored, `${root}.lifecycle.durationValue`, bindState);
   if (moment) {
@@ -211,6 +217,11 @@ function adaptMovementSlow(
     for (const key of ['fixedMinValue', 'fixedMaxValue'] as const) if (result.valueRule[key] !== null) fail(`${resultPath}.valueRule.${key}`, '当前时点减速不能沿用快照上下界夹取，必须明确留空');
   }
   const strength = compileValueRule(result.valueRule, `${resultPath}.valueRule`, bindState);
+  if (operationTarget === 'self') {
+    const milliseconds = tryFoldConstant(duration), fixed = tryFoldConstant(strength);
+    if (milliseconds === null || !Number.isSafeInteger(milliseconds) || milliseconds <= 0) fail(`${root}.lifecycle.durationValue`, '过程自身减速期限必须为静态正安全整数毫秒');
+    if (fixed === null || !Number.isFinite(fixed) || fixed < 0 || fixed > 1) fail(`${resultPath}.valueRule`, '过程自身减速强度必须为静态0到1比例');
+  }
   if (moment) {
     for (const formula of bindState.namedFormulas.values()) {
       for (const input of formula.expression.inputs) {
@@ -233,10 +244,41 @@ function adaptMovementSlow(
         ...(moment ? { valueReadMode: 'MOMENT_EVALUATION' as const } : {})
       }]
     },
-    operation: { operation: 'apply_provider', target: 'target', providerDefinitionRef: providerKey },
+    operation: { operation: 'apply_provider', target: operationTarget, providerDefinitionRef: providerKey },
     params: bindState.params, formulas: [...bindState.namedFormulas.values()],
     requiredAttributes: [...bindState.requiredAttributes]
   };
+}
+
+/** 过程自身有限普通减速；独立核对SOURCE，既有目标入口不改指公式对象。 */
+export function compileProcessSelfMovementSlow(authored: AuthoredPersistentResult, providerKey: string): AdaptedPersistentResult {
+  catalogKey(authored.gameId, 'gameId');
+  catalogKey(authored.skillKey, 'skillKey');
+  catalogKey(authored.effectKey, 'effectKey');
+  catalogKey(authored.result.resultKey, 'resultKey');
+  providerId(providerKey, 'providerKey');
+  if (!Number.isInteger(authored.skillLevel) || authored.skillLevel < 1) fail('skillLevel', '本次等级必须明确且有效');
+  if (!Number.isInteger(authored.characterLevel) || authored.characterLevel < 1) fail('characterLevel', '本次等级必须明确且有效');
+  const root = `skills.${authored.skillKey}.effects.${authored.effectKey}`;
+  const resultPath = `${root}.results.${authored.result.resultKey}`;
+  if (authored.source !== 'source' || authored.target !== 'source' || authored.result.target !== 'SOURCE') fail(`${resultPath}.target`, '过程自身减速只接受真实来源自身SOURCE');
+  onlyFields(authored.lifecycle, ['durationValue', 'maxStacksValue', 'applicationStacksValue', 'instanceScope', 'reapplicationStackMode',
+    'reapplicationDurationMode', 'expiryMode', 'periodicIntervalValue', 'firstPeriodicExecution', 'endWhenShieldEndsResultKey'], `${root}.lifecycle`);
+  onlyFields(authored.result, ['resultKey', 'name', 'resultType', 'target', 'description', 'sortOrder', 'lifecycleBehavior',
+    'spellShieldBlockScope', 'valueRule', 'detail'], resultPath);
+  onlyFields(authored.result.detail, ['statusKey', 'operation'], `${resultPath}.detail`);
+  onlyFields(authored.result.lifecycleBehavior, ['moment', 'valueReadMode', 'stackValueMode', 'reapplicationValueMode', 'periodicExecutionMode'], `${resultPath}.lifecycleBehavior`);
+  onlyFields(authored.result.valueRule, ['value', 'fixedMultiplier', 'fixedMinValue', 'fixedMaxValue'], `${resultPath}.valueRule`);
+  assertParentLifecycle(authored, `${root}.lifecycle`, 'SOURCE');
+  if (authored.lifecycle.endWhenShieldEndsResultKey != null) fail(`${root}.lifecycle.endWhenShieldEndsResultKey`, '过程自身减速不接受护盾关联');
+  assertNoUnsupportedBlock(authored, resultPath);
+  const result = authored.result;
+  const status = result.resultType === 'STATUS_OPERATION'
+    ? authored.statuses.filter(row => row.statusKey === result.detail.statusKey) : [];
+  if (status.length !== 1 || status[0]!.status !== 'ENABLED') fail(`${resultPath}.detail.statusKey`, '过程自身减速需要唯一真实启用状态');
+  if (authored.result.lifecycleBehavior?.valueReadMode !== 'APPLICATION_SNAPSHOT') fail(`${resultPath}.lifecycleBehavior.valueReadMode`, '过程自身减速只接受静态施加快照');
+  const compiled = adaptMovementSlow(authored, providerKey, root, resultPath, 'self');
+  return { ...compiled, formulas: formulasUsedByInternalValue(compiled, compiled.formulas) };
 }
 
 function adaptHealingRatioMax(

@@ -1,6 +1,8 @@
 import { approveSnapshotFixture, approveAuthoredFixture } from '../../tests/fixtures/nativeFormulaProof';
 import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
 import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { parseMechanismCase } from '../../tests/mechanisms/mechanismCase';
 import { preparedActiveSample, simulationActiveSample } from '../../tests/fixtures/simulationActiveSkill';
 import { inspectSimulationSnapshot as raw_inspectSimulationSnapshot, prepareSimulation } from './simulationAdapter';
 import { skillActionRequest, type SkillActionInputs } from './skillActionRequest';
@@ -104,7 +106,7 @@ describe('6A完整单次主动装配', () => {
     expect(() => assembleActiveSkills(snapshot)).toThrow(/步骤标识重复/);
   });
 
-  it('只忽略逐项明确声明的成本引用，另一资源消费仍被严格拒绝', () => {
+  it('真实成本只支付一次，逐项忽略保留未忽略的其它成本', () => {
     const snapshot = simulationActiveSample(true);
     snapshot.catalogs.calculationRules.configuration!.ignorableCastCostAttributeKeys = ['mana'];
     snapshot.catalogs.attributes.push({ ...snapshot.catalogs.attributes[0]!, attributeKey: 'mana', name: '作者费用' });
@@ -117,18 +119,24 @@ describe('6A完整单次主动装配', () => {
     ] };
     config.effects.push(effect);
     process.effectBindings.push({ bindingKey: 'pay', effectKey: 'cost', moment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null }, sortOrder: 0 });
-    expect(() => assembleActiveSkills(snapshot)).toThrow(/资源改变/);
+    const paid = assembleActiveSkills(snapshot);
+    expect(paid.providers[0]!.processes![0]!.costs).toEqual([{ resourceKey: 'mana', amount: { op: 'const', value: 50 } }]);
+    expect(paid.providers[0]!.processes![0]!.momentOperations).toEqual([]);
     const costs = simulationCastCostCandidates(snapshot);
     const active = assembleActiveSkills(snapshot, costs);
     expect(active.providers[0]!.processes![0]!.costs).toEqual([]);
     expect(active.ignoredCastCosts).toEqual(costs);
     expect(active.providers[0]!.processes![0]!.momentOperations).toEqual([]);
+    expect(() => assembleActiveSkills(snapshot, [costs[0]!, costs[0]!])).toThrow(/重复/);
+    expect(() => assembleActiveSkills(snapshot, [{ ...costs[0]!, bindingKey: 'unknown' }])).toThrow(/只允许逐项/);
     process.effectBindings.push({ bindingKey: 'necessary_spend', effectKey: 'cost',
       moment: { momentType: 'PROCESS_COMPLETE', stepKey: null, failureReason: null }, sortOrder: 1 });
     expect(() => assembleActiveSkills(snapshot, costs)).toThrow(/资源改变/);
     process.effectBindings.pop();
     effect.results.push({ ...structuredClone(effect.results[0]!), resultKey: 'necessary_consume' });
-    expect(() => assembleActiveSkills(snapshot, costs)).toThrow(/资源改变/);
+    const partial = assembleActiveSkills(snapshot, costs);
+    expect(partial.providers[0]!.processes![0]!.costs).toEqual([{ resourceKey: 'mana', amount: { op: 'const', value: 50 } }]);
+    expect(partial.providers[0]!.processes![0]!.momentOperations).toEqual([]);
   });
 
   it('主动闭包保留实际产生护盾的BLOCKED消费、效果和数值依赖，不开启未计划重施兄弟', () => {
@@ -189,6 +197,25 @@ describe('6A完整单次主动装配', () => {
     configuration.processes[0]!.effectBindings = [];
     const unreachable = selectSimulationSkillSourceClosure(configuration, roots);
     expect(unreachable.configuration.triggerRules.map(rule => rule.ruleKey)).not.toContain('consume_on_block');
+  });
+
+  it('实际费用退款拒绝无非负保证的动态金额和负上限', () => {
+    const fileName = 'process_charge_timeout_actual_cost_refund.json';
+    const snapshot = parseMechanismCase(readFileSync(new URL(`../../tests/mechanisms/cases/${fileName}`, import.meta.url)), fileName).buildSnapshot();
+    expect(assembleActiveSkills(snapshot).providers[0]!.processes![0]!.costs).toEqual([
+      { resourceKey: 'mana', amount: { op: 'const', value: 80 } }
+    ]);
+    for (const boundary of ['unbounded_negative', 'negative_maximum'] as const) {
+      const invalid = structuredClone(snapshot);
+      const rule = invalid.skillConfigurations.find(row => row.skill.skillKey === 'lab_charge')!.effects.find(row => row.effectKey === 'refund')!.results[0]!.valueRule!;
+      if (boundary === 'unbounded_negative') {
+        rule.fixedMinValue = null;
+        rule.fixedMultiplier = -1;
+      } else {
+        rule.fixedMaxValue = -1;
+      }
+      expect(() => assembleActiveSkills(invalid), boundary).toThrow(/退款.*非负/);
+    }
   });
 
   it('没有背景普攻时不种普攻根，计划成功使用与实际命中根仍保留', () => {

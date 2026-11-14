@@ -204,7 +204,7 @@ func (s SkillActionExecutor) ChooseAutomatic(now int64, ledger *actionpkg.Cooldo
 		key := actionpkg.CooldownWaitKey{Kind: "automatic", Owner: model.SelectorSource, Key: rule.Plan().RuleKey()}
 		if at > now {
 			notBefore := int64(0)
-			if reason == model.AutomaticWaitActionOccupied || reason == model.AutomaticWaitProcessActive {
+			if reason == model.AutomaticWaitActionOccupied || reason == model.AutomaticWaitProcessActive || reason == model.AutomaticWaitControlled {
 				notBefore = at
 			}
 			if s.providers[s.abilities[rule.ControlIndex()].ProviderIndex].AmmoBinding != nil {

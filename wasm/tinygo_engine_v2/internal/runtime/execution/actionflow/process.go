@@ -110,6 +110,8 @@ type ProcessExecutorAPI interface {
 	IsAttackReset(process *actionpkg.ProcessView, kind string, operation planbundle.CompiledOperation, registry *formula.Library, references map[string]planbundle.CompiledAbilityRef, abilities []planbundle.CompiledAbility) bool
 	// FailDeadProcesses 冻结真实死亡实例并按原稳定顺序终结，保留同步失败效果和重入语义。
 	FailDeadProcesses(deaths ProcessDeaths, phases ProcessPhases) *model.EngineError
+	// FailStunnedProcesses 按实际控制和稳定实例顺序终结当前CHARGE/CHANNEL；保留原失败提交及重入边界。
+	FailStunnedProcesses(now int64, reads ProcessStunReads, phases ProcessPhases) *model.EngineError
 	// PublishResolved 在全部实际绑定命中后核对原完整使用历史并发布一次真实终结事实。
 	PublishResolved(process *actionpkg.ProcessView, declared bool, completion ProcessCompletion) *model.EngineError
 	// PrepareNativeProcess 核对真实普攻开始事实、完整使用与当前过程集合，只返回原启动或普通拒绝决定。
