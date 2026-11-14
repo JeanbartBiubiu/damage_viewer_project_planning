@@ -2286,7 +2286,7 @@
           18
         ],
         "skills": [],
-        "levelValidation": "each-declared-level",
+        "levelValidation": "representative-cases",
         "allRequiredSourcesEnabled": true,
         "sourceActiveStartedAndCompleted": true,
         "relevantPassivesTriggered": true,
@@ -2295,9 +2295,34 @@
       "evidenceRefs": [
         "outputs/equipment-authoring-20261021-01a15ed4/验证摘要.json",
         "outputs/equipment-authoring-20261021-01a15ed4/独立复核.json",
-        "output/full-authoring-20261113/shared-proof/rebind-equivalence.json#sha256=e140e70e0805c7e47a31aacebdc6c1203bbf26d5d3564c60ba74766c4c269a90"
+        "output/full-authoring-20261113/shared-proof/rebind-equivalence.json#sha256=e140e70e0805c7e47a31aacebdc6c1203bbf26d5d3564c60ba74766c4c269a90",
+        "output/authoring-20261114/annie-saved-runtime/r_high.json#sha256=fcad34ecde056d9110b1e85e3d62805bdd2ec7c90557a4b6efe61eed94e39fd8",
+        "output/authoring-20261114/codex-target-runtime-v2/codex_target.json#sha256=9ebd0164313cf3941ed16739b36156c240f90675a345989b025085767a7c3ac0",
+        "output/authoring-20261114/codex-target-comparison-v2.json#sha256=1837b89322b5e7e399ddc71df17fa7340bf562d22f35115958a1cd10463ba633"
       ],
-      "issues": []
+      "issues": [],
+      "validationCases": [
+        {
+          "caseKey": "r_high",
+          "evidenceRef": "output/authoring-20261114/annie-saved-runtime/r_high.json#sha256=fcad34ecde056d9110b1e85e3d62805bdd2ec7c90557a4b6efe61eed94e39fd8",
+          "objectSide": "source",
+          "sourceLevel": 18,
+          "targetLevel": 18,
+          "skillLevels": [],
+          "complete": true,
+          "released": true
+        },
+        {
+          "caseKey": "codex_target",
+          "evidenceRef": "output/authoring-20261114/codex-target-runtime-v2/codex_target.json#sha256=9ebd0164313cf3941ed16739b36156c240f90675a345989b025085767a7c3ac0",
+          "objectSide": "target",
+          "sourceLevel": 6,
+          "targetLevel": 18,
+          "skillLevels": [],
+          "complete": true,
+          "released": true
+        }
+      ]
     },
     {
       "kind": "EQUIPMENT",
