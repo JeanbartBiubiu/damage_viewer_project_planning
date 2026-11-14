@@ -38,6 +38,7 @@ type Evidence = {
   passiveProcesses?: NonNullable<DoneResult['finalSnapshot']['processInstances']>;
   assessment?: ReturnType<typeof assessSkillActionResult> | ReturnType<typeof assessContinuousAttackResult>;
   repeatIdentical?: boolean; runs?: number; release?: GenericReleaseDonePayload;
+  released?: boolean;
   error?: { stage: string; message: string }; releaseError?: string;
 };
 const hash = (value: Uint8Array) => createHash('sha256').update(value).digest('hex');
@@ -163,6 +164,7 @@ async function runScenario(scene: Scenario, planDirectory: string, engine: Engin
       } catch (error) { evidence.releaseError = message(error); }
     }
   }
+  evidence.released = evidence.release?.released === true;
   evidence.complete = evidence.error === undefined && evidence.releaseError === undefined
     && evidence.release?.released === true && evidence.repeatIdentical === true;
   return evidence;

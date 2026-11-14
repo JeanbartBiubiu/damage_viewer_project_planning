@@ -37,7 +37,7 @@
 | 文档 | 核对路径、命令和当前源码，检查差异 |
 | Go 逻辑 | 受影响测试；功能收尾运行 `go test -count=1 ./...` |
 | 运行时、调度、公式、资源或数值管道 | 上述测试，加 `go run ./cmd/bench` |
-| 新增或修改每个事件都会执行的查找结构、缓存或分配 | 附正式 Wasm 剖析或真实 Wasm 每次分配调用数的同口径对照 |
+| 热路径查找结构、缓存或分配变化 | 完成功能及现有基准检查；出现明确退化、容量风险或用户要求性能专项时，再附正式 Wasm 同口径剖析或分配对照，不逐次阻塞功能录入 |
 | ABI、frame、outbox 或会话生命周期 | 构建最终 Wasm 后运行 `node .\scripts\smoke-node.mjs` |
 | 构建脚本、target 或导出 | 运行 `powershell -ExecutionPolicy Bypass -File .\scripts\build-wasm.ps1`（macOS/Linux 用 `bash scripts/build-wasm.sh`） |
 | Node 验证或性能脚本 | 运行对应语法、单测、smoke 或 `generic-run` benchmark |
