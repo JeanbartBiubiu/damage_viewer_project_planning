@@ -144,5 +144,14 @@ func finalizeTotalCooldownRefunds(ctx *genericCompileContext) {
 		}
 		op.TotalCooldownTarget, op.TotalCooldownRatio = target, ratio
 		ctx.session.HasTotalCooldownRefund = true
+		if op.CumulativeLimit != nil {
+			for previousIndex := 0; previousIndex < index; previousIndex++ {
+				previous := ctx.session.Operations[previousIndex]
+				if previous.CumulativeLimit != nil && previous.OwnerProviderIndex == op.OwnerProviderIndex && previous.AbilityRefStr == op.AbilityRefStr && previous.CumulativeLimit.GroupKey == op.CumulativeLimit.GroupKey && previous.CumulativeLimit.MaxRatio != op.CumulativeLimit.MaxRatio {
+					ctx.collector.addError(model.GenericErrFormulaTypeError, op.Path+".cumulativeLimit.maxRatio", "same cumulative refund identity requires one consistent maximum", op.AbilityRefStr)
+				}
+			}
+			ctx.session.HasCumulativeCooldownRefund = true
+		}
 	}
 }

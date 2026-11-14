@@ -993,6 +993,7 @@ func (ctx *genericCompileContext) registerFormula(key string, instr []formula.Ge
 }
 
 func compileOperation(op model.OperationDefinition, path string, ownerProviderIndex int, ctx *genericCompileContext) {
+	cumulativeLimit := compileCumulativeRatioLimit(op, path, ctx)
 	if op.Operation == model.OperationKindStartPassiveProcess {
 		compilePassiveProcessStart(op, path, ownerProviderIndex, ctx)
 		return
@@ -1132,6 +1133,7 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		OwnerProviderIndex:    ownerProviderIndex,
 		AttributeKey:          op.AttributeKey,
 		ValuePolicy:           op.ValuePolicy,
+		CumulativeLimit:       cumulativeLimit,
 		ProviderDefinitionRef: op.ProviderDefinitionRef,
 		ProviderRef:           op.ProviderRef,
 		ShieldRef:             op.ShieldRef,

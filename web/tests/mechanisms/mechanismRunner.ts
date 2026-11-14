@@ -188,6 +188,7 @@ export function projectMechanismResult(origins: readonly OperationOrigin[], comp
     shieldAbsorptions: projectShieldAbsorptions(compileRequest, runRequest, done),
     finalShieldWaits: projectShieldWaits(compileRequest, done),
     finalUseTriggerLedger: projectUseTriggerLedger(compileRequest, runRequest, done),
+    useAmountBudgets: structuredClone(done.finalSnapshot.useAmountBudgets ?? []),
     ...projectFinalStatuses(compileRequest, done),
     restorations: projectRestorations(origins, compileRequest, runRequest, done),
     initializations: projectInitializations(compileRequest, runRequest, done),
@@ -223,7 +224,7 @@ export function compareMechanismExpectation(actual: MechanismProjection, expecte
   };
   if (expected.summary) fields('summary', actual.summary, expected.summary);
   if (expected.finalAttributes) fields('finalAttributes', actual.finalAttributes, expected.finalAttributes);
-  for (const list of ['damage', 'healing', 'skillStarts', 'finalResources', 'resourceChanges', 'finalProviders', 'restorations', 'initializations', 'empoweredWindows', 'empoweredConsumptions', 'finalCooldowns', 'finalStatusContributions', 'finalEffectiveStatuses', 'finalUseTriggerLedger', 'shieldAbsorptions', 'finalShieldWaits', 'finiteRecastWindows', 'finiteRecastStages', 'finiteRecastWitnesses'] as const) {
+  for (const list of ['damage', 'healing', 'skillStarts', 'finalResources', 'resourceChanges', 'finalProviders', 'restorations', 'initializations', 'empoweredWindows', 'empoweredConsumptions', 'finalCooldowns', 'finalStatusContributions', 'finalEffectiveStatuses', 'finalUseTriggerLedger', 'useAmountBudgets', 'shieldAbsorptions', 'finalShieldWaits', 'finiteRecastWindows', 'finiteRecastStages', 'finiteRecastWitnesses'] as const) {
     const wanted = expected[list];
     if (!wanted) continue;
     const rows = actual[list] as unknown as Record<string, unknown>[];

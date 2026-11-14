@@ -1,5 +1,8 @@
 import type { SkillEffectValueRule } from './skillEffect';
 
+/** 同原使用、目标及实际冷却能力共享的累计请求比例上限。 */
+export type CumulativeRatioLimit = { groupKey: string; maxRatio: number };
+
 export function isCooldownRatioOperation(operation: string): boolean {
   return operation === 'REDUCE_REMAINING_RATIO' || operation === 'REDUCE_TOTAL_RATIO';
 }

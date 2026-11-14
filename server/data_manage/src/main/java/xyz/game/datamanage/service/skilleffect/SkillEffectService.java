@@ -11,6 +11,7 @@ import xyz.game.datamanage.support.authoring.AttributeComplementMultiplySemantic
 import xyz.game.datamanage.support.authoring.DamageRatioMultiplySemantics;
 import xyz.game.datamanage.support.authoring.GroupedAmplificationSemantics;
 import xyz.game.datamanage.support.authoring.SkillCooldownDurationSemantics;
+import xyz.game.datamanage.support.authoring.CooldownCumulativeLimitSemantics;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -443,6 +444,7 @@ public class SkillEffectService {
         String skillKey, Map<String, SkillEffectCreateRequest> candidateEffects,
         Map<String, SkillEffectLifecycleRequest> candidateLifecycles
     ) {
+        CooldownCumulativeLimitSemantics.validateCandidates(skillKey, candidateEffects);
         Map<String, LifecycleFacts> facts = candidateLifecycleFacts(candidateLifecycles);
         for (SkillEffectCreateRequest request : candidateEffects.values()) {
             ValidatedEffect values = validateCreate(request);
@@ -628,6 +630,7 @@ public class SkillEffectService {
         }
         validateLifecyclePeriodicPair(lifecycle, hasPeriodic, hasNaturalEnd, issues);
         issues.addAll(ShieldEndLifecycleSemantics.issues(lifecycle, results));
+        issues.addAll(CooldownCumulativeLimitSemantics.issues(results));
         issues.addAll(xyz.game.datamanage.support.authoring.ShieldAttributeDependencySemantics.issues(lifecycle, results));
         throwIfInvalidBody(bodyIssues);
         throwIfInvalid(issues);

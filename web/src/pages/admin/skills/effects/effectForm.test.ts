@@ -265,6 +265,26 @@ function expectValid(draft: SkillEffectDraft, includeEffectKey = true) {
 }
 
 describe('skill effect form defaults and conversion', () => {
+  it('累计退款额度往返保留，省略时不新增字段，非法额度和其它操作拒绝', () => {
+    const source = structuredClone(EFFECT);
+    source.results = [source.results[1]!];
+    const result = source.results[0]!;
+    if (result.resultType !== 'COOLDOWN_CHANGE' || result.detail.operation === 'RESET') throw new Error('fixture');
+    result.detail.operation = 'REDUCE_TOTAL_RATIO';
+    result.detail.cumulativeLimit = { groupKey: 'blight_refund', maxRatio: .39 };
+    const draft = skillEffectToDraft(source);
+    const payload = buildCreateSkillEffectRequest(expectValid(draft));
+    expect(payload.results[0]!.detail).toEqual(result.detail);
+    draft.results[0]!.cumulativeLimit!.maxRatio = null;
+    expect(validateSkillEffectDraft(draft, { includeEffectKey: true, catalog: CATALOG }).ok).toBe(false);
+    expect(result.detail.cumulativeLimit.maxRatio).toBe(.39);
+    draft.results[0]!.cumulativeLimit = { groupKey: 'blight_refund', maxRatio: .39 };
+    draft.results[0]!.cooldownOperation = 'REDUCE';
+    expect(validateSkillEffectDraft(draft, { includeEffectKey: true, catalog: CATALOG }).ok).toBe(false);
+    draft.results[0]!.cumulativeLimit = null;
+    expect(buildCreateSkillEffectRequest(expectValid(draft)).results[0]!.detail).not.toHaveProperty('cumulativeLimit');
+  });
+
   it('copies independent business data and requires a new key without inheriting edit locks', () => {
     const source = structuredClone(EFFECT);
     source.lifecycle = validLifecycle();

@@ -15,6 +15,7 @@ import (
 	"tinygo_engine_v2/internal/runtime/execution/hit"
 	"tinygo_engine_v2/internal/runtime/execution/lifecycle"
 	"tinygo_engine_v2/internal/runtime/execution/operation"
+	"tinygo_engine_v2/internal/runtime/execution/usage"
 )
 
 type combatantRuntime struct {
@@ -156,6 +157,7 @@ type FrameAPI interface {
 
 // Frame 拥有单次操作的暂存投影与待提交事实，提交仍由执行协调统一完成。
 type Frame struct {
+	pendingAmountBudgets           []usage.AmountReservation
 	numeric                        operation.Frame
 	readsDamageStateBefore         bool
 	pendingTargetMark              model.TargetMarkSummary

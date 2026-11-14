@@ -298,9 +298,17 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
   if (resultType === 'COOLDOWN_CHANGE') {
     if (!('affectedSkillScope' in detail)) protocolError(`${path}.detail.affectedSkillScope`);
     if ('affectedSkillKeys' in detail) protocolError(`${path}.detail.affectedSkillKeys`);
-    assertExactDetailKeys(detail, ['operation', 'affectedSkillScope'], path);
+    assertExactDetailKeys(detail, ['operation', 'affectedSkillScope', ...('cumulativeLimit' in detail ? ['cumulativeLimit'] : [])], path);
     assertEnum(detail.operation, new Set(['REDUCE', 'INCREASE', 'RESET', 'REDUCE_REMAINING_RATIO', 'REDUCE_TOTAL_RATIO', 'SET_REMAINING']), `${path}.detail.operation`);
     assertAffectedSkillScope(detail.affectedSkillScope, `${path}.detail.affectedSkillScope`);
+    if(Object.prototype.hasOwnProperty.call(detail,'cumulativeLimit')) {
+      const limit=detail.cumulativeLimit;
+      if(detail.operation!=='REDUCE_TOTAL_RATIO'||!limit||typeof limit!=='object'||Array.isArray(limit))protocolError(`${path}.detail.cumulativeLimit`);
+      const row=limit as Record<string,unknown>;
+      if(Object.keys(row).length!==2||Object.keys(row).some(key=>!['groupKey','maxRatio'].includes(key))
+        ||typeof row.groupKey!=='string'||!/^[a-z][a-z0-9_]{0,63}$/.test(row.groupKey)
+        ||typeof row.maxRatio!=='number'||!Number.isFinite(row.maxRatio)||row.maxRatio<=0||row.maxRatio>1)protocolError(`${path}.detail.cumulativeLimit`);
+    }
     if (detail.operation === 'RESET') {
       if (value.valueRule !== null) protocolError(`${path}.valueRule`);
     } else {

@@ -57,6 +57,9 @@ func ValidateEquipmentPeriodicProvider(input Input, provider planbundle.Compiled
 
 // ValidateStaticInitializer 校验完整静态来源和所属初始化监听，不安装其结果。
 func ValidateStaticInitializer(input Input, provider planbundle.CompiledProvider, owner, reference string, reads InitialSourceReads) *model.EngineError {
+	if ownedSpellShieldInitializer(input, provider, owner, reference, reads) {
+		return nil
+	}
 	capped := IncomingCappedFlatParent(input.Compiled.IncomingCappedFlatSources, input.Compiled.Providers, provider.ProviderKey, owner, reference)
 	if err := validateStaticInitializerDefinition(input, provider, capped); err != nil {
 		return err
@@ -73,6 +76,9 @@ func ValidateStaticInitializer(input Input, provider planbundle.CompiledProvider
 
 // ValidateStaticInitializationListener 完整消费例外、监听头部及操作闭包，保留原短路首错。
 func ValidateStaticInitializationListener(input Input, listener planbundle.CompiledListener, reads InitialSourceReads) *model.EngineError {
+	if ownedSpellShieldInitializationListener(input, listener, reads) {
+		return nil
+	}
 	if ownLinkedShieldInitialization(*input.Compiled, listener) {
 		return nil
 	}

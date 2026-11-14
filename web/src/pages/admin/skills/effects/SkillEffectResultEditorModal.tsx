@@ -2080,6 +2080,24 @@ export function SkillEffectResultEditorModal({
                   ))}
                 </Radio.Group>
               </Form.Item> : null}
+              {draft.resultType === 'COOLDOWN_CHANGE' && (draft.cooldownOperation === 'REDUCE_TOTAL_RATIO' || draft.cumulativeLimit !== null) ? (
+                <Form.Item label="累计退款额度" validateStatus={errors.cumulativeLimit ? 'error' : undefined} help={errors.cumulativeLimit}>
+                  <Space direction="vertical" style={{ width: '100%' }}>
+                    <Switch aria-label="启用累计退款额度" checked={draft.cumulativeLimit !== null} disabled={readOnly}
+                      onChange={(enabled) => patchDraft({ ...draft, cumulativeLimit: enabled ? { groupKey: '', maxRatio: null } : null })} />
+                    {draft.cumulativeLimit ? <>
+                      <Form.Item label="共享组" required>
+                        <Input aria-label="累计退款共享组" placeholder="同一次使用共用的组标识" value={draft.cumulativeLimit.groupKey} disabled={readOnly}
+                          onChange={(groupKey) => { if (draft.cumulativeLimit) patchDraft({ ...draft, cumulativeLimit: { ...draft.cumulativeLimit, groupKey } }); }} />
+                      </Form.Item>
+                      <Form.Item label="比例上限" required help="按0至1填写，例如0.39表示39%。">
+                        <InputNumber aria-label="累计退款比例上限" value={draft.cumulativeLimit.maxRatio ?? undefined} min={0} max={1}
+                          disabled={readOnly} onChange={(maxRatio) => { if (draft.cumulativeLimit) patchDraft({ ...draft, cumulativeLimit: { ...draft.cumulativeLimit, maxRatio: typeof maxRatio === 'number' ? maxRatio : null } }); }} />
+                      </Form.Item>
+                    </> : null}
+                  </Space>
+                </Form.Item>
+              ) : null}
             </>
           ) : null}
 

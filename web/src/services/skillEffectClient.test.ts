@@ -991,4 +991,18 @@ describe('skillEffectClient', () => {
       }]
     })).toThrow(/effect\.results\[0\]\.lifecycleBehavior\.moment/);
   });
+
+  it('parses cumulative refund limits without adding omitted fields and rejects invalid combinations', () => {
+    const input={...detail,results:[{...damageResult,resultType:'COOLDOWN_CHANGE',
+      valueRule:{value:fixedValue(.13),fixedMultiplier:1,fixedMinValue:0,fixedMaxValue:1},
+      detail:{operation:'REDUCE_TOTAL_RATIO',affectedSkillScope:{mode:'SKILLS',skillKeys:['ezreal_q'],skillCategoryKeys:[]},
+        cumulativeLimit:{groupKey:'blight_refund',maxRatio:.39}}}]};
+    expect(parseSkillEffect(input).results[0]!.detail).toEqual(input.results[0]!.detail);
+    for(const limit of [null,{groupKey:'x',maxRatio:0},{groupKey:'x',maxRatio:1.1},{groupKey:'x',maxRatio:.39,extra:true}]) {
+      expect(()=>parseSkillEffect({...input,results:[{...input.results[0],detail:{...input.results[0]!.detail,cumulativeLimit:limit}}]})).toThrow(/cumulativeLimit/);
+    }
+    expect(()=>parseSkillEffect({...input,results:[{...input.results[0],detail:{...input.results[0]!.detail,operation:'REDUCE'}}]})).toThrow(/cumulativeLimit/);
+    const {cumulativeLimit: _limit,...original}=input.results[0]!.detail;
+    expect(parseSkillEffect({...input,results:[{...input.results[0],detail:original}]}).results[0]!.detail).not.toHaveProperty('cumulativeLimit');
+  });
 });

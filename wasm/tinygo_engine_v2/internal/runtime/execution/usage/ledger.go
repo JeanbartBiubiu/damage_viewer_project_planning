@@ -63,18 +63,29 @@ type LedgerAPI interface {
 	Release(reservation Reservation)
 	// Snapshot 返回独立且按原身份顺序排列的已提交记录，不包含待提交预留。
 	Snapshot() []model.UseTriggerLedgerEntry
-	// Len 返回预留和已提交记录的总数，不借出可写账本。
+	// ReserveAmount 在同一账中按完整身份预留数值；可用量扣除已提交和待提交量，可部分授权。
+	// 上限须有限正数，请求须有限非负；同键的上限和使用技能不允许漂移。
+	// 零授权不创建记录；调用方仍须先核对真实使用、挂载和额度对象。
+	ReserveAmount(key AmountKey, useSkillKey string, maxValue, requested float64) (AmountReservation, *model.EngineError)
+	// CommitAmount 在对应数值真正发布后提交本次有效预留，重复或跨账凭据不产生变化。
+	CommitAmount(reservation AmountReservation)
+	// ReleaseAmount 只撤回本账尚未提交的原预留，不删除此前已提交数量。
+	ReleaseAmount(reservation AmountReservation)
+	// SnapshotAmounts 返回独立且有序的已提交数值，不包含待提交量，不提供恢复能力。
+	SnapshotAmounts() []AmountEntry
+	// Len 返回一次额度与数值额度的记录总数，共同受MaxEntries约束，不借出可写账本。
 	Len() int
-	// Pending 返回尚未提交的预留数，不决定战斗是否成功或完整。
+	// Pending 返回两类尚未提交的预留总数，不决定战斗是否成功或完整。
 	Pending() int
 }
 
 // Ledger 私有持有本场共同额度；开始使用后不得复制，每场只创建并共享一份。
 type Ledger struct {
-	identity Identity
-	buckets  map[uint64]*record
-	count    int
-	pending  int
+	identity      Identity
+	buckets       map[uint64]*record
+	amountBuckets map[uint64]*amountRecord
+	count         int
+	pending       int
 }
 
 type record struct {

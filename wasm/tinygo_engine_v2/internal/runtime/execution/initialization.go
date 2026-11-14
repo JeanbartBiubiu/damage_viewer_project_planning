@@ -147,6 +147,15 @@ func cloneSnapshot(src model.Snapshot) model.Snapshot {
 	} else {
 		dst.UseTriggerLedger = []model.UseTriggerLedgerEntry{}
 	}
+	if src.UseAmountBudgets != nil {
+		dst.UseAmountBudgets = append([]model.UseAmountBudgetEntry(nil), src.UseAmountBudgets...)
+		for index, row := range dst.UseAmountBudgets {
+			if row.Target != nil {
+				target := *row.Target
+				dst.UseAmountBudgets[index].Target = &target
+			}
+		}
+	}
 	return dst
 }
 

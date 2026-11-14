@@ -840,7 +840,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             operation = compiled.operation;
             cover(`${root}.effects.${target.effectKey}.lifecycle`, `sharedProviders.${compiled.provider.providerKey}.lifecycle`);
           } else if (result.resultType === 'COOLDOWN_CHANGE') {
-            exact(result.detail, ['affectedSkillScope', 'operation'], `${resultPath}.detail`);
+            exact(result.detail, ['affectedSkillScope', 'operation', ...(result.detail.operation === 'REDUCE_TOTAL_RATIO' ? ['cumulativeLimit'] : [])], `${resultPath}.detail`);
             exact(result.detail.affectedSkillScope, ['mode', 'skillKeys', 'skillCategoryKeys'], `${resultPath}.detail.affectedSkillScope`);
             if (result.detail.operation === 'REDUCE_TOTAL_RATIO') {
               if (!committedRefundPlan || committedRefundPlan.authorPath !== resultPath || committedRefundPlan.dormantReason
@@ -848,7 +848,8 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
                 fail(resultPath, '总冷却返还只接完整独立的自身结算伤害监听');
               }
               noteNumeric(result.valueRule.value);
-              operation = { operation: 'cooldown_change', target: 'self', valuePolicy: 'reduce_total_ratio', amount: constExpr(committedRefundPlan.ratio), ref: resultPath };
+              operation = { operation: 'cooldown_change', target: 'self', valuePolicy: 'reduce_total_ratio', amount: constExpr(committedRefundPlan.ratio), ref: resultPath,
+                ...(committedRefundPlan.cumulativeLimit ? { cumulativeLimit: { ...committedRefundPlan.cumulativeLimit } } : {}) };
               committedTotalRefunds.push({ ...committedRefundPlan, sourceSkillKey: skillKey, providerRef, definitionRef,
                 listenerAbilityRef: abilityRef, operation });
             } else {
@@ -1858,6 +1859,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             appliedEffects.add(authored.effectKey);
             for (const result of ordered(authored.results, `${root}.effects.${authored.effectKey}.results`)) {
               resultShape(result, `${root}.effects.${authored.effectKey}.results.${result.resultKey}`);
+              operations[operationIndex]!.ref = `skills.${skillKey}.effects.${authored.effectKey}.results.${result.resultKey}`;
               origin(result, authored, `${side}.provider[${shield.providerKey}]`,
                 [`sharedProviders.${shield.providerKey}.listeners[${listenerIndex}].operations[${operationIndex++}]`], shield.providerKey);
             }

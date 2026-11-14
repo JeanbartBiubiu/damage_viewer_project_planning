@@ -305,6 +305,20 @@ func (s BasicAttackExecutor) Initialize(input SkillAdmission, stopOnTargetDeath 
 			}
 			for _, operation := range definitions.Operations[int(entry.OperationStart) : int(entry.OperationStart)+int(entry.OperationCount)] {
 				initializationOperations[operation.Path] = true
+				if operation.Operation != "apply_provider" {
+					continue
+				}
+				// 初始化准入已核对被挂载定义的完整闭包；登记其实际监听操作，避免把冻结消费误作普攻结果。
+				for _, child := range definitions.Providers {
+					if child.ProviderKey != operation.ProviderDefinitionRef {
+						continue
+					}
+					for _, childListener := range child.Listeners {
+						for _, leaf := range definitions.Operations[int(childListener.OperationStart) : int(childListener.OperationStart)+int(childListener.OperationCount)] {
+							initializationOperations[leaf.Path] = true
+						}
+					}
+				}
 			}
 		}
 	}

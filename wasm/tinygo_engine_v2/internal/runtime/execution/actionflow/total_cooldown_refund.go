@@ -16,6 +16,8 @@ type CooldownRefundWork interface {
 	RefundCooldown(owner string) *actionpkg.CooldownLedger
 	// StageCooldownRefund 暂存已核定的新期限，仍沿原统一提交发布。
 	StageCooldownRefund(owner, ref string, ready int64) *model.EngineError
+	// ReserveRefundRatio在同一帧预留额度，返回包含先前预留的累计前后值；实际发布仍由根帧负责。
+	ReserveRefundRatio(limit model.CumulativeRatioLimit, subjectRef string, requested float64) (previous, current float64, err *model.EngineError)
 }
 
 func (s SkillActionExecutor) ValidateRefundSnapshot(snapshot model.Snapshot, hasRefund bool) *model.EngineError {
@@ -82,7 +84,15 @@ func (s SkillActionExecutor) ApplyTotalCooldownRefund(operation planbundle.Compi
 		err.Ref = operation.AbilityRefStr
 		return err
 	}
-	refund := math.Round(float64(entry.OrdinaryTotalMs) * operation.TotalCooldownRatio)
+	previous, current := 0.0, operation.TotalCooldownRatio
+	if operation.CumulativeLimit != nil {
+		var err *model.EngineError
+		previous, current, err = work.ReserveRefundRatio(*operation.CumulativeLimit, operation.AbilityRefStr, operation.TotalCooldownRatio)
+		if err != nil {
+			return err
+		}
+	}
+	refund := math.Round(float64(entry.OrdinaryTotalMs)*current) - math.Round(float64(entry.OrdinaryTotalMs)*previous)
 	if math.IsNaN(refund) || math.IsInf(refund, 0) || refund < 0 || refund > float64(maxJSONSafeInteger) {
 		err := s.error("total cooldown refund is not finite nonnegative safe milliseconds", operation.Path)
 		err.Ref = operation.AbilityRefStr

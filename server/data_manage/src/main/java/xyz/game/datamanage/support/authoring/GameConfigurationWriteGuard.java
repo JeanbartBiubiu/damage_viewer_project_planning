@@ -113,6 +113,7 @@ public class GameConfigurationWriteGuard {
         SkillQualifiedReferenceSemantics.validate(skillAffected, skillContext);
         ShieldEndLifecycleSemantics.validate(skillAffected);
         ShieldAttributeDependencySemantics.validate(skillAffected, skillContext);
+        CooldownCumulativeLimitSemantics.validate(skillAffected, skillContext);
         List<Aggregate> shieldReadTargets = SkillShieldAbsorptionConditionSemantics.validate(skillAffected, skillContext);
         SkillTargetCategoryConditionSemantics.validate(skillAffected);
         SkillExplicitTargetIsSourceConditionSemantics.validate(skillAffected);

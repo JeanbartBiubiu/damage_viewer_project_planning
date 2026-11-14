@@ -31,6 +31,7 @@ type CompiledSession struct {
 	HasPermanentCharacterPeriod bool
 	HasImmediatePeriodic        bool
 	HasTotalCooldownRefund      bool
+	HasCumulativeCooldownRefund bool
 	HasTargetTiming             bool
 	HasDamageStateBefore        bool
 	DamageStateReaders          []CompiledDamageStateReader
@@ -317,6 +318,7 @@ type CompiledOperation struct {
 	PassiveProcessIndex          int
 	TotalCooldownTarget          *CompiledCooldownDurationTarget
 	TotalCooldownRatio           float64
+	CumulativeLimit              *model.CumulativeRatioLimit
 	TargetMark                   *CompiledTargetMark
 	TargetMarkWriterRef          string
 	ColdResourceMax              bool

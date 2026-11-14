@@ -446,6 +446,7 @@ export type SkillEffectResultDraft = {
   resourceOperation: ResourceChangeOperation | '';
   affectedSkillScope: AffectedSkillScopeDraft;
   cooldownOperation: CooldownChangeOperation | '';
+  cumulativeLimit: { groupKey: string; maxRatio: number | null } | null;
   skillHasteOperation: SkillEffectModifierOperation | '';
   statusKey: string;
   statusKind: StatusKind | null;
@@ -539,6 +540,7 @@ export type SkillEffectResultDraftField =
   | 'affectedSkillKeys'
   | 'skillCategoryKeys'
   | 'cooldownOperation'
+  | 'cumulativeLimit'
   | 'skillHasteOperation'
   | 'statusKey'
   | 'statusOperation'
@@ -723,6 +725,9 @@ const RESULT_FIELD_BY_PATH: { [path: string]: SkillEffectResultDraftField } = {
   'detail.affectedSkillScope.mode': 'affectedSkillScopeMode',
   'detail.affectedSkillScope.skillKeys': 'affectedSkillKeys',
   'detail.affectedSkillScope.skillCategoryKeys': 'skillCategoryKeys',
+  'detail.cumulativeLimit': 'cumulativeLimit',
+  'detail.cumulativeLimit.groupKey': 'cumulativeLimit',
+  'detail.cumulativeLimit.maxRatio': 'cumulativeLimit',
   'detail.statusKey': 'statusKey',
   'detail.targetEffectKey': 'targetEffectKey',
   spellShieldBlockScope: 'spellShieldBlockScope',
@@ -828,6 +833,7 @@ export function createEmptyResultDraft(
     resourceOperation: resultType === 'RESOURCE_CHANGE' ? 'RESTORE' : '',
     affectedSkillScope: resultType === 'COOLDOWN_DURATION_MODIFIER' ? { mode: 'SKILLS', skillKeys: [], skillCategoryKeys: [] } : createEmptyAffectedSkillScopeDraft(),
     cooldownOperation: defaultCooldownOperation(resultType),
+    cumulativeLimit: null,
     skillHasteOperation: defaultSkillHasteOperation(resultType),
     statusKey: '',
     statusKind: null,
@@ -932,6 +938,8 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
     case 'COOLDOWN_CHANGE':
       draft.affectedSkillScope = copyAffectedSkillScope(result.detail.affectedSkillScope);
       draft.cooldownOperation = result.detail.operation;
+      draft.cumulativeLimit = result.detail.operation === 'REDUCE_TOTAL_RATIO' && result.detail.cumulativeLimit
+        ? { ...result.detail.cumulativeLimit } : null;
       draft.originalAffectedSkillKeys = [...result.detail.affectedSkillScope.skillKeys];
       draft.originalSkillCategoryKeys = [...result.detail.affectedSkillScope.skillCategoryKeys];
       break;
@@ -2651,7 +2659,8 @@ function validateAndBuildResult(
         valueRule: valueRule!,
         detail: {
           affectedSkillScope: buildAffectedSkillScope(draft),
-          operation: draft.cooldownOperation as 'REDUCE' | 'INCREASE' | 'REDUCE_REMAINING_RATIO' | 'REDUCE_TOTAL_RATIO' | 'SET_REMAINING'
+          operation: draft.cooldownOperation as 'REDUCE' | 'INCREASE' | 'REDUCE_REMAINING_RATIO' | 'REDUCE_TOTAL_RATIO' | 'SET_REMAINING',
+          ...(draft.cumulativeLimit ? { cumulativeLimit: { groupKey: draft.cumulativeLimit.groupKey.trim(), maxRatio: draft.cumulativeLimit.maxRatio as number } } : {})
         }
       };
     case 'STATUS_OPERATION':
@@ -3124,6 +3133,12 @@ function validateTypeSpecificFields(
       break;
     case 'COOLDOWN_CHANGE':
       validateAffectedSkillScope(draft, options, fieldErrors);
+      if (draft.cumulativeLimit !== null && (draft.cooldownOperation !== 'REDUCE_TOTAL_RATIO'
+        || !/^[a-z][a-z0-9_]{0,63}$/.test(draft.cumulativeLimit.groupKey.trim())
+        || typeof draft.cumulativeLimit.maxRatio !== 'number' || !Number.isFinite(draft.cumulativeLimit.maxRatio)
+        || draft.cumulativeLimit.maxRatio <= 0 || draft.cumulativeLimit.maxRatio > 1)) {
+        fieldErrors.cumulativeLimit = '累计额度只用于总冷却比例返还，需合法共享组及0至1之间的正比例上限。';
+      }
       if (
         draft.cooldownOperation !== 'REDUCE'
         && draft.cooldownOperation !== 'INCREASE'
@@ -4085,7 +4100,8 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
         valueRule: { ...result.valueRule },
         detail: {
           ...result.detail,
-          affectedSkillScope: copyAffectedSkillScope(result.detail.affectedSkillScope)
+          affectedSkillScope: copyAffectedSkillScope(result.detail.affectedSkillScope),
+          ...(result.detail.operation === 'REDUCE_TOTAL_RATIO' && result.detail.cumulativeLimit ? { cumulativeLimit: { ...result.detail.cumulativeLimit } } : {})
         }
       };
     case 'COOLDOWN_DURATION_MODIFIER':

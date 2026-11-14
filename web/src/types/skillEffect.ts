@@ -205,6 +205,7 @@ export type SkillEffectResourceChangeDetail = {
 export type SkillEffectCooldownAdjustDetail = {
   affectedSkillScope: SkillEffectAffectedSkillScope;
   operation: 'REDUCE' | 'INCREASE' | 'REDUCE_REMAINING_RATIO' | 'REDUCE_TOTAL_RATIO' | 'SET_REMAINING';
+  cumulativeLimit?: import('./cooldownRatio').CumulativeRatioLimit;
 };
 
 export type SkillEffectCooldownResetDetail = {

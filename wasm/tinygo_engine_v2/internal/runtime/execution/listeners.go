@@ -75,7 +75,20 @@ func (s *Engine) dispatchListenerOperations(listener planbundle.CompiledListener
 		frame.castInstanceID = eventCtx.CastInstanceID
 		frame.castOrigin = eventCtx.CastOrigin
 	}
-	if err := frame.executeOperations(payload.Ability, payload.Operations); err != nil {
+	if s.compiled.HasCumulativeCooldownRefund {
+		return frame.dispatchWithAmountBudgets(payload.Ability, payload.Operations)
+	}
+	return frame.finishListenerOperations(payload.Ability, payload.Operations)
+}
+
+// 只给实际含累计退款的场景安装释放边界，旧监听热路径不进入defer。
+func (frame *Frame) dispatchWithAmountBudgets(ability planbundle.CompiledAbility, operations []planbundle.CompiledOperation) *model.EngineError {
+	defer frame.releasePendingAmountBudgets()
+	return frame.finishListenerOperations(ability, operations)
+}
+
+func (frame *Frame) finishListenerOperations(ability planbundle.CompiledAbility, operations []planbundle.CompiledOperation) *model.EngineError {
+	if err := frame.executeOperations(ability, operations); err != nil {
 		return err
 	}
 	frame.commit()

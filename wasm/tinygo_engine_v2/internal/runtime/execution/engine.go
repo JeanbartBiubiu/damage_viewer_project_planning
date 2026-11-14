@@ -184,6 +184,9 @@ func (s *Engine) Finish() (model.DoneResult, *model.EngineError) {
 // New 为一次运行装配私有状态并借用传入的唯一循环；输入不合法时返回实际准入错误。
 // 运行时间范围由上层公开运行入口在创建循环前统一校验。
 func New(compiled planbundle.CompiledSession, req model.RunRequest, loop *scheduler.Loop) (*Engine, *model.EngineError) {
+	if len(req.InitialSnapshot.UseAmountBudgets) != 0 {
+		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "cumulative refund budgets are output facts and cannot be restored", "initialSnapshot.useAmountBudgets", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
+	}
 	if compiled.HasImmediatePeriodic || compiled.HasTotalCooldownRefund {
 		if err := validateImmediatePeriodicRefundFreshSnapshot(compiled, req); err != nil {
 			return nil, err

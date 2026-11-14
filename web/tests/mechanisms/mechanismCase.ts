@@ -7,6 +7,7 @@ import type { SkillActionInput } from '../../src/engine/skillActionRequest';
 import type { SceneInitialParameterInput } from '../../src/engine/sceneInitialParameterInput';
 import type { ProjectedStatusContribution, ProjectedEffectiveStatus } from './statusProjection';
 import type { ProjectedUseTrigger } from './useTriggerProjection';
+import type { UseAmountBudgetEntry } from '../../src/types/genericEngine';
 import type { ProjectedAmmoMechanic, ProjectedFinalAmmo } from './ammoProjection';
 import type { ProjectedFiniteRecastStage, ProjectedFiniteRecastWindow, ProjectedFiniteRecastWitness } from './finiteRecastProjection';
 import type { SimulationAttributeInputs, SimulationInitialHealth, SimulationInitialResourceInput, SimulationSnapshot, SimulationMechanicStateInput, SimulationEquipmentAssumption } from '../../src/types/simulationSnapshot';
@@ -98,6 +99,7 @@ export type MechanismProjection = {
   finalStatusContributions: ProjectedStatusContribution[];
   finalEffectiveStatuses: ProjectedEffectiveStatus[];
   finalUseTriggerLedger: ProjectedUseTrigger[];
+  useAmountBudgets: UseAmountBudgetEntry[];
   shieldAbsorptions: ProjectedShieldAbsorption[];
   finalShieldWaits: ProjectedShieldWait[];
   ammoMechanics: ProjectedAmmoMechanic[];
@@ -126,6 +128,7 @@ export type MechanismExpectation = {
   finalStatusContributions?: ProjectedStatusContribution[];
   finalEffectiveStatuses?: ProjectedEffectiveStatus[];
   finalUseTriggerLedger?: ProjectedUseTrigger[];
+  useAmountBudgets?: UseAmountBudgetEntry[];
   shieldAbsorptions?: Partial<ProjectedShieldAbsorption>[];
   finalShieldWaits?: ProjectedShieldWait[];
   ammoMechanics?: ProjectedAmmoMechanic[];
@@ -231,6 +234,7 @@ const EXPECTED_FIELDS: Record<string, readonly string[]> = {
   finalStatusContributions: ['owner', 'source', 'definitionRef', 'resultRef', 'statusKey', 'statusKind', 'strength', 'appliedAtMs', 'expireAt'],
   finalEffectiveStatuses: ['owner', 'statusKind', 'strength'],
   finalUseTriggerLedger: ['owner', 'providerRef', 'groupKey', 'scope', 'useSource', 'useSkillKey', 'useKey', 'target'],
+  useAmountBudgets: ['owner','providerRef','groupKey','scope','useSource','useSkillKey','useKey','target','subjectRef','maxValue','usedValue'],
   shieldAbsorptions: ['timeMs', 'damageId', 'damageSource', 'damageTarget', 'shieldRef', 'definitionRef', 'lifecycleProviderRef',
     'source', 'owner', 'remainingBefore', 'remainingAfter', 'absorbed'],
   finalShieldWaits: ['owner', 'source', 'definitionRef', 'stateKey', 'value', 'expireAt'],
@@ -360,6 +364,15 @@ function validateExpectation(expected: Record<string, unknown>, file: string) {
           || fields.scope === 'provider' && fields.target !== null
           || fields.scope === 'provider_target' && !['source', 'target'].includes(String(fields.target))) {
           fail(file, `${path} 需要完整额度挂载、共享键、范围、真实使用及明确目标`);
+        }
+      }
+      if(section==='useAmountBudgets') {
+        if(Object.keys(fields).length!==EXPECTED_FIELDS.useAmountBudgets!.length
+          || ['owner','useSource','target'].some(key=>!['source','target'].includes(String(fields[key]))) || fields.scope!=='provider_target'
+          || ['providerRef','groupKey','useSkillKey','useKey','subjectRef'].some(key=>typeof fields[key]!=='string'||!(fields[key] as string).trim())
+          || typeof fields.maxValue!=='number'||!Number.isFinite(fields.maxValue)||fields.maxValue<=0||fields.maxValue>1
+          || typeof fields.usedValue!=='number'||!Number.isFinite(fields.usedValue)||fields.usedValue<=0||fields.usedValue>fields.maxValue) {
+          fail(file,`${path} 需要完整额度身份及合法真实已用比例`);
         }
       }
       if (section === 'finalStatusContributions' || section === 'finalEffectiveStatuses') {

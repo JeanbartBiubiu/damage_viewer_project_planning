@@ -1,6 +1,8 @@
 // canonical CompileRequest 与相关 DTO（Slice B）。
 package model
 
+import "encoding/json"
+
 // CompileRequest 是 generic compile frame 的顶层 payload。
 type CompileRequest struct {
 	// Authorization 是当前账号的原始计算授权票据；只有关闭验签构建允许省略。
@@ -234,8 +236,10 @@ const (
 
 // OperationDefinition 是 ability 成功执行后的 operation。
 type OperationDefinition struct {
-	TargetMark *TargetMarkDefinition `json:"targetMark,omitempty"`
-	Operation  string                `json:"operation"`
+	// RawMessage仅保留新字段的缺省/显式null区别；由编译层严格解析为CumulativeRatioLimit。
+	CumulativeLimit json.RawMessage       `json:"cumulativeLimit,omitempty"`
+	TargetMark      *TargetMarkDefinition `json:"targetMark,omitempty"`
+	Operation       string                `json:"operation"`
 	// ProcessKey 仅start_passive_process引用本挂载的有限被动过程。
 	ProcessKey   string              `json:"processKey,omitempty"`
 	Target       string              `json:"target"`

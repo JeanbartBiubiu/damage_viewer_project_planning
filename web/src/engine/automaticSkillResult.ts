@@ -6,6 +6,7 @@ import type { OperationOrigin } from './simulation/model';
 import { validateAutomaticSkillRelations } from './automaticSkillRequest';
 import { inspectContinuousAttackSeries } from './continuousAttackSeries';
 import { assessContinuousAttackResult } from './continuousAttackResult';
+import { inspectCumulativeRefundBudgets } from './cumulativeRefundResult';
 import { inspectSimulationProcessFacts } from './simulationProcessFacts';
 import { passiveProcessDamagePath, passiveProcessOperation } from './passiveProcessFacts';
 import { inspectSimulationHealthLedger } from './simulationHealthLedger';
@@ -56,6 +57,7 @@ function committedChannelTimes(process: ProcessInstanceSnapshot, step: ProcessSt
 export function assessAutomaticSkillResult(compile: CompileRequest, request: RunRequest, done: DoneResult, origins: OperationOrigin[] = []): AutomaticSkillAssessment {
   const issues: string[] = [];
   const identityGaps: string[] = [];
+  issues.push(...inspectCumulativeRefundBudgets(compile, request, done));
   const chain = inspectSkillHitChainResult(compile, request, done);
   issues.push(...chain.issues); identityGaps.push(...chain.identityGaps);
   const marks = inspectTargetMarkResult(compile, request, done, origins);

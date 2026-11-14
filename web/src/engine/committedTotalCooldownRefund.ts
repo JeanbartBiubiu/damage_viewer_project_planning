@@ -9,9 +9,10 @@ import { createNumericCompileState, NumericAdaptationError, type NumericCompileS
 import { staticEffectAmount, staticEffectValue } from './staticEffectValue';
 import { calculationConfiguration } from './simulationCalculationRules';
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
+import type { CumulativeRatioLimit } from '../types/cooldownRatio';
 
 const fail = (path: string, message: string): never => { throw new NumericAdaptationError(path, message); };
-export type CommittedTotalRefundPlan = { targetSkillKey: string; ratio: number; effectKey: string; authorPath: string; dormantReason: string | null };
+export type CommittedTotalRefundPlan = { targetSkillKey: string; ratio: number; effectKey: string; authorPath: string; dormantReason: string | null; cumulativeLimit?: CumulativeRatioLimit };
 export type PendingCommittedTotalRefund = CommittedTotalRefundPlan & {
   sourceSkillKey: string; providerRef: string; definitionRef: string; listenerAbilityRef: string; operation: OperationDefinition;
 };
@@ -61,14 +62,21 @@ export function compileCommittedTotalRefundRule(snapshot: SimulationSnapshot, co
     return fail(root, '总冷却比例返还只接真实永久角色DAMAGE_DEALT的无额度单操作自身结果');
   }
   const scope = result.detail.affectedSkillScope;
-  if (Object.keys(result.detail).some(key => !['operation', 'affectedSkillScope'].includes(key)) || !scope || scope.mode !== 'SKILLS'
+  if (Object.keys(result.detail).some(key => !['operation', 'affectedSkillScope', 'cumulativeLimit'].includes(key)) || !scope || scope.mode !== 'SKILLS'
     || Object.keys(scope).some(key => !['mode', 'skillKeys', 'skillCategoryKeys'].includes(key)) || !Array.isArray(scope.skillKeys)
     || scope.skillKeys.length !== 1 || typeof scope.skillKeys[0] !== 'string' || !/^[a-z][a-z0-9_]{0,63}$/.test(scope.skillKeys[0])
     || !Array.isArray(scope.skillCategoryKeys) || scope.skillCategoryKeys.length) fail(root, '总冷却返还需要唯一明确同拥有者技能范围');
   const path = `skills.${configuration.skill.skillKey}.effects.${effect.effectKey}.results.${result.resultKey}`, valueRule = result.valueRule;
-  if (!rule.conditionGroups.length || rule.conditionGroups.some(group => !group.conditions.some(condition => condition.conditionType === 'EVENT_VALUE_COMPARE'
+  const cumulativeLimit = result.detail.cumulativeLimit;
+  if (Object.prototype.hasOwnProperty.call(result.detail, 'cumulativeLimit') && (!cumulativeLimit || typeof cumulativeLimit !== 'object'
+    || Object.keys(cumulativeLimit).length !== 2 || Object.keys(cumulativeLimit).some(key => !['groupKey', 'maxRatio'].includes(key))
+    || typeof cumulativeLimit.groupKey !== 'string' || !/^[a-z][a-z0-9_]{0,63}$/.test(cumulativeLimit.groupKey)
+    || !Number.isFinite(cumulativeLimit.maxRatio) || cumulativeLimit.maxRatio <= 0 || cumulativeLimit.maxRatio > 1)) {
+    fail(path+'.detail.cumulativeLimit', '累计退款额度需要明确共享组和0至1之间的正比例上限');
+  }
+  if (!cumulativeLimit && (!rule.conditionGroups.length || rule.conditionGroups.some(group => !group.conditions.some(condition => condition.conditionType === 'EVENT_VALUE_COMPARE'
     && condition.detail.eventValueKey === 'POST_DEFENSE_DAMAGE' && condition.detail.comparator === 'GT'
-    && staticEffectValue(condition.detail.comparisonValue, root + '.conditionGroups', state) === 0))) fail(root, '本笔退款必须明确保留每组正防御后伤害条件');
+    && staticEffectValue(condition.detail.comparisonValue, root + '.conditionGroups', state) === 0)))) fail(root, '本笔退款必须明确保留每组正防御后伤害条件');
   for (const levels of committedRefundProofLevels(configuration, valueRule.value, state.skillLevel, state.characterLevel, snapshot.source.attributes)) {
     const variant = createNumericCompileState({ ...state, ...levels, formulaNamespace: `${state.formulaNamespace}/refund-check/${levels.skillLevel}/${levels.characterLevel}` });
     const value = staticEffectValue(valueRule.value, path + '.valueRule.value', variant);
@@ -93,7 +101,8 @@ export function compileCommittedTotalRefundRule(snapshot: SimulationSnapshot, co
   if (dormantReason && plans.length) fail(path, '关闭或未学的返还目标不能有实际主动计划');
   if (!dormantReason && (source.skillStatus !== 'ENABLED' || target.skill.status !== 'ENABLED' || source.inactiveReason !== null
     || plans.length !== 1 || source.skillLevel !== plans[0]!.skillLevel)) fail(path, '已计划返还目标缺少完整真实来源资格');
-  return { targetSkillKey: skillKey, ratio, effectKey: effect.effectKey, authorPath: path, dormantReason };
+  return { targetSkillKey: skillKey, ratio, effectKey: effect.effectKey, authorPath: path, dormantReason,
+    ...(cumulativeLimit ? { cumulativeLimit: { ...cumulativeLimit } } : {}) };
 }
 
 /** 全部装配与挂载完成后一次校验/发布，不拼能力名，也不生成未计划来源。 */
@@ -125,6 +134,14 @@ export function bindCommittedTotalRefunds(pending: readonly PendingCommittedTota
       || ability?.kind !== 'active' || ability.skillKey !== item.targetSkillKey || ability.processControl?.action !== 'INITIAL'
       || ability.processControl.processKey !== process.processKey || ability.processControl.useRefFromEvent === true) reject('返还目标缺少同拥有者唯一真实INITIAL、实际挂载及普通过程冷却');
     staged.push({ item, abilityRef: initial!.abilityRef });
+  }
+  const limits = new Map<string, number>();
+  for (const { item, abilityRef } of staged) {
+    if (!item.cumulativeLimit) continue;
+    const key = JSON.stringify([item.providerRef, item.cumulativeLimit.groupKey, abilityRef]);
+    const existing = limits.get(key);
+    if (existing !== undefined && existing !== item.cumulativeLimit.maxRatio) fail(item.authorPath, '同一累计退款额度的上限不一致');
+    limits.set(key, item.cumulativeLimit.maxRatio);
   }
   for (const { item, abilityRef } of staged) item.operation.abilityRef = abilityRef;
 }

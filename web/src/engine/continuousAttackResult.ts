@@ -23,6 +23,7 @@ import { inspectTargetMarkResult, targetMarkDamageOriginMatches } from './target
 import { inspectDamageStateBefore, targetTimingDamageOriginMatches } from './targetTimingResultContract';
 import { inspectPermanentPeriodicResult } from './permanentPeriodicResultContract';
 import { passiveProcessDamagePath, passiveProcessOperation } from './passiveProcessFacts';
+import { initializedSpellShieldConsumptionOriginMatches } from './initializedSpellShieldResultContract';
 
 export type ContinuousAttackAssessment = {
   complete: boolean; issues: string[]; execution: ExecutionSummary;
@@ -335,8 +336,9 @@ export function assessContinuousAttackResult(
     const abilityPath = `sharedProviders[${providerIndex}].abilities[${abilityIndex}]`;
     const attackContribution = !!ability && basicAttackContributionAuthorMatches(input, origin, ability, abilityPath,
       match?.[1], plan.hitAbilityRef);
+    const initializedShieldConsumption = initializedSpellShieldConsumptionOriginMatches(input, origin);
     check(!mapping.has(key)
-      && !!ability && (ability.skillKey === origin.skillKey || attackContribution
+      && (initializedShieldConsumption || !!ability && (ability.skillKey === origin.skillKey || attackContribution
         || passiveControlAuthorMatches(input, origin, ability, abilityPath, match?.[1]))
       && (!origin.providerDefinitionRef || mount?.definitionRef === origin.providerDefinitionRef
         || !mount && definition?.kind === 'status' && definition.lifecycle?.instanceScope === 'source_target'
@@ -347,7 +349,7 @@ export function assessContinuousAttackResult(
             && parent.abilities?.some(ability => ability.skillKey === origin.skillKey
               && [...(ability.operations ?? []), ...(ability.listenerSpec?.operations ?? [])]
                 .some(operation => operation.operation === 'apply_provider' && operation.providerDefinitionRef === definition.providerKey)) === true;
-        })))
+        }))))
       && origin.operationRef === `skills.${origin.skillKey}.effects.${origin.effectKey}.results.${origin.resultKey}`
       && origin.compiledPaths.length > 0 && new Set(origin.compiledPaths).size === origin.compiledPaths.length,
     'operationOrigins', '结果来源映射重复或不完整');

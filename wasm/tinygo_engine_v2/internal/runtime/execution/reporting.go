@@ -319,6 +319,7 @@ func (s *Engine) buildFinalSnapshot() model.Snapshot {
 		snapshot.Combatants[i].ProviderState = rt.providerState.Snapshot(rt.cooldowns.View(), rt.numbers.Key(), s.loop.TimeMs())
 	}
 	snapshot.UseTriggerLedger = s.snapshotUseTriggerLedger()
+	snapshot.UseAmountBudgets = s.snapshotUseAmountBudgets()
 	snapshot.ProcessInstances = s.snapshotProcesses()
 	if snapshot.UseTriggerLedger == nil {
 		snapshot.UseTriggerLedger = []model.UseTriggerLedgerEntry{}

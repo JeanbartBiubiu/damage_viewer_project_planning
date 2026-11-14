@@ -18,6 +18,7 @@ import { hasProcessSkillHitStages, inspectProcessSkillHitStages, processSkillHit
 import { processForSkillUse, recastDefinition, recastUseOrdinal, recastUseRef } from './finiteRecast';
 import { inspectSkillHitChainResult } from './skillHitChainResult';
 import { passiveProcessDamagePath, passiveProcessOperation } from './passiveProcessFacts';
+import { inspectCumulativeRefundBudgets } from './cumulativeRefundResult';
 
 export type SkillActionAssessment = { complete: boolean; factsValid: boolean; detailIdentityVerified: boolean; identityGaps: string[]; issues: string[] };
 const close = (first: number, second: number) => Math.abs(first - second) <= 1e-9 * Math.max(1, Math.abs(first), Math.abs(second));
@@ -25,6 +26,7 @@ const close = (first: number, second: number) => Math.abs(first - second) <= 1e-
 export function assessSkillActionResult(compile: CompileRequest, request: RunRequest, done: DoneResult, origins: OperationOrigin[] = []): SkillActionAssessment {
   const issues: string[] = [];
   const identityGaps: string[] = [];
+  issues.push(...inspectCumulativeRefundBudgets(compile, request, done));
   const chain = inspectSkillHitChainResult(compile, request, done);
   issues.push(...chain.issues); identityGaps.push(...chain.identityGaps);
   const marks = inspectTargetMarkResult(compile, request, done, origins);

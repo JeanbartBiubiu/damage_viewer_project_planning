@@ -68,6 +68,10 @@ func (f *Frame) commit() {
 
 		f.run.combatants[key] = c
 	}
+	// 冷却所属状态已经发布；后续生命周期或派发失败保留该成功前缀与对应额度。
+	if len(f.pendingAmountBudgets) != 0 {
+		f.commitAmountBudgets()
+	}
 	evalAbility := planbundle.CompiledAbility{}
 	evalCtx := f.evalContext(evalAbility)
 	for _, key := range keys {

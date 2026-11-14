@@ -56,6 +56,7 @@ type Snapshot struct {
 	TimeMs           int64                   `json:"timeMs"`
 	Combatants       []CombatantSnapshot     `json:"combatants"`
 	UseTriggerLedger []UseTriggerLedgerEntry `json:"useTriggerLedger"`
+	UseAmountBudgets []UseAmountBudgetEntry  `json:"useAmountBudgets,omitempty"`
 }
 
 // CombatantSnapshot 是运行期单个角色的状态。

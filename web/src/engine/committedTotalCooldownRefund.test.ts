@@ -32,6 +32,23 @@ async function boundSample() {
 }
 
 describe('按真实已提交总冷却比例返还的作者门禁', () => {
+  it('显式累计上限保留，零伤资格由作者条件负责，缺省仍要求正伤害', () => {
+    const item=sample(),result=item.refund.results[0]!;
+    if(result.resultType!=='COOLDOWN_CHANGE'||result.detail.operation==='RESET')throw Error('fixture');
+    result.detail.cumulativeLimit={groupKey:'shared_refund',maxRatio:.39};
+    for(const group of item.refundRule.conditionGroups)group.conditions=group.conditions.filter(condition=>!(condition.conditionType==='EVENT_VALUE_COMPARE'&&condition.detail.eventValueKey==='POST_DEFENSE_DAMAGE'));
+    expect(item.compile()?.cumulativeLimit).toEqual({groupKey:'shared_refund',maxRatio:.39});
+    delete result.detail.cumulativeLimit;
+    expect(item.compile).toThrow(/正防御后伤害/);
+  });
+  it.each(['bad_key','zero','oversize','unknown','null'] as const)('拒绝非法累计上限：%s',kind=>{
+    const item=sample(),result=item.refund.results[0]!;
+    if(result.resultType!=='COOLDOWN_CHANGE'||result.detail.operation==='RESET')throw Error('fixture');
+    const detail: Record<string,unknown>=result.detail;
+    detail.cumulativeLimit=kind==='null'?null:{groupKey:kind==='bad_key'?'Bad-Key':'valid',maxRatio:kind==='zero'?0:kind==='oversize'?1.1:.39,...(kind==='unknown'?{scope:'guess'}:{})};
+    expect(item.compile).toThrow(/累计退款额度/);
+  });
+
   it.each([0, .05, 1])('静态有限比例%s合法', ratio => {
     const item = sample(); item.refund.results[0]!.valueRule!.value = { kind: 'FIXED', value: ratio };
     expect(item.compile()?.ratio).toBe(ratio);

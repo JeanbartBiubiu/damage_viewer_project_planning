@@ -129,6 +129,8 @@ export type OperationDefinition = {
   processKey?: string;
   amount?: GenericFormulaExpr;
   valuePolicy?: string;
+  /** 仅按已提交总冷却比例返还；按原使用、目标和真实能力累计。 */
+  cumulativeLimit?: import('./cooldownRatio').CumulativeRatioLimit;
   damageType?: string;
   resourceKey?: string;
   attributeKey?: string;
@@ -510,8 +512,14 @@ export type InitialSnapshot = {
   timeMs: number;
   combatants: CombatantSnapshot[];
   useTriggerLedger?: UseTriggerLedgerEntry[];
+  /** 真实数值额度输出事实，当前累计退款场景不接受导入恢复。 */
+  useAmountBudgets?: UseAmountBudgetEntry[];
   /** 省略表示无过程实例。活动与终结行都占实例预算。 */
   processInstances?: ProcessInstanceSnapshot[];
+};
+
+export type UseAmountBudgetEntry = Omit<UseTriggerLedgerEntry, 'scope' | 'target'> & {
+  scope: 'provider_target'; target: string; subjectRef: string; maxValue: number; usedValue: number;
 };
 
 /** TinyGo V2 DriverRepeat: fixed interval XOR formula cadence (never both). */

@@ -229,6 +229,58 @@ class SkillEffectServiceTest {
     }
 
     @Test
+    void cumulativeRefundLimitPersistsAndReadsBackThroughCreateAndUpdate() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        SkillEffectCreateRequest request = cumulativeRefundRequest(EFFECT_KEY, SKILL_KEY,
+            AggregateJson.tree("{\"groupKey\":\"refund\",\"maxRatio\":0.39}"));
+        SkillEffectDetailResponse created = service.create(GAME_ID, SKILL_KEY, request);
+        assertEquals(((SkillEffectCooldownChangeDetail) request.results().get(0).detail()).cumulativeLimit(),
+            ((SkillEffectCooldownChangeDetail) created.results().get(0).detail()).cumulativeLimit());
+        assertEquals(0.39, AggregateJson.tree(savedEffect.results()).get(0).path("detail").path("cumulativeLimit").path("maxRatio").doubleValue());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        SkillEffectDetailResponse updated = service.update(GAME_ID, SKILL_KEY, EFFECT_KEY,
+            new SkillEffectUpdateRequest(null, "累计返还修改", null, 10, null, request.results()));
+        assertEquals(((SkillEffectCooldownChangeDetail) created.results().get(0).detail()).cumulativeLimit(),
+            ((SkillEffectCooldownChangeDetail) updated.results().get(0).detail()).cumulativeLimit());
+        assertTrue(!AggregateJson.tree(AggregateJson.write(updated)).path("results").get(0).path("detail").has("unknownFields"));
+    }
+
+    @Test
+    void invalidCumulativeLimitDoesNotReachBusinessWrites() {
+        stubParentAndNewKey();
+        for (String limit : List.of("null", "{\"groupKey\":\"refund\",\"maxRatio\":0}",
+            "{\"groupKey\":\"refund\",\"maxRatio\":0.39,\"extra\":true}")) {
+            SkillEffectCreateRequest request = cumulativeRefundRequest(EFFECT_KEY, SKILL_KEY, AggregateJson.tree(limit));
+            ApiException error = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY, request));
+            assertTrue(error.getDetails().toString().contains("cumulativeLimit"));
+        }
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void finalEffectProjectionRejectsConflictingCumulativeLimitsBeforeSaving() {
+        SkillEffectCreateRequest first = cumulativeRefundRequest("first", SKILL_KEY,
+            AggregateJson.tree("{\"groupKey\":\"refund\",\"maxRatio\":0.39}"));
+        SkillEffectCreateRequest second = cumulativeRefundRequest("second", SKILL_KEY,
+            AggregateJson.tree("{\"groupKey\":\"refund\",\"maxRatio\":0.4}"));
+        ApiException error = assertThrows(ApiException.class, () -> service.validateConfigurationFinalTargets(
+            SKILL_KEY, Map.of("first", first, "second", second), Map.of()));
+        assertTrue(error.getDetails().toString().contains("CUMULATIVE_LIMIT_CONFLICT"));
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    private static SkillEffectCreateRequest cumulativeRefundRequest(String key, String targetSkill, com.fasterxml.jackson.databind.JsonNode limit) {
+        ObjectNode result = (ObjectNode) AggregateJson.tree(AggregateJson.write(cooldownReduceResult("refund", targetSkill)));
+        ObjectNode detail = (ObjectNode) result.path("detail");
+        detail.put("operation", "REDUCE_TOTAL_RATIO").set("cumulativeLimit", limit);
+        result.set("valueRule", AggregateJson.tree("{\"value\":{\"kind\":\"FIXED\",\"value\":0.13},\"fixedMultiplier\":1,\"fixedMinValue\":null,\"fixedMaxValue\":null}"));
+        return new SkillEffectCreateRequest(key, "累计返还", null, 10, null,
+            List.of(AggregateJson.read(result.toString(), SkillEffectResultRequest.class)));
+    }
+
+    @Test
     void shieldReceivedModifierPersistsItsDistinctDetailAndLifecycle() {
         stubParentAndNewKey();
         stubEnabledCatalogs();
@@ -2155,6 +2207,7 @@ class SkillEffectServiceTest {
             new SkillEffectCooldownChangeDetail(
                 null,
                 SkillEffectCooldownChangeOperation.REDUCE,
+                null,
                 Set.of(),
                 Set.of("affectedSkillKey")
             )
