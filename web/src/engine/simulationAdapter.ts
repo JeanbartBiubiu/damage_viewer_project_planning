@@ -39,7 +39,7 @@ import { permanentHealthIncreases } from './permanentHealthInitialization';
 import { assembleTargetMarkSource } from './targetMarkAdapter';
 import { validateMarkedRawDamageAssembly } from './markedRawDamageAssembly';
 
-export const SIMULATION_ADAPTER_VERSION = 'v52-skill-hit-passive-delay';
+export const SIMULATION_ADAPTER_VERSION = 'v53-initial-counter-gate';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v5';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';

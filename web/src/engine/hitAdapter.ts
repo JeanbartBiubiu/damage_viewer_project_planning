@@ -33,6 +33,7 @@ import { compileSkillHitCooldownReduction, type SkillHitCooldownReduction } from
 import { staticEffectAmount } from './staticEffectValue';
 import type { SiblingTargetCounterReadResolver } from './siblingTargetCounterRead';
 import { compileSpellShieldDefinition, compileSpellShieldConsumption } from './spellShieldAdapter';
+import { compileSelfCounterCondition } from './selfCounterCondition';
 
 export class HitAdaptationError extends NumericAdaptationError {
   constructor(path: string, message: string) {
@@ -312,20 +313,7 @@ function convertRuleConditions(
           remaining.push({ op: COMPARATORS[detail.comparator]!, args: [external.value, right] });
           continue;
         }
-        const definitions = authored.internalStates?.filter(row => row.stateKey === detail.stateKey) ?? [];
-        const definition = definitions[0];
-        if (definitions.length !== 1 || !definition || definition.gameId !== authored.gameId || definition.skillKey !== authored.skillKey
-          || detail.stateSkillKey !== authored.skillKey || definition.stateType !== 'COUNTER' || definition.scope !== 'SKILL'
-          || detail.valueKind !== 'VALUE' || detail.optionKey !== null || detail.expectedBoolean !== null
-          || !detail.comparator || !COMPARATORS[detail.comparator] || !detail.comparisonValue
-          || Object.keys(detail).some(key => !['stateSkillKey', 'stateKey', 'valueKind', 'optionKey', 'expectedBoolean', 'comparator', 'comparisonValue'].includes(key))) {
-          fail(path, '命中状态比较仅允许本技能自身整数计数当前值');
-        }
-        const right = compileNumericValue(detail.comparisonValue, `${path}.comparisonValue`,
-          { ...state, bindParameters: false, allowAttributeReads: false, runtimeInputReads: undefined, sceneParameterValues: undefined }, fail);
-        const threshold = tryFoldConstant(right);
-        if (threshold === null || !Number.isSafeInteger(threshold) || threshold < 0) fail(path, '命中状态门槛必须为明确非负整数');
-        remaining.push({ op: COMPARATORS[detail.comparator]!, args: [{ op: 'read', path: `provider.state.${detail.stateKey}` }, right] });
+        remaining.push(compileSelfCounterCondition(condition, authored.internalStates ?? [], state, path, fail));
       } else remaining.push(compileHitIdentityCondition(condition, path, authored));
     }
     extracted.push({ event, remaining: combine('min', remaining), fingerprints: fingerprints.slice().sort() });

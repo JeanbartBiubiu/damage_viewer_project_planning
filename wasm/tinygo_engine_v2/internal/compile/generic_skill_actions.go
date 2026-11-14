@@ -231,9 +231,13 @@ func automaticSkillAdmission(binding model.SkillActionBinding, process plan.Comp
 			return cd.Path + ".durationMs", "automatic skills require a positive safe integer cooldown"
 		}
 	}
-	// 实际开始条件只读取本次稳定状态；事件或同次使用字段没有自动候选上下文。
+	return stableCastConditionIssue(ability, path+".controls[0].abilityRef", ctx)
+}
+
+// 首次手动和自动施放共用稳定启动上下文，不能读取尚不存在的事件或同次使用字段。
+func stableCastConditionIssue(ability plan.CompiledAbility, path string, ctx *genericCompileContext) (string, string) {
 	if ability.HasCastCondition {
-		conditionPath := path + ".controls[0].abilityRef"
+		conditionPath := path
 		if int(ability.CastConditionProgram) < ctx.formulas.Count() {
 			conditionPath = ctx.formulas.Info(formula.GenericProgramID(ability.CastConditionProgram)).Key
 		}
@@ -243,7 +247,7 @@ func automaticSkillAdmission(binding model.SkillActionBinding, process plan.Comp
 				formula.ReadAbilityParam, formula.ReadProviderState, formula.ReadProviderTargetState,
 				formula.ReadSourceStatusPresent, formula.ReadTargetStatusPresent:
 			default:
-				return conditionPath, "automatic cast conditions require a stable candidate context"
+				return conditionPath, "cast conditions require a stable candidate context"
 			}
 		}
 	}

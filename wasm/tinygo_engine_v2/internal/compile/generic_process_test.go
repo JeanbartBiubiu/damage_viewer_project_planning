@@ -257,8 +257,11 @@ func TestProcessCompileControlValidation(t *testing.T) {
 		{"independent operations", "abilities[0].operations", func(r *model.CompileRequest) {
 			r.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{{Operation: "heal", Target: "self", Amount: processCompileNumber(1)}}
 		}},
-		{"cast condition", "castCondition", func(r *model.CompileRequest) {
-			r.SharedProviders[0].Abilities[0].CastCondition = processCompileNumber(1)
+		{"recast condition", "castCondition", func(r *model.CompileRequest) {
+			r.SharedProviders[0].Abilities[1].CastCondition = processCompileNumber(1)
+		}},
+		{"cancel condition", "castCondition", func(r *model.CompileRequest) {
+			r.SharedProviders[0].Abilities[2].CastCondition = processCompileNumber(1)
 		}},
 		{"tick", "tickSpec", func(r *model.CompileRequest) {
 			r.SharedProviders[0].Abilities[0].TickSpec = &model.TickSpec{IntervalMs: 1}
@@ -293,6 +296,27 @@ func TestProcessCompileControlValidation(t *testing.T) {
 		if result := CompileGeneric(req); !result.OK {
 			t.Fatalf("legal interruption %s failed: %+v", reason, result.Result.Errors)
 		}
+	}
+}
+
+func TestProcessCompileInitialConditionUsesStableStartContext(t *testing.T) {
+	request := processCompileRequest()
+	request.SharedProviders[0].InitialStateSchema = map[string]interface{}{
+		"window": map[string]interface{}{"valueType": "integer", "defaultValue": 0, "maxValue": 1, "durationMs": 500, "refreshPolicy": "refresh_on_write"},
+	}
+	request.SharedProviders[0].Abilities[0].CastCondition = &model.GenericFormulaExpr{Op: "eq", Args: []model.GenericFormulaExpr{
+		{Op: "read", Path: "provider.state.window"}, *processCompileNumber(0),
+	}}
+	compiled := CompileGeneric(request)
+	if !compiled.OK || !compiled.Session.Abilities[0].HasCastCondition {
+		t.Fatalf("initial condition was not compiled: %+v", compiled.Result.Errors)
+	}
+	for _, read := range []string{"event.amount", "process.actual_cost.mana", "skill_use.ordinal"} {
+		t.Run(read, func(t *testing.T) {
+			request := processCompileRequest()
+			request.SharedProviders[0].Abilities[0].CastCondition = &model.GenericFormulaExpr{Op: "read", Path: read}
+			requireProcessCompileError(t, request, "castCondition")
+		})
 	}
 }
 

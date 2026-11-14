@@ -127,6 +127,11 @@ func compileProviderProcesses(provider model.ProviderDefinition, path string, ct
 			if int(candidate.ProviderIndex) != providerIndex || candidate.AbilityKey != ability.AbilityKey {
 				continue
 			}
+			if ability.CastCondition != nil && control.Action == "INITIAL" && !control.UseRefFromEvent {
+				if conditionPath, issue := stableCastConditionIssue(*candidate, ap+".castCondition", ctx); issue != "" {
+					ctx.collector.addError(model.GenericErrFormulaTypeError, conditionPath, issue, ability.AbilityKey)
+				}
+			}
 			candidate.ProcessControl = control
 			if control.Action == "INITIAL" && control.ProcessIndex >= 0 {
 				initialCounts[control.ProcessIndex]++
@@ -451,11 +456,14 @@ func validateProcessControl(ability model.AbilityDefinition, path string, provid
 	if def.RequireExplicitSelfTarget != nil && (!*def.RequireExplicitSelfTarget || def.Action != "INITIAL") {
 		ctx.collector.addError(model.GenericErrUnknownRef, cp+".requireExplicitSelfTarget", "explicit self-target gate must be true and only supports INITIAL", def.Action)
 	}
+	if ability.CastCondition != nil && (def.Action != "INITIAL" || def.UseRefFromEvent) {
+		ctx.collector.addError(model.GenericErrUnknownRef, path+".castCondition", "cast condition only supports a normal INITIAL process control", ability.AbilityKey)
+	}
 	for _, field := range []struct {
 		name    string
 		present bool
 	}{
-		{"cost", ability.Cost != nil}, {"cooldown", ability.Cooldown != nil}, {"castCondition", ability.CastCondition != nil},
+		{"cost", ability.Cost != nil}, {"cooldown", ability.Cooldown != nil},
 		{"operations", len(ability.Operations) > 0}, {"tickSpec", ability.TickSpec != nil},
 		{"listenerSpec", ability.ListenerSpec != nil}, {"stateSchema", len(ability.StateSchema) > 0},
 	} {

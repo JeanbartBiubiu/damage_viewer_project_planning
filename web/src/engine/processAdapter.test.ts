@@ -126,6 +126,54 @@ function request(): CompileRequest {
 }
 
 describe('processAdapter', () => {
+  function gatedProgram(): AuthoredProcessProgram {
+    const authored = program();
+    authored.internalStates = [{ gameId: 'lol', skillKey: 'cast_skill', stateKey: 'active_window', name: '窗口',
+      description: null, sortOrder: 10, stateType: 'COUNTER', scope: 'SKILL', createdAt: '', updatedAt: '',
+      detail: { initialValue: fixedValue(0), maxValue: fixedValue(1), durationValue: fixedValue(500) } }];
+    authored.rules[0]!.conditionGroups = [{ groupKey: 'inactive', name: '窗口未开启', sortOrder: 10, conditions: [{
+      conditionKey: 'inactive', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 10,
+      detail: { stateSkillKey: 'cast_skill', stateKey: 'active_window', valueKind: 'VALUE', optionKey: null,
+        expectedBoolean: null, comparator: 'EQ', comparisonValue: fixedValue(0) }
+    }] }];
+    return authored;
+  }
+
+  it('首次过程将自身计数资格交给原生施放条件，并保留明确自施条件', () => {
+    const authored = gatedProgram();
+    authored.rules[0]!.conditionGroups[0]!.conditions.push({ conditionKey: 'self',
+      conditionType: 'EXPLICIT_TARGET_IS_SOURCE', sortOrder: 20, detail: {} });
+    const before = structuredClone(authored);
+    const adapted = adaptProcessProgram(authored);
+    expect(authored).toEqual(before);
+    expect(adapted.provider.abilities[0]).toMatchObject({
+      castCondition: { op: 'eq', args: [{ op: 'read', path: 'provider.state.active_window' }, { op: 'const', value: 0 }] },
+      processControl: { action: 'INITIAL', requireExplicitSelfTarget: true }
+    });
+    expect(adapted.provider.initialStateSchema?.active_window).toEqual({
+      valueType: 'integer', defaultValue: 0, maxValue: 1, durationMs: 500, refreshPolicy: 'refresh_on_write'
+    });
+  });
+
+  it('首次过程拒绝跨技能、目标状态、缺失状态、动态或负数门槛及重复条件', () => {
+    for (const mutation of ['sibling', 'target', 'missing', 'runtime', 'negative', 'duplicate'] as const) {
+      const authored = gatedProgram();
+      const group = authored.rules[0]!.conditionGroups[0]!;
+      const condition = group.conditions[0]!;
+      if (condition.conditionType !== 'INTERNAL_STATE_CHECK') throw new Error('fixture');
+      if (mutation === 'sibling') condition.detail.stateSkillKey = 'other';
+      if (mutation === 'target') authored.internalStates![0]!.scope = 'TARGET';
+      if (mutation === 'missing') condition.detail.stateKey = 'absent';
+      if (mutation === 'negative') condition.detail.comparisonValue = fixedValue(-1);
+      if (mutation === 'duplicate') group.conditions.push(structuredClone(condition));
+      if (mutation === 'runtime') {
+        authored.parameters!.push(parameter({ parameterKey: 'threshold', valueMode: 'RUNTIME_INPUT', fixedValue: null, levelValues: null }));
+        condition.detail.comparisonValue = parameterValue('threshold');
+      }
+      expect(() => adaptProcessProgram(authored), mutation).toThrow(/状态|门槛|运行|供值|重复|输入/);
+    }
+  });
+
   it('首次过程控制唯一，条件在两个监听上冻结，直接治疗保留原数值且不污染作者输入', () => {
     const authored = healingProgram();
     const before = structuredClone(authored);

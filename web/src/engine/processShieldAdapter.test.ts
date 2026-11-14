@@ -109,7 +109,7 @@ describe('普通盾过程与作者状态', () => {
     expect(compiled.operation.operation).toBe('shield');
   });
 
-  it('跨技能写入、缺失状态、混合自施条件都拒绝', () => {
+  it('跨技能写入、缺失状态、重复自施条件都拒绝', () => {
     const authored = program();
     authored.process.stateOperations[0]!.stateSkillKey = 'foreign';
     expect(() => adaptProcessProgram(authored)).toThrow(/不能跨技能/);
@@ -118,7 +118,7 @@ describe('普通盾过程与作者状态', () => {
     expect(() => adaptProcessProgram(authored)).toThrow(/已声明状态/);
     authored.internalStates = program().internalStates;
     authored.rules[0]!.conditionGroups[0]!.conditions.push(structuredClone(authored.rules[0]!.conditionGroups[0]!.conditions[0]!));
-    expect(() => adaptProcessProgram(authored)).toThrow(/唯一明确自施/);
+    expect(() => adaptProcessProgram(authored)).toThrow(/条件标识重复/);
   });
 
   it('真实计划装配保留技能父状态、静态盾身份及作者来源映射', () => {

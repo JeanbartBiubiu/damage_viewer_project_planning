@@ -12,6 +12,7 @@ import type { SkillInternalState } from '../types/skillInternalState';
 import type { ModifierZone } from '../types/modifierZone';
 import type { DamageType } from '../types/damageType';
 import { compileProcessStates } from './processStateAdapter';
+import { compileSelfCounterCondition } from './selfCounterCondition';
 import { processCounterReads, processCounterSnapshots } from './processCounterInput';
 import { validateProcessSceneParameterBinding } from './processSceneParameterInput';
 import { bindSceneAttributeParameters, type SceneAttributeParameterInput } from './sceneAttributeSnapshotInput';
@@ -105,6 +106,7 @@ export type AdaptedProcessControl = {
   stepKey?: string;
   failureReason?: ProcessFailureReason;
   requireExplicitSelfTarget?: true;
+  castCondition?: GenericFormulaExpr;
 };
 
 export type AdaptedProcessProgram = {
@@ -796,7 +798,7 @@ type ControlPlan = {
   firstEffectRules: SkillTriggerRuleDetail[];
 };
 
-function compileControls(authored: AuthoredProcessProgram, steps: ProcessStepDefinition[]): ControlPlan {
+function compileControls(authored: AuthoredProcessProgram, steps: ProcessStepDefinition[], state: NumericCompileState): ControlPlan {
   const root = planPath(authored.skillKey, 'rules');
   if (!Array.isArray(authored.rules)) fail(root, '规则必须是数组');
   for (const rule of authored.rules) {
@@ -849,20 +851,29 @@ function compileControls(authored: AuthoredProcessProgram, steps: ProcessStepDef
     }
     if (eventType === 'SKILL_USED' && action.actionType === 'START_PROCESS') {
       let requireExplicitSelfTarget: true | undefined;
+      const stateConditions: GenericFormulaExpr[] = [];
       if (rule.conditionGroups.length) {
-        if (rule.conditionGroups.length !== 1 || rule.conditionGroups[0]!.conditions.length !== 1) fail(`${path}.conditionGroups`, '首次过程只接入唯一明确自施条件');
+        if (rule.conditionGroups.length !== 1 || !rule.conditionGroups[0]!.conditions.length) fail(`${path}.conditionGroups`, '首次过程只接入单一非空条件组');
         const group = rule.conditionGroups[0]!;
         exactKeys(group, ['groupKey', 'name', 'sortOrder', 'conditions'], `${path}.conditionGroups.${group.groupKey}`);
         catalogKey(group.groupKey, `${path}.conditionGroups.groupKey`);
         finiteNumber(group.sortOrder, `${path}.conditionGroups.sortOrder`, fail);
-        const condition = group.conditions[0]!;
-        const conditionPath = `${path}.conditionGroups.${group.groupKey}.conditions.${condition.conditionKey}`;
-        exactKeys(condition, ['conditionKey', 'conditionType', 'sortOrder', 'detail'], conditionPath);
-        catalogKey(condition.conditionKey, `${conditionPath}.conditionKey`);
-        finiteNumber(condition.sortOrder, `${conditionPath}.sortOrder`, fail);
-        if (condition.conditionType !== 'EXPLICIT_TARGET_IS_SOURCE') fail(`${conditionPath}.conditionType`, '首次过程只接入明确自施条件');
-        exactKeys(condition.detail, [], `${conditionPath}.detail`);
-        requireExplicitSelfTarget = true;
+        const seenConditions = new Set<string>();
+        for (const condition of stableSorted(group.conditions, row => row.sortOrder)) {
+          const conditionPath = `${path}.conditionGroups.${group.groupKey}.conditions.${condition.conditionKey}`;
+          exactKeys(condition, ['conditionKey', 'conditionType', 'sortOrder', 'detail'], conditionPath);
+          catalogKey(condition.conditionKey, `${conditionPath}.conditionKey`);
+          finiteNumber(condition.sortOrder, `${conditionPath}.sortOrder`, fail);
+          if (seenConditions.has(condition.conditionKey)) fail(conditionPath, '条件标识重复');
+          seenConditions.add(condition.conditionKey);
+          if (condition.conditionType === 'EXPLICIT_TARGET_IS_SOURCE') {
+            if (requireExplicitSelfTarget) fail(conditionPath, '明确自施条件重复');
+            exactKeys(condition.detail, [], `${conditionPath}.detail`);
+            requireExplicitSelfTarget = true;
+          } else if (condition.conditionType === 'INTERNAL_STATE_CHECK') {
+            stateConditions.push(compileSelfCounterCondition(condition, authored.internalStates ?? [], state, conditionPath, fail));
+          } else fail(`${conditionPath}.conditionType`, '首次过程只接入明确自施或自身计数条件');
+        }
       }
       if (skillUsedPhase(rule, `${path}.eventSource`, authored.skillKey) !== 'INITIAL') {
         fail(`${path}.eventSource.detail.castPhase`, '首次施放只接受 INITIAL');
@@ -871,7 +882,8 @@ function compileControls(authored: AuthoredProcessProgram, steps: ProcessStepDef
       if (action.detail.processKey !== authored.process.processKey) fail(`${actionPath}.detail.processKey`, '跨过程');
       if (action.targetContext !== 'CURRENT_TARGET') fail(`${actionPath}.targetContext`, '首次施放必须明确当前目标');
       if (initial) fail(path, '重复首次入口');
-      initial = { abilityKey: action.actionKey, action: 'INITIAL', ...(requireExplicitSelfTarget ? { requireExplicitSelfTarget } : {}) };
+      initial = { abilityKey: action.actionKey, action: 'INITIAL', ...(requireExplicitSelfTarget ? { requireExplicitSelfTarget } : {}),
+        ...(stateConditions.length ? { castCondition: stateConditions.length === 1 ? stateConditions[0]! : { op: 'min', args: stateConditions } } : {}) };
       continue;
     }
     if (eventType === 'SKILL_USED' && action.actionType === 'EXECUTE_EFFECT') {
@@ -1029,6 +1041,7 @@ function controlAbility(control: AdaptedProcessControl, processKey: string, skil
     abilityKey: control.abilityKey,
     kind: 'active',
     skillKey,
+    ...(control.castCondition ? { castCondition: control.castCondition } : {}),
     processControl: {
       processKey,
       action: control.action,
@@ -1127,7 +1140,7 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
     }
     empoweredPayload = { stepKey: steps[0]!.stepKey, hit };
   }
-  const controls = compileControls(authored, steps);
+  const controls = compileControls(authored, steps, state);
   const costs = compileCosts(authored, process, state);
   let cooldown: ProcessDefinition['cooldown'] = null;
   if (process.cooldown !== null) {
