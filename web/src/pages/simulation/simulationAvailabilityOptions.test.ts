@@ -8,7 +8,7 @@ import {
 const ready = (key: string, equipment = false): SimulationAvailabilityEntry => ({ key, status: 'READY', contentDigest: 'a'.repeat(64), issues: [], excludedSkillSources: [],
   verification: { ...SIMULATION_AVAILABILITY_IDENTITY, externalDigest: 'b'.repeat(64), matched: true, evidenceRefs: ['real-run'],
     requiredCoverage: { scenario: 'one-way-combat-analysis-v1', sides: ['source', 'target'], characterLevels: [1, 2, 3], skills: [],
-      levelValidation: 'each-declared-level', allRequiredSourcesEnabled: true, sourceActiveStartedAndCompleted: true,
+      levelValidation: 'representative-cases', allRequiredSourcesEnabled: true, sourceActiveStartedAndCompleted: true,
       relevantPassivesTriggered: true, equipmentMode: equipment ? 'single-item' : 'none' } } });
 const pending = (key: string, equipment = false): SimulationAvailabilityEntry => ({ ...ready(key, equipment), status: 'CONFIGURATION_INCOMPLETE',
   issues: [{ code: 'MISSING_PROGRAM', skillKey: 'actual_passive', fieldPath: 'triggerRules', message: '尚未补齐全部自然技能程序' },
@@ -87,8 +87,8 @@ describe('混合战斗可用目录与实际选择核对', () => {
     const response = directory();
     response.equipment[0]!.verification.requiredCoverage!.characterLevels = [1, 2];
     expect(selectedSimulationAvailabilityIssues(response, { ...selection(), sourceLevel: 4 })).toEqual([
-      '攻击方角色「hero」的 4 级尚未得到完整计算核验。', '攻击方装备「item」在角色 4 级时尚未得到完整计算核验。',
-      '目标方装备「item」在角色 3 级时尚未得到完整计算核验。'
+      '攻击方角色「hero」的 4 级超出当前计算支持范围。', '攻击方装备「item」在角色 4 级时超出当前计算支持范围。',
+      '目标方装备「item」在角色 3 级时超出当前计算支持范围。'
     ]);
   });
 

@@ -80,7 +80,7 @@ class SimulationAvailabilityServiceTest {
         Transactional annotation = SimulationAvailabilityService.class.getMethod("get", String.class, String.class, String.class).getAnnotation(Transactional.class);
         assertTrue(annotation.readOnly());
         assertEquals(Isolation.REPEATABLE_READ, annotation.isolation());
-        assertEquals("each-declared-level", hero(result).verification().requiredCoverage().path("levelValidation").asText());
+        assertEquals("representative-cases", hero(result).verification().requiredCoverage().path("levelValidation").asText());
         assertFalse(hero(result).verification().requiredCoverage().has("allSkillLevelCombinations"));
     }
 
@@ -89,6 +89,7 @@ class SimulationAvailabilityServiceTest {
         ObjectNode proof = installProof();
         assertEquals(Status.READY, hero(get()).status());
         assertEquals(Status.READY, item(get()).status());
+        assertEquals("each-declared-level", proof.path("entries").get(0).path("coverage").path("levelValidation").asText());
         assertTrue(hero(get()).verification().matched());
         ((ObjectNode) proof.path("entries").get(0).path("coverage")).putArray("sides").add("source");
         assertEquals(Status.UNVERIFIED, hero(get()).status());
@@ -96,7 +97,45 @@ class SimulationAvailabilityServiceTest {
     }
 
     @Test
-    void aHighestLevelSampleCannotEnableEveryDeclaredLevel() {
+    void representativeCasesCanAdmitTheWholeLegalRangeWithoutClaimingPerLevelExecution() {
+        ObjectNode proof = installProof();
+        ObjectNode entry = (ObjectNode) proof.path("entries").get(0);
+        addRepresentativeCases(entry);
+        assertEquals(Status.READY, hero(get()).status());
+        assertEquals(List.of(1, 2), json.convertValue(hero(get()).verification().requiredCoverage().path("characterLevels"), List.class));
+        assertEquals("representative-cases", hero(get()).verification().requiredCoverage().path("levelValidation").asText());
+    }
+
+    @Test
+    void missingPositiveCasesCannotAdmitButDoNotHideAnExplicitUnsupportedResult() {
+        ObjectNode proof = installProof();
+        ObjectNode entry = (ObjectNode) proof.path("entries").get(0);
+        ((ObjectNode) entry.path("coverage")).put("levelValidation", "representative-cases");
+        assertEquals(Status.UNVERIFIED, hero(get()).status());
+        assertEquals("VERIFICATION_COVERAGE_INCOMPLETE", hero(get()).issues().getFirst().code());
+        entry.put("outcome", "ENGINE_UNSUPPORTED").putArray("issues").addObject().put("code", "UNIT_TEST_UNSUPPORTED")
+            .put("message", "已执行的明确不支持事实").putNull("skillKey").putNull("fieldPath");
+        assertEquals(Status.ENGINE_UNSUPPORTED, hero(get()).status());
+        assertTrue(hero(get()).verification().matched());
+        assertEquals("UNIT_TEST_UNSUPPORTED", hero(get()).issues().getFirst().code());
+        ((ObjectNode) entry.path("coverage")).put("levelValidation", "unknown");
+        assertEquals(Status.UNVERIFIED, hero(get()).status());
+    }
+
+    @Test
+    void representativeEvidenceNeverBypassesCurrentWasmAdapterOrConfigurationIdentity() throws Exception {
+        ObjectNode proof = installProof();
+        addRepresentativeCases((ObjectNode) proof.path("entries").get(0));
+        assertEquals(Status.READY, hero(get()).status());
+        assertEquals(Status.UNVERIFIED, hero(service.get("arena", "b".repeat(64), ADAPTER)).status());
+        assertEquals(Status.UNVERIFIED, hero(service.get("arena", WASM, "new-adapter")).status());
+        add("PARAMETER", "hero_q", "new", Map.of("skill_key", "hero_q", "parameter_key", "new", "value", 1));
+        assertEquals(Status.UNVERIFIED, hero(get()).status());
+        assertEquals("VERIFICATION_STALE", hero(get()).issues().getFirst().code());
+    }
+
+    @Test
+    void proofCannotNarrowTheLegalCharacterOrSkillLevelRange() {
         ObjectNode proof = installProof();
         ((ObjectNode) proof.path("entries").get(0).path("coverage")).putArray("characterLevels").add(2);
         assertEquals(Status.UNVERIFIED, hero(get()).status());
@@ -362,9 +401,23 @@ class SimulationAvailabilityServiceTest {
     private void proofEntry(ArrayNode entries, String kind, Entry entry) {
         ObjectNode proof = entries.addObject().put("kind", kind).put("key", entry.key()).put("contentDigest", entry.contentDigest())
             .put("externalDigest", entry.verification().externalDigest()).put("outcome", "PASSED");
-        proof.set("coverage", entry.verification().requiredCoverage());
+        ObjectNode coverage = entry.verification().requiredCoverage().deepCopy();
+        proof.set("coverage", coverage.put("levelValidation", "each-declared-level"));
         proof.putArray("evidenceRefs").add("unit-test-fixture-only");
         proof.putArray("issues");
+    }
+
+    private void addRepresentativeCases(ObjectNode entry) {
+        ((ObjectNode) entry.path("coverage")).put("levelValidation", "representative-cases");
+        ArrayNode cases = entry.putArray("validationCases");
+        for (String side : List.of("source", "target")) {
+            ObjectNode sample = cases.addObject().put("caseKey", "representative_" + side)
+                .put("evidenceRef", "unit-test-fixture-only").put("objectSide", side)
+                .put("sourceLevel", 1).put("targetLevel", 1).put("complete", true).put("released", true);
+            ArrayNode levels = sample.putArray("skillLevels");
+            entry.path("coverage").path("skills").forEach(skill -> levels.addObject()
+                .put("skillKey", skill.path("skillKey").asText()).put("level", 1));
+        }
     }
 
     private void skill(String key, String name, int max) throws Exception {

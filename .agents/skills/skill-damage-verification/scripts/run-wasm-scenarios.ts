@@ -187,7 +187,7 @@ async function main() {
   const options = parseArguments(process.argv.slice(2));
   if (!options) {
     console.log('按给定快照及明确输入运行Wasm场景；不生成预期或写业务数据。\n'
-      + '在web目录执行：\nnode node_modules/vite-node/vite-node.mjs ../.agents/skills/skill-damage-verification/scripts/run-wasm-scenarios.ts '
+      + '在web目录执行：\nnode node_modules/vite-node/dist/cli.mjs ../.agents/skills/skill-damage-verification/scripts/run-wasm-scenarios.ts '
       + '--plan <场景计划.json> --output <新的证据目录> --grant-file <后端维护计算票据文件>');
     return;
   }

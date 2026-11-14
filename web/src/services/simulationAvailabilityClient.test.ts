@@ -8,7 +8,7 @@ const entry = (key: string, equipment = false): SimulationAvailabilityEntry => (
   key, status: 'READY', contentDigest: 'a'.repeat(64), issues: [], excludedSkillSources: [], verification: {
     ...SIMULATION_AVAILABILITY_IDENTITY, externalDigest: 'b'.repeat(64), matched: true, evidenceRefs: ['formal-run/scenario.json'],
     requiredCoverage: { scenario: 'one-way-combat-analysis-v1', sides: ['source', 'target'], characterLevels: [1, 2, 3],
-      skills: [{ skillKey: 'actual_skill', levels: [1, 2] }], levelValidation: 'each-declared-level', allRequiredSourcesEnabled: true,
+      skills: [{ skillKey: 'actual_skill', levels: [1, 2] }], levelValidation: 'representative-cases', allRequiredSourcesEnabled: true,
       sourceActiveStartedAndCompleted: true, relevantPassivesTriggered: true, equipmentMode: equipment ? 'single-item' : 'none' }
   }
 });
@@ -83,6 +83,8 @@ describe('混合战斗计算可用性只读目录', () => {
     ['范围外却有覆盖', (value: SimulationAvailabilityResponse) => { value.characters[0]!.status = 'OUT_OF_SCOPE'; }],
     ['只核验攻击方', (value: SimulationAvailabilityResponse) => { Object.assign(value.characters[0]!.verification.requiredCoverage!, { sides: ['source'] }); }],
     ['旧场景覆盖', (value: SimulationAvailabilityResponse) => { Object.assign(value.characters[0]!.verification.requiredCoverage!, { scenario: 'single-skill' }); }],
+    ['旧要求标记', (value: SimulationAvailabilityResponse) => { Object.assign(value.characters[0]!.verification.requiredCoverage!, { levelValidation: 'each-declared-level' }); }],
+    ['未知要求标记', (value: SimulationAvailabilityResponse) => { Object.assign(value.characters[0]!.verification.requiredCoverage!, { levelValidation: 'guessed' }); }],
     ['缺等级', (value: SimulationAvailabilityResponse) => { value.characters[0]!.verification.requiredCoverage!.characterLevels = []; }],
     ['等级重复', (value: SimulationAvailabilityResponse) => { value.characters[0]!.verification.requiredCoverage!.characterLevels = [1, 1]; }],
     ['等级遗漏', (value: SimulationAvailabilityResponse) => { value.characters[0]!.verification.requiredCoverage!.characterLevels = [1, 3]; }],

@@ -131,7 +131,7 @@ public class SimulationAvailabilityService {
                     }
                     if (candidate == null) proofIssue = "VERIFICATION_NOT_FOUND";
                     else if (!contentDigest.equals(candidate.path("contentDigest").asText()) || !externalDigest.equals(candidate.path("externalDigest").asText())) proofIssue = "VERIFICATION_STALE";
-                    else if (coverage == null || !AvailabilityDigest.canonical(json, coverage).equals(AvailabilityDigest.canonical(json, candidate.path("coverage")))) proofIssue = "VERIFICATION_COVERAGE_INCOMPLETE";
+                    else if (!SimulationAvailabilityResources.coverageMatches(json, coverage, candidate)) proofIssue = "VERIFICATION_COVERAGE_INCOMPLETE";
                 }
             }
             if (proofIssue != null || candidate == null) {
@@ -298,7 +298,7 @@ public class SimulationAvailabilityService {
                 ArrayNode skillLevels = skill.putArray("levels");
                 for (int level = 1; level <= maximum; level++) skillLevels.add(level);
             }
-            result.put("levelValidation", "each-declared-level").put("allRequiredSourcesEnabled", true)
+            result.put("levelValidation", SimulationAvailabilityResources.REPRESENTATIVE_CASES).put("allRequiredSourcesEnabled", true)
                 .put("sourceActiveStartedAndCompleted", true).put("relevantPassivesTriggered", true)
                 .put("equipmentMode", "EQUIPMENT".equals(kind) ? "single-item" : "none");
             return result;

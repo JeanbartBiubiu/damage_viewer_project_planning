@@ -67,7 +67,7 @@ async function main(args) {
   mkdirSync(output);
   writeNew(resolve(output, 'expected.json'), expected);
   if (databaseInputs) writeNew(resolve(output, 'database-inputs-before.json'), databaseInputs);
-  const command = [resolve(root, 'web/node_modules/vite-node/vite-node.mjs'), resolve(root, 'tools/maintenance/run-candidate.ts'),
+  const command = [resolve(root, 'web/node_modules/vite-node/dist/cli.mjs'), resolve(root, 'tools/maintenance/run-candidate.ts'),
     '--candidate', path, '--output', output];
   if (opts['--grant-file']) command.push('--grant-file', resolve(opts['--grant-file']));
   const result = spawnSync(process.execPath, command, { cwd: resolve(root, 'web'), stdio: ['ignore', 'pipe', 'pipe'],

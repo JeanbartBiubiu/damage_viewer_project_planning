@@ -52,7 +52,7 @@ function coverage(value: unknown, path: string): SimulationAvailabilityRequiredC
     'sourceActiveStartedAndCompleted', 'relevantPassivesTriggered', 'equipmentMode'], path);
   if (row.scenario !== 'one-way-combat-analysis-v1') fail(`${path}.scenario`);
   if (!Array.isArray(row.sides) || row.sides.length !== 2 || row.sides[0] !== 'source' || row.sides[1] !== 'target') fail(`${path}.sides`);
-  if (row.levelValidation !== 'each-declared-level') fail(`${path}.levelValidation`);
+  if (row.levelValidation !== 'representative-cases') fail(`${path}.levelValidation`);
   for (const flag of ['allRequiredSourcesEnabled', 'sourceActiveStartedAndCompleted', 'relevantPassivesTriggered'] as const) {
     if (row[flag] !== true) fail(`${path}.${flag}`);
   }

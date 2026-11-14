@@ -75,7 +75,7 @@ export function selectedSimulationAvailabilityIssues(response: SimulationAvailab
       else {
         const level = selection[`${side}Level`];
         if (typeof level === 'number' && !character.verification.requiredCoverage?.characterLevels.includes(level)) {
-          problems.push(`${label}角色「${characterKey}」的 ${level} 级尚未得到完整计算核验。`);
+          problems.push(`${label}角色「${characterKey}」的 ${level} 级超出当前计算支持范围。`);
         }
       }
       for (const excluded of character.excludedSkillSources) {
@@ -95,7 +95,7 @@ export function selectedSimulationAvailabilityIssues(response: SimulationAvailab
         else {
           const level = selection[`${side}Level`];
           if (typeof level === 'number' && !entry.verification.requiredCoverage?.characterLevels.includes(level)) {
-            problems.push(`${label}装备「${equipmentKey}」在角色 ${level} 级时尚未得到完整计算核验。`);
+            problems.push(`${label}装备「${equipmentKey}」在角色 ${level} 级时超出当前计算支持范围。`);
           }
         }
       }

@@ -21,7 +21,7 @@
 已有场景快照文件时，可复用 `scripts/run-wasm-scenarios.ts`，避免逐次编写运行接线。在 `web/` 目录执行：
 
 ```powershell
-node node_modules/vite-node/vite-node.mjs ../.agents/skills/skill-damage-verification/scripts/run-wasm-scenarios.ts --plan <场景计划.json> --output <新的证据目录> --grant-file <后端维护计算票据文件>
+node node_modules/vite-node/dist/cli.mjs ../.agents/skills/skill-damage-verification/scripts/run-wasm-scenarios.ts --plan <场景计划.json> --output <新的证据目录> --grant-file <后端维护计算票据文件>
 ```
 
 票据按 `tools/maintenance/README.md` 经正式维护会话取得，私密文件不进入场景计划、证据或输出。每次编译和运行重新读取，过期、错误类别或主体变化立即失败；不能回退到测试票据或关闭验签。计划顶层只有 `cases`。每个场景必须提供：

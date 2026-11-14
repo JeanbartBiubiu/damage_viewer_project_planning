@@ -51,6 +51,8 @@ PowerShell 会消费未加引号的 `--`。向 npm 脚本继续传参时将分�
 
 已激活项目要求的工具链时，在 `web/` 目录执行：
 
+维护与技能场景脚本使用显式开发依赖 `vite-node` 执行 TypeScript，并复用 Vite 装配；不依赖测试框架间接安装该运行器。场景命令继续见[维护工具](../tools/maintenance/README.md)和[Wasm运行接线](../.agents/skills/skill-damage-verification/references/wasm-route.md)。
+
 ```powershell
 npm ci
 npm run dev

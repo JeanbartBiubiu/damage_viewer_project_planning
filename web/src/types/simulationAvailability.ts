@@ -11,9 +11,10 @@ export type SimulationAvailabilityIssue = {
 export type SimulationAvailabilityRequiredCoverage = {
   scenario: 'one-way-combat-analysis-v1';
   sides: ['source', 'target'];
+  /** 当前配置准入的合法范围；实际验证样本由正式证明及其证据维护。 */
   characterLevels: number[];
   skills: { skillKey: string; levels: number[] }[];
-  levelValidation: 'each-declared-level';
+  levelValidation: 'representative-cases';
   allRequiredSourcesEnabled: true;
   sourceActiveStartedAndCompleted: true;
   relevantPassivesTriggered: true;
