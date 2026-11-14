@@ -127,5 +127,5 @@ export function ContinuousAttackCharts(props: ChartProps) {
   useEffect(() => { chart.current?.setOption(continuousAttackChartOption(props), { notMerge: true }); },
     [props.points, props.attacks, props.view, props.durationMs, props.killedAtMs, props.dpsWindowMs, props.markers]);
   return <div ref={container} data-testid="continuous-attack-charts" role="img" aria-label="生命、累计伤害和伤害率采样图"
-    style={{ width: '100%', height: 610, minWidth: 320 }} />;
+    style={{ width: '100%', height: 610, minWidth: 0 }} />;
 }

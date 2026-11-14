@@ -540,6 +540,22 @@ async function startStage3Page(page: Page, targetHp = 250) {
   await expect(page.getByText('连续普攻已完成击杀，会话正常释放。', { exact: true })).toBeVisible();
 }
 
+test('320像素窄屏中的真实计算图表保持在视口内', async ({ page }, testInfo) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+  await startStage3Page(page);
+  const chart = page.getByTestId('continuous-attack-charts');
+  await expect(chart.locator('svg')).toBeVisible();
+  await expect.poll(() => chart.evaluate(element => element.getBoundingClientRect().right)).toBeLessThanOrEqual(320);
+  const layout = await chart.evaluate(element => ({
+    viewport: window.innerWidth,
+    document: document.documentElement.scrollWidth,
+    width: element.getBoundingClientRect().width
+  }));
+  expect(layout.width).toBeGreaterThan(0);
+  expect(layout.document, JSON.stringify(layout)).toBeLessThanOrEqual(layout.viewport);
+  await chart.screenshot({ path: testInfo.outputPath('320像素计算图表.png') });
+});
+
 test('阶段3真实Wasm：采样图、真实身份联动、时间筛选、当前表导出和冻结输入', async ({ page }, testInfo) => {
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   await startStage3Page(page);

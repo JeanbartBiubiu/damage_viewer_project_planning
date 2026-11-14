@@ -1,11 +1,13 @@
-import { useCallback, useEffect, useState } from 'react';
+import { lazy, useCallback, useEffect, useState } from 'react';
 import { Alert, Button, Layout, Select, Space, Typography } from '@arco-design/web-react';
-import { CombatAnalysisPage } from './pages/simulation/CombatAnalysisPage';
-import { BasicAttackSimulationPage } from './pages/simulation/BasicAttackSimulationPage';
+import { PageContent, SkipToContent } from './components/PageContent';
 import { AccountControls } from './pages/auth/AccountControls';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
 import { viewerRouteFromHash } from './config/deployment';
 import type { GameSummary } from './types/api';
+
+const CombatAnalysisPage = lazy(() => import('./pages/simulation/CombatAnalysisPage').then(module => ({ default: module.CombatAnalysisPage })));
+const BasicAttackSimulationPage = lazy(() => import('./pages/simulation/BasicAttackSimulationPage').then(module => ({ default: module.BasicAttackSimulationPage })));
 
 export default function ViewerApp() {
   const apiBaseUrl = resolveApiBaseUrl();
@@ -16,6 +18,10 @@ export default function ViewerApp() {
   const [busy, setBusy] = useState(false);
   const [reload, setReload] = useState(0);
   const onBusy = useCallback((value: boolean) => setBusy(value), []);
+
+  useEffect(() => {
+    document.title = `${route === 'simulation/basic-attack' ? '普攻模拟' : '混合战斗分析'} | Damage Viewer`;
+  }, [route]);
 
   useEffect(() => {
     let current = true;
@@ -49,6 +55,7 @@ export default function ViewerApp() {
   }, [busy]);
 
   return <Layout className="app-shell">
+    <SkipToContent />
     <Layout className="app-content">
       <Layout.Content className="app-main">
         <div className="app-toolbar">
@@ -56,17 +63,21 @@ export default function ViewerApp() {
             <Typography.Title heading={4} style={{ margin: 0 }}>Damage Viewer</Typography.Title>
             <Select aria-label="游戏" value={gameId ?? undefined} disabled={busy || !games.length} style={{ minWidth: 180 }}
               onChange={setGameId} options={games.map(game => ({ label: game.gameName, value: game.gameId }))} />
-            <Button disabled={busy} href="#/simulation/combat-analysis" type={route === 'simulation/combat-analysis' ? 'primary' : 'secondary'}>混合战斗分析</Button>
-            <Button disabled={busy} href="#/simulation/basic-attack" type={route === 'simulation/basic-attack' ? 'primary' : 'secondary'}>普攻模拟</Button>
+            <nav className="viewer-navigation" aria-label="计算">
+              <Button className="viewer-route" disabled={busy} href="#/simulation/combat-analysis" aria-current={route === 'simulation/combat-analysis' ? 'page' : undefined} type={route === 'simulation/combat-analysis' ? 'primary' : 'secondary'}>混合战斗分析</Button>
+              <Button className="viewer-route" disabled={busy} href="#/simulation/basic-attack" aria-current={route === 'simulation/basic-attack' ? 'page' : undefined} type={route === 'simulation/basic-attack' ? 'primary' : 'secondary'}>普攻模拟</Button>
+            </nav>
             <Button disabled={busy} onClick={() => setReload(value => value + 1)}>刷新游戏目录</Button>
           </Space>
           <AccountControls apiBaseUrl={apiBaseUrl} />
         </div>
         <Typography.Paragraph type="secondary">选择本场条件进行计算。公共游戏资料由维护流程统一更新；发现问题可下载复现材料并反馈。</Typography.Paragraph>
         {error ? <Alert type="error" content={error} /> : null}
-        {route === 'simulation/basic-attack'
-          ? <BasicAttackSimulationPage apiBaseUrl={apiBaseUrl} selectedGameId={gameId} onDirtyChange={onBusy} />
-          : <CombatAnalysisPage apiBaseUrl={apiBaseUrl} selectedGameId={gameId} onDirtyChange={onBusy} />}
+        <PageContent key={route}>
+          {route === 'simulation/basic-attack'
+            ? <BasicAttackSimulationPage apiBaseUrl={apiBaseUrl} selectedGameId={gameId} onDirtyChange={onBusy} />
+            : <CombatAnalysisPage apiBaseUrl={apiBaseUrl} selectedGameId={gameId} onDirtyChange={onBusy} />}
+        </PageContent>
       </Layout.Content>
     </Layout>
   </Layout>;

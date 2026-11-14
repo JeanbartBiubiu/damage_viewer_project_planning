@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type MouseEvent } from 'react';
+import { lazy, useCallback, useEffect, useRef, useState, type MouseEvent } from 'react';
 import { Alert, Button, Layout, Select, Tag, Typography } from '@arco-design/web-react';
 import { IconDown, IconMenu } from '@arco-design/web-react/icon';
 import {
@@ -7,26 +7,29 @@ import {
   hashForRoute,
   modeForRoute,
   navigationGroupsForMode,
+  navigationItems,
   routeFromHash,
   type RouteId,
   type WorkspaceMode
 } from './config/navigation';
-import { AttributeManagementPage } from './pages/admin/attributes/AttributeManagementPage';
-import { CharacterManagementPage } from './pages/admin/characters/CharacterManagementPage';
-import { DamageTypeManagementPage } from './pages/admin/damage-types/DamageTypeManagementPage';
-import { EquipmentManagementPage } from './pages/admin/equipment/EquipmentManagementPage';
-import { GameSettingsPage } from './pages/admin/game-settings/GameSettingsPage';
-import { ModifierZoneManagementPage } from './pages/admin/modifier-zones/ModifierZoneManagementPage';
-import { SkillCategoryManagementPage } from './pages/admin/skill-categories/SkillCategoryManagementPage';
-import { SkillManagementPage } from './pages/admin/skills/SkillManagementPage';
-import { StatusManagementPage } from './pages/admin/statuses/StatusManagementPage';
-import { ImageManagementPage } from './pages/admin/images/ImageManagementPage';
-import { BuildManagementPage } from './pages/admin/builds/BuildManagementPage';
-import { BasicAttackSimulationPage } from './pages/simulation/BasicAttackSimulationPage';
-import { CombatAnalysisPage } from './pages/simulation/CombatAnalysisPage';
+import { PageContent, SkipToContent } from './components/PageContent';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
 import { MaintenanceControls } from './pages/maintenance/MaintenanceControls';
 import type { GameSummary, LoadState } from './types/api';
+
+const AttributeManagementPage = lazy(() => import('./pages/admin/attributes/AttributeManagementPage').then(module => ({ default: module.AttributeManagementPage })));
+const CharacterManagementPage = lazy(() => import('./pages/admin/characters/CharacterManagementPage').then(module => ({ default: module.CharacterManagementPage })));
+const DamageTypeManagementPage = lazy(() => import('./pages/admin/damage-types/DamageTypeManagementPage').then(module => ({ default: module.DamageTypeManagementPage })));
+const EquipmentManagementPage = lazy(() => import('./pages/admin/equipment/EquipmentManagementPage').then(module => ({ default: module.EquipmentManagementPage })));
+const GameSettingsPage = lazy(() => import('./pages/admin/game-settings/GameSettingsPage').then(module => ({ default: module.GameSettingsPage })));
+const ModifierZoneManagementPage = lazy(() => import('./pages/admin/modifier-zones/ModifierZoneManagementPage').then(module => ({ default: module.ModifierZoneManagementPage })));
+const SkillCategoryManagementPage = lazy(() => import('./pages/admin/skill-categories/SkillCategoryManagementPage').then(module => ({ default: module.SkillCategoryManagementPage })));
+const SkillManagementPage = lazy(() => import('./pages/admin/skills/SkillManagementPage').then(module => ({ default: module.SkillManagementPage })));
+const StatusManagementPage = lazy(() => import('./pages/admin/statuses/StatusManagementPage').then(module => ({ default: module.StatusManagementPage })));
+const ImageManagementPage = lazy(() => import('./pages/admin/images/ImageManagementPage').then(module => ({ default: module.ImageManagementPage })));
+const BuildManagementPage = lazy(() => import('./pages/admin/builds/BuildManagementPage').then(module => ({ default: module.BuildManagementPage })));
+const BasicAttackSimulationPage = lazy(() => import('./pages/simulation/BasicAttackSimulationPage').then(module => ({ default: module.BasicAttackSimulationPage })));
+const CombatAnalysisPage = lazy(() => import('./pages/simulation/CombatAnalysisPage').then(module => ({ default: module.CombatAnalysisPage })));
 
 const PREFERRED_DEFAULT_GAME_ID = 'lol';
 const MOBILE_NAV_MEDIA_QUERY = '(max-width: 1240px)';
@@ -128,6 +131,10 @@ export default function MaintenanceApp() {
   const acceptedHistoryIndexRef = useRef(readHashHistoryIndex() ?? 0);
   const restoringAcceptedHashRef = useRef(false);
   const mode = modeForRoute(route);
+
+  useEffect(() => {
+    document.title = `${navigationItems.find(item => item.id === route)?.label ?? '数据管理'} | Damage Viewer 维护`;
+  }, [route]);
 
   const handleAttributeDirtyChange = useCallback((dirty: boolean) => {
     attributeEditorDirtyRef.current = dirty;
@@ -439,6 +446,7 @@ export default function MaintenanceApp() {
 
   return (
     <Layout className="app-shell">
+      <SkipToContent />
       <Sider
         className={`app-sidebar${mobileNavOpen ? ' is-mobile-nav-open' : ''}`}
         width={330}
@@ -562,8 +570,9 @@ export default function MaintenanceApp() {
         <Content className="app-main">
           <div className="app-toolbar">
             <div className="app-toolbar-field app-toolbar-field--game">
-              <span className="app-toolbar-label">游戏</span>
+              <span id="maintenance-game-label" className="app-toolbar-label">游戏</span>
               <Select
+                aria-labelledby="maintenance-game-label"
                 value={selectedGameId ?? ''}
                 onChange={changeGame}
                 disabled={games.length === 0}
@@ -591,7 +600,7 @@ export default function MaintenanceApp() {
           {gamesError ? <Alert type="error" content={gamesError} className="workspace-alert" /> : null}
 
           <div className="page-stack" key={JSON.stringify([apiBaseUrl, selectedGameId, pageReloadSeed])}>
-            {pageContent}
+            <PageContent key={route}>{pageContent}</PageContent>
           </div>
         </Content>
       </Layout>

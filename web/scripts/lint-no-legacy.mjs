@@ -39,7 +39,7 @@ const APPROVED_INDEPENDENT_SKILL_LINES = [
   },
   {
     file: 'src/MaintenanceApp.tsx',
-    text: "import { SkillManagementPage } from './pages/admin/skills/SkillManagementPage';"
+    text: "const SkillManagementPage = lazy(() => import('./pages/admin/skills/SkillManagementPage').then(module => ({ default: module.SkillManagementPage })));"
   },
   {
     file: 'src/services/imageRelationClient.ts',
