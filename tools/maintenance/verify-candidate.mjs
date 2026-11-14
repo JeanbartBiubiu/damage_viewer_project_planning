@@ -7,27 +7,42 @@ import { calculatePlan, compareResults } from '../../.agents/skills/skill-damage
 import { validateCandidate, verifySourceEvidence, operationsForBatch, isDevelopmentCandidate, previewUpdates } from './candidate.mjs';
 import { readJson, writeNew, requireValue, sha256, digestJson, options, containedFile } from './artifacts.mjs';
 import { makeClient } from './client.mjs';
+import { sameConfiguration } from '../../.agents/skills/damage-api-authoring/scripts/apply-skill-plan.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 export async function verifyDatabaseInputs(candidate, client) {
   const path = `/internal/maintenance/games/${candidate.gameId}/baseline`;
   requireValue((await client.request('GET', path)).data.baselineDigest === candidate.baselineDigest, '真实游戏基线已变化。');
+  const originalConfigurations = [];
+  if (candidate.scenes.some(scene => scene.snapshot === null)) {
+    requireValue(isDevelopmentCandidate(candidate), '只有开发候选可明确声明修前普通快照不可生成。');
+    for (const item of candidate.skillPlan.items) {
+      const actual = (await client.request('GET', `/api/admin/games/${candidate.gameId}/skills/${item.skillKey}/configuration`)).data;
+      requireValue(actual.baseDigest === item.before.baseDigest && sameConfiguration(actual, item.before), '真实技能完整基线或摘要与冻结before不符。');
+      originalConfigurations.push({ skillKey: item.skillKey, actual });
+    }
+  }
   const scenes = [];
   for (const scene of candidate.scenes) {
-    const actual = (await client.request('POST', `/api/admin/games/${candidate.gameId}/simulation-snapshot`, JSON.stringify(scene.snapshot.selection))).data;
     const stable = snapshot => ({ ...snapshot, readAt: null });
-    requireValue(digestJson(stable(actual)) === digestJson(stable(scene.snapshot)), '候选快照并非当前真实场景；不能改抗性或目录后自报基线。');
-    const evidence = { id: scene.id, originalSnapshotDigest: actual.snapshotDigest };
+    const selection = scene.snapshot === null ? scene.previewSnapshot.selection : scene.snapshot.selection;
+    const evidence = { id: scene.id };
+    if (scene.snapshot === null) evidence.originalSnapshotUnavailable = true;
+    else {
+      const actual = (await client.request('POST', `/api/admin/games/${candidate.gameId}/simulation-snapshot`, JSON.stringify(selection))).data;
+      requireValue(digestJson(stable(actual)) === digestJson(stable(scene.snapshot)), '候选快照并非当前真实场景；不能改抗性或目录后自报基线。');
+      evidence.originalSnapshotDigest = actual.snapshotDigest;
+    }
     if (isDevelopmentCandidate(candidate)) {
       const preview = (await client.request('POST', `/internal/maintenance/games/${candidate.gameId}/simulation-preview`,
-        JSON.stringify({ selection: scene.snapshot.selection, updates: previewUpdates(candidate, scene) }))).data;
+        JSON.stringify({ selection, updates: previewUpdates(candidate, scene) }))).data;
       requireValue(digestJson(stable(preview)) === digestJson(stable(scene.previewSnapshot)), '开发候选预检快照并非当前后端重建的完整场景。');
       evidence.previewSnapshotDigest = preview.snapshotDigest;
     }
     scenes.push(evidence);
   }
   requireValue((await client.request('GET', path)).data.baselineDigest === candidate.baselineDigest, '读取场景期间游戏基线已变化。');
-  return { baselineDigest: candidate.baselineDigest, scenes };
+  return { baselineDigest: candidate.baselineDigest, scenes, ...(originalConfigurations.length ? { originalConfigurations } : {}) };
 }
 export function validationPayload(candidate, summary, report, evidenceDigest, now = Math.floor(Date.now() / 1000)) {
   requireValue(summary.complete && summary.requested === candidate.scenes.length && summary.completed === candidate.scenes.length

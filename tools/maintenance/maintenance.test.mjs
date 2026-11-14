@@ -149,6 +149,52 @@ test('结构变化必须显式选择开发候选，并保留后端预检的完�
   }
 });
 
+test('尚无INITIAL入口时开发候选保留空修前快照与真实后端预检，不补造普通快照', () => {
+  const input = developmentFixture(); input.scenes[0].snapshot = null;
+  const candidate = validateCandidate(input);
+  assert.equal(candidate.scenes[0].snapshot, null);
+  assert.deepEqual(candidateSnapshot(candidate, candidate.scenes[0]), input.scenes[0].previewSnapshot);
+  assert.deepEqual(previewUpdates(candidate, candidate.scenes[0]), [{ skillKey: 'q', request: input.skillPlan.items[0].request }]);
+  const ordinary = fixture(); ordinary.scenes[0].snapshot = null;
+  assert.throws(() => validateCandidate(ordinary), /快照/);
+  for (const mutate of [value => delete value.scenes[0].snapshot,
+    value => value.scenes[0].previewSnapshot.references = [],
+    value => value.scenes[0].previewSnapshot.skillConfigurations[0].parameters[0].fixedValue = 999]) {
+    const malformed = developmentFixture(); malformed.scenes[0].snapshot = null; mutate(malformed);
+    assert.throws(() => validateCandidate(malformed));
+  }
+});
+
+test('空修前快照的签发核对真实完整before与后端预检，配置或目录漂移均拒绝', async () => {
+  const input = developmentFixture(); input.scenes[0].snapshot = null;
+  const candidate = validateCandidate(input), calls = [];
+  const client = { request: async (method, path, body) => {
+    calls.push({ method, path });
+    if (method === 'GET' && path.endsWith('/configuration')) return { data: structuredClone(input.skillPlan.items[0].before) };
+    if (method === 'GET') return { data: { baselineDigest: hash } };
+    assert(path.endsWith('/simulation-preview'), '空修前快照不能被伪装为普通快照成功');
+    assert.deepEqual(JSON.parse(body), { selection: input.scenes[0].previewSnapshot.selection, updates: previewUpdates(candidate, candidate.scenes[0]) });
+    return { data: { ...input.scenes[0].previewSnapshot, readAt: 'fresh' } };
+  } };
+  const checked = await verifyDatabaseInputs(candidate, client);
+  assert.equal(calls.filter(c => c.path.endsWith('/configuration')).length, 1);
+  assert.equal(checked.scenes[0].originalSnapshotUnavailable, true);
+  assert.equal(checked.scenes[0].previewSnapshotDigest, 'b'.repeat(64));
+  assert.equal(checked.originalConfigurations[0].actual.baseDigest, hash);
+  await assert.rejects(verifyDatabaseInputs(candidate, { request: async (...args) => {
+    const result = await client.request(...args);
+    if (args[1].endsWith('/configuration')) result.data.skill.name = '并行变更';
+    return result;
+  } }), /完整基线/);
+  await assert.rejects(verifyDatabaseInputs(candidate, { request: async (...args) => {
+    const result = await client.request(...args);
+    if (args[1].endsWith('/configuration')) result.data.baseDigest = 'c'.repeat(64);
+    return result;
+  } }), /完整基线/);
+  const forged = structuredClone(candidate); forged.scenes[0].previewSnapshot.catalogs.modifierZones = [];
+  await assert.rejects(verifyDatabaseInputs(forged, client), /后端重建/);
+});
+
 test('开发签发独立读取后端预检，伪造目录即使重新冻结仍拒绝', async () => {
   const candidate = validateCandidate(developmentFixture()), paths = [];
   const client = { request: async (method, path, body) => {
