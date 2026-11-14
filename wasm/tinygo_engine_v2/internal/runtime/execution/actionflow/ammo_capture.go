@@ -1,6 +1,7 @@
 package actionflow
 
 import (
+	planbundle "tinygo_engine_v2/internal/plan"
 	actionpkg "tinygo_engine_v2/internal/runtime/action"
 	"tinygo_engine_v2/internal/runtime/contract"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
@@ -65,7 +66,7 @@ func UseAmmoBefore(use *actionpkg.UseView, key, owner, provider, skill, state st
 }
 
 // StatusPresence 按原声明与实际未到期贡献构造当前状态存在视图，不更新生命周期。
-func StatusPresence(keys []string, providers effectpkg.ProviderList, now int64) map[string]bool {
+func StatusPresence(keys []string, providers effectpkg.ProviderList, definitions []planbundle.CompiledProvider, now int64) map[string]bool {
 	values := map[string]bool{}
 	for _, key := range keys {
 		values[key] = false
@@ -74,6 +75,12 @@ func StatusPresence(keys []string, providers effectpkg.ProviderList, now int64) 
 		instance := providers.At(index)
 		if instance.Expired(now) {
 			continue
+		}
+		if int(instance.DefinitionIndex) < len(definitions) {
+			key := definitions[instance.DefinitionIndex].ClosedStatusKey
+			if _, declared := values[key]; key != "" && declared {
+				values[key] = true
+			}
 		}
 		for contributionIndex := 0; contributionIndex < instance.StatusContributions.Len(); contributionIndex++ {
 			contribution := instance.StatusContributions.At(contributionIndex)

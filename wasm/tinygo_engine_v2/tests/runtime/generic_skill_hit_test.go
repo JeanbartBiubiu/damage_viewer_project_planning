@@ -26,6 +26,8 @@ func seqN(n int) *int { return &n }
 
 func skillHitCatalog(req *model.CompileRequest) {
 	ensureC1CatalogTypes(req,
+		model.TypeCatalogEntry{Key: "status/stun_q", Domain: "status"},
+		model.TypeCatalogEntry{Key: "status/airborne", Domain: "status"},
 		model.TypeCatalogEntry{Key: model.EventTypeSkillHit, Domain: "event"},
 		model.TypeCatalogEntry{Key: model.EventTypeSpellShieldBlocked, Domain: "event"},
 		model.TypeCatalogEntry{Key: model.ProviderTypeSpellShield, Domain: "provider"},

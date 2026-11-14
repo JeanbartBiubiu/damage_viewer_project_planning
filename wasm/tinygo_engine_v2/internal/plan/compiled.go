@@ -220,6 +220,8 @@ type CompiledProviderStateField struct {
 
 // CompiledProvider 是 compile 后的 provider 定义。
 type CompiledProvider struct {
+	// ClosedStatusKey 来自已验证控制候选的实际状态键，只读绑定到本定义的有效实例。
+	ClosedStatusKey string
 	// FormulaLinkedReads 只准备此定义已获准读取的关联盾事实，不含监听专属回执。
 	FormulaLinkedReads        []formula.FactRequest
 	PermanentCharacterPeriod  bool

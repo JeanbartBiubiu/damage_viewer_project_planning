@@ -626,7 +626,7 @@ func (f *Frame) populateMechanicEvalContext(context *formula.GenericEvalContext,
 }
 
 func (f *Frame) statusPresence(owner string) map[string]bool {
-	return actionflow.StatusPresence(f.run.compiled.StatusKeys, f.stageFor(owner).instances.Providers(), f.run.loop.TimeMs())
+	return actionflow.StatusPresence(f.run.compiled.StatusKeys, f.stageFor(owner).instances.Providers(), f.run.compiled.Providers, f.run.loop.TimeMs())
 }
 
 func (s *Engine) beginNativeBasicAttackUse() (string, string, *model.EngineError) {

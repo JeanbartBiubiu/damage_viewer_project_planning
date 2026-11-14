@@ -379,6 +379,40 @@ func TestProcessCompileRejectsMissingFormulaContexts(t *testing.T) {
 	requireProcessCompileError(t, req, "delayMs")
 }
 
+func TestProcessMomentStatusReadsRequireDeclaredCurrentCombatants(t *testing.T) {
+	for _, side := range []string{"source", "target"} {
+		t.Run(side, func(t *testing.T) {
+			request := processCompileRequest()
+			request.TypeCatalog.Types = append(request.TypeCatalog.Types, model.TypeCatalogEntry{Key: "status/root", Domain: "status"})
+			read := &model.GenericFormulaExpr{Op: "read", Path: side + ".status.root.present"}
+			request.SharedProviders[0].Processes[0].MomentOperations[0].Operations[0].Amount = read
+			if result := CompileGeneric(request); !result.OK {
+				t.Fatalf("declared current %s status rejected in moment operation: %+v", side, result.Result.Errors)
+			}
+			request.TypeCatalog.Types = request.TypeCatalog.Types[:len(request.TypeCatalog.Types)-1]
+			requireProcessCompileError(t, request, "momentOperations[0].operations[0].amount")
+		})
+	}
+	for _, field := range []string{"timing", "cooldown", "cost"} {
+		t.Run(field, func(t *testing.T) {
+			request := processCompileRequest()
+			request.TypeCatalog.Types = append(request.TypeCatalog.Types, model.TypeCatalogEntry{Key: "status/root", Domain: "status"})
+			read := &model.GenericFormulaExpr{Op: "read", Path: "target.status.root.present"}
+			path := "costs[0].amount"
+			if field == "timing" {
+				request.SharedProviders[0].Processes[0].Steps[1].DelayMs = read
+				path = "steps[1].delayMs"
+			} else if field == "cooldown" {
+				request.SharedProviders[0].Processes[0].Cooldown.DurationMs = *read
+				path = "cooldown.durationMs"
+			} else {
+				request.SharedProviders[0].Processes[0].Costs[0].Amount = *read
+			}
+			requireProcessCompileError(t, request, path)
+		})
+	}
+}
+
 func TestProcessCompileListenerCannotInvokeControl(t *testing.T) {
 	for _, selector := range []string{"source", "self", "opponent"} {
 		req := processCompileRequest()

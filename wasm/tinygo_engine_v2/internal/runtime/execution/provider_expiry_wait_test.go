@@ -25,7 +25,7 @@ func coldHealthExpiryInput(t *testing.T, endpoint int64) (model.CompileRequest, 
 	definition.ProviderKey, definition.StableID = "cleanup_airborne", "cleanup_airborne"
 	definition.Types = []string{model.ClosedStatusKindProviderType[model.StatusKindAirborne]}
 	c.SharedProviders = append(c.SharedProviders, definition)
-	ensureC1CatalogTypes(&c, model.TypeCatalogEntry{Key: definition.Types[0], Domain: "provider"})
+	ensureC1CatalogTypes(&c, model.TypeCatalogEntry{Key: definition.Types[0], Domain: "provider"}, model.TypeCatalogEntry{Key: "status/airborne", Domain: "status"})
 	return c, r
 }
 

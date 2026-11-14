@@ -42,7 +42,7 @@ func momentSlowSkillInput(t *testing.T, endpoint int64, mixed bool) (model.Compi
 	slowProvider := momentSlowProvider()
 	slowProvider.SkillKey = provider.Processes[0].SkillKey
 	c.SharedProviders = append(c.SharedProviders, airborneProvider, slowProvider)
-	ensureC1CatalogTypes(&c, model.TypeCatalogEntry{Key: "damage/magic", Domain: "damage"}, model.TypeCatalogEntry{Key: airborneProvider.Types[0], Domain: "provider"})
+	ensureC1CatalogTypes(&c, model.TypeCatalogEntry{Key: "damage/magic", Domain: "damage"}, model.TypeCatalogEntry{Key: airborneProvider.Types[0], Domain: "provider"}, model.TypeCatalogEntry{Key: "status/airborne", Domain: "status"})
 	formuladefinition.SetDamageFormula(&c, "damage/magic", formuladefinition.ConstantDefense("1"))
 	r.StopPolicy.DurationMs = endpoint
 	r.StopPolicy.StopWhenNoEvents = model.BoolPtr(false)

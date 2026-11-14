@@ -188,6 +188,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	finalizeAttackStartStateReads(ctx)
 	compileAmmoBindings(ctx)
 	validateMechanicFormulaContexts(ctx)
+	finalizeClosedStatusBindings(ctx)
 	finalizeReceivedShieldReads(ctx)
 	finalizeTargetTiming(req, ctx)
 	finalizeDamageStateBefore(ctx)

@@ -46,7 +46,7 @@ func momentSlowSkillInput(t *testing.T, endpoint int64, mixed bool) (model.Compi
 	slowProvider := momentSlowProvider()
 	slowProvider.SkillKey = provider.Processes[0].SkillKey
 	c.SharedProviders = append(c.SharedProviders, airborneProvider, slowProvider)
-	ensureC1CatalogTypes(&c, model.TypeCatalogEntry{Key: "damage/magic", Domain: "damage"}, model.TypeCatalogEntry{Key: airborneProvider.Types[0], Domain: "provider"})
+	ensureC1CatalogTypes(&c, model.TypeCatalogEntry{Key: "damage/magic", Domain: "damage"}, model.TypeCatalogEntry{Key: airborneProvider.Types[0], Domain: "provider"}, model.TypeCatalogEntry{Key: "status/airborne", Domain: "status"})
 	formuladefinition.SetDamageFormula(&c, "damage/magic", formuladefinition.ConstantDefense("1"))
 	r.StopPolicy.DurationMs = endpoint
 	r.StopPolicy.StopWhenNoEvents = model.BoolPtr(false)
@@ -119,7 +119,7 @@ func TestMomentSlowFirstShieldBlocksBothButLaterShieldDoesNotRecheck(t *testing.
 			[]model.DriverEntry{{EntryKey: "shield", AbilityRef: timedShieldRef("grant"), Source: "source", Target: "target", FirstAtMs: shieldAt}, hitEntry("contact", 1125, 0)},
 			[]model.SkillUseFact{{UseKey: "q", Source: "source", SkillKey: "author:q", HistoryState: model.SkillHitHistoryComplete}},
 			[]model.SkillHitFact{{DriverEntryKey: "contact", UseRef: hitUse("q")}}, 2125)
-		ensureC1CatalogTypes(&c, model.TypeCatalogEntry{Key: "damage/magic", Domain: "damage"}, model.TypeCatalogEntry{Key: model.ClosedStatusKindProviderType[model.StatusKindAirborne], Domain: "provider"})
+		ensureC1CatalogTypes(&c, model.TypeCatalogEntry{Key: "damage/magic", Domain: "damage"}, model.TypeCatalogEntry{Key: model.ClosedStatusKindProviderType[model.StatusKindAirborne], Domain: "provider"}, model.TypeCatalogEntry{Key: "status/airborne", Domain: "status"})
 		formuladefinition.SetDamageFormula(&c, "damage/magic", formuladefinition.ConstantDefense("1"))
 		done := c1Run(t, c, r)
 		_, hasSlow := momentTargetProvider(t, done, "landing_slow")

@@ -625,6 +625,7 @@ function compileClosedControl(
   }
   const typeKey = CLOSED_PROVIDER_TYPE[kind];
   typeEntries.set(typeKey, 'provider');
+  typeEntries.set(`status/${result.detail.statusKey}`, 'status');
   const provider: ProviderDefinition = {
     providerKey, skillKey: authored.skillKey, kind: 'status', stableId: providerKey, types: [typeKey],
     lifecycle: {
