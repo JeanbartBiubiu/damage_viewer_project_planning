@@ -1041,6 +1041,30 @@ describe('5B真实默认来源复用通用触发核心', () => {
     expect(() => scene(cross)).toThrow(/跨技能执行/);
   });
 
+  it('明确无期限的来源层数复用原生整数状态，不要求填写假时长', () => {
+    const snapshot = dynamicNaturalSample();
+    const lifecycle = dynamicConfiguration(snapshot).effects[1]!.lifecycle!;
+    lifecycle.expiryMode = 'EXPLICIT_ONLY';
+    lifecycle.durationValue = null;
+    lifecycle.reapplicationDurationMode = null;
+    const source = naturalPrograms(snapshot).programs.find(row => row.origin.side === 'source')!.provider;
+    expect(source.initialStateSchema?.effect_stacking).toEqual({
+      valueType: 'integer', defaultValue: 0, maxValue: 8, durationMs: 0
+    });
+    expect(source.modifiers?.some(row => row.value?.args?.some(arg => arg.path === 'provider.state.effect_stacking'))).toBe(true);
+  });
+
+  it('无期限层数拒绝混入保持期或时长刷新，不能静默丢弃作者期限', () => {
+    for (const keepDuration of [true, false]) {
+      const snapshot = dynamicNaturalSample();
+      const lifecycle = dynamicConfiguration(snapshot).effects[1]!.lifecycle!;
+      lifecycle.expiryMode = 'EXPLICIT_ONLY';
+      if (keepDuration) lifecycle.reapplicationDurationMode = null;
+      else lifecycle.durationValue = null;
+      expect(() => scene(snapshot)).toThrow(/无期限|自然到期/);
+    }
+  });
+
   it('未知逐层退层、漏自然根、重复根与伪造等级都整体拒绝', () => {
     const expiry = dynamicNaturalSample();
     dynamicConfiguration(expiry).effects[1]!.lifecycle!.expiryMode = 'ONE_BY_ONE';

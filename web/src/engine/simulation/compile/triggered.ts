@@ -490,17 +490,22 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           if (existing) return existing;
           const authorPath = `${root}.effects.${authored.effectKey}`;
           const life = authored.lifecycle!;
+          const untimed = life.expiryMode === 'EXPLICIT_ONLY';
           if (life.instanceScope !== 'SOURCE' || life.periodicIntervalValue !== null || life.firstPeriodicExecution !== null
-            || life.expiryMode !== 'ALL_AT_ONCE' || !['INCREASE', 'KEEP', 'REPLACE'].includes(life.reapplicationStackMode)
-            || !['REFRESH_ALL', 'KEEP_REMAINING'].includes(life.reapplicationDurationMode ?? '')) fail(`${authorPath}.lifecycle`, '来源叠层需要完整有期、同刻到期且无周期的生命周期');
-          life.durationValue ? constant(life.durationValue, `${authorPath}.lifecycle.durationValue`, true, 1) : fail(authorPath, '来源叠层时长缺失');
+            || !['INCREASE', 'KEEP', 'REPLACE'].includes(life.reapplicationStackMode)
+            || (untimed ? life.durationValue !== null || life.reapplicationDurationMode !== null
+              : life.expiryMode !== 'ALL_AT_ONCE' || !['REFRESH_ALL', 'KEEP_REMAINING'].includes(life.reapplicationDurationMode ?? ''))
+          ) fail(`${authorPath}.lifecycle`, '来源叠层需要完整有期同刻到期，或明确无期限且不刷新时长；两者均不能带周期');
+          if (!untimed) life.durationValue ? constant(life.durationValue, `${authorPath}.lifecycle.durationValue`, true, 1) : fail(authorPath, '来源叠层时长缺失');
           const maximum = constant(life.maxStacksValue, `${authorPath}.lifecycle.maxStacksValue`, true, 1);
           const stacks = constant(life.applicationStacksValue, `${authorPath}.lifecycle.applicationStacksValue`, true, 1);
           if (stacks > maximum || life.reapplicationStackMode === 'KEEP' && maximum !== 1) fail(authorPath, '未接入保持多层的叠层方式');
           const key = namedKey(skillKey, `effect_${authored.effectKey}`);
           if (schema[key]) fail(authorPath, '生命周期状态标识与内部状态冲突');
           const refreshPolicy = life.reapplicationDurationMode === 'REFRESH_ALL' ? 'refresh_on_write' : 'start_on_first_write';
-          schema[key] = { valueType: 'integer', defaultValue: 0, maxValue: staticField(life.maxStacksValue, authorPath + '.lifecycle.maxStacksValue', numeric, fail), durationMs: staticField(life.durationValue!, authorPath + '.lifecycle.durationValue', numeric, fail), refreshPolicy };
+          schema[key] = { valueType: 'integer', defaultValue: 0, maxValue: staticField(life.maxStacksValue, authorPath + '.lifecycle.maxStacksValue', numeric, fail),
+            durationMs: untimed ? 0 : staticField(life.durationValue!, authorPath + '.lifecycle.durationValue', numeric, fail),
+            ...(!untimed ? { refreshPolicy } : {}) };
           if (!authored.results.length) fail(authorPath, '来源叠层缺少完整属性结果');
           for (const result of ordered(authored.results, `${authorPath}.results`)) {
             const resultPath = `${authorPath}.results.${result.resultKey}`;
@@ -1106,7 +1111,9 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
                 && zone.calculationMode === 'RATIO_COMPLEMENT_MULTIPLY'))) fail(effectPath, '新增有限减伤与补集属性目前仅接真实过程施加，不把自然触发编译成功当运行准入');
             if (authored.lifecycle?.periodicIntervalValue !== null && authored.lifecycle?.periodicIntervalValue !== undefined) {
               compilePeriodic(authored, output, outputRoot, event, actionPath);
-            } else if (authored.lifecycle?.instanceScope === 'SOURCE' && authored.lifecycle.expiryMode === 'EXPLICIT_ONLY' && source.permanentModifier) {
+            } else if (authored.lifecycle?.instanceScope === 'SOURCE' && authored.lifecycle.expiryMode === 'EXPLICIT_ONLY'
+              && authored.lifecycle.reapplicationStackMode === 'KEEP'
+              && !authored.results.some(result => result.lifecycleBehavior?.stackValueMode === 'PER_STACK') && source.permanentModifier) {
               if (description.kind === 'item' && (event !== 'SOURCE_INITIALIZED' || context !== 'self')) {
                 fail(actionPath, '装备永久结果只开放无条件拥有方初始化和明确自身动作');
               }
@@ -1181,7 +1188,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
               cover(`${effectPath}.lifecycle`, `sharedProviders.${compiled.provider.providerKey}.lifecycle`);
               cover(effectPath, `sharedProviders.${compiled.provider.providerKey}`);
             } else if (authored.lifecycle?.instanceScope === 'SOURCE') {
-              if (authored.lifecycle.expiryMode === 'EXPLICIT_ONLY') {
+              if (authored.lifecycle.expiryMode === 'EXPLICIT_ONLY' && !source.permanentModifier) {
                 fail(effectPath, '本场可达的永久常驻效果尚未接入通用装配，不能只取装备固定属性');
               }
               const stack = ensureStack(authored);
