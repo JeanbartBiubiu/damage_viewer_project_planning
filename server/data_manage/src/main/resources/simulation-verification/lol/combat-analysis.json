@@ -11,7 +11,7 @@
     "sourceCommit": "eae803a44ecfa75bbc5965223795e5c69d4914ae",
     "caseCount": 281,
     "casesDigest": "08901754af7d54dfa94877553b4ce42ff0df375ed2c71043f450892598bbf0d6",
-    "coverageDigest": "c4f6a4598eaf957b5db3c0c71efb700452bb16c7e6000cfe2ce277ae32588893",
+    "coverageDigest": "3b9f05259ee3c5ba21572e4596822d6c71d4fe92153b86ac569a4c84e7bfa350",
     "wasmBuildSha256": "037728a890c80d201fc750398bf34b7fe820150db8c77c1130698b2f5a409524"
   },
   "entries": [
@@ -4125,6 +4125,269 @@
         "output/full-authoring-20261113/ahri-cooldown/result-saved-v3.json#sha256=ac639e05447539fc767450fdc60041466e0852a26e8c079e1e7f6c2480805d86",
         "output/full-authoring-20261113/ahri-cooldown/zero-haste-equivalence.json#sha256=7d617978284fa147e0cc3e84da7206e1667ea688178ae8ffdd2d346a6cf06617",
         "output/full-authoring-20261113/ahri-readiness/result.json#sha256=c477355e10a5afd2186b7bd8e1a69dbcdce5c0e4d94d537ac43f2c369db22820"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "CHARACTER",
+      "key": "champion_amumu",
+      "contentDigest": "947c92c085fc1506f67a45b0666d954d0f7fc1d0ad6165d5c67a7fdaded0df29",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "amumu_e",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "amumu_p",
+            "levels": [
+              1
+            ]
+          },
+          {
+            "skillKey": "amumu_q",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "amumu_r",
+            "levels": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "skillKey": "amumu_w",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "skillKey": "shared_basic_attack",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "representative-cases",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "none"
+      },
+      "validationCases": [
+        {
+          "caseKey": "source_joint_18",
+          "evidenceRef": "output/authoring-20261116/amumu-joint/runtime-v3/source_joint_18.json",
+          "objectSide": "source",
+          "sourceLevel": 18,
+          "targetLevel": 18,
+          "skillLevels": [
+            {
+              "skillKey": "amumu_e",
+              "level": 5
+            },
+            {
+              "skillKey": "amumu_p",
+              "level": 1
+            },
+            {
+              "skillKey": "amumu_q",
+              "level": 5
+            },
+            {
+              "skillKey": "amumu_r",
+              "level": 3
+            },
+            {
+              "skillKey": "amumu_w",
+              "level": 5
+            },
+            {
+              "skillKey": "shared_basic_attack",
+              "level": 1
+            }
+          ],
+          "complete": true,
+          "released": true
+        },
+        {
+          "caseKey": "source_joint_1",
+          "evidenceRef": "output/authoring-20261116/amumu-joint/runtime-v3/source_joint_1.json",
+          "objectSide": "source",
+          "sourceLevel": 1,
+          "targetLevel": 1,
+          "skillLevels": [
+            {
+              "skillKey": "amumu_e",
+              "level": 1
+            },
+            {
+              "skillKey": "amumu_p",
+              "level": 1
+            },
+            {
+              "skillKey": "amumu_q",
+              "level": 1
+            },
+            {
+              "skillKey": "amumu_r",
+              "level": 1
+            },
+            {
+              "skillKey": "amumu_w",
+              "level": 1
+            },
+            {
+              "skillKey": "shared_basic_attack",
+              "level": 1
+            }
+          ],
+          "complete": true,
+          "released": true
+        },
+        {
+          "caseKey": "target_pw_e_18",
+          "evidenceRef": "output/authoring-20261116/amumu-joint/runtime-v3/target_pw_e_18.json",
+          "objectSide": "target",
+          "sourceLevel": 18,
+          "targetLevel": 18,
+          "skillLevels": [
+            {
+              "skillKey": "amumu_e",
+              "level": 5
+            },
+            {
+              "skillKey": "amumu_p",
+              "level": 1
+            },
+            {
+              "skillKey": "amumu_w",
+              "level": 5
+            }
+          ],
+          "complete": true,
+          "released": true
+        },
+        {
+          "caseKey": "source_p_off_18",
+          "evidenceRef": "output/authoring-20261116/amumu-joint/runtime-v3/source_p_off_18.json",
+          "objectSide": "source",
+          "sourceLevel": 18,
+          "targetLevel": 18,
+          "skillLevels": [
+            {
+              "skillKey": "amumu_e",
+              "level": 5
+            },
+            {
+              "skillKey": "amumu_q",
+              "level": 5
+            },
+            {
+              "skillKey": "amumu_r",
+              "level": 3
+            },
+            {
+              "skillKey": "amumu_w",
+              "level": 5
+            },
+            {
+              "skillKey": "shared_basic_attack",
+              "level": 1
+            }
+          ],
+          "complete": true,
+          "released": true
+        },
+        {
+          "caseKey": "source_joint_ap20",
+          "evidenceRef": "output/authoring-20261116/amumu-joint/runtime-ap-v2/source_joint_ap20.json",
+          "objectSide": "source",
+          "sourceLevel": 18,
+          "targetLevel": 18,
+          "skillLevels": [
+            {
+              "skillKey": "amumu_e",
+              "level": 5
+            },
+            {
+              "skillKey": "amumu_p",
+              "level": 1
+            },
+            {
+              "skillKey": "amumu_q",
+              "level": 5
+            },
+            {
+              "skillKey": "amumu_r",
+              "level": 3
+            },
+            {
+              "skillKey": "amumu_w",
+              "level": 5
+            },
+            {
+              "skillKey": "shared_basic_attack",
+              "level": 1
+            }
+          ],
+          "complete": true,
+          "released": true
+        }
+      ],
+      "evidenceRefs": [
+        "output/authoring-20261116/amumu-joint/result.json#sha256=1fefb47cc4c52cda8045032600a3e962ce9c6bb7e4d588dfdfb71d6f941cbe3e",
+        "output/authoring-20261116/amumu-joint/comparison-with-states.json#sha256=40f9834203d76a01988fc4b4bb69a6ba9b2a07f89ec7d5c70df82b75f46c8589",
+        "output/authoring-20261116/amumu-joint/comparison-ap-v2.json#sha256=2aea504ad10dfcc9b23598a577efa1b9aaa580c7898e1583b50f814d3a0e6406",
+        "output/authoring-20261116/amumu-joint/runtime-v3/source_joint_18.json",
+        "output/authoring-20261116/amumu-joint/runtime-v3/source_joint_1.json",
+        "output/authoring-20261116/amumu-joint/runtime-v3/target_pw_e_18.json",
+        "output/authoring-20261116/amumu-joint/runtime-v3/source_p_off_18.json",
+        "output/authoring-20261116/amumu-joint/runtime-ap-v2/source_joint_ap20.json"
       ],
       "issues": []
     }

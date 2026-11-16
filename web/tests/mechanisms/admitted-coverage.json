@@ -1341,6 +1341,40 @@
           "status.stale_expiry_rejected"
         ],
         "rationale": "阿狸本轮默认贴脸、单可见敌方英雄、无装备的一对一数值范围。P按自身本笔击杀事实、当前等级与法强自疗；Q/E250毫秒行动占用、Q双程魔法/真实伤害；W250毫秒独立寻敌、三团同目标首团全额后两团40%、40%移速2000毫秒线性衰减及完成起冷却；R有限三次施放、原15000毫秒窗口；Q/E/W/R普通冷却按明确急速规则读取。E有限魅惑与65%减速、MISS和真实法盾阻挡事实、精确盾实例消费、背景普攻及普通吸血按实际作者图和已通过固定用例声明。按当前P/Q/W/E/R和共享普攻作者图逐项核对，未复制莫甘娜依赖；不引入被动延迟续接、累计退款、周期区域或装备自身40秒重获。 普通法力费用显式忽略；R击杀加次、延窗、刷新冷却保持排除；目标设置启用而无可达生产者的程序按生产规则裁剪。"
+      },
+      "CHARACTER:champion_amumu": {
+        "contentDigest": "947c92c085fc1506f67a45b0666d954d0f7fc1d0ad6165d5c67a7fdaded0df29",
+        "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+        "mechanisms": [
+          "basic_attack.cadence",
+          "combat.kill_stop",
+          "combat.overkill_clamp",
+          "damage.capped_physical_reduction",
+          "damage.critical_expectation",
+          "damage.magic_resist",
+          "damage.marked_raw_bonus",
+          "damage.marked_raw_primary_then_magic",
+          "damage.marked_raw_r_after_damage",
+          "damage.marked_raw_w_refresh_expiry",
+          "damage.periodic",
+          "damage.periodic_target_owner",
+          "damage.physical_armor",
+          "resource.ordinary_cost_ignored",
+          "skill.action_occupancy",
+          "skill.ammo_capacity_and_consumption",
+          "skill.ammo_dynamic_haste",
+          "skill.ammo_miss_consumes",
+          "skill.ammo_one_by_one",
+          "skill.delay_hit",
+          "skill.formula_attribute_ratio",
+          "skill.hit_miss",
+          "skill.manual_cast",
+          "status.finite_expiry",
+          "status.finite_target_instance",
+          "status.source_target_refresh",
+          "status.stale_expiry_rejected"
+        ],
+        "rationale": "当前实库五个联合代表场及已有同摘要Q/W/E组件：P伤前诅咒与魔伤原额派生真伤、R伤前挂标、W半秒周期与续标、Q逐枚弹药和普通间隔、E物理分支平减、有限晕眩及真实施放占用。普通费用显式忽略；W持续费用和当前单向不可触发的E退款沿已确认边界，不声称双向主动驱动或未执行资源资格。"
       }
     }
   }
