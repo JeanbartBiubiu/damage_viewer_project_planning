@@ -10,6 +10,11 @@ import { makeClient } from './client.mjs';
 import { sameConfiguration } from '../../.agents/skills/damage-api-authoring/scripts/apply-skill-plan.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
+export function candidateExpectation(candidate) {
+  return { ...calculatePlan(candidate.expectedPlan),
+    planSha256: digestJson(candidate.expectedPlan),
+    calculatorSha256: sha256(readFileSync(resolve(root, '.agents/skills/skill-damage-verification/scripts/verify-damage.mjs'))) };
+}
 export async function verifyDatabaseInputs(candidate, client) {
   const path = `/internal/maintenance/games/${candidate.gameId}/baseline`;
   requireValue((await client.request('GET', path)).data.baselineDigest === candidate.baselineDigest, '真实游戏基线已变化。');
@@ -23,19 +28,25 @@ export async function verifyDatabaseInputs(candidate, client) {
     }
   }
   const scenes = [];
+  const snapshots = new Map();
+  const readSnapshot = async (path, body) => {
+    const key = digestJson({ path, body });
+    if (!snapshots.has(key)) snapshots.set(key, (await client.request('POST', path, JSON.stringify(body))).data);
+    return snapshots.get(key);
+  };
   for (const scene of candidate.scenes) {
     const stable = snapshot => ({ ...snapshot, readAt: null });
     const selection = scene.snapshot === null ? scene.previewSnapshot.selection : scene.snapshot.selection;
     const evidence = { id: scene.id };
     if (scene.snapshot === null) evidence.originalSnapshotUnavailable = true;
     else {
-      const actual = (await client.request('POST', `/api/admin/games/${candidate.gameId}/simulation-snapshot`, JSON.stringify(selection))).data;
+      const actual = await readSnapshot(`/api/admin/games/${candidate.gameId}/simulation-snapshot`, selection);
       requireValue(digestJson(stable(actual)) === digestJson(stable(scene.snapshot)), '候选快照并非当前真实场景；不能改抗性或目录后自报基线。');
       evidence.originalSnapshotDigest = actual.snapshotDigest;
     }
     if (isDevelopmentCandidate(candidate)) {
-      const preview = (await client.request('POST', `/internal/maintenance/games/${candidate.gameId}/simulation-preview`,
-        JSON.stringify({ selection, updates: previewUpdates(candidate, scene) }))).data;
+      const preview = await readSnapshot(`/internal/maintenance/games/${candidate.gameId}/simulation-preview`,
+        { selection, updates: previewUpdates(candidate, scene) });
       requireValue(digestJson(stable(preview)) === digestJson(stable(scene.previewSnapshot)), '开发候选预检快照并非当前后端重建的完整场景。');
       evidence.previewSnapshotDigest = preview.snapshotDigest;
     }
@@ -67,6 +78,8 @@ async function main(args) {
     return;
   }
   const opts = options(args, ['--candidate', '--output', '--grant-file', '--private-key', '--read-config'], ['--candidate', '--output']);
+  requireValue(process.versions.node === readFileSync(resolve(root, 'web/.node-version'), 'utf8').trim(),
+    '真实Wasm验证须使用项目Node工具链：从仓库根目录通过tools/web.ps1 node调用本脚本，文件参数使用绝对路径。');
   const path = resolve(opts['--candidate']), candidate = validateCandidate(readJson(path));
   verifySourceEvidence(candidate, dirname(path));
   requireValue(!opts['--private-key'] || opts['--read-config'], '正式签发必须独立读取真实基线及场景。');
@@ -77,7 +90,7 @@ async function main(args) {
     client = makeClient(readJson(configPath), dirname(configPath));
     databaseInputs = await verifyDatabaseInputs(candidate, client);
   }
-  const expected = calculatePlan(candidate.expectedPlan);
+  const expected = candidateExpectation(candidate);
   const output = resolve(opts['--output']);
   mkdirSync(output);
   writeNew(resolve(output, 'expected.json'), expected);

@@ -4,10 +4,11 @@ import { createHmac, generateKeyPairSync, verify } from 'node:crypto';
 import { mkdtempSync, realpathSync, rmSync, writeFileSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { createServer } from 'node:http';
+import { spawnSync } from 'node:child_process';
 import { resolve, dirname, basename } from 'node:path';
 import { validateCandidate, candidateSnapshot, operationRequests, operationsForBatch, stableCandidateDependencies, previewUpdates } from './candidate.mjs';
 import { sha256, digestJson, canonical, containedFile } from './artifacts.mjs';
-import { signReceipt, validationPayload, verifyDatabaseInputs } from './verify-candidate.mjs';
+import { signReceipt, validationPayload, verifyDatabaseInputs, candidateExpectation } from './verify-candidate.mjs';
 import { makeClient, validateBase, applyCandidate, reconcileCandidate } from './client.mjs';
 import { collectSavedScenes } from './collect-saved-scenes.mjs';
 import { verifyWebhook, feedbackTask, enqueueFeedback, validateResult, processJob, verifyAcceptance, publishReply } from './feedback.mjs';
@@ -15,6 +16,18 @@ import { publicRoutes, renderNginx } from './generate-nginx.mjs';
 
 const id = '0f053196-ddbb-4e83-9a77-818c51b21268';
 const hash = 'a'.repeat(64);
+test('候选独立预期可直接复用于保存后命令行对照且拒绝差异', t => {
+  const directory = temporary(t), expected = resolve(directory, 'expected.json'), actual = resolve(directory, 'actual.json');
+  writeFileSync(expected, JSON.stringify(candidateExpectation(fixture())));
+  writeFileSync(actual, JSON.stringify({ cases: [{ id: 'normal', file: 'result.json' }] }));
+  const tool = resolve(import.meta.dirname, '../../.agents/skills/skill-damage-verification/scripts/verify-damage.mjs');
+  writeFileSync(resolve(directory, 'result.json'), JSON.stringify({ done: { damage: 100 } }));
+  const compare = output => spawnSync(process.execPath, [tool, 'compare', '--expected', expected, '--actual', actual,
+    '--output', resolve(directory, output)], { encoding: 'utf8', windowsHide: true });
+  assert.equal(compare('passed.json').status, 0);
+  writeFileSync(resolve(directory, 'result.json'), JSON.stringify({ done: { damage: 101 } }));
+  assert.equal(compare('failed.json').status, 1);
+});
 function fixture() {
   const before = { skill: { gameId: 'lol', skillKey: 'q', name: '原技能', description: null, sortOrder: 0,
     maxLevel: 1, status: 'ENABLED', skillCategoryKeys: [] }, parameters: [], formulas: [], effects: [], processes: [], internalStates: [], triggerRules: [], baseDigest: hash };
@@ -146,6 +159,16 @@ test('同批技能分别进入场景闭包，预检只更新实际消费项并�
   assert.deepEqual(input, copy);
 });
 
+test('新增自然执行入口由真实预检闭包选择，不要求修前已有相同执行引用', () => {
+  const input = developmentFixture();
+  input.scenes[0].snapshot.references = [];
+  const candidate = validateCandidate(input);
+  assert.deepEqual(previewUpdates(candidate, candidate.scenes[0]).map(item => item.skillKey), ['q']);
+  const absent = structuredClone(input);
+  absent.scenes[0].previewSnapshot.references = [];
+  assert.throws(() => validateCandidate(absent), /没有对应的配置变更/);
+});
+
 test('未消费技能不能在预检中变化，也不能凭完整配置列表充当变更覆盖', () => {
   const changed = developmentBatchFixture();
   changed.scenes[0].previewSnapshot.skillConfigurations[1] = structuredClone(changed.skillPlan.items[1].expected);
@@ -249,6 +272,27 @@ test('开发签发独立读取后端预检，伪造目录即使重新冻结仍�
   const forged = validateCandidate(forgedInput);
   await assert.rejects(verifyDatabaseInputs(forged, client), /后端重建/);
 });
+test('相同选择和预检请求在同轮读取一次，签发前后不跨轮复用', async () => {
+  const input = developmentFixture();
+  input.scenes.push({ ...structuredClone(input.scenes[0]), id: 'same_selection' });
+  input.expectedPlan.cases.push({ ...structuredClone(input.expectedPlan.cases[0]), id: 'same_selection' });
+  const candidate = validateCandidate(input), paths = [];
+  const client = { request: async (method, path) => {
+    paths.push(path);
+    return { data: method === 'GET' ? { baselineDigest: hash }
+      : structuredClone(path.endsWith('/simulation-preview') ? candidate.scenes[0].previewSnapshot : candidate.scenes[0].snapshot) };
+  } };
+  const first = await verifyDatabaseInputs(candidate, client);
+  assert.deepEqual(first.scenes.map(scene => scene.id), ['normal', 'same_selection']);
+  assert.equal(paths.filter(path => path.endsWith('/simulation-snapshot')).length, 1);
+  assert.equal(paths.filter(path => path.endsWith('/simulation-preview')).length, 1);
+  assert.equal(paths.filter(path => path.endsWith('/baseline')).length, 2);
+  await verifyDatabaseInputs(candidate, client);
+  assert.equal(paths.filter(path => path.endsWith('/simulation-snapshot')).length, 2);
+  assert.equal(paths.filter(path => path.endsWith('/simulation-preview')).length, 2);
+  assert.equal(paths.filter(path => path.endsWith('/baseline')).length, 4);
+});
+
 test('独立验证重新读取完整真实快照，伪造抗性和读取期间漂移失败', async () => {
   const candidate = validateCandidate(fixture());
   const client = { request: async (method) => ({ data: method === 'GET' ? { baselineDigest: hash } : { ...candidate.scenes[0].snapshot, readAt: 'new' } }) };

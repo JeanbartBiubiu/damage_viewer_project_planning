@@ -28,12 +28,14 @@ export function operationRequests(candidate) {
 export const operationsForBatch = candidate => operationRequests(candidate).map(({ method, path, bodySha256 }) => ({ method, path, bodySha256 }));
 export const isDevelopmentCandidate = candidate => candidate.version === 'maintenance-development-candidate-v1';
 export function previewUpdates(candidate, scene) {
-  const snapshot = scene.snapshot === null ? scene.previewSnapshot : scene.snapshot;
-  requireValue(Array.isArray(snapshot?.references), '开发场景缺少实际执行引用。');
+  const snapshot = scene.previewSnapshot;
+  for (const graph of scene.snapshot === null ? [snapshot] : [scene.snapshot, snapshot]) {
+    requireValue(Array.isArray(graph?.references), '开发场景缺少实际执行引用。');
+    for (const reference of graph.references) requireValue(reference && typeof reference.sourceSkillKey === 'string'
+      && typeof reference.targetSkillKey === 'string', '开发场景执行引用不合法。');
+  }
   const included = new Set(snapshot.skillConfigurations.map(row => row.skill.skillKey));
   const consumed = new Set(snapshot.references.flatMap(reference => {
-    requireValue(reference && typeof reference.sourceSkillKey === 'string'
-      && typeof reference.targetSkillKey === 'string', '开发场景执行引用不合法。');
     return [reference.sourceSkillKey, reference.targetSkillKey].filter(key => key.length > 0);
   }));
   return candidate.skillPlan.items.filter(item => included.has(item.skillKey) && consumed.has(item.skillKey))
