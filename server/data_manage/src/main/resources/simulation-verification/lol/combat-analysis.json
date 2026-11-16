@@ -5,14 +5,14 @@
   "digestVersion": "simulation-availability-v1",
   "scopeDigest": "67dfb77d447e5cee0c664d71be9bf2c062f518ff9b6b97bf157f4a530e0d5e41",
   "sharedDigest": "dac177599b5baa56c23dcbd2199f43095e5a164d2c0c53296732191492db8c35",
-  "wasmSha256": "037728a890c80d201fc750398bf34b7fe820150db8c77c1130698b2f5a409524",
+  "wasmSha256": "fc6f4e2e156cac17fb1f4a00ae3e27581fb61b28967d72bc752e58efe33b84be",
   "adapterVersion": "v58-source-explicit-stacks",
   "mechanismRegression": {
-    "sourceCommit": "6d7a44412cea6696589ecdcb17171290d69f1130",
-    "caseCount": 282,
-    "casesDigest": "1aa0435341e9f8d9065bb197a8840030f9e003abee66cfa519f18f6babfe06e2",
-    "coverageDigest": "3b9f05259ee3c5ba21572e4596822d6c71d4fe92153b86ac569a4c84e7bfa350",
-    "wasmBuildSha256": "037728a890c80d201fc750398bf34b7fe820150db8c77c1130698b2f5a409524"
+    "sourceCommit": "e2382ac6d89dc9c789b8fdf2409444b72a535450",
+    "caseCount": 284,
+    "casesDigest": "b0d08fae21a39a0e77d8459ca41ad4ce990f6ac627cd1c76a9f737c2fe041fbc",
+    "coverageDigest": "ae25ebd70e130f9e59b8dfa91cca18bb043135911e006dd3de94708c5003f390",
+    "wasmBuildSha256": "fc6f4e2e156cac17fb1f4a00ae3e27581fb61b28967d72bc752e58efe33b84be"
   },
   "entries": [
     {
@@ -4388,6 +4388,156 @@
         "output/authoring-20261116/amumu-joint/runtime-v3/target_pw_e_18.json",
         "output/authoring-20261116/amumu-joint/runtime-v3/source_p_off_18.json",
         "output/authoring-20261116/amumu-joint/runtime-ap-v2/source_joint_ap20.json"
+      ],
+      "issues": []
+    },
+    {
+      "kind": "EQUIPMENT",
+      "key": "item_1083",
+      "contentDigest": "a03a73d274721fe7110cde76123ea90892843df03c5bffaea09166dbc249d243",
+      "externalDigest": "0cfc9ba519c23e0aab25d0e544bfadcd9d5a068bdc8b8fd8136e56712ee98edd",
+      "outcome": "PASSED",
+      "coverage": {
+        "scenario": "one-way-combat-analysis-v1",
+        "sides": [
+          "source",
+          "target"
+        ],
+        "characterLevels": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "skills": [
+          {
+            "skillKey": "item_1083_passive",
+            "levels": [
+              1
+            ]
+          }
+        ],
+        "levelValidation": "representative-cases",
+        "allRequiredSourcesEnabled": true,
+        "sourceActiveStartedAndCompleted": true,
+        "relevantPassivesTriggered": true,
+        "equipmentMode": "single-item"
+      },
+      "validationCases": [
+        {
+          "caseKey": "cull_ordinary_low_health",
+          "evidenceRef": "output/authoring-20261117/cull-next/repaired-runtime/cull_ordinary_low_health.json#sha256=30495711fbea10c6622a7425f99fa03109510db561ae8b88bc1b2307c76dce64",
+          "objectSide": "source",
+          "sourceLevel": 18,
+          "targetLevel": 18,
+          "skillLevels": [
+            {
+              "skillKey": "item_1083_passive",
+              "level": 1
+            }
+          ],
+          "complete": true,
+          "released": true
+        },
+        {
+          "caseKey": "cull_ordinary_near_cap",
+          "evidenceRef": "output/authoring-20261117/cull-next/repaired-runtime/cull_ordinary_near_cap.json#sha256=1da4656707ac639d702e0c357483adb07075e85cb3ac6157264d4f48cc03b26a",
+          "objectSide": "source",
+          "sourceLevel": 18,
+          "targetLevel": 18,
+          "skillLevels": [
+            {
+              "skillKey": "item_1083_passive",
+              "level": 1
+            }
+          ],
+          "complete": true,
+          "released": true
+        },
+        {
+          "caseKey": "cull_ordinary_full_health",
+          "evidenceRef": "output/authoring-20261117/cull-next/repaired-runtime/cull_ordinary_full_health.json#sha256=9766f6ce1602a0f4b37b9e0c7b0e0c40ba00393b264e8550917d6ae5e5869b0e",
+          "objectSide": "source",
+          "sourceLevel": 18,
+          "targetLevel": 18,
+          "skillLevels": [
+            {
+              "skillKey": "item_1083_passive",
+              "level": 1
+            }
+          ],
+          "complete": true,
+          "released": true
+        },
+        {
+          "caseKey": "cull_real_q_extra_hit",
+          "evidenceRef": "output/authoring-20261117/cull-next/repaired-runtime/cull_real_q_extra_hit.json#sha256=aa47db68812609e2cf846c16befc9772e3c735817bc974be31556870e4bcbde6",
+          "objectSide": "source",
+          "sourceLevel": 18,
+          "targetLevel": 18,
+          "skillLevels": [
+            {
+              "skillKey": "item_1083_passive",
+              "level": 1
+            }
+          ],
+          "complete": true,
+          "released": true
+        },
+        {
+          "caseKey": "cull_q_miss_no_heal",
+          "evidenceRef": "output/authoring-20261117/cull-next/repaired-runtime/cull_q_miss_no_heal.json#sha256=03fe542fee596e36f37d05c5d452df75b5e4c752919a4d2b1f40d68547a45f3b",
+          "objectSide": "source",
+          "sourceLevel": 18,
+          "targetLevel": 18,
+          "skillLevels": [
+            {
+              "skillKey": "item_1083_passive",
+              "level": 1
+            }
+          ],
+          "complete": true,
+          "released": true
+        },
+        {
+          "caseKey": "cull_target_no_autonomous_attack",
+          "evidenceRef": "output/authoring-20261117/cull-object/target-runtime/cull_target_no_autonomous_attack.json#sha256=12dc665e5a9955f65a16281915d6b7292d7ef96b28549a9924fd89fbae66c98e",
+          "objectSide": "target",
+          "sourceLevel": 18,
+          "targetLevel": 18,
+          "skillLevels": [
+            {
+              "skillKey": "item_1083_passive",
+              "level": 1
+            }
+          ],
+          "complete": true,
+          "released": true
+        }
+      ],
+      "evidenceRefs": [
+        "output/authoring-20261117/cull-object/result.json#sha256=dc2d48e35b3f8814a9dd60abb27bfb7ffbed88a5c88d41a68446712d3eb24bfe",
+        "output/authoring-20261117/cull-next/repaired-comparison.json#sha256=40eb7faf0547728311b2f57f5088a4a2afd7f661efc78b6fd31e760338e6b342",
+        "output/authoring-20261117/cull-next/repaired-runtime/cull_ordinary_low_health.json#sha256=30495711fbea10c6622a7425f99fa03109510db561ae8b88bc1b2307c76dce64",
+        "output/authoring-20261117/cull-next/repaired-runtime/cull_ordinary_near_cap.json#sha256=1da4656707ac639d702e0c357483adb07075e85cb3ac6157264d4f48cc03b26a",
+        "output/authoring-20261117/cull-next/repaired-runtime/cull_ordinary_full_health.json#sha256=9766f6ce1602a0f4b37b9e0c7b0e0c40ba00393b264e8550917d6ae5e5869b0e",
+        "output/authoring-20261117/cull-next/repaired-runtime/cull_real_q_extra_hit.json#sha256=aa47db68812609e2cf846c16befc9772e3c735817bc974be31556870e4bcbde6",
+        "output/authoring-20261117/cull-next/repaired-runtime/cull_q_miss_no_heal.json#sha256=03fe542fee596e36f37d05c5d452df75b5e4c752919a4d2b1f40d68547a45f3b",
+        "output/authoring-20261117/cull-object/target-runtime/cull_target_no_autonomous_attack.json#sha256=12dc665e5a9955f65a16281915d6b7292d7ef96b28549a9924fd89fbae66c98e"
       ],
       "issues": []
     }
