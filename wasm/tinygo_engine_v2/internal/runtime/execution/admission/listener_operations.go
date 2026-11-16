@@ -29,7 +29,7 @@ func ValidateEquipmentHitListener(input Input, listener planbundle.CompiledListe
 			continue
 		}
 		if operation.Operation == "heal" || operation.Operation == "resource_change" {
-			qualified, eventAmount := OwnedSettledSelfRecovery(input, listener, operation)
+			qualified, eventAmount := OwnedSelfRecovery(input, listener, operation)
 			if qualified && (!eventAmount || OwnedSettledEventHeal(input, listener, operation)) {
 				continue
 			}

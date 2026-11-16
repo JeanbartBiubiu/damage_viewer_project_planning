@@ -102,8 +102,8 @@ func EvaluateOwnedDynamicHealAmount(input Input, listener planbundle.CompiledLis
 	return value, err == nil
 }
 
-// OwnedSettledSelfRecovery 校验真实挂载、自身数值和金额依赖；事件金额的结构资格由完整监听准入链在需要时继续核定。
-func OwnedSettledSelfRecovery(input Input, listener planbundle.CompiledListener, operation planbundle.CompiledOperation) (qualified, requiresEventAmount bool) {
+// OwnedSelfRecovery 校验真实挂载及自身恢复；命中入口只接静态治疗，伤害事件金额的资格仍由完整监听链核定。
+func OwnedSelfRecovery(input Input, listener planbundle.CompiledListener, operation planbundle.CompiledOperation) (qualified, requiresEventAmount bool) {
 	if (operation.Target != model.SelectorSelf && operation.Target != model.SelectorSource) || !operation.HasAmount || int(operation.AmountProgram) >= input.Formulas.Metadata.Count() || operation.OwnerProviderIndex < 0 || operation.OwnerProviderIndex >= len(input.Compiled.Providers) {
 		return false, false
 	}
@@ -116,7 +116,15 @@ func OwnedSettledSelfRecovery(input Input, listener planbundle.CompiledListener,
 		relation, relationDeclared := pair.relation.Lookup()
 		settled = settled || declared && relationDeclared && listener.EventMatcher.RequiresAllType(kind) && listener.EventMatcher.RequiresAllType(relation)
 	}
-	if !settled {
+	staticHit := false
+	if operation.Operation == "heal" {
+		owner, ownerDeclared := input.Compiled.RuntimeTypes.SourceOwner.Lookup()
+		for _, event := range []planbundle.DeclaredType{input.Compiled.RuntimeTypes.BasicAttackHit, input.Compiled.RuntimeTypes.HitLinkApplied} {
+			kind, declared := event.Lookup()
+			staticHit = staticHit || ownerDeclared && declared && listener.EventMatcher.RequiresAllType(owner) && listener.EventMatcher.RequiresAllType(kind)
+		}
+	}
+	if !settled && !staticHit {
 		return false, false
 	}
 	owned := false
@@ -133,6 +141,9 @@ func OwnedSettledSelfRecovery(input Input, listener planbundle.CompiledListener,
 		return false, false
 	}
 	amount, supported := FoldOwnedRecoveryAmount(input, listener, operation)
+	if !settled && !supported {
+		return false, false
+	}
 	if !supported && operation.Operation == "heal" {
 		amount, supported = EvaluateOwnedDynamicHealAmount(input, listener, operation)
 	}
