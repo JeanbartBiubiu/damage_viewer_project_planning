@@ -280,6 +280,25 @@ public final class SkillNumericSemantics {
                         Use valueUse = use(a, r.path("valueRule"), path + ".valueRule", "value",
                             valueBound,
                             current);
+                        if ("ATTRIBUTE_CHANGE".equals(text(r, "resultType"))
+                            && "LIMIT_MAX".equals(text(r.path("detail"), "operation"))) {
+                            List<Map<String, String>> limitIssues = AttributeFinalLimitSemantics.issues(life, r, path);
+                            if (!limitIssues.isEmpty()) {
+                                Map<String, String> issue = limitIssues.getFirst();
+                                throw invalid(a, issue.get("field"), issue.get("code"), issue.get("message"));
+                            }
+                            requireStaticOne(a, life, "maxStacksValue");
+                            requireStaticOne(a, life, "applicationStacksValue");
+                            if (valueUse == null) throw invalid(a, path + ".valueRule", "REQUIRED", "最终上界必须明确数值");
+                            Map<Levels, Fraction> limits;
+                            try { limits = staticConditionValues(valueUse); }
+                            catch (ApiException ex) { throw invalid(a, path + ".valueRule.value", "STATIC_ATTRIBUTE_LIMIT_REQUIRED", "最终上界须在全部声明等级静态求值"); }
+                            for (Fraction raw : limits.values()) if (!finite(applyFixedRule(raw, r.path("valueRule")))) {
+                                throw invalid(a, path + ".valueRule", "STATIC_ATTRIBUTE_LIMIT_REQUIRED", "最终上界必须有限");
+                            }
+                            Use duration = use(a, life, "lifecycle", "durationValue", Bound.POSITIVE_INTEGER, false);
+                            staticConditionValues(duration);
+                        }
                         if (current && "STATUS_OPERATION".equals(text(r, "resultType"))) {
                             validateMomentSlow(a, r, valueUse, path);
                         }

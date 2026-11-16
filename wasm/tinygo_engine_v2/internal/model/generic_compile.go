@@ -288,15 +288,16 @@ type OperationDefinition struct {
 
 // ModifierDefinition 是 provider 级 modifier。
 type ModifierDefinition struct {
-	MultiplierGroupKey       *string             `json:"multiplierGroupKey,omitempty"`
-	MaximumReductionRatio    *float64            `json:"maximumReductionRatio,omitempty"`
-	ValueReadMode            string              `json:"valueReadMode,omitempty"`
-	ModifierKey              string              `json:"modifierKey"`
-	Kind                     string              `json:"kind"`
-	Target                   string              `json:"target,omitempty"`
-	Command                  string              `json:"command,omitempty"`
-	Channel                  string              `json:"channel,omitempty"`
-	Bucket                   string              `json:"bucket,omitempty"`
+	MultiplierGroupKey    *string  `json:"multiplierGroupKey,omitempty"`
+	MaximumReductionRatio *float64 `json:"maximumReductionRatio,omitempty"`
+	ValueReadMode         string   `json:"valueReadMode,omitempty"`
+	ModifierKey           string   `json:"modifierKey"`
+	Kind                  string   `json:"kind"`
+	Target                string   `json:"target,omitempty"`
+	Command               string   `json:"command,omitempty"`
+	Channel               string   `json:"channel,omitempty"`
+	Bucket                string   `json:"bucket,omitempty"`
+	// Stage=final仅attribute/min允许，金额必须静态有限，并在普通与派生结算末尾作为上界。
 	Stage                    string              `json:"stage,omitempty"`
 	Priority                 int                 `json:"priority,omitempty"`
 	HealDirection            string              `json:"healDirection,omitempty"`

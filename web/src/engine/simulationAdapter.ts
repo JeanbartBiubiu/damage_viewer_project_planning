@@ -39,7 +39,7 @@ import { permanentHealthIncreases } from './permanentHealthInitialization';
 import { assembleTargetMarkSource } from './targetMarkAdapter';
 import { validateMarkedRawDamageAssembly } from './markedRawDamageAssembly';
 
-export const SIMULATION_ADAPTER_VERSION = 'v56-charge-control-costs';
+export const SIMULATION_ADAPTER_VERSION = 'v57-final-attribute-limit';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v5';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';

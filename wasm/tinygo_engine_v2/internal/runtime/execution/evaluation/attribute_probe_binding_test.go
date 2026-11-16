@@ -47,7 +47,7 @@ func TestAttributeProbeUniqueProviderOrderAndReadAssociation(t *testing.T) {
 		calls = append(calls, key) // 仅测回调次数，公式不读取该计数。
 		return pipeline.ProviderFormulaContext{HasProviderContext: true, ProviderState: model.BorrowNumericView(states[key]), ProviderTargetState: model.BorrowNumericView(targets[key])}
 	}
-	resolved, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, formula.GenericEvalContext{StrictReads: true}, provider)
+	resolved, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, formula.GenericEvalContext{StrictReads: true}, provider)
 	if err != nil || resolved.At("speed").Resolved != 117 {
 		t.Fatal(resolved, err)
 	}
@@ -70,7 +70,7 @@ func TestAttributeProbeUniqueProviderOrderAndReadAssociation(t *testing.T) {
 	if memo.Probe(attrs, &ctx, provider) || !reflect.DeepEqual(calls, expectedProviders) {
 		t.Fatal("a changed state was hidden or its callback order changed", calls)
 	}
-	resolved, err = state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, provider)
+	resolved, err = state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, provider)
 	if err != nil || resolved.At("speed").Resolved != 124 {
 		t.Fatal("same-ref providers on different owners were aliased", resolved, err)
 	}
@@ -90,7 +90,7 @@ func TestAttributeProbeBoundZeroGuardsDifferentLayoutsAndValueSemantics(t *testi
 	source := attribute.FromMap(map[string]model.AttributeSlotDef{"dep": {Base: 2, Current: 2, Max: 5, Resolved: 0}}, layout)
 	target := attribute.FromMap(map[string]model.AttributeSlotDef{"aaa": {Current: 99}, "dep": {Current: 5}})
 	ctx := formula.GenericEvalContext{SourceAttrs: source, TargetAttrs: target}
-	if out, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, nil); err != nil || out.At("speed").Resolved != 107 {
+	if out, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, nil); err != nil || out.At("speed").Resolved != 107 {
 		t.Fatal(out, err)
 	}
 	memo := state.cache.Memo(state.compiled.AttributeDerivations, state.formulas, "source", false, false, [2]string{}, resolver, attrs)
@@ -109,7 +109,7 @@ func TestAttributeProbeBoundZeroGuardsDifferentLayoutsAndValueSemantics(t *testi
 		t.Fatal("legacy zero fallback current was not checked")
 	}
 	ctx.StrictReads = true
-	if out, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, nil); err != nil || out.At("speed").Resolved != 105 {
+	if out, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, nil); err != nil || out.At("speed").Resolved != 105 {
 		t.Fatal("strict zero incorrectly reused the current fallback", out, err)
 	}
 	slot.Resolved = math.Copysign(0, -1)
@@ -117,20 +117,20 @@ func TestAttributeProbeBoundZeroGuardsDifferentLayoutsAndValueSemantics(t *testi
 	if memo.Probe(attrs, &ctx, nil) || memo.scratch[0].value != math.Float64bits(slot.Resolved) {
 		t.Fatal("negative-zero dependency lost its float bits")
 	}
-	if _, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, nil); err != nil {
+	if _, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, nil); err != nil {
 		t.Fatal(err)
 	}
 	ctx.TargetAttrs = target.Without("dep")
 	if memo.Probe(attrs, &ctx, nil) {
 		t.Fatal("a directory entry was mistaken for a present slot")
 	}
-	_, cachedErr := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, nil)
+	_, cachedErr := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, nil)
 	_, directErr := resolver.ResolveAttributesWithProviderContext(attrs, ctx, state.formulas, nil)
 	if cachedErr == nil || directErr == nil || cachedErr.Error() != directErr.Error() {
 		t.Fatal("missing-slot error changed", cachedErr, directErr)
 	}
 	ctx.TargetAttrs = attribute.FromMap(map[string]model.AttributeSlotDef{"bbb": {Current: 500}, "dep": {Current: 7}})
-	if out, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, nil); err != nil || out.At("speed").Resolved != 107 {
+	if out, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, nil); err != nil || out.At("speed").Resolved != 107 {
 		t.Fatal("probe failed to recover with a different attached-key directory", out, err)
 	}
 }
@@ -141,7 +141,7 @@ func TestAttributeProbeUnboundExtraAttributeRetainsKeyLookup(t *testing.T) {
 	fixtureBindLayout(&state.formulas, layout)
 	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"speed": authoringSlot(100)}, layout)
 	ctx := formula.GenericEvalContext{StrictReads: true, TargetAttrs: attribute.FromMap(map[string]model.AttributeSlotDef{"aaa": {Current: 99}, "extra": {Current: 4}})}
-	if out, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, nil); err != nil || out.At("speed").Resolved != 104 {
+	if out, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, nil); err != nil || out.At("speed").Resolved != 104 {
 		t.Fatal(out, err)
 	}
 	memo := state.cache.Memo(state.compiled.AttributeDerivations, state.formulas, "source", false, false, [2]string{}, resolver, attrs)
@@ -149,7 +149,7 @@ func TestAttributeProbeUnboundExtraAttributeRetainsKeyLookup(t *testing.T) {
 		t.Fatal("runtime extra key did not retain the safe key path")
 	}
 	ctx.TargetAttrs = attribute.FromMap(map[string]model.AttributeSlotDef{"extra": {Current: 6}, "zzz": {Current: 1000}})
-	if out, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, nil); err != nil || out.At("speed").Resolved != 106 {
+	if out, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, nil); err != nil || out.At("speed").Resolved != 106 {
 		t.Fatal("extra-key directory change read another slot", out, err)
 	}
 }
@@ -194,7 +194,7 @@ func TestAttributeProbeProviderPresenceDefaultsAndNegativeZero(t *testing.T) {
 		return pipeline.ProviderFormulaContext{HasProviderContext: present, ProviderState: model.BorrowNumericView(values), ProviderStateDefaults: model.BorrowNumericView(defaults)}
 	}
 	ctx := formula.GenericEvalContext{StrictReads: true}
-	if _, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, provider); err != nil {
+	if _, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, provider); err != nil {
 		t.Fatal(err)
 	}
 	memo := state.cache.Memo(state.compiled.AttributeDerivations, state.formulas, "source", false, false, [2]string{}, resolver, attrs)
@@ -205,13 +205,13 @@ func TestAttributeProbeProviderPresenceDefaultsAndNegativeZero(t *testing.T) {
 	if memo.Probe(attrs, &ctx, provider) {
 		t.Fatal("an absent zero-valued provider field reused the cache")
 	}
-	_, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, provider)
+	_, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, provider)
 	_, directErr := resolver.ResolveAttributesWithProviderContext(attrs, ctx, state.formulas, provider)
 	if err == nil || directErr == nil || err.Error() != directErr.Error() {
 		t.Fatal("strict missing provider field changed", err, directErr)
 	}
 	defaults["count"] = math.Copysign(0, -1)
-	if _, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, provider); err != nil {
+	if _, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, provider); err != nil {
 		t.Fatal(err)
 	}
 	if !memo.Probe(attrs, &ctx, provider) || memo.stamps[0].presence != 5 || memo.stamps[0].fallback != math.Float64bits(defaults["count"]) {
@@ -222,21 +222,21 @@ func TestAttributeProbeProviderPresenceDefaultsAndNegativeZero(t *testing.T) {
 	if memo.Probe(attrs, &ctx, provider) || memo.scratch[0].presence != 3 || memo.scratch[0].value != math.Float64bits(values["count"]) {
 		t.Fatal("provider value presence was aliased with its equal default")
 	}
-	if _, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, provider); err != nil {
+	if _, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, provider); err != nil {
 		t.Fatal(err)
 	}
 	present = false
 	if memo.Probe(attrs, &ctx, provider) {
 		t.Fatal("provider context presence was not checked")
 	}
-	_, err = state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, provider)
+	_, err = state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, provider)
 	_, directErr = resolver.ResolveAttributesWithProviderContext(attrs, ctx, state.formulas, provider)
 	if err == nil || directErr == nil || err.Error() != directErr.Error() {
 		t.Fatal("missing provider context error changed", err, directErr)
 	}
 	present, ctx.StrictReads = true, false
 	delete(values, "count")
-	if out, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, provider); err != nil || out.At("speed").Resolved != 100 {
+	if out, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, provider); err != nil || out.At("speed").Resolved != 100 {
 		t.Fatal("legacy missing provider field no longer reads zero", out, err)
 	}
 }

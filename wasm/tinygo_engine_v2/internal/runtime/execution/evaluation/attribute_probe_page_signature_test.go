@@ -118,17 +118,17 @@ func TestAttributeProbeSameFailedPageDoesNotPublishSuccess(t *testing.T) {
 	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"speed": authoringSlot(100)}, layout)
 	good := attribute.FromMap(map[string]model.AttributeSlotDef{"dep": authoringSlot(2)}, layout)
 	ctx := formula.GenericEvalContext{StrictReads: true, SourceAttrs: good}
-	if _, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, nil); err != nil {
+	if _, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, nil); err != nil {
 		t.Fatal(err)
 	}
 	ctx.SourceAttrs = good.Without("dep")
 	for round := 0; round < 3; round++ {
-		if _, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, nil); err == nil {
+		if _, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, nil); err == nil {
 			t.Fatalf("failed dependency page became a successful cache at round %d", round)
 		}
 	}
 	ctx.SourceAttrs = good
-	if out, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, nil); err != nil || out.At("speed").Resolved != 102 {
+	if out, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, nil); err != nil || out.At("speed").Resolved != 102 {
 		t.Fatal("recovery changed successful values", out, err)
 	}
 }

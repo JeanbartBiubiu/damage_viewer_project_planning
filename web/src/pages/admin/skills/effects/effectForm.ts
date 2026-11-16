@@ -230,7 +230,8 @@ export const SKILL_EFFECT_VAMP_TYPES = [
 export const ATTRIBUTE_CHANGE_OPERATION_LABELS = {
   INCREASE: '增加',
   DECREASE: '减少',
-  SET: '覆盖'
+  SET: '覆盖',
+  LIMIT_MAX: '最终上界'
 } as const satisfies { [K in AttributeChangeOperation]: string };
 
 export const RESOURCE_CHANGE_OPERATION_LABELS = {
@@ -1365,7 +1366,7 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
         : '',
     attributeOperation: draft.resultType === 'ATTRIBUTE_CHANGE' ? draft.attributeOperation || 'INCREASE' : '',
     requiredShield: draft.resultType === 'ATTRIBUTE_CHANGE' && draft.target === 'SOURCE'
-      && draft.lifecycleBehavior.moment === 'PERSISTENT' && draft.attributeOperation !== 'SET' ? draft.requiredShield : null,
+      && draft.lifecycleBehavior.moment === 'PERSISTENT' && !['SET', 'LIMIT_MAX'].includes(draft.attributeOperation) ? draft.requiredShield : null,
     resourceOperation: draft.resultType === 'RESOURCE_CHANGE' ? draft.resourceOperation || 'RESTORE' : '',
     affectedSkillScope: usesAffectedSkillScope(draft.resultType)
       ? normalizeAffectedSkillScopeDraft(draft.affectedSkillScope)
@@ -1430,6 +1431,7 @@ export function clearHiddenLifecycleBehaviorFields(
       && moment === 'PERSISTENT'
       && draft.attributeOperation !== ''
       && draft.attributeOperation !== 'SET'
+      && draft.attributeOperation !== 'LIMIT_MAX'
     );
   const lifecycleBehavior: SkillEffectResultLifecycleBehaviorDraft = isFixedPersistentSnapshotResult(draft)
     ? {
@@ -1685,7 +1687,7 @@ export function isSpellShieldBlockScopeVisible(draft: SkillEffectResultDraft): b
     return false;
   }
   if (draft.lifecycleBehavior.moment === 'PERSISTENT') {
-    return draft.resultType === 'ATTRIBUTE_CHANGE' && draft.attributeOperation !== 'SET'
+    return draft.resultType === 'ATTRIBUTE_CHANGE' && !['SET', 'LIMIT_MAX'].includes(draft.attributeOperation)
       || draft.resultType === 'STATUS_OPERATION' && draft.statusOperation === 'APPLY';
   }
   return isSpellShieldBlockScopeEligibleResultType(draft.resultType);
@@ -1745,6 +1747,7 @@ export function modifierZoneDomainForDraft(draft: SkillEffectResultDraft): Modif
     && draft.lifecycleBehavior.moment === 'PERSISTENT'
     && draft.attributeOperation !== ''
     && draft.attributeOperation !== 'SET'
+    && draft.attributeOperation !== 'LIMIT_MAX'
   ) return 'ATTRIBUTE';
   return null;
 }
@@ -3108,8 +3111,13 @@ function validateTypeSpecificFields(
         draft.attributeOperation !== 'INCREASE'
         && draft.attributeOperation !== 'DECREASE'
         && draft.attributeOperation !== 'SET'
+        && draft.attributeOperation !== 'LIMIT_MAX'
       ) {
         fieldErrors.attributeOperation = '请选择操作。';
+      }
+      if (draft.attributeOperation === 'LIMIT_MAX'
+        && (draft.target !== 'SOURCE' || draft.attributeKey === 'hp' || draft.lifecycleBehavior.moment !== 'PERSISTENT')) {
+        fieldErrors.attributeOperation = '最终上界只接受自身非生命普通属性的持续结果。';
       }
       validateCatalogRef(options, 'attributes', draft.attributeKey, draft.originalAttributeKey, fieldErrors, 'attributeKey');
       if (isModifierZoneRequired(draft)) {

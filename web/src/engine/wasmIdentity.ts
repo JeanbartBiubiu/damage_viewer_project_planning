@@ -1,7 +1,7 @@
 /** 随本轮最终构建集成；浏览器专项同时核对实际字节数与SHA256。 */
 export const WASM_IDENTITY = {
-  bytes: 3997750,
-  sha256: 'fe6fe521a9489f1a19e4c6a993169a32c8d0ef9ae45b9edffeee8a162f6900cd',
+  bytes: 4005564,
+  sha256: '037728a890c80d201fc750398bf34b7fe820150db8c77c1130698b2f5a409524',
   authorizationRequired: true,
   authorizationVersion: 2,
   authorizationKeyId: "wasm-1",

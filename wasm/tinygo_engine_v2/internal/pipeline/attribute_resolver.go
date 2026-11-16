@@ -59,8 +59,12 @@ type AttributeResolverAPI interface {
 		formulas formula.Library,
 		providerContext ProviderFormulaContextFunc,
 	) (attribute.Table, error)
+	// ResolveAttributesBeforeDerived 解析普通阶段，对当前拥有者实际派生输出延后最终上界；只借用同一只读派生计划。
+	ResolveAttributesBeforeDerived(derivations []planbundle.CompiledAttributeDerivation, actor string, attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.Library, providerContext ProviderFormulaContextFunc) (attribute.Table, error)
 	// ResolveDerivedAttribute 结算指定派生属性槽，保留属性阶段及分组规则，不发布角色状态。
 	ResolveDerivedAttribute(attributeKey string, slot model.AttributeSlotDef, value float64, attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.Library, providerContext ProviderFormulaContextFunc) (model.AttributeSlotDef, error)
+	// ResolveFinalAttributeLimit 只对给定最终值应用当前有效的静态上界，不重复普通或倍率修正；到期与求值错误沿当前借用上下文处理。
+	ResolveFinalAttributeLimit(attributeKey string, value float64, evalCtx formula.GenericEvalContext, formulas formula.Library, providerContext ProviderFormulaContextFunc) (float64, error)
 	// SameMounts 核对是否共享同一修正计划；两个空计划视为相同。
 	SameMounts(other AttributeResolver) bool
 	// UnmountProvider 移除默认拥有者下指定供值器的修正，不修改其他拥有者。
@@ -286,6 +290,14 @@ func (r AttributeResolver) ResolveAttributesWithProviderContext(
 	formulas formula.Library,
 	providerContext ProviderFormulaContextFunc,
 ) (attribute.Table, error) {
+	return r.resolveAttributes(nil, "", attrs, evalCtx, formulas, providerContext)
+}
+
+func (r AttributeResolver) ResolveAttributesBeforeDerived(derivations []planbundle.CompiledAttributeDerivation, actor string, attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.Library, providerContext ProviderFormulaContextFunc) (attribute.Table, error) {
+	return r.resolveAttributes(derivations, actor, attrs, evalCtx, formulas, providerContext)
+}
+
+func (r AttributeResolver) resolveAttributes(derivations []planbundle.CompiledAttributeDerivation, actor string, attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.Library, providerContext ProviderFormulaContextFunc) (attribute.Table, error) {
 	out := attrs.Edit()
 	attrs.Range(func(key string, slot model.AttributeSlotDef) bool {
 		// 有修正的槽在下方按既有顺序计算最终值，不先写入临时Base值。
@@ -301,7 +313,14 @@ func (r AttributeResolver) ResolveAttributesWithProviderContext(
 		if !exists {
 			continue
 		}
-		value, err := r.resolveAttributeValue(key, slot.Base, attrs, evalCtx, formulas, providerContext)
+		applyFinal := true
+		for _, derivation := range derivations {
+			if derivation.CombatantKey == actor && derivation.AttributeKey == key {
+				applyFinal = false
+				break
+			}
+		}
+		value, err := r.resolveAttributeValue(key, slot.Base, attrs, evalCtx, formulas, providerContext, applyFinal)
 		if err != nil {
 			return attribute.Table{}, err
 		}
@@ -312,7 +331,7 @@ func (r AttributeResolver) ResolveAttributesWithProviderContext(
 }
 
 func (r AttributeResolver) ResolveDerivedAttribute(attributeKey string, slot model.AttributeSlotDef, value float64, attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.Library, providerContext ProviderFormulaContextFunc) (model.AttributeSlotDef, error) {
-	resolved, err := r.resolveAttributeValue(attributeKey, value, attrs, evalCtx, formulas, providerContext)
+	resolved, err := r.resolveAttributeValue(attributeKey, value, attrs, evalCtx, formulas, providerContext, true)
 	if err != nil {
 		return model.AttributeSlotDef{}, err
 	}
@@ -320,14 +339,19 @@ func (r AttributeResolver) ResolveDerivedAttribute(attributeKey string, slot mod
 	return slot, nil
 }
 
-func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float64, attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.Library, providerContext ProviderFormulaContextFunc) (float64, error) {
+func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float64, attrs attribute.Table, evalCtx formula.GenericEvalContext, formulas formula.Library, providerContext ProviderFormulaContextFunc, applyFinal bool) (float64, error) {
 	resolved := base
 	complementProduct, hasComplement := 1.0, false
 	totalProduct := 1.0
 	var groups numeric.AmplificationGroups
 	hasGroups := false
+	hasFinal := false
 	var participants []attributeGroupParticipant
 	for _, mod := range r.byAttribute[attributeKey] {
+		if mod.Stage == "final" {
+			hasFinal = true
+			continue
+		}
 		if !mod.HasValue {
 			continue
 		}
@@ -430,7 +454,33 @@ func (r AttributeResolver) resolveAttributeValue(attributeKey string, base float
 		}
 		resolved = 1 - (1-resolved)*complementProduct
 	}
+	if hasFinal && applyFinal {
+		return r.ResolveFinalAttributeLimit(attributeKey, resolved, evalCtx, formulas, providerContext)
+	}
 	return resolved, nil
+}
+
+func (r AttributeResolver) ResolveFinalAttributeLimit(attributeKey string, value float64, evalCtx formula.GenericEvalContext, formulas formula.Library, providerContext ProviderFormulaContextFunc) (float64, error) {
+	for _, mod := range r.byAttribute[attributeKey] {
+		if mod.Stage != "final" {
+			continue
+		}
+		if !mod.HasValue || mod.ValuePolicy != "min" || mod.HasMultiplierGroup {
+			return 0, fmt.Errorf("attribute %s modifier %s: invalid final attribute limit", attributeKey, mod.ModifierKey)
+		}
+		if providerContext != nil && providerContext(mod.OwnerCombatantKey, mod.ProviderRef).SkipExpiredAttributeModifier {
+			continue
+		}
+		limit, err := formulas.Evaluation.EvalContext(mod.ValueProgram, &evalCtx)
+		if err != nil {
+			return 0, fmt.Errorf("attribute %s modifier %s: %w", attributeKey, mod.ModifierKey, err)
+		}
+		if math.IsNaN(limit) || math.IsInf(limit, 0) {
+			return 0, fmt.Errorf("attribute %s modifier %s: final attribute limit must be finite", attributeKey, mod.ModifierKey)
+		}
+		value = math.Min(value, limit)
+	}
+	return value, nil
 }
 
 func applyValuePolicy(current, base float64, policy string, value float64) float64 {

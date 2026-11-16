@@ -447,7 +447,8 @@ func pureFiniteTargetAttributeProvider(reference string, ctx *genericCompileCont
 		key, own := strings.CutPrefix(modifier.Target, "self.attr.")
 		flat := modifier.ValuePolicy == "add" && modifier.Stage == ""
 		total := modifier.ValuePolicy == "multiply" && modifier.Stage == "total"
-		if !own || key == "" || key == "hp" || strings.Contains(key, ".") || modifier.Kind != "attribute" || (!flat && !total) || modifier.HasCondition || !modifier.HasValue || modifier.Command != "" || modifier.Channel != "" || modifier.HealDirection != "" || modifier.HealCategory != "" || modifier.HealGroupKey != "" || modifier.HealGroupCalculationMode != "" {
+		final := modifier.ValuePolicy == "min" && modifier.Stage == "final"
+		if !own || key == "" || key == "hp" || strings.Contains(key, ".") || modifier.Kind != "attribute" || (!flat && !total && !final) || modifier.HasCondition || !modifier.HasValue || modifier.Command != "" || modifier.Channel != "" || modifier.HealDirection != "" || modifier.HealCategory != "" || modifier.HealGroupKey != "" || modifier.HealGroupCalculationMode != "" {
 			return false
 		}
 		value, fixed := ctx.formulas.FoldStatic(modifier.ValueProgram)

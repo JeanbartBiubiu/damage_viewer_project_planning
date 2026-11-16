@@ -164,3 +164,75 @@ func TestLinkedShieldRequiresTheActualFreshParentMount(t *testing.T) {
 		t.Fatal("a second parent mount must invalidate the unique creator proof")
 	}
 }
+
+func dynamicFinalAttributeInput() Input {
+	input, _ := initialSelectionInput()
+	input.Formulas = fixtureFormulaLibraryPtr([]formula.GenericProgram{
+		{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 3.33}}},
+		{Instr: []formula.GenericInstr{{Op: formula.GenericOpRead, ReadKind: formula.ReadSourceAttr, ReadKey: "attack_damage.resolved"}}},
+		{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1e308}, {Op: formula.GenericOpConst, Value: 1e308}, {Op: formula.GenericOpMul}}},
+		{Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 0}}},
+	})
+	for index := range input.Actors {
+		input.Actors[index].Attributes = input.Actors[index].Attributes.With("attack_speed", model.AttributeSlotDef{Base: 4, Current: 4, Max: 4, Resolved: 4})
+		input.Actors[index].Attributes = input.Actors[index].Attributes.With("attack_damage", model.AttributeSlotDef{Base: 60, Current: 60, Max: 60, Resolved: 60})
+	}
+	input.Compiled.Combatants[0].ProviderMounts = []planbundle.CompiledProviderMount{{ProviderRef: "natural", DefinitionIndex: 0}}
+	input.Compiled.Providers = []planbundle.CompiledProvider{
+		{ProviderKey: "parent", Kind: "character", StableID: "actual-source"},
+		{ProviderKey: "timed", Kind: "status", StableID: "actual-source", Lifecycle: &planbundle.CompiledProviderLifecycle{
+			HasDuration: true, MaxStacks: 1, RefreshPolicy: "replace", InstanceScope: model.InstanceScopeSourceTarget},
+			Modifiers: []planbundle.CompiledModifier{
+				{Kind: "attribute", Target: "self.attr.attack_speed", ValuePolicy: "add", HasValue: true},
+				{Kind: "attribute", Target: "self.attr.attack_damage", ValuePolicy: "add", HasValue: true, ValueProgram: 1},
+				{Kind: "attribute", Target: "self.attr.attack_speed", Stage: "final", ValuePolicy: "min", HasValue: true},
+			}},
+	}
+	return input
+}
+
+func TestDynamicFinalAttributeAdmissionKeepsFiniteSelfScope(t *testing.T) {
+	for _, program := range []formula.GenericProgramID{0, 3} {
+		input := dynamicFinalAttributeInput()
+		input.Compiled.Providers[1].Modifiers[2].ValueProgram = program
+		if issue := ValidateEquipmentDynamicDefinition(input, "source", "natural", "timed", "self"); issue != nil {
+			t.Fatalf("static final limit in a complete finite self attribute group must pass, program=%d: %+v", program, issue)
+		}
+		if OwnedAttributePolicy(input.Compiled.Providers[1].Modifiers[2]) {
+			t.Fatal("finite final admission must not authorize the same operation for permanent owned sources")
+		}
+	}
+	for _, test := range []struct {
+		name   string
+		change func(*Input)
+		target string
+	}{
+		{"ordinary_min", func(input *Input) { input.Compiled.Providers[1].Modifiers[2].Stage = "" }, "self"},
+		{"final_max", func(input *Input) { input.Compiled.Providers[1].Modifiers[2].ValuePolicy = "max" }, "self"},
+		{"final_multiply", func(input *Input) { input.Compiled.Providers[1].Modifiers[2].ValuePolicy = "multiply" }, "self"},
+		{"dynamic_limit", func(input *Input) { input.Compiled.Providers[1].Modifiers[2].ValueProgram = 1 }, "self"},
+		{"overflow_limit", func(input *Input) { input.Compiled.Providers[1].Modifiers[2].ValueProgram = 2 }, "self"},
+		{"missing_value", func(input *Input) { input.Compiled.Providers[1].Modifiers[2].HasValue = false }, "self"},
+		{"condition", func(input *Input) { input.Compiled.Providers[1].Modifiers[2].HasCondition = true }, "self"},
+		{"group", func(input *Input) { input.Compiled.Providers[1].Modifiers[2].HasMultiplierGroup = true }, "self"},
+		{"bucket", func(input *Input) { input.Compiled.Providers[1].Modifiers[2].Bucket = "flat" }, "self"},
+		{"value_read_mode", func(input *Input) { input.Compiled.Providers[1].Modifiers[2].ValueReadMode = "APPLICATION_SNAPSHOT" }, "self"},
+		{"health", func(input *Input) { input.Compiled.Providers[1].Modifiers[2].Target = "self.attr.hp" }, "self"},
+		{"resource_max", func(input *Input) { input.Compiled.Providers[1].Modifiers[2].Kind = "resource_max" }, "self"},
+		{"opponent", func(input *Input) {}, "target"},
+		{"foreign_mount", func(input *Input) { input.Compiled.Providers[1].StableID = "foreign" }, "self"},
+		{"permanent", func(input *Input) { input.Compiled.Providers[1].Lifecycle.HasDuration = false }, "self"},
+		{"periodic", func(input *Input) { input.Compiled.Providers[1].Lifecycle.TickIntervalMs = 100 }, "self"},
+		{"missing_slot", func(input *Input) {
+			input.Actors[0].Attributes = attribute.FromMap(map[string]model.AttributeSlotDef{})
+		}, "self"},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			input := dynamicFinalAttributeInput()
+			test.change(&input)
+			if issue := ValidateEquipmentDynamicDefinition(input, "source", "natural", "timed", test.target); issue == nil {
+				t.Fatal("invalid or out-of-scope final limit must remain rejected")
+			}
+		})
+	}
+}

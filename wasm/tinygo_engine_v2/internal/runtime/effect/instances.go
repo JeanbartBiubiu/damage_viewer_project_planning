@@ -59,8 +59,12 @@ type AttributeResolverAPI interface {
 	ResolveAttributes(attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.Library) (attribute.Table, error)
 	// ResolveAttributesWithProviderContext 结合各拥有者与供值器上下文结算新属性，不直接发布角色数值。
 	ResolveAttributesWithProviderContext(attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.Library, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error)
+	// ResolveAttributesBeforeDerived 借用本场只读派生计划，普通阶段延后实际派生输出的最终上界，不发布角色数值。
+	ResolveAttributesBeforeDerived(derivations []planbundle.CompiledAttributeDerivation, actor string, attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.Library, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error)
 	// ResolveDerivedAttribute 按当前挂载和上下文计算一个派生属性槽；失败返回错误。
 	ResolveDerivedAttribute(key string, slot model.AttributeSlotDef, value float64, attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.Library, providerContext pipeline.ProviderFormulaContextFunc) (model.AttributeSlotDef, error)
+	// ResolveFinalAttributeLimit 只应用给定最终值的当前有效上界，复用属性管道，不重做普通或倍率修正。
+	ResolveFinalAttributeLimit(key string, value float64, ctx formula.GenericEvalContext, formulas formula.Library, providerContext pipeline.ProviderFormulaContextFunc) (float64, error)
 	// MountCompiledModifierOwned 为实际拥有者与供值实例挂载编译后的属性修正。
 	MountCompiledModifierOwned(owner, ref string, mod planbundle.CompiledModifier)
 	// MountSnapshotModifierOwned 挂载已冻结金额的属性修正，不在后续结算时重取施加金额。
@@ -409,8 +413,14 @@ func (r AttributeResolver) ResolveAttributes(attrs attribute.Table, ctx formula.
 func (r AttributeResolver) ResolveAttributesWithProviderContext(attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.Library, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
 	return r.value.ResolveAttributesWithProviderContext(attrs, ctx, formulas, providerContext)
 }
+func (r AttributeResolver) ResolveAttributesBeforeDerived(derivations []planbundle.CompiledAttributeDerivation, actor string, attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.Library, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
+	return r.value.ResolveAttributesBeforeDerived(derivations, actor, attrs, ctx, formulas, providerContext)
+}
 func (r AttributeResolver) ResolveDerivedAttribute(key string, slot model.AttributeSlotDef, value float64, attrs attribute.Table, ctx formula.GenericEvalContext, formulas formula.Library, providerContext pipeline.ProviderFormulaContextFunc) (model.AttributeSlotDef, error) {
 	return r.value.ResolveDerivedAttribute(key, slot, value, attrs, ctx, formulas, providerContext)
+}
+func (r AttributeResolver) ResolveFinalAttributeLimit(key string, value float64, ctx formula.GenericEvalContext, formulas formula.Library, providerContext pipeline.ProviderFormulaContextFunc) (float64, error) {
+	return r.value.ResolveFinalAttributeLimit(key, value, ctx, formulas, providerContext)
 }
 func (r *AttributeResolver) MountCompiledModifierOwned(owner, ref string, mod planbundle.CompiledModifier) {
 	r.value.MountCompiledModifierOwned(owner, ref, mod)

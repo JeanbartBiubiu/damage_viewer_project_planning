@@ -430,7 +430,10 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
     case 'ATTRIBUTE_CHANGE':
       assertExactDetailKeys(detail, ['attributeKey', 'operation', 'modifierZoneKey', ...('requiredShield' in detail ? ['requiredShield'] : [])], path);
       assertString(detail.attributeKey, `${path}.detail.attributeKey`);
-      assertEnum(detail.operation, new Set(['INCREASE', 'DECREASE', 'SET']), `${path}.detail.operation`);
+      assertEnum(detail.operation, new Set(['INCREASE', 'DECREASE', 'SET', 'LIMIT_MAX']), `${path}.detail.operation`);
+      if (detail.operation === 'LIMIT_MAX'
+        && (value.target !== 'SOURCE' || detail.attributeKey === 'hp' || detail.modifierZoneKey !== null
+          || !persistent || value.spellShieldBlockScope !== null || 'requiredShield' in detail)) protocolError(`${path}.detail`);
       if ('requiredShield' in detail) {
         const dependency = detail.requiredShield;
         const dependencyPath = `${path}.detail.requiredShield`;

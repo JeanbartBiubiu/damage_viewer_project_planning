@@ -33,6 +33,24 @@ function sample(skillKey = 'speed_alpha') {
 }
 
 describe('有限持续属性的实例时间', () => {
+  it('最终上界作为同一有限属性实例的明确限制，不冒充覆盖或比例乘区', () => {
+    const { effect, state } = sample();
+    const result = effect.results[0]!;
+    if (result.resultType !== 'ATTRIBUTE_CHANGE') throw new Error('fixture');
+    result.detail = { attributeKey: 'attack_speed', operation: 'LIMIT_MAX', modifierZoneKey: null };
+    result.valueRule = { value: fixedValue(3.33), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null };
+    expect(compileTimedAttributeEffect(effect, state, []).provider.modifiers).toEqual([
+      { modifierKey: 'speed', kind: 'attribute', target: 'self.attr.attack_speed', valuePolicy: 'min', stage: 'final', value: { op: 'const', value: 3.33 } }
+    ]);
+    result.valueRule.value = fixedValue(0);
+    expect(compileTimedAttributeEffect(effect, state, []).provider.modifiers![0]!.value).toEqual({ op: 'const', value: 0 });
+    result.detail.modifierZoneKey = 'speed_zone';
+    expect(() => compileTimedAttributeEffect(effect, state, [])).toThrow(/不使用乘区/);
+    result.detail.modifierZoneKey = null;
+    result.valueRule.value = formulaValue('decay');
+    expect(() => compileTimedAttributeEffect(effect, state, [])).toThrow();
+  });
+
   it.each(['snapshot_alpha', 'snapshot_beta'])('%s 静态快照由已选等级核定，支持补集比例且不采样属性', skillKey => {
     const { effect, zone, state, formula } = sample(skillKey);
     formula.expression = { inputs: [{ key: 'ratio', binding: { kind: 'parameter', skillKey, parameterKey: 'ratio' } }],

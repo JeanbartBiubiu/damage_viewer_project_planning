@@ -79,7 +79,7 @@ export type SkillEffectVampOverride = {
   efficiencyValue: NumericValue | null;
 };
 
-export type AttributeChangeOperation = 'INCREASE' | 'DECREASE' | 'SET';
+export type AttributeChangeOperation = 'INCREASE' | 'DECREASE' | 'SET' | 'LIMIT_MAX';
 export type ResourceChangeOperation = 'RESTORE' | 'CONSUME' | 'REFUND';
 export type CooldownChangeOperation = 'REDUCE' | 'INCREASE' | 'RESET' | 'REDUCE_REMAINING_RATIO' | 'REDUCE_TOTAL_RATIO' | 'SET_REMAINING';
 export type StatusOperation = 'APPLY' | 'REMOVE';

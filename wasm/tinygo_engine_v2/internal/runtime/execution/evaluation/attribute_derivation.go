@@ -51,6 +51,11 @@ func ResolveDerivedAttributes(derivations []planbundle.CompiledAttributeDerivati
 			if math.IsNaN(slot.Resolved) || math.IsInf(slot.Resolved, 0) {
 				return attribute.Table{}, fmt.Errorf("%s: derived attribute must remain finite", derivation.Path)
 			}
+			var limitErr error
+			slot.Resolved, limitErr = resolver.ResolveFinalAttributeLimit(derivation.AttributeKey, slot.Resolved, ctx, formulas, providerContext)
+			if limitErr != nil {
+				return attribute.Table{}, fmt.Errorf("%s: %w", derivation.Path, limitErr)
+			}
 			if err := validateDerivedOutput(derivation, slot.Resolved); err != nil {
 				return attribute.Table{}, err
 			}

@@ -29,14 +29,14 @@ func TestAttributeMemoMissingTargetDoesNotCreateProviderContext(t *testing.T) {
 		calls++
 		return pipeline.ProviderFormulaContext{HasProviderContext: true, ProviderState: model.BorrowNumericView(map[string]float64{"stacks": 2})}
 	}
-	if _, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, formula.GenericEvalContext{}, provider); err != nil {
+	if _, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, formula.GenericEvalContext{}, provider); err != nil {
 		t.Fatal(err)
 	}
 	if calls != 0 {
 		t.Fatalf("missing target caused %d provider callbacks", calls)
 	}
 	attrs = attrs.With("speed", authoringSlot(100))
-	resolved, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, formula.GenericEvalContext{}, provider)
+	resolved, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, formula.GenericEvalContext{}, provider)
 	if err != nil || resolved.At("speed").Resolved != 102 || calls == 0 {
 		t.Fatal(resolved, calls, err)
 	}
@@ -66,7 +66,7 @@ func TestAttributeMemoPreservesHealthAndExpiresProviderReads(t *testing.T) {
 		hp.Current = 25
 		hp.Max = 150
 		attrs = attrs.With("hp", hp)
-		resolved, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, provider)
+		resolved, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, ctx, provider)
 		if err != nil || resolved.At("speed").Resolved != want || resolved.At("hp").Current != 25 || resolved.At("hp").Max != 150 {
 			t.Fatal(resolved, err)
 		}
@@ -86,12 +86,12 @@ func TestAttributeMemoReadPresenceAndLegacyZeroFallback(t *testing.T) {
 		hp := attrs.At("hp")
 		hp.Current = current
 		attrs = attrs.With("hp", hp)
-		resolved, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, formula.GenericEvalContext{SourceAttrs: attrs}, nil)
+		resolved, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, formula.GenericEvalContext{SourceAttrs: attrs}, nil)
 		if err != nil || resolved.At("speed").Resolved != 100+current {
 			t.Fatal(resolved, err)
 		}
 	}
-	resolved, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, formula.GenericEvalContext{SourceAttrs: attrs, StrictReads: true}, nil)
+	resolved, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, formula.GenericEvalContext{SourceAttrs: attrs, StrictReads: true}, nil)
 	if err != nil || resolved.At("speed").Resolved != 100 {
 		t.Fatal(resolved, err)
 	}
@@ -101,7 +101,7 @@ func TestAttributeMemoReadPresenceAndLegacyZeroFallback(t *testing.T) {
 	fixtureCompileDeclaredNamed([]model.NamedFormula{definition}, []string{"hp"}, &registry, func(code model.GenericErrCode, path, message, ref string) { t.Fatal(code, path, message) })
 	state.formulas = registry
 	state.cache = State{}
-	if _, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, formula.GenericEvalContext{SourceAttrs: attrs, StrictReads: true}, nil); err != nil {
+	if _, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, formula.GenericEvalContext{SourceAttrs: attrs, StrictReads: true}, nil); err != nil {
 		t.Fatal(err)
 	}
 	var missing model.AttributeSlotDef
@@ -109,7 +109,7 @@ func TestAttributeMemoReadPresenceAndLegacyZeroFallback(t *testing.T) {
 		t.Fatal(err)
 	}
 	attrs = attrs.With("hp", missing)
-	if _, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, formula.GenericEvalContext{SourceAttrs: attrs, StrictReads: true}, nil); err == nil {
+	if _, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, formula.GenericEvalContext{SourceAttrs: attrs, StrictReads: true}, nil); err == nil {
 		t.Fatal("memo hid a missing resolved field")
 	}
 }
@@ -118,7 +118,7 @@ func TestAttributeMemoUnknownContextContinuesEvaluation(t *testing.T) {
 	state, resolver := memoTestResolver(formula.GenericInstr{Op: formula.GenericOpRead, ReadKind: formula.ReadAbilityParam, ReadKey: "bonus"})
 	attrs := attribute.FromMap(map[string]model.AttributeSlotDef{"speed": authoringSlot(100)})
 	for _, amount := range []float64{2, 3} {
-		resolved, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, formula.GenericEvalContext{AbilityParams: model.BorrowNumericView(map[string]float64{"bonus": amount})}, nil)
+		resolved, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, formula.GenericEvalContext{AbilityParams: model.BorrowNumericView(map[string]float64{"bonus": amount})}, nil)
 		if err != nil || resolved.At("speed").Resolved != 100+amount {
 			t.Fatal(resolved, err)
 		}
@@ -133,7 +133,7 @@ func TestElapsedProviderAttributeMemoNeverFreezesTime(t *testing.T) {
 		return pipeline.ProviderFormulaContext{HasProviderContext: true, HasProviderElapsed: true, ProviderElapsedMs: elapsed}
 	}
 	for _, elapsed = range []int64{0, 750, 1499} {
-		resolved, err := state.cache.ResolveOrdinary(state.formulas, "source", attrs, resolver, formula.GenericEvalContext{StrictReads: true}, provider)
+		resolved, err := state.cache.ResolveOrdinary(nil, state.formulas, "source", attrs, resolver, formula.GenericEvalContext{StrictReads: true}, provider)
 		if err != nil || resolved.At("speed").Resolved != 100+float64(elapsed) {
 			t.Fatal("elapsed-time dependency was frozen by the cache", elapsed, resolved, err)
 		}

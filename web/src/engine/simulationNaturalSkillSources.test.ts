@@ -10,12 +10,14 @@ import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
 import { assembleSimulation as raw_assembleSimulation, inspectSimulationSnapshot as raw_inspectSimulationSnapshot, prepareSimulation } from './simulationAdapter';
 import { continuousAttackRequest } from './continuousAttackRequest';
+import { assessContinuousAttackResult } from './continuousAttackResult';
 import { recurveBowConfiguration, triggeredEquipmentSimulationSample } from '../../tests/fixtures/simulationTriggeredEquipment';
 import type { SkillEffect, SkillEffectLifecycle } from '../types/skillEffect';
 import type { SkillProcess } from '../types/skillProcess';
 import type { SkillTriggerAction, SkillTriggerRuleDetail } from '../types/skillTriggerRule';
 import { naturalRuleKeys, validateSimulationSkillSourceManifest } from './simulation/sources/description';
 import { selectSimulationSkillSourceClosure } from './simulation/sources/closure';
+import { mechanismEngine } from '../../tests/mechanisms/mechanismRunner';
 
 function syncNaturalSources(snapshot: SimulationSnapshot) {
   syncSimulationSkillSources(snapshot);
@@ -188,6 +190,75 @@ function scene(snapshot: SimulationSnapshot) {
   return assembleSimulation(snapshot, inputs, { source: 650, target: 590 });
 }
 
+function timedNaturalAttributesSample(dynamic = true, externalChange = false, refresh = false) {
+  const snapshot = naturalSample();
+  const configuration = snapshot.skillConfigurations.find(row => row.skill.skillKey === 'sample_natural')!;
+  const effect = configuration.effects[0]!;
+  const speed = effect.results[0]!;
+  const initialAction = configuration.triggerRules[0]!.actions[0]!;
+  if (speed.resultType !== 'ATTRIBUTE_CHANGE' || initialAction.actionType !== 'EXECUTE_EFFECT') throw new Error('自然属性夹具需要完整属性结果和执行效果动作');
+  configuration.parameters = [];
+  effect.lifecycle = { ...effect.lifecycle!, durationValue: { kind: 'FIXED', value: refresh ? 1200 : 500 },
+    reapplicationDurationMode: 'REFRESH_ALL', expiryMode: 'ALL_AT_ONCE' };
+  speed.valueRule!.value = { kind: 'FIXED', value: .2 };
+  speed.lifecycleBehavior = { ...speed.lifecycleBehavior!, valueReadMode: dynamic ? 'MOMENT_EVALUATION' : 'APPLICATION_SNAPSHOT',
+    reapplicationValueMode: dynamic ? null : 'REPLACE' };
+  configuration.triggerRules[0]!.eventSource = { eventType: 'BASIC_ATTACK_START', detail: {} };
+  for (const attributeKey of ['conversion_basis', 'ability_power']) {
+    snapshot.catalogs.attributes.push({ ...snapshot.catalogs.attributes[0]!, attributeKey, name: attributeKey, minValue: 0, maxValue: null });
+  }
+  for (const side of ['source', 'target'] as const) {
+    snapshot[side].selectedLevelValues.conversion_basis = .5;
+    snapshot[side].selectedLevelValues.ability_power = 0;
+  }
+  snapshot.source.selectedLevelValues.attack_speed = refresh ? 1 : .5;
+  snapshot.selection.targetSkillSettings[0]!.enabled = false;
+  if (dynamic) {
+    configuration.formulas.push({ gameId: snapshot.gameId, skillKey: configuration.skill.skillKey, formulaKey: 'conversion',
+      name: '其它来源属性换算', description: null, sortOrder: 0, createdAt: '', updatedAt: '', expression: {
+        inputs: [{ key: 'basis', binding: { kind: 'attribute', object: 'source', attributeKey: 'conversion_basis', valueKind: 'TOTAL', view: 'current_frame' } }],
+        stages: [{ key: 'output', name: '十倍换算', expression: { op: 'mul', args: [{ op: 'read', inputKey: 'basis' }, { op: 'const', value: '10' }] } }],
+        outputStageKey: 'output'
+      } });
+    for (const [index, attributeKey] of ['attack_damage', 'ability_power'].entries()) effect.results.push({
+      ...structuredClone(speed), resultKey: attributeKey, sortOrder: index + 1,
+      detail: { attributeKey, operation: 'INCREASE', modifierZoneKey: 'flat' },
+      valueRule: { value: { kind: 'FORMULA', formulaKey: 'conversion' }, fixedMultiplier: index + 1, fixedMinValue: 0, fixedMaxValue: null }
+    });
+  }
+  if (externalChange) {
+    const external: SkillEffect = { ...structuredClone(effect), effectKey: 'external', lifecycle: { ...effect.lifecycle!, durationValue: { kind: 'FIXED' as const, value: 300 } },
+      results: [{ ...structuredClone(speed), resultKey: 'basis', detail: { attributeKey: 'conversion_basis', operation: 'INCREASE' as const, modifierZoneKey: 'flat' },
+        valueRule: { value: { kind: 'FIXED' as const, value: .5 }, fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null },
+        lifecycleBehavior: { ...speed.lifecycleBehavior!, valueReadMode: 'APPLICATION_SNAPSHOT' as const, reapplicationValueMode: 'REPLACE' as const } }] };
+    configuration.effects.push(external);
+    configuration.triggerRules.push({ ...structuredClone(configuration.triggerRules[0]!), ruleKey: 'external', sortOrder: 1,
+      eventSource: { eventType: 'BASIC_ATTACK_HIT', detail: {} }, actions: [{ ...initialAction, detail: { effectKey: 'external' } }] });
+  }
+  return syncNaturalSources(snapshot);
+}
+
+async function runTimedNatural(snapshot: SimulationSnapshot, durationMs: number) {
+  const inputs = { source: {} as Record<string, number>, target: {} as Record<string, number> };
+  for (const row of inspectSimulationSnapshot(snapshot).requirements) if (row.storedValue === undefined) inputs[row.side][row.attribute.attributeKey] = 0;
+  const prepared = assembleSimulation(snapshot, inputs, { source: 650, target: 590 });
+  const { client } = await mechanismEngine();
+  const compiled = await client.compile(prepared.compileRequest);
+  expect(compiled.ok, JSON.stringify(compiled.errors)).toBe(true);
+  if (!compiled.sessionId) throw new Error('实际会话未创建');
+  try {
+    const built = await continuousAttackRequest(prepared, snapshot, { durationMs, attackSpeedInputMax: 5 }, compiled.sessionId);
+    const done = await client.run(built.runRequest);
+    expect(done.summary.execution?.complete).toBe(true);
+    const assessment = assessContinuousAttackResult(prepared.compileRequest, built.runRequest, done, prepared.operationOrigins);
+    expect(assessment.complete, JSON.stringify(assessment.issues)).toBe(true);
+    expect(assessment.issues).toEqual([]);
+    return { prepared, done };
+  } finally {
+    expect((await client.release(compiled.sessionId, prepared.compileRequest.rulesHash)).released).toBe(true);
+  }
+}
+
 function deferredResolutionSample(skillKey: string, processKey: string, resolvedOnly = false, basicAttack = false) {
   const snapshot = naturalSample(simulationActiveSample());
   const configuration = snapshot.skillConfigurations.find(row => row.skill.skillKey === 'sample_natural')!;
@@ -270,6 +341,90 @@ describe('无施放计划的跨技能自然入口', () => {
 });
 
 describe('5A完整默认来源', () => {
+  it('静态自身有限属性仍走既有叠层分支，叶入口拒绝不能当作完整自然来源拒绝', async () => {
+    const snapshot = timedNaturalAttributesSample(false);
+    const { prepared, done } = await runTimedNatural(snapshot, 100);
+    const origin = prepared.skillOrigins.find(row => row.side === 'source' && row.skillKey === 'sample_natural')!;
+    const provider = prepared.compileRequest.sharedProviders!.find(row => row.providerKey === origin.definitionRef)!;
+    expect(provider.initialStateSchema!.effect_passive).toMatchObject({ maxValue: 1, durationMs: 500, refreshPolicy: 'refresh_on_write' });
+    expect(done.finalSnapshot.combatants[0]!.attributes.bonus_attack_speed_percent!.resolved).toBeCloseTo(.2);
+    expect(prepared.compileRequest.sharedProviders!.some(row => row.providerKey.startsWith('timed/'))).toBe(false);
+  });
+
+  it('自然触发复用一份自身有限多属性供值器，动态AD/AP跟随其它属性改变并按期恢复', async () => {
+    for (const [at, attackDamage, abilityPower, speed] of [[100, 70, 20, .2], [350, 65, 10, .2], [500, 60, 0, 0]] as const) {
+      const snapshot = timedNaturalAttributesSample(true, true);
+      const before = structuredClone(snapshot);
+      const { prepared, done } = await runTimedNatural(snapshot, at);
+      expect(snapshot).toEqual(before);
+      const actor = done.finalSnapshot.combatants[0]!;
+      expect(actor.attributes.attack_damage!.resolved, `AD at ${at}`).toBeCloseTo(attackDamage);
+      expect(actor.attributes.ability_power!.resolved, `AP at ${at}`).toBeCloseTo(abilityPower);
+      expect(actor.attributes.bonus_attack_speed_percent!.resolved, `AS at ${at}`).toBeCloseTo(speed);
+      const timed = prepared.compileRequest.sharedProviders!.filter(row => row.providerKey.startsWith('timed/'));
+      expect(timed).toHaveLength(1);
+      expect(timed[0]!.modifiers).toHaveLength(3);
+      expect(prepared.compileRequest.rules.attributeDerivations!.some(row => row.combatantKey === 'source' && row.attributeKey === 'attack_speed')).toBe(true);
+      expect(prepared.coverage.some(row => row.authorPath === 'skills.sample_natural.effects.passive.results.attack_damage.lifecycleBehavior')).toBe(true);
+      expect(prepared.operationOrigins.filter(row => row.effectKey === 'passive').map(row => row.resultKey).sort()).toEqual(['ability_power', 'attack_damage', 'bonus_speed']);
+    }
+  });
+
+  it.each([2, 4])('自身属性组的最终上界在完整攻速派生后生效并精确到期，原攻速=%s', async baseAttackSpeed => {
+    const snapshot = timedNaturalAttributesSample();
+    snapshot.source.selectedLevelValues.attack_speed = baseAttackSpeed;
+    const configuration = snapshot.skillConfigurations.find(row => row.skill.skillKey === 'sample_natural')!;
+    configuration.triggerRules[0]!.eventSource = { eventType: 'BASIC_ATTACK_HIT', detail: {} };
+    configuration.triggerRules[0]!.conditionGroups = [{ groupKey: 'first_hit_health', name: '只有首击后满足', sortOrder: 0, conditions: [{
+      conditionKey: 'health', conditionType: 'ATTRIBUTE_COMPARE', sortOrder: 0,
+      detail: { subject: 'CURRENT_TARGET', attributeKey: 'hp', attributeValueKind: 'CURRENT', comparator: 'GT', comparisonValue: { kind: 'FIXED', value: 500 } }
+    }] }];
+    const effect = configuration.effects[0]!;
+    const template = structuredClone(effect.results[0]!);
+    effect.results.push({ ...template, resultKey: 'speed_limit', sortOrder: 3,
+      detail: { attributeKey: 'attack_speed', operation: 'LIMIT_MAX', modifierZoneKey: null },
+      valueRule: { value: { kind: 'FIXED', value: 3.33 }, fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null } });
+    syncNaturalSources(snapshot);
+    for (const atMs of [100, 500]) {
+      const { prepared, done } = await runTimedNatural(snapshot, atMs);
+      const source = done.finalSnapshot.combatants.find(actor => actor.key === 'source')!;
+      const active = atMs < 500;
+      const independentlyExpectedSpeed = active ? Math.min(baseAttackSpeed + .5 * .2, 3.33) : baseAttackSpeed;
+      expect(source.attributes.attack_speed!.resolved).toBeCloseTo(independentlyExpectedSpeed);
+      expect(source.attributes.attack_damage!.resolved).toBe(active ? 65 : 60);
+      expect(source.providers.filter(row => row.definitionRef.startsWith('timed/'))).toHaveLength(active ? 1 : 0);
+      expect(prepared.compileRequest.sharedProviders!.find(row => row.providerKey.startsWith('timed/'))!.modifiers).toHaveLength(4);
+    }
+  });
+
+  it('同一自然有期属性整体刷新；条件不成立时不创建实例或授予属性', async () => {
+    const refreshed = await runTimedNatural(timedNaturalAttributesSample(true, false, true), 1500);
+    const timed = refreshed.done.finalSnapshot.combatants[0]!.providers.filter(row => row.definitionRef.startsWith('timed/'));
+    expect(timed).toHaveLength(1);
+    expect(timed[0]!.expireAt).toBe(2109); // round(1000/(1+.5*.2))=909；第二次开始后整体续1200ms。
+    const snapshot = timedNaturalAttributesSample();
+    const rule = snapshot.skillConfigurations.find(row => row.skill.skillKey === 'sample_natural')!.triggerRules[0]!;
+    rule.conditionGroups = [{ groupKey: 'low_health', name: '当前不成立', sortOrder: 0, conditions: [{
+      conditionKey: 'low', conditionType: 'ATTRIBUTE_COMPARE', sortOrder: 0,
+      detail: { subject: 'SOURCE', attributeKey: 'hp', attributeValueKind: 'CURRENT_RATIO', comparator: 'LT', comparisonValue: { kind: 'FIXED', value: .5 } }
+    }] }];
+    const rejected = await runTimedNatural(snapshot, 100);
+    expect(rejected.done.finalSnapshot.combatants[0]!.providers.some(row => row.definitionRef.startsWith('timed/'))).toBe(false);
+    expect(rejected.done.finalSnapshot.combatants[0]!.attributes.attack_damage!.resolved).toBe(60);
+  });
+
+  it.each(['runtime_input', 'target_result', 'multiple_layers'] as const)('自然实时属性完整组拒绝%s，不能默认供值或改写真实目标', variant => {
+    const snapshot = timedNaturalAttributesSample();
+    const configuration = snapshot.skillConfigurations.find(row => row.skill.skillKey === 'sample_natural')!;
+    if (variant === 'runtime_input') {
+      configuration.parameters.push({ gameId: snapshot.gameId, skillKey: configuration.skill.skillKey, parameterKey: 'unknown', name: '未供值输入',
+        valueMode: 'RUNTIME_INPUT', valueType: 'DECIMAL', fixedValue: null, levelValues: null, description: null, sortOrder: 0, createdAt: '', updatedAt: '' });
+      configuration.formulas[0]!.expression.inputs[0]!.binding = { kind: 'parameter', skillKey: configuration.skill.skillKey, parameterKey: 'unknown' };
+    } else if (variant === 'target_result') configuration.effects[0]!.results[1]!.target = 'TARGET';
+    else configuration.effects[0]!.lifecycle!.maxStacksValue = { kind: 'FIXED', value: 2 };
+    expect(() => scene(snapshot)).toThrow(variant === 'runtime_input' ? /输入|参数|供值/ : variant === 'target_result' ? /自身|属性/ : /单层/);
+  });
+
   it('无装备也启用自身攻速派生，双方等级、实例独立且只保留一个普攻主体', async () => {
     const snapshot = naturalSample();
     const prepared = scene(snapshot);

@@ -17,8 +17,8 @@ import (
 type StateAPI interface {
 	// Memo 取得指定拥有者、方向与计算阶段的缓存；返回值只在本场有效。
 	Memo(derivations []planbundle.CompiledAttributeDerivation, formulas formula.Library, actor string, derived bool, batch bool, context [2]string, resolver effectpkg.AttributeResolver, attrs attribute.Table) *Memo
-	// ResolveOrdinary 解析普通属性修正；保留输入当前生命与上限，只返回新属性表和原求值错误。
-	ResolveOrdinary(formulas formula.Library, actor string, attrs attribute.Table, resolver effectpkg.AttributeResolver, ctx formula.GenericEvalContext, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error)
+	// ResolveOrdinary 解析普通属性修正并按本场同一只读派生计划延后输出上界；保留当前生命与上限，不发布数值。
+	ResolveOrdinary(derivations []planbundle.CompiledAttributeDerivation, formulas formula.Library, actor string, attrs attribute.Table, resolver effectpkg.AttributeResolver, ctx formula.GenericEvalContext, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error)
 	// ResolveDerived 依据显式双方和拥有者解析派生属性；缓存仍复核全部数值与存在性依赖。
 	ResolveDerived(derivations []planbundle.CompiledAttributeDerivation, formulas formula.Library, actor string, attrs attribute.Table, resolver effectpkg.AttributeResolver, source, target attribute.Table, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error)
 }
@@ -189,7 +189,7 @@ func (s *State) Memo(derivations []planbundle.CompiledAttributeDerivation, formu
 		used := !derived || batch
 		if derived && !batch {
 			for _, d := range derivations {
-				if d.CombatantKey == actor && d.AttributeKey == mod.AttributeKey && d.ValuePolicy == "set" {
+				if d.CombatantKey == actor && d.AttributeKey == mod.AttributeKey && (d.ValuePolicy == "set" || d.ValuePolicy == "multiply" && mod.Stage == "final") {
 					used = true
 				}
 			}
@@ -428,12 +428,12 @@ func (m *Memo) Remember(input, result attribute.Table, strict bool) {
 	m.strict, m.valid = strict, true
 }
 
-func (s *State) ResolveOrdinary(formulas formula.Library, actor string, attrs attribute.Table, resolver effectpkg.AttributeResolver, ctx formula.GenericEvalContext, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
-	memo := s.Memo(nil, formulas, actor, false, false, [2]string{}, resolver, attrs)
+func (s *State) ResolveOrdinary(derivations []planbundle.CompiledAttributeDerivation, formulas formula.Library, actor string, attrs attribute.Table, resolver effectpkg.AttributeResolver, ctx formula.GenericEvalContext, providerContext pipeline.ProviderFormulaContextFunc) (attribute.Table, error) {
+	memo := s.Memo(derivations, formulas, actor, false, false, [2]string{}, resolver, attrs)
 	if memo.Probe(attrs, &ctx, providerContext) {
 		return memo.apply(attrs), nil
 	}
-	resolved, err := resolver.ResolveAttributesWithProviderContext(attrs, ctx, formulas, providerContext)
+	resolved, err := resolver.ResolveAttributesBeforeDerived(derivations, actor, attrs, ctx, formulas, providerContext)
 	if err == nil {
 		memo.Remember(attrs, resolved, ctx.StrictReads)
 	}

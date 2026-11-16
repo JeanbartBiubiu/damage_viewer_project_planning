@@ -44,6 +44,15 @@ export function compileTimedAttributeEffect(effect: SkillEffect, state: NumericC
       || snapshot && effect.results.some(row => row.lifecycleBehavior?.valueReadMode !== 'APPLICATION_SNAPSHOT')) fail(path, '只接入自身实时持续属性或同一施加前值的静态快照组，不能把时间读取授权给快照');
     exact(behavior, ['moment', 'valueReadMode', 'stackValueMode', 'reapplicationValueMode', 'periodicExecutionMode'], `${path}.lifecycleBehavior`);
     exact(result.detail, ['attributeKey', 'operation', 'modifierZoneKey'], `${path}.detail`);
+    if (result.detail.operation === 'LIMIT_MAX') {
+      if (result.detail.attributeKey === 'hp' || result.detail.modifierZoneKey !== null) fail(`${path}.detail`, '最终上界只接受非生命普通属性且不使用乘区');
+      const limit = staticEffectAmount(result.valueRule, `${path}.valueRule`, state);
+      if (!Number.isFinite(limit)) fail(`${path}.valueRule`, '最终上界必须是明确静态有限数值');
+      state.requiredAttributes.add(result.detail.attributeKey);
+      provider.modifiers!.push({ modifierKey: result.resultKey, kind: 'attribute', target: `self.attr.${result.detail.attributeKey}`,
+        valuePolicy: 'min', stage: 'final', value: constExpr(limit) });
+      continue;
+    }
     const zone = zones.filter(row => row.modifierZoneKey === result.detail.modifierZoneKey);
     if (zone.length !== 1 || zone[0]!.gameId !== state.gameId || zone[0]!.status !== 'ENABLED' || zone[0]!.domain !== 'ATTRIBUTE'
       || !(zone[0]!.calculationMode === 'FLAT_ADD' && zone[0]!.applicationStage === 'ATTRIBUTE_FLAT'

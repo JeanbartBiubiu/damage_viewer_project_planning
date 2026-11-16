@@ -372,7 +372,7 @@ func compileProviderDefinition(provider model.ProviderDefinition, path string, c
 	}
 	if compiled.Lifecycle != nil && compiled.Lifecycle.HasDuration {
 		for _, mod := range compiled.Modifiers {
-			if mod.Kind == "attribute" && mod.Stage == "total" && mod.ValuePolicy == "multiply" || mod.HasMultiplierGroup && mod.Kind == "pipeline" && mod.Command == "damage" {
+			if mod.Kind == "attribute" && (mod.Stage == "total" && mod.ValuePolicy == "multiply" || mod.Stage == "final") || mod.HasMultiplierGroup && mod.Kind == "pipeline" && mod.Command == "damage" {
 				compiled.NeedsModifierExpiry, session.HasFiniteModifierExpiry = true, true
 			}
 		}
@@ -750,6 +750,7 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 		collector.addError(model.GenericErrUnknownRef, path, "heal fields require kind=pipeline and command=heal", mod.ModifierKey)
 	}
 	compileMultiplierGroup(mod, &compiled, path, ctx)
+	validateFinalAttributeLimit(mod, compiled, path, ctx)
 	return compiled
 }
 

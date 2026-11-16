@@ -144,7 +144,7 @@ func ResolveStagedAttributes(rules AttributeRules, cache *evaluation.State, owne
 	providers := func(providerOwner, provider string) pipeline.ProviderFormulaContext {
 		return work.AttributeProviderContext(owner, providerOwner, provider)
 	}
-	resolved, err := cache.ResolveOrdinary(*rules.Formulas, owner, attrs, work.AttributeResolver(owner), context, providers)
+	resolved, err := cache.ResolveOrdinary(rules.Plan.AttributeDerivations, *rules.Formulas, owner, attrs, work.AttributeResolver(owner), context, providers)
 	if err != nil {
 		work.RecordAttributeFailure(attributeFailure(rules, owner, err, false))
 		return attrs
@@ -161,7 +161,7 @@ func ResolveStagedAttributes(rules AttributeRules, cache *evaluation.State, owne
 		dependencyProviders := func(providerOwner, provider string) pipeline.ProviderFormulaContext {
 			return work.AttributeProviderContext(dependency, providerOwner, provider)
 		}
-		ordinary[dependency], err = cache.ResolveOrdinary(*rules.Formulas, dependency, ordinary[dependency], work.AttributeResolver(dependency), dependencyContext, dependencyProviders)
+		ordinary[dependency], err = cache.ResolveOrdinary(rules.Plan.AttributeDerivations, *rules.Formulas, dependency, ordinary[dependency], work.AttributeResolver(dependency), dependencyContext, dependencyProviders)
 		if err != nil {
 			work.RecordAttributeFailure(attributeFailure(rules, dependency, err, false))
 			return attrs
@@ -185,7 +185,7 @@ func ResolveLiveAttributes(rules AttributeRules, cache *evaluation.State, owner 
 	providers := func(providerOwner, provider string) pipeline.ProviderFormulaContext {
 		return work.LiveAttributeProviderContext(owner, activeTarget, providerOwner, provider)
 	}
-	resolved, err := cache.ResolveOrdinary(*rules.Formulas, owner, attrs, state.Resolver, context, providers)
+	resolved, err := cache.ResolveOrdinary(rules.Plan.AttributeDerivations, *rules.Formulas, owner, attrs, state.Resolver, context, providers)
 	if err != nil {
 		work.RecordLiveAttributeFailure(attributeFailure(rules, owner, err, false))
 		return attrs
@@ -197,7 +197,7 @@ func ResolveLiveAttributes(rules AttributeRules, cache *evaluation.State, owner 
 			dependencyProviders := func(providerOwner, provider string) pipeline.ProviderFormulaContext {
 				return work.LiveAttributeProviderContext(dependency, activeTarget, providerOwner, provider)
 			}
-			ordinary[dependency], err = cache.ResolveOrdinary(*rules.Formulas, dependency, input.Attributes, input.Resolver, context, dependencyProviders)
+			ordinary[dependency], err = cache.ResolveOrdinary(rules.Plan.AttributeDerivations, *rules.Formulas, dependency, input.Attributes, input.Resolver, context, dependencyProviders)
 			if err != nil {
 				work.RecordLiveAttributeFailure(attributeFailure(rules, dependency, err, false))
 				return attrs
@@ -252,7 +252,7 @@ func PrepareInitialAttributes(rules AttributeRules, work InitialAttributeWork) *
 	for _, owner := range work.InitialAttributeOrder() {
 		state, _ := work.InitialAttributeState(owner)
 		context := formula.GenericEvalContext{SourceAttrs: state.Attributes, TargetAttrs: state.Attributes}
-		resolved, err := state.Resolver.ResolveAttributesWithProviderContext(state.Attributes, context, *rules.Formulas, work.InitialAttributeProviders(owner, ""))
+		resolved, err := state.Resolver.ResolveAttributesBeforeDerived(rules.Plan.AttributeDerivations, owner, state.Attributes, context, *rules.Formulas, work.InitialAttributeProviders(owner, ""))
 		if err != nil {
 			return attributeFailure(rules, owner, err, true)
 		}
@@ -263,7 +263,7 @@ func PrepareInitialAttributes(rules AttributeRules, work InitialAttributeWork) *
 	for _, owner := range work.InitialAttributeOrder() {
 		state, _ := work.InitialAttributeState(owner)
 		context := formula.GenericEvalContext{SourceAttrs: source.Attributes, TargetAttrs: target.Attributes}
-		resolved, err := state.Resolver.ResolveAttributesWithProviderContext(state.Attributes, context, *rules.Formulas, work.InitialAttributeProviders(owner, model.SelectorTarget))
+		resolved, err := state.Resolver.ResolveAttributesBeforeDerived(rules.Plan.AttributeDerivations, owner, state.Attributes, context, *rules.Formulas, work.InitialAttributeProviders(owner, model.SelectorTarget))
 		if err != nil {
 			return attributeFailure(rules, owner, err, true)
 		}

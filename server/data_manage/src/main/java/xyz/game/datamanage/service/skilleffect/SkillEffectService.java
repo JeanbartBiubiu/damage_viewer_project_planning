@@ -11,6 +11,7 @@ import xyz.game.datamanage.support.authoring.AttributeComplementMultiplySemantic
 import xyz.game.datamanage.support.authoring.DamageRatioMultiplySemantics;
 import xyz.game.datamanage.support.authoring.GroupedAmplificationSemantics;
 import xyz.game.datamanage.support.authoring.SkillCooldownDurationSemantics;
+import xyz.game.datamanage.support.authoring.AttributeFinalLimitSemantics;
 import xyz.game.datamanage.support.authoring.CooldownCumulativeLimitSemantics;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -597,6 +598,7 @@ public class SkillEffectService {
         xyz.game.datamanage.support.authoring.SkillAttackDamageRoleSemantics.validateEffectShape(
             lifecycle, results, issues);
         SkillCooldownDurationSemantics.validateEffectShape(lifecycle, results, issues);
+        AttributeFinalLimitSemantics.validateEffectShape(lifecycle, results, issues);
         Set<String> seenKeys = new HashSet<>();
         CollectedRefs refs = new CollectedRefs();
         refs.lifecycle = lifecycle;
@@ -1208,6 +1210,7 @@ public class SkillEffectService {
             issues.add(fieldIssue(resultPath(index, "detail.operation"), "REQUIRED", "属性变化操作不能为空"));
         }
         boolean persistentAdjustment = detail.operation() != SkillEffectAttributeChangeOperation.SET
+            && detail.operation() != SkillEffectAttributeChangeOperation.LIMIT_MAX
             && result.lifecycleBehavior() != null
             && result.lifecycleBehavior().moment() == SkillEffectLifecycleMoment.PERSISTENT;
         collectModifierZoneRef(

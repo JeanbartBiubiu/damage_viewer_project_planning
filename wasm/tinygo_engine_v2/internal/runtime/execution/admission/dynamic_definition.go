@@ -55,7 +55,11 @@ func ValidateEquipmentDynamicDefinition(input Input, owner, providerRef, referen
 			}
 			actual, _ := actorView(input, recipient)
 			_, exists := actual.Attributes.Lookup(attributeKey)
-			if !exists || attributeKey == "hp" || pipeline.ModifierTargetCombatantSelector(modifier.Target) != model.SelectorSelf || modifier.HasCondition || !modifier.HasValue || !OwnedAttributePolicy(modifier) || definition.Lifecycle.TickIntervalMs != 0 {
+			allowedPolicy := OwnedAttributePolicy(modifier)
+			if modifier.Stage == "final" {
+				allowedPolicy = target == model.SelectorSelf && finiteFinalAttributePolicy(*input.Formulas, modifier)
+			}
+			if !exists || attributeKey == "hp" || pipeline.ModifierTargetCombatantSelector(modifier.Target) != model.SelectorSelf || modifier.HasCondition || !modifier.HasValue || !allowedPolicy || definition.Lifecycle.TickIntervalMs != 0 {
 				return fail(input, "dynamic attribute result requires an explicit non-HP modifier on its actual recipient", reference)
 			}
 			continue

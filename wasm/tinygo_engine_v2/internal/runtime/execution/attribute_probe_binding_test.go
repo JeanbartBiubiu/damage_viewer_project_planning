@@ -34,7 +34,7 @@ func TestAttributeProbeUniqueCallbacksKeepRealLazyExpiryAndHold(t *testing.T) {
 			calls := 0
 			provider := func(owner, ref string) pipeline.ProviderFormulaContext { calls++; return realCallback(owner, ref) }
 			ctx := formula.GenericEvalContext{StrictReads: true}
-			if out, err := state.evaluation.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, provider); err != nil || out.At("speed").Resolved != 105 {
+			if out, err := state.evaluation.ResolveOrdinary(state.compiled.AttributeDerivations, state.formulas, "source", attrs, resolver, ctx, provider); err != nil || out.At("speed").Resolved != 105 {
 				t.Fatal(out, err)
 			}
 			memo := state.evaluation.Memo(state.compiled.AttributeDerivations, state.formulas, "source", false, false, [2]string{}, resolver, attrs)
@@ -55,7 +55,7 @@ func TestAttributeProbeUniqueCallbacksKeepRealLazyExpiryAndHold(t *testing.T) {
 			if hold {
 				want = 103
 			}
-			if out, err := state.evaluation.ResolveOrdinary(state.formulas, "source", attrs, resolver, ctx, provider); err != nil || out.At("speed").Resolved != want {
+			if out, err := state.evaluation.ResolveOrdinary(state.compiled.AttributeDerivations, state.formulas, "source", attrs, resolver, ctx, provider); err != nil || out.At("speed").Resolved != want {
 				t.Fatal("inclusive target-state expiry semantics changed", out, err)
 			}
 			calls = 0

@@ -17,6 +17,7 @@ import type { OperationOrigin, SimulationCoverage, TriggeredSourceAssembly, Trig
 import { adaptDamageVamp } from '../../vampAdapter';
 import { compilePersistentResult } from '../../persistentResultAdapter';
 import { compileTimedDamageAmplification } from '../../timedDamageAmplificationAdapter';
+import { compileTimedAttributeEffect } from '../../timedAttributeEffectAdapter';
 import { groupedAmplificationFields, staticGroupedAmplificationAmount } from '../../groupedAmplification';
 import { compileNaturalRestoration } from '../../naturalRestoration';
 import { compileSkillOncePerUse } from '../../skillOncePerUse';
@@ -1150,6 +1151,35 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
                 cover(resultPath, `sharedProviders.${key}.modifiers[0]`);
               }
               cover(effectPath, outputRoot);
+            } else if (authored.lifecycle?.instanceScope === 'SOURCE'
+              && authored.results.some(result => result.resultType === 'ATTRIBUTE_CHANGE'
+                && result.lifecycleBehavior?.valueReadMode === 'MOMENT_EVALUATION')) {
+              const compiled = compileTimedAttributeEffect(authored, numeric, snapshot.catalogs.modifierZones, definitionRef);
+              compiled.provider.stableId = provider.stableId;
+              const previous = providers.find(row => row.providerKey === compiled.provider.providerKey);
+              if (previous && JSON.stringify(previous) !== JSON.stringify(compiled.provider)) fail(effectPath, '自身持续属性定义冲突');
+              if (!previous) providers.push(compiled.provider);
+              const operationPath = `${outputRoot}[${output.length}]`;
+              output.push(compiled.operation);
+              for (const [index, result] of authored.results.entries()) {
+                if (result.resultType !== 'ATTRIBUTE_CHANGE') fail(effectPath, '自身持续属性必须保留完整并列属性结果');
+                const resultPath = `${effectPath}.results.${result.resultKey}`;
+                const modifierPath = `sharedProviders.${compiled.provider.providerKey}.modifiers[${index}]`;
+                noteNumeric(result.valueRule!.value);
+                required[side].add(result.detail.attributeKey);
+                changed[side].add(result.detail.attributeKey);
+                origin(result, authored, abilityRef, [operationPath]);
+                cover(resultPath, modifierPath);
+                cover(`${resultPath}.lifecycleBehavior`, modifierPath);
+                cover(`${resultPath}.valueRule`, `${modifierPath}.value`);
+                if (result.detail.modifierZoneKey !== null) cover(`catalogs.modifierZones.${result.detail.modifierZoneKey}`, modifierPath);
+              }
+              for (const field of ['durationValue', 'maxStacksValue', 'applicationStacksValue'] as const) {
+                if (authored.lifecycle[field]) noteNumeric(authored.lifecycle[field]!);
+              }
+              collectAttributes(compiled.provider, side, required);
+              cover(`${effectPath}.lifecycle`, `sharedProviders.${compiled.provider.providerKey}.lifecycle`);
+              cover(effectPath, `sharedProviders.${compiled.provider.providerKey}`);
             } else if (authored.lifecycle?.instanceScope === 'SOURCE') {
               if (authored.lifecycle.expiryMode === 'EXPLICIT_ONLY') {
                 fail(effectPath, '本场可达的永久常驻效果尚未接入通用装配，不能只取装备固定属性');
