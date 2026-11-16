@@ -292,6 +292,61 @@ func TestFrameAllocationFailedWaitProviderPreviewDoesNotPublish(t *testing.T) {
 	}
 }
 
+func TestWaitPreviewStrictRemovalIsNotProjectedTwiceOrPublishedToParent(t *testing.T) {
+	state := frameAllocationWaitingProviderState(t)
+	apply := state.newExecutionFrame("source", "source", "install-speed")
+	apply.stageFor("source").providerOps = []stagedProviderMutation{{Kind: "apply", DefinitionRef: "waiting-speed", SourceKey: "source", TargetKey: "source"}}
+	apply.commit()
+	if apply.fatal {
+		t.Fatal(apply.fatalErr)
+	}
+	reference := ""
+	for i, values := 0, state.combatants["source"].instances.Providers(); i < values.Len(); i++ {
+		if instance := values.At(i); instance.DefinitionRef == "waiting-speed" {
+			reference = instance.ProviderRef
+		}
+	}
+	if reference == "" {
+		t.Fatal("missing installed provider")
+	}
+	// 即使快照定义未被当前操作使用，整场标志也会开启帧投影读取。
+	state.compiled.HasModifierSnapshots = true
+	remove := state.newExecutionFrame("source", "source", "strict-remove")
+	parent := remove.stageFor("source")
+	parent.providerOps = []stagedProviderMutation{{Kind: "expire", ProviderRef: reference, DefinitionRef: "waiting-speed", SourceKey: "source", TargetKey: "source", Strict: true}}
+	var preview Frame
+	if err := remove.basicAttackWaitContext(&preview); err != nil {
+		t.Fatal(err)
+	}
+	if _, _, found := preview.stageFor("source").instances.Providers().Find(reference); found {
+		t.Fatal("preview did not remove the provider")
+	}
+	if _, _, found := parent.instances.Providers().Find(reference); !found || parent.providerOps[0].Projected {
+		t.Fatal("preview consumed or marked the parent's strict removal")
+	}
+	if parent.attributesView().At("attack_speed").Resolved != 2 || preview.stageFor("source").attributesView().At("attack_speed").Resolved != 1 {
+		t.Fatal("preview did not preserve independent attributes")
+	}
+	remove.commit()
+	if remove.fatal || !remove.committed || state.combatants["source"].attributesView().At("attack_speed").Resolved != 1 || state.basicAttackReadyAt() != 1000 {
+		t.Fatal("parent strict removal or waiting cadence did not commit once", remove.fatalErr)
+	}
+	if _, _, found := state.combatants["source"].instances.Providers().Find(reference); found {
+		t.Fatal("parent did not consume the actual instance")
+	}
+}
+
+func TestWaitPreviewRepairDoesNotAcceptActuallyMissingStrictInstance(t *testing.T) {
+	state := frameAllocationWaitingProviderState(t)
+	state.compiled.HasModifierSnapshots = true
+	frame := state.newExecutionFrame("source", "source", "missing-strict")
+	frame.stageFor("source").providerOps = []stagedProviderMutation{{Kind: "expire", ProviderRef: "missing", TargetKey: "source", Strict: true}}
+	frame.commit()
+	if !frame.fatal || frame.fatalErr == nil || frame.fatalErr.Code != model.GenericErrUnknownRef || frame.committed || state.combatants["source"].attributesView().At("attack_speed").Resolved != 1 {
+		t.Fatal("missing actual instance was accepted or published", frame.fatalErr)
+	}
+}
+
 func TestFrameAllocationCommitKeysUseLocalBufferAndLexicalOrder(t *testing.T) {
 	for _, scenario := range []struct {
 		name        string

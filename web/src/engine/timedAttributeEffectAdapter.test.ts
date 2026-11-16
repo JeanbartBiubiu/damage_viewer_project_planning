@@ -3,7 +3,7 @@ import type { SkillEffect } from '../types/skillEffect';
 import type { SkillFormula } from '../types/skillFormula';
 import type { ModifierZone } from '../types/modifierZone';
 import { fixedValue, formulaValue } from '../types/numericValue';
-import { compileTimedAttributeEffect } from './timedAttributeEffectAdapter';
+import { compileTimedAttributeEffect, requiresSelfAttributeSnapshot } from './timedAttributeEffectAdapter';
 import { compileNumericValue, createNumericCompileState } from './numericAdapter';
 import { compileLinkedShieldEffect } from './shieldEffectAdapter';
 import { validateStoredSkillFormula } from '../services/skillFormulaContract';
@@ -32,7 +32,72 @@ function sample(skillKey = 'speed_alpha') {
   return { formula, effect, zone, state };
 }
 
+function attributeSnapshotSample() {
+  const fixture = sample('self_snapshot');
+  fixture.formula.expression = { inputs: [{ key: 'ad', binding: { kind: 'attribute', object: 'source', attributeKey: 'attack_damage', valueKind: 'BONUS', view: 'current_frame' } }],
+    stages: [{ key: 'out', name: '施加前护甲', expression: { op: 'add', args: [{ op: 'const', value: '45' }, { op: 'mul', args: [{ op: 'const', value: '0.4' }, { op: 'read', inputKey: 'ad' }] }] } }], outputStageKey: 'out' };
+  fixture.zone.calculationMode = 'FLAT_ADD';
+  fixture.zone.applicationStage = 'ATTRIBUTE_FLAT';
+  const first = fixture.effect.results[0]!;
+  if (first.resultType !== 'ATTRIBUTE_CHANGE') throw new Error('fixture');
+  first.detail.attributeKey = 'armor';
+  first.valueRule!.fixedMinValue = null;
+  first.lifecycleBehavior = { ...first.lifecycleBehavior!, valueReadMode: 'APPLICATION_SNAPSHOT', reapplicationValueMode: 'REPLACE' };
+  const second = structuredClone(first);
+  second.resultKey = 'resistance';
+  second.sortOrder = 1;
+  second.detail.attributeKey = 'magic_resistance';
+  second.valueRule!.fixedMultiplier = .6;
+  fixture.effect.results.push(second);
+  return fixture;
+}
+
 describe('有限持续属性的实例时间', () => {
+  it('来源属性施加快照保留完整共同公式，并把同组两笔都交给原生冻结', () => {
+    const { effect, zone, state, formula } = attributeSnapshotSample();
+    const before = structuredClone(effect);
+    approveAuthoredFixture(state);
+    const compiled = compileTimedAttributeEffect(effect, state, [zone]);
+    expect(effect).toEqual(before);
+    expect(requiresSelfAttributeSnapshot(effect, state)).toBe(true);
+    expect(compiled.operation).toMatchObject({ operation: 'apply_provider', target: 'self' });
+    expect(compiled.provider.modifiers).toHaveLength(2);
+    expect(compiled.provider.modifiers?.map(modifier => ({ target: modifier.target, policy: modifier.valuePolicy, mode: modifier.valueReadMode }))).toEqual([
+      { target: 'self.attr.armor', policy: 'add', mode: 'APPLICATION_SNAPSHOT' },
+      { target: 'self.attr.magic_resistance', policy: 'add', mode: 'APPLICATION_SNAPSHOT' },
+    ]);
+    expect([...state.namedFormulas.values()][0]?.expression).toEqual(formula.expression);
+    expect([...state.requiredAttributes]).toEqual(expect.arrayContaining(['attack_damage', 'armor', 'magic_resistance']));
+  });
+
+  it.each(['target', 'event_view', 'hp', 'context', 'runtime', 'mixed', 'ratio', 'resource_max', 'limit'] as const)('自身属性快照组拒绝 %s', variant => {
+    const { effect, zone, state, formula } = attributeSnapshotSample();
+    const first = effect.results[0]!;
+    if (first.resultType !== 'ATTRIBUTE_CHANGE') throw new Error('fixture');
+    if (variant === 'target') formula.expression.inputs[0]!.binding = { kind: 'attribute', object: 'target', attributeKey: 'attack_damage', valueKind: 'BONUS', view: 'current_frame' };
+    if (variant === 'event_view') formula.expression.inputs[0]!.binding = { kind: 'attribute', object: 'source', attributeKey: 'attack_damage', valueKind: 'BONUS', view: 'event_snapshot' };
+    if (variant === 'hp') formula.expression.inputs[0]!.binding = { kind: 'attribute', object: 'source', attributeKey: 'hp', valueKind: 'CURRENT', view: 'current_frame' };
+    if (variant === 'context') formula.expression.inputs[0]!.binding = { kind: 'context', contextKey: 'effect_elapsed_ms' };
+    if (variant === 'runtime') {
+      formula.expression.inputs.push({ key: 'external', binding: { kind: 'parameter', skillKey: state.skillKey, parameterKey: 'external' } });
+      formula.expression.stages[0]!.expression = { op: 'add', args: [formula.expression.stages[0]!.expression, { op: 'read', inputKey: 'external' }] };
+      state.parameters = [{ gameId: 'lol', skillKey: state.skillKey, parameterKey: 'external', name: '外部', valueMode: 'RUNTIME_INPUT', valueType: 'DECIMAL', fixedValue: null, levelValues: null, description: null, sortOrder: 0, createdAt: '', updatedAt: '' }];
+      state.sceneParameterValues = { external: 0 };
+    }
+    if (variant === 'mixed') effect.results[1]!.lifecycleBehavior = { ...effect.results[1]!.lifecycleBehavior!, valueReadMode: 'MOMENT_EVALUATION', reapplicationValueMode: null };
+    if (variant === 'ratio') { zone.calculationMode = 'RATIO_ADD'; zone.applicationStage = 'ATTRIBUTE_PERCENT'; }
+    if (variant === 'resource_max') first.detail.attributeKey = 'hp';
+    if (variant === 'limit') first.detail = { attributeKey: 'armor', operation: 'LIMIT_MAX', modifierZoneKey: null };
+    expect(() => compileTimedAttributeEffect(effect, state, [zone])).toThrow();
+  });
+
+  it('静态叠层不被属性读取快照入口接管', () => {
+    const { effect, state } = attributeSnapshotSample();
+    for (const result of effect.results) result.valueRule!.value = fixedValue(5);
+    effect.lifecycle!.maxStacksValue = fixedValue(8);
+    expect(requiresSelfAttributeSnapshot(effect, state)).toBe(false);
+  });
+
   it('最终上界作为同一有限属性实例的明确限制，不冒充覆盖或比例乘区', () => {
     const { effect, state } = sample();
     const result = effect.results[0]!;

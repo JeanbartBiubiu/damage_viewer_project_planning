@@ -28,7 +28,7 @@ type AttackProviderPreview interface {
 	RemoveWaitingProvider(owner, ref string)
 	// MountWaitingAttribute 在本预览的实际属性宿主挂载原编译修正，不发布。
 	MountWaitingAttribute(owner, ref string, modifier planbundle.CompiledModifier)
-	// ResolveWaitingAttributes 按原两遍次序完成属性求值，失败不返回半成品。
+	// ResolveWaitingAttributes 在本预览生命周期已预演后按两遍次序纯求值，不重放变更或发布父命令；失败不返回半成品。
 	ResolveWaitingAttributes() *model.EngineError
 }
 

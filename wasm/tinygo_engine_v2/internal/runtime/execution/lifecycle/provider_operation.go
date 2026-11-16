@@ -70,7 +70,7 @@ func (e *Executor) PrepareProviderMutation(input ProviderPreparationInput, reads
 		return PreparedLifecycle{}, e.fail(model.GenericErrRuntimeInvariantFailed, "providerDefinitionRef", "permanent HP instances are owned by cold initialization", provider.ProviderKey)
 	}
 	if provider.HasModifierSnapshots && providerRef != "" {
-		return PreparedLifecycle{}, e.fail(model.GenericErrRuntimeInvariantFailed, "providerRef", "snapshot attribute refresh requires its complete actual target hit application", providerRef)
+		return PreparedLifecycle{}, e.fail(model.GenericErrRuntimeInvariantFailed, "providerRef", "snapshot attribute refresh requires its complete actual application", providerRef)
 	}
 	if provider.AtomicDynamic && len(provider.StatusContributions) == 0 && (e.compiled.HasResourceMax || e.compiled.HasCooldownDuration || e.compiled.HasProviderDurationChange) {
 		if (provider.HasResourceMax || provider.HasCooldownDuration) && sourceKey != targetKey {

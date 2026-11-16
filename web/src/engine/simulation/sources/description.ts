@@ -13,6 +13,7 @@ import { isUndrivenTargetTimingSource } from '../../targetTimingAuthoring';
 import { skillHitChainContract, isSkillHitChainPostRule } from '../../skillHitChainContract';
 import { validateStoredSkillFormula } from '../../../services/skillFormulaContract';
 import { validateMarkedRawDamageContract } from '../../markedRawDamageContract';
+import { isOwnHitSelfProcessRule } from '../../ownHitSelfProcess';
 import type { SimulationSourceSide as Side } from '../model';
 
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
@@ -32,7 +33,7 @@ export function plannedSkillRuleKeys(configuration: SkillConfiguration, phases: 
       || event.eventType === 'PROCESS_CANCEL_REQUESTED' && phases.includes('CANCEL') && processes.has(event.detail.processKey)
       || event.eventType === 'SKILL_HIT' && event.detail.sourceSkillKey === configuration.skill.skillKey
         && !isFiniteTargetCounterPostHitRule(configuration, rule) && !isTargetMarkPostHitRule(configuration, rule)
-        && !isSkillHitChainPostRule(configuration, rule));
+        && !isSkillHitChainPostRule(configuration, rule) && !isOwnHitSelfProcessRule(configuration, rule));
   }).map(rule => rule.ruleKey).sort();
 }
 
@@ -134,12 +135,16 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
     if (!matches[0] || !sourceIsPlanned(snapshot, side, matches[0])) return [];
   }
   if (hitChain) return [hitChain.postRule.ruleKey];
+  const ownSources = actualSource ? [actualSource] : snapshot[side].skillSources.filter(source => source.skillKey === configuration.skill.skillKey);
+  const ownHitTail = (rule: SkillConfiguration['triggerRules'][number]) => isOwnHitSelfProcessRule(configuration, rule)
+    && ownSources.length === 1 && sourceIsPlanned(snapshot, side, ownSources[0]!);
   if (snapshot.selection.basicAttackSkillKey === null) {
     const reachable = activeReachableRoots(snapshot);
     const keys = new Set(snapshot[side].skillSources.filter(source => source.skillKey === configuration.skill.skillKey)
       .flatMap(source => [...(reachable.get(`${side}:${simulationSkillSourceIdentity(source.origin, source.skillKey)}`) ?? [])]));
     const plan = snapshot.selection.plannedSkills.find(plan => plan.skillKey === configuration.skill.skillKey);
     return configuration.triggerRules.filter(rule => keys.has(rule.ruleKey)
+      && (!isOwnHitSelfProcessRule(configuration, rule) || ownHitTail(rule))
       && !(plan && plannedSkillRuleKeys(configuration, plan.phaseKinds).includes(rule.ruleKey))).map(rule => rule.ruleKey).sort();
   }
   const reachable = configuration.triggerRules.some(rule => DAMAGE_EVENTS.has(rule.eventSource.eventType) && rule.actions.length)
@@ -169,7 +174,7 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
     if (event.eventType === 'SKILL_USED' || event.eventType === 'SKILL_HIT') {
       if (snapshot.selection.plannedSkills.some(plan => plan.skillKey === configuration.skill.skillKey)
         && event.detail.sourceSkillKey === configuration.skill.skillKey && !isFiniteTargetCounterPostHitRule(configuration, rule)
-        && !isTargetMarkPostHitRule(configuration, rule) && !isSkillHitChainPostRule(configuration, rule)) return false;
+        && !isTargetMarkPostHitRule(configuration, rule) && !isSkillHitChainPostRule(configuration, rule) && !ownHitTail(rule)) return false;
       return side === 'source' && (event.detail.sourceSkillKey === null || event.detail.sourceSkillKey === snapshot.selection.basicAttackSkillKey
         || snapshot.selection.plannedSkills.some(plan => plan.skillKey === event.detail.sourceSkillKey))
         && (event.eventType !== 'SKILL_USED' || event.detail.castPhase === 'INITIAL' || event.detail.castPhase !== null

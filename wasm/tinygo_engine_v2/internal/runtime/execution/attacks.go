@@ -118,6 +118,8 @@ func (bridge attackProviderPreviewBridge) MountWaitingAttribute(owner, ref strin
 }
 
 func (bridge attackProviderPreviewBridge) ResolveWaitingAttributes() *model.EngineError {
+	// 本独立副本已由等待预览预演普通生命周期；属性读取不能再次重放父命令的副本。
+	bridge.frame.effectProjection.Complete()
 	bridge.frame.reResolveStagedAttributesTwoPass(bridge.frame.run.actions.BasicAttack().InitialAbility())
 	if bridge.frame.fatal {
 		return bridge.frame.fatalErr

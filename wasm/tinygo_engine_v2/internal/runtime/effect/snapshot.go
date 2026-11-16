@@ -329,8 +329,8 @@ func restoreModifierSnapshots(snapshot model.CombatantProviderSnapshot, provider
 		}
 		return nil, nil
 	}
-	if snapshot.Source == snapshot.Owner || snapshot.ModifierSnapshots == nil {
-		return invalid("snapshot provider requires actual distinct participants and all frozen values")
+	if (snapshot.Source == snapshot.Owner) != provider.SelfModifierSnapshots || snapshot.ModifierSnapshots == nil {
+		return invalid("snapshot provider requires its compiled ownership and all frozen values")
 	}
 	expected := 0
 	for _, modifier := range provider.Modifiers {

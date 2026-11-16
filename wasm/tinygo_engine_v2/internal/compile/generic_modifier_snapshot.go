@@ -50,6 +50,35 @@ func pureSnapshotAttributeProvider(reference string, ctx *genericCompileContext)
 	return valid && linear.Offset == 0 && math.Abs(linear.Factor-rate) <= 1e-12
 }
 
+func pureSelfSnapshotAttributeProvider(reference string, ctx *genericCompileContext) bool {
+	index, exists := ctx.providerKeyIndex[reference]
+	if !exists {
+		return false
+	}
+	p := ctx.session.Providers[index]
+	lc := p.Lifecycle
+	if p.SkillKey == "" || p.Kind != "status" || !p.TypeSet.Empty() || p.ShieldDefinitionRef != "" || p.AbilityCount != 0 || len(p.Listeners)+len(p.StateFields)+len(p.Processes)+len(p.StatusContributions) != 0 || p.AmmoBinding != nil || p.NeedsElapsedTime || len(p.Modifiers) == 0 || lc == nil || !lc.HasDuration || lc.MaxStacks != 1 || lc.RefreshPolicy != "replace" || lc.InstanceScope != model.InstanceScopeSourceTarget || lc.TickIntervalMs != 0 {
+		return false
+	}
+	duration, static := ctx.formulas.FoldStatic(lc.DurationProgram)
+	if !static || !formula.ValidPositiveInt64DurationMs(duration) {
+		return false
+	}
+	for _, mod := range p.Modifiers {
+		key, self := strings.CutPrefix(mod.Target, "self.attr.")
+		if !self || key == "" || key == "hp" || strings.Contains(key, ".") || mod.ValueReadMode != "APPLICATION_SNAPSHOT" || mod.Kind != "attribute" || !mod.HasValue || mod.HasCondition || mod.ValuePolicy != "add" || mod.Stage != "" || mod.HasMultiplierGroup || mod.Command != "" || mod.Channel != "" || mod.CurrentValuePolicy != "" || mod.HasAffectedAbilityRefs || mod.HealDirection != "" || mod.HealCategory != "" || mod.HealGroupKey != "" || mod.HealGroupCalculationMode != "" {
+			return false
+		}
+		for _, read := range ctx.formulas.ReadDependencies(mod.ValueProgram) {
+			attribute, _, found := strings.Cut(read.ReadKey, ".")
+			if read.ReadKind != formula.ReadSourceAttr || !found || attribute == "" || attribute == "hp" {
+				return false
+			}
+		}
+	}
+	return true
+}
+
 func finalizeModifierSnapshots(ctx *genericCompileContext) {
 	for pi := range ctx.session.Providers {
 		p := &ctx.session.Providers[pi]
@@ -60,11 +89,13 @@ func finalizeModifierSnapshots(ctx *genericCompileContext) {
 		if !marked {
 			continue
 		}
-		if !pureSnapshotAttributeProvider(p.ProviderKey, ctx) {
-			ctx.collector.addError(model.GenericErrFormulaTypeError, "sharedProviders["+itoa(pi)+"]", "application snapshots require the complete finite target reduction and same-ratio source gain graph", p.ProviderKey)
+		self := pureSelfSnapshotAttributeProvider(p.ProviderKey, ctx)
+		if !self && !pureSnapshotAttributeProvider(p.ProviderKey, ctx) {
+			ctx.collector.addError(model.GenericErrFormulaTypeError, "sharedProviders["+itoa(pi)+"]", "application snapshots require a complete finite self attribute-add group or target reduction and same-ratio source gain graph", p.ProviderKey)
 			continue
 		}
 		p.HasModifierSnapshots, p.AtomicDynamic, ctx.session.HasModifierSnapshots = true, true, true
+		p.SelfModifierSnapshots = self
 		for i := range p.Modifiers {
 			if value, fixed := ctx.formulas.FoldStatic(p.Modifiers[i].ValueProgram); fixed {
 				p.Modifiers[i].StaticValue = value
@@ -88,6 +119,14 @@ func finalizeModifierSnapshots(ctx *genericCompileContext) {
 	for _, operation := range ctx.session.Operations {
 		index, exists := ctx.providerKeyIndex[operation.ProviderDefinitionRef]
 		if !exists || !ctx.session.Providers[index].HasModifierSnapshots {
+			continue
+		}
+		provider := ctx.session.Providers[index]
+		if provider.SelfModifierSnapshots {
+			parent := operation.OwnerProviderIndex
+			if operation.Operation != "apply_provider" || operation.Target != model.SelectorSelf || operation.ProviderRef != "" || operation.ProviderRefFromEvent || parent < 0 || parent >= len(ctx.session.Providers) || ctx.session.Providers[parent].SkillKey != provider.SkillKey {
+				ctx.collector.addError(model.GenericErrFormulaTypeError, operation.Path, "self snapshot attribute provider requires an actual same-skill parent self application", operation.ProviderDefinitionRef)
+			}
 			continue
 		}
 		if operation.Operation != "apply_provider" || operation.Target != "target" || !strings.Contains(operation.Path, ".skillHit.candidates[") {

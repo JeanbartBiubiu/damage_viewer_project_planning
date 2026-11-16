@@ -8,8 +8,8 @@ import (
 )
 
 func (e *Executor) FreezeModifierSnapshots(provider plan.CompiledProvider, source, target string, context formula.GenericEvalContext) (map[string]float64, *model.EngineError) {
-	if source == "" || source == target || target == "" {
-		return nil, e.invariant("providers", "modifier snapshots require actual distinct source and recipient", "")
+	if source == "" || target == "" || (source == target) != provider.SelfModifierSnapshots {
+		return nil, e.invariant("providers", "modifier snapshot participants differ from the compiled ownership", provider.ProviderKey)
 	}
 	context.StrictReads = true
 	values := make(map[string]float64)

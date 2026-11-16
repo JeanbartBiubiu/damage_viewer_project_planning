@@ -62,7 +62,7 @@ type ExecutorAPI interface {
 	FindAnchoredAbility(index uint16, key string) (*plan.CompiledAbility, bool)
 	// FindDefinition 按编译顺序定位定义，不隐式生成缺失定义。
 	FindDefinition(key string) (uint16, bool)
-	// FreezeModifierSnapshots 使用原调用点准备的上下文冻结本次施加金额；失败不发布实例。
+	// FreezeModifierSnapshots 按编译归属核对参与者，用同一施加前上下文冻结整组金额；失败不发布实例。
 	FreezeModifierSnapshots(provider plan.CompiledProvider, source, target string, context formula.GenericEvalContext) (map[string]float64, *model.EngineError)
 	// InitialResourceMaximum 核对真实初始生命上限和动态贡献恢复限制，返回原冷初始化锚点。
 	InitialResourceMaximum(owner string, attributes attribute.Table, instances effectpkg.ProviderList) (float64, *model.EngineError)

@@ -17,7 +17,7 @@ import type { OperationOrigin, SimulationCoverage, TriggeredSourceAssembly, Trig
 import { adaptDamageVamp } from '../../vampAdapter';
 import { compilePersistentResult } from '../../persistentResultAdapter';
 import { compileTimedDamageAmplification } from '../../timedDamageAmplificationAdapter';
-import { compileTimedAttributeEffect } from '../../timedAttributeEffectAdapter';
+import { compileTimedAttributeEffect, requiresSelfAttributeSnapshot } from '../../timedAttributeEffectAdapter';
 import { groupedAmplificationFields, staticGroupedAmplificationAmount } from '../../groupedAmplification';
 import { compileNaturalRestoration } from '../../naturalRestoration';
 import { compileSkillOncePerUse } from '../../skillOncePerUse';
@@ -1159,8 +1159,8 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
               }
               cover(effectPath, outputRoot);
             } else if (authored.lifecycle?.instanceScope === 'SOURCE'
-              && authored.results.some(result => result.resultType === 'ATTRIBUTE_CHANGE'
-                && result.lifecycleBehavior?.valueReadMode === 'MOMENT_EVALUATION')) {
+              && (authored.results.some(result => result.resultType === 'ATTRIBUTE_CHANGE'
+                && result.lifecycleBehavior?.valueReadMode === 'MOMENT_EVALUATION') || requiresSelfAttributeSnapshot(authored, numeric))) {
               const compiled = compileTimedAttributeEffect(authored, numeric, snapshot.catalogs.modifierZones, definitionRef);
               compiled.provider.stableId = provider.stableId;
               const previous = providers.find(row => row.providerKey === compiled.provider.providerKey);

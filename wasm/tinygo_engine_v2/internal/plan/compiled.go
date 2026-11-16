@@ -235,6 +235,8 @@ type CompiledProvider struct {
 	HasStateOnExpire          bool
 	AtomicLinkedShield        bool
 	HasModifierSnapshots      bool
+	// SelfModifierSnapshots 由完整自身属性快照闭包证明；冻结与恢复共用此归属事实。
+	SelfModifierSnapshots bool
 	// ShieldDefinitionRef is set only for a provider owned by an actual numeric shield.
 	ShieldDefinitionRef  string
 	NeedsElapsedTime     bool
