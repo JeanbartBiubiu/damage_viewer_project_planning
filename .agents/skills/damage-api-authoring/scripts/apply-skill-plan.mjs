@@ -119,10 +119,21 @@ export function validateConfiguration(value, gameId, skillKey, where = 'configur
       if (row.gameId !== gameId || row.skillKey !== skillKey) fail(rowPath, '组成身份不符');
       for (const field of ({ effects: ['results'], processes: ['steps', 'effectBindings', 'stateOperations'] }[collection] ?? [])) array(row[field], `${rowPath}.${field}`);
       if (collection === 'effects') for (const [resultIndex, result] of row.results.entries()) {
-        if (!isObject(result?.detail) || !own(result.detail, 'attackDamageRole')) continue;
-        const rolePath = `${rowPath}.results[${resultIndex}].detail.attackDamageRole`;
-        if (result.resultType !== 'DAMAGE' || !['PRIMARY', 'REPLACE_PRIMARY'].includes(result.detail.attackDamageRole)) {
-          fail(rolePath, '普攻伤害角色仅允许伤害结果的PRIMARY或REPLACE_PRIMARY；普通伤害省略字段');
+        if (!isObject(result?.detail)) continue;
+        if (own(result.detail, 'attackDamageRole')) {
+          const rolePath = `${rowPath}.results[${resultIndex}].detail.attackDamageRole`;
+          if (result.resultType !== 'DAMAGE' || !['PRIMARY', 'REPLACE_PRIMARY'].includes(result.detail.attackDamageRole)) {
+            fail(rolePath, '普攻伤害角色仅允许伤害结果的PRIMARY或REPLACE_PRIMARY；普通伤害省略字段');
+          }
+        }
+        if (own(result.detail, 'spellShieldFollowResult')) {
+          const followPath = `${rowPath}.results[${resultIndex}].detail.spellShieldFollowResult`;
+          const follow = object(result.detail.spellShieldFollowResult, ['skillKey', 'effectKey', 'resultKey'], followPath);
+          for (const key of ['skillKey', 'effectKey', 'resultKey']) stableKey(follow[key], `${followPath}.${key}`);
+          if (result.resultType !== 'DAMAGE' || result.target !== 'TARGET' || result.lifecycleBehavior !== null
+            || result.spellShieldBlockScope !== null || own(result.detail, 'attackDamageRole')) {
+            fail(followPath, '跟随只允许自身不判盾、非主体的即时目标伤害');
+          }
         }
       }
       if (collection === 'formulas' && !isObject(row.expression)) fail(`${rowPath}.expression`, '必须是完整公式对象');
@@ -236,6 +247,49 @@ export function validatePlan(plan) {
     }
   }
   return plan;
+}
+
+/** 从完整基线及候选生成现行聚合差分，不读取接口、不写数据或替调用者授权删除。 */
+export function buildSkillPlanItem(before, expected, sourceEvidence, authorizedDeletes = []) {
+  const gameId = before?.skill?.gameId, skillKey = before?.skill?.skillKey;
+  validateConfiguration(before, gameId, skillKey, 'before');
+  validateConfiguration(expected, gameId, skillKey, 'expected');
+  const allowed = new Set();
+  for (const [index, entry] of array(authorizedDeletes, 'authorizedDeletes').entries()) {
+    object(entry, ['objectType', 'key'], `authorizedDeletes[${index}]`);
+    if (!own(CHANGE_COLLECTIONS, entry.objectType)) fail('authorizedDeletes', '未知组成类型');
+    stableKey(entry.key, 'authorizedDeletes.key');
+    const identity = `${entry.objectType}/${entry.key}`;
+    if (allowed.has(identity)) fail('authorizedDeletes', '重复删除声明');
+    allowed.add(identity);
+  }
+  const candidate = clone(expected), changes = [], deleted = new Set();
+  const fields = (row, names) => Object.fromEntries(names.map(name => [name, clone(row[name])]));
+  for (const [objectType, collection] of Object.entries(CHANGE_COLLECTIONS)) {
+    const id = COLLECTIONS[collection], writable = ROW_FIELDS[collection].filter(field => !['gameId', 'skillKey', id].includes(field));
+    const previous = new Map(before[collection].map(row => [row[id], row]));
+    const next = new Map(candidate[collection].map(row => [row[id], row]));
+    candidate[collection].sort((a, b) => a[id] < b[id] ? -1 : a[id] > b[id] ? 1 : 0);
+    for (const row of candidate[collection]) {
+      const old = previous.get(row[id]), value = fields(row, writable);
+      if (old && canonicalText(fields(old, writable)) === canonicalText(value)) continue;
+      changes.push({ objectType, operation: old ? 'UPDATE' : 'CREATE', key: row[id],
+        value: old ? value : { [id]: row[id], ...value } });
+    }
+    for (const old of before[collection]) if (!next.has(old[id])) {
+      const identity = `${objectType}/${old[id]}`;
+      if (!allowed.has(identity)) fail(identity, '完整候选移除了原组成，缺少明确删除声明');
+      deleted.add(identity);
+      changes.push({ objectType, operation: 'DELETE', key: old[id], value: null });
+    }
+  }
+  if ([...allowed].some(identity => !deleted.has(identity))) fail('authorizedDeletes', '声明未对应本次实际删除');
+  const skill = fields(candidate.skill, SKILL_WRITE_FIELDS);
+  const request = { baseDigest: before.baseDigest, changes,
+    ...(canonicalText(skill) === canonicalText(fields(before.skill, SKILL_WRITE_FIELDS)) ? {} : { skill }) };
+  const item = { skillKey, before: clone(before), expected: candidate, request, sourceEvidence: clone(sourceEvidence) };
+  validatePlan({ schemaVersion: 'skill-configuration-plan-v1', gameId, items: [item] });
+  return item;
 }
 
 function apiBase(value) {
