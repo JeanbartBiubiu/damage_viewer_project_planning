@@ -6,18 +6,28 @@
 
 | 角色 | 稳定编号 | 定义 |
 | --- | --- | --- |
-| 项目协调 | `manager` | [目标、依赖、交付与验收](roles/manager.md) |
-| 前端开发 | `frontend` | [页面、平台与计算宿主](roles/frontend.md) |
-| 后端开发 | `backend` | [接口、权限与数据](roles/backend.md) |
-| Wasm 开发 | `wasm` | [编译、运行与数值机制](roles/wasm.md) |
-| 资料与录入 | `authoring` | [确认文本、配置保存与对象验证](roles/authoring.md) |
-| 独立验收 | `reviewer` | [需求、产物与证据核对](roles/reviewer.md) |
+| 项目协调 | `manager` | [目标、依赖、交付与验收](roles/manager/README.md) |
+| 前端开发 | `frontend` | [页面、平台与计算宿主](roles/frontend/README.md) |
+| 后端开发 | `backend` | [接口、权限与数据](roles/backend/README.md) |
+| Wasm 开发 | `wasm` | [编译、运行与数值机制](roles/wasm/README.md) |
+| 资料与录入 | `authoring` | [确认文本、配置保存与对象验证](roles/authoring/README.md) |
+| 独立验收 | `reviewer` | [需求、产物与证据核对](roles/reviewer/README.md) |
 
 项目协调者保持目标和交付边界，每项任务指定一个交付负责人。领域角色按明确范围实现或组织子代理；独立验收者保持只读。角色说明不扩大用户授权，不把实现者的自查当成独立验收。`.codex/agents/` 继续定义可被调用的专业子代理，本目录不替换其权限和配置。
 
 ## 哪些内容随 Git 保存
 
-角色定义、协作矩阵、本说明及脚本随 Git 保存。`agents/.local/` 整个目录被忽略，其中包括会话登记、短近况、消息、角色笔记、交接内容、锁和临时文件；不能强制加入 Git，也不保存凭据。
+角色定义、协作矩阵、本说明及脚本随 Git 保存。每个角色有自己的目录，下面以前端角色为例：
+
+```text
+agents/roles/frontend/
+  README.md                     角色职责，随 Git 保存
+  .local/codex-local/
+    todo.json                   本环境的关注与跟进待办，不跟 Git
+    memory.md                   本环境的角色笔记与交接，不跟 Git
+```
+
+`agents/roles/*/.local/` 和全局 `agents/.local/` 均被忽略；锁及临时文件也在其中，不能强制加入 Git或保存凭据。全局目录继续保存会话登记、协作近况、详细消息投递及完成事件日志，各自职责不重复；角色待办与笔记留在自己的目录。同机工作树的本地数据统一定位主检出，独立克隆和其他机器各自创建，不跨环境复制会话编号。
 
 登记文件是 `agents/.local/sessions.json`。同机同仓库的所有工作树使用**主检出目录中的这一份文件**，脚本通过 Git 查询主检出，不在每个工作树各建一份。独立克隆及其他开发机器各自初始化；主检出不可用时明确失败，不悄悄创建第二份登记。
 
@@ -36,7 +46,7 @@ node agents/session-registry.mjs resolve manager --environment codex-local
 
 环境必须完成以下接续流程：
 
-1. 读取本说明、对应角色定义及 `resolve` 返回的本机笔记路径。
+1. 读取本说明、对应角色目录的 `README.md` 及 `resolve` 返回的本机笔记和待办路径。在自然接手或工作检查点查看自己的待办，先继续当前授权任务，不因新通知立刻切换工作。
 2. 返回 `status: "ready"` 时，用当前环境的会话工具核对登记会话可用，再把任务发给该会话；不能按聊天标题或更新时间另选一个。
 3. 返回 `status: "needs_session"` 时，由当前环境使用实际支持的会话创建工具新建该角色会话。新会话先只读取角色与接续资料，登记成功前不执行业务任务。只创建当前需要的角色，不一次启动全部角色。
 4. 取得真实会话编号和宿主编号后运行 `bind`。将下面的占位值替换为工具实际返回值；首次登记使用读取到的代次 `0`。
@@ -83,17 +93,46 @@ node agents/coordination.mjs publish frontend --environment codex-local --thread
 
 每次接手、业务进展或阻塞变化、交付结束时更新自己的近况；其他角色只在接手任务、依赖变化或确实需要时运行 `peers`。读取不会向被读取角色发消息，也不加载引用正文、会话历史或私人笔记。超过 6 小时或已换代的近况标为 `stale`（陈旧），尚未发布标为 `unknown`（未知），不能当作当前事实。钩子记录的会话忙闲与业务状态分开；结束一轮不会自动更新或伪造业务近况。
 
+## 任务完成事件与角色待办
+
+完成已授权的角色任务阶段并具备证据后，角色显式调用 `complete`。这是一条业务完成事件，不从一轮结束、回复文字或 `idle` 状态推断，也不替代整任务的独立验收与原业务账本。
+
+```text
+node agents/coordination.mjs complete backend --environment codex-local --thread-id <当前会话编号> --generation <当前代次> --task <原任务及阶段编号> --authority "用户已授权的任务和边界" --summary "本阶段已完成的内容" --ref <证据相对路径> --attention frontend
+```
+
+事件先持久保存到全局 `agents/.local/completion-events.json`，再按提交当时的矩阵快照，为关系为 1 的其他角色写入各自 `todo.json`。关系为 0 和来源自己不生成通知。`--attention` 可重复，只能建议关联角色关注；未指定的关联角色也会收到“请判断是否需要关注”的短通知。内容仅有任务阶段、来源、完成摘要和最多三条证据路径，不复制开发详情或全部会话。接收方判断需要关注，也不因此取得新的开发授权。
+
+返回 `notified` 只表示目标待办均已落盘，不表示已向会话发送输入或对方已经读取。完成钩子只写文件，绝不调用会话发送或创建工具；目标运行中、等待用户输入、状态未知时都不会被打断，尚未启动的角色也只积压本地待办。现有会话发送工具的原子忙时拒绝或安全排队能力尚未证实，不能用“刚才看起来空闲”替代不中断保证。因此完成通知不进入详细任务派送队列，也不靠发送新输入强迫接收者处理。
+
+接收角色在下一次自然接手或检查点读取、判断：
+
+```text
+node agents/coordination.mjs todo frontend --environment codex-local
+node agents/coordination.mjs todo-ack frontend <待办编号> --environment codex-local --thread-id <当前会话编号> --generation <当前代次> --decision no_action --note "当前任务不受影响，无需跟进"
+```
+
+`todo` 默认只显示尚未关闭的条目，并分别给出未读、待跟进和未关闭总数，`--all` 包括已关闭项。条目最初为 `unread`（未读）；`follow_up` 表示需要跟进、先排在自己队列里，`no_action` 表示无需跟进并关闭，`done` 表示这条关注待办已处理完并关闭。处置只能由当前登记会话提交，换代后旧会话不得覆盖。它记录角色自己的关注与跟进，不另立项目任务状态，也不将处理通知当作新的业务任务完成再次广播。
+
+完成日志按环境、来源角色及任务阶段去重，跨会话换代仍有效；同键异内容明确拒绝。分发逐目标提交进度，部分失败会明确报告“申报已保存、通知未齐”，已成功的目标不会被覆盖。完成重试或 `flush` 只补缺，不重新计算矩阵，不依赖来源会话仍存在，也不复活已处理待办：
+
+```powershell
+node agents/coordination.mjs flush --environment codex-local
+```
+
+每次最多补偿十个事件，原生结束钩子只补本角色的一个已申报事件。日志及每角色待办各保留最多 512 条，达到上限明确失败，不能静默裁掉去重或处置记录。
+
 ## 钩子怎样触发
 
 项目原生钩子定义位于 [.codex/hooks.json](../.codex/hooks.json)，回调为 [coordination-hook.mjs](coordination-hook.mjs)。命令通过 Git 定位主检出，支持从模块子目录或关联工作树启动。仅已登记的角色会话参与协作，不给其他项目聊天绑定角色。
 
 | 事件 | 触发时点 | 本项目行为 |
 | --- | --- | --- |
-| `SessionStart` | 新建、恢复或压缩接续会话 | 注入该角色、环境、代次及短近况操作提示 |
-| `UserPromptSubmit` | 会话收到新一轮输入 | 记录根会话轮次与运行提示，再注入角色规则 |
+| `SessionStart` | 新建、恢复或压缩接续会话 | 注入该角色、环境、代次、本人未读待办数量与操作提示，不注入通知正文 |
+| `UserPromptSubmit` | 会话收到新一轮输入 | 记录根会话轮次；提示在自然检查点查看待办，当前工作优先 |
 | `PreCompact` | 压缩之前 | 记录生命周期；实际交接由角色笔记与已发布近况承担 |
 | `PostCompact` | 压缩完成 | 当前根轮次最多计数一次，供下次有任务时判断换代 |
-| `Stop` | 一轮正常结束 | 记录本轮结束；缺少本轮自写近况时最多续跑一次要求补写 |
+| `Stop` | 一轮正常结束 | 记录本轮结束、补偿本角色已显式申报的完成通知；缺少本轮自写近况时最多续跑一次要求补写，不推断业务完成 |
 | `Interrupt` | 用户打断执行 | 记录打断，不阻止用户操作，不自动重启 |
 
 输入中的子代理身份会被排除；结束、打断、压缩事件还必须匹配此前收到的根用户轮次，迟到事件不覆盖新轮次。回调不读取或保存输入正文、最后回复、工具载荷与会话转录。钩子不投递消息，也不因近况变化唤醒其他角色。
@@ -117,13 +156,13 @@ node agents/coordination.mjs tick --environment codex-local
 node agents/coordination.mjs runtime --environment codex-local
 ```
 
-`tick` 只返回有明确待办的派送计划及未知结果，不启动模型。无待办时不创建角色会话；近况陈旧、压缩或普通回复本身不触发任务。需要定时接续的角色可以向自己登记一个有原任务依据的请求。详细派送、忙碌检查、会话创建与接续、投递核对唯一操作入口是[唤醒流程](heartbeat.md)。
+`tick` 先补偿已申报完成事件到角色待办，再返回详细任务的派送计划及未知结果，不启动模型；通知失败或剩余积压通过 `completionRepair` 明确返回，不能静默忽略，也不阻断独立的详细任务计划。完成通知只有文件待办，不会生成会话派送或新建计划；无详细待办时不创建角色会话。近况陈旧、压缩或普通回复本身不触发任务。需要定时接续的角色可以向自己登记一个有原任务依据的请求。详细派送、忙碌检查、会话创建与接续、投递核对唯一操作入口是[唤醒流程](heartbeat.md)。
 
 消息状态 `pending` 表示待派送，`sending` 表示环境已领取，`sent` 表示会话工具已接受，`uncertain` 表示结果不明，`failed` 表示三次明确未投递后的已知失败并已解除目标锁定。投递成功不等于任务完成。发送超时或结果不明时先读目标会话核对消息编号，不盲目重发；确认未发出才能恢复待派送。普通确认与回复不自动再唤醒对方，避免互相续跑。
 
 ## 角色笔记与事实来源
 
-本机笔记放在主检出的 `agents/.local/memory/<环境编号>/<角色编号>.md`，路径也由 `resolve` 返回；需要时由该角色创建、更新。笔记保存有来源的稳定认识、待核假设和必要交接，不能保存凭据，也不修改 Codex 全局记忆。
+本机笔记放在主检出的 `agents/roles/<角色编号>/.local/<环境编号>/memory.md`，路径也由 `resolve` 返回；需要时由该角色创建、更新。笔记保存有来源的稳定认识、待核假设和必要交接，不能保存凭据，也不修改 Codex 全局记忆。
 
 重要认识附当前源码、契约、提交或验证证据的引用；被推翻时及时修正。任务状态继续使用现有任务规则和录入账本，共享业务定义继续归实际契约、数据库及源码。角色笔记不另立任务账本，也不覆盖当前事实。现有任务治理 SQLite 仍是派生查询索引，不混入会话登记。
 
@@ -132,10 +171,10 @@ node agents/coordination.mjs runtime --environment codex-local
 登记脚本仅依赖 Node.js 20 或更新版本和 Git。运行针对性检查：
 
 ```powershell
-node --test agents/session-registry.test.mjs agents/coordination-state.test.mjs agents/coordination-runtime.test.mjs agents/coordination-cli.test.mjs
+node --test agents/session-registry.test.mjs agents/coordination-state.test.mjs agents/coordination-runtime.test.mjs agents/coordination-cli.test.mjs agents/coordination-todo.test.mjs
 git check-ignore agents/.local/sessions.json
 ```
 
-登记更新使用短文件锁和临时文件替换，竞争时明确失败，不静默丢弃更新。每个登记文件有相邻的 `.lock` 文件，包含持有进程编号；异常退出留下锁时，先核对该进程和正在执行的操作，确认已结束后再删除这一锁文件，不删除登记文件。所有更新遵守会话登记锁先于近况、运行登记锁的顺序。
+登记更新使用短文件锁和临时文件替换，竞争时明确失败，不静默丢弃更新。每个登记文件有相邻的 `.lock` 文件，包含持有进程编号；异常退出留下锁时，先核对该进程和正在执行的操作，确认已结束后再删除这一锁文件，不删除登记文件。身份相关写入先持会话登记锁，再持业务文件锁；完成分发持完成日志锁再写角色待办，不在待办锁内反向获取会话或完成日志锁。
 
 本机登记只防止正常协作中的误写、过期更新和重复派送，不构成操作系统权限隔离；具有相同文件权限的程序仍可直接改写本地文件。真正的模型执行与消息投递使用当前环境实际提供的会话工具，本项目不伪造工具成功，也不增加第二个常驻服务。

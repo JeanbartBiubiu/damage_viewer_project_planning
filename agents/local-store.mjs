@@ -3,7 +3,7 @@ import {
   closeSync, existsSync, fsyncSync, mkdirSync, openSync, readFileSync,
   renameSync, statSync, unlinkSync, writeFileSync,
 } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
 
@@ -32,6 +32,21 @@ export function localPaths(repositoryRoot = sourceRoot) {
   return { mainRoot, localDirectory, registryPath: join(localDirectory, 'sessions.json') };
 }
 
+export function rolePaths(repositoryRoot, environmentId, roleId) {
+  requireScope(roleId, '角色');
+  requireScope(environmentId, '环境');
+  const definitionPath = join(repositoryRoot, 'agents', 'roles', roleId, 'README.md');
+  if (!existsSync(definitionPath) || !statSync(definitionPath).isFile()) {
+    throw new Error('角色定义不存在，请先核对 agents/roles/。');
+  }
+  const { mainRoot } = localPaths(repositoryRoot);
+  const localRoleDirectory = join(mainRoot, 'agents', 'roles', roleId, '.local', environmentId);
+  return {
+    definitionPath, localRoleDirectory,
+    todoPath: join(localRoleDirectory, 'todo.json'), memoryPath: join(localRoleDirectory, 'memory.md'),
+  };
+}
+
 function writeJson(path, value) {
   const temporaryPath = `${path}.${randomUUID()}.tmp`;
   try {
@@ -48,12 +63,9 @@ function writeJson(path, value) {
   }
 }
 
-// 回调同步执行；跨文件更新统一按 sessions → 状态/运行登记的顺序拿锁。
-export function withLocalJson(repositoryRoot, fileName, callback) {
-  if (!/^[a-z][a-z0-9-]*\.json$/.test(fileName)) throw new Error('本地登记文件名无效。');
-  const { localDirectory } = localPaths(repositoryRoot);
-  mkdirSync(localDirectory, { recursive: true });
-  const path = join(localDirectory, fileName);
+function withJsonFile(path, callback) {
+  const fileName = basename(path);
+  mkdirSync(dirname(path), { recursive: true });
   const lockPath = `${path}.lock`;
   let descriptor;
   try {
@@ -84,4 +96,18 @@ export function withLocalJson(repositoryRoot, fileName, callback) {
     closeSync(descriptor);
     unlinkSync(lockPath);
   }
+}
+
+// 回调同步执行；跨文件更新统一按 sessions → 状态/运行登记或角色文件的顺序拿锁。
+export function withLocalJson(repositoryRoot, fileName, callback) {
+  if (!/^[a-z][a-z0-9-]*\.json$/.test(fileName)) throw new Error('本地登记文件名无效。');
+  const { localDirectory } = localPaths(repositoryRoot);
+  return withJsonFile(join(localDirectory, fileName), callback);
+}
+
+// 身份写入由调用方先持会话锁；完成恢复持日志锁，内部不反向拿其他锁。
+export function withRoleJson(repositoryRoot, environmentId, roleId, fileName, callback) {
+  if (!/^[a-z][a-z0-9-]*\.json$/.test(fileName)) throw new Error('本地登记文件名无效。');
+  const { localRoleDirectory } = rolePaths(repositoryRoot, environmentId, roleId);
+  return withJsonFile(join(localRoleDirectory, fileName), callback);
 }

@@ -25,12 +25,15 @@ function fixture(t, copyProduction = false) {
     rmSync(target, { recursive: true, force: true, maxRetries: 3 });
   });
   const root = join(directory, 'main repo');
-  mkdirSync(join(root, 'agents', 'roles'), { recursive: true });
   for (const roleId of ['manager', 'frontend', 'backend', 'wasm', 'authoring', 'reviewer']) {
-    writeFileSync(join(root, 'agents', 'roles', `${roleId}.md`), `# ${roleId}\n`);
+    const roleDirectory = join(root, 'agents', 'roles', roleId);
+    mkdirSync(roleDirectory, { recursive: true });
+    if (copyProduction) {
+      copyFileSync(join(sourceRoot, 'agents', 'roles', roleId, 'README.md'), join(roleDirectory, 'README.md'));
+    } else writeFileSync(join(roleDirectory, 'README.md'), `# ${roleId}\n`);
   }
   copyFileSync(join(sourceRoot, 'agents', 'coordination.json'), join(root, 'agents', 'coordination.json'));
-  writeFileSync(join(root, '.gitignore'), '/agents/.local/\n');
+  writeFileSync(join(root, '.gitignore'), '/agents/.local/\n/agents/roles/*/.local/\n');
   if (copyProduction) {
     for (const name of readdirSync(join(sourceRoot, 'agents')).filter(name => name.endsWith('.mjs') && !name.endsWith('.test.mjs'))) {
       copyFileSync(join(sourceRoot, 'agents', name), join(root, 'agents', name));

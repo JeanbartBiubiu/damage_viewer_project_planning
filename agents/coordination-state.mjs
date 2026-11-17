@@ -66,7 +66,7 @@ function requireText(value, label, allowEmpty = false) {
   }
 }
 
-function normalizeRefs(refs) {
+export function normalizeRefs(refs) {
   if (!Array.isArray(refs) || refs.length > 3) throw new Error('引用必须是最多 3 条仓库相对路径。');
   return Array.from(refs, ref => {
     if (typeof ref !== 'string' || !ref.trim() || /[\x00-\x1f\x7f:]/.test(ref)

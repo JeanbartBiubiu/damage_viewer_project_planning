@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync, spawn } from 'node:child_process';
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, unlinkSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, unlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { basename, dirname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -13,17 +13,19 @@ const git = (root, ...args) => execFileSync('git', ['-c', `safe.directory=${root
 });
 
 function fixture(t) {
-  const directory = mkdtempSync(join(tmpdir(), 'damage-agent-registry-test-'));
+  const temporaryRoot = realpathSync.native(tmpdir());
+  const directory = mkdtempSync(join(temporaryRoot, 'damage-agent-registry-test-'));
   t.after(() => {
     const target = resolve(directory);
-    assert.ok(target.startsWith(`${resolve(tmpdir())}${sep}`)
+    assert.ok(target.startsWith(`${temporaryRoot}${sep}`)
       && basename(target).startsWith('damage-agent-registry-test-'));
     rmSync(target, { recursive: true, force: true, maxRetries: 3 });
   });
   const root = join(directory, 'main');
-  mkdirSync(join(root, 'agents', 'roles'), { recursive: true });
   for (const roleId of ['manager', 'frontend']) {
-    writeFileSync(join(root, 'agents', 'roles', `${roleId}.md`), `# ${roleId}\n`);
+    const roleDirectory = join(root, 'agents', 'roles', roleId);
+    mkdirSync(roleDirectory, { recursive: true });
+    writeFileSync(join(roleDirectory, 'README.md'), `# ${roleId}\n`);
   }
   writeFileSync(join(root, '.gitignore'), readFileSync(join(sourceRoot, '.gitignore')));
   git(root, '-c', 'init.defaultBranch=master', 'init', '-q');
@@ -47,12 +49,17 @@ test('缺文件时自动初始化空登记，登记及其本机附属文件均�
   assert.equal(result.status, 'needs_session');
   assert.equal(result.generation, 0);
   assert.equal(result.session, null);
+  assert.equal(result.definitionPath, join(root, 'agents', 'roles', 'manager', 'README.md'));
+  assert.equal(result.memoryPath, join(root, 'agents', 'roles', 'manager', '.local', 'codex-local', 'memory.md'));
+  assert.equal(result.todoPath, join(root, 'agents', 'roles', 'manager', '.local', 'codex-local', 'todo.json'));
   assert.deepEqual(JSON.parse(readFileSync(result.registryPath, 'utf8')), { formatVersion: 1, environments: {} });
   const before = readFileSync(result.registryPath, 'utf8');
   assert.equal(sessionRegistry({ command: 'init' }, root).status, 'existing');
   assert.equal(readFileSync(result.registryPath, 'utf8'), before);
   const ignored = ['agents/.local/sessions.json', 'agents/.local/sessions.json.lock',
-    'agents/.local/sessions.json.example.tmp', 'agents/.local/memory/codex-local/manager.md'];
+    'agents/.local/sessions.json.example.tmp', 'agents/roles/manager/.local/codex-local/memory.md',
+    'agents/roles/manager/.local/codex-local/todo.json', 'agents/roles/manager/.local/codex-local/todo.json.lock',
+    'agents/roles/manager/.local/codex-local/todo.json.example.tmp'];
   assert.deepEqual(git(root, 'check-ignore', ...ignored).trim().split(/\r?\n/), ignored);
   assert.equal(git(root, 'status', '--porcelain'), '');
 });
@@ -130,8 +137,12 @@ test('关联工作树共用主检出的登记和笔记路径，不在各自目�
   const secondary = lookup(linked);
   assert.equal(secondary.registryPath, primary.registryPath);
   assert.equal(secondary.memoryPath, primary.memoryPath);
+  assert.equal(secondary.todoPath, primary.todoPath);
+  assert.equal(secondary.definitionPath, join(linked, 'agents', 'roles', 'manager', 'README.md'));
+  assert.equal(primary.definitionPath, join(root, 'agents', 'roles', 'manager', 'README.md'));
   assert.equal(secondary.session.threadId, 'thread-shared');
   assert.equal(existsSync(join(linked, 'agents', '.local')), false);
+  assert.equal(existsSync(join(linked, 'agents', 'roles', 'manager', '.local')), false);
   bind(linked, 'thread-replaced', 1);
   assert.equal(lookup(root).session.threadId, 'thread-replaced');
 });

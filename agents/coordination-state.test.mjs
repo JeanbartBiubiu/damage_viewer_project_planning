@@ -5,7 +5,7 @@ import { existsSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync,
 import { tmpdir } from 'node:os';
 import { basename, join, resolve, sep } from 'node:path';
 import { readCoordinationConfig, coordinationState } from './coordination-state.mjs';
-import { localPaths, sourceRoot, withLocalJson } from './local-store.mjs';
+import { localPaths, rolePaths, sourceRoot, withLocalJson } from './local-store.mjs';
 import { sessionRegistry, withCurrentSession } from './session-registry.mjs';
 
 const roleIds = ['manager', 'frontend', 'backend', 'wasm', 'authoring', 'reviewer'];
@@ -25,10 +25,13 @@ function fixture(t) {
     rmSync(target, { recursive: true, force: true, maxRetries: 3 });
   });
   const root = join(directory, 'main');
-  mkdirSync(join(root, 'agents', 'roles'), { recursive: true });
-  for (const roleId of roleIds) writeFileSync(join(root, 'agents', 'roles', `${roleId}.md`), `# ${roleId}\n`);
+  for (const roleId of roleIds) {
+    const roleDirectory = join(root, 'agents', 'roles', roleId);
+    mkdirSync(roleDirectory, { recursive: true });
+    writeFileSync(join(roleDirectory, 'README.md'), `# ${roleId}\n`);
+  }
   writeFileSync(join(root, 'agents', 'coordination.json'), originalConfig);
-  writeFileSync(join(root, '.gitignore'), '/agents/.local/\n');
+  writeFileSync(join(root, '.gitignore'), '/agents/.local/\n/agents/roles/*/.local/\n');
   execFileSync('git', ['-c', 'init.defaultBranch=master', 'init', '-q'], {
     cwd: root, stdio: ['ignore', 'pipe', 'pipe'],
   });
@@ -142,9 +145,9 @@ test('真实绑定后按角色发布短近况，修订递增且不改变会话�
   const root = fixture(t);
   const identity = bind(root);
   const registry = readStore(root, 'sessions.json');
-  const first = publish(root, identity, { needs: '等待接口定义', refs: ['agents\\roles\\manager.md', '文档记录/项目说明/开发指南/README.md'] });
+  const first = publish(root, identity, { needs: '等待接口定义', refs: ['agents\\roles\\manager\\README.md', '文档记录/项目说明/开发指南/README.md'] });
   assert.equal(first.revision, 1);
-  assert.deepEqual(first.refs, ['agents/roles/manager.md', '文档记录/项目说明/开发指南/README.md']);
+  assert.deepEqual(first.refs, ['agents/roles/manager/README.md', '文档记录/项目说明/开发指南/README.md']);
   assert.ok(Number.isFinite(Date.parse(first.updatedAt)));
   const store = readStore(root);
   assert.deepEqual(Object.keys(store), ['formatVersion', 'environments']);
@@ -222,9 +225,10 @@ test('peers 只返回交集为 1 的其他角色，显式查询仍可读取关�
     reviewer: ['manager', 'frontend', 'backend', 'wasm', 'authoring'],
   };
   const { localDirectory } = localPaths(root);
-  mkdirSync(join(localDirectory, 'memory', environmentId), { recursive: true });
+  const { localRoleDirectory, memoryPath } = rolePaths(root, environmentId, 'manager');
+  mkdirSync(localRoleDirectory, { recursive: true });
   const privateText = '私有详细消息不应被查询'.repeat(1000);
-  writeFileSync(join(localDirectory, 'memory', environmentId, 'manager.md'), privateText);
+  writeFileSync(memoryPath, privateText);
   writeFileSync(join(localDirectory, 'messages.json'), `{坏 JSON：${privateText}`);
   const before = readFileSync(statusPath(root), 'utf8');
   for (const roleId of roleIds) {

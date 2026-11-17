@@ -1,8 +1,7 @@
-import { existsSync, statSync } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
-import { isRecord, localPaths, requireScope, sourceRoot, withLocalJson } from './local-store.mjs';
+import { isRecord, localPaths, requireScope, rolePaths, sourceRoot, withLocalJson } from './local-store.mjs';
 import { assertNoActiveDelivery } from './runtime-store.mjs';
 
 const hasOwn = (value, key) => Object.hasOwn(value, key);
@@ -82,21 +81,14 @@ export function sessionRegistry(request, repositoryRoot = sourceRoot) {
   if (!['init', 'resolve', 'bind'].includes(command)) {
     throw new Error('命令必须是 init、resolve 或 bind。');
   }
-  if (command !== 'init') {
-    requireScope(roleId, '角色');
-    requireScope(environmentId, '环境');
-    const definitionPath = join(repositoryRoot, 'agents', 'roles', `${roleId}.md`);
-    if (!existsSync(definitionPath) || !statSync(definitionPath).isFile()) {
-      throw new Error('角色定义不存在，请先核对 agents/roles/。');
-    }
-  }
+  const paths = command === 'init' ? null : rolePaths(repositoryRoot, environmentId, roleId);
   if (command === 'bind') {
     requireIdentifier(threadId, '会话');
     requireIdentifier(hostId, '宿主');
     requireGeneration(expectedGeneration);
   }
 
-  const { localDirectory, registryPath } = localPaths(repositoryRoot);
+  const { registryPath } = localPaths(repositoryRoot);
   return withRegistry(repositoryRoot, (registry, existing) => {
     let changed = !existing;
     let result = { status: existing ? 'existing' : 'initialized', registryPath };
@@ -124,8 +116,7 @@ export function sessionRegistry(request, repositoryRoot = sourceRoot) {
       }
       result = {
         status: active ? 'ready' : 'needs_session', registryPath, environmentId, roleId,
-        definitionPath: join(repositoryRoot, 'agents', 'roles', `${roleId}.md`),
-        memoryPath: join(localDirectory, 'memory', environmentId, `${roleId}.md`),
+        definitionPath: paths.definitionPath, memoryPath: paths.memoryPath, todoPath: paths.todoPath,
         generation: active?.generation ?? 0, session: active,
       };
     }

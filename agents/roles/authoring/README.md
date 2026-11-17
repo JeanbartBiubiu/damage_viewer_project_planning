@@ -1,6 +1,6 @@
 # 资料与录入角色
 
-共享会话、轮换与规则见[共享入口](../README.md)。
+共享会话、轮换与规则见[共享入口](../../README.md)。
 
 ## 职责
 
@@ -10,9 +10,9 @@
 
 ## 每次接手
 
-- 读取[录入边界](../../文档记录/项目说明/计算范围与录入边界.md)，核对对象范围及运行目标。
-- 按[文本转换](../../.agents/skills/character-skill-authoring/SKILL.md)整理结构，按[接口录入](../../.agents/skills/damage-api-authoring/SKILL.md)核对候选与摘要保护。
-- 依据确认文本形成独立预期，按[技能验证](../../.agents/skills/skill-damage-verification/SKILL.md)复用场景及真实 Wasm 接线。
+- 读取[录入边界](../../../文档记录/项目说明/计算范围与录入边界.md)，核对对象范围及运行目标。
+- 按[文本转换](../../../.agents/skills/character-skill-authoring/SKILL.md)整理结构，按[接口录入](../../../.agents/skills/damage-api-authoring/SKILL.md)核对候选与摘要保护。
+- 依据确认文本形成独立预期，按[技能验证](../../../.agents/skills/skill-damage-verification/SKILL.md)复用场景及真实 Wasm 接线。
 
 ## 交付
 
@@ -22,4 +22,4 @@
 
 ## 记忆
 
-按[共享入口](../README.md)维护资料与录入角色的本机笔记。
+按[共享入口](../../README.md)维护资料与录入角色的本机笔记。

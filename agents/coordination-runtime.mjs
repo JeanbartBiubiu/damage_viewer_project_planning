@@ -3,6 +3,7 @@ import { coordinationState, readCoordinationConfig } from './coordination-state.
 import { isRecord, requireScope, sourceRoot } from './local-store.mjs';
 import { listCurrentSessions, withCurrentSession, withSessionSnapshot } from './session-registry.mjs';
 import { runtimeEnvironment, runtimeStore } from './runtime-store.mjs';
+import { flushCompletions, roleTodos } from './coordination-todo.mjs';
 
 function requireText(value, label, limit) {
   if (typeof value !== 'string' || !value.trim() || [...value].length > limit || /\u0000/.test(value)) {
@@ -60,6 +61,15 @@ export function requestMessage(request, repositoryRoot = sourceRoot) {
 export function wakePlan(environmentId, repositoryRoot = sourceRoot) {
   requireScope(environmentId, '环境');
   const config = readCoordinationConfig(repositoryRoot);
+  // 补偿已明确申报的完成通知，只落本地待办；它们不进入会话发送计划。
+  let completionRepair;
+  try {
+    const result = flushCompletions(environmentId, repositoryRoot);
+    if (result.pending) completionRepair = { status: 'pending', ...result };
+  } catch (error) {
+    // 两个独立通道分别返回结果；保留本地通知故障，不阻断有效的详细派工。
+    completionRepair = { status: 'failed', error: error.message };
+  }
   const sessions = listCurrentSessions(repositoryRoot).filter(item => item.environmentId === environmentId);
   return runtimeStore(repositoryRoot, store => {
     const environment = store.environments[environmentId] ?? { actors: {}, messages: [] };
@@ -85,7 +95,9 @@ export function wakePlan(environmentId, repositoryRoot = sourceRoot) {
           || (currentActor?.compactions ?? 0) >= config.policy.maxCompactions)),
       });
     }
-    return { result: { environmentId, dispatchBudget: 2, groups, unresolved, noAction: groups.length === 0 && unresolved.length === 0 } };
+    return { result: { environmentId, dispatchBudget: 2, groups, unresolved,
+      ...(completionRepair ? { completionRepair } : {}),
+      noAction: groups.length === 0 && unresolved.length === 0 && !completionRepair } };
   });
 }
 
@@ -174,7 +186,12 @@ export function nativeHook(payload, repositoryRoot = sourceRoot) {
   const session = matches[0];
   const config = readCoordinationConfig(repositoryRoot);
   if (!config.roles.includes(session.roleId)) return {};
-  const context = `你是项目长期角色 ${session.roleId}，环境 ${session.environmentId}，有效会话 ${session.threadId}，代次 ${session.generation}。先读 agents/README.md 和 agents/roles/${session.roleId}.md。开工前核对登记；需要了解协作者时运行 peers，只拉取短近况；结束前用 publish 自写近况。近况不广播，不据此扩大任务授权。`;
+  let context;
+  if (event === 'SessionStart' || event === 'UserPromptSubmit') {
+    const todo = roleTodos({ environmentId: session.environmentId, roleId: session.roleId }, repositoryRoot);
+    const todoFile = `agents/roles/${session.roleId}/.local/${session.environmentId}/todo.json`;
+    context = `你是长期角色 ${session.roleId}，环境 ${session.environmentId}，会话 ${session.threadId}，代次 ${session.generation}。先读 agents/README.md 和 agents/roles/${session.roleId}/README.md。本人待办在主检出 ${todoFile}（未读 ${todo.unread}、待跟进 ${todo.followUp}，未关闭共 ${todo.pending}）。自然接手或检查点用 todo 查看，不抢占当前任务；用 todo-ack 记下判断。完成已授权阶段并有证据时用 complete 通知关联角色，勿把通知处理当业务完成。结束前 publish 短近况，不扩大授权。`;
+  }
   if (event === 'SessionStart') {
     return { hookSpecificOutput: { hookEventName: event, additionalContext: context } };
   }
@@ -209,6 +226,9 @@ export function nativeHook(payload, repositoryRoot = sourceRoot) {
   }));
   if (event === 'UserPromptSubmit') {
     return { hookSpecificOutput: { hookEventName: event, additionalContext: context } };
+  }
+  if (event === 'Stop' && !eventResult.ignored) {
+    flushCompletions(session.environmentId, repositoryRoot, { sourceRoleId: session.roleId, limit: 1 });
   }
   if (event === 'Stop' && !eventResult.ignored && !payload.stop_hook_active) {
     const brief = coordinationState({ command: 'status', environmentId: session.environmentId, roleId: session.roleId }, repositoryRoot).roles[0];

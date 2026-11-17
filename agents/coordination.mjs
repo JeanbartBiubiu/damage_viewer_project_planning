@@ -5,6 +5,7 @@ import { parseArgs } from 'node:util';
 import { coordinationState, readCoordinationConfig } from './coordination-state.mjs';
 import { localPaths, sourceRoot } from './local-store.mjs';
 import { claimMessages, inspectRuntime, requestMessage, settleMessages, wakePlan } from './coordination-runtime.mjs';
+import { completeTask, decideTodo, flushCompletions, roleTodos } from './coordination-todo.mjs';
 
 export function coordinationCommand(argv, repositoryRoot = sourceRoot) {
   const { values, positionals } = parseArgs({
@@ -16,6 +17,8 @@ export function coordinationCommand(argv, repositoryRoot = sourceRoot) {
       authority: { type: 'string' }, subject: { type: 'string' }, 'body-file': { type: 'string' },
       'idle-confirmed': { type: 'boolean' }, token: { type: 'string' }, outcome: { type: 'string' },
       receipt: { type: 'string' },
+      summary: { type: 'string' }, attention: { type: 'string', multiple: true },
+      decision: { type: 'string' }, note: { type: 'string' }, all: { type: 'boolean' },
     },
   });
   const [command, roleId, ...extra] = positionals;
@@ -26,12 +29,16 @@ export function coordinationCommand(argv, repositoryRoot = sourceRoot) {
     tick: ['environment'], runtime: ['environment'],
     claim: ['environment', 'thread-id', 'generation', 'idle-confirmed'],
     settle: ['environment', 'token', 'outcome', 'receipt'],
+    complete: ['environment', 'thread-id', 'generation', 'task', 'authority', 'summary', 'ref', 'attention'],
+    todo: ['environment', 'all'],
+    'todo-ack': ['environment', 'thread-id', 'generation', 'decision', 'note'],
+    flush: ['environment'],
   };
   if (!Object.hasOwn(optionSets, command) || Object.keys(values).some(key => !optionSets[command].includes(key))) {
     throw new Error('未知命令或参数不属于该命令，请查看 agents/README.md。');
   }
-  if (['matrix', 'tick', 'runtime', 'settle'].includes(command) && roleId !== undefined) throw new Error('该命令不接受角色位置参数。');
-  if (command !== 'claim' && extra.length) throw new Error('位置参数过多。');
+  if (['matrix', 'tick', 'runtime', 'settle', 'flush'].includes(command) && roleId !== undefined) throw new Error('该命令不接受角色位置参数。');
+  if (!['claim', 'todo-ack'].includes(command) && extra.length) throw new Error('位置参数过多。');
   const environmentId = values.environment;
   const identity = () => {
     if (!/^[1-9][0-9]*$/.test(values.generation ?? '') || !Number.isSafeInteger(Number(values.generation))) {
@@ -40,6 +47,14 @@ export function coordinationCommand(argv, repositoryRoot = sourceRoot) {
     return { environmentId, roleId, threadId: values['thread-id'], generation: Number(values.generation) };
   };
   if (command === 'matrix') return readCoordinationConfig(repositoryRoot);
+  if (command === 'complete') return completeTask({ ...identity(), taskKey: values.task,
+    authority: values.authority, summary: values.summary, refs: values.ref ?? [], attentionRoles: values.attention ?? [] }, repositoryRoot);
+  if (command === 'todo') return roleTodos({ environmentId, roleId, includeClosed: values.all === true }, repositoryRoot);
+  if (command === 'todo-ack') {
+    if (extra.length !== 1) throw new Error('todo-ack 必须指定一条待办编号。');
+    return decideTodo({ ...identity(), todoId: extra[0], decision: values.decision, note: values.note }, repositoryRoot);
+  }
+  if (command === 'flush') return flushCompletions(environmentId, repositoryRoot);
   if (['status', 'peers'].includes(command)) {
     return coordinationState({ command, environmentId, ...(roleId === undefined ? {} : { roleId }) }, repositoryRoot);
   }

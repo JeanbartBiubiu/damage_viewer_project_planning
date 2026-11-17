@@ -24,10 +24,13 @@ function fixture(t) {
     rmSync(target, { recursive: true, force: true, maxRetries: 3 });
   });
   const root = join(directory, 'main');
-  mkdirSync(join(root, 'agents', 'roles'), { recursive: true });
-  for (const roleId of roleIds) writeFileSync(join(root, 'agents', 'roles', `${roleId}.md`), `# ${roleId}\n`);
+  for (const roleId of roleIds) {
+    const roleDirectory = join(root, 'agents', 'roles', roleId);
+    mkdirSync(roleDirectory, { recursive: true });
+    writeFileSync(join(roleDirectory, 'README.md'), `# ${roleId}\n`);
+  }
   writeFileSync(join(root, 'agents', 'coordination.json'), readFileSync(join(sourceRoot, 'agents', 'coordination.json')));
-  writeFileSync(join(root, '.gitignore'), '/agents/.local/\n');
+  writeFileSync(join(root, '.gitignore'), '/agents/.local/\n/agents/roles/*/.local/\n');
   execFileSync('git', ['-c', 'init.defaultBranch=master', 'init', '-q'], { cwd: root, stdio: 'pipe' });
   return root;
 }
