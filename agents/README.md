@@ -35,7 +35,7 @@ agents/roles/frontend/
 
 ## 环境第一次接手角色
 
-在当前检出运行以下命令，所有命令均只操作本地登记，不启动模型或业务任务：
+新开发环境的主负责人先按[环境初始化](environment-bootstrap.md)建立或复用本机原生定时任务，不重复创建、也不自行恢复用户已暂停的任务。这个自动接入流程由环境中的助手执行，拉取 Git 本身不启动定时任务。随后接手具体角色：
 
 ```powershell
 node agents/session-registry.mjs init
@@ -139,7 +139,7 @@ node agents/coordination.mjs flush --environment codex-local
 
 Codex 对新增或变更的原生钩子要求审阅并信任准确的钩子定义，未信任的配置会被跳过。请在支持的 Codex 界面通过 `/hooks` 审阅本项目来源；这来自 [Codex 原生钩子规则](https://learn.chatgpt.com/docs/hooks#review-and-trust-hooks)，不是项目另设的审批。脚本不会修改信任库或绕过该检查。配置、回调测试通过与当前客户端已经触发原生事件是两种证据，不能混称。
 
-## 详细任务通信与定时唤醒
+## 详细任务通信与周期检查
 
 短近况不承载开发任务正文。需要对方实现、评审、确认字段，或需要自己稍后继续时，将正文写入主检出的 `agents/.local/messages/` 下 UTF-8 文本文件，通过 `request` 登记明确请求。它必须包含原任务依据、用户授权范围和目标角色；不因读到某条近况自动生成任务。
 
@@ -147,16 +147,21 @@ Codex 对新增或变更的原生钩子要求审阅并信任准确的钩子定�
 node agents/coordination.mjs request backend --from frontend --environment codex-local --thread-id <来源会话编号> --generation <来源代次> --task <原任务及本次阶段编号> --authority "用户已授权的具体任务与边界" --subject "需要确认本轮错误字段" --body-file agents/.local/messages/error-fields.md
 ```
 
-正文文件的相对路径始终以主检出为基准，关联工作树无需复制消息文件。当前保留记录内，相同来源、目标及任务阶段去重；内容变化要使用新的明确阶段编号。同一轮按最早待办优先，实际最多派送给两个目标角色，忙碌者延后并继续检查后续候选；每个目标合并最多五条消息。运行登记最多保留 64 条未完成投递和最近 50 条已结束投递；它只管理通信，不另立业务任务状态。接收方仍需依照原任务账本防止重复业务写入。
+正文文件的相对路径始终以主检出为基准，关联工作树无需复制消息文件。当前保留记录内，相同来源、目标及任务阶段去重；内容变化要使用新的明确阶段编号。定时轮询不主动派送详细消息；具体开发任务由正常工作的主负责人按原授权和有效登记进行通信。尚未建立角色会话的具体任务，由主负责人按接手流程处理，轮询不扩充会话池。运行登记最多保留 64 条未完成投递和最近 50 条已结束投递；它只管理通信，不另立业务任务状态。接收方仍需依照原任务账本防止重复业务写入。
 
-定时检查使用 Codex 当前聊天的原生自动化，默认每 30 分钟运行[唤醒流程](heartbeat.md)。创建、调整和停用通过应用的自动化工具完成，实际自动化标识仅留本地；拉取新的仓库不会继承另一机器的自动化。当前机器的激活结果以应用自动化记录为准，不能从本文件推断已创建。运行需要应用与当前开发环境可用。
+定时检查使用 Codex 当前聊天的原生自动化，默认每四小时运行[轮询流程](heartbeat.md)，单轮最多为一个角色登记或复用周期待办。它先扫描本机已登记会话，再按本地轮询表循环检查，不要求先有待投递消息；轮询本身不创建尚未登记的角色会话。创建、调整和停用通过应用的自动化工具完成，本地文件丢失时先核对稳定标记是否已有原生任务，确认没有才新建。实际标识仅留本地，用户暂停状态保持暂停；当前机器激活结果以应用记录为准。运行需要应用和当前开发环境可用，自动化自身也可能消耗模型额度。
 
 ```powershell
 node agents/coordination.mjs tick --environment codex-local
 node agents/coordination.mjs runtime --environment codex-local
+node agents/coordination.mjs poll-status --environment codex-local
 ```
 
-`tick` 先补偿已申报完成事件到角色待办，再返回详细任务的派送计划及未知结果，不启动模型；通知失败或剩余积压通过 `completionRepair` 明确返回，不能静默忽略，也不阻断独立的详细任务计划。完成通知只有文件待办，不会生成会话派送或新建计划；无详细待办时不创建角色会话。近况陈旧、压缩或普通回复本身不触发任务。需要定时接续的角色可以向自己登记一个有原任务依据的请求。详细派送、忙碌检查、会话创建与接续、投递核对唯一操作入口是[唤醒流程](heartbeat.md)。
+`tick` 先补偿已申报完成事件到角色待办，再返回详细任务的派送计划及未知结果，不启动模型；通知失败或剩余积压通过 `completionRepair` 明确返回，不能静默忽略，也不阻断独立的详细任务计划。完成通知只有文件待办，不会生成会话派送或新建计划；无详细待办时不创建角色会话。近况陈旧、压缩或普通回复本身不触发任务。自然接手时查看 `tick`、`runtime` 和本人 `todo`，再按原授权承接工作；具体轮询与未明结果核对见[轮询流程](heartbeat.md)。
+
+轮询表保存循环游标、当前轮次、每角色最近真实状态、检查及唤醒时间、次数和未明结果。运行中、需要用户输入或状态不明者跳过，继续查看后续候选；同轮只领取一个，四小时冷却在轮次开始即登记，空跑也不立即反复重试。周期检查只涉及本人待办、近况和已有授权工作，没有事项就简短结束，不自行选择新业务。
+
+用户选择严格不打断，当前 `pollingMode=observe_only`：先观察，再通过 `poll-defer` 给本轮第一个空闲角色登记本地周期自检待办，等待自然接手，不发送唤醒输入。已有未关闭的周期检查项会复用，不持续堆积；登记结果为 `deferred`，不是已唤醒，不增加唤醒次数。角色处理这条待办也不广播业务完成。`idle_recheck` 是另外需要明确授权的主动发送规则，存在发送前状态变化的竞争窗口，不能声称原子不中断。完成事件本身依旧只写待办，周期检查是独立来源，不形成通知连锁。
 
 消息状态 `pending` 表示待派送，`sending` 表示环境已领取，`sent` 表示会话工具已接受，`uncertain` 表示结果不明，`failed` 表示三次明确未投递后的已知失败并已解除目标锁定。投递成功不等于任务完成。发送超时或结果不明时先读目标会话核对消息编号，不盲目重发；确认未发出才能恢复待派送。普通确认与回复不自动再唤醒对方，避免互相续跑。
 
@@ -171,7 +176,7 @@ node agents/coordination.mjs runtime --environment codex-local
 登记脚本仅依赖 Node.js 20 或更新版本和 Git。运行针对性检查：
 
 ```powershell
-node --test agents/session-registry.test.mjs agents/coordination-state.test.mjs agents/coordination-runtime.test.mjs agents/coordination-cli.test.mjs agents/coordination-todo.test.mjs
+node --test agents/session-registry.test.mjs agents/coordination-state.test.mjs agents/coordination-runtime.test.mjs agents/coordination-cli.test.mjs agents/coordination-todo.test.mjs agents/environment-bootstrap.test.mjs agents/polling-state.test.mjs
 git check-ignore agents/.local/sessions.json
 ```
 

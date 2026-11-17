@@ -71,7 +71,8 @@ test('配置完整列出六角色、对称交集和约定策略', t => {
   ];
   assert.deepEqual(roleIds.map(roleId => roleIds.map(peerId => config.relations[roleId][peerId])), expected);
   assert.deepEqual(config.policy, {
-    wakeEveryMinutes: 30, statusStaleMinutes: 360, maxCompactions: 3, maxSessionAgeDays: 7,
+    wakeEveryMinutes: 240, statusStaleMinutes: 360, maxCompactions: 3, maxSessionAgeDays: 7,
+    pollingMode: 'observe_only',
   });
 });
 

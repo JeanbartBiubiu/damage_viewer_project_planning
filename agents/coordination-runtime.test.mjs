@@ -119,7 +119,7 @@ test('关系为零的两组角色仍能定向请求并领取消息', t => {
 test('无任务时不形成唤醒或创建会话，有待办但目标未绑定时仅返回计划', t => {
   const root = fixture(t);
   assert.deepEqual(listCurrentSessions(root), []);
-  assert.deepEqual(wakePlan(environmentId, root), { environmentId, dispatchBudget: 2, groups: [], unresolved: [], noAction: true });
+  assert.deepEqual(wakePlan(environmentId, root), { environmentId, dispatchBudget: 1, groups: [], unresolved: [], noAction: true });
   assert.deepEqual(listCurrentSessions(root), []);
   const sender = bind(root);
   const before = listCurrentSessions(root);
@@ -133,7 +133,7 @@ test('无任务时不形成唤醒或创建会话，有待办但目标未绑定�
   assert.deepEqual(listCurrentSessions(root), before);
 });
 
-test('计划保留全部待办目标，派送预算为两个目标、同角色最多五条', t => {
+test('计划保留全部待办目标，派送预算为一个目标、同角色最多五条', t => {
   const root = fixture(t);
   const sender = bind(root, 'authoring');
   const target = bind(root);
@@ -152,7 +152,7 @@ test('计划保留全部待办目标，派送预算为两个目标、同角色�
   request(root, sender, { toRoleId: 'reviewer', taskKey: 'reviewer-task' });
   const sessionsBefore = listCurrentSessions(root);
   const plan = wakePlan(environmentId, root);
-  assert.equal(plan.dispatchBudget, 2);
+  assert.equal(plan.dispatchBudget, 1);
   assert.equal(plan.groups.length, 3);
   assert.equal(new Set(plan.groups.map(group => group.toRoleId)).size, 3);
   const states = new Map(inspectRuntime(environmentId, root).messages.map(message => [message.id, message.state]));

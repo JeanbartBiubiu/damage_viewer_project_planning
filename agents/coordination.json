@@ -10,9 +10,10 @@
     "reviewer": { "manager": 1, "frontend": 1, "backend": 1, "wasm": 1, "authoring": 1, "reviewer": 0 }
   },
   "policy": {
-    "wakeEveryMinutes": 30,
+    "wakeEveryMinutes": 240,
     "statusStaleMinutes": 360,
     "maxCompactions": 3,
-    "maxSessionAgeDays": 7
+    "maxSessionAgeDays": 7,
+    "pollingMode": "observe_only"
   }
 }

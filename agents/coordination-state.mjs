@@ -55,8 +55,9 @@ export function readCoordinationConfig(repositoryRoot = sourceRoot) {
       }
     }
   }
-  requireKeys(config.policy, policyKeys, '协作策略');
+  requireKeys(config.policy, [...policyKeys, 'pollingMode'], '协作策略');
   for (const key of policyKeys) requirePositiveInteger(config.policy[key], `协作策略 ${key}`);
+  if (!['observe_only', 'idle_recheck'].includes(config.policy.pollingMode)) throw new Error('轮询发送规则必须是 observe_only 或 idle_recheck。');
   return config;
 }
 

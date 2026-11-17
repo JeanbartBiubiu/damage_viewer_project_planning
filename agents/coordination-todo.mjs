@@ -68,11 +68,14 @@ function todoStore(repositoryRoot, environmentId, roleId, callback) {
         || Object.keys(store).length !== 4) throw new Error('角色待办结构无效，已保留原文件。');
     const ids = new Set();
     for (const item of store.items) {
-      if (!isRecord(item) || typeof item.id !== 'string' || ids.has(item.id) || item.kind !== 'task_completed'
-          || typeof item.eventId !== 'string' || !['check', 'requested'].includes(item.attention)
+      if (!isRecord(item) || typeof item.id !== 'string' || ids.has(item.id)
+          || !['task_completed', 'periodic_check'].includes(item.kind) || !['check', 'requested'].includes(item.attention)
           || !['unread', 'follow_up', 'closed'].includes(item.state) || !dateValid(item.createdAt)
           || !dateValid(item.updatedAt)) throw new Error('角色待办条目无效，已保留原文件。');
-      requireScope(item.fromRoleId, '待办来源');
+      if (item.kind === 'task_completed') {
+        if (typeof item.eventId !== 'string') throw new Error('完成待办缺少来源事件。');
+        requireScope(item.fromRoleId, '待办来源');
+      } else if (typeof item.cycleId !== 'string' || !item.cycleId) throw new Error('周期自检待办缺少轮次。');
       text(item.taskKey, '待办任务阶段', 160); text(item.summary, '待办摘要', 160);
       normalizeRefs(item.refs);
       if (item.state !== 'unread' && (!isRecord(item.decision)
@@ -195,6 +198,32 @@ export function roleTodos(request, repositoryRoot = sourceRoot) {
     pending: store.items.filter(item => item.state !== 'closed').length,
     items: store.items.filter(item => request.includeClosed || item.state !== 'closed'),
   } }));
+}
+
+// 调用方先领取本地轮询名额；这里只写文件，不向角色会话发送任何输入。
+export function queuePeriodicCheck(request, repositoryRoot = sourceRoot) {
+  text(request.cycleId, '周期编号', 160);
+  text(request.todoId, '周期待办编号', 200);
+  return todoStore(repositoryRoot, request.environmentId, request.roleId, store => {
+    const existing = store.items.find(item => item.id === request.todoId);
+    if (existing) {
+      if (existing.kind !== 'periodic_check') throw new Error('周期待办编号与其他事项冲突。');
+      return { result: { id: existing.id, created: false, state: existing.state } };
+    }
+    if (store.items.some(item => item.kind === 'periodic_check' && item.state !== 'closed')) {
+      throw new Error('已有未关闭的周期检查待办，请重新读取后复用。');
+    }
+    if (request.todoId !== `poll:${request.cycleId}:${request.roleId}`) throw new Error('新的周期待办编号必须对应当前轮次和角色。');
+    if (store.items.length >= 512) throw new Error('角色待办记录已满，请先归档。');
+    const now = new Date(Date.now()).toISOString();
+    const item = {
+      id: request.todoId, kind: 'periodic_check', cycleId: request.cycleId, taskKey: `polling:${request.cycleId}`,
+      summary: '在自然接手或工作检查点查看本人待办、近况和已授权事项；无事项就结束，不新增业务。',
+      refs: ['agents/heartbeat.md'], attention: 'check', state: 'unread', decision: null, createdAt: now, updatedAt: now,
+    };
+    store.items.push(item);
+    return { value: store, result: { id: item.id, created: true, state: item.state } };
+  });
 }
 
 export function decideTodo(request, repositoryRoot = sourceRoot) {

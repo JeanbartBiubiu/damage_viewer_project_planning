@@ -95,7 +95,7 @@ export function wakePlan(environmentId, repositoryRoot = sourceRoot) {
           || (currentActor?.compactions ?? 0) >= config.policy.maxCompactions)),
       });
     }
-    return { result: { environmentId, dispatchBudget: 2, groups, unresolved,
+    return { result: { environmentId, dispatchBudget: 1, groups, unresolved,
       ...(completionRepair ? { completionRepair } : {}),
       noAction: groups.length === 0 && unresolved.length === 0 && !completionRepair } };
   });

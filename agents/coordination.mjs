@@ -3,9 +3,12 @@ import { isAbsolute, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { coordinationState, readCoordinationConfig } from './coordination-state.mjs';
-import { localPaths, sourceRoot } from './local-store.mjs';
+import { localPaths, sourceRoot, withLocalJson } from './local-store.mjs';
 import { claimMessages, inspectRuntime, requestMessage, settleMessages, wakePlan } from './coordination-runtime.mjs';
-import { completeTask, decideTodo, flushCompletions, roleTodos } from './coordination-todo.mjs';
+import { completeTask, decideTodo, flushCompletions, queuePeriodicCheck, roleTodos } from './coordination-todo.mjs';
+import { environmentBootstrap } from './environment-bootstrap.mjs';
+import { pollingState } from './polling-state.mjs';
+import { sessionRegistry, withSessionSnapshot } from './session-registry.mjs';
 
 export function coordinationCommand(argv, repositoryRoot = sourceRoot) {
   const { values, positionals } = parseArgs({
@@ -19,6 +22,11 @@ export function coordinationCommand(argv, repositoryRoot = sourceRoot) {
       receipt: { type: 'string' },
       summary: { type: 'string' }, attention: { type: 'string', multiple: true },
       decision: { type: 'string' }, note: { type: 'string' }, all: { type: 'boolean' },
+      cycle: { type: 'string' }, 'observed-at': { type: 'string' }, reason: { type: 'string' },
+      'automation-id': { type: 'string' }, 'target-thread-id': { type: 'string' },
+      'native-status': { type: 'string' }, 'expected-id': { type: 'string' },
+      'expected-revision': { type: 'string' },
+      'native-absent': { type: 'boolean' }, attempt: { type: 'string' },
     },
   });
   const [command, roleId, ...extra] = positionals;
@@ -33,11 +41,23 @@ export function coordinationCommand(argv, repositoryRoot = sourceRoot) {
     todo: ['environment', 'all'],
     'todo-ack': ['environment', 'thread-id', 'generation', 'decision', 'note'],
     flush: ['environment'],
+    bootstrap: ['environment'],
+    'bootstrap-create': ['environment', 'expected-id', 'expected-revision', 'native-absent'],
+    'bootstrap-bind': ['environment', 'expected-id', 'expected-revision', 'automation-id', 'target-thread-id', 'native-status', 'attempt'],
+    'bootstrap-result': ['environment', 'expected-revision', 'attempt', 'outcome', 'receipt'],
+    'poll-begin': ['environment'], 'poll-status': ['environment'],
+    'poll-observe': ['environment', 'cycle', 'thread-id', 'generation', 'state', 'observed-at'],
+    'poll-claim': ['environment', 'cycle', 'thread-id', 'generation'],
+    'poll-defer': ['environment', 'cycle', 'thread-id', 'generation'],
+    'poll-settle': ['environment', 'cycle', 'token', 'outcome', 'receipt'],
+    'poll-finish': ['environment', 'cycle', 'reason'],
   };
   if (!Object.hasOwn(optionSets, command) || Object.keys(values).some(key => !optionSets[command].includes(key))) {
     throw new Error('未知命令或参数不属于该命令，请查看 agents/README.md。');
   }
-  if (['matrix', 'tick', 'runtime', 'settle', 'flush'].includes(command) && roleId !== undefined) throw new Error('该命令不接受角色位置参数。');
+  if (['matrix', 'tick', 'runtime', 'settle', 'flush', 'bootstrap', 'bootstrap-create', 'bootstrap-bind',
+    'bootstrap-result', 'poll-begin', 'poll-status', 'poll-settle', 'poll-finish'].includes(command)
+      && roleId !== undefined) throw new Error('该命令不接受角色位置参数。');
   if (!['claim', 'todo-ack'].includes(command) && extra.length) throw new Error('位置参数过多。');
   const environmentId = values.environment;
   const identity = () => {
@@ -46,6 +66,57 @@ export function coordinationCommand(argv, repositoryRoot = sourceRoot) {
     }
     return { environmentId, roleId, threadId: values['thread-id'], generation: Number(values.generation) };
   };
+  if (command === 'bootstrap') {
+    const automation = environmentBootstrap({ command: 'check', environmentId }, repositoryRoot);
+    sessionRegistry({ command: 'init' }, repositoryRoot);
+    withLocalJson(repositoryRoot, 'polling.json', value => value === null
+      ? { value: { formatVersion: 1, environments: {} }, result: null } : { result: null });
+    const polling = withSessionSnapshot(repositoryRoot, sessions => pollingState({ command: 'status', environmentId }, sessions, repositoryRoot));
+    return { automation, polling };
+  }
+  if (['bootstrap-create', 'bootstrap-bind', 'bootstrap-result'].includes(command)) {
+    if (command !== 'bootstrap-result' && !Object.hasOwn(values, 'expected-id')) throw new Error('必须提供 --expected-id，首次使用 none。');
+    if (!/^(0|[1-9][0-9]*)$/.test(values['expected-revision'] ?? '')
+        || !Number.isSafeInteger(Number(values['expected-revision']))) throw new Error('必须提供 --expected-revision 当前非负整数修订号。');
+    return environmentBootstrap({ command: command === 'bootstrap-create' ? 'begin-create' : command === 'bootstrap-bind' ? 'bind' : 'creation-result',
+      environmentId, expectedAutomationId: values['expected-id'] === 'none' ? null : values['expected-id'],
+      expectedRevision: Number(values['expected-revision']),
+      nativeAbsenceConfirmed: values['native-absent'] === true, automationId: values['automation-id'],
+      targetThreadId: values['target-thread-id'], status: values['native-status'], attemptId: values.attempt,
+      outcome: values.outcome, receipt: values.receipt }, repositoryRoot);
+  }
+  if (command.startsWith('poll-')) {
+    readCoordinationConfig(repositoryRoot);
+    if (command === 'poll-claim' && readCoordinationConfig(repositoryRoot).policy.pollingMode !== 'idle_recheck') {
+      throw new Error('当前为 observe_only，仅记录轮询，不允许向角色发送唤醒输入。');
+    }
+    if (command === 'poll-defer') {
+      const target = identity();
+      return withSessionSnapshot(repositoryRoot, sessions => {
+        const todos = roleTodos({ environmentId, roleId }, repositoryRoot);
+        const pending = todos.items.find(item => item.kind === 'periodic_check');
+        const todoId = pending?.id ?? `poll:${values.cycle}:${roleId}`;
+        const claimed = pollingState({ command: 'claim-local', ...target, cycleId: values.cycle, todoId }, sessions, repositoryRoot);
+        let queued;
+        try { queued = queuePeriodicCheck({ environmentId, roleId, cycleId: values.cycle, todoId }, repositoryRoot); }
+        catch (error) {
+          pollingState({ command: 'settle', environmentId, cycleId: values.cycle, token: claimed.token,
+            outcome: 'uncertain', receipt: `本地待办落盘结果需核对：${error.message}`.slice(0, 512) }, sessions, repositoryRoot);
+          throw new Error(`周期待办登记未确认，请按轮询记录核对 ${todoId}；未发送任何会话输入。`);
+        }
+        pollingState({ command: 'settle', environmentId, cycleId: values.cycle, token: claimed.token,
+          outcome: 'deferred', receipt: `已登记或复用本地待办 ${queued.id}，未发送会话输入` }, sessions, repositoryRoot);
+        return { cycleId: values.cycle, roleId, ...queued, outcome: 'deferred' };
+      });
+    }
+    let pollRequest = { command: command.slice(5), environmentId };
+    if (['poll-observe', 'poll-claim'].includes(command)) pollRequest = { ...pollRequest, ...identity(), cycleId: values.cycle };
+    if (command === 'poll-observe') Object.assign(pollRequest, { state: values.state, observedAt: values['observed-at'] });
+    if (command === 'poll-settle') Object.assign(pollRequest, { cycleId: values.cycle, token: values.token,
+      outcome: values.outcome, receipt: values.receipt });
+    if (command === 'poll-finish') Object.assign(pollRequest, { cycleId: values.cycle, reason: values.reason });
+    return withSessionSnapshot(repositoryRoot, sessions => pollingState(pollRequest, sessions, repositoryRoot));
+  }
   if (command === 'matrix') return readCoordinationConfig(repositoryRoot);
   if (command === 'complete') return completeTask({ ...identity(), taskKey: values.task,
     authority: values.authority, summary: values.summary, refs: values.ref ?? [], attentionRoles: values.attention ?? [] }, repositoryRoot);

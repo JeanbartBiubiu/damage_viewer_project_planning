@@ -1,4 +1,5 @@
 import { isRecord, requireScope, withLocalJson } from './local-store.mjs';
+import { assertNoActivePolling } from './polling-state.mjs';
 
 const messageStates = ['pending', 'sending', 'sent', 'uncertain', 'failed'];
 const validDate = value => typeof value === 'string' && Number.isFinite(Date.parse(value));
@@ -54,11 +55,13 @@ export function runtimeEnvironment(store, environmentId) {
 
 // 调用方已持有 sessions 锁；派送或结果不明时禁止切走目标会话。
 export function assertNoActiveDelivery(repositoryRoot, environmentId, roleId) {
-  return runtimeStore(repositoryRoot, store => {
+  const result = runtimeStore(repositoryRoot, store => {
     const messages = store.environments[environmentId]?.messages ?? [];
     if (messages.some(message => message.toRoleId === roleId && ['sending', 'uncertain'].includes(message.state))) {
       throw new Error('该角色存在正在派送或结果不明的消息，先核对投递结果再更换会话。');
     }
     return { result: undefined };
   });
+  assertNoActivePolling(repositoryRoot, environmentId, roleId);
+  return result;
 }
