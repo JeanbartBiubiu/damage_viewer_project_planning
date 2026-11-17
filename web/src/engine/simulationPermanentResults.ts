@@ -121,8 +121,25 @@ export function permanentModifier(context: PermanentResultContext, result: Skill
     fail(`${path}.detail.modifierZoneKey`, '缺少唯一真实启用修正区域');
   }
   if (result.resultType === 'DAMAGE_MODIFIER') {
-    return compileGroupedDamageModifier(result, snapshot.catalogs.modifierZones, snapshot.catalogs.damageTypes.map(row => row.type), snapshot.gameId,
-      staticGroupedAmplificationAmount(result.valueRule, `${path}.valueRule`, numeric), path);
+    if (zone.calculationMode === 'RATIO_GROUP_ADD') {
+      return compileGroupedDamageModifier(result, snapshot.catalogs.modifierZones, snapshot.catalogs.damageTypes.map(row => row.type), snapshot.gameId,
+        staticGroupedAmplificationAmount(result.valueRule, `${path}.valueRule`, numeric), path);
+    }
+    const detail = result.detail;
+    if (detail.direction !== 'TAKEN' || detail.operation !== 'DECREASE' || detail.deliveryKind !== 'ANY'
+      || detail.originKind !== 'ANY' || detail.criticalFilter !== 'ANY' || detail.condition !== null
+      || !detail.damageTypeKey || zone.domain !== 'DAMAGE' || zone.calculationMode !== 'RATIO_MULTIPLY'
+      || zone.applicationStage !== 'DAMAGE_POST_DEFENSE' || value < 0 || value > 1) {
+      fail(path, '常驻伤害减免需要明确伤害类型、承受方向的防御后比例乘算和0到1的静态比例，不忽略过滤或条件');
+    }
+    const damageTypes = snapshot.catalogs.damageTypes.filter(row => row.type.damageTypeKey === detail.damageTypeKey);
+    if (damageTypes.length !== 1 || damageTypes[0]!.type.gameId !== snapshot.gameId
+      || damageTypes[0]!.type.status !== 'ENABLED' || !/^[a-z][a-z0-9_]{0,63}$/.test(detail.damageTypeKey)) {
+      fail(`${path}.detail.damageTypeKey`, '常驻伤害减免需要唯一同游戏启用的真实伤害类型');
+    }
+    return { modifierKey: result.resultKey, kind: 'pipeline', command: 'damage', channel: 'all_damage',
+      stage: 'incoming_post_mitigation', bucket: 'all_instances', valuePolicy: 'multiply', value: constExpr(1 - value),
+      condition: { op: 'read', path: `damage.type.${detail.damageTypeKey}` } };
   }
   if (result.resultType === 'ATTRIBUTE_CHANGE') {
     const attributeKey = result.detail.attributeKey;
