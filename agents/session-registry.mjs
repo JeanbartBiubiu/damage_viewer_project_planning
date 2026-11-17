@@ -1,26 +1,15 @@
-import { execFileSync } from 'node:child_process';
-import {
-  closeSync, existsSync, fsyncSync, mkdirSync, openSync, readFileSync,
-  renameSync, statSync, unlinkSync, writeFileSync,
-} from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { existsSync, statSync } from 'node:fs';
+import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
-import { randomUUID } from 'node:crypto';
+import { isRecord, localPaths, requireScope, sourceRoot, withLocalJson } from './local-store.mjs';
+import { assertNoActiveDelivery } from './runtime-store.mjs';
 
-const sourceRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const isRecord = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const hasOwn = (value, key) => Object.hasOwn(value, key);
 
 function requireIdentifier(value, label) {
   if (typeof value !== 'string' || !/^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,199}$/.test(value)) {
     throw new Error(`${label}必须是有效编号，不能包含空白或路径分隔符。`);
-  }
-}
-
-function requireScope(value, label) {
-  if (typeof value !== 'string' || !/^[a-z0-9][a-z0-9_-]{0,63}$/.test(value)) {
-    throw new Error(`${label}只允许小写字母、数字、下划线和短横线，并以小写字母或数字开头。`);
   }
 }
 
@@ -52,53 +41,39 @@ function validateRegistry(value) {
   return value;
 }
 
-function localPaths(repositoryRoot) {
-  const listing = execFileSync('git', [
-    '-c', `safe.directory=${repositoryRoot}`, 'worktree', 'list', '--porcelain', '-z',
-  ], { cwd: repositoryRoot, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
-  const firstWorktree = listing.split('\0\0')[0].split('\0');
-  if (!firstWorktree[0].startsWith('worktree ') || firstWorktree.includes('bare')) {
-    throw new Error('无法定位主检出，不能另建一份本机会话登记。');
-  }
-  const mainRoot = resolve(firstWorktree[0].slice('worktree '.length));
-  if (!existsSync(mainRoot) || !statSync(mainRoot).isDirectory()) {
-    throw new Error('主检出不可用，不能在其他工作树另建登记。');
-  }
-  const localDirectory = join(mainRoot, 'agents', '.local');
-  return { localDirectory, registryPath: join(localDirectory, 'sessions.json') };
+function withRegistry(repositoryRoot, callback) {
+  return withLocalJson(repositoryRoot, 'sessions.json', value => {
+    const registry = value === null ? { formatVersion: 1, environments: {} } : validateRegistry(value);
+    const change = callback(registry, value !== null);
+    if (value === null && !Object.hasOwn(change, 'value')) change.value = registry;
+    return change;
+  });
 }
 
-function readRegistry(registryPath) {
-  let content;
-  try {
-    content = readFileSync(registryPath, 'utf8');
-  } catch (error) {
-    if (error.code === 'ENOENT') return null;
-    throw error;
-  }
-  let value;
-  try {
-    value = JSON.parse(content);
-  } catch {
-    throw new Error('本机会话登记不是有效 JSON，已保留原文件，不能重新初始化覆盖。');
-  }
-  return validateRegistry(value);
+export function listCurrentSessions(repositoryRoot = sourceRoot) {
+  return withSessionSnapshot(repositoryRoot, sessions => sessions);
 }
 
-function writeRegistry(registryPath, registry) {
-  const temporaryPath = `${registryPath}.${randomUUID()}.tmp`;
-  const descriptor = openSync(temporaryPath, 'wx');
-  try {
-    writeFileSync(descriptor, `${JSON.stringify(registry, null, 2)}\n`, 'utf8');
-    fsyncSync(descriptor);
-  } finally {
-    closeSync(descriptor);
-  }
-  try {
-    renameSync(temporaryPath, registryPath);
-  } finally {
-    if (existsSync(temporaryPath)) unlinkSync(temporaryPath);
-  }
+export function withSessionSnapshot(repositoryRoot, callback) {
+  return withRegistry(repositoryRoot, registry => ({ result: callback(
+    Object.entries(registry.environments).flatMap(([environmentId, sessions]) =>
+      Object.entries(sessions).map(([roleId, session]) => ({ environmentId, roleId, ...session })))),
+  }));
+}
+
+// 持有会话登记锁直到同步操作结束，使旧会话不能在换代后提交近况或消息。
+export function withCurrentSession(request, repositoryRoot = sourceRoot, callback) {
+  requireScope(request.environmentId, '环境');
+  requireScope(request.roleId, '角色');
+  requireIdentifier(request.threadId, '会话');
+  requireGeneration(request.generation);
+  return withRegistry(repositoryRoot, registry => {
+    const current = registry.environments[request.environmentId]?.[request.roleId];
+    if (!current || current.threadId !== request.threadId || current.generation !== request.generation) {
+      throw new Error('当前角色会话或登记代次已变化，请重新查询有效会话。');
+    }
+    return { result: callback({ environmentId: request.environmentId, roleId: request.roleId, ...current }) };
+  });
 }
 
 // 只管理登记事实，不创建会话、发送任务或撤销旧会话的真实权限。
@@ -122,19 +97,7 @@ export function sessionRegistry(request, repositoryRoot = sourceRoot) {
   }
 
   const { localDirectory, registryPath } = localPaths(repositoryRoot);
-  mkdirSync(localDirectory, { recursive: true });
-  const lockPath = `${registryPath}.lock`;
-  let lockDescriptor;
-  try {
-    lockDescriptor = openSync(lockPath, 'wx');
-  } catch (error) {
-    if (error.code === 'EEXIST') throw new Error(`会话登记正被占用，请核对持有进程后重试：${lockPath}`);
-    throw error;
-  }
-  try {
-    writeFileSync(lockDescriptor, JSON.stringify({ pid: process.pid, startedAt: new Date().toISOString() }));
-    const existing = readRegistry(registryPath);
-    const registry = existing ?? { formatVersion: 1, environments: {} };
+  return withRegistry(repositoryRoot, (registry, existing) => {
     let changed = !existing;
     let result = { status: existing ? 'existing' : 'initialized', registryPath };
     if (command !== 'init') {
@@ -147,6 +110,11 @@ export function sessionRegistry(request, repositoryRoot = sourceRoot) {
           throw new Error(`会话登记已变化：预期代次 ${expectedGeneration}，当前代次 ${generation}；请重新 resolve。`);
         }
         if (current?.threadId !== threadId || current?.hostId !== hostId) {
+          assertNoActiveDelivery(repositoryRoot, environmentId, roleId);
+          const duplicate = Object.entries(registry.environments).some(([otherEnvironment, roles]) =>
+            Object.entries(roles).some(([otherRole, session]) => session.threadId === threadId
+              && session.hostId === hostId && (otherEnvironment !== environmentId || otherRole !== roleId)));
+          if (duplicate) throw new Error('该会话已登记给另一角色或环境，不能同时承担两个长期角色。');
           if (generation === Number.MAX_SAFE_INTEGER) throw new Error('登记代次已达上限，不能继续绑定。');
           active = { threadId, hostId, generation: generation + 1, registeredAt: new Date().toISOString() };
           sessions[roleId] = active;
@@ -161,12 +129,8 @@ export function sessionRegistry(request, repositoryRoot = sourceRoot) {
         generation: active?.generation ?? 0, session: active,
       };
     }
-    if (changed) writeRegistry(registryPath, registry);
-    return result;
-  } finally {
-    closeSync(lockDescriptor);
-    unlinkSync(lockPath);
-  }
+    return changed ? { value: registry, result } : { result };
+  });
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
