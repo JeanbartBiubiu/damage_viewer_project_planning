@@ -5,10 +5,10 @@ import { fileURLToPath } from 'node:url';
 import { validatePlan, sameConfiguration, businessConfiguration } from '../../.agents/skills/damage-api-authoring/scripts/apply-skill-plan.mjs';
 import { calculatePlan } from '../../.agents/skills/skill-damage-verification/scripts/verify-damage.mjs';
 import { exactKeys, requireValue, isUuid, isDigest, digestJson, sha256, containedFile, readJson, writeNew, options } from './artifacts.mjs';
+import { snapshotExecutionSkillKeys } from '../../contracts/simulation/snapshotExecution.mjs';
 
 const fields = ['version', 'batchId', 'principalId', 'gameId', 'reference', 'sourceRevision', 'baselineDigest', 'skillPlan', 'scenes', 'expectedPlan'];
 function dependencyShape(value, field = '') {
-  if (typeof value === 'number' && field !== 'sortOrder') return ['number'];
   if (['name', 'description', 'createdAt', 'updatedAt', 'baseDigest'].includes(field)) return ['metadata'];
   if (Array.isArray(value)) return ['array', value.map(row => dependencyShape(row))];
   if (value && typeof value === 'object') return ['object', Object.keys(value).sort().map(key => [key, dependencyShape(value[key], key)])];
@@ -54,7 +54,7 @@ export function validateCandidate(input) {
   validatePlan(input.skillPlan);
   requireValue(input.skillPlan.gameId === input.gameId && input.skillPlan.items.length <= 100, '技能计划不属于该游戏或过大。');
   if (!development) for (const item of input.skillPlan.items) requireValue(stableCandidateDependencies(item.before, item.expected),
-    '当前自动候选仅支持保持来源、引用、排序和结构不变的数值或说明修正；新增组成、来源和依赖须转入开发验证。');
+    '当前自动候选仅支持保持所有数值、来源、引用、排序和结构不变的元信息修正；数值和组成变化须转入开发预检。');
   requireValue(Array.isArray(input.scenes) && input.scenes.length > 0 && input.scenes.length <= 100, '候选需要有界非空场景。');
   const expectations = calculatePlan(input.expectedPlan);
   const ids = new Set(), covered = new Set();
@@ -71,31 +71,23 @@ export function validateCandidate(input) {
         && !Array.isArray(scene.previewSnapshot.selection)
         && (missingOriginal || digestJson(scene.previewSnapshot.selection) === digestJson(scene.snapshot.selection)), '开发候选缺少同一选择的后端预检快照。');
     }
+    if (!missingOriginal) snapshotExecutionSkillKeys(scene.snapshot);
+    const executionSkills = new Set(snapshotExecutionSkillKeys(development ? scene.previewSnapshot : scene.snapshot));
     const updatedSkills = development ? new Set(previewUpdates(input, scene).map(item => item.skillKey)) : null;
     if (development) {
       requireValue(updatedSkills.size > 0, '开发场景没有对应的配置变更。');
     }
     for (const item of input.skillPlan.items) {
-      if (missingOriginal) {
+      const before = missingOriginal ? null : scene.snapshot.skillConfigurations.find(row => row.skill?.skillKey === item.skillKey);
+      if (before) requireValue(sameConfiguration(before, item.before), '场景技能与冻结基线不符。');
+      if (development) {
         const projected = scene.previewSnapshot.skillConfigurations.find(row => row.skill?.skillKey === item.skillKey);
-        if (projected) {
-          const updated = updatedSkills.has(item.skillKey);
-          requireValue(sameConfiguration(projected, updated ? item.expected : item.before), updated
-            ? '后端预检配置不等于冻结请求的完整预期。' : '未进入本场执行闭包的技能必须保持完整基线。');
-          if (updated) covered.add(item.skillKey);
-        }
-        continue;
-      }
-      const before = scene.snapshot.skillConfigurations.find(row => row.skill?.skillKey === item.skillKey);
-      if (before) {
-        requireValue(sameConfiguration(before, item.before), '场景技能与冻结基线不符。');
-        if (development) {
-          const projected = scene.previewSnapshot.skillConfigurations.find(row => row.skill?.skillKey === item.skillKey);
-          const updated = updatedSkills.has(item.skillKey);
-          requireValue(projected && sameConfiguration(projected, updated ? item.expected : item.before), updated
-            ? '后端预检配置不等于冻结请求的完整预期。' : '未进入本场执行闭包的技能必须保持完整基线。');
-        }
-        if (!development || updatedSkills.has(item.skillKey)) covered.add(item.skillKey);
+        const updated = updatedSkills.has(item.skillKey);
+        if (projected) requireValue(sameConfiguration(projected, updated ? item.expected : item.before), updated
+          ? '后端预检配置不等于冻结请求的完整预期。' : '未参与本场投影的技能必须保持完整基线。');
+        if (projected && updated && executionSkills.has(item.skillKey)) covered.add(item.skillKey);
+      } else if (before && executionSkills.has(item.skillKey)) {
+        covered.add(item.skillKey);
       }
     }
   }

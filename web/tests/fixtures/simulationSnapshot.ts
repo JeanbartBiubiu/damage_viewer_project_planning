@@ -35,6 +35,8 @@ export function simulationSample(gameId = 'demo'): SimulationSnapshot {
       basicAttackSkillKey: skillKey, basicAttackLevel: 1, plannedSkills: [], sourceEquipmentKeys: [], targetEquipmentKeys: [],
       sourceBuildConfigurations: [], targetBuildConfigurations: [], sourceSkillSettings: [], targetSkillSettings: [] },
     source: actor('actor_a', '样例A', sourceValues), target: actor('actor_b', '样例B', targetValues),
+    // 此作者结构用例不声明维护覆盖；执行字段的接口用例另行显式赋值。
+    executionSkillKeys: [],
     skillConfigurations: [{
       skill: { gameId, skillKey, name: '样例普攻', description: null, maxLevel: 1, status: 'ENABLED', sortOrder: 0, skillCategoryKeys: ['basic_attack'], ...metadata },
       parameters: [

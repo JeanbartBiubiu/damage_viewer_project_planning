@@ -13,6 +13,7 @@ import { makeClient, validateBase, applyCandidate, reconcileCandidate } from './
 import { collectSavedScenes } from './collect-saved-scenes.mjs';
 import { verifyWebhook, feedbackTask, enqueueFeedback, validateResult, processJob, verifyAcceptance, publishReply } from './feedback.mjs';
 import { publicRoutes, renderNginx } from './generate-nginx.mjs';
+import { buildSkillPlanItem } from '../../.agents/skills/damage-api-authoring/scripts/apply-skill-plan.mjs';
 
 const id = '0f053196-ddbb-4e83-9a77-818c51b21268';
 const hash = 'a'.repeat(64);
@@ -39,8 +40,13 @@ function fixture() {
     skillPlan: { schemaVersion: 'skill-configuration-plan-v1', gameId: 'lol', items: [{ skillKey: 'q', before, expected, request,
       sourceEvidence: [{ path: 'source.txt', sha256: sha256('source'), note: '已确认文本' }] }] },
     scenes: [{ id: 'normal', snapshot: { gameId: 'lol', selection: { sourceLevel: 1 }, skillConfigurations: [before],
+      executionSkillKeys: ['q'], source: { skillSources: [executionSource('q')] }, target: { skillSources: [] },
       catalogs: { resistance: 10 }, readAt: '2026-11-13T00:00:00Z' }, scenario: { mode: 'fixed' } }],
     expectedPlan: { cases: [{ id: 'normal', inputs: { attack: 80 }, checks: [{ pointer: '/done/damage', expression: '60 + 0.5 * attack', comparison: 'amount' }] }] } };
+}
+function executionSource(skillKey, active = true) {
+  return { skillKey, skillStatus: 'ENABLED', skillLevel: 1, enabled: active,
+    inactiveReason: active ? null : 'SCENE_DISABLED' };
 }
 function temporary(t) {
   const directory = mkdtempSync(resolve(tmpdir(), 'damage-maintenance-test-')), parent = realpathSync(tmpdir());
@@ -96,7 +102,9 @@ test('改变来源、引用、排序或结构不能沿用旧依赖闭包签发',
   }
   const first = structuredClone(before); first.parameters = [{ fixedValue: 10, valueMode: 'FIXED' }];
   const second = structuredClone(first); second.parameters[0].fixedValue = 20;
-  assert.equal(stableCandidateDependencies(first, second), true);
+  assert.equal(stableCandidateDependencies(first, second), false);
+  const description = structuredClone(first); description.skill.description = '只修说明';
+  assert.equal(stableCandidateDependencies(first, description), true);
 });
 
 function developmentFixture() {
@@ -114,8 +122,59 @@ function developmentFixture() {
 }
 
 function executionReference(sourceSkillKey, targetSkillKey = sourceSkillKey) {
-  return { sourceType: 'TRIGGER_RULE', sourceSkillKey, sourceKey: 'on_used', fieldPath: 'actions[0].processKey',
+  return { sourceType: 'TRIGGER', sourceSkillKey, sourceKey: 'on_used', fieldPath: 'actions[0].detail.processKey',
     targetType: 'PROCESS', targetSkillKey, targetKey: 'cast', targetSubKey: '' };
+}
+
+function modelExecutionFixture(caseKey, skillKeys) {
+  const input = fixture();
+  const definition = JSON.parse(readFileSync(new URL(`../../web/tests/mechanisms/cases/${caseKey}.json`, import.meta.url), 'utf8'));
+  const snapshot = JSON.parse(JSON.stringify(definition.snapshot).replaceAll('mechanism_lab', 'lol'));
+  Object.assign(snapshot, { gameId: 'lol', executionSkillKeys: [...skillKeys].sort(), snapshotDigest: hash, readAt: '2026-11-13T00:00:00Z' });
+  snapshot.references = snapshot.skillConfigurations.flatMap(configuration => configuration.triggerRules.flatMap(rule =>
+    rule.actions.flatMap((action, index) => ['START_PROCESS', 'EXECUTE_EFFECT'].includes(action.actionType) ? [{
+      sourceType: 'TRIGGER', sourceSkillKey: configuration.skill.skillKey, sourceKey: rule.ruleKey,
+      fieldPath: `actions[${index}].detail.${action.actionType === 'START_PROCESS' ? 'processKey' : 'effectKey'}`,
+      targetType: action.actionType === 'START_PROCESS' ? 'PROCESS' : 'EFFECT', targetSkillKey: configuration.skill.skillKey,
+      targetKey: action.actionType === 'START_PROCESS' ? action.detail.processKey : action.detail.effectKey, targetSubKey: ''
+    }] : [])));
+  input.version = 'maintenance-development-candidate-v1';
+  input.skillPlan.items = skillKeys.map(skillKey => {
+    const before = structuredClone(snapshot.skillConfigurations.find(configuration => configuration.skill.skillKey === skillKey));
+    before.baseDigest = hash;
+    before.skill.description ??= null;
+    // 固定数值向量没有要求根集合排序；维护聚合读取按组成稳定键排序。
+    for (const [collection, key] of Object.entries({ parameters: 'parameterKey', formulas: 'formulaKey',
+      effects: 'effectKey', processes: 'processKey', internalStates: 'stateKey', triggerRules: 'ruleKey' })) {
+      before[collection].sort((a, b) => a[key] < b[key] ? -1 : a[key] > b[key] ? 1 : 0);
+    }
+    const expected = structuredClone(before); expected.skill.description = '依据已确认说明修订';
+    return buildSkillPlanItem(before, expected, input.skillPlan.items[0].sourceEvidence);
+  });
+  snapshot.skillConfigurations = snapshot.skillConfigurations.map(configuration =>
+    input.skillPlan.items.find(item => item.skillKey === configuration.skill.skillKey)?.before ?? configuration);
+  const previewSnapshot = structuredClone(snapshot);
+  previewSnapshot.skillConfigurations = previewSnapshot.skillConfigurations.map(configuration =>
+    input.skillPlan.items.find(item => item.skillKey === configuration.skill.skillKey)?.expected ?? configuration);
+  input.scenes = [{ id: 'normal', snapshot, previewSnapshot, scenario: { mode: 'fixed' } }];
+  return input;
+}
+
+function definitionOnlyFixture() {
+  const producer = 'lab_shared_window', follower = 'lab_follow_bonus';
+  const input = modelExecutionFixture('spell_shield_follow_same_contact_producer_present', [producer, follower]);
+  for (const snapshot of [input.scenes[0].snapshot, input.scenes[0].previewSnapshot]) {
+    snapshot.executionSkillKeys = [follower];
+    snapshot.selection.plannedSkills = snapshot.selection.plannedSkills.filter(plan => plan.skillKey !== producer);
+    const setting = snapshot.selection.sourceSkillSettings.find(setting => setting.skillKey === producer);
+    setting.enabled = false;
+    const source = snapshot.source.skillSources.find(source => source.skillKey === producer);
+    Object.assign(source, { enabled: false, inactiveReason: 'SCENE_DISABLED', enabledRuleKeys: [] });
+    snapshot.references = [{ sourceType: 'EFFECT', sourceSkillKey: follower, sourceKey: 'extra',
+      fieldPath: 'results[0].detail.spellShieldFollowResult.resultKey', targetType: 'RESULT',
+      targetSkillKey: producer, targetKey: 'extra', targetSubKey: 'damage' }];
+  }
+  return input;
 }
 
 test('已授权组成删除仅接受开发候选，自动候选继续拒绝结构删除', () => {
@@ -141,7 +200,13 @@ function developmentBatchFixture() {
   const qScene = input.scenes[0];
   qScene.snapshot.skillConfigurations.push(structuredClone(e.before));
   qScene.previewSnapshot.skillConfigurations.push(structuredClone(e.before));
+  qScene.snapshot.source.skillSources.push(executionSource('e', false));
+  qScene.previewSnapshot.source.skillSources.push(executionSource('e', false));
   const eScene = structuredClone(qScene); eScene.id = 'e_only';
+  for (const snapshot of [eScene.snapshot, eScene.previewSnapshot]) {
+    snapshot.executionSkillKeys = ['e'];
+    snapshot.source.skillSources = [executionSource('q', false), executionSource('e')];
+  }
   eScene.snapshot.references = [executionReference('e')];
   eScene.previewSnapshot.references = structuredClone(eScene.snapshot.references);
   eScene.previewSnapshot.skillConfigurations = [structuredClone(q.before), structuredClone(e.expected)];
@@ -172,7 +237,7 @@ test('新增自然执行入口由真实预检闭包选择，不要求修前已�
 test('未消费技能不能在预检中变化，也不能凭完整配置列表充当变更覆盖', () => {
   const changed = developmentBatchFixture();
   changed.scenes[0].previewSnapshot.skillConfigurations[1] = structuredClone(changed.skillPlan.items[1].expected);
-  assert.throws(() => validateCandidate(changed), /未进入本场执行闭包.*完整基线/);
+  assert.throws(() => validateCandidate(changed), /未参与本场投影.*完整基线/);
   const uncovered = developmentBatchFixture();
   uncovered.scenes.pop(); uncovered.expectedPlan.cases.pop();
   assert.throws(() => validateCandidate(uncovered), /未被任何候选场景覆盖/);
@@ -182,13 +247,46 @@ test('未消费技能不能在预检中变化，也不能凭完整配置列表�
   }
 });
 
-test('跨技能执行引用的目标进入预检，未收录配置仍不能凭引用加入', () => {
-  const input = developmentBatchFixture(), scene = input.scenes[0];
-  scene.snapshot.references.push(executionReference('q', 'e'), executionReference('q', 'not_selected'));
-  scene.previewSnapshot.references = structuredClone(scene.snapshot.references);
-  scene.previewSnapshot.skillConfigurations[1] = structuredClone(input.skillPlan.items[1].expected);
+test('实际技能命中触发另一来源启动自身过程，两者均可贡献执行覆盖', () => {
+  const input = modelExecutionFixture('skill_hit_passive_delay_at', ['lab_arc_shot', 'lab_deferred_strike']);
   const candidate = validateCandidate(input);
-  assert.deepEqual(previewUpdates(candidate, candidate.scenes[0]).map(item => item.skillKey), ['q', 'e']);
+  const deferred = candidate.scenes[0].previewSnapshot.skillConfigurations.find(configuration => configuration.skill.skillKey === 'lab_deferred_strike');
+  const schedule = deferred.triggerRules.find(rule => rule.ruleKey === 'schedule');
+  assert.equal(schedule.eventSource.detail.sourceSkillKey, 'lab_arc_shot');
+  assert.equal(schedule.actions[0].detail.processKey, 'delayed');
+  assert.deepEqual(previewUpdates(candidate, candidate.scenes[0]).map(item => item.skillKey), ['lab_arc_shot', 'lab_deferred_strike']);
+});
+
+test('必要定义可完整投影，但开发与自动候选均不能据此授予执行覆盖', () => {
+  const input = definitionOnlyFixture();
+  assert.deepEqual(previewUpdates(input, input.scenes[0]).map(item => item.skillKey), ['lab_shared_window', 'lab_follow_bonus']);
+  assert.throws(() => validateCandidate(input), /未被任何候选场景覆盖/);
+  const automatic = structuredClone(input); automatic.version = 'maintenance-candidate-v1';
+  delete automatic.scenes[0].previewSnapshot;
+  assert.throws(() => validateCandidate(automatic), /未被任何候选场景覆盖/);
+});
+
+test('另一场真实启用生产者后可覆盖整批，定义场投影保持完整预期', () => {
+  const input = definitionOnlyFixture();
+  const executing = modelExecutionFixture('spell_shield_follow_same_contact_producer_present', ['lab_shared_window', 'lab_follow_bonus']).scenes[0];
+  executing.id = 'producer_runs'; input.scenes.push(executing);
+  input.expectedPlan.cases.push({ ...structuredClone(input.expectedPlan.cases[0]), id: executing.id });
+  assert.equal(validateCandidate(input).scenes.length, 2);
+});
+
+test('新入口使用修后执行事实，修前为空不限制开发候选', () => {
+  const input = developmentFixture(); input.scenes[0].snapshot.executionSkillKeys = [];
+  assert.equal(validateCandidate(input).scenes.length, 1);
+});
+
+test('本地合法伪造的执行声明仍被独立服务重读拒绝', async () => {
+  const original = definitionOnlyFixture(), input = structuredClone(original);
+  const preview = input.scenes[0].previewSnapshot;
+  preview.executionSkillKeys = ['lab_follow_bonus', 'lab_shared_window'];
+  Object.assign(preview.source.skillSources.find(source => source.skillKey === 'lab_shared_window'), { enabled: true, inactiveReason: null });
+  const candidate = validateCandidate(input);
+  await assert.rejects(verifyDatabaseInputs(candidate, { request: async (_method, path) => ({ data: path.endsWith('/baseline')
+    ? { baselineDigest: hash } : { ...(path.endsWith('/simulation-preview') ? original.scenes[0].previewSnapshot : original.scenes[0].snapshot), readAt: 'fresh' } }) }), /预检快照并非当前后端/);
 });
 
 test('结构变化必须显式选择开发候选，并保留后端预检的完整派生场景', () => {

@@ -12,6 +12,7 @@ import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.*;
 import xyz.game.datamanage.model.skill.SkillStatus;
 import xyz.game.datamanage.model.skillcategory.SkillCategoryResponse;
 import xyz.game.datamanage.model.skillcategory.SkillCategoryStatus;
+import xyz.game.datamanage.model.skillrelation.CharacterSkillRelationListResponse;
 import xyz.game.datamanage.support.error.ApiException;
 
 class SimulationSnapshotSourcesTest {
@@ -117,6 +118,28 @@ class SimulationSnapshotSourcesTest {
         assertNull(row(result, "target", "scaled_passive").inactiveReason());
         verify(fixture.configurations).get(GAME, "scaled_passive");
         assertEquals(1, result.skillConfigurations().stream().filter(configuration -> configuration.skill().skillKey().equals("scaled_passive")).count());
+    }
+
+    @Test
+    void executionSkillKeysAreSortedAcrossSidesAndDeduplicatedAcrossSources() throws Exception {
+        String shared = "z_shared";
+        String targetOnly = "a_target";
+        fixture.attach("hero_a", ATTACK, shared);
+        fixture.attach("hero_b", ATTACK, shared, targetOnly);
+        String configuration = """
+            {"effects":[%s],"triggerRules":[%s]}
+            """.formatted(heal("heal", "{\"kind\":\"FIXED\",\"value\":1}"), initialization("initialize", "heal"));
+        fixture.configuration(shared, 1, configuration);
+        fixture.configuration(targetOnly, 1, configuration);
+
+        var result = fixture.service.get(GAME, fixture.choice());
+        assertEquals(List.of(targetOnly, shared), result.executionSkillKeys());
+        var targetRelations = fixture.relations.listCharacterRelations(GAME, "hero_b", null);
+        when(fixture.relations.listCharacterRelations(GAME, "hero_b", null)).thenReturn(
+            new CharacterSkillRelationListResponse(targetRelations.items().reversed(), targetRelations.total()));
+        var reordered = fixture.service.get(GAME, fixture.choice());
+        assertEquals(result.executionSkillKeys(), reordered.executionSkillKeys());
+        assertEquals(result.snapshotDigest(), reordered.snapshotDigest());
     }
 
     @Test

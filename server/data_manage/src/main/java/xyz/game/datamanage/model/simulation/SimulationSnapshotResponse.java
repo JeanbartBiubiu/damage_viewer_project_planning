@@ -31,11 +31,16 @@ public record SimulationSnapshotResponse(
     Combatant source,
     Combatant target,
     List<SkillConfigurationResponse> skillConfigurations,
+    @JsonInclude(JsonInclude.Include.ALWAYS) List<String> executionSkillKeys,
     Catalogs catalogs,
     List<Reference> references,
     String snapshotDigest,
     OffsetDateTime readAt
 ) {
+    public SimulationSnapshotResponse {
+        executionSkillKeys = List.copyOf(executionSkillKeys);
+    }
+
     public record Selection(String sourceCharacterKey, int sourceLevel, String targetCharacterKey,
                             int targetLevel, String basicAttackSkillKey, Integer basicAttackLevel,
                             List<String> sourceEquipmentKeys, List<String> targetEquipmentKeys,

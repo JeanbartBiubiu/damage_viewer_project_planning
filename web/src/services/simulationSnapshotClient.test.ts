@@ -10,6 +10,36 @@ import { syncSimulationSkillSources } from '../../tests/fixtures/simulationSkill
 afterEach(() => vi.unstubAllGlobals());
 
 describe('场景只读快照接口', () => {
+  it('保留服务明确声明的执行闭包，空表合法且不从完整配置猜测覆盖', () => {
+    const snapshot = simulationSample();
+    expect(validateSimulationSnapshot(snapshot, 'demo', snapshot.selection).executionSkillKeys).toEqual([]);
+    snapshot.executionSkillKeys = ['sample_basic_attack'];
+    const before = structuredClone(snapshot);
+    expect(validateSimulationSnapshot(snapshot, 'demo', snapshot.selection).executionSkillKeys).toEqual(['sample_basic_attack']);
+    expect(snapshot).toEqual(before);
+  });
+
+  it.each([undefined, null, {}, ['bad key'], ['missing'], ['sample_basic_attack', 'sample_basic_attack'],
+    ['sample_basic_attack', 'a']])('非法执行闭包明确指向字段路径：%j', executionSkillKeys => {
+    const snapshot = simulationSample();
+    Object.assign(snapshot, { executionSkillKeys });
+    expect(() => validateSimulationSnapshot(snapshot, 'demo', snapshot.selection)).toThrow(/executionSkillKeys/);
+  });
+
+  it('完整只读依赖与停用来源不能冒充执行闭包', () => {
+    const snapshot = simulationDefaultSourcesSample();
+    snapshot.executionSkillKeys = ['sample_disabled'];
+    expect(() => validateSimulationSnapshot(snapshot, 'demo', snapshot.selection)).toThrow(/executionSkillKeys\[0\]/);
+    const dependency = simulationSample();
+    dependency.skillConfigurations.push({ ...structuredClone(dependency.skillConfigurations[0]!),
+      skill: { ...dependency.skillConfigurations[0]!.skill, skillKey: 'sample_dependency' },
+      parameters: [], formulas: [], effects: [], processes: [], internalStates: [], triggerRules: [] });
+    dependency.references.push({ sourceSkillKey: 'sample_basic_attack', sourceType: 'TRIGGER', sourceKey: 'begin_attack',
+      fieldPath: 'actions[0].detail.skillKey', targetType: 'SKILL', targetSkillKey: '', targetKey: 'sample_dependency', targetSubKey: '' });
+    dependency.executionSkillKeys = ['sample_dependency'];
+    expect(() => validateSimulationSnapshot(dependency, 'demo', dependency.selection)).toThrow(/executionSkillKeys\[0\]/);
+  });
+
   it.each(['selected', 'disabled'] as const)('完整%s来源保留未挂接的已知实例时间公式，未知上下文仍拒绝', variant => {
     const snapshot = variant === 'selected' ? simulationSample() : simulationDefaultSourcesSample();
     const configuration = variant === 'selected' ? snapshot.skillConfigurations[0]!

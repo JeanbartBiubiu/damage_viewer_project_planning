@@ -138,7 +138,7 @@ export type MechanismExpectation = {
   finiteRecastWitnesses?: ProjectedFiniteRecastWitness[];
 };
 
-type CaseSnapshot = Omit<SimulationSnapshot, 'gameId' | 'catalogs' | 'snapshotDigest' | 'readAt'>;
+type CaseSnapshot = Omit<SimulationSnapshot, 'gameId' | 'catalogs' | 'snapshotDigest' | 'readAt' | 'executionSkillKeys'>;
 export type MechanismCaseFile = {
   schemaVersion: typeof MECHANISM_CASE_VERSION;
   caseKey: string;
@@ -209,6 +209,8 @@ export function parseMechanismCase(bytes: Buffer, file: string): MechanismCase {
     ...definition, file, gameId: catalog.gameId, fileSha256,
     buildSnapshot: () => ({
       ...structuredClone(definition.snapshot), gameId: catalog.gameId, catalogs: structuredClone(catalog.catalogs),
+      // 合成数值向量不声明维护覆盖；真实候选必须使用服务返回的执行闭包。
+      executionSkillKeys: [],
       snapshotDigest: fileSha256, readAt: '2026-01-01T00:00:00Z'
     })
   };

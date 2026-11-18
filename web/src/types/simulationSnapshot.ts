@@ -100,6 +100,8 @@ export type SimulationSnapshot = {
   source: SimulationCombatant;
   target: SimulationCombatant;
   skillConfigurations: SkillConfiguration[];
+  /** 后端静态执行闭包；只读定义不授予维护候选覆盖。 */
+  executionSkillKeys: string[];
   catalogs: {
     levelConfig: LevelConfig;
     attributes: Attribute[];

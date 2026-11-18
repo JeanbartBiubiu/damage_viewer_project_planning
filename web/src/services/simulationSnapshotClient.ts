@@ -6,6 +6,7 @@ import { simulationSkillSourceIdentity } from './simulationSkillSourceIdentity';
 import { parseDamageTypeFormulaDefinition } from './damageTypeClient';
 import { damageTypeFormulaAllowedBindings } from '../types/damageTypeFormula';
 import { parseGameCalculationRules } from './gameCalculationRulesClient';
+import { snapshotExecutionSkillKeys } from '../../../contracts/simulation/snapshotExecution.mjs';
 import type { Attribute } from '../types/attribute';
 import type { SkillCategory } from '../types/skillCategory';
 import type {
@@ -430,6 +431,7 @@ export function validateSimulationSnapshot(
     if (sources.some(source => (source.enabledRuleKeys as string[]).some(ruleKey => !ruleKeys.has(ruleKey)))) bad(`skillConfigurations[${index}].triggerRules`);
   }
   if ([...expectedSkills].some(skillKey => !seenSkills.has(skillKey))) bad('skillConfigurations');
+  snapshotExecutionSkillKeys(root, path => bad(path));
   for (const plan of expected.plannedSkills) {
     const source = sourceRows.find(row => row.skillKey === plan.skillKey
       && simulationSkillSourceIdentity(origin(row.origin, 'source.skillSources.origin'), plan.skillKey)

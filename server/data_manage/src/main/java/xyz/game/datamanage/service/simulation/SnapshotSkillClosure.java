@@ -188,10 +188,17 @@ final class SnapshotSkillClosure {
         } catch (ApiException exception) {
             throw translate(exception);
         }
+        List<String> executionSkillKeys = visited.stream()
+            .filter(invocation -> {
+                Source owner = invocation.owner();
+                return invocation.executes() && !invocation.definitionOnly()
+                    && invocation.object().skillKey().equals(owner.skillKey) && owner.enabled && owner.inactive == null;
+            })
+            .map(invocation -> invocation.owner().skillKey).distinct().sorted().toList();
         return new Result(configurations.values().stream().sorted(Comparator.comparing(configuration -> configuration.skill().skillKey())).toList(),
             references.stream().sorted(Comparator.comparing(Reference::sourceSkillKey).thenComparing(reference -> reference.sourceType().name())
                 .thenComparing(Reference::sourceKey).thenComparing(Reference::fieldPath)
-                .thenComparing(reference -> reference.target().toString())).toList(), needed);
+                .thenComparing(reference -> reference.target().toString())).toList(), needed, executionSkillKeys);
     }
 
     /** 完整原额标记图的目录定义，不进入真实执行队列或响应引用。 */
@@ -969,5 +976,6 @@ final class SnapshotSkillClosure {
     private record Invocation(Source owner, Aggregate object, boolean executes, boolean definitionOnly) {
         private Invocation(Source owner, Aggregate object, boolean executes) { this(owner, object, executes, false); }
     }
-    record Result(List<SkillConfigurationResponse> configurations, List<Reference> references, List<Aggregate> objects) { }
+    record Result(List<SkillConfigurationResponse> configurations, List<Reference> references, List<Aggregate> objects,
+                  List<String> executionSkillKeys) { }
 }

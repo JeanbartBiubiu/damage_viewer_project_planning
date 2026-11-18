@@ -26,9 +26,11 @@ node tools/maintenance/accept-public.mjs --help
 
 通过生产结果准入的运行档案另有 `passiveProcesses`：从原始过程快照选择被动实例，按拥有者、挂载、过程、开始时刻和实例标识稳定排序，不改原始 `done`。冻结预期可直接比较其数量、期限、状态及原使用归属，并在正式签发前参与同一轮对照；声明了被动过程却缺少过程快照时直接失败。
 
-当前自动候选仅接受不改变来源、引用、枚举、排序、集合结构和最高等级的数值或说明修正。新增组成、触发入口、依赖、类别或其他配置对象交回开发验证，不沿用旧快照的派生信息。此限制由代码拒绝，不能用替换摘要绕过。
+当前自动候选仅接受不改变任何数值、来源、引用、枚举、排序、集合结构和最高等级的名称或说明修正。数值修订也可能改变静态入口，因此统一使用开发预检，不沿用旧快照的派生信息；新增组成、触发入口、依赖、类别及删除同样进入开发验证。此限制由代码拒绝，不能用替换摘要绕过。
 
-开发录入新增组成时，显式使用 `candidate.mjs --mode development`，冻结为独立的开发候选。场景除原始 `snapshot` 外还提供 `previewSnapshot`，后者必须来自私有只读 `POST /internal/maintenance/games/{gameId}/simulation-preview`。请求为 `{selection, updates:[{skillKey, request}]}`，按后端预检快照 `references` 的来源和目标技能筛选本场实际执行闭包内的更新，允许修前尚无执行引用的新增入口；原始快照的引用形状仍独立核对。完整配置列表中的其它本批技能保持原基线，每项变更至少在一场实际进入闭包，缺少执行引用则拒绝。后端核对原摘要，用现行配置准备和场景装配重建来源、引用及目录，不写业务数据。开发候选允许已授权的组成`DELETE/null`，并检查完整最终聚合中的本地引用；自动候选仍拒绝结构删除。验证执行者再次向真实服务读取原始和预检快照，逐字段核对后才运行并签发。正式保存后的对象仍用普通快照验收；开发预检不替代保存或完整对象准入。
+开发录入新增组成时，显式使用 `candidate.mjs --mode development`，冻结为独立的开发候选。场景除原始 `snapshot` 外还提供 `previewSnapshot`，后者必须来自私有只读 `POST /internal/maintenance/games/{gameId}/simulation-preview`。请求为 `{selection, updates:[{skillKey, request}]}`，按后端预检快照 `references` 的来源和目标技能筛选本场装配所需的更新，包含必要只读定义，允许修前尚无执行引用的新增入口；原始快照的引用形状仍独立核对。完整配置列表中的其它本批技能保持原基线。后端核对原摘要，用现行配置准备和场景装配重建来源、引用及目录，不写业务数据。开发候选允许已授权的组成`DELETE/null`，并检查完整最终聚合中的本地引用；自动候选仍拒绝结构删除。验证执行者再次向真实服务读取原始和预检快照，逐字段核对后才运行并签发。正式保存后的对象仍用普通快照验收；开发预检不替代保存或完整对象准入。
+
+投影与覆盖分开：普通和预检快照必须提供[执行闭包技能列表](../../contracts/simulation/README.md)。开发候选取预检列表与本场投影项的交集，自动候选取普通列表与本地投影项的交集；全批每项变更至少被一场覆盖。只读定义可完整投影却不贡献覆盖，缺字段不猜默认值。列表表示静态可达，真实运行与事先固定的有效数值、状态断言继续保留。
 
 新增主动入口等结构修复可能使修前普通快照无法生成。仅开发候选可明确填写 `snapshot: null`，保留真实 `previewSnapshot`；不省略字段或伪造普通快照。此时验证前后独立读取本批全部技能的完整配置，分别核对冻结 `before` 的业务内容与 `baseDigest`，再按预检选择和真实执行引用重建、核对整个后端预检场景。原始配置、预检与全游戏基线证据同时保留；正式保存后仍通过普通场景快照验证。
 
@@ -73,7 +75,7 @@ node tools/maintenance/feedback.mjs --help
 
 ```powershell
 node tools/maintenance/generate-nginx.mjs --catalog server/data_manage/src/main/resources/api-access.json --output <新的配置目录>
-node --test tools/maintenance/maintenance.test.mjs
+node --test tools/maintenance/maintenance.test.mjs tools/maintenance/execution-coverage.test.mjs
 node tools/maintenance/nginx-smoke.mjs --nginx <Nginx可执行文件> --output <新的证据目录>
 ```
 

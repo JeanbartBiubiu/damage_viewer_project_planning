@@ -5,9 +5,15 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static xyz.game.datamanage.service.simulation.SimulationSnapshotFixture.*;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.cfg.JsonNodeFeature;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.security.MessageDigest;
+import java.util.HexFormat;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import xyz.game.datamanage.model.simulation.SimulationPreviewUpdate;
+import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.SkillSetting;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.Origin;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.Selection;
@@ -35,7 +41,11 @@ class SimulationSnapshotPreviewTest {
 
         var original = fixture.service.get(GAME, fixture.choice());
         assertTrue(original.catalogs().modifierZones().isEmpty());
+        assertEquals(List.of(), original.executionSkillKeys());
+        assertDigestIncludesExecutionSkillKeys(fixture.json, original);
         var projected = fixture.service.preview(GAME, fixture.choice(), List.of(new SimulationPreviewUpdate(SPELL, request)));
+        assertEquals(List.of(SPELL), projected.executionSkillKeys());
+        assertDigestIncludesExecutionSkillKeys(fixture.json, projected);
         assertEquals(List.of("bonus_zone"), projected.catalogs().modifierZones().stream().map(zone -> zone.modifierZoneKey()).toList());
         assertTrue(projected.references().stream().anyMatch(reference -> reference.sourceSkillKey().equals(SPELL)
             && reference.targetType().equals("MODIFIER_ZONE") && reference.targetKey().equals("bonus_zone")));
@@ -50,7 +60,7 @@ class SimulationSnapshotPreviewTest {
         verify(fixture.configurations, never()).create(any(), any(), any());
     }
 
-    @Test void absentAndDisabledCandidateSourcesCannotPassAsExecutedOverrides() throws Exception {
+    @Test void overridesOutsideTheRequiredAssemblyAreRejected() throws Exception {
         for (boolean attached : List.of(false, true)) {
             var fixture = new SimulationSnapshotFixture();
             if (attached) fixture.attach("hero_a", ATTACK, SPELL);
@@ -65,7 +75,10 @@ class SimulationSnapshotPreviewTest {
             Selection chosen = selection;
             ApiException exception = assertThrows(ApiException.class, () -> fixture.service.preview(GAME, chosen,
                 List.of(new SimulationPreviewUpdate(SPELL, request))));
-            assertTrue(exception.getDetails().toString().contains("PREVIEW_UPDATE_NOT_CONSUMED"));
+            var issue = fixture.json.valueToTree(exception.getDetails()).path("fieldIssues").get(0);
+            assertEquals("PREVIEW_UPDATE_NOT_CONSUMED", issue.path("code").asText());
+            assertEquals("updates." + SPELL, issue.path("field").asText());
+            assertEquals("候选技能不在本场装配所需范围内", issue.path("message").asText());
         }
     }
 
@@ -78,6 +91,17 @@ class SimulationSnapshotPreviewTest {
         var update = new SimulationPreviewUpdate(SPELL, request);
         assertThrows(ApiException.class, () -> fixture.service.preview(GAME, fixture.choice(), List.of(update, update)));
         verify(fixture.configurations, never()).update(any(), any(), any());
+    }
+
+    private static void assertDigestIncludesExecutionSkillKeys(ObjectMapper json, SimulationSnapshotResponse snapshot) throws Exception {
+        ObjectNode content = json.valueToTree(snapshot);
+        content.remove("readAt");
+        content.putNull("snapshotDigest");
+        var writer = json.writer().with(JsonNodeFeature.WRITE_PROPERTIES_SORTED);
+        var sha256 = MessageDigest.getInstance("SHA-256");
+        assertEquals(snapshot.snapshotDigest(), HexFormat.of().formatHex(sha256.digest(writer.writeValueAsBytes(content))));
+        content.remove("executionSkillKeys");
+        assertNotEquals(snapshot.snapshotDigest(), HexFormat.of().formatHex(sha256.digest(writer.writeValueAsBytes(content))));
     }
 
     private SkillConfigurationResponse candidate(SimulationSnapshotFixture fixture) throws Exception {

@@ -68,6 +68,7 @@ class SimulationSnapshotHitCounterDefinitionTest {
     void disabledOrUnlearnedProviderReturnsOnlyCountAndStaticDefinitions(String mode) {
         var response = fixture.service.get(GAME, choice(mode.equals("ZERO_LEVEL"), mode.equals("ZERO_LEVEL") ? 0 : 1, true));
         assertEquals(mode.equals("DISABLED") ? InactiveReason.SCENE_DISABLED : InactiveReason.UNLEARNED, source(response).inactiveReason());
+        assertEquals(List.of(HIT), response.executionSkillKeys());
         assertTrue(source(response).enabledRuleKeys().isEmpty());
         assertTrue(response.references().stream().anyMatch(r -> r.sourceSkillKey().equals(HIT) && r.targetSkillKey().equals(MARK) && r.targetType().equals("STATE")));
         assertTrue(response.references().stream().anyMatch(r -> r.sourceSkillKey().equals(MARK) && r.sourceType().equals("STATE") && r.targetKey().equals("capacity")));

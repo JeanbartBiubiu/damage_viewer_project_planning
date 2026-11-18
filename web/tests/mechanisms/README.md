@@ -32,7 +32,7 @@ npm run check:wasm-build  # 先由当前源码正式构建，并与分发Wasm逐
 | `cases/<caseKey>.json` | 单个用例，文件名必须等于 `caseKey` |
 | `admitted-coverage.json` | 正式准入对象依赖的机制标签，供证明刷新脚本核对覆盖 |
 
-用例字段：`schemaVersion`（固定 `mechanism-case-v1`）、`caseKey`、`title`、`mechanisms`（机制标签）、`derivation`（手算推导，逐步写清）、`catalog`、`snapshot`（与管理端 `SimulationSnapshot` 相同，去掉 `gameId`、`catalogs`、`snapshotDigest`、`readAt`）、`scenario`、`expected`。`scenario.mode` 为 `continuous_attack`、`skill_action` 或 `automatic_skill`，后两者分别需要 `actions` 和 `automaticRules`。场景可明确填写 `mechanicStateInputs`、`sceneParameterInputs`、`equipmentAssumptions`，均沿生产入口校验且不补默认值；形状见 `src/engine/skillActionRequest.ts`、`src/engine/automaticSkillRequest.ts`。
+用例字段：`schemaVersion`（固定 `mechanism-case-v1`）、`caseKey`、`title`、`mechanisms`（机制标签）、`derivation`（手算推导，逐步写清）、`catalog`、`snapshot`（与管理端 `SimulationSnapshot` 相同，去掉 `gameId`、`catalogs`、`snapshotDigest`、`readAt`、`executionSkillKeys`）、`scenario`、`expected`。合成数值向量由用例装配器显式提供空执行表，不声明维护候选覆盖；生产快照仍必须带服务计算的执行表，不接受缺字段兼容。`scenario.mode` 为 `continuous_attack`、`skill_action` 或 `automatic_skill`，后两者分别需要 `actions` 和 `automaticRules`。场景可明确填写 `mechanicStateInputs`、`sceneParameterInputs`、`equipmentAssumptions`，均沿生产入口校验且不补默认值；形状见 `src/engine/skillActionRequest.ts`、`src/engine/automaticSkillRequest.ts`。
 
 ## 编写规则
 

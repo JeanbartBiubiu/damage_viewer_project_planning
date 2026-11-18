@@ -62,6 +62,8 @@ class SimulationSnapshotAdminControllerTest {
             .andExpect(jsonPath("$.selection.sourceSkillSettings").isEmpty())
             .andExpect(jsonPath("$.selection.targetSkillSettings").isEmpty())
             .andExpect(jsonPath("$.selection.plannedSkills").isEmpty())
+            .andExpect(jsonPath("$.executionSkillKeys").isArray())
+            .andExpect(jsonPath("$.executionSkillKeys").isEmpty())
             .andExpect(jsonPath("$.snapshotDigest").value("scene-digest"))
             .andExpect(jsonPath("$.readAt").isString());
         verify(service).get("lol", CHOICE);
@@ -350,7 +352,7 @@ class SimulationSnapshotAdminControllerTest {
     }
 
     private static SimulationSnapshotResponse snapshot(Selection selection) {
-        return new SimulationSnapshotResponse("lol", selection, null, null, List.of(), null, List.of(),
+        return new SimulationSnapshotResponse("lol", selection, null, null, List.of(), List.of(), null, List.of(),
             "scene-digest", OffsetDateTime.parse("2026-10-01T00:00:00Z"));
     }
 }

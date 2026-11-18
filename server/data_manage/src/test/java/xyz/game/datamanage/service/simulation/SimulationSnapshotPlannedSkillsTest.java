@@ -4,7 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static xyz.game.datamanage.service.simulation.SimulationSnapshotFixture.*;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -295,6 +298,40 @@ class SimulationSnapshotPlannedSkillsTest {
         var idle = new Selection(base.sourceCharacterKey(), base.sourceLevel(), base.targetCharacterKey(), base.targetLevel(),
             null, null, List.of("item"), List.of(), List.of(), List.of(), base.sourceSkillSettings(), List.of(), List.of());
         assertTrue(source(fixture.service.get(GAME, idle), "source", "subscriber").enabledRuleKeys().isEmpty());
+    }
+
+    @Test
+    void aPlannedSkillHitReachesAnotherSkillsOwnPassiveProcess() throws Exception {
+        String activeKey = "lab_arc_shot";
+        String passiveKey = "lab_deferred_strike";
+        fixture.attach("hero_a", activeKey, passiveKey);
+        Path scenario = Path.of("../../web/tests/mechanisms/cases/skill_hit_passive_delay_at.json");
+        var configurations = fixture.json.readTree(Files.readString(scenario)).required("snapshot").required("skillConfigurations");
+        for (var configuration : configurations) {
+            String key = configuration.required("skill").required("skillKey").asText();
+            if (!List.of(activeKey, passiveKey).contains(key)) continue;
+            ObjectNode components = configuration.deepCopy();
+            components.remove("skill");
+            fixture.configuration(key, 1, components.toString());
+        }
+        when(fixture.damageTypes.get(GAME, "physics")).thenReturn(new DamageTypeResponse(GAME, "physics", "物理", null,
+            DamageTypeStatus.ENABLED, 0, null, null, true));
+        when(fixture.damageTypes.getFormula(GAME, "physics")).thenReturn(new DamageTypeFormulaResponse(GAME, "physics",
+            xyz.game.datamanage.support.formula.DamageTypeFormulaFixtures.definition("1"), null));
+        Origin origin = Origin.character("hero_a");
+        var settings = List.of(new SkillSetting(origin, activeKey, true, 1), new SkillSetting(origin, passiveKey, true, 1));
+        var plans = List.of(new PlannedSkill(origin, activeKey, 1, List.of("INITIAL")));
+
+        assertEquals(List.of(), fixture.service.get(GAME, choice(settings, List.of())).executionSkillKeys());
+        var result = fixture.service.get(GAME, choice(settings, plans));
+        assertEquals(List.of(activeKey, passiveKey), result.executionSkillKeys());
+        assertNull(source(result, "source", passiveKey).inactiveReason());
+        assertTrue(result.references().stream().anyMatch(ref -> ref.sourceSkillKey().equals(passiveKey)
+            && ref.sourceKey().equals("schedule") && ref.targetSkillKey().equals(passiveKey)
+            && ref.targetType().equals("PROCESS") && ref.targetKey().equals("delayed")));
+        assertTrue(result.references().stream().anyMatch(ref -> ref.sourceSkillKey().equals(passiveKey)
+            && ref.sourceKey().equals("tail") && ref.targetSkillKey().equals(passiveKey)
+            && ref.targetType().equals("EFFECT") && ref.targetKey().equals("tail")));
     }
 
     @Test

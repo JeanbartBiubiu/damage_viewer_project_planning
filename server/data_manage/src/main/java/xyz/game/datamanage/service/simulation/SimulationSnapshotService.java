@@ -195,9 +195,9 @@ public class SimulationSnapshotService {
         SnapshotSkillClosure closure = new SnapshotSkillClosure(gameId, choice.basicAttackSkillKey(), basicAttackCategoryKey, json, sources, selected,
             (key, path) -> readSkillConfiguration(gameId, key, path, overrides));
         SnapshotSkillClosure.Result execution = closure.collect();
-        Set<String> consumedSkills = execution.objects().stream().map(Aggregate::skillKey).collect(java.util.stream.Collectors.toSet());
-        for (String key : overrides.keySet()) if (!consumedSkills.contains(key)) {
-            throw invalid("updates." + key, "PREVIEW_UPDATE_NOT_CONSUMED", "候选技能未进入本场实际执行闭包");
+        Set<String> neededSkillKeys = execution.objects().stream().map(Aggregate::skillKey).collect(java.util.stream.Collectors.toSet());
+        for (String key : overrides.keySet()) if (!neededSkillKeys.contains(key)) {
+            throw invalid("updates." + key, "PREVIEW_UPDATE_NOT_CONSUMED", "候选技能不在本场装配所需范围内");
         }
         List<SkillConfigurationResponse> skills = execution.configurations();
         source = withSources(source, sources, "source");
@@ -345,9 +345,10 @@ public class SimulationSnapshotService {
         Catalogs catalogs = new Catalogs(levels, selectedAttributes,
             selectedCategories, List.copyOf(selectedDamageTypes),
             selectedZones, loadStatuses(gameId, statusKeys), vamp, calculation);
+        List<String> executionSkillKeys = execution.executionSkillKeys();
         SimulationSnapshotResponse content = new SimulationSnapshotResponse(gameId, choice, source, target,
-            skills, catalogs, List.copyOf(references), null, null);
-        return new SimulationSnapshotResponse(gameId, choice, source, target, skills, catalogs,
+            skills, executionSkillKeys, catalogs, List.copyOf(references), null, null);
+        return new SimulationSnapshotResponse(gameId, choice, source, target, skills, executionSkillKeys, catalogs,
             List.copyOf(references), digest(content), OffsetDateTime.now(ZoneOffset.UTC));
     }
 
