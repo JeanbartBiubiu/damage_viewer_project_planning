@@ -54,6 +54,7 @@ type Context struct {
 	plan              *planbundle.CompiledSkillHit
 	abilityRef        string
 	empoweredWaits    []EmpoweredWait
+	selectedIndexes   []int
 	matchedIndexes    []int
 	matchedRuleGroups []bool
 }
@@ -108,13 +109,14 @@ func (c *Context) FreezeCandidates(selected []int, host SelectionHost) *model.En
 }
 
 func (c *Context) FreezeAttachedCandidates(selected []int, host SelectionHost) *model.EngineError {
+	c.selectedIndexes = selected
 	for _, index := range selected {
 		candidate := c.plan.Candidates[index]
 		accepted, err := matchEventValues(candidate, c.facts.HasFirstContact, c.facts.FirstContact, true, c.facts.Blocked, true, host)
 		if err != nil {
 			return err
 		}
-		if accepted || c.blockedCandidate(candidate) && candidate.InboundBlockEligible {
+		if accepted || c.blockedCandidate(candidate) && (candidate.InboundBlockEligible || candidate.HasSpellShieldFollow) {
 			c.matchedIndexes = append(c.matchedIndexes, index)
 		}
 	}
@@ -122,6 +124,22 @@ func (c *Context) FreezeAttachedCandidates(selected []int, host SelectionHost) *
 }
 
 func (c *Context) blockedCandidate(candidate planbundle.CompiledSkillHitCandidate) bool {
+	if candidate.HasSpellShieldFollow {
+		index := int(candidate.SpellShieldFollowCandidateIndex)
+		if index >= len(c.plan.Candidates) {
+			return false // 编译计划已校验；不从缺失候选推断阻挡。
+		}
+		for _, selected := range c.selectedIndexes {
+			if selected == index {
+				return c.directlyBlockedCandidate(c.plan.Candidates[index])
+			}
+		}
+		return false
+	}
+	return c.directlyBlockedCandidate(candidate)
+}
+
+func (c *Context) directlyBlockedCandidate(candidate planbundle.CompiledSkillHitCandidate) bool {
 	facts := &c.facts
 	return facts.Blocked == 1 && candidate.HasBlockScope &&
 		model.ScopeCovers(facts.UnitScope, facts.OccurrenceID, facts.EffectOccurrenceKey, facts.ResultKey, facts.CandidateKey, facts.UseRef,

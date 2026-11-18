@@ -239,11 +239,23 @@ describe('通用普攻主体替换宿主契约', () => {
       expect(inspectPrimaryReplacements(prepared.compileRequest, request, done).length, variant).toBeGreaterThan(0);
     });
 
-  it.each(['scope', 'sibling_scope', 'condition', 'participation', 'repeat', 'double_primary', 'hit_identity'] as const)(
+  it('同次合法非主体附伤可独立判盾，普通主体绑定保持有效', async () => {
+    const { prepared, request, primary } = await primaryReplacementFacts();
+    const sibling = structuredClone(primary.candidate);
+    delete sibling.attackDamageRole;
+    sibling.candidateKey = 'additional_damage';
+    sibling.effectOccurrenceKey = 'additional_damage';
+    sibling.effectKey = 'additional_damage';
+    sibling.spellShieldBlockScope = 'RESULT';
+    sibling.operations[0]!.ref = 'skills.shared_basic_attack.effects.additional_damage.results.damage';
+    prepared.compileRequest.sharedProviders![0]!.abilities![2]!.operations![0]!.skillHit!.candidates.push(sibling);
+    expect(() => basicAttackPrimaryBinding(prepared.compileRequest, request.driverPlan.basicAttack!)).not.toThrow();
+  });
+
+  it.each(['scope', 'condition', 'participation', 'repeat', 'double_primary', 'hit_identity'] as const)(
     '真实普攻主体拒绝 %s 的编译绑定', async variant => {
       const { prepared, request, primary } = await primaryReplacementFacts();
       if (variant === 'scope') primary.candidate.spellShieldBlockScope = 'SKILL';
-      if (variant === 'sibling_scope') prepared.compileRequest.sharedProviders![0]!.abilities![2]!.operations![0]!.skillHit!.candidates[1]!.spellShieldBlockScope = 'RESULT';
       if (variant === 'condition') primary.operation.condition = { op: 'const', value: 1 };
       if (variant === 'participation') primary.candidate.participationCondition = { op: 'const', value: 1 };
       if (variant === 'repeat') primary.operation.repeatCount = 2;

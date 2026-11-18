@@ -32,7 +32,8 @@ final class SkillEffectAggregate {
         if (detail instanceof SkillEffectDamageDetail damage) {
             detail = new SkillEffectDamageDetail(damage.damageTypeKey(), damage.deliveryKind(), damage.originKind(),
                 damage.critical(), damage.vampQualification(), damage.vampOverrides().stream()
-                    .sorted(Comparator.comparing(SkillEffectVampOverride::vampType)).toList(), damage.attackDamageRole());
+                    .sorted(Comparator.comparing(SkillEffectVampOverride::vampType)).toList(), damage.attackDamageRole(),
+                damage.spellShieldFollowResult());
         }
         return new SkillEffectResultResponse(
             result.resultKey(), result.name(), result.resultType(), result.target(), result.description(), result.sortOrder(),

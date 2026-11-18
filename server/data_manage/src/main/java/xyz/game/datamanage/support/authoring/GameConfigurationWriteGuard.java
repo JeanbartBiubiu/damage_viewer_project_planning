@@ -113,6 +113,7 @@ public class GameConfigurationWriteGuard {
         SkillQualifiedReferenceSemantics.validate(skillAffected, skillContext);
         ShieldEndLifecycleSemantics.validate(skillAffected);
         ShieldAttributeDependencySemantics.validate(skillAffected, skillContext);
+        SkillSpellShieldFollowSemantics.validate(skillAffected, skillContext, characterSkillOwners(after));
         CooldownCumulativeLimitSemantics.validate(skillAffected, skillContext);
         List<Aggregate> shieldReadTargets = SkillShieldAbsorptionConditionSemantics.validate(skillAffected, skillContext);
         SkillTargetCategoryConditionSemantics.validate(skillAffected);
@@ -156,6 +157,16 @@ public class GameConfigurationWriteGuard {
             }).toList();
             jdbc.batchUpdate(INSERT_SQL, rows);
         }
+    }
+
+    private static Map<String, Set<String>> characterSkillOwners(Snapshot snapshot) {
+        Map<String, Set<String>> owners = new LinkedHashMap<>();
+        snapshot.rows().forEach((identity, skills) -> {
+            if (!identity.type().equals("CHARACTER_SKILLS")) return;
+            for (com.fasterxml.jackson.databind.JsonNode skill : skills)
+                owners.computeIfAbsent(skill.asText(), ignored -> new LinkedHashSet<>()).add(identity.key());
+        });
+        return owners;
     }
 
     /** 维护提交在计算最终摘要前同步已登记游戏；普通提交仍由 beforeCommit 复核最终态。 */
@@ -399,6 +410,8 @@ public class GameConfigurationWriteGuard {
           FROM public.statuses t JOIN selected_game USING (game_id)
         UNION ALL SELECT 'SKILL_CATEGORIES', skill_key, '', jsonb_agg(skill_category_key ORDER BY skill_category_key)::text
           FROM public.skill_category_relations t JOIN selected_game USING (game_id) GROUP BY skill_key
+        UNION ALL SELECT 'CHARACTER_SKILLS', '', character_key, jsonb_agg(skill_key ORDER BY skill_key)::text
+          FROM public.character_skill_relations t JOIN selected_game USING (game_id) GROUP BY character_key
         UNION ALL SELECT 'VAMP_RULE', '', vamp_type, to_jsonb(t)::text
           FROM public.game_vamp_rules t JOIN selected_game USING (game_id)
         UNION ALL SELECT 'LEVEL_CONFIG', '', '', (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text

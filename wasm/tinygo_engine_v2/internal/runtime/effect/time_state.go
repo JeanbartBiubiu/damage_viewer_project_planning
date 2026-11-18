@@ -2,6 +2,7 @@ package effect
 
 // ExpiryPayload 与 AnchoredPayload 只保存稳定身份和版本，不含队列或执行控制。
 type ExpiryPayload struct {
+	BeforeCombat     bool
 	TimingSlot       int
 	StateGeneration  uint64
 	CombatantKey     string

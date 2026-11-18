@@ -52,7 +52,7 @@ func SelectCandidates(plan *planbundle.CompiledSkillHit, ability planbundle.Comp
 		if !accepted {
 			continue
 		}
-		if candidate.HasBlockScope {
+		if candidate.HasBlockScope || candidate.HasSpellShieldFollow {
 			unblocked, err := matchEventValues(candidate, firstHas, firstValue, true, 0, true, host)
 			if err != nil {
 				return nil, err

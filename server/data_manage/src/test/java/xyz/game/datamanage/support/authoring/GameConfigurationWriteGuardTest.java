@@ -824,6 +824,41 @@ class GameConfigurationWriteGuardTest {
         assertEquals("409.SKILL_FORMULA_INVALID",error.getCode());verify(connection).rollback();
     }
 
+    @ParameterizedTest @ValueSource(strings = {"valid", "remove_relation", "producer_no_scope", "delete_producer"})
+    void resultFollowIntegrityIsCheckedBeforeTheFinalTransactionCommits(String mutation) throws Exception {
+        Connection connection = connection();
+        var follower = SkillSpellShieldFollowSemanticsTest.effect("follower_skill", true);
+        var producer = SkillSpellShieldFollowSemanticsTest.effect("producer_skill", false);
+        var followerRow = Map.<String, Object>of("source_type", "EFFECT", "skill_key", "follower_skill", "source_key", "payload", "data", follower.data().toString());
+        var producerRow = Map.<String, Object>of("source_type", "EFFECT", "skill_key", "producer_skill", "source_key", "payload", "data", producer.data().toString());
+        var before = new java.util.ArrayList<>(snapshotRows(List.of(followerRow, producerRow)));
+        before.add(Map.of("object_type", "CHARACTER_SKILLS", "skill_key", "", "object_key", "hero",
+            "data", "[\"follower_skill\",\"producer_skill\"]"));
+        if (mutation.equals("producer_no_scope")) ((com.fasterxml.jackson.databind.node.ObjectNode) producer.data().path("results").get(0)).putNull("spellShieldBlockScope");
+        var finalProducer = Map.<String, Object>of("source_type", "EFFECT", "skill_key", "producer_skill", "source_key", "payload", "data", producer.data().toString());
+        var afterObjects = mutation.equals("delete_producer") ? List.of(followerRow) : List.of(followerRow, finalProducer);
+        var after = new java.util.ArrayList<>(snapshotRows(afterObjects));
+        after.add(Map.of("object_type", "CHARACTER_SKILLS", "skill_key", "", "object_key", "hero", "data",
+            mutation.equals("remove_relation") ? "[\"follower_skill\"]" : "[\"follower_skill\",\"producer_skill\"]"));
+        // 有效场从无旧引用的录入开始，其余场从已保护的真实引用开始，证明后续修改也复核。
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol")).thenReturn(mutation.equals("valid") ? List.of() : before, after);
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(afterObjects);
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol"))
+            .thenReturn(List.of(Map.of("target_type", "DAMAGE_TYPE", "skill_key", "", "object_key", "magic")));
+        if (!mutation.equals("valid")) when(jdbc.queryForList(GameConfigurationWriteGuard.REFERENCES_SQL, "lol"))
+            .thenReturn(List.of(Map.of("source_skill_key", "follower_skill", "source_type", "EFFECT", "source_key", "payload",
+                "field_path", "results[0].detail.spellShieldFollowResult.resultKey", "target_type", "RESULT",
+                "target_skill_key", "producer_skill", "target_key", "payload", "target_sub_key", "damage")));
+        if (mutation.equals("valid")) {
+            transaction(connection).execute(tx -> { guard.begin("lol"); return null; });
+            verify(connection).commit();
+        } else {
+            var error = assertThrows(ApiException.class, () -> transaction(connection).execute(tx -> { guard.begin("lol"); return null; }));
+            assertEquals("409.SKILL_OBJECT_REFERENCE_INVALID", error.getCode());
+            verify(connection).rollback(); verify(connection, never()).commit();
+        }
+    }
+
     private static List<Map<String, Object>> snapshotRows(List<Map<String, Object>> aggregates) {
         return aggregates.stream().map(row -> Map.<String, Object>of(
             "object_type", row.get("source_type"), "skill_key", row.get("skill_key"),

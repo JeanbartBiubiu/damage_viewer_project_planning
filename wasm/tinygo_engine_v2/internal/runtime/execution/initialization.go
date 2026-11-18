@@ -284,6 +284,11 @@ func (s *Engine) initStateOnExpireSources() *model.EngineError {
 	return admission.ValidateStateOnExpireSources(input, s.req.DriverPlan.Entries, (*initialSourceReads)(s))
 }
 
+func (s *Engine) initCooldownStateExpirySources() *model.EngineError {
+	input := admission.Input{Compiled: &s.compiled, Formulas: &s.formulas, Identity: admission.Identity{SchemaHash: s.compiled.SchemaHash, RulesHash: s.compiled.RulesHash, SessionID: s.req.SessionID}}
+	return admission.ValidateCooldownStateExpirySources(input, (*initialSourceReads)(s))
+}
+
 func (s *Engine) observeMomentStatusContributions(instances effectpkg.ProviderList, snapshots []model.CombatantProviderSnapshot) *model.EngineError {
 	executor := s.lifecycleExecutor()
 	return executor.ObserveMomentStatuses(instances, snapshots, s.loop.TimeMs())

@@ -62,6 +62,11 @@ export function selectSimulationSkillSourceClosure(configuration: SkillConfigura
       const moment = detail?.processMoment as Record<string, unknown> | undefined;
       if (moment) include('processes', moment.processKey, `${path}.detail.processMoment.processKey`);
     }
+    if (row.eventType === 'INTERNAL_STATE_CHANGED') {
+      const detail = row.detail as Record<string, unknown> | undefined;
+      ownSkill(detail?.stateSkillKey, `${path}.detail.stateSkillKey`);
+      include('internalStates', detail?.stateKey, `${path}.detail.stateKey`);
+    }
     if (row.kind === 'PARAMETER' || row.kind === 'parameter') { ownSkill(row.skillKey, path); include('parameters', row.parameterKey, path); }
     if (row.kind === 'FORMULA') include('formulas', row.formulaKey, path);
     if (row.actionType === 'EXECUTE_EFFECT') {
@@ -99,7 +104,7 @@ export function selectSimulationSkillSourceClosure(configuration: SkillConfigura
       if (detail?.operation === 'ENSURE_REMAINING') include('effects', detail.targetEffectKey, `${path}.detail.targetEffectKey`);
     }
     Object.entries(row).forEach(([field, child]) => {
-      if (field !== 'eventSource' || (child as { eventType?: string } | null)?.eventType === 'SKILL_HIT') visit(child, `${path}.${field}`, ownActiveHit);
+      if (field !== 'eventSource' || ['SKILL_HIT', 'INTERNAL_STATE_CHANGED'].includes((child as { eventType?: string } | null)?.eventType ?? '')) visit(child, `${path}.${field}`, ownActiveHit);
     });
   };
   if (!rootKeys.length || new Set(rootKeys).size !== rootKeys.length) fail(root, '自然根集合缺失或重复');

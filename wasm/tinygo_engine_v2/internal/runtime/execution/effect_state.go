@@ -481,6 +481,9 @@ func (s *Engine) applyStateOnExpire(payload effectpkg.ExpiryPayload) {
 	lifecycle.ClearCallbackSourceState(payload, field, bag)
 	f.reResolveStagedAttributesTwoPass(planbundle.CompiledAbility{})
 	ability := planbundle.CompiledAbility{}
+	if field.OnExpireBeforeCombat {
+		ability = s.compiled.Abilities[field.OnExpireAbilityIndex]
+	}
 	if err := f.executeOperations(ability, s.compiled.Operations[int(field.OnExpireStart):int(field.OnExpireStart)+int(field.OnExpireCount)]); err != nil {
 		s.processFailure = err
 		return

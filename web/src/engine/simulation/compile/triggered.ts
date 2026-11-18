@@ -26,7 +26,8 @@ import { compileLinkedShieldEffect } from '../../shieldEffectAdapter';
 import { compileHitIdentityCondition, compilePassiveHitControl } from '../../hitAdapter';
 import { compileSpellShieldDefinition, compileSpellShieldConsumption } from '../../spellShieldAdapter';
 import { lowerBasicAttackContributionValue, lowerBasicAttackContributionValueRule, type BasicAttackContributionFormulaPurpose, type LoweredBasicAttackContributionFormula } from '../../basicAttackContributionFormula';
-import { basicAttackContributionKey, isBasicAttackContributionRule, type BasicAttackContribution } from '../../basicAttackContributionContract';
+import { basicAttackContributionKey, conditionalHitContributionKey, isBasicAttackContributionRule,
+  isConditionalHitContributionRule, type BasicAttackContribution } from '../../basicAttackContributionContract';
 import { compileStateFieldSchema } from '../../processStateAdapter';
 import { isOwnCooldownReductionResult, type BasicAttackCooldownReduction } from '../../basicAttackCooldownReduction';
 import { staticEffectAmount } from '../../staticEffectValue';
@@ -38,6 +39,7 @@ import { lowerSettledDamageHealValueRule, settledDamageHealBinding } from '../..
 import { lowerRawDamageTargetValueRule, rawDamageTargetBinding } from '../../rawDamageTarget';
 import { validateMarkedRawDamageContract } from '../../markedRawDamageContract';
 import { ownCounterShieldExpiry } from '../../ownCounterShieldExpiry';
+import { compileOwnCooldownSetAmount, isOwnCooldownSetResult, ownCounterCooldownExpiry } from '../../ownCounterCooldownEnd';
 import { targetTimingDeclarations } from '../../targetTimingAuthoring';
 import { isCounterTargetTiming } from '../../../services/counterTargetTiming';
 import { declaresPermanentCharacterPeriod, validatePermanentCharacterPeriod } from '../../permanentCharacterPeriodic';
@@ -196,7 +198,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const usedProcesses = new Set<string>();
         const usedStates = new Set<string>();
         const usedRules = new Set<string>();
-        let contributesBasicAttack = false;
+        let contributesBasicAttack: boolean = false;
         let contributionLowerings: BasicAttackContribution['lowerings'] = [];
         const abilities: AbilityDefinition[] = [];
         const stackEffects = new Map<string, { key: string; amount: number; policy: string }>();
@@ -214,6 +216,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         let committedRefundPlan: CommittedTotalRefundPlan | null = null;
         const finiteCounter = finiteTargetCounterContract(snapshot.skillConfigurations.find(row => row.skill.skillKey === skillKey) ?? configuration);
         const ownExpiry = ownCounterShieldExpiry(configuration);
+        const cooldownExpiry = ownCounterCooldownExpiry(configuration);
         let boundCounterParameter: string | undefined;
         let boundEventDamage: { kind: 'settled' | 'raw'; parameterKey: string; amountPath: string; actionPath: string } | undefined;
         const skillTypes = configuration.skill.skillCategoryKeys.map(category);
@@ -394,7 +397,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         };
         const resultShape = (result: SkillEffectResult, resultPath: string) => {
           exact(result, ['resultKey', 'resultType', 'target', 'valueRule', 'detail', 'lifecycleBehavior', 'spellShieldBlockScope', ...METADATA], resultPath);
-          if (!['SOURCE', 'TARGET'].includes(result.target) || result.spellShieldBlockScope !== null) fail(resultPath, '未知目标或未接入阻挡粒度');
+          if (!['SOURCE', 'TARGET'].includes(result.target) || result.spellShieldBlockScope !== null && !contributesBasicAttack) fail(resultPath, '未知目标或未接入阻挡粒度');
           if (result.lifecycleBehavior !== null) exact(result.lifecycleBehavior, ['moment', 'valueReadMode', 'stackValueMode', 'reapplicationValueMode', 'periodicExecutionMode'], `${resultPath}.lifecycleBehavior`);
         };
         const process = (key: string, processPath: string) => {
@@ -749,7 +752,8 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           }));
         };
         const compileDamage = (result: SkillEffectDamageResult, resultPath: string): OperationDefinition => {
-          exact(result.detail, ['damageTypeKey', 'deliveryKind', 'originKind', 'critical', 'vampQualification', 'vampOverrides'], `${resultPath}.detail`);
+          exact(result.detail, ['damageTypeKey', 'deliveryKind', 'originKind', 'critical', 'vampQualification', 'vampOverrides',
+            ...(contributesBasicAttack ? ['spellShieldFollowResult'] : [])], `${resultPath}.detail`);
           if (result.target !== 'TARGET' || !['SKILL', 'BASIC_ATTACK'].includes(result.detail.deliveryKind)
             || !['DIRECT', 'REFLECTED'].includes(result.detail.originKind)) fail(resultPath, '伤害目标或特征未知');
           const operation: OperationDefinition = { operation: 'damage', target: 'target', ref: resultPath,
@@ -858,6 +862,19 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
                 ...(committedRefundPlan.cumulativeLimit ? { cumulativeLimit: { ...committedRefundPlan.cumulativeLimit } } : {}) };
               committedTotalRefunds.push({ ...committedRefundPlan, sourceSkillKey: skillKey, providerRef, definitionRef,
                 listenerAbilityRef: abilityRef, operation });
+            } else if (result.detail.operation === 'SET_REMAINING') {
+              const expiryEvent = cooldownExpiry !== null && cooldownContext?.event === 'INTERNAL_STATE_CHANGED';
+              if (side !== 'source' || description.kind !== 'character' || authored.lifecycle !== null
+                || !isOwnCooldownSetResult(result, skillKey) || !cooldownContext
+                || !expiryEvent && !['BASIC_ATTACK_HIT', 'SKILL_HIT'].includes(cooldownContext.event)
+                || !snapshot.selection.plannedSkills.some(plan => plan.skillKey === skillKey)) {
+                fail(resultPath, '结束冷却只接自身实际计划首次的真实接触或有期计数自然到期');
+              }
+              noteNumeric(result.valueRule!.value);
+              operation = { operation: 'cooldown_change', target: 'self', valuePolicy: 'set_remaining',
+                amount: compileOwnCooldownSetAmount(result, configuration, numeric, `${resultPath}.valueRule`, fail), ref: resultPath };
+              basicAttackCooldownReductions.push({ side, providerRef, definitionRef, skillKey, authorPath: resultPath,
+                operation, ownSet: true, params: numeric.params });
             } else {
               if (side !== 'source' || authored.lifecycle !== null || !isOwnCooldownReductionResult(result, skillKey)
                 || cooldownContext?.event !== 'BASIC_ATTACK_HIT' || cooldownContext.context !== 'target' || !result.valueRule) {
@@ -1000,7 +1017,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         };
         const targetFor = (action: SkillTriggerAction, event: string, actionPath: string) => {
           if (action.targetContext === 'CURRENT_TARGET') return event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED' || event === 'SOURCE_INITIALIZED'
-            || ownExpiry && event === 'INTERNAL_STATE_CHANGED' ? 'self' : 'target';
+            || (ownExpiry || cooldownExpiry) && event === 'INTERNAL_STATE_CHANGED' ? 'self' : 'target';
           if (action.targetContext === 'EVENT_SOURCE') {
             if (event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED') return 'target';
             if (['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'ATTACK_LINK_APPLIED', 'HIT_LINK_APPLIED', 'SKILL_USED', 'SKILL_HIT', 'PROCESS_MOMENT', 'PROCESS_RESOLVED', 'DAMAGE_DEALT', 'SOURCE_INITIALIZED'].includes(event)) return 'self';
@@ -1654,6 +1671,10 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
 
         for (const rule of ordered(configuration.triggerRules, `${root}.triggerRules`)) {
           const event: string = rule.eventSource.eventType;
+          const conditionalContribution = side === 'source' && description.kind === 'character'
+            && isConditionalHitContributionRule(rule, configuration);
+          const staticContribution: boolean = contributesBasicAttack;
+          if (conditionalContribution) contributesBasicAttack = true;
           rootEvent = event;
           rootEventSource = rule.eventSource;
           const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
@@ -1671,6 +1692,20 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
             }
           }
           if (event === 'PROCESS_MOMENT' || event === 'LIFECYCLE_MOMENT' || event === 'SPELL_SHIELD_BLOCKED') continue;
+          if (cooldownExpiry?.ruleKey === rule.ruleKey) {
+            if (side !== 'source' || skills.length !== 1) fail(rulePath, '自身计数到期冷却只接真实单角色来源');
+            const state = lookupState(cooldownExpiry.stateKey, skillKey, rulePath);
+            if (state.stateType !== 'COUNTER' || state.scope !== 'SKILL' || !state.detail.durationValue) fail(rulePath, '到期冷却缺少真实自身有期计数');
+            constant(state.detail.durationValue, `${root}.internalStates.${state.stateKey}.detail.durationValue`, true, 1);
+            const operations: OperationDefinition[] = [];
+            const callbackRoot = `${compiledRoot}.initialStateSchema.${stateKey(state)}.onExpire`;
+            executeActions(rule, operations, callbackRoot, `${side}.provider[${providerRef}].state[${stateKey(state)}]`, event);
+            if (operations.length !== 1 || operations[0]!.operation !== 'cooldown_change'
+              || operations[0]!.valuePolicy !== 'set_remaining') fail(rulePath, '到期冷却必须是一条完整自身冷却设置');
+            schema[stateKey(state)]!.onExpire = operations;
+            usedRules.add(rule.ruleKey); cover(rulePath, callbackRoot);
+            continue;
+          }
           if (ownExpiry && ownExpiry.ruleKey === rule.ruleKey) {
             const state = lookupState(ownExpiry.stateKey, skillKey, rulePath);
             if (state.stateType !== 'COUNTER' || !state.detail.durationValue) fail(rulePath, '自身回盾计数缺少到期时长');
@@ -1705,6 +1740,12 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           }
           if (source.allowedRootKeys && !source.allowedRootKeys.includes(rule.ruleKey)) fail(rulePath, '必要闭包的事件尾规则尚未接入，不能编译自然根后忽略尾部');
           if (contributesBasicAttack) {
+            const predicate = conditionalContribution ? conditions(rule, event) : constExpr(1);
+            if (conditionalContribution && !predicate) fail(rulePath, '有条件命中组成必须保留自身计数条件');
+            const contributionSourceSkill = rule.eventSource.eventType === 'SKILL_HIT' ? rule.eventSource.detail.sourceSkillKey : null;
+            if (conditionalContribution && contributionSourceSkill !== null
+              && !snapshot.selection.plannedSkills.some(plan => plan.skillKey === contributionSourceSkill
+                && plan.origin.characterKey === snapshot.selection.sourceCharacterKey)) fail(rulePath, '技能命中组成缺少同拥有者实际已计划父技能');
             for (const action of ordered(rule.actions, `${rulePath}.actions`)) {
               const actionPath = `${rulePath}.actions.${action.actionKey}`;
               actionShape(action, actionPath, rule);
@@ -1718,18 +1759,24 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
                 contributionLowerings = [];
                 const operation = compileDamage(result, resultPath);
                 collectAttributes(operation, side, required);
-                basicAttackContributions.push({ authorSkillKey: skillKey, lowerings: contributionLowerings,
-                  candidate: { candidateKey: basicAttackContributionKey(providerRef, rule.ruleKey, action.actionKey, result.resultKey),
-                    effectOccurrenceKey: basicAttackContributionKey(providerRef, rule.ruleKey, action.actionKey),
+                collectAttributes(rules.damageTypeFormulas!.find(row => row.damageType === operation.damageType)!.formula, side, required);
+                const key = conditionalContribution ? conditionalHitContributionKey : basicAttackContributionKey;
+                const contribution: BasicAttackContribution = { authorSkillKey: skillKey, lowerings: contributionLowerings,
+                  candidate: { candidateKey: key(providerRef, rule.ruleKey, action.actionKey, result.resultKey),
+                    effectOccurrenceKey: key(providerRef, rule.ruleKey, action.actionKey),
                     effectKey: authored.effectKey, resultKey: result.resultKey,
-                    semantic: { resultType: 'DAMAGE', target: 'TARGET', moment: 'INSTANT' }, spellShieldBlockScope: null,
-                    participationProviderRef: providerRef, participationCondition: constExpr(1), operations: [operation] } });
+                    semantic: { resultType: 'DAMAGE', target: 'TARGET', moment: 'INSTANT' }, spellShieldBlockScope: result.spellShieldBlockScope,
+                    participationProviderRef: providerRef, participationCondition: predicate, operations: [operation] } };
+                if (conditionalContribution && rule.eventSource.eventType === 'SKILL_HIT') passiveHitContributions.push({
+                  sourceSkillKey: rule.eventSource.detail.sourceSkillKey!, ...contribution });
+                else basicAttackContributions.push(contribution);
               }
               appliedEffects.add(authored.effectKey);
               cover(actionPath, 'runtimeOptions.skillOrigins');
             }
             usedRules.add(rule.ruleKey);
             cover(rulePath, 'runtimeOptions.skillOrigins');
+            contributesBasicAttack = staticContribution;
             continue;
           }
           if (event === 'SOURCE_INITIALIZED' && rule.oncePerUse !== null) fail(rulePath, '初始化没有真实攻击使用身份，不能配置同次使用额度');

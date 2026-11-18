@@ -209,14 +209,18 @@ type CompiledStatusContribution struct {
 type CompiledProviderStateField struct {
 	OnExpireStart uint16
 	OnExpireCount uint16
-	StateKind     string
-	AmmoRecovery  *CompiledAmmoRecovery
-	ValueType     string
-	DefaultValue  float64
-	MaxValue      float64
-	HasCap        bool
-	DurationMs    int64
-	RefreshPolicy string
+	// OnExpireBeforeCombat 仅由完整自身冷却尾编译得到；旧回盾保持战斗先行。
+	OnExpireBeforeCombat bool
+	// OnExpireAbilityIndex 保留真实INITIAL的参数求值上下文，不重造施放。
+	OnExpireAbilityIndex uint16
+	StateKind            string
+	AmmoRecovery         *CompiledAmmoRecovery
+	ValueType            string
+	DefaultValue         float64
+	MaxValue             float64
+	HasCap               bool
+	DurationMs           int64
+	RefreshPolicy        string
 }
 
 // CompiledProvider 是 compile 后的 provider 定义。
@@ -233,8 +237,10 @@ type CompiledProvider struct {
 	ReceivedShieldParentIndex uint16
 	AttackStartStateKeys      []string
 	HasStateOnExpire          bool
-	AtomicLinkedShield        bool
-	HasModifierSnapshots      bool
+	// HasCooldownStateExpiry 区分实际主动来源的结束冷却与原回盾来源准入。
+	HasCooldownStateExpiry bool
+	AtomicLinkedShield     bool
+	HasModifierSnapshots   bool
 	// SelfModifierSnapshots 由完整自身属性快照闭包证明；冻结与恢复共用此归属事实。
 	SelfModifierSnapshots bool
 	// ShieldDefinitionRef is set only for a provider owned by an actual numeric shield.
@@ -322,7 +328,9 @@ type CompiledAbility struct {
 
 // CompiledOperation 是 compile 后的 operation 定义。
 type CompiledOperation struct {
-	PassiveProcessIndex          int
+	PassiveProcessIndex int
+	// OwnCooldownTarget 是已核同拥有者INITIAL；自然尾与到期尾共用其参数上下文。
+	OwnCooldownTarget            *CompiledCooldownDurationTarget
 	TotalCooldownTarget          *CompiledCooldownDurationTarget
 	TotalCooldownRatio           float64
 	CumulativeLimit              *model.CumulativeRatioLimit
@@ -412,6 +420,8 @@ type CompiledSkillHitCandidate struct {
 	BlockScope                       string // empty = null
 	HasBlockScope                    bool
 	InboundBlockEligible             bool
+	HasSpellShieldFollow             bool
+	SpellShieldFollowCandidateIndex  uint16
 	ParticipationProgram             formula.GenericProgramID
 	HasParticipation                 bool
 	ParticipationProviderRef         string

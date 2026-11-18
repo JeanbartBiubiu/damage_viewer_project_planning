@@ -338,6 +338,9 @@ func New(compiled planbundle.CompiledSession, req model.RunRequest, loop *schedu
 	if err := state.initAutomaticSkills(); err != nil {
 		return nil, err
 	}
+	if err := state.initCooldownStateExpirySources(); err != nil {
+		return nil, err
+	}
 	if err := state.initBasicAttack(); err != nil {
 		return nil, err
 	}
@@ -519,7 +522,7 @@ func (s *Engine) LoopStopState() scheduler.LoopStopState {
 
 func (s *Engine) SelectLoopEvent(event scheduler.GenericEvent) (scheduler.GenericEvent, *model.EngineError) {
 	var err *model.EngineError
-	if s.compiled.HasStateOnExpire && s.currentStateOnExpire(event) {
+	if s.compiled.HasStateOnExpire && event.Category != scheduler.GenericCategoryStateCooldownExpiry && s.currentStateOnExpire(event) {
 		event, err = s.selectCombatBeforeStateOnExpire(event)
 		if err != nil {
 			return event, err

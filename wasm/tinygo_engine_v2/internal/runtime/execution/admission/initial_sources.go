@@ -144,7 +144,7 @@ func ValidateStateOnExpireSources(input Input, entries []model.DriverEntry, read
 	for _, actor := range input.Compiled.Combatants {
 		for _, mount := range actor.ProviderMounts {
 			provider := input.Compiled.Providers[mount.DefinitionIndex]
-			if provider.HasStateOnExpire {
+			if provider.HasStateOnExpire && !provider.HasCooldownStateExpiry {
 				local := initialActorInput(input, actor.Key, reads)
 				if err := validateStateOnExpireProvider(local, provider, actor.Key, mount.ProviderRef, reads); err != nil {
 					return err
@@ -188,6 +188,9 @@ func initialActorInput(input Input, owner string, reads InitialSourceReads) Inpu
 }
 
 func validateStateOnExpireProvider(input Input, provider planbundle.CompiledProvider, owner, reference string, reads InitialSourceReads) *model.EngineError {
+	if provider.HasCooldownStateExpiry {
+		return validateCooldownStateExpiryProvider(input, provider, owner, reference, reads)
+	}
 	if err := validateStateOnExpireDefinition(input, provider); err != nil {
 		return err
 	}

@@ -634,6 +634,7 @@ public class SkillEffectService {
         issues.addAll(ShieldEndLifecycleSemantics.issues(lifecycle, results));
         issues.addAll(CooldownCumulativeLimitSemantics.issues(results));
         issues.addAll(xyz.game.datamanage.support.authoring.ShieldAttributeDependencySemantics.issues(lifecycle, results));
+        issues.addAll(xyz.game.datamanage.support.authoring.SkillSpellShieldFollowSemantics.issues(lifecycle, results));
         throwIfInvalidBody(bodyIssues);
         throwIfInvalid(issues);
         return refs;

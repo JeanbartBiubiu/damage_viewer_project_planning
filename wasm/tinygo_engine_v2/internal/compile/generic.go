@@ -184,6 +184,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	finalizeIncomingCappedFlatModifiers(req, ctx)
 	validateProviderElapsedReads(ctx)
 	finalizeListenerIndex(ctx)
+	finalizeOwnedHitCooldownSets(ctx)
 	finalizePassiveProcesses(ctx)
 	finalizePermanentResourceMax(ctx)
 	finalizeAttackStartStateReads(ctx)

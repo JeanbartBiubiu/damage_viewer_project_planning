@@ -7,6 +7,8 @@ import { NumericAdaptationError } from './numericAdapter';
 export type BasicAttackCooldownReduction = {
   side: 'source' | 'target'; providerRef: string; definitionRef: string; skillKey: string;
   authorPath: string; operation: OperationDefinition;
+  ownSet?: true;
+  params?: Record<string, number>;
 };
 
 /** 未计划主动时，仅忽略本技能的纯冷却维护动作；混合效果不因此消失。 */
@@ -42,12 +44,20 @@ export function bindBasicAttackCooldownReductions(pending: readonly BasicAttackC
     const abilities = definitions[0]?.abilities?.filter(ability => initial?.abilityRef
       === `${binding.source}.provider[${binding.providerRef}].ability[${ability.abilityKey}]`) ?? [];
     const ability = abilities[0], process = processes[0];
-    if (initials.length !== 1 || definitions.length !== 1 || processes.length !== 1 || !process?.cooldown
+    if (initials.length !== 1 || definitions.length !== 1 || processes.length !== 1 || !process?.cooldown && !item.ownSet
       || process.skillKey !== item.skillKey || abilities.length !== 1 || ability?.skillKey !== item.skillKey
       || ability.kind !== 'active' || ability.processControl?.action !== 'INITIAL'
       || ability.processControl.processKey !== process.processKey || ability.processControl.useRefFromEvent === true) {
       fail('普攻减冷却需要同来源真实INITIAL能力及其普通过程冷却');
     }
     item.operation.abilityRef = initial!.abilityRef;
+    if (item.ownSet) {
+      ability!.params ??= {};
+      for (const [key, value] of Object.entries(item.params ?? {})) {
+        const previous = ability!.params[key];
+        if (previous !== undefined && previous !== value) fail('结束冷却与自身INITIAL的实际参数不一致');
+        ability!.params[key] = value;
+      }
+    }
   }
 }

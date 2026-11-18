@@ -99,17 +99,19 @@ type SkillHitRuleGroup struct {
 
 // SkillHitCandidate 是一次命中内按作者顺序排列的结果候选。
 type SkillHitCandidate struct {
-	AttackDamageRole         AttackDamageRole              `json:"attackDamageRole,omitempty"`
-	CandidateKey             string                        `json:"candidateKey"`
-	EffectOccurrenceKey      string                        `json:"effectOccurrenceKey"`
-	EffectKey                string                        `json:"effectKey"`
-	ResultKey                string                        `json:"resultKey"`
-	Semantic                 SkillHitSemantic              `json:"semantic"`
-	SpellShieldBlockScope    *string                       `json:"spellShieldBlockScope"`
-	ParticipationCondition   *GenericFormulaExpr           `json:"participationCondition"`
-	ParticipationProviderRef string                        `json:"participationProviderRef,omitempty"`
-	EventValueConditions     []SkillHitEventValueCondition `json:"eventValueConditions,omitempty"`
-	Operations               []OperationDefinition         `json:"operations"`
+	AttackDamageRole      AttackDamageRole `json:"attackDamageRole,omitempty"`
+	CandidateKey          string           `json:"candidateKey"`
+	EffectOccurrenceKey   string           `json:"effectOccurrenceKey"`
+	EffectKey             string           `json:"effectKey"`
+	ResultKey             string           `json:"resultKey"`
+	Semantic              SkillHitSemantic `json:"semantic"`
+	SpellShieldBlockScope *string          `json:"spellShieldBlockScope"`
+	// SpellShieldFollowCandidateKey 仅继承同次父命中中明确生产候选的阻挡，不提名或消费盾。
+	SpellShieldFollowCandidateKey SkillHitFollowCandidateKey    `json:"spellShieldFollowCandidateKey,omitempty"`
+	ParticipationCondition        *GenericFormulaExpr           `json:"participationCondition"`
+	ParticipationProviderRef      string                        `json:"participationProviderRef,omitempty"`
+	EventValueConditions          []SkillHitEventValueCondition `json:"eventValueConditions,omitempty"`
+	Operations                    []OperationDefinition         `json:"operations"`
 }
 
 // SkillHitSemantic 声明候选的真实结果身份，必须与 operations 对应。

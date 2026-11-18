@@ -31,6 +31,7 @@ final class ConfigurationChangeScope {
         Set<Target> changedTargets = new LinkedHashSet<>();
         Set<String> changedSkillCategories = new LinkedHashSet<>();
         Set<String> changedSkillStatus = new LinkedHashSet<>();
+        Set<String> changedRelationSkills = new LinkedHashSet<>();
         boolean globalVampChanged = false;
         Set<Row> rows = new LinkedHashSet<>(before.rows().keySet());
         rows.addAll(after.rows().keySet());
@@ -40,6 +41,11 @@ final class ConfigurationChangeScope {
             if (source != null) changed.add(source);
             else if (row.type().equals("SKILL_CATEGORIES")) changedSkillCategories.add(row.skill());
             else if (row.type().equals("VAMP_RULE")) globalVampChanged = true;
+            else if (row.type().equals("CHARACTER_SKILLS")) {
+                JsonNode previous = before.rows().get(row), current = after.rows().get(row);
+                if (previous != null) previous.forEach(skill -> changedRelationSkills.add(skill.asText()));
+                if (current != null) current.forEach(skill -> changedRelationSkills.add(skill.asText()));
+            }
             else {
                 if (row.type().equals("SKILL") && !Objects.equals(
                     before.rows().get(row) == null ? null : before.rows().get(row).get("status"),
@@ -52,6 +58,9 @@ final class ConfigurationChangeScope {
         Set<Source> affected = new LinkedHashSet<>(changed);
         for (Aggregate aggregate : after.aggregates()) {
             if (changedSkillStatus.contains(aggregate.skillKey())) affected.add(Source.of(aggregate));
+            if (aggregate.type() == SourceType.EFFECT && changedRelationSkills.contains(aggregate.skillKey())
+                && aggregate.data().path("results").valueStream()
+                    .anyMatch(result -> result.path("detail").has("spellShieldFollowResult"))) affected.add(Source.of(aggregate));
             if (aggregate.type() == SourceType.EFFECT
                 && (globalVampChanged || changedSkillCategories.contains(aggregate.skillKey()))
                 && hasDamage(aggregate)) affected.add(Source.of(aggregate));

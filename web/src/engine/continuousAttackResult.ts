@@ -1,7 +1,8 @@
 import { hasDynamicSpeedDependency } from './simulationCalculationRules';
 import { tryFoldConstant } from './numericAdapter';
 import { finiteImmediatePeriodicBinding, finiteImmediatePeriodicDamageSource } from './finiteImmediatePeriodicContract';
-import { basicAttackContributionAuthorMatches } from './basicAttackContributionContract';
+import { basicAttackContributionAuthorMatches, conditionalHitContributionAuthorMatches } from './basicAttackContributionContract';
+import { ownCounterCooldownExpiryOriginMatches } from './ownCounterCooldownEnd';
 import type {
   AbilityDefinition, AttackRecord, BudgetCause, CompileRequest, DamageBreakdown, DamageRecord, DoneResult, GenericFormulaExpr,
   ExecutionSummary, MechanicRecord, OperationDefinition, ProcessInstanceSnapshot, ProviderStateFieldSchema, RecordingSummary, RunRequest, StopReason, SeriesPoint, SeriesSamplingEvidence
@@ -336,9 +337,12 @@ export function assessContinuousAttackResult(
     const abilityPath = `sharedProviders[${providerIndex}].abilities[${abilityIndex}]`;
     const attackContribution = !!ability && basicAttackContributionAuthorMatches(input, origin, ability, abilityPath,
       match?.[1], plan.hitAbilityRef);
+    const conditionalContribution = !!ability && conditionalHitContributionAuthorMatches(input, origin, ability, abilityPath,
+      match?.[1], plan.hitAbilityRef);
     const initializedShieldConsumption = initializedSpellShieldConsumptionOriginMatches(input, origin);
+    const ownCooldownExpiry = ownCounterCooldownExpiryOriginMatches(input, origin);
     check(!mapping.has(key)
-      && (initializedShieldConsumption || !!ability && (ability.skillKey === origin.skillKey || attackContribution
+      && (initializedShieldConsumption || ownCooldownExpiry || !!ability && (ability.skillKey === origin.skillKey || attackContribution || conditionalContribution
         || passiveControlAuthorMatches(input, origin, ability, abilityPath, match?.[1]))
       && (!origin.providerDefinitionRef || mount?.definitionRef === origin.providerDefinitionRef
         || !mount && definition?.kind === 'status' && definition.lifecycle?.instanceScope === 'source_target'

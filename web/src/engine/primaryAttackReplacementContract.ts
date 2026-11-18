@@ -54,7 +54,8 @@ export function basicAttackPrimaryBinding(compile: CompileRequest, plan: Pick<Ba
     && initial.value.processControl?.action === 'INITIAL' && initial.value.processControl.useRefFromEvent === true
     && hit.provider.processes?.some(process => process.processKey === initial.value.processControl!.processKey && process.skillKey === plan.skillKey)
     && selected.resolver.operation === 'resolve_skill_hit' && selected.resolver.skillHit?.skillKey === plan.skillKey
-    && single(selected.resolver) && damage(selected.candidate) && candidates.every(row => row.candidate.spellShieldBlockScope === null);
+    && single(selected.resolver) && damage(selected.candidate) && selected.candidate.spellShieldBlockScope === null
+    && selected.candidate.spellShieldFollowCandidateKey === undefined;
   if (!valid) throw new Error('basicAttack.primary: 显式主体必须唯一绑定真实普攻首次过程及无条件即时目标伤害');
   const candidate = selected.candidate;
   const identity: BasicAttackPrimaryIdentity = { owner: plan.source, providerRef: hit.providerRef, definitionRef: hit.provider.providerKey,

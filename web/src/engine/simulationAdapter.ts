@@ -12,6 +12,8 @@ import type { SkillEffect, SkillEffectResult } from '../types/skillEffect';
 import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SkillTriggerRuleDetail } from '../types/skillTriggerRule';
 import type { SimulationAttributeInputs, SimulationEquipmentAssumption, SimulationInitialHealth, SimulationInitialResourceInput, SimulationMechanicStateInput, SimulationSnapshot } from '../types/simulationSnapshot';
+import { bindSpellShieldFollowResults } from './spellShieldFollowAdapter';
+import { ownCounterCooldownExpiry } from './ownCounterCooldownEnd';
 import {
   compileNumericValue, createNumericCompileState, finiteNumber,
   NumericAdaptationError, wrapValueRuleExpression
@@ -39,7 +41,7 @@ import { permanentHealthIncreases } from './permanentHealthInitialization';
 import { assembleTargetMarkSource } from './targetMarkAdapter';
 import { validateMarkedRawDamageAssembly } from './markedRawDamageAssembly';
 
-export const SIMULATION_ADAPTER_VERSION = 'v60-static-incoming-reduction';
+export const SIMULATION_ADAPTER_VERSION = 'v61-shared-hit-cooldown-expiry';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v5';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -611,6 +613,11 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
     active.operationOrigins.push({ abilityRef: hitBinding.hitAbilityRef, operationRef: authorPath, skillKey: contribution.authorSkillKey,
       effectKey: candidate.effectKey, resultKey: candidate.resultKey, providerDefinitionRef: provider.providerKey,
       compiledPaths: candidate.operations.map((_row, index) => `${compiledPath}.operations[${index}]`) });
+    for (const lowering of contribution.lowerings ?? []) for (const mapping of lowering.value.mappings) {
+      active.coverage.push({ authorPath: mapping.authorPath,
+        compiledPath: `${compiledPath}.operations[0].${lowering.field}${mapping.privatePath.slice('expression'.length)}`,
+        note: '同次技能命中的附加伤害保留其原作者静态参数与当前属性读取' });
+    }
   }
   const existingDerivations = base.rules.attributeDerivations ?? [];
   const extraGame = assembleGameAttributeDerivations(snapshot, active.changedAttributes, existingDerivations);
@@ -633,9 +640,19 @@ function mergeActiveProgram(base: Program, snapshot: SimulationSnapshot, ignored
       }
       existing.abilities = [...(existing.abilities ?? []), ...(provider.abilities ?? [])];
       existing.processes = [...(existing.processes ?? []), ...(provider.processes ?? [])];
+      const configuration = snapshot.skillConfigurations.find(row => row.skill.skillKey === binding.skillKey)!;
+      const cooldownExpiry = ownCounterCooldownExpiry(configuration);
       for (const [key, field] of Object.entries(provider.initialStateSchema ?? {})) {
         const previous = existing.initialStateSchema?.[key];
-        if (previous !== undefined && JSON.stringify(previous) !== JSON.stringify(field)) fail(`sharedProviders.${provider.providerKey}.initialStateSchema.${key}`, '主动与自然来源状态定义冲突');
+        if (previous !== undefined && JSON.stringify(previous) !== JSON.stringify(field)) {
+          const { onExpire, ...naturalField } = typeof previous === 'object' ? previous : {};
+          if (key !== cooldownExpiry?.stateKey || !onExpire || typeof field !== 'object' || field.onExpire !== undefined
+            || JSON.stringify(naturalField) !== JSON.stringify(field)) {
+            fail(`sharedProviders.${provider.providerKey}.initialStateSchema.${key}`, '主动与自然来源状态定义冲突');
+          }
+          // 自然来源独占已核的到期尾；主动过程写同一个字段，不能覆盖掉回调。
+          continue;
+        }
         (existing.initialStateSchema ??= {})[key] = field;
       }
       active.providers = active.providers.filter(row => row !== provider);
@@ -835,6 +852,7 @@ export function assembleSimulation(
     settings: { maxEvents: 10000, maxCommandsPerEvent: 256, maxQueueEvents: 10000, maxChainDepth: 32 }
   };
   validateMarkedRawDamageAssembly(snapshot, compileRequest, compiled.basicAttackBinding, compiled.natural.origins, compiled.operationOrigins);
+  bindSpellShieldFollowResults(snapshot, compileRequest, compiled.operationOrigins, compiled.coverage);
   return {
     compileRequest, coverage: compiled.coverage, operationOrigins: compiled.operationOrigins, basicAttackBinding: compiled.basicAttackBinding,
     equipmentOrigins: compiled.equipment.origins, skillOrigins: compiled.natural.origins, snapshotDigest: snapshot.snapshotDigest,

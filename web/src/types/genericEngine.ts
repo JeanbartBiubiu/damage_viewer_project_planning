@@ -239,6 +239,8 @@ export type SkillHitCandidate = {
   resultKey: string;
   semantic: SkillHitSemantic;
   spellShieldBlockScope: SpellShieldBlockScope | null;
+  /** 同一命中计划内的直接判盾候选；不存在时必须省略，不能借其它命中跟随。 */
+  spellShieldFollowCandidateKey?: string;
   participationCondition?: GenericFormulaExpr | null;
   /** 候选条件的同拥有者静态供值器挂载，仅切换条件状态读取上下文。 */
   participationProviderRef?: string;

@@ -27,6 +27,9 @@ type CooldownOperationWork interface {
 }
 
 func (s SkillActionExecutor) ApplyCooldown(input CooldownOperationInput, operation planbundle.CompiledOperation, ability planbundle.CompiledAbility, now int64, work CooldownOperationWork) *model.EngineError {
+	if operation.OwnCooldownTarget != nil {
+		ability = s.abilities[operation.OwnCooldownTarget.AbilityIndex]
+	}
 	if operation.ValuePolicy == "reduce_total_ratio" {
 		return s.ApplyTotalCooldownRefund(operation, ability, input.Mounted, input.Event, input.Owner, now, work)
 	}

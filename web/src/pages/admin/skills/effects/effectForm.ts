@@ -38,6 +38,7 @@ import type {
   SkillEffectDamageFilterDeliveryKind,
   SkillEffectDamageFilterOriginKind,
   SkillEffectDamageDeliveryKind,
+  SkillEffectDamageDetail,
   SkillEffectDamageModifierDirection,
   SkillEffectDamageOriginKind,
   SkillEffectExpiryMode,
@@ -424,6 +425,7 @@ export type SkillEffectResultDraft = {
   damageTypeKey: string;
   damageDeliveryKind: SkillEffectDamageDeliveryKind | '';
   attackDamageRole: '' | 'PRIMARY' | 'REPLACE_PRIMARY';
+  spellShieldFollowResult: NonNullable<SkillEffectDamageDetail['spellShieldFollowResult']> | null;
   damageOriginKind: SkillEffectDamageOriginKind | '';
   criticalMode: SkillEffectCriticalMode | '';
   criticalMultiplierValue: NumericValue | null;
@@ -512,6 +514,7 @@ export type SkillEffectResultDraftField =
   | 'damageTypeKey'
   | 'damageDeliveryKind'
   | 'attackDamageRole'
+  | 'spellShieldFollowResult'
   | 'damageOriginKind'
   | 'criticalMode'
   | 'criticalMultiplierValue'
@@ -699,6 +702,7 @@ const RESULT_FIELD_BY_PATH: { [path: string]: SkillEffectResultDraftField } = {
   'detail.damageTypeKey': 'damageTypeKey',
   'detail.deliveryKind': 'damageDeliveryKind',
   'detail.attackDamageRole': 'attackDamageRole',
+  'detail.spellShieldFollowResult': 'spellShieldFollowResult',
   'detail.originKind': 'damageOriginKind',
   'detail.critical': 'criticalMode',
   'detail.critical.mode': 'criticalMode',
@@ -806,6 +810,7 @@ export function createEmptyResultDraft(
     damageTypeKey: '',
     damageDeliveryKind: resultType === 'DAMAGE' ? 'SKILL' : '',
     attackDamageRole: '',
+    spellShieldFollowResult: null,
     damageOriginKind: resultType === 'DAMAGE' ? 'DIRECT' : '',
     criticalMode: resultType === 'DAMAGE' ? 'DISALLOWED' : '',
     criticalMultiplierValue: null,
@@ -916,6 +921,8 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
       draft.damageTypeKey = result.detail.damageTypeKey;
       draft.damageDeliveryKind = result.detail.deliveryKind;
       draft.attackDamageRole = result.detail.attackDamageRole ?? '';
+      draft.spellShieldFollowResult = result.detail.spellShieldFollowResult
+        ? { ...result.detail.spellShieldFollowResult } : null;
       draft.damageOriginKind = result.detail.originKind;
       draft.criticalMode = result.detail.critical.mode;
       draft.criticalMultiplierValue = result.detail.critical.multiplierValue ?? null;
@@ -1172,6 +1179,7 @@ export function applyResultTypeChange(
     damageTypeKey: '',
     damageDeliveryKind: nextType === 'DAMAGE' ? 'SKILL' : '',
     attackDamageRole: '',
+    spellShieldFollowResult: null,
     damageOriginKind: nextType === 'DAMAGE' ? 'DIRECT' : '',
     criticalMode: nextType === 'DAMAGE' ? 'DISALLOWED' : '',
     criticalMultiplierValue: null,
@@ -1314,6 +1322,9 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
     damageDeliveryKind:
       draft.resultType === 'DAMAGE' ? draft.damageDeliveryKind || 'SKILL' : '',
     attackDamageRole: draft.resultType === 'DAMAGE' ? draft.attackDamageRole : '',
+    spellShieldFollowResult: draft.resultType === 'DAMAGE'
+      && draft.spellShieldFollowResult !== null && draft.spellShieldFollowResult !== undefined
+      ? { ...draft.spellShieldFollowResult } : null,
     damageOriginKind:
       draft.resultType === 'DAMAGE' ? draft.damageOriginKind || 'DIRECT' : '',
     criticalMode:
@@ -2587,6 +2598,7 @@ function validateAndBuildResult(
         detail: {
           damageTypeKey: draft.damageTypeKey.trim(),
           ...(draft.attackDamageRole ? { attackDamageRole: draft.attackDamageRole } : {}),
+          ...(draft.spellShieldFollowResult ? { spellShieldFollowResult: { ...draft.spellShieldFollowResult } } : {}),
           deliveryKind: draft.damageDeliveryKind as SkillEffectDamageDeliveryKind,
           originKind: draft.damageOriginKind as SkillEffectDamageOriginKind,
           critical: {
@@ -2968,6 +2980,19 @@ function validateTypeSpecificFields(
       } else if (draft.attackDamageRole && (draft.damageDeliveryKind !== 'BASIC_ATTACK' || draft.damageOriginKind !== 'DIRECT'
         || draft.target !== 'TARGET' || context.lifecycleEnabled)) {
         fieldErrors.attackDamageRole = '普攻伤害角色只支持即时目标的普通攻击直接伤害。';
+      }
+      if (draft.spellShieldFollowResult !== null) {
+        const follow = draft.spellShieldFollowResult;
+        if (!follow || Object.keys(follow).length !== 3
+          || !['skillKey', 'effectKey', 'resultKey'].every(key => {
+            const value = follow[key as keyof typeof follow];
+            return typeof value === 'string' && SKILL_EFFECT_KEY_PATTERN.test(value);
+          })) {
+          fieldErrors.spellShieldFollowResult = '法术护盾跟随结果必须明确提供合法的技能、效果和结果标识，不能携带其它字段。';
+        } else if (draft.target !== 'TARGET' || context.lifecycleEnabled
+          || draft.attackDamageRole !== '' || draft.spellShieldBlockScope !== '') {
+          fieldErrors.spellShieldFollowResult = '法术护盾跟随只用于即时目标伤害，不能同时声明普攻主体角色或独立判盾粒度。';
+        }
       }
       if (draft.damageOriginKind !== 'DIRECT' && draft.damageOriginKind !== 'REFLECTED') {
         fieldErrors.damageOriginKind = '请选择伤害来源性质。';
@@ -4007,6 +4032,8 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
         valueRule: { ...result.valueRule },
         detail: {
           ...result.detail,
+          ...(result.detail.spellShieldFollowResult
+            ? { spellShieldFollowResult: { ...result.detail.spellShieldFollowResult } } : {}),
           critical: { ...result.detail.critical },
           vampOverrides: result.detail.vampOverrides.map((rule) => ({ ...rule }))
         }
@@ -4183,6 +4210,9 @@ function mapResultIssueField(
   }
   if (/^detail\.vampOverrides\[\d+\](?:\.(?:vampType|mode|basisOutputKind|efficiencyValue))?$/.test(nested)) {
     return 'vampOverrides';
+  }
+  if (/^detail\.spellShieldFollowResult\.(?:skillKey|effectKey|resultKey)$/.test(nested)) {
+    return 'spellShieldFollowResult';
   }
   if (nested === 'detail.operation') {
     if (resultType === 'ATTRIBUTE_CHANGE') return 'attributeOperation';

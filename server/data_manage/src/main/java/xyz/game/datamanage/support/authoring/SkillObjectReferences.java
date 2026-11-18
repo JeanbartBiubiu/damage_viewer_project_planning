@@ -246,6 +246,14 @@ public final class SkillObjectReferences {
                 switch (required(result, "resultType", path)) {
                     case "DAMAGE" -> {
                         dictionary(detail, dp, "damageTypeKey", TargetType.DAMAGE_TYPE);
+                        JsonNode follow = detail.get("spellShieldFollowResult");
+                        if (follow != null) {
+                            if (!follow.isObject() || follow.size() != 3)
+                                throw shape(dp + ".spellShieldFollowResult", "阻挡跟随须明确完整结果身份");
+                            add(dp + ".spellShieldFollowResult.resultKey", TargetType.RESULT,
+                                required(follow, "skillKey", dp), required(follow, "effectKey", dp),
+                                required(follow, "resultKey", dp));
+                        }
                         formulas(detail.path("critical"), dp + ".critical", "multiplierValue");
                         JsonNode rules = array(detail, "vampOverrides");
                         for (int v = 0; v < rules.size(); v++) {

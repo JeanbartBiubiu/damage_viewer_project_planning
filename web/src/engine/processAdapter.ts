@@ -93,6 +93,8 @@ export type AuthoredProcessProgram = {
   /** 仅动态弹药回充核对实际目录；静态状态可不传。 */
   ammoRecoveryAttributes?: readonly Attribute[];
   basicAttackContext?: ProcessBasicAttackContext;
+  /** 本场选择明确为空；只有此事实允许合法重置结果没有目标。 */
+  noSelectedBasicAttack?: true;
   hitContext?: Pick<AuthoredHitProgram, 'statuses' | 'identity' | 'skillCategoryKeys' | 'vampRules' | 'criticalBinding'>;
   /** 宿主绑定的真实父定义身份，使主动与自然同源，双方不同来源互不碰撞。 */
   providerDefinitionRef?: string;
@@ -129,6 +131,7 @@ export type AdaptedProcessProgram = {
   initialAbilityKey: string;
   controls: AdaptedProcessControl[];
   empoweredPayload?: { stepKey: string; hit: AdaptedHitProgram };
+  dormantAttackTimerResets?: string[];
 };
 
 export type ProcessProgramBinding = {
@@ -459,7 +462,7 @@ function compileResult(
   state: NumericCompileState,
   initialAbilityKey: string,
   authored: AuthoredProcessProgram
-): OperationDefinition {
+): OperationDefinition | null {
   if (result.spellShieldBlockScope !== null || result.resultType === 'SPELL_SHIELD') {
     fail(`${path}.spellShieldBlockScope`, '法术护盾资格不能绕过');
   }
@@ -468,6 +471,7 @@ function compileResult(
     exactKeys(result.detail, [], `${path}.detail`);
     if (result.target !== 'SOURCE' || result.valueRule !== null || moment.momentType !== 'PROCESS_START'
       || moment.stepKey !== null || moment.failureReason !== null) fail(path, '普攻计时重置只接受自身无数值的真实过程开始');
+    if (authored.noSelectedBasicAttack) return null;
     const context = authored.basicAttackContext;
     const owner = authored.owner ?? 'source';
     if (!context || context.binding.source !== owner || context.mount.definitionRef !== context.provider.providerKey
@@ -550,7 +554,8 @@ function compileEffectResults(
   state: NumericCompileState,
   initialAbilityKey: string,
   skip: ReadonlySet<string>,
-  context: { authored: AuthoredProcessProgram; providers: Map<string, ProviderDefinition>; finitePeriodic: FinitePeriodicCompilation[] }
+  context: { authored: AuthoredProcessProgram; providers: Map<string, ProviderDefinition>; finitePeriodic: FinitePeriodicCompilation[];
+    dormantAttackTimerResets: Set<string> }
 ): OperationDefinition[] {
   const path = planPath(effect.skillKey, `effects.${effect.effectKey}`);
   if (effect.lifecycle && effect.results.some(result => result.resultType === 'STATUS_OPERATION' && result.target === 'SOURCE')) {
@@ -626,7 +631,10 @@ function compileEffectResults(
   const operations: OperationDefinition[] = [];
   for (const result of stableSorted(effect.results, (item) => item.sortOrder)) {
     if (skip.has(result.resultKey)) continue;
-    operations.push(compileResult(result, `${path}.results.${result.resultKey}`, moment, state, initialAbilityKey, context.authored));
+    const resultPath = `${path}.results.${result.resultKey}`;
+    const operation = compileResult(result, resultPath, moment, state, initialAbilityKey, context.authored);
+    if (operation) operations.push(operation);
+    else context.dormantAttackTimerResets.add(resultPath.replace(/^adapter\.processPlan\./, ''));
   }
   return operations;
 }
@@ -994,7 +1002,8 @@ function momentOperationsFor(
   state: NumericCompileState,
   statePlan: ReturnType<typeof compileProcessStates>,
   providers: Map<string, ProviderDefinition>,
-  finitePeriodic: FinitePeriodicCompilation[]
+  finitePeriodic: FinitePeriodicCompilation[],
+  dormantAttackTimerResets: Set<string>
 ): ProcessDefinition['momentOperations'] {
   const groups: ProcessDefinition['momentOperations'] = [];
   const add = (moment: ProcessMomentDefinition, operations: OperationDefinition[]) => {
@@ -1034,7 +1043,7 @@ function momentOperationsFor(
     const effect = lookupEffect(authored, binding.effectKey, `${path}.effectKey`);
     if (moment.momentType === 'STEP_EXECUTION' && process.steps.some(step => step.stepType === 'EMPOWERED_BASIC_ATTACK' && step.stepKey === moment.stepKey)) continue;
     add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey,
-      costs.skipByBinding.get(`${binding.bindingKey}\0${effect.effectKey}`) ?? new Set(), { authored, providers, finitePeriodic }));
+      costs.skipByBinding.get(`${binding.bindingKey}\0${effect.effectKey}`) ?? new Set(), { authored, providers, finitePeriodic, dormantAttackTimerResets }));
   }
   for (const rule of controls.momentRules) {
     const path = planPath(authored.skillKey, `rules.${rule.ruleKey}`);
@@ -1084,7 +1093,7 @@ function momentOperationsFor(
       state.runtimeInputReads = Object.keys(reads).length ? reads : undefined;
       state.formulaNamespace = `${previousNamespace}/rules/${rule.ruleKey}/actions/${action.actionKey}`;
       try {
-        add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey, new Set(), { authored, providers, finitePeriodic }));
+        add(moment, compileEffectResults(effect, moment, state, controls.initial.abilityKey, new Set(), { authored, providers, finitePeriodic, dormantAttackTimerResets }));
       } finally {
         state.runtimeInputReads = previous;
         state.formulaNamespace = previousNamespace;
@@ -1115,10 +1124,13 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
   if (!isRecord(authored)) fail('adapter.processPlan', '过程程序必须是对象');
   exactKeys(authored, [
     'gameId', 'skillKey', 'skillLevel', 'characterLevel', 'process', 'rules', 'effects',
-    'parameters', 'formulas', 'owner', 'castCosts', 'ignoredCastCosts', 'roundPositiveCooldownMs', 'internalStates', 'modifierZones', 'damageTypes', 'ammoRecoveryAttributes', 'basicAttackContext', 'hitContext', 'providerDefinitionRef', 'sceneAttributeInputs', 'stateInitialValues', 'payloadSceneParameterValues'
+    'parameters', 'formulas', 'owner', 'castCosts', 'ignoredCastCosts', 'roundPositiveCooldownMs', 'internalStates', 'modifierZones', 'damageTypes', 'ammoRecoveryAttributes', 'basicAttackContext', 'noSelectedBasicAttack', 'hitContext', 'providerDefinitionRef', 'sceneAttributeInputs', 'stateInitialValues', 'payloadSceneParameterValues'
   ], 'adapter.processPlan');
   const gameId = catalogKey(authored.gameId, 'gameId');
   if (authored.roundPositiveCooldownMs !== undefined && typeof authored.roundPositiveCooldownMs !== 'boolean') fail('roundPositiveCooldownMs', '正冷却离散化必须明确声明');
+  if (authored.noSelectedBasicAttack !== undefined && (authored.noSelectedBasicAttack !== true || authored.basicAttackContext !== undefined)) {
+    fail('noSelectedBasicAttack', '无所选普攻事实必须明确且不能同时提供普攻绑定');
+  }
   const skillKey = catalogKey(authored.skillKey, 'skillKey');
   if (!Number.isInteger(authored.skillLevel) || authored.skillLevel < 1) fail('skillLevel', '本次等级必须明确且有效');
   if (!Number.isInteger(authored.characterLevel) || authored.characterLevel < 1) fail('characterLevel', '本次等级必须明确且有效');
@@ -1162,6 +1174,7 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
     { ...state, runtimeInputReads: counterReads }, authored.ammoRecoveryAttributes);
   const providers = new Map<string, ProviderDefinition>();
   const finitePeriodic: FinitePeriodicCompilation[] = [];
+  const dormantAttackTimerResets = new Set<string>();
   const steps = compileSteps(process, state);
   let empoweredPayload: AdaptedProcessProgram['empoweredPayload'];
   if (steps.some(step => step.stepType === 'EMPOWERED_BASIC_ATTACK')) {
@@ -1226,7 +1239,7 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
     if (seenAbilities.has(control.abilityKey)) fail(planPath(skillKey, `abilities.${control.abilityKey}`), '控制能力标识重复');
     seenAbilities.add(control.abilityKey);
   }
-  const momentOperations = momentOperationsFor(authored, process, costs, controls, state, statePlan, providers, finitePeriodic);
+  const momentOperations = momentOperationsFor(authored, process, costs, controls, state, statePlan, providers, finitePeriodic, dormantAttackTimerResets);
   const firstEffects = controls.firstEffectRules.map((rule): AbilityDefinition => {
     const abilityKey = `listen_${rule.ruleKey}`;
     if (seenAbilities.has(abilityKey)) fail(planPath(skillKey, `rules.${rule.ruleKey}.ruleKey`), '监听能力与控制能力标识重复');
@@ -1240,6 +1253,10 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
     };
     return { abilityKey, kind: 'passive_listener', listenerSpec };
   });
+  if (dormantAttackTimerResets.size && !momentOperations.some(group => group.operations.length)
+    && !firstEffects.some(ability => ability.listenerSpec?.operations?.length)) {
+    fail(processPath, '未选择真实普攻时，不能将只含普攻计时重置的主动过程变成无操作');
+  }
   const params = { ...state.params };
   const abilities = controlRows.map((control) => ({
     ...controlAbility(control, process.processKey, skillKey, params),
@@ -1262,7 +1279,8 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
           ? [modifier.condition.path.slice('damage.type.'.length)] : [])))].map(key => ({ key, domain: 'damage' }))
     ],
     params, formulas: formulasUsedByInternalValue([abilities, momentOperations, steps, costs.costs, cooldown, statePlan.schema, [...providers.values()]], [...state.namedFormulas.values()]), requiredAttributes: [...state.requiredAttributes],
-    initialAbilityKey: controls.initial.abilityKey, controls: controlRows, ...(empoweredPayload ? { empoweredPayload } : {})
+    initialAbilityKey: controls.initial.abilityKey, controls: controlRows, ...(empoweredPayload ? { empoweredPayload } : {}),
+    ...(dormantAttackTimerResets.size ? { dormantAttackTimerResets: [...dormantAttackTimerResets] } : {})
   };
 }
 

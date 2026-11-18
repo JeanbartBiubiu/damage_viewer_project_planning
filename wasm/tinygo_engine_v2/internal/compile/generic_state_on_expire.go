@@ -35,7 +35,7 @@ func compileStateOnExpire(req model.CompileRequest, ctx *genericCompileContext) 
 			path := "sharedProviders[" + itoa(pi) + "].initialStateSchema." + key + ".onExpire"
 			fail := func(message string) { ctx.collector.addError(model.GenericErrFormulaTypeError, path, message, key) }
 			field, exists := ctx.session.Providers[index].StateFields[key]
-			if !exists || (provider.Kind != "character" && provider.Kind != "build") || provider.Lifecycle != nil || len(provider.Processes) != 0 || field.StateKind != "" || field.ValueType != model.ProviderStateValueInteger || field.DefaultValue != 0 || !field.HasCap || field.MaxValue != 1 || field.DurationMs <= 0 || field.RefreshPolicy != model.ProviderStateRefreshOnWrite {
+			if !exists || (provider.Kind != "character" && provider.Kind != "build") || provider.Lifecycle != nil || field.StateKind != "" || field.ValueType != model.ProviderStateValueInteger || field.DefaultValue != 0 || !field.HasCap || field.MaxValue != 1 || field.DurationMs <= 0 || field.RefreshPolicy != model.ProviderStateRefreshOnWrite {
 				fail("onExpire requires a permanent own integer 0..1 refresh-on-write timed field")
 				continue
 			}
@@ -44,9 +44,15 @@ func compileStateOnExpire(req model.CompileRequest, ctx *genericCompileContext) 
 			decoder := json.NewDecoder(bytes.NewReader(data))
 			decoder.DisallowUnknownFields()
 			if err != nil || raw == nil || decoder.Decode(&operations) != nil || len(operations) != 1 {
-				fail("onExpire requires one complete self linked-shield operation")
+				fail("onExpire requires one complete owned expiry operation")
 				continue
 			}
+			cooldown := operations[0].Operation == "cooldown_change" && operations[0].ValuePolicy == "set_remaining"
+			if !cooldown && len(provider.Processes) != 0 {
+				fail("linked-shield expiry cannot carry active processes")
+				continue
+			}
+			field.OnExpireBeforeCombat = cooldown
 			field.OnExpireStart = uint16(len(ctx.session.Operations))
 			for i, operation := range operations {
 				compileOperation(operation, path+"["+itoa(i)+"]", int(index), ctx)
@@ -54,6 +60,7 @@ func compileStateOnExpire(req model.CompileRequest, ctx *genericCompileContext) 
 			field.OnExpireCount = uint16(len(ctx.session.Operations)) - field.OnExpireStart
 			ctx.session.Providers[index].StateFields[key] = field
 			ctx.session.Providers[index].HasStateOnExpire, ctx.session.HasStateOnExpire = true, true
+			ctx.session.Providers[index].HasCooldownStateExpiry = ctx.session.Providers[index].HasCooldownStateExpiry || cooldown
 		}
 	}
 	ctx.currentSkillKey = ""
@@ -72,6 +79,10 @@ func finalizeStateOnExpire(ctx *genericCompileContext) {
 		}
 		if !mounted {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, "sharedProviders["+itoa(pi)+"]", "state expiry source requires a real initial owner mount", provider.ProviderKey)
+		}
+		if provider.HasCooldownStateExpiry {
+			finalizeCooldownStateExpiry(pi, ctx)
+			continue
 		}
 		initialized, declared := ctx.session.RuntimeTypes.SourceInitialized.Lookup()
 		ownerType, ownerDeclared := ctx.session.RuntimeTypes.SourceOwner.Lookup()

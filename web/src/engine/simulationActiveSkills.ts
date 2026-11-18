@@ -16,6 +16,7 @@ import { finiteTargetCounterContract } from './finiteTargetCounterContract';
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
 import { naturalRuleKeys, plannedSkillRuleKeys, sourceIsPlanned, validateSimulationSkillSourceManifest } from './simulation/sources/description';
 import { selectSimulationSkillSourceClosure } from './simulation/sources/closure';
+import { ownCounterCooldownExpiry } from './ownCounterCooldownEnd';
 import { compileSimulationDamageFormula } from './simulation/compile/damageFormula';
 import { validateConfiguration } from './simulation/compile/configuration';
 import { calculationConfiguration, changedAttributes, simulationCriticalBinding } from './simulationCalculationRules';
@@ -212,8 +213,9 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   for (const step of process.steps) if (typeof step.occupiesAction !== 'boolean') {
     fail(`${root}.processes.${process.processKey}.steps.${step.stepKey}.occupiesAction`, '计划步骤必须由作者明确是否占用行动，不为延时猜默认值');
   }
+  const cooldownExpiry = ownCounterCooldownExpiry(configuration);
   const processRules = configuration.triggerRules.filter(row => row.eventSource.eventType !== 'SKILL_HIT'
-    && row.eventSource.eventType !== 'SPELL_SHIELD_BLOCKED');
+    && row.eventSource.eventType !== 'SPELL_SHIELD_BLOCKED' && row.ruleKey !== cooldownExpiry?.ruleKey);
   const hitRules = configuration.triggerRules.filter(row => row.eventSource.eventType === 'SKILL_HIT'
     || row.eventSource.eventType === 'SPELL_SHIELD_BLOCKED');
   if (ignoredCosts.some(cost => cost.skillKey !== plan.skillKey)) fail('ignoredCastCosts', '费用引用必须属于本次计划技能');
@@ -250,7 +252,8 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
     characterLevel: snapshot.selection.sourceLevel, process, rules: processRules, effects: configuration.effects,
     parameters: configuration.parameters, formulas: configuration.formulas, owner: 'source', ammoRecoveryAttributes: snapshot.catalogs.attributes,
     internalStates: configuration.internalStates, modifierZones: snapshot.catalogs.modifierZones, damageTypes: snapshot.catalogs.damageTypes.map(row => row.type), providerDefinitionRef: definitionRef,
-    basicAttackContext, sceneAttributeInputs, payloadSceneParameterValues: payloadSceneValues, stateInitialValues: sceneInitialValuesForSource(sceneInitialParameterRequirements(snapshot), sceneInputs,
+    basicAttackContext, ...(snapshot.selection.basicAttackSkillKey === null ? { noSelectedBasicAttack: true } : {}),
+    sceneAttributeInputs, payloadSceneParameterValues: payloadSceneValues, stateInitialValues: sceneInitialValuesForSource(sceneInitialParameterRequirements(snapshot), sceneInputs,
       'source', snapshot.source.skillSources.find(source => simulationSkillSourceIdentity(source.origin, source.skillKey)
         === simulationSkillSourceIdentity(plan.origin, plan.skillKey))!),
     hitContext: { statuses: snapshot.catalogs.statuses, skillCategoryKeys: configuration.skill.skillCategoryKeys,
@@ -265,6 +268,11 @@ function assembleActiveSkill(snapshot: SimulationSnapshot, plan: SimulationPlann
   const types = new TypeCatalogEntries([['combatant/champion', 'combatant'], ['event/ability_started', 'event'], ['event/source_owner', 'event']]);
   for (const type of adapted.typeEntries) types.set(type.key, type.domain);
   const coverage: SimulationCoverage[] = [];
+  for (const authorPath of adapted.dormantAttackTimerResets ?? []) coverage.push({ authorPath,
+    compiledPath: 'runtimeOptions.skillOrigins', note: '本场明确未选择普攻，重置没有目标且不生成操作；其它过程结果继续执行' });
+  if (cooldownExpiry) coverage.push({ authorPath: `${root}.triggerRules.${cooldownExpiry.ruleKey}`,
+    compiledPath: `sharedProviders[${definitionRef}].initialStateSchema.${cooldownExpiry.stateKey}.onExpire`,
+    note: '自身有期计数的结束冷却由同一真实自然来源完整编译，不生成第二个过程监听' });
   for (const input of sceneAttributeInputs) {
     const initialAbilityIndex = adapted.provider.abilities?.findIndex(ability => ability.abilityKey === adapted.initialAbilityKey) ?? -1;
     if (initialAbilityIndex < 0) fail(`${root}.processes.${process.processKey}`, '场景属性快照缺少真实首次主动能力');

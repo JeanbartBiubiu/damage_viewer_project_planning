@@ -26,6 +26,7 @@ import xyz.game.datamanage.support.authoring.SkillCastingPhaseSemantics;
 import xyz.game.datamanage.support.authoring.SkillChargeDurationSemantics;
 import xyz.game.datamanage.support.authoring.SkillHitPhaseSemantics;
 import xyz.game.datamanage.support.authoring.SkillAttackStartValueSemantics;
+import xyz.game.datamanage.support.authoring.SkillSpellShieldFollowSemantics;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.Aggregate;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.Reference;
@@ -182,6 +183,7 @@ final class SnapshotSkillClosure {
             SkillCastingPhaseSemantics.validate(needed, List.copyOf(objects.values()));
             SkillHitPhaseSemantics.validate(needed, List.copyOf(objects.values()));
             SkillAttackStartValueSemantics.validate(needed, List.copyOf(objects.values()));
+            SkillSpellShieldFollowSemantics.validate(needed, List.copyOf(objects.values()), characterSkillOwners());
             SkillChargeDurationSemantics.validate(needed, needed);
         } catch (ApiException exception) {
             throw translate(exception);
@@ -239,7 +241,7 @@ final class SnapshotSkillClosure {
         Aggregate dependency = objects.get(key);
         if (dependency == null) throw SnapshotIssues.invalid(path, "REFERENCE_MISSING", "开启闭包中的必要组成不存在");
         Source owner = invocation.owner();
-        boolean definitionOnly = invocation.definitionOnly() || shieldDefinitionReference(invocation.object(), reference)
+        boolean definitionOnly = invocation.definitionOnly() || resultDefinitionReference(invocation.object(), reference)
             || hitCounterDefinitionReference(invocation, reference, dependency);
         if (!definitionOnly && key.type() != SourceType.FORMULA && !key.skillKey().equals(owner.skillKey)) owner = ownerFor(owner, key.skillKey(), path);
         boolean executes = !definitionOnly && invocation.executes() && executesDependency(invocation.object(), reference);
@@ -490,9 +492,17 @@ final class SnapshotSkillClosure {
         return false;
     }
 
-    private static boolean shieldDefinitionReference(Aggregate object, Reference reference) {
+    private Map<String, Set<String>> characterSkillOwners() {
+        Map<String, Set<String>> owners = new HashMap<>();
+        for (Source source : sources) if ("CHARACTER".equals(source.origin.kind()))
+            owners.computeIfAbsent(source.skillKey, ignored -> new HashSet<>())
+                .add(source.side + ":" + source.origin.characterKey());
+        return owners;
+    }
+
+    private static boolean resultDefinitionReference(Aggregate object, Reference reference) {
         return object.type() == SourceType.EFFECT && reference.target().type() == TargetType.RESULT
-            && reference.fieldPath().matches("results\\[\\d+\\]\\.detail\\.requiredShield\\.resultKey");
+            && reference.fieldPath().matches("results\\[\\d+\\]\\.detail\\.(requiredShield|spellShieldFollowResult)\\.resultKey");
     }
 
     private void subscribe(Invocation producer) {
@@ -783,7 +793,7 @@ final class SnapshotSkillClosure {
             for (Reference reference : references(object)) {
                 Target target = reference.target();
                 if (!target.skillKey().equals(source.skillKey)) continue;
-                boolean definitionOnly = invocation.definitionOnly() || shieldDefinitionReference(object, reference);
+                boolean definitionOnly = invocation.definitionOnly() || resultDefinitionReference(object, reference);
                 if (!definitionOnly && target.type() == TargetType.PARAMETER && readsParameter(object, target.key()) && source.configuration.parameters().stream()
                     .anyMatch(parameter -> parameter.parameterKey().equals(target.key()) && parameter.valueMode() == SkillParameterValueMode.SKILL_LEVEL)) return true;
                 ObjectKey key = objectKey(target);

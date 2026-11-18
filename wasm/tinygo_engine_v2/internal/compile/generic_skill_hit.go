@@ -97,13 +97,7 @@ func compileSkillHitAbility(ability model.AbilityDefinition, op model.OperationD
 	}
 	compileSkillHitRuleGroups(op.SkillHit.RuleGroups, op.SkillHit.Candidates, plan, opPath+".skillHit.ruleGroups", ownerProviderIndex, ctx)
 	validateSkillHitHealingCandidates(ability, op, plan, ctx)
-	if plan.PrimaryCandidate >= 0 {
-		for i, candidate := range op.SkillHit.Candidates {
-			if candidate.SpellShieldBlockScope != nil {
-				collector.addError(model.GenericErrUnknownRef, opPath+".skillHit.candidates["+itoa(i)+"].spellShieldBlockScope", "a PRIMARY hit requires null spell-shield scope on every parent candidate", candidate.CandidateKey)
-			}
-		}
-	}
+	compileSpellShieldFollows(op.SkillHit.Candidates, plan, seenCandidate, ctx)
 	_ = inboundNonNull
 	if op.Target != "" {
 		if _, ok := model.ValidCombatantSelectors[op.Target]; !ok && !strings.HasPrefix(op.Target, "source.") && !strings.HasPrefix(op.Target, "target.") {

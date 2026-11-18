@@ -383,6 +383,9 @@ func (s *Engine) enqueueExpireCleanup(atMs int64, payload effectpkg.ExpiryPayloa
 		Kind:             scheduler.GenericEventExpireCleanup,
 		DriverEntryIndex: idx,
 	}
+	if payload.BeforeCombat {
+		ev.Category = scheduler.GenericCategoryStateCooldownExpiry
+	}
 	if payload.ProviderRef != "" {
 		ev.ProviderInstanceRef = scheduler.ProviderInstanceRef{
 			CombatantKey: payload.CombatantKey,

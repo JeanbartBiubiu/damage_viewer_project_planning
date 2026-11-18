@@ -39,7 +39,7 @@ func replacementRow(t *testing.T, done model.DoneResult) model.BasicAttackPrimar
 }
 
 func TestPrimaryReplacementCompileAndNativeBindingGates(t *testing.T) {
-	for _, variant := range []string{"unknown", "participation", "event_condition", "op_condition", "extra_payload", "primary_on_spell", "replace_on_basic", "two_primary", "missing_binding", "no_self", "primary_shield", "other_parent_shield", "repeat"} {
+	for _, variant := range []string{"unknown", "participation", "event_condition", "op_condition", "extra_payload", "primary_on_spell", "replace_on_basic", "two_primary", "missing_binding", "no_self", "primary_shield", "repeat"} {
 		t.Run(variant, func(t *testing.T) {
 			c, _ := primaryReplacementInput(t, "gated", 1500, 2500)
 			primary := &c.SharedProviders[0].Abilities[2].Operations[0].SkillHit.Candidates
@@ -73,8 +73,6 @@ func TestPrimaryReplacementCompileAndNativeBindingGates(t *testing.T) {
 				(*primary)[0].SpellShieldBlockScope = hitScope(model.SpellShieldScopeResult)
 			case "repeat":
 				(*payload)[0].Operations[0].RepeatCount = 2
-			case "other_parent_shield":
-				(*primary)[1].SpellShieldBlockScope = hitScope(model.SpellShieldScopeResult)
 			}
 			if result := compilebundle.CompileGeneric(c); result.OK {
 				t.Fatal("invalid role admitted")

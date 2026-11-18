@@ -1,0 +1,1101 @@
+{
+  "schemaVersion": "mechanism-case-v1",
+  "caseKey": "own_counter_expiry_cooldown_exact",
+  "title": "自然到期优先于同刻接触与施放，冷却整点可再武装",
+  "mechanisms": [
+    "state.own_counter_expiry_cooldown"
+  ],
+  "derivation": [
+    "50毫秒首次武装，期限为50+500=550。全场无后台普攻，明确技能的延时不占用动作。549毫秒再次施放因计数仍为1而未开始。",
+    "明确技能450毫秒施放，100毫秒延时使它恰好在550毫秒接触。自然到期先清旧武装并提交自身700毫秒冷却，同刻接触只有100点主真伤，没有20点附伤，目标从1000余900；同刻武装指令未开始。",
+    "自身首次冷却550+700=1250就绪。1249毫秒仍未开始，1250毫秒开始第二次武装。1251毫秒结束时旧冷却到期点仍是1250，余0；明确技能的独立冷却450+1000=1450，余199毫秒。",
+    "武装首次的能力标识取自首次触发的动作标识 cast，因此自身冷却归属该能力。"
+  ],
+  "catalog": "mechanism_lab",
+  "snapshot": {
+    "selection": {
+      "sourceCharacterKey": "lab_attacker",
+      "sourceLevel": 1,
+      "targetCharacterKey": "lab_dummy",
+      "targetLevel": 1,
+      "basicAttackSkillKey": null,
+      "basicAttackLevel": null,
+      "plannedSkills": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_shared_window",
+          "skillLevel": 2,
+          "phaseKinds": [
+            "INITIAL"
+          ]
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_contact_spell",
+          "skillLevel": 1,
+          "phaseKinds": [
+            "INITIAL"
+          ]
+        }
+      ],
+      "sourceEquipmentKeys": [],
+      "targetEquipmentKeys": [],
+      "sourceBuildConfigurations": [],
+      "targetBuildConfigurations": [],
+      "targetSkillSettings": [],
+      "sourceSkillSettings": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_shared_window",
+          "enabled": true,
+          "skillLevel": 2
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_contact_spell",
+          "enabled": true,
+          "skillLevel": 1
+        }
+      ]
+    },
+    "source": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_attacker",
+        "name": "机制攻击方",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_attacker",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 1000,
+            "attack_damage": 100,
+            "attack_speed": 1,
+            "armor": 0,
+            "magic_resist": 0,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "ability_power": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 1000,
+        "attack_damage": 100,
+        "attack_speed": 1,
+        "armor": 0,
+        "magic_resist": 0,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 0
+      },
+      "attachedSkills": [
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_shared_window",
+          "skillName": "合成一次武装",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "gameId": "mechanism_lab",
+          "characterKey": "lab_attacker",
+          "characterName": "机制攻击方",
+          "skillKey": "lab_contact_spell",
+          "skillName": "合成明确接触",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": [
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_shared_window",
+          "skillName": "合成一次武装",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 2,
+          "enabledRuleKeys": [
+            "cast",
+            "contact_consume",
+            "contact_damage"
+          ],
+          "inactiveReason": null
+        },
+        {
+          "origin": {
+            "kind": "CHARACTER",
+            "characterKey": "lab_attacker"
+          },
+          "skillKey": "lab_contact_spell",
+          "skillName": "合成明确接触",
+          "skillStatus": "ENABLED",
+          "enabled": true,
+          "skillLevel": 1,
+          "enabledRuleKeys": [
+            "first_cast",
+            "on_hit"
+          ],
+          "inactiveReason": null
+        }
+      ]
+    },
+    "target": {
+      "character": {
+        "gameId": "mechanism_lab",
+        "characterKey": "lab_dummy",
+        "name": "机制木桩",
+        "description": null,
+        "createdAt": "",
+        "updatedAt": ""
+      },
+      "attributes": {
+        "characterKey": "lab_dummy",
+        "minLevel": 1,
+        "maxLevel": 1,
+        "levelValues": {
+          "1": {
+            "hp": 1000,
+            "attack_damage": 0,
+            "attack_speed": 1,
+            "armor": 0,
+            "magic_resist": 0,
+            "critical_strike_chance": 0,
+            "critical_strike_damage_bonus_percent": 0,
+            "armor_pen_percent": 0,
+            "armor_pen_flat": 0,
+            "magic_pen_percent": 0,
+            "magic_pen_flat": 0,
+            "life_steal_percent": 0,
+            "ability_power": 0
+          }
+        }
+      },
+      "selectedLevelValues": {
+        "hp": 1000,
+        "attack_damage": 0,
+        "attack_speed": 1,
+        "armor": 0,
+        "magic_resist": 0,
+        "critical_strike_chance": 0,
+        "critical_strike_damage_bonus_percent": 0,
+        "armor_pen_percent": 0,
+        "armor_pen_flat": 0,
+        "magic_pen_percent": 0,
+        "magic_pen_flat": 0,
+        "life_steal_percent": 0,
+        "ability_power": 0
+      },
+      "attachedSkills": [],
+      "selectedEquipment": [],
+      "selectedBuilds": [],
+      "skillSources": []
+    },
+    "skillConfigurations": [
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_shared_window",
+          "name": "合成一次武装",
+          "description": null,
+          "maxLevel": 2,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "active"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_shared_window",
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": "",
+            "parameterKey": "factor",
+            "name": "附伤攻击力比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.1,
+              "2": 0.2
+            }
+          }
+        ],
+        "formulas": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_shared_window",
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": "",
+            "formulaKey": "extra",
+            "name": "自身倍率乘攻击力",
+            "expression": {
+              "inputs": [
+                {
+                  "key": "factor",
+                  "binding": {
+                    "kind": "parameter",
+                    "skillKey": "lab_shared_window",
+                    "parameterKey": "factor"
+                  }
+                },
+                {
+                  "key": "attack_damage",
+                  "binding": {
+                    "kind": "attribute",
+                    "object": "source",
+                    "attributeKey": "attack_damage",
+                    "valueKind": "TOTAL",
+                    "view": "current_frame"
+                  }
+                }
+              ],
+              "stages": [
+                {
+                  "key": "amount",
+                  "name": "算出附伤",
+                  "expression": {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "read",
+                        "inputKey": "factor"
+                      },
+                      {
+                        "op": "read",
+                        "inputKey": "attack_damage"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "outputStageKey": "amount"
+            }
+          }
+        ],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_shared_window",
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": "",
+            "effectKey": "extra",
+            "name": "武装附伤",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "武装真实伤害",
+                "description": null,
+                "sortOrder": 0,
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "extra"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                }
+              }
+            ]
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_shared_window",
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": "",
+            "effectKey": "end_cooldown",
+            "name": "结束后起自身冷却",
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "cooldown",
+                "name": "设置首次冷却",
+                "description": null,
+                "sortOrder": 0,
+                "resultType": "COOLDOWN_CHANGE",
+                "target": "SOURCE",
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 700
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "detail": {
+                  "operation": "SET_REMAINING",
+                  "affectedSkillScope": {
+                    "mode": "SKILLS",
+                    "skillKeys": [
+                      "lab_shared_window"
+                    ],
+                    "skillCategoryKeys": []
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_shared_window",
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": "",
+            "processKey": "cast",
+            "name": "武装",
+            "activationType": "ACTIVE",
+            "cooldown": null,
+            "steps": [
+              {
+                "stepKey": "instant",
+                "name": "即时",
+                "description": null,
+                "sortOrder": 0,
+                "stepType": "IMMEDIATE",
+                "occupiesAction": false,
+                "detail": {}
+              }
+            ],
+            "effectBindings": [],
+            "stateOperations": [
+              {
+                "operationKey": "set",
+                "name": "写入武装",
+                "sortOrder": 0,
+                "stateSkillKey": "lab_shared_window",
+                "stateKey": "armed",
+                "moment": {
+                  "momentType": "STEP_EXECUTION",
+                  "stepKey": "instant",
+                  "failureReason": null
+                },
+                "operation": "SET",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "optionKey": null
+              }
+            ]
+          },
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_shared_window",
+            "description": null,
+            "sortOrder": 1,
+            "createdAt": "",
+            "updatedAt": "",
+            "processKey": "consume",
+            "name": "消费",
+            "activationType": "PASSIVE",
+            "cooldown": null,
+            "steps": [
+              {
+                "stepKey": "instant",
+                "name": "即时",
+                "description": null,
+                "sortOrder": 0,
+                "stepType": "IMMEDIATE",
+                "occupiesAction": false,
+                "detail": {}
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "cooldown",
+                "effectKey": "end_cooldown",
+                "moment": {
+                  "momentType": "STEP_EXECUTION",
+                  "stepKey": "instant",
+                  "failureReason": null
+                },
+                "sortOrder": 1
+              }
+            ],
+            "stateOperations": [
+              {
+                "operationKey": "set",
+                "name": "清空武装",
+                "sortOrder": 0,
+                "stateSkillKey": "lab_shared_window",
+                "stateKey": "armed",
+                "moment": {
+                  "momentType": "STEP_EXECUTION",
+                  "stepKey": "instant",
+                  "failureReason": null
+                },
+                "operation": "SET",
+                "value": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "optionKey": null
+              }
+            ]
+          }
+        ],
+        "internalStates": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_shared_window",
+            "description": null,
+            "sortOrder": 0,
+            "createdAt": "",
+            "updatedAt": "",
+            "stateKey": "armed",
+            "name": "单次武装",
+            "scope": "SKILL",
+            "stateType": "COUNTER",
+            "detail": {
+              "initialValue": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "maxValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 500
+              }
+            }
+          }
+        ],
+        "triggerRules": [
+          {
+            "ruleKey": "cast",
+            "name": "未武装时允许首次施放",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_shared_window",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "inactive",
+                "name": "自身未武装",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "self",
+                    "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+                    "sortOrder": 0,
+                    "detail": {}
+                  },
+                  {
+                    "conditionKey": "armed",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 1,
+                    "detail": {
+                      "stateSkillKey": "lab_shared_window",
+                      "stateKey": "armed",
+                      "valueKind": "VALUE",
+                      "optionKey": null,
+                      "expectedBoolean": null,
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "cast",
+                "name": "cast",
+                "actionType": "START_PROCESS",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "processKey": "cast"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          },
+          {
+            "ruleKey": "contact_damage",
+            "name": "明确技能接触读武装",
+            "description": null,
+            "sortOrder": 2,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_contact_spell"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "armed",
+                "name": "当前已武装",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "armed",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_shared_window",
+                      "stateKey": "armed",
+                      "valueKind": "VALUE",
+                      "optionKey": null,
+                      "expectedBoolean": null,
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "extra",
+                "name": "extra",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "extra"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          },
+          {
+            "ruleKey": "contact_consume",
+            "name": "明确技能接触后消费",
+            "description": null,
+            "sortOrder": 4,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_contact_spell"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "armed",
+                "name": "当前已武装",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "armed",
+                    "conditionType": "INTERNAL_STATE_CHECK",
+                    "sortOrder": 0,
+                    "detail": {
+                      "stateSkillKey": "lab_shared_window",
+                      "stateKey": "armed",
+                      "valueKind": "VALUE",
+                      "optionKey": null,
+                      "expectedBoolean": null,
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "consume",
+                "name": "consume",
+                "actionType": "START_PROCESS",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "processKey": "consume"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          },
+          {
+            "ruleKey": "expire",
+            "name": "自然结束后提交冷却",
+            "description": null,
+            "sortOrder": 5,
+            "eventSource": {
+              "eventType": "INTERNAL_STATE_CHANGED",
+              "detail": {
+                "stateSkillKey": "lab_shared_window",
+                "stateKey": "armed",
+                "changeKind": "VALUE_CHANGED"
+              }
+            },
+            "conditionGroups": [
+              {
+                "groupKey": "end",
+                "name": "当前计数从一变零",
+                "sortOrder": 0,
+                "conditions": [
+                  {
+                    "conditionKey": "before",
+                    "conditionType": "EVENT_VALUE_COMPARE",
+                    "sortOrder": 0,
+                    "detail": {
+                      "eventValueKey": "STATE_BEFORE",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 1
+                      }
+                    }
+                  },
+                  {
+                    "conditionKey": "after",
+                    "conditionType": "EVENT_VALUE_COMPARE",
+                    "sortOrder": 1,
+                    "detail": {
+                      "eventValueKey": "STATE_AFTER",
+                      "comparator": "EQ",
+                      "comparisonValue": {
+                        "kind": "FIXED",
+                        "value": 0
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "actions": [
+              {
+                "actionKey": "end_cooldown",
+                "name": "end_cooldown",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 0,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "end_cooldown"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "oncePerUse": null,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          }
+        ],
+        "baseDigest": "mechanism_lab_shared_window"
+      },
+      {
+        "skill": {
+          "gameId": "mechanism_lab",
+          "skillKey": "lab_contact_spell",
+          "name": "合成明确接触",
+          "description": null,
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "active"
+          ],
+          "createdAt": "",
+          "updatedAt": ""
+        },
+        "parameters": [],
+        "formulas": [],
+        "effects": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_contact_spell",
+            "effectKey": "hit",
+            "name": "技能效果",
+            "description": null,
+            "sortOrder": 0,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage_0",
+                "name": "伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 0,
+                "valueRule": {
+                  "value": {
+                    "kind": "FIXED",
+                    "value": 100
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": null,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "true",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampQualification": "RESOLVED",
+                  "vampOverrides": []
+                },
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "SKILL"
+              }
+            ],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "processes": [
+          {
+            "gameId": "mechanism_lab",
+            "skillKey": "lab_contact_spell",
+            "processKey": "cast",
+            "name": "施放",
+            "activationType": "ACTIVE",
+            "description": null,
+            "sortOrder": 0,
+            "steps": [
+              {
+                "stepKey": "delay",
+                "name": "施放延时",
+                "description": null,
+                "sortOrder": 0,
+                "occupiesAction": false,
+                "stepType": "DELAY",
+                "detail": {
+                  "delayValue": {
+                    "kind": "FIXED",
+                    "value": 100
+                  }
+                }
+              }
+            ],
+            "cooldown": {
+              "durationValue": {
+                "kind": "FIXED",
+                "value": 1000
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null,
+                "failureReason": null
+              }
+            },
+            "effectBindings": [],
+            "stateOperations": [],
+            "createdAt": "",
+            "updatedAt": ""
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": [
+          {
+            "ruleKey": "first_cast",
+            "name": "首次施放",
+            "description": null,
+            "sortOrder": 0,
+            "eventSource": {
+              "eventType": "SKILL_USED",
+              "detail": {
+                "sourceSkillKey": "lab_contact_spell",
+                "useKind": "ACTIVE",
+                "castPhase": "INITIAL"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "start_process",
+                "name": "首次施放",
+                "sortOrder": 0,
+                "actionType": "START_PROCESS",
+                "detail": {
+                  "processKey": "cast"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          },
+          {
+            "ruleKey": "on_hit",
+            "name": "技能命中",
+            "description": null,
+            "sortOrder": 1,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "lab_contact_spell"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "execute_effect",
+                "name": "技能命中",
+                "sortOrder": 0,
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "hit"
+                },
+                "targetContext": "CURRENT_TARGET",
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "oncePerUse": null
+          }
+        ],
+        "baseDigest": "mechanism_lab_contact_spell"
+      }
+    ],
+    "references": []
+  },
+  "scenario": {
+    "mode": "skill_action",
+    "durationMs": 1251,
+    "initialHealth": {
+      "source": 1000,
+      "target": 1000
+    },
+    "actions": [
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_shared_window",
+        "skillLevel": 2,
+        "instructionKey": "arm",
+        "atMs": 50,
+        "sortOrder": 0,
+        "targetSide": "source",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": null
+      },
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_contact_spell",
+        "skillLevel": 1,
+        "instructionKey": "contact",
+        "atMs": 450,
+        "sortOrder": 0,
+        "targetSide": "target",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": "TARGET_HIT"
+      },
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_shared_window",
+        "skillLevel": 2,
+        "instructionKey": "before_expiry",
+        "atMs": 549,
+        "sortOrder": 0,
+        "targetSide": "source",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": null
+      },
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_shared_window",
+        "skillLevel": 2,
+        "instructionKey": "at_expiry",
+        "atMs": 550,
+        "sortOrder": 0,
+        "targetSide": "source",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": null
+      },
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_shared_window",
+        "skillLevel": 2,
+        "instructionKey": "before_ready",
+        "atMs": 1249,
+        "sortOrder": 0,
+        "targetSide": "source",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": null
+      },
+      {
+        "origin": {
+          "kind": "CHARACTER",
+          "characterKey": "lab_attacker"
+        },
+        "skillKey": "lab_shared_window",
+        "skillLevel": 2,
+        "instructionKey": "ready",
+        "atMs": 1250,
+        "sortOrder": 0,
+        "targetSide": "source",
+        "phaseKind": "INITIAL",
+        "parentInstructionKey": null,
+        "hitPreset": null
+      }
+    ]
+  },
+  "expected": {
+    "summary": {
+      "stopReason": "duration_reached",
+      "targetFinalHp": 900,
+      "sourceDamageDealt": 100,
+      "targetHpLoss": 100,
+      "basicAttackStarted": 0,
+      "basicAttackHits": 0
+    },
+    "attackStarts": [],
+    "skillStarts": [
+      {
+        "timeMs": 50,
+        "skillKey": "lab_shared_window"
+      },
+      {
+        "timeMs": 450,
+        "skillKey": "lab_contact_spell"
+      },
+      {
+        "timeMs": 1250,
+        "skillKey": "lab_shared_window"
+      }
+    ],
+    "damage": [
+      {
+        "timeMs": 550,
+        "skillKey": "lab_contact_spell",
+        "effectKey": "hit",
+        "resultKey": "damage_0",
+        "damageType": "true",
+        "rawAmount": 100,
+        "postDefenseDamage": 100,
+        "actualHpLoss": 100
+      }
+    ],
+    "finalCooldowns": [
+      {
+        "owner": "source",
+        "abilityRef": "source.provider[source_natural_skill_0].ability[start_process]",
+        "readyAtMs": 1450,
+        "remainingMs": 199
+      },
+      {
+        "owner": "source",
+        "abilityRef": "source.provider[source_natural_skill_1].ability[cast]",
+        "readyAtMs": 1250,
+        "remainingMs": 0
+      }
+    ]
+  }
+}

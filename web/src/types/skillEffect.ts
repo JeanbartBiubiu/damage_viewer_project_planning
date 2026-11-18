@@ -135,6 +135,8 @@ export type SkillEffectResultLifecycleBehavior = {
 
 export type SkillEffectDamageDetail = {
   attackDamageRole?: 'PRIMARY' | 'REPLACE_PRIMARY';
+  /** 只跟随同次真实命中内另一伤害结果的阻挡；自身不提名法术护盾。 */
+  spellShieldFollowResult?: { skillKey: string; effectKey: string; resultKey: string };
   damageTypeKey: string;
   deliveryKind: SkillEffectDamageDeliveryKind;
   originKind: SkillEffectDamageOriginKind;

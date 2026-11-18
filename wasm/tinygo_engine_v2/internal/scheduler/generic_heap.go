@@ -10,6 +10,7 @@ type GenericEventCategory uint8
 
 const (
 	GenericCategorySourceInitialization GenericEventCategory = iota
+	GenericCategoryStateCooldownExpiry
 	GenericCategoryProcessTimer
 	GenericCategoryAnchoredTick
 	GenericCategoryExpireCleanup

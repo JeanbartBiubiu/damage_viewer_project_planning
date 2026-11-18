@@ -9,14 +9,15 @@ import (
 
 // providerStateFieldDef is the runtime copy of compiled provider-scope field metadata (Gate H1).
 type FieldDefinition struct {
-	HasOnExpire   bool
-	StateKind     string
-	ValueType     string
-	DefaultValue  float64
-	MaxValue      float64
-	HasCap        bool
-	DurationMs    int64
-	RefreshPolicy string
+	HasOnExpire          bool
+	OnExpireBeforeCombat bool
+	StateKind            string
+	ValueType            string
+	DefaultValue         float64
+	MaxValue             float64
+	HasCap               bool
+	DurationMs           int64
+	RefreshPolicy        string
 }
 
 // 字段表建立后只读，冷却标记与该份定义一起传递。
@@ -634,14 +635,15 @@ func CompileFields(fields map[string]planbundle.CompiledProviderStateField) *Fie
 	metadata := &FieldMetadata{fields: make(map[string]FieldDefinition, len(fields))}
 	for k, f := range fields {
 		metadata.fields[k] = FieldDefinition{
-			HasOnExpire:   f.OnExpireCount > 0,
-			StateKind:     f.StateKind,
-			ValueType:     f.ValueType,
-			DefaultValue:  f.DefaultValue,
-			MaxValue:      f.MaxValue,
-			HasCap:        f.HasCap,
-			DurationMs:    f.DurationMs,
-			RefreshPolicy: f.RefreshPolicy,
+			HasOnExpire:          f.OnExpireCount > 0,
+			OnExpireBeforeCombat: f.OnExpireBeforeCombat,
+			StateKind:            f.StateKind,
+			ValueType:            f.ValueType,
+			DefaultValue:         f.DefaultValue,
+			MaxValue:             f.MaxValue,
+			HasCap:               f.HasCap,
+			DurationMs:           f.DurationMs,
+			RefreshPolicy:        f.RefreshPolicy,
 		}
 		if f.StateKind == model.ProviderStateKindCooldown {
 			metadata.hasInternalCooldowns = true

@@ -17,6 +17,7 @@ import { bindShieldAttributeDependencies } from '../../shieldAttributeDependency
 import { receivedCooldownDormancy } from '../../receivedCooldownDormancy';
 import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialValuesForSource, type SceneInitialParameterInput } from '../../sceneInitialParameterInput';
 import { TypeCatalogEntries } from '../../typeCatalogEntries';
+import { ownCooldownWindowDormant, ownCounterCooldownExpiry } from '../../ownCounterCooldownEnd';
 
 
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
@@ -50,7 +51,11 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
       if (sourceIsPlanned(snapshot, side, source)) {
         trace.providerRef = `${side}_natural_skill_${sourceIndex}`;
         trace.definitionRef = `${trace.providerRef}_definition`;
-        const roots = naturalRuleKeys(snapshot, snapshot.skillConfigurations.find(row => row.skill.skillKey === source.skillKey)!, side, source);
+        const complete = snapshot.skillConfigurations.find(row => row.skill.skillKey === source.skillKey)!;
+        const roots = naturalRuleKeys(snapshot, complete, side, source);
+        // 自身首次的状态写使此尾可达；公开来源清单仍保存原自然根与计划根。
+        const expiry = ownCounterCooldownExpiry(complete);
+        if (expiry && !roots.includes(expiry.ruleKey)) roots.push(expiry.ruleKey);
         if (!roots.length) continue;
         source.enabledRuleKeys = roots;
       }
@@ -64,6 +69,12 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot, sceneI
       }
       if (!source.enabled || source.skillStatus !== 'ENABLED' || source.skillLevel === 0) {
         coverage.push({ authorPath: root, compiledPath: 'runtimeOptions.skillOrigins', note: '真实绑定保留，本场关闭、全局禁用或未学，不生成执行程序' });
+        continue;
+      }
+      const completeWindow = snapshot.skillConfigurations.find(row => row.skill.skillKey === source.skillKey);
+      if (!sourceIsPlanned(snapshot, side, source) && completeWindow && ownCooldownWindowDormant(completeWindow)) {
+        trace.enabledRuleKeys = [];
+        coverage.push({ authorPath: root, compiledPath: 'runtimeOptions.skillOrigins', note: '本窗口只由自身首次武装；本场未计划该首次，零初值窗口与消费/到期尾完整休眠，不生成冷却目标' });
         continue;
       }
       const markConfiguration = snapshot.skillConfigurations.find(row => row.skill.skillKey === source.skillKey);

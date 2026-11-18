@@ -55,7 +55,8 @@ export type TriggeredSourceAssembly = {
   selectedSkills: Set<string>;
   changedAttributes: ReturnType<typeof changedAttributes>;
   compiledSources: Array<{ side: Side; providerRef: string; definitionRef: string; skillKey: string }>;
-  passiveHitContributions?: Array<{ sourceSkillKey: string; authorSkillKey: string; candidate: SkillHitCandidate }>;
+  passiveHitContributions?: Array<{ sourceSkillKey: string; authorSkillKey: string; candidate: SkillHitCandidate;
+    lowerings?: BasicAttackContribution['lowerings'] }>;
   basicAttackContributions?: BasicAttackContribution[];
   basicAttackCooldownReductions?: BasicAttackCooldownReduction[];
   committedTotalRefunds?: PendingCommittedTotalRefund[];

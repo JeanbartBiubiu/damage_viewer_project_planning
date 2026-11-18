@@ -21,6 +21,8 @@ public record SkillEffectDamageDetail(
     List<SkillEffectVampOverride> vampOverrides,
     @JsonInclude(JsonInclude.Include.NON_NULL)
     SkillEffectAttackDamageRole attackDamageRole,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    SkillEffectSpellShieldFollowResult spellShieldFollowResult,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillEffectResultDetail {
@@ -43,6 +45,7 @@ public record SkillEffectDamageDetail(
             SkillEffectVampQualification.UNRESOLVED,
             List.of(),
             null,
+            null,
             Set.of(),
             Set.of()
         );
@@ -56,7 +59,7 @@ public record SkillEffectDamageDetail(
         SkillEffectVampQualification vampQualification,
         List<SkillEffectVampOverride> vampOverrides
     ) {
-        this(damageTypeKey, deliveryKind, originKind, critical, vampQualification, vampOverrides, null, Set.of(), Set.of());
+        this(damageTypeKey, deliveryKind, originKind, critical, vampQualification, vampOverrides, null, null, Set.of(), Set.of());
     }
 
     public SkillEffectDamageDetail(
@@ -69,7 +72,27 @@ public record SkillEffectDamageDetail(
         SkillEffectAttackDamageRole attackDamageRole
     ) {
         this(damageTypeKey, deliveryKind, originKind, critical, vampQualification, vampOverrides,
-            attackDamageRole, Set.of(), Set.of());
+            attackDamageRole, null, Set.of(), Set.of());
+    }
+
+    public SkillEffectDamageDetail(
+        String damageTypeKey, SkillEffectDamageDeliveryKind deliveryKind, SkillEffectDamageOriginKind originKind,
+        SkillEffectCriticalPolicy critical, SkillEffectVampQualification vampQualification,
+        List<SkillEffectVampOverride> vampOverrides, SkillEffectAttackDamageRole attackDamageRole,
+        SkillEffectSpellShieldFollowResult spellShieldFollowResult
+    ) {
+        this(damageTypeKey, deliveryKind, originKind, critical, vampQualification, vampOverrides,
+            attackDamageRole, spellShieldFollowResult, Set.of(), Set.of());
+    }
+
+    public SkillEffectDamageDetail(
+        String damageTypeKey, SkillEffectDamageDeliveryKind deliveryKind, SkillEffectDamageOriginKind originKind,
+        SkillEffectCriticalPolicy critical, SkillEffectVampQualification vampQualification,
+        List<SkillEffectVampOverride> vampOverrides, SkillEffectAttackDamageRole attackDamageRole,
+        Set<String> foreignFields, Set<String> unknownFields
+    ) {
+        this(damageTypeKey, deliveryKind, originKind, critical, vampQualification, vampOverrides,
+            attackDamageRole, null, foreignFields, unknownFields);
     }
 
     public SkillEffectDamageDetail(
@@ -83,7 +106,7 @@ public record SkillEffectDamageDetail(
         Set<String> unknownFields
     ) {
         this(damageTypeKey, deliveryKind, originKind, critical, vampQualification, vampOverrides,
-            null, foreignFields, unknownFields);
+            null, null, foreignFields, unknownFields);
     }
 
     @JsonCreator
@@ -95,6 +118,7 @@ public record SkillEffectDamageDetail(
         @JsonProperty("vampQualification") SkillEffectVampQualification vampQualification,
         @JsonProperty("vampOverrides") List<SkillEffectVampOverride> vampOverrides,
         @JsonProperty("attackDamageRole") JsonNode attackDamageRole,
+        @JsonProperty("spellShieldFollowResult") JsonNode spellShieldFollowResult,
         @JsonProperty("attributeKey") JsonNode attributeKey,
         @JsonProperty("operation") JsonNode operation,
         @JsonProperty("affectedSkillKey") JsonNode affectedSkillKey,
@@ -113,6 +137,7 @@ public record SkillEffectDamageDetail(
             vampQualification,
             vampOverrides,
             readAttackDamageRole(attackDamageRole),
+            readSpellShieldFollowResult(spellShieldFollowResult),
             SkillEffectDetailFieldCapture.captureForeign(
                 "attributeKey", attributeKey,
                 "operation", operation,
@@ -125,6 +150,20 @@ public record SkillEffectDamageDetail(
             ),
             SkillEffectDetailFieldCapture.captureUnknown(unknown)
         );
+    }
+
+    private static SkillEffectSpellShieldFollowResult readSpellShieldFollowResult(JsonNode value) {
+        if (value == null) return null;
+        Set<String> fields = Set.of("skillKey", "effectKey", "resultKey");
+        if (!value.isObject() || value.size() != fields.size())
+            throw new IllegalArgumentException("spellShieldFollowResult 必须明确技能、效果与结果，不能为null或带额外字段");
+        for (String field : fields) {
+            JsonNode key = value.get(field);
+            if (key == null || !key.isTextual() || !key.textValue().matches("^[a-z][a-z0-9_]{0,63}$"))
+                throw new IllegalArgumentException("spellShieldFollowResult 标识必须是合法的明确字符串");
+        }
+        return new SkillEffectSpellShieldFollowResult(value.get("skillKey").textValue(),
+            value.get("effectKey").textValue(), value.get("resultKey").textValue());
     }
 
     private static SkillEffectAttackDamageRole readAttackDamageRole(JsonNode value) {

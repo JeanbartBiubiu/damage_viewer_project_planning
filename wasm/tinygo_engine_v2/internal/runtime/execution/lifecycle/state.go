@@ -116,7 +116,8 @@ func (e *Executor) WriteState(input StateWriteInput) (StateWriteResult, *model.E
 	if expires := bag.ExpireAt().At(op.Ref); expires > 0 && (input.Automated || generation > 0) {
 		result.ExpireAt = expires
 		result.Expiry = effectpkg.ExpiryPayload{Kind: "provider_source_state", CombatantKey: input.Owner,
-			ProviderRef: input.Provider, StateKey: op.Ref, ExpectedExpireAt: expires, StateGeneration: generation}
+			ProviderRef: input.Provider, StateKey: op.Ref, ExpectedExpireAt: expires, StateGeneration: generation,
+			BeforeCombat: bag.Fields().At(op.Ref).OnExpireBeforeCombat}
 	}
 	return result, nil
 }

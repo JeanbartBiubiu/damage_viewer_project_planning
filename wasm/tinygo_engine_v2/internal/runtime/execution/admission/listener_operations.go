@@ -62,6 +62,9 @@ func ValidateEquipmentHitListener(input Input, listener planbundle.CompiledListe
 		if operation.Operation == "cooldown_change" && ownedTotalCooldownRefund(input, sources.Selection, listener, operation) {
 			continue
 		}
+		if operation.Operation == "cooldown_change" && ownedHitCooldownSet(input, sources.Selection, listener, operation) {
+			continue
+		}
 		if operation.Operation == "provider_duration_change" && ownedProviderDurationListener(input, sources.Selection, listener, operation) {
 			continue
 		}

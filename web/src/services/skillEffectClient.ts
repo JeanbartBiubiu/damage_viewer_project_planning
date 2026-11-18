@@ -197,6 +197,7 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
   const detail = value.detail;
   if (resultType !== 'DAMAGE_MODIFIER' && 'maximumReductionRatioValue' in detail) protocolError(`${path}.detail.maximumReductionRatioValue`);
   if (resultType !== 'DAMAGE' && 'attackDamageRole' in detail) protocolError(`${path}.detail.attackDamageRole`);
+  if (resultType !== 'DAMAGE' && 'spellShieldFollowResult' in detail) protocolError(`${path}.detail.spellShieldFollowResult`);
   const persistent = isRecord(value.lifecycleBehavior)
     && value.lifecycleBehavior.moment === 'PERSISTENT';
   const persistentStatusApplyBlockScope = value.target === 'TARGET'
@@ -393,8 +394,17 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
   switch (resultType) {
     case 'DAMAGE': {
       assertExactDetailKeys(detail, ['damageTypeKey', 'deliveryKind', 'originKind', 'critical', 'vampQualification', 'vampOverrides',
-        ...('attackDamageRole' in detail ? ['attackDamageRole'] : [])], path);
+        ...('attackDamageRole' in detail ? ['attackDamageRole'] : []),
+        ...('spellShieldFollowResult' in detail ? ['spellShieldFollowResult'] : [])], path);
       if ('attackDamageRole' in detail) assertEnum(detail.attackDamageRole, new Set(['PRIMARY', 'REPLACE_PRIMARY']), `${path}.detail.attackDamageRole`);
+      if ('spellShieldFollowResult' in detail) {
+        const followPath = `${path}.detail.spellShieldFollowResult`, follow = detail.spellShieldFollowResult;
+        if (!isRecord(follow) || Object.keys(follow).length !== 3
+          || !['skillKey', 'effectKey', 'resultKey'].every(key => typeof follow[key] === 'string'
+            && /^[a-z][a-z0-9_]{0,63}$/.test(follow[key]))) protocolError(followPath);
+        if (value.target !== 'TARGET' || value.lifecycleBehavior !== null || value.spellShieldBlockScope !== null
+          || 'attackDamageRole' in detail) protocolError(followPath);
+      }
       assertString(detail.damageTypeKey, `${path}.detail.damageTypeKey`);
       assertEnum(detail.deliveryKind, DAMAGE_DELIVERY_KINDS, `${path}.detail.deliveryKind`);
       assertEnum(detail.originKind, DAMAGE_ORIGIN_KINDS, `${path}.detail.originKind`);
