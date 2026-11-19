@@ -11,62 +11,6 @@
           }
         ]
       }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node -e \"const c=require('node:child_process'),p=require('node:path');const r=c.execFileSync('git',['worktree','list','--porcelain','-z'],{encoding:'utf8'}).split('\\0')[0].slice(9);c.execFileSync(process.execPath,[p.join(r,'agents/coordination-hook.mjs')],{stdio:'inherit'});\"",
-            "timeout": 5,
-            "additionalContextLimit": 512
-          }
-        ]
-      }
-    ],
-    "PreCompact": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node -e \"const c=require('node:child_process'),p=require('node:path');const r=c.execFileSync('git',['worktree','list','--porcelain','-z'],{encoding:'utf8'}).split('\\0')[0].slice(9);c.execFileSync(process.execPath,[p.join(r,'agents/coordination-hook.mjs')],{stdio:'inherit'});\"",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "PostCompact": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node -e \"const c=require('node:child_process'),p=require('node:path');const r=c.execFileSync('git',['worktree','list','--porcelain','-z'],{encoding:'utf8'}).split('\\0')[0].slice(9);c.execFileSync(process.execPath,[p.join(r,'agents/coordination-hook.mjs')],{stdio:'inherit'});\"",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node -e \"const c=require('node:child_process'),p=require('node:path');const r=c.execFileSync('git',['worktree','list','--porcelain','-z'],{encoding:'utf8'}).split('\\0')[0].slice(9);c.execFileSync(process.execPath,[p.join(r,'agents/coordination-hook.mjs')],{stdio:'inherit'});\"",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "Interrupt": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node -e \"const c=require('node:child_process'),p=require('node:path');const r=c.execFileSync('git',['worktree','list','--porcelain','-z'],{encoding:'utf8'}).split('\\0')[0].slice(9);c.execFileSync(process.execPath,[p.join(r,'agents/coordination-hook.mjs')],{stdio:'inherit'});\"",
-            "timeout": 3
-          }
-        ]
-      }
     ]
   }
 }

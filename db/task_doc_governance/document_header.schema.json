@@ -30,7 +30,7 @@
     },
     "STATUS": {
       "type": "string",
-      "enum": ["draft", "tracked", "active", "done", "partial", "pass"],
+      "enum": ["draft", "tracked", "active", "returned", "done", "partial", "pass"],
       "description": "Document-local governance status. Not the task status from task_rules.json."
     },
     "EXECUTION_MODEL": {

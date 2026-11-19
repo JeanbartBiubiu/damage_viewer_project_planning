@@ -1,14 +1,12 @@
 import { execFileSync } from 'node:child_process';
 import {
-  closeSync, existsSync, fsyncSync, mkdirSync, openSync, readFileSync,
-  renameSync, statSync, unlinkSync, writeFileSync,
+  closeSync, existsSync, fsyncSync, mkdirSync, openSync, readFileSync, renameSync, unlinkSync, writeFileSync,
 } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
 
 export const sourceRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-export const isRecord = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 
 export function requireScope(value, label) {
   if (typeof value !== 'string' || !/^[a-z0-9][a-z0-9_-]{0,63}$/.test(value)) {
@@ -16,34 +14,21 @@ export function requireScope(value, label) {
   }
 }
 
+// 同机所有工作树共用主检出中的一份本地数据。
 export function localPaths(repositoryRoot = sourceRoot) {
   const listing = execFileSync('git', [
     '-c', `safe.directory=${repositoryRoot}`, 'worktree', 'list', '--porcelain', '-z',
   ], { cwd: repositoryRoot, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
-  const firstWorktree = listing.split('\0\0')[0].split('\0');
-  if (!firstWorktree[0].startsWith('worktree ') || firstWorktree.includes('bare')) {
-    throw new Error('无法定位主检出，不能另建一份本机登记。');
-  }
-  const mainRoot = resolve(firstWorktree[0].slice('worktree '.length));
-  if (!existsSync(mainRoot) || !statSync(mainRoot).isDirectory()) {
-    throw new Error('主检出不可用，不能在其他工作树另建登记。');
-  }
-  const localDirectory = join(mainRoot, 'agents', '.local');
-  return { mainRoot, localDirectory, registryPath: join(localDirectory, 'sessions.json') };
+  const mainRoot = resolve(listing.split('\0')[0].slice('worktree '.length));
+  return { mainRoot, localDirectory: join(mainRoot, 'agents', '.local') };
 }
 
-export function rolePaths(repositoryRoot, environmentId, roleId) {
-  requireScope(roleId, '角色');
-  requireScope(environmentId, '环境');
+export function rolePaths(repositoryRoot, roleId) {
   const definitionPath = join(repositoryRoot, 'agents', 'roles', roleId, 'README.md');
-  if (!existsSync(definitionPath) || !statSync(definitionPath).isFile()) {
-    throw new Error('角色定义不存在，请先核对 agents/roles/。');
-  }
-  const { mainRoot } = localPaths(repositoryRoot);
-  const localRoleDirectory = join(mainRoot, 'agents', 'roles', roleId, '.local', environmentId);
+  if (!existsSync(definitionPath)) throw new Error(`角色 ${roleId} 缺少定义 agents/roles/${roleId}/README.md。`);
+  const localRoleDirectory = join(localPaths(repositoryRoot).mainRoot, 'agents', 'roles', roleId, '.local');
   return {
-    definitionPath, localRoleDirectory,
-    todoPath: join(localRoleDirectory, 'todo.json'), memoryPath: join(localRoleDirectory, 'memory.md'),
+    definitionPath, todoPath: join(localRoleDirectory, 'todo.json'), memoryPath: join(localRoleDirectory, 'memory.md'),
   };
 }
 
@@ -63,33 +48,25 @@ function writeJson(path, value) {
   }
 }
 
+// 回调收到已解析内容（文件不存在为 null），返回 { result, value? }；带 value 时原子替换文件。
 function withJsonFile(path, callback) {
-  const fileName = basename(path);
   mkdirSync(dirname(path), { recursive: true });
   const lockPath = `${path}.lock`;
   let descriptor;
   try {
     descriptor = openSync(lockPath, 'wx');
   } catch (error) {
-    if (error.code === 'EEXIST') throw new Error(`本地登记正被占用，请核对持有进程后重试：${lockPath}`);
+    if (error.code === 'EEXIST') throw new Error(`本地文件正被占用，核对持有进程后再删除锁：${lockPath}`);
     throw error;
   }
   try {
     writeFileSync(descriptor, JSON.stringify({ pid: process.pid, startedAt: new Date().toISOString() }));
-    let content;
-    try {
-      content = readFileSync(path, 'utf8');
-    } catch (error) {
-      if (error.code !== 'ENOENT') throw error;
-    }
     let value = null;
-    if (content !== undefined) {
-      try { value = JSON.parse(content); }
-      catch { throw new Error(`本地登记 ${fileName} 不是有效 JSON，已保留原文件，不能重新初始化覆盖。`); }
-      if (value === null) throw new Error(`本地登记 ${fileName} 结构无效，已保留原文件。`);
+    if (existsSync(path)) {
+      try { value = JSON.parse(readFileSync(path, 'utf8')); }
+      catch { throw new Error(`本地文件 ${basename(path)} 不是有效 JSON，已保留原文件。`); }
     }
     const change = callback(value);
-    if (!isRecord(change) || typeof change.then === 'function') throw new Error('本地登记回调必须同步返回明确结果。');
     if (Object.hasOwn(change, 'value')) writeJson(path, change.value);
     return change.result;
   } finally {
@@ -98,16 +75,10 @@ function withJsonFile(path, callback) {
   }
 }
 
-// 回调同步执行；跨文件更新统一按 sessions → 状态/运行登记或角色文件的顺序拿锁。
 export function withLocalJson(repositoryRoot, fileName, callback) {
-  if (!/^[a-z][a-z0-9-]*\.json$/.test(fileName)) throw new Error('本地登记文件名无效。');
-  const { localDirectory } = localPaths(repositoryRoot);
-  return withJsonFile(join(localDirectory, fileName), callback);
+  return withJsonFile(join(localPaths(repositoryRoot).localDirectory, fileName), callback);
 }
 
-// 身份写入由调用方先持会话锁；完成恢复持日志锁，内部不反向拿其他锁。
-export function withRoleJson(repositoryRoot, environmentId, roleId, fileName, callback) {
-  if (!/^[a-z][a-z0-9-]*\.json$/.test(fileName)) throw new Error('本地登记文件名无效。');
-  const { localRoleDirectory } = rolePaths(repositoryRoot, environmentId, roleId);
-  return withJsonFile(join(localRoleDirectory, fileName), callback);
+export function withRoleJson(repositoryRoot, roleId, fileName, callback) {
+  return withJsonFile(join(dirname(rolePaths(repositoryRoot, roleId).todoPath), fileName), callback);
 }

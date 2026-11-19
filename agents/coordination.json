@@ -1,19 +1,15 @@
 {
-  "formatVersion": 1,
-  "roles": ["manager", "frontend", "backend", "wasm", "authoring", "reviewer"],
+  "roles": ["manager", "planner", "frontend", "backend", "wasm", "authoring", "reviewer"],
   "relations": {
-    "manager": { "manager": 0, "frontend": 1, "backend": 1, "wasm": 1, "authoring": 1, "reviewer": 1 },
-    "frontend": { "manager": 1, "frontend": 0, "backend": 1, "wasm": 1, "authoring": 0, "reviewer": 1 },
-    "backend": { "manager": 1, "frontend": 1, "backend": 0, "wasm": 0, "authoring": 1, "reviewer": 1 },
-    "wasm": { "manager": 1, "frontend": 1, "backend": 0, "wasm": 0, "authoring": 1, "reviewer": 1 },
-    "authoring": { "manager": 1, "frontend": 0, "backend": 1, "wasm": 1, "authoring": 0, "reviewer": 1 },
-    "reviewer": { "manager": 1, "frontend": 1, "backend": 1, "wasm": 1, "authoring": 1, "reviewer": 0 }
+    "manager": { "manager": 0, "planner": 1, "frontend": 1, "backend": 1, "wasm": 1, "authoring": 1, "reviewer": 1 },
+    "planner": { "manager": 1, "planner": 0, "frontend": 0, "backend": 0, "wasm": 0, "authoring": 0, "reviewer": 1 },
+    "frontend": { "manager": 1, "planner": 0, "frontend": 0, "backend": 1, "wasm": 1, "authoring": 0, "reviewer": 1 },
+    "backend": { "manager": 1, "planner": 0, "frontend": 1, "backend": 0, "wasm": 0, "authoring": 1, "reviewer": 1 },
+    "wasm": { "manager": 1, "planner": 0, "frontend": 1, "backend": 0, "wasm": 0, "authoring": 1, "reviewer": 1 },
+    "authoring": { "manager": 1, "planner": 0, "frontend": 0, "backend": 1, "wasm": 1, "authoring": 0, "reviewer": 1 },
+    "reviewer": { "manager": 1, "planner": 1, "frontend": 1, "backend": 1, "wasm": 1, "authoring": 1, "reviewer": 0 }
   },
   "policy": {
-    "wakeEveryMinutes": 240,
-    "statusStaleMinutes": 360,
-    "maxCompactions": 3,
-    "maxSessionAgeDays": 7,
-    "pollingMode": "observe_only"
+    "statusStaleMinutes": 360
   }
 }

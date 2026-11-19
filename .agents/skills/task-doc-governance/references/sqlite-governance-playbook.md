@@ -67,7 +67,7 @@ Interpretation:
 - `TASK_KEY`: required local task identifier
 - `DOC_TYPE`: `需求澄清`, `概要设计`, `详细设计`, `测试记录`, `任务单`, or `其他`
 - `WORKSTREAM`: module such as `wasm`, `web`, `server`, `planning`
-- `STATUS` (document): `draft` | `tracked` | `active` | `done` | `partial` | `pass`
+- `STATUS` (document): `draft` | `tracked` | `active` | `returned` | `done` | `partial` | `pass`
 - `EXECUTION_MODEL`: actual route/value used for the document — never a hardcoded stale default
 - `LAST_TRACKED_AT`: last local governance refresh time
 

@@ -53,7 +53,7 @@ description: "创建、拆分或更新文档记录中的需求、设计、任务
 TASK_KEY: <task-key>
 DOC_TYPE: <需求澄清|概要设计|详细设计|测试记录|任务单|其他>
 WORKSTREAM: <module-or-workstream>
-STATUS: <draft|tracked|active|done|partial|pass>
+STATUS: <draft|tracked|active|returned|done|partial|pass>
 EXECUTION_MODEL: <actual-model-or-agent-route>
 LAST_TRACKED_AT: <YYYY-MM-DD>
 ```
