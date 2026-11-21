@@ -83,11 +83,16 @@ func (f *Frame) commit() {
 			continue
 		}
 		executor := f.run.lifecycleExecutor()
-		f.run.recordFirstProcessFailure(executor.PublishMutations(mutations, evalCtx, f.run.loop.TimeMs(), (*lifecycleLiveEffects)(f.run)))
-		if err := f.run.processFailure; err != nil {
-			f.fatal, f.fatalErr = true, err
+		if err := executor.PublishMutations(mutations, evalCtx, f.run.loop.TimeMs(), (*lifecycleLiveEffects)(f.run)); err != nil {
+			f.run.recordFirstProcessFailure(err)
+			f.fatal, f.fatalErr = true, f.run.processFailure
 			return
 		}
+	}
+	// 延后错误不改变同一发布动作内两方的执行范围。
+	if err := f.run.processFailure; err != nil {
+		f.fatal, f.fatalErr = true, err
+		return
 	}
 	f.commitProjectedProviderLifecycles()
 	if err := f.run.processFailure; err != nil {

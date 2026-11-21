@@ -53,6 +53,34 @@ func TestFramePublicationKeepsEarlierAttributeFailure(t *testing.T) {
 	requireCumulativeUsed(t, state, .13)
 }
 
+func TestFramePublicationCompletesBothOwnersBeforeReturningDeferredFailure(t *testing.T) {
+	state := cumulativeRefundState(t, 1000, true)
+	state.compiled.Providers = append(state.compiled.Providers,
+		plan.CompiledProvider{ProviderKey: "bad_attribute", Modifiers: []plan.CompiledModifier{{
+			Kind: "attribute", Target: "armor", ValuePolicy: "add", HasValue: true,
+			ValueProgram: formula.GenericProgramID(state.formulas.Metadata.Count()),
+		}}},
+		plan.CompiledProvider{ProviderKey: "target_effect"},
+	)
+	state.providerDefinitionFields = effectpkg.DefinitionCache{}
+	frame := cumulativeRefundFrame(state)
+	frame.stageFor("source").providerOps = []stagedProviderMutation{{
+		Kind: "apply", SourceKey: "source", TargetKey: "source", DefinitionRef: "bad_attribute", ProviderRef: "bad-attribute-instance",
+	}}
+	frame.stageFor("target").providerOps = []stagedProviderMutation{{
+		Kind: "apply", SourceKey: "source", TargetKey: "target", DefinitionRef: "target_effect", ProviderRef: "target-instance",
+	}}
+	ability, refund := cumulativeRefundOperation(state, .13)
+	err := frame.dispatchWithAmountBudgets(ability, []plan.CompiledOperation{refund})
+	if err == nil || err != state.processFailure || err.Code != model.GenericErrFormulaTypeError || frame.committed {
+		t.Fatalf("expected the first effect error before frame facts: %+v", err)
+	}
+	if _, _, found := state.combatants["target"].instances.Providers().Find("target-instance"); !found {
+		t.Fatal("deferred source error skipped the other owner in the same publication action")
+	}
+	requireCumulativeUsed(t, state, .13)
+}
+
 func TestFrameQueueKeepsFirstFailure(t *testing.T) {
 	state := cumulativeRefundState(t, 1000, true)
 	clearQueuedEventsForTest(state.loop)
