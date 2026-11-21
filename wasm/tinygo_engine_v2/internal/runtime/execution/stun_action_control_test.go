@@ -210,6 +210,32 @@ func TestReusedStunRemovedInSameFrameReleasesFirstAttack(t *testing.T) {
 	}
 }
 
+func TestReusedStunRemovedInSameFrameStillRejectsUnsafeExpiry(t *testing.T) {
+	c, r := continuousAttackInput(1, 100000, 10, 0, 0, 1500)
+	ref := initialActionStun(&c, &r, maxJSONSafeInteger-100)
+	c.SharedProviders[len(c.SharedProviders)-1].Lifecycle.InstanceScope = model.InstanceScopeSourceTarget
+	s := frameCommitState(t, c, r)
+	applyActionControlProbe(t, s, ref)
+	instance := actionControlInstance(t, s, "status:stun")
+	s.loop.Advance(200)
+	f := s.newExecutionFrame("target", "source", ref)
+	operations := []planbundle.CompiledOperation{
+		{Operation: "apply_provider", Target: "target", ProviderDefinitionRef: "status:stun", Path: "test.reuse_control"},
+		{Operation: "expire_provider", Target: "target", ProviderRef: instance, Path: "test.remove_reused_control"},
+	}
+	if err := f.executeOperations(s.compiled.Abilities[0], operations); err != nil {
+		t.Fatal(err)
+	}
+	queueBefore := s.loop.RemainingCapacity()
+	f.commit()
+	if f.fatalErr == nil || f.fatalErr.Code != model.GenericErrRuntimeInvariantFailed || f.fatalErr.Path != "providers" || f.fatalErr.Ref != "status:stun" || f.committed {
+		t.Fatalf("unsafe expiry was not rejected before publication: %+v", f.fatalErr)
+	}
+	if until, err := s.stunUntil("source"); until != maxJSONSafeInteger-100 || err != nil || s.loop.RemainingCapacity() != queueBefore {
+		t.Fatalf("failed application published a refresh, removal or queue request: deadline=%d error=%+v", until, err)
+	}
+}
+
 func TestStunRefreshAndOverlappingRemovalRecomputeAttackPermission(t *testing.T) {
 	for _, overlap := range []bool{false, true} {
 		t.Run(map[bool]string{false: "refresh_extends", true: "remove_longer_overlap"}[overlap], func(t *testing.T) {

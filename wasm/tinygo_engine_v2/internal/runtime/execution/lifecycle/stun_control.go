@@ -14,11 +14,11 @@ func ActiveStunDeadline(owner string, now int64, providers []planbundle.Compiled
 		return &err
 	}
 	until := int64(0)
-	add := func(expiry int64, ref string) *model.EngineError {
+	add := func(expiry int64, ref string, removed bool) *model.EngineError {
 		if expiry <= 0 || expiry > maxJSONSafeInteger {
 			return failure(ref)
 		}
-		if expiry > now && expiry > until {
+		if !removed && expiry > now && expiry > until {
 			until = expiry
 		}
 		return nil
@@ -57,7 +57,7 @@ func ActiveStunDeadline(owner string, now int64, providers []planbundle.Compiled
 			}
 		}
 		if !removed {
-			if err := add(expiry, instance.ProviderRef); err != nil {
+			if err := add(expiry, instance.ProviderRef, false); err != nil {
 				return 0, err
 			}
 		}
@@ -73,7 +73,7 @@ func ActiveStunDeadline(owner string, now int64, providers []planbundle.Compiled
 		if !provider.ActionStun {
 			continue
 		}
-		replaced := false
+		replaced, removed := false, false
 		if provider.Lifecycle != nil && provider.Lifecycle.AllowsSourceTargetReuse() {
 			for _, later := range mutations[index+1:] {
 				if later.Projected || later.TargetKey != owner {
@@ -83,10 +83,9 @@ func ActiveStunDeadline(owner string, now int64, providers []planbundle.Compiled
 					replaced = true
 					break
 				}
-				if later.Kind == "expire" && later.ProviderRef != "" &&
+				if !removed && later.Kind == "expire" && later.ProviderRef != "" &&
 					later.ProviderRef == reusedStunReference(instances, mutation, mutations[:index], now) {
-					replaced = true
-					break
+					removed = true
 				}
 			}
 		}
@@ -94,7 +93,8 @@ func ActiveStunDeadline(owner string, now int64, providers []planbundle.Compiled
 			if !mutation.HasExpireAt {
 				return 0, failure(mutation.DefinitionRef)
 			}
-			if err := add(mutation.ExpireAt, mutation.DefinitionRef); err != nil {
+			// 移除只取消对等待的贡献。末次施加仍经过原期限校验。
+			if err := add(mutation.ExpireAt, mutation.DefinitionRef, removed); err != nil {
 				return 0, err
 			}
 		}

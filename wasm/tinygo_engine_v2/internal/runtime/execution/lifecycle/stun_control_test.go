@@ -52,6 +52,14 @@ func TestActiveStunDeadlineReadsActualFiniteInstancesAndOrderedChanges(t *testin
 	if actual, err := ActiveStunDeadline("source", 100, providers, base, []Mutation{expire, changes[0]}); err != nil || actual != 900 {
 		t.Fatal("removal dropped a separate later application", actual, err)
 	}
+	unsafe := changes[0]
+	unsafe.ExpireAt = maxJSONSafeInteger + 1
+	if _, err := ActiveStunDeadline("source", 100, providers, base, []Mutation{unsafe, expire}); err == nil || err.Ref != "stun" || err.Path != "providers" {
+		t.Fatal("same-frame removal bypassed the original application deadline check", err)
+	}
+	if actual, err := ActiveStunDeadline("source", 100, providers, base, []Mutation{unsafe, expire, changes[1]}); err != nil || actual != 200 {
+		t.Fatal("later application no longer supersedes an earlier expiration", actual, err)
+	}
 	providers[0].Lifecycle = &planbundle.CompiledProviderLifecycle{RefreshPolicy: "extend"}
 	refresh := Mutation{Kind: "refresh", TargetKey: "source", ProviderRef: "original", HasExpireAt: true, ExpireAt: 400}
 	if actual, err := ActiveStunDeadline("source", 100, providers, base, []Mutation{refresh}); err != nil || actual != 400 {
