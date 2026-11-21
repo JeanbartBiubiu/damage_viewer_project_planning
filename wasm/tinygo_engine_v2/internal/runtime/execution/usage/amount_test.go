@@ -266,7 +266,8 @@ func TestAmountSnapshotOwnsSortedValuesAndKeepsOnceOutputUnchanged(t *testing.T)
 	pending.UseKey = "pending"
 	mustReserveAmount(t, &ledger, pending, .39)
 	rows := ledger.SnapshotAmounts()
-	if len(rows) != 2 || rows[0].Key != first || rows[1].Key != second || len(ledger.Snapshot()) != 0 {
+	once := ledger.Snapshot()
+	if len(rows) != 2 || cap(rows) != 3 || rows[0].Key != first || rows[1].Key != second || len(once) != 0 || cap(once) != 0 {
 		t.Fatal("snapshot lost stable subject ordering, exposed pending quantity or changed once rows", rows, ledger.Snapshot())
 	}
 	rows[0].Key.SubjectRef = "changed"

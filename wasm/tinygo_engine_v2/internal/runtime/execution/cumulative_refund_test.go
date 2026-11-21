@@ -50,7 +50,7 @@ func cumulativeRefundFrame(s *Engine) *Frame {
 func cumulativeRef(s *Engine) string { return s.req.DriverPlan.SkillActions[0].AbilityRef }
 
 func cumulativeRefundOperation(s *Engine, ratio float64) (planbundle.CompiledAbility, planbundle.CompiledOperation) {
-	ability := s.actions.ProcessAt(0).Ability()
+	ability := s.compiled.Abilities[s.compiled.AbilityRefIndex[cumulativeRef(s)].AbilityIndex]
 	return ability, planbundle.CompiledOperation{Operation: "cooldown_change", Target: "self", ValuePolicy: "reduce_total_ratio",
 		OwnerProviderIndex: int(ability.ProviderIndex), TotalCooldownRatio: ratio,
 		CumulativeLimit: &model.CumulativeRatioLimit{GroupKey: "shared_refund", MaxRatio: .39},
@@ -168,9 +168,12 @@ func TestCumulativeRefundRejectsUnregisteredUnacceptedAndForeignOriginalUses(t *
 				seed.ProcessRef = contract.ProcessRef{}
 				s.actions.NewUse(seed)
 			}
-			before, after, err := (cooldownRefundBridge{frame: f}).ReserveRefundRatio(model.CumulativeRatioLimit{GroupKey: "shared_refund", MaxRatio: .39}, cumulativeRef(s), .13)
-			if err == nil || before != 0 || after != 0 || s.useTriggerLedger.Len() != 0 || s.useTriggerLedger.Pending() != 0 || len(f.pendingAmountBudgets) != 0 {
-				t.Fatalf("invalid originating use obtained quantity: kind=%s before=%v after=%v err=%+v count=%d pending=%d", kind, before, after, err, s.useTriggerLedger.Len(), s.useTriggerLedger.Pending())
+			f.stageFor("source").writableCooldowns().CommitOrdinary(actionpkg.AbilityCooldownIdentity("source", cumulativeRef(s)), 1000, 0)
+			ability, operation := cumulativeRefundOperation(s, .13)
+			err := f.dispatchWithAmountBudgets(ability, []planbundle.CompiledOperation{operation})
+			if err == nil || err.Path != "operation.cumulativeLimit" || f.committed || s.useTriggerLedger.Len() != 0 ||
+				s.useTriggerLedger.Pending() != 0 || len(f.pendingAmountBudgets) != 0 {
+				t.Fatalf("invalid originating use obtained quantity: kind=%s err=%+v count=%d pending=%d", kind, err, s.useTriggerLedger.Len(), s.useTriggerLedger.Pending())
 			}
 		})
 	}

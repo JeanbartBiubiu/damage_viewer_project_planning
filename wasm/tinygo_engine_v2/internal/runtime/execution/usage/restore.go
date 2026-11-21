@@ -30,7 +30,7 @@ func (s *Ledger) Restore(rows []model.UseTriggerLedgerEntry, facts RestoreFacts)
 			entry.useSkillKey, entry.reserved, entry.committed = row.UseSkillKey, false, true
 			continue
 		}
-		if s.count >= MaxEntries {
+		if s.Len() >= MaxEntries {
 			err := s.error(model.GenericErrRuntimeInvariantFailed, "useTriggerLedger exceeded dedicated budget", path, "")
 			err.BudgetCause = model.BudgetCauseMaxUseTriggerLedger
 			return err
@@ -39,7 +39,7 @@ func (s *Ledger) Restore(rows []model.UseTriggerLedgerEntry, facts RestoreFacts)
 			s.buckets = make(map[uint64]*record)
 		}
 		s.buckets[hash] = &record{key: key, useSkillKey: row.UseSkillKey, committed: true, next: s.buckets[hash]}
-		s.count++
+		s.triggerCount++
 	}
 	return nil
 }

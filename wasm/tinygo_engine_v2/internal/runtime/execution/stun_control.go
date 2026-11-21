@@ -3,7 +3,7 @@ package execution
 import (
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/plan"
-	"tinygo_engine_v2/internal/runtime/execution/actionflow"
+	"tinygo_engine_v2/internal/runtime/execution/lifecycle"
 )
 
 func (s *Engine) stunUntil(owner string) (int64, *model.EngineError) {
@@ -14,7 +14,7 @@ func (s *Engine) stunUntil(owner string) (int64, *model.EngineError) {
 	if !exists {
 		return 0, s.processErr("providers", "stun query has no actual owner", owner)
 	}
-	until, err := actionflow.StunDeadline(owner, s.loop.TimeMs(), s.compiled.Providers, actor.instances.Providers(), nil)
+	until, err := lifecycle.ActiveStunDeadline(owner, s.loop.TimeMs(), s.compiled.Providers, actor.instances.Providers(), nil)
 	return until, s.controlQueryError(err)
 }
 
@@ -30,14 +30,7 @@ func (f *Frame) stunUntil(owner string) (int64, *model.EngineError) {
 		return 0, nil
 	}
 	staged := f.stageFor(owner)
-	var inline [8]actionflow.ControlMutation
-	mutations := inline[:0]
-	for _, mutation := range staged.providerOps {
-		mutations = append(mutations, actionflow.ControlMutation{Kind: mutation.Kind, Definition: mutation.DefinitionRef,
-			Reference: mutation.ProviderRef, Source: mutation.SourceKey, Owner: owner, Projected: mutation.Projected,
-			HasExpiry: mutation.HasExpireAt, Expires: mutation.ExpireAt})
-	}
-	until, err := actionflow.StunDeadline(owner, f.run.loop.TimeMs(), f.run.compiled.Providers, staged.instances.Providers(), mutations)
+	until, err := lifecycle.ActiveStunDeadline(owner, f.run.loop.TimeMs(), f.run.compiled.Providers, staged.instances.Providers(), staged.providerOps)
 	return until, f.run.controlQueryError(err)
 }
 

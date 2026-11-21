@@ -3,9 +3,9 @@ package usage
 import "tinygo_engine_v2/internal/model"
 
 func (s *Ledger) Snapshot() []model.UseTriggerLedgerEntry {
-	out := make([]model.UseTriggerLedgerEntry, 0, s.count)
-	// 空账不创建映射迭代器，保留恢复场景在正式 Wasm 中的原分配边界。
-	if s.count == 0 {
+	out := make([]model.UseTriggerLedgerEntry, 0, s.triggerCount)
+	// 空次数账不创建映射迭代器。
+	if s.triggerCount == 0 {
 		return out
 	}
 	for _, first := range s.buckets {

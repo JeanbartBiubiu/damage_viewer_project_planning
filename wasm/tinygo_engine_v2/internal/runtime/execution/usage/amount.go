@@ -80,7 +80,7 @@ func (s *Ledger) ReserveAmount(key AmountKey, useSkillKey string, maxValue, requ
 		return view, nil
 	}
 	if entry == nil {
-		if s.count >= MaxEntries {
+		if s.Len() >= MaxEntries {
 			err := s.error(model.GenericErrRuntimeInvariantFailed, "useTriggerLedger exceeded dedicated budget", "", "")
 			err.BudgetCause = model.BudgetCauseMaxUseTriggerLedger
 			return AmountReservation{}, err
@@ -90,7 +90,7 @@ func (s *Ledger) ReserveAmount(key AmountKey, useSkillKey string, maxValue, requ
 		}
 		entry = &amountRecord{key: key, useSkillKey: useSkillKey, maximum: maxValue, next: s.amountBuckets[hash]}
 		s.amountBuckets[hash] = entry
-		s.count++
+		s.amountCount++
 	}
 	token := &amountToken{record: entry, granted: granted, pending: true, next: entry.reservations}
 	entry.reservations = token
@@ -137,14 +137,14 @@ func (s *Ledger) ReleaseAmount(reservation AmountReservation) {
 		} else {
 			previous.next = current.next
 		}
-		s.count--
+		s.amountCount--
 		return
 	}
 }
 
 func (s *Ledger) SnapshotAmounts() []AmountEntry {
-	rows := make([]AmountEntry, 0, s.count)
-	if s.count == 0 {
+	rows := make([]AmountEntry, 0, s.amountCount)
+	if s.amountCount == 0 {
 		return rows
 	}
 	for _, first := range s.amountBuckets {

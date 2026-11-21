@@ -10,14 +10,21 @@ import (
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 )
 
+// CumulativeRefundIdentity 标识已核对的原使用、实际目标与应返还的冷却。
+type CumulativeRefundIdentity struct {
+	Owner, ProviderRef, UseSource, UseKey, UseSkillKey, Target, SubjectRef string
+}
+
 // CooldownRefundWork 只借用本操作的真实冷却暂存，不接收帧或发布能力。
 type CooldownRefundWork interface {
 	// RefundCooldown 在资格核对后取得目标所属的当前冷却暂存。
 	RefundCooldown(owner string) *actionpkg.CooldownLedger
 	// StageCooldownRefund 暂存已核定的新期限，仍沿原统一提交发布。
 	StageCooldownRefund(owner, ref string, ready int64) *model.EngineError
-	// ReserveRefundRatio在同一帧预留额度，返回包含先前预留的累计前后值；实际发布仍由根帧负责。
-	ReserveRefundRatio(limit model.CumulativeRatioLimit, subjectRef string, requested float64) (previous, current float64, err *model.EngineError)
+	// RefundProviderRef 借用实际挂载的供值器引用。
+	RefundProviderRef() string
+	// ReserveRefundRatio 按已核对身份预留额度，返回包含先前预留的累计前后值。
+	ReserveRefundRatio(identity CumulativeRefundIdentity, limit model.CumulativeRatioLimit, requested float64) (previous, current float64, err *model.EngineError)
 }
 
 func (s SkillActionExecutor) ValidateRefundSnapshot(snapshot model.Snapshot, hasRefund bool) *model.EngineError {
@@ -86,8 +93,17 @@ func (s SkillActionExecutor) ApplyTotalCooldownRefund(operation planbundle.Compi
 	}
 	previous, current := 0.0, operation.TotalCooldownRatio
 	if operation.CumulativeLimit != nil {
+		provider := work.RefundProviderRef()
+		subject := operation.AbilityRefStr
+		if !s.acceptsCumulativeRefundUse(event, owner, provider) {
+			err := s.error("cumulative refund requires an accepted registered original use and its actual owned target", "operation.cumulativeLimit")
+			err.Ref = subject
+			return err
+		}
+		identity := CumulativeRefundIdentity{Owner: owner, ProviderRef: provider, UseSource: event.UseSource,
+			UseKey: event.UseKey, UseSkillKey: event.UseSkillKey, Target: event.EventTargetKey, SubjectRef: subject}
 		var err *model.EngineError
-		previous, current, err = work.ReserveRefundRatio(*operation.CumulativeLimit, operation.AbilityRefStr, operation.TotalCooldownRatio)
+		previous, current, err = work.ReserveRefundRatio(identity, *operation.CumulativeLimit, operation.TotalCooldownRatio)
 		if err != nil {
 			return err
 		}
@@ -106,6 +122,19 @@ func (s SkillActionExecutor) ApplyTotalCooldownRefund(operation planbundle.Compi
 		ready = now
 	}
 	return work.StageCooldownRefund(target.CombatantKey, operation.AbilityRefStr, ready)
+}
+
+func (s SkillActionExecutor) acceptsCumulativeRefundUse(event *contract.EventSnapshot, owner, provider string) bool {
+	if !event.HasUse || event.UseKey == "" || event.UseSource != owner || event.EventTargetKey == "" || provider == "" {
+		return false
+	}
+	actual := s.actions.Use(event.UseKey)
+	if actual == nil || actual.CastID() == 0 || actual.Source() != event.UseSource || actual.SkillKey() != event.UseSkillKey {
+		return false
+	}
+	process := s.actions.Process(actual.ProcessReference())
+	return process != nil && process.CastID() == actual.CastID() && process.Owner() == actual.Source() &&
+		process.SkillKey() == actual.SkillKey() && process.CastUseKey() == actual.UseKey()
 }
 
 func (s SkillActionExecutor) immediatePeriodic(definition string) bool {

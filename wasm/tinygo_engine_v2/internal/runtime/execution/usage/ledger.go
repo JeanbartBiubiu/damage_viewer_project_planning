@@ -84,7 +84,8 @@ type Ledger struct {
 	identity      Identity
 	buckets       map[uint64]*record
 	amountBuckets map[uint64]*amountRecord
-	count         int
+	triggerCount  int
+	amountCount   int
 	pending       int
 }
 
@@ -108,7 +109,7 @@ func (s *Ledger) Reserve(key Key, useSkillKey string) (reservation Reservation, 
 	if previous := s.lookup(hash, key); previous != nil && (previous.committed || previous.reserved) {
 		return Reservation{}, true, nil
 	}
-	if s.count >= MaxEntries {
+	if s.Len() >= MaxEntries {
 		err := s.error(model.GenericErrRuntimeInvariantFailed, "useTriggerLedger exceeded dedicated budget", "", "")
 		err.BudgetCause = model.BudgetCauseMaxUseTriggerLedger
 		return Reservation{}, false, err
@@ -118,7 +119,7 @@ func (s *Ledger) Reserve(key Key, useSkillKey string) (reservation Reservation, 
 	}
 	entry := &record{key: key, useSkillKey: useSkillKey, reserved: true, next: s.buckets[hash]}
 	s.buckets[hash] = entry
-	s.count++
+	s.triggerCount++
 	s.pending++
 	return Reservation{ledger: s, record: entry}, false, nil
 }
@@ -156,7 +157,7 @@ func (s *Ledger) Release(reservation Reservation) {
 			previous.next = current.next
 		}
 		entry.reserved = false
-		s.count--
+		s.triggerCount--
 		if s.pending > 0 {
 			s.pending--
 		}
@@ -164,7 +165,7 @@ func (s *Ledger) Release(reservation Reservation) {
 	}
 }
 
-func (s *Ledger) Len() int { return s.count }
+func (s *Ledger) Len() int { return s.triggerCount + s.amountCount }
 
 func (s *Ledger) Pending() int { return s.pending }
 
