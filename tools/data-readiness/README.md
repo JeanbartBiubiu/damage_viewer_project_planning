@@ -2,6 +2,8 @@
 
 使用 Node.js 20 内置库，把当前工作集的待核对技能整理为可追溯的来源卡，并比较阶段账本、正式范围和正式证明的声明。工具不访问网络、数据库或管理接口，不修改账本、Wiki 原文、业务配置及证明文件，不新增依赖。
 
+新检出使用此工具前，按[外置归档索引](../../数据参考/外置归档索引.md)恢复本机阶段账本、全英雄 Wiki 资料和审核卡。
+
 ```powershell
 node tools/data-readiness/cli.mjs --repo-root . --output output/maintenance-20261028
 node tools/data-readiness/cli.mjs --repo-root . --output output/maintenance-20261028 --check
