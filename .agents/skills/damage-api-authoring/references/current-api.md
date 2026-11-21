@@ -53,7 +53,7 @@
 
 ### 场景属性快照绑定
 
-运行时输入新增 `SCENE_ATTRIBUTE_SNAPSHOT`（场景属性快照），字段与消费约束以[当前共享契约](../../../../outputs/priority-adaptation-2026-10-18/有限引导与场景属性快照现行契约.md)为准，写入类型由后端 `model/skilltrigger/SkillTriggerSceneAttributeSnapshotBindingDetail.java` 定义。它仍是动作的 `runtimeInputBindings`，不新增聚合顶层字段或保存接口，也不写角色或装备属性。
+运行时输入新增 `SCENE_ATTRIBUTE_SNAPSHOT`（场景属性快照），字段与消费约束以[当前共享契约](../../../../contracts/authoring/有限引导与场景属性快照现行契约.md)为准，写入类型由后端 `model/skilltrigger/SkillTriggerSceneAttributeSnapshotBindingDetail.java` 定义。它仍是动作的 `runtimeInputBindings`，不新增聚合顶层字段或保存接口，也不写角色或装备属性。
 
 录入前核对参数确为本技能无默认值的计算时输入、真实首次主动入口启动的过程确实消费它、属性引用存在且启用。来源须显式选择；仅装备来源不要求角色等级基值存在，合法0不能当作缺失。管理保存只证明作者绑定正确，实际等级和装备取值、整数约束以及圈数等结果仍须在正式Wasm验证。不要在录入时把本次采集数值改写成固定参数，也不通过填0绕过缺值。
 
@@ -86,21 +86,21 @@
 
 ### 普攻伤害角色
 
-伤害结果的 `detail.attackDamageRole` 可省略；显式提供时只能为 `PRIMARY`（普通攻击主体）或 `REPLACE_PRIMARY`（强化待击替换主体）。空值、数字、未知值和非伤害结果均拒绝，不给普通伤害补空字段。后端请求真源为 `SkillEffectDamageDetail.java`；保存与聚合回读必须保留该字段。角色效果可先保存为尚未挂接的资料，但真实消费点、完整事务最终态以及宿主所选普通攻击还需分别校验，不能由字段存在直接判定可计算。替换负载只含一个无条件、即时目标伤害；普通主体所在作者效果可以保留其它无角色结果。结构边界以[正式共享契约](../../../../outputs/priority-adaptation-2026-10-18/twistedfate-next/w-implementation-2026-10-19/共享实施契约.md)为准。采用前核对运行服务确实含新字段，不能向旧服务盲目重试。
+伤害结果的 `detail.attackDamageRole` 可省略；显式提供时只能为 `PRIMARY`（普通攻击主体）或 `REPLACE_PRIMARY`（强化待击替换主体）。空值、数字、未知值和非伤害结果均拒绝，不给普通伤害补空字段。后端请求真源为 `SkillEffectDamageDetail.java`；保存与聚合回读必须保留该字段。角色效果可先保存为尚未挂接的资料，但真实消费点、完整事务最终态以及宿主所选普通攻击还需分别校验，不能由字段存在直接判定可计算。替换负载只含一个无条件、即时目标伤害；普通主体所在作者效果可以保留其它无角色结果。结构边界以[正式共享契约](../../../../contracts/authoring/崔斯特普攻主体替换与三牌契约.md)为准。采用前核对运行服务确实含新字段，不能向旧服务盲目重试。
 
 ### 当前时点普通减速
 
 普通减速可声明`PERSISTENT/MOMENT_EVALUATION/SHARED`，重施数值方式为空。只接独立单结果的`STATUS_OPERATION/APPLY`及真实`MOVEMENT_SLOW`目录，有限正安全整数期限、`SOURCE_TARGET`分组、单层`KEEP/REFRESH_ALL/ALL_AT_ONCE`，无周期、关联盾结束或独立法盾粒度。强度只读取本实例`effect_elapsed_ms`和冻结静态参数；公式全部声明及条件各分支均检查，不能夹带当前属性、外来上下文或运行输入。
 
-新模式`fixedMinValue`、`fixedMaxValue`必须为空；固定倍率须有限且非负、静态原值须有限，防止零乘法掩盖溢出，最终强度须在0至1之间。旧施加快照继续使用原0/1界限。原生状态贡献仅新模式显式输出`valueReadMode:MOMENT_EVALUATION`，旧快照继续省略；管理配置、原生运行及整对象准入分别验证。完整约束见[Q落地减速契约](../../../../outputs/skill-adaptation-20261021-chogath/Q落地减速实施契约.md)。
+新模式`fixedMinValue`、`fixedMaxValue`必须为空；固定倍率须有限且非负、静态原值须有限，防止零乘法掩盖溢出，最终强度须在0至1之间。旧施加快照继续使用原0/1界限。原生状态贡献仅新模式显式输出`valueReadMode:MOMENT_EVALUATION`，旧快照继续省略；管理配置、原生运行及整对象准入分别验证。完整约束见[Q落地减速契约](../../../../contracts/authoring/科加斯Q落地减速实施契约.md)。
 
 ### 场景显式初值绑定
 
 `SCENE_INITIAL_PARAMETER`（场景显式初值）的必需明细为 `{minValue, maxValue}`，上下界必须是有限数且有序；整数参数的边界必须为安全整数，通用负范围可以合法。它在本技能 `SOURCE_INITIALIZED / EXECUTE_EFFECT / EVENT_SOURCE` 动作绑定无默认的数值 `RUNTIME_INPUT` 参数，且参数必须被本动作真实结果数值消费。另可由明确本技能 `SKILL_USED / ACTIVE / INITIAL → START_PROCESS` 绑定，但只授权唯一真实主动过程的步骤执行伤害负载金额；费用、冷却、时间、生命周期、条件和状态操作不能借用该授权。实际本场值不写进声明、参数固定值、角色属性或数据库；界面另行明确填写，缺值不默认为0。
 
-明细可选 `sharedInputKey`（共享输入标识），省略仍保留旧形状，显式空值或非法标识拒绝。同场景只有同游戏、同方、同实际角色及同共享标识的真实启用成员可合并一个输入，各成员仍保留本技能参数与实际消费声明；类型与边界必须一致。后端保存声明，宿主核验真实角色、成员闭包和输入身份，不在数据库保存本场值。常驻生命及有限多次强化的当前边界见[科加斯E/R共享契约](../../../../outputs/skill-adaptation-20261021-chogath/E与R通用机制实施契约.md)。
+明细可选 `sharedInputKey`（共享输入标识），省略仍保留旧形状，显式空值或非法标识拒绝。同场景只有同游戏、同方、同实际角色及同共享标识的真实启用成员可合并一个输入，各成员仍保留本技能参数与实际消费声明；类型与边界必须一致。后端保存声明，宿主核验真实角色、成员闭包和输入身份，不在数据库保存本场值。常驻生命及有限多次强化的当前边界见[科加斯E/R共享契约](../../../../contracts/authoring/科加斯E与R通用机制实施契约.md)。
 
-请求类型为后端 `SkillTriggerSceneInitialParameterBindingDetail.java`。同一初值可被两个实际初始化动作分别绑定、派生不同属性，边界须一致，来源和双方位置仍独立。保存、事务最终态及引用保护使用现有聚合接口和脚本，未知明细（含空的 `value / defaultValue`）也拒绝。运行与证据边界见[通用实施方案](../../../../outputs/priority-adaptation-2026-10-18/场景显式初值参数实施方案.md)。
+请求类型为后端 `SkillTriggerSceneInitialParameterBindingDetail.java`。同一初值可被两个实际初始化动作分别绑定、派生不同属性，边界须一致，来源和双方位置仍独立。保存、事务最终态及引用保护使用现有聚合接口和脚本，未知明细（含空的 `value / defaultValue`）也拒绝。运行与证据边界见[通用实施方案](../../../../contracts/authoring/场景显式初值参数实施方案.md)。
 
 `EMPOWERED_BASIC_ATTACK` 步骤明细可选 `maximumAttackCountValue`（最多消费次数），只用于明确不占行动的单步骤主动过程及 `ATTACK_START`（普攻发动消费），次数须可静态求为1至64整数，窗口须为正安全整数毫秒。缺省保持原单次 `ATTACK_HIT`（命中消费）形状，显式空次数拒绝。该字段保留在现有过程明细JSON中，无新增枚举或表；引用公式继续纳入事务最终态与删除保护。写入成功不代替发动预留、延迟命中、窗口结束冷却及正式Wasm验证。
 
@@ -112,13 +112,13 @@
 
 `MODIFY_INTERNAL_STATE` 的明细为 `{stateSkillKey, stateKey, operation: 'REDUCE_RECOVERY', value}`，请求真源为 `SkillTriggerModifyInternalStateActionDetail.java`。它只允许本技能 `BASIC_ATTACK_HIT / EVENT_SOURCE` 修改自身 `SKILL / AMMO` 的下一枚回充余时；`runtimeInputBindings / resultModifiers` 均为空。金额使用现行数值引用，不增加库存、不改变单发冷却、不借用辅助过程。其它动作的事件来源和输入授权保持原约束。
 
-每发循环沿现有 `START_PROCESS` 的 `INTERNAL_STATE / VALUE` 绑定读取本技能整数计数器，仅在 `PROCESS_START / COUNTER / SET` 使用相应动态值及已核验公式。应先冻结本次序号再推进下一发，命中条件读取冻结状态；不新增过程算子或用一个效果假装扣弹。完整边界及验证真源见[作者与宿主实施契约](../../../../outputs/priority-adaptation-2026-10-18/corki-next/r-implementation-2026-10-19/作者与宿主实施契约.md)，执行前核对实际部署版本。
+每发循环沿现有 `START_PROCESS` 的 `INTERNAL_STATE / VALUE` 绑定读取本技能整数计数器，仅在 `PROCESS_START / COUNTER / SET` 使用相应动态值及已核验公式。应先冻结本次序号再推进下一发，命中条件读取冻结状态；不新增过程算子或用一个效果假装扣弹。完整边界及验证真源见[作者与宿主实施契约](../../../../contracts/authoring/库奇R作者与宿主实施契约.md)，执行前核对实际部署版本。
 
 ### 有期指定技能冷却时长倍率
 
 `COOLDOWN_DURATION_MODIFIER`（冷却时长修正）的`detail`只接受`{affectedSkillScope:{mode:'SKILLS',skillKeys:[...],skillCategoryKeys:[]}}`，指定技能非空、合法、无重复且属于同游戏；不接受其它范围、`operation`、未知字段、类型转换或显式空明细。请求真源为`SkillEffectCooldownDurationModifierDetail.java`及其严格反序列化分派。效果须为有限SOURCE单层、保持层数并刷新全部、同时到期、无周期/盾关联，结果为PERSISTENT/APPLICATION_SNAPSHOT/SHARED/REPLACE且不消费法术盾。完整数值规则在各声明等级最终都须静态、有限且严格大于0；0.5表示时长一半，1合法。参数、公式、生命周期与范围引用后续修改仍需通过事务最终态守卫。
 
-该结果沿现有`results`数组完整保护保存和独立回读；不写数据库新列、不冒充技能急速或剩余冷却操作。管理层可保存合法资料；实际本场INITIAL能力、关闭/未学/未计划的零匹配，以及只作用未来新提交冷却，仍由宿主和正式Wasm证明。见[共享实施方案及接线澄清](../../../../outputs/priority-adaptation-2026-10-18/nasus-next/内瑟斯通用机制共享实施方案.md)。执行前核对真实服务已安装支持该类型的版本；接口保存成功不能直接开放英雄。
+该结果沿现有`results`数组完整保护保存和独立回读；不写数据库新列、不冒充技能急速或剩余冷却操作。管理层可保存合法资料；实际本场INITIAL能力、关闭/未学/未计划的零匹配，以及只作用未来新提交冷却，仍由宿主和正式Wasm证明。见[共享实施方案及接线澄清](../../../../contracts/authoring/内瑟斯通用机制共享实施方案.md)。执行前核对真实服务已安装支持该类型的版本；接口保存成功不能直接开放英雄。
 
 ### 持续属性的明确护盾依赖
 
@@ -128,11 +128,11 @@
 
 目标持续属性可声明 `RESULT/EFFECT/SKILL` 的普通法术盾资格，继续拒绝 `DAMAGE_INSTANCE` 与自身结果消费。双端命中属性的来源结果保持空资格，并由完整单候选共享目标结果的实际命中与阻挡结果；不得拆成两次独立保存来绕过完整图检查。
 
-仍使用现行聚合 `PATCH` 和保护脚本。脚本对嵌套明细完整保留，无须新增顶层字段；采用前核对服务已安装该类型，并按冻结计划、当前摘要和独立完整回读核对。共享契约与当前范围见[墨菲特数值适配契约](../../../../outputs/skill-adaptation-20261021-malphite/墨菲特数值适配契约.md)，该契约的验收段不代替实际运行证据。
+仍使用现行聚合 `PATCH` 和保护脚本。脚本对嵌套明细完整保留，无须新增顶层字段；采用前核对服务已安装该类型，并按冻结计划、当前摘要和独立完整回读核对。共享契约与当前范围见[墨菲特数值适配契约](../../../../contracts/authoring/墨菲特数值适配契约.md)，该契约的验收段不代替实际运行证据。
 
 ### 分阶段命中与普攻开始计数
 
-2026-10-21追加：技能实际命中事件的明细可显式声明 `processMoment`，将本技能首次主动过程的真实步骤映射为独立接触，并声明同次使用的前置接触。字段、依赖图、法盾范围及完整提交语义只在[分阶段命中与攻击起始状态契约](../../../../outputs/skill-adaptation-20261021-neeko/分阶段命中与攻击起始状态契约.md)定义。请求真源为 `SkillTriggerSkillHitProcessMoment.java`，最终态检查为 `SkillHitPhaseSemantics.java`；完整聚合保存后的 `validateAffectedConfigurationFinal` 也必须复核，单规则保存通过不能代替它。
+2026-10-21追加：技能实际命中事件的明细可显式声明 `processMoment`，将本技能首次主动过程的真实步骤映射为独立接触，并声明同次使用的前置接触。字段、依赖图、法盾范围及完整提交语义只在[分阶段命中与攻击起始状态契约](../../../../contracts/authoring/分阶段命中与攻击起始状态契约.md)定义。请求真源为 `SkillTriggerSkillHitProcessMoment.java`，最终态检查为 `SkillHitPhaseSemantics.java`；完整聚合保存后的 `validateAffectedConfigurationFinal` 也必须复核，单规则保存通过不能代替它。
 
 普攻开始和命中事件可对本技能、技能范围整数计数声明 `ATTACK_START_VALUE`，实际场景沿同次攻击的起始快照读取；原弹药资格与运行输入绑定边界保持现行规则。共同作者资格真源为 `SkillAttackStartValueSemantics.java`。这些事件的自身数值结果使用合法的 `CURRENT_TARGET` 动作上下文，并由结果的 `SOURCE` 目标明确作用自身，不能擅自填写事件能力没有开放的 `EVENT_SOURCE`。
 
@@ -140,13 +140,13 @@
 
 ### 指定自身普通盾的本笔吸收量
 
-事件值比较明细新增可选`shieldResult`（指定自身盾结果），仅用于受到伤害事件的吸收量条件。完整字段、同技能自身盾要求、逐盾冻结事实及复制组合边界以[首次自身损盾实施契约](../../../../outputs/skill-adaptation-20261021-malphite/P首次损盾实施契约.md)为唯一来源。请求真源为`SkillTriggerEventValueConditionDetail.java`，最终图守卫为`SkillShieldAbsorptionConditionSemantics.java`；省略该键与显式空值含义不同，不能补null或猜一面默认盾。
+事件值比较明细新增可选`shieldResult`（指定自身盾结果），仅用于受到伤害事件的吸收量条件。完整字段、同技能自身盾要求、逐盾冻结事实及复制组合边界以[首次自身损盾实施契约](../../../../contracts/authoring/墨菲特P首次损盾实施契约.md)为唯一来源。请求真源为`SkillTriggerEventValueConditionDetail.java`，最终图守卫为`SkillShieldAbsorptionConditionSemantics.java`；省略该键与显式空值含义不同，不能补null或猜一面默认盾。
 
 仍使用现行聚合`PATCH`及保护脚本，触发规则的嵌套明细完整保留，无新增顶层字段或脚本分支。写前确认真实服务已安装新类型，冻结完整原规则、候选和用户已确认的计时选择；只修改核定条件组，原动作、等待时长、到期保护及兄弟技能保持。先前完成的补盾主体不因新选择器而重做，写后独立核对完整配置；管理保存不代表首次损盾分支或整英雄已通过正式运行。
 
 ### 保留相位的目标周期与逐伤前值
 
-2026-10-22追加：`TARGET / COUNTER` 的可选 `detail.targetTiming`（目标计时声明）采用严格分型，只有周期跳伤 `PHASED_TICK` 和到期负载 `EXPIRY_PAYLOAD` 两种。字段、纯过程限制、最多三周期加一预约、有界到期动作与唯一存活尾规则，只在[有界目标时序共享契约](../../../../outputs/skill-adaptation-20261022-brand/有界目标时序共享契约.md)定义。声明省略时保持原形状，显式空值和未知字段拒绝；不导入旧计时器。请求真源为 `SkillInternalStateTargetTiming.java`，最终图与引用检查为 `SkillTargetTimingSemantics.java`。
+2026-10-22追加：`TARGET / COUNTER` 的可选 `detail.targetTiming`（目标计时声明）采用严格分型，只有周期跳伤 `PHASED_TICK` 和到期负载 `EXPIRY_PAYLOAD` 两种。字段、纯过程限制、最多三周期加一预约、有界到期动作与唯一存活尾规则，只在[有界目标时序共享契约](../../../../contracts/authoring/有界目标时序共享契约.md)定义。声明省略时保持原形状，显式空值和未知字段拒绝；不导入旧计时器。请求真源为 `SkillInternalStateTargetTiming.java`，最终图与引用检查为 `SkillTargetTimingSemantics.java`。
 
 `MODIFY_INTERNAL_STATE` 新增 `ENSURE_REMAINING_PRESERVE_PHASE`（保留原跳伤时点续期），仅在实际未被挡住的明确技能命中上修改自身周期锚；原 `ENSURE_REMAINING` 不接受任何目标计时锚。到期过程完成写入和存活重挂尾统一使用 `PROCESS_COMPLETE` 且 `stepKey` 为空，不用步骤完成时点替代。完整图保存在同一笔技能聚合修改中，避免分次写入产生缺少过程或尾规则的中间态。
 
@@ -154,6 +154,6 @@
 
 ### 同角色技能命中的目标计数只读条件
 
-实际已计划的自身主动技能命中规则，可用现有 `INTERNAL_STATE_CHECK`（内部状态检查）读取同一来源角色真实技能关系中的另一技能普通目标计数。须明确所属技能、状态标识、`VALUE`（当前值）与非负整数阈值；状态需零初值、非负整数容量、正整数期限。周期锚、预约锚、跨技能写入和运行输入绑定不适用；同一规则不能混读自身状态或第二个供值技能。关闭场景来源或零级来源只读取合法定义，不生成挂载或执行入口；启用却未装配的来源仍拒绝。完整边界见[同拥有者命中前计数读取契约](../../../../outputs/skill-adaptation-20261022-brand/同拥有者命中前计数读取契约.md)。
+实际已计划的自身主动技能命中规则，可用现有 `INTERNAL_STATE_CHECK`（内部状态检查）读取同一来源角色真实技能关系中的另一技能普通目标计数。须明确所属技能、状态标识、`VALUE`（当前值）与非负整数阈值；状态需零初值、非负整数容量、正整数期限。周期锚、预约锚、跨技能写入和运行输入绑定不适用；同一规则不能混读自身状态或第二个供值技能。关闭场景来源或零级来源只读取合法定义，不生成挂载或执行入口；启用却未装配的来源仍拒绝。完整边界见[同拥有者命中前计数读取契约](../../../../contracts/authoring/同拥有者命中前计数读取契约.md)。
 
 作者层效果时点使用 `APPLICATION`（施加时）等现行枚举；`INSTANT`（即时）属于降低后的引擎语义，不能填进管理请求的 `lifecycleBehavior.moment`。例如有限目标眩晕可以沿施加时操作建立1750毫秒状态，声明技能级法术护盾；若声明持续结果，其法盾资格按持续结果门禁另行核对。
