@@ -250,7 +250,7 @@ func (s BasicAttackExecutor) Initialize(input SkillAdmission, stopOnTargetDeath 
 			return s.error("continuous basic attack currently requires immediate process steps", step.Path)
 		}
 	}
-	s.actions.InitBasicAttack(actionpkg.BasicAttackSeed{Plan: *p, InitialAbility: initial, CooldownDependencies: registry.Metadata.ReadDependencies(process.Cooldown.DurationProgram)})
+	s.actions.InitBasicAttack(actionpkg.BasicAttackSeed{Plan: *p, InitialAbility: initial, CooldownDependencies: registry.Metadata.WaitReadDeps(process.Cooldown.DurationProgram)})
 	if err := checks.BindInitialAttackPrimary(hit, selectedRef.ProviderRef); err != nil {
 		return err
 	}

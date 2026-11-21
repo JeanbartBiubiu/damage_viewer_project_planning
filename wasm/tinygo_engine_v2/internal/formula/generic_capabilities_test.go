@@ -1,12 +1,49 @@
 package formula
 
 import (
+	"slices"
 	"testing"
 	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/base/expression"
 	"tinygo_engine_v2/internal/base/inputbinding"
 	"tinygo_engine_v2/internal/model"
 )
+
+func TestWaitReadDepsClassifiesReachableReads(t *testing.T) {
+	var builder Builder
+	linked, err := builder.Register(GenericProgram{Key: "wait_linked", Instr: []GenericInstr{
+		{Op: GenericOpRead, ReadKind: ReadTargetAttr, ReadKey: "target.power.current"},
+		{Op: GenericOpRead, ReadKind: ReadProviderTargetState, ReadKey: "target.state"},
+	}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	root, err := builder.Register(GenericProgram{Key: "wait", Instr: []GenericInstr{
+		{Op: GenericOpRead, ReadKind: ReadSourceAttr, ReadKey: "attack_speed.resolved"},
+		{Op: GenericOpRead, ReadKind: ReadSourceResource, ReadKey: "mana"},
+		{Op: GenericOpRef, RefIndex: uint16(linked)},
+		{Op: GenericOpRead, ReadKind: ReadProviderState, ReadKey: "source.state"},
+		{Op: GenericOpRef, RefIndex: uint16(linked)},
+	}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	metadata := builder.Freeze().Metadata
+	want := []WaitReadDependency{
+		{Kind: ReadSourceAttr, Key: "attack_speed"},
+		{Kind: ReadTargetAttr, Key: "target.power"},
+		{Kind: ReadProviderTargetState, Key: "target.state"},
+		{Kind: ReadProviderState, Key: "source.state"},
+	}
+	got := metadata.WaitReadDeps(root)
+	if !slices.Equal(got, want) {
+		t.Fatalf("wait dependencies = %v, want %v", got, want)
+	}
+	got[0].Key = "changed"
+	if !slices.Equal(metadata.WaitReadDeps(root), want) || len(metadata.WaitReadDeps(root+1)) != 0 {
+		t.Fatal("dependency lookup mutated the frozen program or returned an unknown program")
+	}
+}
 
 // isolatedStoreForTest 通过正式冻结和本场构建路径取得独立前态，不复制一套旧克隆算法。
 func (r programStore) isolatedStoreForTest() *programStore {

@@ -2,6 +2,7 @@ package formula
 
 import (
 	"errors"
+	"strings"
 
 	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/base/expression"
@@ -75,10 +76,18 @@ type MetadataAPI interface {
 	ReadDependencies(id GenericProgramID) []GenericInstr
 	// AttributeCacheDependencies 返回可供属性缓存使用的依赖与可缓存标志。
 	AttributeCacheDependencies(id GenericProgramID) ([]GenericInstr, bool)
+	// WaitReadDeps 只交付普攻等待需要比较的双方属性与状态，不含指令。
+	WaitReadDeps(id GenericProgramID) []WaitReadDependency
 	// FoldStatic 在无运行输入时求静态值，不能折叠时返回false。
 	FoldStatic(id GenericProgramID) (float64, bool)
 	// TargetAttributeLinear 分析指定目标属性的线性形式，不读取战斗状态。
 	TargetAttributeLinear(id GenericProgramID, key string) (expression.Linear, bool)
+}
+
+// WaitReadDependency 标记等待快照中需要按原顺序比较的一项属性或供值状态。
+type WaitReadDependency struct {
+	Kind GenericReadKind
+	Key  string
 }
 
 // Builder 的复制句柄仍属于同一个构建作用域，冻结结果独立于该作用域的后续写入。
@@ -234,6 +243,27 @@ func (m Metadata) Instructions(id GenericProgramID) []GenericInstr { return inst
 func (m Metadata) ReadDependencies(id GenericProgramID) []GenericInstr {
 	return m.current().readDependencies(id)
 }
+func (m Metadata) WaitReadDeps(id GenericProgramID) []WaitReadDependency {
+	var dependencies []WaitReadDependency
+	for _, read := range m.ReadDependencies(id) {
+		if read.Op != GenericOpRead {
+			continue
+		}
+		key := read.ReadKey
+		switch read.ReadKind {
+		case ReadSourceAttr, ReadTargetAttr:
+			if separator := strings.LastIndex(key, "."); separator >= 0 {
+				key = key[:separator]
+			}
+		case ReadProviderState, ReadProviderTargetState:
+		default:
+			continue
+		}
+		dependencies = append(dependencies, WaitReadDependency{Kind: read.ReadKind, Key: key})
+	}
+	return dependencies
+}
+
 func (m Metadata) AttributeCacheDependencies(id GenericProgramID) ([]GenericInstr, bool) {
 	return m.current().attributeCacheDependencies(id)
 }

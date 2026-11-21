@@ -23,7 +23,7 @@ type basicAttackData struct {
 	unfinishedTail, windowSettled bool
 	initialAbility                planbundle.CompiledAbility
 	wait                          *AttackWaitView
-	cooldownDependencies          []formula.GenericInstr
+	cooldownDependencies          []formula.WaitReadDependency
 }
 
 type primaryReplacementSlot struct {
@@ -35,7 +35,7 @@ type primaryReplacementSlot struct {
 type BasicAttackSeed struct {
 	Plan                 model.BasicAttackPlan
 	InitialAbility       planbundle.CompiledAbility
-	CooldownDependencies []formula.GenericInstr
+	CooldownDependencies []formula.WaitReadDependency
 	Ammo                 *AmmoView
 }
 
@@ -73,10 +73,7 @@ func (b *BasicAttackView) Primary() *model.BasicAttackPrimaryIdentity {
 func (b *BasicAttackView) PrimaryProviderRef() string                   { return b.data.primary.ProviderRef }
 func (b *BasicAttackView) PrimaryCandidate() int                        { return b.data.primaryCandidate }
 func (b *BasicAttackView) PrimaryHitPlan() *planbundle.CompiledSkillHit { return b.data.primaryHitPlan }
-func (b *BasicAttackView) CooldownDependencyCount() int                 { return len(b.data.cooldownDependencies) }
-func (b *BasicAttackView) CooldownDependencyAt(index int) formula.GenericInstr {
-	return b.data.cooldownDependencies[index]
-}
+
 func (b *BasicAttackView) Replacement(binding uint16, target string) (model.BasicAttackPrimaryReplacement, bool) {
 	for _, slot := range b.data.replacementSlots {
 		if slot.binding == binding && slot.target == target {

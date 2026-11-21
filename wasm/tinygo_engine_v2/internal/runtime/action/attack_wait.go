@@ -2,7 +2,6 @@ package action
 
 import (
 	"math"
-	"strings"
 
 	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/formula"
@@ -70,36 +69,27 @@ func (w *AttackWaitView) Recalculate(now, period int64, speed float64, source, t
 	return &copy
 }
 func (b *BasicAttackView) WaitDependenciesChanged(wait *AttackWaitView, source, target attribute.Table, context formula.GenericEvalContext) bool {
-	for _, instruction := range b.data.cooldownDependencies {
-		if instruction.Op != formula.GenericOpRead {
-			continue
-		}
-		if instruction.ReadKind == formula.ReadProviderState || instruction.ReadKind == formula.ReadProviderTargetState {
+	for _, dependency := range b.data.cooldownDependencies {
+		if dependency.Kind == formula.ReadProviderState || dependency.Kind == formula.ReadProviderTargetState {
 			previous, current := wait.data.providerState, context.ProviderState
-			if instruction.ReadKind == formula.ReadProviderTargetState {
+			if dependency.Kind == formula.ReadProviderTargetState {
 				previous, current = wait.data.targetState, context.ProviderTargetState
 			}
-			value, present := current.Lookup(instruction.ReadKey)
+			value, present := current.Lookup(dependency.Key)
 			if !present {
-				value = context.ProviderStateDefaults.At(instruction.ReadKey)
+				value = context.ProviderStateDefaults.At(dependency.Key)
 			}
-			if previous.At(instruction.ReadKey) != value {
+			if previous.At(dependency.Key) != value {
 				return true
 			}
 			continue
 		}
 		previous, current := wait.data.sourceAttributes, source
-		if instruction.ReadKind == formula.ReadTargetAttr {
+		if dependency.Kind == formula.ReadTargetAttr {
 			previous, current = wait.data.targetAttributes, target
-		} else if instruction.ReadKind != formula.ReadSourceAttr {
-			continue
 		}
-		key := instruction.ReadKey
-		if separator := strings.LastIndex(key, "."); separator >= 0 {
-			key = key[:separator]
-		}
-		before, beforeExists := previous.Lookup(key)
-		after, afterExists := current.Lookup(key)
+		before, beforeExists := previous.Lookup(dependency.Key)
+		after, afterExists := current.Lookup(dependency.Key)
 		if beforeExists != afterExists || before != after {
 			return true
 		}
