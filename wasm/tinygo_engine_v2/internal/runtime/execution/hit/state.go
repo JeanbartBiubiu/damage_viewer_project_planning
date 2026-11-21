@@ -66,6 +66,12 @@ type group struct {
 	frozen     map[string]firstContactDecision
 }
 
+type groupKey struct {
+	use     string
+	at      int64
+	nullUse bool
+}
+
 type firstContactDecision struct {
 	has   bool
 	value float64
@@ -158,24 +164,16 @@ func (s *State) Initialize(uses []model.SkillUseFact, facts []model.SkillHitFact
 }
 
 func (s *State) buildGroups(entries []model.DriverEntry, hitEntries map[string]int, identity Identity) *model.EngineError {
-	type groupKey struct {
-		use     string
-		at      int64
-		nullUse bool
-	}
 	buckets := map[groupKey][]string{}
 	for entryKey, fact := range s.facts {
-		entry := entries[hitEntries[entryKey]]
-		key := groupKey{at: entry.FirstAtMs}
-		if fact.UseRef != nil && *fact.UseRef != "" {
-			key.use = *fact.UseRef
-		} else {
-			key.nullUse = true
-			key.use = "\x00" + entryKey
-		}
+		key := skillHitGroupKey(entryKey, entries[hitEntries[entryKey]].FirstAtMs, fact.UseRef)
 		buckets[key] = append(buckets[key], entryKey)
 	}
-	for key, members := range buckets {
+	// TinyGo 0.40.1 的正式构建可能在确认迭代成功前解引用组合键。
+	// 只取成员列表，再从其中一项取得本组身份。
+	for _, members := range buckets {
+		first := members[0]
+		key := skillHitGroupKey(first, entries[hitEntries[first]].FirstAtMs, s.facts[first].UseRef)
 		sort.SliceStable(members, func(i, j int) bool {
 			ei := hitEntries[members[i]]
 			ej := hitEntries[members[j]]
@@ -205,6 +203,13 @@ func (s *State) buildGroups(entries []model.DriverEntry, hitEntries map[string]i
 		s.groups[groupMapKey(key.use, key.at)] = g
 	}
 	return nil
+}
+
+func skillHitGroupKey(entryKey string, at int64, useRef *string) groupKey {
+	if useRef != nil && *useRef != "" {
+		return groupKey{at: at, use: *useRef}
+	}
+	return groupKey{at: at, use: "\x00" + entryKey, nullUse: true}
 }
 
 func groupMapKey(use string, at int64) string {
