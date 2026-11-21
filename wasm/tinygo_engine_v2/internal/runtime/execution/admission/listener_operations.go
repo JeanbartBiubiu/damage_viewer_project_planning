@@ -18,7 +18,8 @@ func ValidateEquipmentHitListener(input Input, listener planbundle.CompiledListe
 		return err
 	}
 	types := input.Compiled.RuntimeTypes
-	for _, operation := range input.Compiled.Operations[int(listener.OperationStart) : int(listener.OperationStart)+int(listener.OperationCount)] {
+	for index := int(listener.OperationStart); index < int(listener.OperationStart)+int(listener.OperationCount); index++ {
+		operation := input.Compiled.Operations[index]
 		if operation.Operation == model.OperationKindStartPassiveProcess {
 			if err := validatePassiveProcessListener(input, listener, operation, sources); err != nil {
 				return err
@@ -30,7 +31,7 @@ func ValidateEquipmentHitListener(input Input, listener planbundle.CompiledListe
 		}
 		if operation.Operation == "heal" || operation.Operation == "resource_change" {
 			qualified, eventAmount := OwnedSelfRecovery(input, listener, operation)
-			if qualified && (!eventAmount || OwnedSettledEventHeal(input, listener, operation)) {
+			if qualified && (!eventAmount || ownedSettledEventHeal(input, listener, index)) {
 				continue
 			}
 		}

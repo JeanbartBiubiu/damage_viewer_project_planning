@@ -333,8 +333,14 @@ func TestSettledEventSelfHealRejectsForeignAndNonProportionalShapes(t *testing.T
 					}
 				}
 			}
-			if _, err := runtimeengine.RunGeneric(compiled.Session, r); err == nil || err.BudgetCause != "" {
+			_, err := runtimeengine.RunGeneric(compiled.Session, r)
+			if err == nil || err.BudgetCause != "" {
 				t.Fatal("illegal event heal admitted or disguised as budget failure", err)
+			}
+			if mode == "offset" && (err.Phase != model.GenericPhaseRun || err.Code != model.GenericErrRuntimeInvariantFailed ||
+				err.Path != "sharedProviders[2].abilities[0].listenerSpec.operations[0]" ||
+				err.Message != "source trigger requires complete opponent damage, owned state, links or a supported dynamic result") {
+				t.Fatalf("non-proportional formula changed its run admission error: %+v", err)
 			}
 		})
 	}

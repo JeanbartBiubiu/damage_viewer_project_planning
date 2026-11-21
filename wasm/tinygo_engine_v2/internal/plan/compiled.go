@@ -26,6 +26,7 @@ type CompiledTargetTiming struct {
 	Phased       bool
 }
 type CompiledSession struct {
+	AdmissionFacts            StaticAdmissionFacts
 	Features                  SessionFeatures
 	MultiplierGroupCount      uint32
 	IncomingCappedFlatSources []CompiledIncomingCappedFlatSource
@@ -84,6 +85,7 @@ type CompiledProviderMount struct {
 
 // CompiledModifier 是 compile 后的 provider / rule modifier。
 type CompiledModifier struct {
+	AdmissionFacts           StaticModifierAdmissionFacts
 	HasMultiplierGroup       bool
 	MultiplierGroupID        uint16
 	HasMaximumReductionRatio bool
@@ -141,6 +143,7 @@ type CompiledPermanentResourceMax struct {
 
 // CompiledListener 是 compile 后的 listener（provider / rules / inline listenerSpec）。
 type CompiledListener struct {
+	AdmissionFacts         StaticListenerAdmissionFacts
 	ReadsDamageStateBefore bool
 	ListenerKey            string
 	AbilityRef             string
@@ -204,6 +207,7 @@ type CompiledProviderStateField struct {
 
 // CompiledProvider 是 compile 后的 provider 定义。
 type CompiledProvider struct {
+	AdmissionFacts StaticProviderAdmissionFacts
 	// ClosedStatusKey 来自已验证控制候选的实际状态键，只读绑定到本定义的有效实例。
 	ClosedStatusKey string
 	// ActionStun 来自已验证目录的眩晕类型，供实际拥有者的行动资格使用。
@@ -307,7 +311,8 @@ type CompiledAbility struct {
 
 // CompiledOperation 是 compile 后的 operation 定义。
 type CompiledOperation struct {
-	PassiveProcessIndex int
+	PassiveProcessAdmission PassiveProcessAdmission
+	PassiveProcessIndex     int
 	// OwnCooldownTarget 是已核同拥有者INITIAL；自然尾与到期尾共用其参数上下文。
 	OwnCooldownTarget            *CompiledCooldownDurationTarget
 	TotalCooldownTarget          *CompiledCooldownDurationTarget

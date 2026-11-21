@@ -44,7 +44,7 @@ func ValidateEquipmentDynamicDefinition(input Input, owner, providerRef, referen
 		return fail(input, "equipment dynamic result is neither a configured period nor received healing", reference)
 	}
 	for _, modifier := range definition.Modifiers {
-		if GroupedDamageSourceModifier(*input.Formulas, modifier) && definition.Lifecycle.TickIntervalMs == 0 {
+		if modifier.AdmissionFacts.GroupedDamageSource && definition.Lifecycle.TickIntervalMs == 0 {
 			continue
 		}
 		if modifier.Kind == "attribute" {
@@ -57,7 +57,7 @@ func ValidateEquipmentDynamicDefinition(input Input, owner, providerRef, referen
 			_, exists := actual.Attributes.Lookup(attributeKey)
 			allowedPolicy := OwnedAttributePolicy(modifier)
 			if modifier.Stage == "final" {
-				allowedPolicy = target == model.SelectorSelf && finiteFinalAttributePolicy(*input.Formulas, modifier)
+				allowedPolicy = target == model.SelectorSelf && modifier.AdmissionFacts.FiniteFinalAttribute
 			}
 			if !exists || attributeKey == "hp" || pipeline.ModifierTargetCombatantSelector(modifier.Target) != model.SelectorSelf || modifier.HasCondition || !modifier.HasValue || !allowedPolicy || definition.Lifecycle.TickIntervalMs != 0 {
 				return fail(input, "dynamic attribute result requires an explicit non-HP modifier on its actual recipient", reference)

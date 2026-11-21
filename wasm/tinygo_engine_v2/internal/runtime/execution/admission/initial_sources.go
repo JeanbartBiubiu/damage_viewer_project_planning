@@ -79,7 +79,7 @@ func ValidateStaticInitializationListener(input Input, listener planbundle.Compi
 	if ownedSpellShieldInitializationListener(input, listener, reads) {
 		return nil
 	}
-	if ownLinkedShieldInitialization(*input.Compiled, listener) {
+	if listener.AdmissionFacts.LinkedShieldInitializer {
 		return nil
 	}
 	initializationType, declared := input.Compiled.RuntimeTypes.SourceInitialized.Lookup()
@@ -191,32 +191,26 @@ func validateStateOnExpireProvider(input Input, provider planbundle.CompiledProv
 	if provider.HasCooldownStateExpiry {
 		return validateCooldownStateExpiryProvider(input, provider, owner, reference, reads)
 	}
-	if err := validateStateOnExpireDefinition(input, provider); err != nil {
-		return err
+	if !provider.AdmissionFacts.StateExpiry {
+		return fail(input, "state expiry source requires complete permanent own shield initialization and damage-driven state writes", "initialSnapshot.combatants.providers")
 	}
 	initializers := 0
-	for _, listener := range input.Compiled.Listeners {
+	for index, listener := range input.Compiled.Listeners {
 		if listener.OwnerCombatantKey != owner || listener.OwnerProviderRef != reference {
 			continue
 		}
-		if ownLinkedShieldInitialization(*input.Compiled, listener) {
+		if listener.AdmissionFacts.LinkedShieldInitializer {
 			initializers++
 			continue
 		}
-		damage, declared := input.Compiled.RuntimeTypes.DamageTaken.Lookup()
-		receiver, receiverDeclared := input.Compiled.RuntimeTypes.TargetOwner.Lookup()
-		if !declared || !receiverDeclared || !listener.EventMatcher.RequiresAllType(damage) || !listener.EventMatcher.RequiresAllType(receiver) || !listener.HasCondition || listener.HasOncePerUse {
+		if !listener.AdmissionFacts.ExpiryDamageListener {
 			return fail(input, "state expiry source requires complete permanent own shield initialization and damage-driven state writes", "initialSnapshot.combatants.providers")
 		}
 		if err := validateInitialEquipmentHitListener(input, listener, reads); err != nil {
 			return err
 		}
-		for _, operation := range input.Compiled.Operations[int(listener.OperationStart) : int(listener.OperationStart)+int(listener.OperationCount)] {
-			field := provider.StateFields[operation.Ref]
-			amount, static := input.Formulas.Metadata.FoldStatic(operation.AmountProgram)
-			if operation.Operation != "state_change" || operation.StateScope != "state_scope/provider" || operation.Target != "self" || field.OnExpireCount == 0 || !static || amount != 1 || (operation.ValuePolicy != "set" && operation.ValuePolicy != "override") {
-				return fail(input, "state expiry source requires complete permanent own shield initialization and damage-driven state writes", "initialSnapshot.combatants.providers")
-			}
+		if !input.Compiled.AdmissionFacts.ExpiryStateWrites(provider.ProviderKey, index) {
+			return fail(input, "state expiry source requires complete permanent own shield initialization and damage-driven state writes", "initialSnapshot.combatants.providers")
 		}
 	}
 	if initializers != 1 {

@@ -3,8 +3,10 @@ package admission
 import (
 	"reflect"
 	"testing"
+
 	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/base/typeset"
+	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
@@ -119,7 +121,9 @@ func TestInitialStaticListenerKeepsShortCircuitAndOperationError(t *testing.T) {
 	input.Compiled.Features |= planbundle.FeatureStateOnExpire
 	input.Compiled.Providers = []planbundle.CompiledProvider{{HasStateOnExpire: true}}
 	input.Compiled.Operations[0] = planbundle.CompiledOperation{Operation: "shield", Target: "self", HasAmount: true, HasShieldLifecycleProvider: true, OwnerProviderIndex: 0}
-	if err := ValidateStaticInitializationListener(input, listener, reads); err != nil || len(reads.visits) != 0 {
+	input.Compiled.Listeners = []planbundle.CompiledListener{listener}
+	compile.BuildStaticAdmissionFacts(input.Compiled)
+	if err := ValidateStaticInitializationListener(input, input.Compiled.Listeners[0], reads); err != nil || len(reads.visits) != 0 {
 		t.Fatal("existing expiry initialization exception reached generic checks", err, reads.visits)
 	}
 }
@@ -148,12 +152,14 @@ func TestInitialExpirySourcesValidateMountsBeforeDriverRestrictions(t *testing.T
 	input.Compiled.AbilityRefIndex = map[string]planbundle.CompiledAbilityRef{"direct": {AbilityIndex: 0}}
 	reads.driver = "direct"
 	entries := []model.DriverEntry{{AbilityRef: "direct"}}
+	compile.BuildStaticAdmissionFacts(input.Compiled)
 	requireSourceAdmissionError(t, ValidateStateOnExpireSources(input, entries, reads), "state expiry source requires complete permanent own shield initialization and damage-driven state writes", "initialSnapshot.combatants.providers")
 	if !reflect.DeepEqual(reads.visits, []string{"actors"}) {
 		t.Fatal("driver restriction ran before invalid source", reads.visits)
 	}
 	input.Compiled.Providers[0].Kind, input.Compiled.Providers[0].StableID = "character", "passive"
 	reads.visits = nil
+	compile.BuildStaticAdmissionFacts(input.Compiled)
 	requireSourceAdmissionError(t, ValidateStateOnExpireSources(input, entries, reads), "state expiry source abilities can only run through their actual initialization or received-damage listeners", "driverPlan.entries")
 	if !reflect.DeepEqual(reads.visits, []string{"actors", "driver"}) {
 		t.Fatal("valid source did not reach original driver phase", reads.visits)

@@ -6,19 +6,15 @@ import (
 )
 
 func ownedHitCooldownSet(input Input, selection SourceSelection, listener plan.CompiledListener, operation plan.CompiledOperation) bool {
-	owner, hasOwner := input.Compiled.RuntimeTypes.SourceOwner.Lookup()
-	attack, hasAttack := input.Compiled.RuntimeTypes.BasicAttackHit.Lookup()
-	skill, hasSkill := input.Compiled.RuntimeTypes.SkillHit.Lookup()
-	if !hasOwner || !listener.EventMatcher.RequiresAllType(owner) || listener.OwnerCombatantKey != model.SelectorSource ||
-		operation.Operation != "cooldown_change" || operation.ValuePolicy != "set_remaining" || operation.Target != model.SelectorSelf ||
-		!operation.HasAmount || !operation.HasAbilityRef || operation.HasCondition || operation.OwnCooldownTarget == nil ||
+	facts := listener.AdmissionFacts
+	if (!facts.OwnAttackCooldownSet && !facts.OwnSkillCooldownSet) ||
 		!selectedOwnInitialCooldown(input, selection, listener.OwnerCombatantKey, listener.OwnerProviderRef, operation) {
 		return false
 	}
-	if hasAttack && listener.EventMatcher.RequiresAllType(attack) && selection.BasicAttack != nil && selection.BasicAttack.Source == listener.OwnerCombatantKey {
+	if facts.OwnAttackCooldownSet && selection.BasicAttack != nil && selection.BasicAttack.Source == listener.OwnerCombatantKey {
 		return true
 	}
-	if hasSkill && listener.EventMatcher.RequiresAllType(skill) {
+	if facts.OwnSkillCooldownSet {
 		for _, binding := range selection.SkillBindings {
 			typeID, declared := input.Compiled.Types.Registry.Lookup("ability/skill/" + binding.SkillKey)
 			if binding.Source == listener.OwnerCombatantKey && declared && listener.EventMatcher.RequiresAllType(typeID) {
@@ -66,49 +62,16 @@ func validateCooldownStateExpiryProvider(input Input, provider plan.CompiledProv
 	failure := func() *model.EngineError {
 		return fail(input, "cooldown expiry source requires its actual owned INITIAL and complete finite state closure", "initialSnapshot.combatants.providers")
 	}
-	if owner != model.SelectorSource || provider.Kind != "character" || provider.StableID == "" || provider.Lifecycle != nil ||
-		provider.AmmoBinding != nil || len(provider.Processes) != 1 || len(provider.Modifiers)+len(provider.StatusContributions) != 0 {
+	if owner != model.SelectorSource || !provider.AdmissionFacts.CooldownExpirySource {
 		return failure()
 	}
 	sources := reads.InitialListenerSources(plan.CompiledListener{OwnerCombatantKey: owner, OwnerProviderRef: reference})
-	initialIndex := -1
-	for _, field := range provider.StateFields {
-		if field.OnExpireCount == 0 {
-			continue
-		}
-		operation := input.Compiled.Operations[field.OnExpireStart]
-		if !field.OnExpireBeforeCombat || field.OnExpireCount != 1 || !selectedOwnInitialCooldown(input, sources.Selection, owner, reference, operation) {
-			return failure()
-		}
-		if initialIndex >= 0 && initialIndex != int(field.OnExpireAbilityIndex) {
-			return failure()
-		}
-		initialIndex = int(field.OnExpireAbilityIndex)
-	}
-	if initialIndex < 0 {
+	if !provider.AdmissionFacts.CooldownExpiryClosure {
 		return failure()
 	}
-	for index := int(provider.AbilityStart); index < int(provider.AbilityStart)+int(provider.AbilityCount); index++ {
-		ability := input.Compiled.Abilities[index]
-		if index == initialIndex {
-			if ability.Kind != "active" || ability.IsBasicAttack || ability.HasSkillHit || ability.ProcessControl == nil ||
-				ability.ProcessControl.Action != "INITIAL" || ability.ProcessControl.UseRefFromEvent || ability.SkillKey != provider.SkillKey {
-				return failure()
-			}
-			continue
-		}
-		if ability.Kind != "passive_listener" || ability.ProcessControl != nil || ability.Cost != nil || ability.Cooldown != nil ||
-			ability.HasCastCondition || ability.TickSpec != nil || ability.TargetExpirySpec != nil || ability.IsBasicAttack || ability.HasSkillHit {
+	for _, field := range provider.StateFields {
+		if field.OnExpireCount != 0 && !selectedOwnInitialCooldown(input, sources.Selection, owner, reference, input.Compiled.Operations[field.OnExpireStart]) {
 			return failure()
-		}
-		if ability.OperationCount > 0 {
-			complete := false
-			for _, listener := range provider.Listeners {
-				complete = complete || listener.OperationStart == ability.OperationStart && listener.OperationCount == ability.OperationCount
-			}
-			if !complete {
-				return failure()
-			}
 		}
 	}
 	for _, listener := range input.Compiled.Listeners {

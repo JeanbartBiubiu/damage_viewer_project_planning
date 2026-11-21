@@ -4,6 +4,8 @@ import (
 	"math"
 	"testing"
 
+	"tinygo_engine_v2/internal/compile"
+
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
@@ -33,6 +35,8 @@ func staticIncomingInitializer(t *testing.T, value float64, typed bool) (Input, 
 }
 
 func admitStaticIncoming(input Input, reads *initialSourceFixture) *model.EngineError {
+	input.Compiled.Formulas = *input.Formulas
+	compile.BuildStaticAdmissionFacts(input.Compiled)
 	return ValidateStaticInitializer(input, input.Compiled.Providers[0], "source", "selected", reads)
 }
 
@@ -153,6 +157,8 @@ func TestStaticIncomingReductionDoesNotOpenDynamicSourcesOrChangeGroupedAmplific
 	input, reads := staticIncomingInitializer(t, 0.9, true)
 	input.Compiled.Providers[1].Lifecycle = &planbundle.CompiledProviderLifecycle{HasDuration: true, MaxStacks: 1,
 		RefreshPolicy: "replace", InstanceScope: model.InstanceScopeSourceTarget}
+	input.Compiled.Formulas = *input.Formulas
+	compile.BuildStaticAdmissionFacts(input.Compiled)
 	issue := ValidateEquipmentDynamicDefinition(input, "source", "selected", "effect", "self")
 	if issue == nil || issue.Message != "equipment dynamic result is outside received-healing ratio-max scope" {
 		t.Fatalf("dynamic reduction changed existing scope or failed before modifier validation: %+v", issue)
@@ -164,7 +170,9 @@ func TestStaticIncomingReductionDoesNotOpenDynamicSourcesOrChangeGroupedAmplific
 	}
 	modifier := &input.Compiled.Providers[1].Modifiers[0]
 	modifier.HasMultiplierGroup, modifier.ValueProgram = true, id
-	if !GroupedDamageSourceModifier(*input.Formulas, *modifier) {
+	input.Compiled.Formulas = *input.Formulas
+	compile.BuildStaticAdmissionFacts(input.Compiled)
+	if !modifier.AdmissionFacts.GroupedDamageSource {
 		t.Fatal("existing grouped amplification was changed")
 	}
 	if issue := admitStaticIncoming(input, reads); issue != nil {

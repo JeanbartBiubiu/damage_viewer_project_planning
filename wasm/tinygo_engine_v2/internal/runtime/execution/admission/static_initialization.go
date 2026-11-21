@@ -42,7 +42,7 @@ func validateStaticInitializationOperation(input Input, listener planbundle.Comp
 	if modifier.HasMaximumReductionRatio && cappedInitializer {
 		return nil
 	}
-	if GroupedDamageSourceModifier(*input.Formulas, modifier) || staticIncomingDamageReductionModifier(*input.Formulas, modifier) {
+	if modifier.AdmissionFacts.GroupedDamageSource || modifier.AdmissionFacts.StaticIncomingReduction {
 		return nil
 	}
 	if !modifier.HasValue || modifier.HasCondition || int(modifier.ValueProgram) >= input.Formulas.Metadata.Count() {

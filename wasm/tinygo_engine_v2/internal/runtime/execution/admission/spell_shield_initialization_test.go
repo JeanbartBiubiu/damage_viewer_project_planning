@@ -2,7 +2,9 @@ package admission
 
 import (
 	"testing"
+
 	"tinygo_engine_v2/internal/base/typeset"
+	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
 )
@@ -40,6 +42,7 @@ func initializedSpellShield(t *testing.T) (Input, *initialSourceFixture) {
 			{Operation: "expire_provider", Target: "self", OwnerProviderIndex: 1, ProviderRefFromEvent: true},
 		},
 	}
+	compile.BuildStaticAdmissionFacts(compiled)
 	input := Input{Compiled: compiled}
 	reads := &initialSourceFixture{input: input, matched: true, provider: InitialProvider{Present: true, DefinitionIndex: 0, DefinitionRef: "parent", Source: "source", Owner: "source", Stacks: 1}}
 	return input, reads
@@ -55,6 +58,7 @@ func TestOwnedSpellShieldInitializationKeepsCompleteFrozenClosure(t *testing.T) 
 	}
 	input.Compiled.Abilities[0].OperationStart = input.Compiled.Listeners[0].OperationStart
 	input.Compiled.Abilities[0].OperationCount = input.Compiled.Listeners[0].OperationCount
+	compile.BuildStaticAdmissionFacts(input.Compiled)
 	if !ownedSpellShieldInitializer(input, input.Compiled.Providers[0], "source", "guard", reads) {
 		t.Fatal("shared inline operation range rejected")
 	}
@@ -103,6 +107,7 @@ func TestOwnedSpellShieldInitializationKeepsCompleteFrozenClosure(t *testing.T) 
 			case "unbound_parent":
 				session.Listeners = nil
 			}
+			compile.BuildStaticAdmissionFacts(session)
 			if ownedSpellShieldInitializer(input, session.Providers[0], "source", "guard", reads) {
 				t.Fatalf("invalid closure accepted: %s", kind)
 			}

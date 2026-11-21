@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"testing"
 
+	"tinygo_engine_v2/internal/compile"
+
 	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
@@ -195,6 +197,8 @@ func TestDynamicFinalAttributeAdmissionKeepsFiniteSelfScope(t *testing.T) {
 	for _, program := range []formula.GenericProgramID{0, 3} {
 		input := dynamicFinalAttributeInput()
 		input.Compiled.Providers[1].Modifiers[2].ValueProgram = program
+		input.Compiled.Formulas = *input.Formulas
+		compile.BuildStaticAdmissionFacts(input.Compiled)
 		if issue := ValidateEquipmentDynamicDefinition(input, "source", "natural", "timed", "self"); issue != nil {
 			t.Fatalf("static final limit in a complete finite self attribute group must pass, program=%d: %+v", program, issue)
 		}
@@ -230,6 +234,8 @@ func TestDynamicFinalAttributeAdmissionKeepsFiniteSelfScope(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			input := dynamicFinalAttributeInput()
 			test.change(&input)
+			input.Compiled.Formulas = *input.Formulas
+			compile.BuildStaticAdmissionFacts(input.Compiled)
 			if issue := ValidateEquipmentDynamicDefinition(input, "source", "natural", "timed", test.target); issue == nil {
 				t.Fatal("invalid or out-of-scope final limit must remain rejected")
 			}

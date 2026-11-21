@@ -271,6 +271,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	ctx.formulas.BindAttributeLayout(session.AttributeLayout)
 	session.FormulaFactReads = compileFormulaFactRequests(&session, &ctx.formulas)
 	session.Formulas = ctx.formulas.Freeze()
+	BuildStaticAdmissionFacts(&session)
 	return GenericCompileResult{
 		OK:      true,
 		Session: session,

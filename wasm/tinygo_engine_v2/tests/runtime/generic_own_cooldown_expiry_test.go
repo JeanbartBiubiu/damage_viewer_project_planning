@@ -3,10 +3,12 @@ package runtime_test
 import (
 	"testing"
 
+	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
+	runtimeengine "tinygo_engine_v2/internal/runtime"
 )
 
-func TestOwnTimedCounterCooldownPublicDeadlineBeforeRecast(t *testing.T) {
+func ownTimedCounterCooldownInput() (model.CompileRequest, model.RunRequest) {
 	c, r := continuousAttackInput(5.0/3.0, 10000, 10, 0, 0, 700)
 	addMixedSpell(&c, &r, "armed", 100, 0, false)
 	ensureC1CatalogTypes(&c, model.TypeCatalogEntry{Key: "state_scope/provider", Domain: "state_scope"})
@@ -35,6 +37,11 @@ func TestOwnTimedCounterCooldownPublicDeadlineBeforeRecast(t *testing.T) {
 	second := r.DriverPlan.SkillActions[0]
 	second.InstructionKey, second.FirstAtMs = "at_expiry", 600
 	r.DriverPlan.SkillActions = append(r.DriverPlan.SkillActions, second)
+	return c, r
+}
+
+func TestOwnTimedCounterCooldownPublicDeadlineBeforeRecast(t *testing.T) {
+	c, r := ownTimedCounterCooldownInput()
 	done := authoringRun(t, c, r)
 	if done.Summary.SkillActions.AcceptedCount != 1 || done.Summary.SkillActions.RejectedCount != 1 || len(done.SkillActionRecords) != 2 || done.SkillActionRecords[1].Reason == nil || *done.SkillActionRecords[1].Reason != "cooldown_not_ready" {
 		t.Fatal(done.Summary, done.SkillActionRecords)
@@ -43,9 +50,48 @@ func TestOwnTimedCounterCooldownPublicDeadlineBeforeRecast(t *testing.T) {
 		if actor.Key != "source" {
 			continue
 		}
-		cooldown, present := actor.Cooldowns[initialRef].(map[string]interface{})
+		cooldown, present := actor.Cooldowns[r.DriverPlan.SkillActions[0].AbilityRef].(map[string]interface{})
 		if !present || cooldown["readyAtMs"] != int64(1300) {
 			t.Fatal(actor.Cooldowns)
 		}
+	}
+}
+
+func TestCooldownExpiryAdmissionKeepsCompileAndRunFirstErrorOrder(t *testing.T) {
+	for _, scenario := range []struct {
+		name, path, message               string
+		extraModifier, invalidInstruction bool
+	}{
+		{name: "complete_source"},
+		{name: "static_modifier", extraModifier: true, path: "initialSnapshot.combatants.providers", message: "cooldown expiry source requires its actual owned INITIAL and complete finite state closure"},
+		{name: "earlier_manual_instruction", extraModifier: true, invalidInstruction: true, path: "driverPlan.skillActions[0]", message: "invalid unique instruction, parent, timing or target"},
+	} {
+		t.Run(scenario.name, func(t *testing.T) {
+			c, r := ownTimedCounterCooldownInput()
+			if scenario.extraModifier {
+				c.SharedProviders[1].Modifiers = []model.ModifierDefinition{{
+					ModifierKey: "extra_flat_damage", Kind: "attribute", Target: "self.attr.attack_damage", ValuePolicy: "add", Value: authoringConst(1),
+				}}
+			}
+			if scenario.invalidInstruction {
+				r.DriverPlan.SkillActions[0].InstructionKey = ""
+			}
+			compiled := compilebundle.CompileGeneric(c)
+			if !compiled.OK {
+				t.Fatalf("compile rejected the run-admission fixture: %+v", compiled.Result.Errors)
+			}
+			r.ExpectedRulesHash = compiled.Session.RulesHash
+			_, err := runtimeengine.RunGeneric(compiled.Session, r)
+			if scenario.path == "" {
+				if err != nil {
+					t.Fatalf("valid source rejected: %+v", err)
+				}
+				return
+			}
+			if err == nil || err.Phase != model.GenericPhaseRun || err.Code != model.GenericErrRuntimeInvariantFailed ||
+				err.Path != scenario.path || err.Message != scenario.message || err.BudgetCause != "" {
+				t.Fatalf("unexpected first run error: %+v", err)
+			}
+		})
 	}
 }
