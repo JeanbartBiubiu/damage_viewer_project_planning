@@ -14,9 +14,9 @@ func TestPreparedDamageStateFactsKeepReadOrderAndFrozenZero(t *testing.T) {
 		run: &Engine{compiled: planbundle.CompiledSession{DamageStateReaders: []planbundle.CompiledDamageStateReader{
 			{Owner: "source", ProviderRef: "own", StateKey: "mark"},
 		}}},
-		ownerCombatantKey: "source", ownerProviderRef: "own",
-		eventCtx: &eventFormulaSnapshot{EventType: eventTypeDamageInstance, EventSourceKey: "source", EventTargetKey: "target", DamageID: 1,
-			DamageStateBefore: []frozenDamageStateBefore{{Reader: 0, Value: 0}, {Reader: ^uint16(0), Value: 9}}},
+		evalScope: evalScope{ownerCombatantKey: "source", ownerProviderRef: "own",
+			eventCtx: &eventFormulaSnapshot{EventType: eventTypeDamageInstance, EventSourceKey: "source", EventTargetKey: "target", DamageID: 1,
+				DamageStateBefore: []frozenDamageStateBefore{{Reader: 0, Value: 0}, {Reader: ^uint16(0), Value: 9}}}},
 	}
 	facts := f.prepareFormulaFacts([]formula.FactRequest{request, missing})
 	if value, err, exists := facts.Lookup(request); !exists || err != nil || value != 0 {
@@ -60,9 +60,9 @@ func TestPreparingTwoFrozenStateFactsDoesNotAllocate(t *testing.T) {
 	f := Frame{run: &Engine{compiled: planbundle.CompiledSession{DamageStateReaders: []planbundle.CompiledDamageStateReader{
 		{Owner: "source", ProviderRef: "own", StateKey: "mark"},
 		{Owner: "source", ProviderRef: "own", StateKey: "count"},
-	}}}, ownerCombatantKey: "source", ownerProviderRef: "own",
+	}}}, evalScope: evalScope{ownerCombatantKey: "source", ownerProviderRef: "own",
 		eventCtx: &eventFormulaSnapshot{EventType: eventTypeDamageInstance, EventSourceKey: "source", EventTargetKey: "target", DamageID: 1,
-			DamageStateBefore: []frozenDamageStateBefore{{Reader: 0, Value: 0}, {Reader: 1, Value: 2}}}}
+			DamageStateBefore: []frozenDamageStateBefore{{Reader: 0, Value: 0}, {Reader: 1, Value: 2}}}}}
 	if allocations := testing.AllocsPerRun(100, func() {
 		facts := f.prepareFormulaFacts(requests)
 		if value, err, exists := facts.Lookup(requests[1]); !exists || err != nil || value != 2 {

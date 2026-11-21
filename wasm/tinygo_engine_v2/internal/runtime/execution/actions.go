@@ -43,8 +43,6 @@ type gateConditionBridge struct {
 	ref            string
 }
 
-type pendingCooldownAttempt = actionflow.CooldownAttempt
-
 type gateCheckResult struct {
 	err        *model.EngineError
 	skipped    bool
@@ -152,12 +150,7 @@ func (state *Engine) actionReadyAt(owner string) int64 {
 }
 
 func (frame *Frame) prepareActionWait() *model.EngineError {
-	if frame.pendingProcess == nil {
-		return nil
-	}
-	changed, err := frame.run.processFlowExecutor().PrepareOccupancy(frame.processChanges, frame.processOriginal, frame.run.loop.TimeMs())
-	frame.pendingActionWait = changed
-	return err
+	return frame.actionFrame.PrepareOccupancy(frame.run.processFlowExecutor(), frame.run.loop.TimeMs())
 }
 
 func (state *Engine) actionContribution(start, end int64) *int64 {
@@ -170,12 +163,13 @@ func (state *Engine) refreshActionContributions() {
 
 func (frame *Frame) validatePlannedProcessDeadline() *model.EngineError {
 	ready := int64(0)
-	if process := frame.pendingProcess; process != nil {
+	process := frame.actionFrame.Process()
+	if process != nil {
 		if staged := frame.staged.Get(process.Owner()); staged != nil {
 			ready = staged.cooldowns.AbilityReadyAt(process.Owner(), process.AbilityRef())
 		}
 	}
-	return frame.run.skillActionFlowExecutor().ValidateDeadline(frame.pendingProcess, ready)
+	return frame.run.skillActionFlowExecutor().ValidateDeadline(process, ready)
 }
 
 func (state *Engine) freezeActionDeaths() {
@@ -290,7 +284,7 @@ func (bridge automaticChoiceBridge) CandidateProcessChecks(rule *actionpkg.Autom
 	if err != nil || !allowed {
 		return allowed, false, err
 	}
-	affordable, err := s.processFlowExecutor().PrepareCosts(frame.processChanges, processAmountBridge{frame: &frame}, false)
+	affordable, err := s.processFlowExecutor().PrepareCosts(frame.activeProcessChanges, processAmountBridge{frame: &frame}, false)
 	return true, affordable, err
 }
 
@@ -390,14 +384,14 @@ func (bridge recastBridge) CommitRecastAcceptance(process *actionpkg.ProcessView
 	s := bridge.engine
 	var frame Frame
 	s.initProcessFrame(&frame, process)
-	return s.processFlowExecutor().ExecuteRecastAcceptance(process, frame.processChanges, ability, ref, use, advance, s.loop.TimeMs(), (*processMomentBridge)(&frame))
+	return s.processFlowExecutor().ExecuteRecastAcceptance(process, frame.activeProcessChanges, ability, ref, use, advance, s.loop.TimeMs(), (*processMomentBridge)(&frame))
 }
 
 func (bridge recastBridge) CommitRecastExecution(process *actionpkg.ProcessView) *model.EngineError {
 	s := bridge.engine
 	var frame Frame
 	s.initProcessFrame(&frame, process)
-	return s.processFlowExecutor().ExecuteRecastExecution(process, frame.processChanges, s.loop.TimeMs(), s.compiled.Operations, (*processMomentBridge)(&frame))
+	return s.processFlowExecutor().ExecuteRecastExecution(process, frame.activeProcessChanges, s.loop.TimeMs(), s.compiled.Operations, (*processMomentBridge)(&frame))
 }
 
 func (bridge plannedSourceBridge) StaticSourceListener(listener planbundle.CompiledListener) *model.EngineError {
@@ -707,9 +701,9 @@ func whileReadyCooldownWaitKey(owner, entry string) actionpkg.CooldownWaitKey {
 // 冷却改期与自动候选在状态发布前预留容量，发布后只执行已通过预检的队列修改。
 func (f *Frame) prepareCooldownWakeups() (int, *model.EngineError) {
 	executor := f.run.skillActionFlowExecutor()
-	plan, err := executor.PrepareCooldownWake(f.pendingProcess, f.processIsNew)
+	plan, err := executor.PrepareCooldownWake(f.actionFrame.Process(), f.actionFrame.StartsProcess())
 	if err == nil && f.staged != nil {
-		attackHandled := f.pendingBasicAttackWait != nil || f.hasPendingBasicAttackAmmo() || f.pendingActionWait
+		attackHandled := f.actionFrame.HasAttackWaitChange(f.basicAttackAmmo())
 		actorsAlive := f.continuousCombatantsLive()
 		// 保留原Range的内联插入顺序，再遍历额外拥有者；不创建每帧回调或适配对象。
 		for index := 0; index < f.staged.count; index++ {
@@ -720,7 +714,7 @@ func (f *Frame) prepareCooldownWakeups() (int, *model.EngineError) {
 			plan = executor.AccumulateCooldownWake(plan, staged.cooldowns.ChangedWaits(f.run.combatants[owner].cooldowns), attackHandled, actorsAlive, f.run.req.DriverPlan.Entries)
 		}
 	}
-	f.pendingAutomaticWake, f.pendingBasicAttackCooldownWake, f.pendingCooldownAttempts = plan.Automatic, plan.BasicAttack, plan.Attempts
+	f.actionFrame.StageCooldownWake(plan)
 	if err != nil {
 		return 0, err
 	}
@@ -740,7 +734,8 @@ func (f *Frame) prepareCooldownWakeups() (int, *model.EngineError) {
 }
 
 func (f *Frame) commitCooldownWakeups() {
-	if f.pendingBasicAttackCooldownWake && f.continuousCombatantsLive() {
+	automatic, attackWake := f.actionFrame.CooldownWakeFlags()
+	if attackWake && f.continuousCombatantsLive() {
 		attack := f.run.actions.BasicAttack()
 		if wait, exists := f.run.combatants[attack.Plan().Source].cooldowns.Wait(basicAttackCooldownWaitKey(attack)); exists {
 			if !f.run.loop.RescheduleBasicAttack(wait.ReadyAt, wait.Version) {
@@ -749,13 +744,14 @@ func (f *Frame) commitCooldownWakeups() {
 			}
 		}
 	}
-	for _, pending := range f.pendingCooldownAttempts {
+	for i := 0; i < f.actionFrame.CooldownAttemptCount(); i++ {
+		pending := f.actionFrame.CooldownAttemptAt(i)
 		if f.run.loop.RescheduleCooldownAttempt(pending.Entry, pending.Wait.ReadyAt, pending.Wait.Version) {
 			continue
 		}
 		f.run.pushCombatEvent(scheduler.GenericEvent{TimeMs: pending.Wait.ReadyAt, Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventAbilityAttempt, DriverEntryIndex: pending.Entry, CooldownWaitVersion: pending.Wait.Version})
 	}
-	if f.pendingAutomaticWake {
+	if automatic {
 		f.run.queueAutomaticSkills(f.run.loop.TimeMs())
 	}
 }
@@ -1141,10 +1137,10 @@ func validateImmediatePeriodicRefundFreshSnapshot(compiled planbundle.CompiledSe
 
 func (f *Frame) validateImmediatePeriodicApplication(operation planbundle.CompiledOperation) *model.EngineError {
 	expectedTarget := ""
-	if f.pendingProcess != nil {
-		expectedTarget = opponentCombatantKey(f.pendingProcess.Owner())
+	if f.activeProcess != nil {
+		expectedTarget = opponentCombatantKey(f.activeProcess.Owner())
 	}
-	return f.run.skillActionFlowExecutor().ValidateImmediatePeriod(operation, f.pendingProcess, f.processMomentKind, f.ownerCombatantKey, f.ownerProviderRef, expectedTarget, f.run.compiled.Features.Has(planbundle.FeatureImmediatePeriodic))
+	return f.run.skillActionFlowExecutor().ValidateImmediatePeriod(operation, f.activeProcess, f.processMomentKind, f.ownerCombatantKey, f.ownerProviderRef, expectedTarget, f.run.compiled.Features.Has(planbundle.FeatureImmediatePeriodic))
 }
 
 func (s *Engine) bindImmediatePeriodicUse(owner, source, definition, use string) {

@@ -131,18 +131,19 @@ func (f *Frame) prepareAndValidateCommit(keyBuffer []string) ([]string, int, *mo
 		return nil, 0, cooldownError
 	}
 	count += cooldownEvents
-	for _, pending := range f.pendingAmmoWaits {
-		if pending.wait.Active && f.ammoCombatantsLive(pending.ammo) {
+	for i := 0; i < f.actionFrame.AmmoWaitCount(); i++ {
+		ammo, wait := f.actionFrame.AmmoWaitAt(i)
+		if wait.Active && f.ammoCombatantsLive(ammo) {
 			count++
 		}
 	}
 	if f.providerTickCanContinue() {
 		count++
 	}
-	if f.pendingProcessTimer {
+	if f.actionFrame.ProcessTimer() != nil {
 		count++
 	}
-	count += f.pendingPassiveProcesses.Len()
+	count += f.actionFrame.PassiveProcessCount()
 	return keys, count, nil
 }
 
@@ -210,10 +211,10 @@ func (f *Frame) commitFrameQueues() {
 		f.run.enqueueProviderTickAt(pending.at, pending.owner, pending.provider, pending.intervalMs, pending.expireAt, pending.activatedAt)
 	}
 	f.enqueueCommittedTimedShields()
-	if f.pendingProcessTimer && f.run.processFailure == nil {
-		f.run.recordFirstProcessFailure(f.run.enqueueProcessTimer(f.processOriginal))
+	if process := f.actionFrame.ProcessTimer(); process != nil && f.run.processFailure == nil {
+		f.run.recordFirstProcessFailure(f.run.enqueueProcessTimer(process))
 	}
-	for i := 0; i < f.pendingPassiveProcesses.Len() && f.run.processFailure == nil; i++ {
-		f.run.recordFirstProcessFailure(f.run.enqueueProcessTimer(f.pendingPassiveProcesses.At(i)))
+	for i := 0; i < f.actionFrame.PassiveProcessCount() && f.run.processFailure == nil; i++ {
+		f.run.recordFirstProcessFailure(f.run.enqueueProcessTimer(f.actionFrame.PassiveProcessAt(i)))
 	}
 }

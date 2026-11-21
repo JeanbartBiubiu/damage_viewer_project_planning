@@ -43,7 +43,7 @@ func TestPassiveProcessFrameQueueFailurePublishesNoInstanceOrTimer(t *testing.T)
 			t.Fatal(err)
 		}
 	}
-	if f.pendingPassiveProcesses.At(0).UseKey() == f.pendingPassiveProcesses.At(1).UseKey() {
+	if f.actionFrame.PassiveProcessAt(0).UseKey() == f.actionFrame.PassiveProcessAt(1).UseKey() {
 		t.Fatal("same original use overwritten")
 	}
 	s.loop.SetQueueLimit(1)
@@ -56,11 +56,10 @@ func TestPassiveProcessFrameQueueFailurePublishesNoInstanceOrTimer(t *testing.T)
 func TestPassiveProcessFrameInstanceBudgetIncludesUnpublishedOrdinaryStart(t *testing.T) {
 	s, f, ability, operation := passiveFrameFixture(t)
 	ordinary := actionpkg.NewProcess(actionpkg.ProcessSeed{Snapshot: model.ProcessInstanceSnapshot{Owner: "source", ProviderRef: "caster", ProcessKey: "cast", SkillKey: "configured_spell", UseKey: "ordinary", Target: "target", Status: "active"}, Definition: &s.compiled.Providers[0].Processes[0], StepIndex: -1})
-	f.processOriginal, f.processIsNew = ordinary, true
-	f.processChanges = actionpkg.StageProcess(ordinary)
-	f.pendingProcess = f.processChanges.View()
+	f.actionFrame.StageProcess(ordinary, actionpkg.StageProcess(ordinary))
+	f.actionFrame.MarkProcessStart()
 	s.budget.MaxProcessInstances = 1
-	if err := f.stagePassiveProcess(ability, operation); err == nil || err.BudgetCause != model.BudgetCauseMaxProcessInstances || f.pendingPassiveProcesses.Len() != 0 || s.actions.ProcessCount() != 0 {
+	if err := f.stagePassiveProcess(ability, operation); err == nil || err.BudgetCause != model.BudgetCauseMaxProcessInstances || f.actionFrame.PassiveProcessCount() != 0 || s.actions.ProcessCount() != 0 {
 		t.Fatal("same-frame ordinary start was omitted from budget", err)
 	}
 	s.budget.MaxProcessInstances = 2

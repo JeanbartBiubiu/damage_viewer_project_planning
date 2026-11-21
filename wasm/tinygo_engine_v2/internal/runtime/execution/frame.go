@@ -45,72 +45,74 @@ type stagedCombatant struct {
 	dirty bool
 }
 
-// Frame 拥有单次操作的暂存投影与待提交事实，提交仍由执行协调统一完成。
-type Frame struct {
-	pendingAmountBudgets           []usage.AmountReservation
-	numeric                        operation.Frame
-	readsDamageStateBefore         bool
-	pendingTargetMark              model.TargetMarkSummary
-	effectProjection               lifecycle.Projection
-	empowered                      *empoweredFrame
-	empoweredAttack                *model.ProcessEmpoweredAttack
-	pendingAutomaticWake           bool
-	pendingBasicAttackCooldownWake bool
-	pendingCooldownAttempts        []pendingCooldownAttempt
-	pendingAmmoWaits               []pendingAmmoRecovery
-	pendingAmmoCapture             *ammoUseCapture
-	pendingMechanicRecords         []model.MechanicRecord
-	pendingBasicAttackWait         *actionpkg.AttackWaitView
-	pendingActionWait              bool
-	processUseKey                  string
-	processCastPhase               string
-	recastExecutionCommitted       bool
-	processUseSkillKey             string
-	processUseSource               string
-	damageDefenseContext           *formula.GenericEvalContext
-	processActualCosts             model.NumericView
-	processCostReadable            bool
-	processMomentKind              string
-	run                            *Engine
-	frameID                        uint64
-	sourceKey                      string
-	targetKey                      string
-	abilityRef                     string
-	ownerCombatantKey              string // mounted provider owner; distinct from event/op sourceKey
-	ownerProviderRef               string
-	mountedListener                bool
-	strictReads                    bool
+// evalScope 保存当前同步执行的身份及只读输入，独立于帧级暂存。
+type evalScope struct {
+	sourceKey                string
+	targetKey                string
+	abilityRef               string
+	ownerCombatantKey        string // 实际挂载拥有者，可以与事件或操作来源不同。
+	ownerProviderRef         string
+	mountedListener          bool
+	strictReads              bool
+	borrowedOperationOutputs bool
 
-	// castInstanceID / castOrigin：同一次施放的身份与来源；多 op / delayed / listener ops 继承。
-	castInstanceID uint64
-	castOrigin     string
-
-	staged *frameStagedCollection
-
-	// entry_*：本 frame 创建时、cost/CD/operations 前的不可变深拷贝（供本 frame 后续 emit 使用）。
+	// 入口视图在真实帧或强化负载入口冻结。
 	entrySourceAttrs     attribute.Table
 	entryTargetAttrs     attribute.Table
 	entrySourceResources model.ResourceView
 	entryTargetResources model.ResourceView
+	eventCtx             *eventFormulaSnapshot
+	skillHitCandidateKey string
+	skillHitOccurrenceID uint64
+	skipBlockedWrites    bool
+	rootSkillHitDamage   bool // 仅由本次根命中候选继承。
 
-	// eventCtx：listener / child ability 继承的原始 event 快照；nil 表示无 event context。
-	eventCtx *eventFormulaSnapshot
+	// 同次施放的身份及来源由多操作、延迟和监听执行继承。
+	castInstanceID uint64
+	castOrigin     string
+
+	processUseKey         string
+	processUseSource      string
+	processUseSkillKey    string
+	processCastPhase      string
+	processMomentKind     string
+	activeProcess         *actionpkg.ProcessView
+	activeProcessOriginal *actionpkg.ProcessView
+	activeProcessChanges  *actionpkg.ProcessChangeSet
+	processActualCosts    model.NumericView
+	processCostReadable   bool
+	empoweredAttack       *model.ProcessEmpoweredAttack
+
+	damageDefenseContext *formula.GenericEvalContext
+}
+
+// Frame 拥有单次操作的暂存投影与待提交事实，提交仍由执行协调统一完成。
+type Frame struct {
+	evalScope
+	actionFrame            actionflow.Frame
+	pendingAmountBudgets   []usage.AmountReservation
+	numeric                operation.Frame
+	readsDamageStateBefore bool
+	pendingTargetMark      model.TargetMarkSummary
+	effectProjection       lifecycle.Projection
+	empowered              *empoweredFrame
+	pendingMechanicRecords []model.MechanicRecord
+	run                    *Engine
+	frameID                uint64
+
+	staged *frameStagedCollection
 
 	commandCount int
 	chainDepth   int
-	// rootSkillHitDamage 仅由本次根 resolve_skill_hit 的候选继承，不能由监听或旧命中上下文推导。
-	rootSkillHitDamage bool
-	fatal              bool
-	fatalErr           *model.EngineError
+
+	fatal    bool
+	fatalErr *model.EngineError
 
 	pendingEvents []emittedEvent
 
 	// copyableCollector：单次 emitted event / dispatchListeners 局部上下文；禁止挂到 Engine。
-	copyableCollector    *eventCopyableCollector
-	driverEntryKey       string
-	skipBlockedWrites    bool
-	skillHitCandidateKey string
-	skillHitOccurrenceID uint64
+	copyableCollector *eventCopyableCollector
+	driverEntryKey    string
 
 	pendingShieldExpires []pendingShieldExpire
 	committed            bool
@@ -118,22 +120,16 @@ type Frame struct {
 	pendingEvidenceKinds []model.EvidenceKind
 	pendingSkillHits     []committedSkillActionHit
 
-	pendingContinuation     continuation.Pending
-	pendingStateExpiry      []pendingFrameStateExpiry
-	pendingAnchoredTicks    []pendingFrameAnchoredTick
-	pendingProviderTick     *pendingFrameProviderTick
-	providerDefinitionRef   string
-	providerActivatedAtMs   *int64
-	damageOwnerKey          string
-	pendingProcess          *actionpkg.ProcessView
-	pendingPassiveProcesses actionflow.PassiveProcessStarts
-	processChanges          *actionpkg.ProcessChangeSet
-	processOriginal         *actionpkg.ProcessView
-	processIsNew            bool
-	pendingProcessTimer     bool
-	countCastOnCommit       bool
-	castStatRef             string
-	statRef                 string
+	pendingContinuation   continuation.Pending
+	pendingStateExpiry    []pendingFrameStateExpiry
+	pendingAnchoredTicks  []pendingFrameAnchoredTick
+	pendingProviderTick   *pendingFrameProviderTick
+	providerDefinitionRef string
+	providerActivatedAtMs *int64
+	damageOwnerKey        string
+	countCastOnCommit     bool
+	castStatRef           string
+	statRef               string
 }
 
 type frameStagedEntry struct {
@@ -272,12 +268,10 @@ func (s *Engine) initExecutionFrame(f *Frame, sourceKey, targetKey, abilityRef s
 	s.operations = operation.New(&s.compiled, &s.formulas, s.req.SessionID, s.detailedOutput())
 	s.nextFrameID++
 	*f = Frame{
-		run:        s,
-		frameID:    s.nextFrameID,
-		sourceKey:  sourceKey,
-		targetKey:  targetKey,
-		abilityRef: abilityRef,
-		staged:     &frameStagedCollection{},
+		run:       s,
+		frameID:   s.nextFrameID,
+		evalScope: evalScope{sourceKey: sourceKey, targetKey: targetKey, abilityRef: abilityRef},
+		staged:    &frameStagedCollection{},
 	}
 	f.captureEntrySnapshots()
 }

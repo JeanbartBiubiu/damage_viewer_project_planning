@@ -2,6 +2,7 @@
 package execution
 
 import (
+	"maps"
 	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
@@ -237,6 +238,11 @@ func (r *operationReads) PrepareNumericOperation(op *planbundle.CompiledOperatio
 		return true, nil
 	}
 
+	// 同帧执行先借读外层输出；通过条件及阻挡检查的命名伤害才分离映射。
+	if f.borrowedOperationOutputs && op.Operation == "damage" && op.OutputRef != "" {
+		f.numeric.SetOutputs(maps.Clone(f.numeric.Outputs()))
+		f.borrowedOperationOutputs = false
+	}
 	return false, nil
 }
 

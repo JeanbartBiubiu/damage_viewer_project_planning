@@ -18,26 +18,6 @@ type PassiveProcessStart struct {
 	OriginAbility                       planbundle.CompiledAbility
 }
 
-type PassiveProcessStartsAPI interface {
-	// Append接收已核定的新过程，借用至当前帧统一发布；失败帧丢弃全部未发布项。
-	Append(process *actionpkg.ProcessView)
-	// Len返回当前帧预约数，供同一实例和队列预算预检。
-	Len() int
-	// At按原操作顺序借用已核定过程，仅供统一发布和入队。
-	At(index int) *actionpkg.ProcessView
-}
-
-// PassiveProcessStarts由原操作帧独占；仅保存未发布过程，不持有队列。
-type PassiveProcessStarts struct{ processes []*actionpkg.ProcessView }
-
-var _ PassiveProcessStartsAPI = (*PassiveProcessStarts)(nil)
-
-func (p *PassiveProcessStarts) Append(process *actionpkg.ProcessView) {
-	p.processes = append(p.processes, process)
-}
-func (p *PassiveProcessStarts) Len() int                            { return len(p.processes) }
-func (p *PassiveProcessStarts) At(index int) *actionpkg.ProcessView { return p.processes[index] }
-
 func (s ProcessExecutor) PreparePassiveProcess(input PassiveProcessStart, ability planbundle.CompiledAbility, operation planbundle.CompiledOperation, providers []planbundle.CompiledProvider, reads NativeProcessReads) (*actionpkg.ProcessView, *model.EngineError) {
 	bad := func(message string) (*actionpkg.ProcessView, *model.EngineError) {
 		return nil, s.error(operation.Path, message, input.AbilityRef)

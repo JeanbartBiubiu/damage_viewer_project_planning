@@ -441,7 +441,7 @@ func TestActiveAmmoInactiveRefundDoesNotEvaluateAndInvalidAmountIsAtomic(t *test
 			t.Fatal("inactive timer evaluated invalid amount", amount, err)
 		}
 		s.actions.PublishAmmoWait(ammo, actionpkg.AmmoWait{Active: true, ReadyAt: 2000, Generation: 1})
-		if err = inactive.applyStateDurationChange(s.compiled.Operations[opIndex], ammo.Ability()); err == nil || len(inactive.pendingAmmoWaits) != 0 || ammo.Wait().ReadyAt != 2000 {
+		if err = inactive.applyStateDurationChange(s.compiled.Operations[opIndex], ammo.Ability()); err == nil || inactive.actionFrame.AmmoWaitCount() != 0 || ammo.Wait().ReadyAt != 2000 {
 			t.Fatal("invalid refund changed active timer", amount, err, ammo.Wait())
 		}
 	}

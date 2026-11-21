@@ -15,12 +15,6 @@ import (
 	"tinygo_engine_v2/internal/runtime/execution/usage"
 )
 
-type attachedListenerBinding struct {
-	owner, provider, source, target, ability string
-	context                                  *eventFormulaSnapshot
-	beforeDamage, beforeHealing              float64
-}
-
 type skillUseRuntime struct {
 	identity            *actionpkg.UseView
 	providerStateBefore actionflow.AttackCapture
@@ -122,10 +116,12 @@ func (f *hitFrameHost) HitParticipation(program formula.GenericProgramID, abilit
 	if !f.run.processMounted(f.sourceKey, provider, definition) {
 		return 0, false, nil
 	}
-	savedOwner, savedProvider := f.ownerCombatantKey, f.ownerProviderRef
-	f.ownerCombatantKey, f.ownerProviderRef = f.sourceKey, provider
-	value, err := (*Frame)(f).evalSkillHitParticipation(program, ability)
-	f.ownerCombatantKey, f.ownerProviderRef = savedOwner, savedProvider
+	frame := (*Frame)(f)
+	next := frame.evalScope
+	next.ownerCombatantKey, next.ownerProviderRef = frame.sourceKey, provider
+	saved := frame.pushEvalScope(next)
+	value, err := frame.evalSkillHitParticipation(program, ability)
+	frame.restoreEvalScope(saved)
 	return value, true, err
 }
 
@@ -223,8 +219,8 @@ func (f *hitFrameHost) AttachedBlocked(context *hit.Context, replacesPrimary boo
 	return (*Frame)(f).stageEmpoweredSpellShield(context)
 }
 
-func (f *hitFrameHost) BeginEmpoweredProcess(changes *actionpkg.ProcessChangeSet, target string, association *model.ProcessEmpoweredAttack) empoweredContextBinding {
-	return (*Frame)(f).bindEmpoweredContext(changes, target, changes.View().Ability(), association)
+func (f *hitFrameHost) BeginEmpoweredProcess(original *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, target string, association *model.ProcessEmpoweredAttack) evalBinding {
+	return (*Frame)(f).bindEmpoweredContext(original, changes, target, changes.View().Ability(), association)
 }
 
 func (f *hitFrameHost) EmpoweredOwnerLive(owner, provider string, definition uint16) bool {
@@ -270,7 +266,6 @@ func (f *hitFrameHost) StageEmpoweredResult(original *actionpkg.ProcessView, cha
 
 func (host *hitFrameHost) CommitEmpoweredGroup() *model.EngineError {
 	f := (*Frame)(host)
-	f.pendingProcess = nil
 	f.commit()
 	if f.fatal {
 		return f.fatalErr
@@ -300,21 +295,23 @@ func (f *listenerFrameHost) ListenerMountLive(definition planbundle.CompiledList
 	return f.run.listenerStillLive(definition)
 }
 
-func (f *listenerFrameHost) BeginAttachedListener(snapshot *eventFormulaSnapshot, definition planbundle.CompiledListener, ability planbundle.CompiledAbility, source, target string) attachedListenerBinding {
-	saved := attachedListenerBinding{owner: f.ownerCombatantKey, provider: f.ownerProviderRef, source: f.sourceKey, target: f.targetKey,
-		ability: f.abilityRef, context: f.eventCtx, beforeDamage: f.numeric.Facts().Damage, beforeHealing: f.numeric.Facts().Healing}
-	f.sourceKey, f.targetKey = source, target
-	f.ownerCombatantKey, f.ownerProviderRef, f.eventCtx, f.abilityRef = definition.OwnerCombatantKey, definition.OwnerProviderRef, snapshot, "listener:"+definition.ListenerKey
-	return saved
+func (host *listenerFrameHost) BeginAttachedListener(snapshot *eventFormulaSnapshot, definition planbundle.CompiledListener, ability planbundle.CompiledAbility, source, target string) evalBinding {
+	f := (*Frame)(host)
+	next := f.evalScope
+	next.sourceKey, next.targetKey = source, target
+	next.ownerCombatantKey, next.ownerProviderRef = definition.OwnerCombatantKey, definition.OwnerProviderRef
+	next.eventCtx, next.abilityRef = snapshot, "listener:"+definition.ListenerKey
+	next.borrowedOperationOutputs = true
+	return f.pushEvalScope(next)
 }
 
-func (f *listenerFrameHost) EndAttachedListener(binding attachedListenerBinding, executed bool) {
+func (host *listenerFrameHost) EndAttachedListener(saved evalBinding, executed bool) {
+	f := (*Frame)(host)
 	if executed {
-		f.empowered.RecordOutput(f.abilityRef, f.numeric.Facts().Damage-binding.beforeDamage, f.numeric.Facts().Healing-binding.beforeHealing)
-		f.numeric.SetTotals(binding.beforeDamage, binding.beforeHealing)
+		f.recordBoundEmpoweredOutput(saved)
+		f.numeric.SetTotals(saved.beforeDamage, saved.beforeHealing)
 	}
-	f.ownerCombatantKey, f.ownerProviderRef, f.eventCtx, f.abilityRef = binding.owner, binding.provider, binding.context, binding.ability
-	f.sourceKey, f.targetKey = binding.source, binding.target
+	f.restoreEvalScope(saved)
 }
 
 func (host *listenerFrameHost) AttachedListenerCondition(definition planbundle.CompiledListener, ability planbundle.CompiledAbility) (bool, *model.EngineError) {
@@ -366,16 +363,15 @@ func (s *hitEngineHost) PrimaryActivationHistory(use string) hit.ActivationHisto
 	return (*Engine)(s).empoweredActivationHistory(use)
 }
 
-func (host *hitFrameHost) QueuePrimaryDamage(event emittedEvent, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack, payload, parent planbundle.CompiledAbility, rootDamage bool) {
+func (host *hitFrameHost) QueuePrimaryDamage(event emittedEvent, original *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack, payload, parent planbundle.CompiledAbility, rootDamage bool) {
 	f := (*Frame)(host)
 	p := changes.View()
-	saved := f.bindEmpoweredContext(changes, association.Target, payload, association)
+	saved := f.bindEmpoweredContext(original, changes, association.Target, payload, association)
 	f.eventCtx = cloneEventSnapshot(&event.snapshot)
 	f.eventCtx.HasUse, f.eventCtx.UseKey, f.eventCtx.UseSource, f.eventCtx.UseSkillKey = true, p.UseKey(), p.Owner(), p.SkillKey()
 	f.rootSkillHitDamage = rootDamage
 	f.maybeQueueDamageDealtEvent(parent)
-	f.rootSkillHitDamage = false
-	host.EndEmpoweredProcess(saved)
+	host.EndEmpoweredProcess(saved, nil)
 }
 
 func (s *Engine) hitIdentity() hit.Identity {

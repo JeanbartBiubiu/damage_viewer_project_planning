@@ -172,12 +172,12 @@ func TestProcessIdentityCacheStartRestoreAndFailedFrameIsolation(t *testing.T) {
 			}
 			var frame Frame
 			restoredState.initProcessFrame(&frame, restored)
-			pending := frame.pendingProcess
+			pending := frame.activeProcess
 			if pending.MountKey() != restored.MountKey() || pending.StableKey() != restored.StableKey() {
 				t.Fatal("process frame copy discarded identity cache")
 			}
-			frame.processChanges.Finish("failed", "ACTIVE_CANCELLED", restoredState.loop.TimeMs())
-			frame.processChanges.SetActualCost("audit", 1)
+			frame.activeProcessChanges.Finish("failed", "ACTIVE_CANCELLED", restoredState.loop.TimeMs())
+			frame.activeProcessChanges.SetActualCost("audit", 1)
 			frame.fatal = true
 			frame.commit()
 			if restored.Status() != "active" || restored.ActualCosts()["audit"] != 0 || restored.StableKey() != started.StableKey() {

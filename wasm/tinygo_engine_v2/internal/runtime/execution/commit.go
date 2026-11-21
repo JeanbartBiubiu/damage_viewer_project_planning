@@ -104,18 +104,15 @@ func (f *Frame) publishCommit(keys []string) *model.EngineError {
 			f.run.combatants[key] = c
 		}
 	}
-	if f.pendingProcess != nil {
-		f.processChanges.Publish(f.processOriginal)
-		if f.processIsNew {
-			f.run.actions.AddProcess(f.processOriginal)
-		}
-		f.run.updateEmpoweredWait(f.processOriginal)
+	if process := f.actionFrame.ProcessOriginal(); process != nil {
+		f.actionFrame.PublishProcess(&f.run.actions)
+		f.run.updateEmpoweredWait(process)
 	}
 	if f.empowered != nil {
 		f.commitEmpoweredProcesses()
 	}
-	for i := 0; i < f.pendingPassiveProcesses.Len(); i++ {
-		f.run.actions.AddProcess(f.pendingPassiveProcesses.At(i))
+	for i := 0; i < f.actionFrame.PassiveProcessCount(); i++ {
+		f.run.actions.AddProcess(f.actionFrame.PassiveProcessAt(i))
 	}
 	f.run.freezeActionDeaths()
 	f.commitFrameQueues()
@@ -205,15 +202,16 @@ func (f *Frame) recordOverheal(source string, amount float64) { f.numeric.AddOve
 func (f *Frame) commitFrameFacts() {
 	f.committed = true
 	f.commitTargetMarkSummary()
-	if f.processIsNew && f.processOriginal != nil {
-		f.run.publishSkillActionStart(f.processOriginal)
+	process := f.actionFrame.ProcessOriginal()
+	if f.actionFrame.StartsProcess() && process != nil {
+		f.run.publishSkillActionStart(process)
 	}
-	if f.processOriginal != nil {
+	if process != nil {
 		if f.countCastOnCommit {
-			f.run.publishSkillActionControl(f.processOriginal, f.castStatRef)
+			f.run.publishSkillActionControl(process, f.castStatRef)
 		}
 		if f.processMomentKind != "" && f.empowered == nil {
-			f.run.publishSkillActionMoment(f.processOriginal, f.processMomentKind)
+			f.run.publishSkillActionMoment(process, f.processMomentKind)
 		}
 	}
 	if f.empowered != nil {
@@ -225,7 +223,7 @@ func (f *Frame) commitFrameFacts() {
 	for _, record := range f.numeric.Facts().ResourceChanges {
 		f.run.commitResourceChange(record)
 	}
-	if capture := f.pendingAmmoCapture; capture != nil {
+	if capture := f.actionFrame.AmmoCapture(); capture != nil {
 		f.run.skillUses[capture.UseKey()].ammoBefore = capture
 	}
 	for _, record := range f.pendingMechanicRecords {

@@ -2,8 +2,6 @@
 package execution
 
 import (
-	"tinygo_engine_v2/internal/base/attribute"
-	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
 	actionpkg "tinygo_engine_v2/internal/runtime/action"
@@ -14,27 +12,6 @@ import (
 )
 
 type empoweredWaitFreeze = hit.EmpoweredWait
-
-type empoweredContextBinding struct {
-	sourceKey, targetKey, ownerCombatantKey, ownerProviderRef       string
-	abilityRef, processUseKey, processUseSource, processUseSkillKey string
-	pendingProcess, processOriginal                                 *actionpkg.ProcessView
-	processMomentKind                                               string
-	processChanges                                                  *actionpkg.ProcessChangeSet
-	processActualCosts                                              model.NumericView
-	processCostReadable                                             bool
-	castInstanceID                                                  uint64
-	castOrigin                                                      string
-	empoweredAttack                                                 *model.ProcessEmpoweredAttack
-	eventCtx                                                        *eventFormulaSnapshot
-	skillHitCandidateKey                                            string
-	skillHitOccurrenceID                                            uint64
-	skipBlockedWrites                                               bool
-	operationOutputs                                                map[string]formula.OperationOutputValues
-	entrySourceAttrs, entryTargetAttrs                              attribute.Table
-	entrySourceResources, entryTargetResources                      model.ResourceView
-	beforeDamage, beforeHealing                                     float64
-}
 
 type empoweredFrame = hit.Frame
 
@@ -73,58 +50,49 @@ func (s *Engine) empoweredWaitCurrent(wait empoweredWaitFreeze, owner string) bo
 }
 
 func (s *Engine) stageEmpoweredEntry(f *Frame) *model.EngineError {
-	p := f.pendingProcess
+	p := f.activeProcess
 	step := p.Definition().Steps[0]
 	value, err := f.evalAmount(step.WindowProgram, p.Ability())
 	if err != nil {
 		return err
 	}
-	if err := hit.EnterEmpoweredWindow(f.processChanges, step, value, s.loop.TimeMs(), maxJSONSafeInteger, s.hitIdentity()); err != nil {
+	if err := hit.EnterEmpoweredWindow(f.activeProcessChanges, step, value, s.loop.TimeMs(), maxJSONSafeInteger, s.hitIdentity()); err != nil {
 		return err
 	}
-	f.pendingProcessTimer = true
+	f.actionFrame.StageProcessTimer(f.activeProcessChanges, true)
 	return f.applyProcessMoment("STEP_START", "")
 }
 
-func (f *Frame) bindEmpoweredContext(changes *actionpkg.ProcessChangeSet, target string, ability planbundle.CompiledAbility, association *model.ProcessEmpoweredAttack) empoweredContextBinding {
+func (f *Frame) bindEmpoweredContext(original *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, target string, ability planbundle.CompiledAbility, association *model.ProcessEmpoweredAttack) evalBinding {
 	p := changes.View()
-	saved := empoweredContextBinding{
-		sourceKey: f.sourceKey, targetKey: f.targetKey, ownerCombatantKey: f.ownerCombatantKey, ownerProviderRef: f.ownerProviderRef,
-		abilityRef: f.abilityRef, processUseKey: f.processUseKey, processUseSource: f.processUseSource, processUseSkillKey: f.processUseSkillKey,
-		pendingProcess: f.pendingProcess, processOriginal: f.processOriginal, processMomentKind: f.processMomentKind, processChanges: f.processChanges,
-		processActualCosts: f.processActualCosts, processCostReadable: f.processCostReadable, castInstanceID: f.castInstanceID, castOrigin: f.castOrigin,
-		empoweredAttack: f.empoweredAttack, eventCtx: f.eventCtx, skillHitCandidateKey: f.skillHitCandidateKey, skillHitOccurrenceID: f.skillHitOccurrenceID,
-		skipBlockedWrites: f.skipBlockedWrites, operationOutputs: f.numeric.Outputs(),
-		entrySourceAttrs: f.entrySourceAttrs, entryTargetAttrs: f.entryTargetAttrs,
-		entrySourceResources: f.entrySourceResources, entryTargetResources: f.entryTargetResources,
-		beforeDamage: f.numeric.Facts().Damage, beforeHealing: f.numeric.Facts().Healing,
-	}
-	f.pendingProcess, f.processChanges = p, changes
-	f.sourceKey, f.targetKey = p.Owner(), target
-	// Each payload keeps an entry snapshot from its actual execution boundary,
-	// while all later writes remain in the one shared combatant staging.
-	f.entrySourceAttrs, f.entryTargetAttrs = f.stageFor(p.Owner()).attributesView(), f.stageFor(target).attributesView()
-	f.entrySourceResources, f.entryTargetResources = f.stageFor(p.Owner()).readonlyResources(), f.stageFor(target).readonlyResources()
-	f.ownerCombatantKey, f.ownerProviderRef = p.Owner(), p.ProviderRef()
-	f.abilityRef = p.Owner() + ".provider[" + p.ProviderRef() + "].ability[" + ability.AbilityKey + "]"
-	f.processUseKey, f.processUseSource, f.processUseSkillKey = p.UseKey(), p.Owner(), p.SkillKey()
-	f.processActualCosts = p.Costs()
-	f.castInstanceID, f.castOrigin = p.CastID(), ability.CastOrigin
-	f.empoweredAttack = association
-	return saved
+	next := f.evalScope
+	next.activeProcess, next.activeProcessOriginal, next.activeProcessChanges = p, original, changes
+	next.sourceKey, next.targetKey = p.Owner(), target
+	// 负载入口在实际借帧时冻结，后续写入继续共用角色暂存。
+	next.entrySourceAttrs, next.entryTargetAttrs = f.stageFor(p.Owner()).attributesView(), f.stageFor(target).attributesView()
+	next.entrySourceResources, next.entryTargetResources = f.stageFor(p.Owner()).readonlyResources(), f.stageFor(target).readonlyResources()
+	next.ownerCombatantKey, next.ownerProviderRef = p.Owner(), p.ProviderRef()
+	next.abilityRef = p.Owner() + ".provider[" + p.ProviderRef() + "].ability[" + ability.AbilityKey + "]"
+	next.processUseKey, next.processUseSource, next.processUseSkillKey = p.UseKey(), p.Owner(), p.SkillKey()
+	next.processActualCosts = p.Costs()
+	next.castInstanceID, next.castOrigin = p.CastID(), ability.CastOrigin
+	next.empoweredAttack = association
+	next.borrowedOperationOutputs = true
+	return f.pushEvalScope(next)
 }
 
-func (f *hitFrameHost) EndEmpoweredProcess(saved empoweredContextBinding) {
-	f.empowered.RecordOutput(f.abilityRef, f.numeric.Facts().Damage-saved.beforeDamage, f.numeric.Facts().Healing-saved.beforeHealing)
-	f.sourceKey, f.targetKey, f.ownerCombatantKey, f.ownerProviderRef = saved.sourceKey, saved.targetKey, saved.ownerCombatantKey, saved.ownerProviderRef
-	f.abilityRef, f.processUseKey, f.processUseSource, f.processUseSkillKey = saved.abilityRef, saved.processUseKey, saved.processUseSource, saved.processUseSkillKey
-	f.pendingProcess, f.processOriginal, f.processMomentKind, f.processChanges = saved.pendingProcess, saved.processOriginal, saved.processMomentKind, saved.processChanges
-	f.processActualCosts, f.processCostReadable = saved.processActualCosts, saved.processCostReadable
-	f.castInstanceID, f.castOrigin, f.empoweredAttack = saved.castInstanceID, saved.castOrigin, saved.empoweredAttack
-	f.eventCtx, f.skillHitCandidateKey, f.skillHitOccurrenceID = saved.eventCtx, saved.skillHitCandidateKey, saved.skillHitOccurrenceID
-	f.skipBlockedWrites = saved.skipBlockedWrites
-	f.numeric.SetOutputs(saved.operationOutputs)
-	f.entrySourceAttrs, f.entryTargetAttrs, f.entrySourceResources, f.entryTargetResources = saved.entrySourceAttrs, saved.entryTargetAttrs, saved.entrySourceResources, saved.entryTargetResources
+func (host *hitFrameHost) EndEmpoweredProcess(saved evalBinding, err *model.EngineError) {
+	f := (*Frame)(host)
+	f.recordBoundEmpoweredOutput(saved)
+	f.restoreEvalScope(saved)
+	if err != nil {
+		f.numeric.SetTotals(saved.beforeDamage, saved.beforeHealing)
+	}
+}
+
+func (f *Frame) recordBoundEmpoweredOutput(saved evalBinding) {
+	facts := f.numeric.Facts()
+	f.empowered.RecordOutput(f.abilityRef, facts.Damage-saved.beforeDamage, facts.Healing-saved.beforeHealing)
 }
 
 func (s *Engine) stageEmpoweredFailure(f *Frame, original *actionpkg.ProcessView) *model.EngineError {
@@ -362,7 +330,6 @@ func (s *Engine) executePrimaryReplacement(ev emittedEvent, freeze *frozenSkillH
 	if err := hit.ExecutePrimaryReplacement(f.empowered, ev, freeze, prepared, payload, s.loop.TimeMs(), (*hitFrameHost)(f)); err != nil {
 		return false, err
 	}
-	f.pendingProcess = nil
 	f.commit()
 	if f.fatal {
 		return false, f.fatalErr

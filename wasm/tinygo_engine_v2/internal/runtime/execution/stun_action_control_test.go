@@ -171,6 +171,45 @@ func TestStunRemovalShortensPermissionWithoutChangingRealAttackCooldown(t *testi
 	}
 }
 
+func TestReusedStunRemovedInSameFrameReleasesFirstAttack(t *testing.T) {
+	c, r := continuousAttackInput(1, 100000, 10, 0, 0, 1500)
+	ref := initialActionStun(&c, &r, 700)
+	c.SharedProviders[len(c.SharedProviders)-1].Lifecycle.InstanceScope = model.InstanceScopeSourceTarget
+	s := frameCommitState(t, c, r)
+	applyActionControlProbe(t, s, ref)
+	instance := actionControlInstance(t, s, "status:stun")
+	s.loop.Advance(100)
+	f := s.newExecutionFrame("target", "source", ref)
+	f.ownerCombatantKey, f.ownerProviderRef = "source", r.InitialSnapshot.Combatants[0].Providers[0].ProviderRef
+	operations := []planbundle.CompiledOperation{
+		{Operation: "apply_provider", Target: "target", ProviderDefinitionRef: "status:stun", Path: "test.reuse_control"},
+		{Operation: "expire_provider", Target: "target", ProviderRef: instance, Path: "test.remove_reused_control"},
+	}
+	if err := f.executeOperations(s.compiled.Abilities[0], operations); err != nil {
+		t.Fatal(err)
+	}
+	if until, err := f.stunUntil("source"); until != 0 || err != nil {
+		t.Fatalf("staged control = %d, error = %+v", until, err)
+	}
+	f.commit()
+	if !f.committed || f.fatalErr != nil {
+		t.Fatal(f.fatalErr)
+	}
+	if until, err := s.stunUntil("source"); until != 0 || err != nil {
+		t.Fatalf("published control = %d, error = %+v", until, err)
+	}
+	if err := s.runLoop(); err != nil {
+		t.Fatal(err)
+	}
+	done, err := s.Finish()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(done.AttackRecords) != 2 || done.AttackRecords[0].StartAtMs != 100 || done.AttackRecords[1].StartAtMs != 1100 {
+		t.Fatalf("unexpected attack cadence after same-frame removal: %+v", done.AttackRecords)
+	}
+}
+
 func TestStunRefreshAndOverlappingRemovalRecomputeAttackPermission(t *testing.T) {
 	for _, overlap := range []bool{false, true} {
 		t.Run(map[bool]string{false: "refresh_extends", true: "remove_longer_overlap"}[overlap], func(t *testing.T) {

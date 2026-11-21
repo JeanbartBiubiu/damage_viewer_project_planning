@@ -102,7 +102,7 @@ func TestStagedSkillFactsUseActualDynamicTimeAndAreCopied(t *testing.T) {
 	}
 	var frame Frame
 	s.initProcessFrame(&frame, s.actions.ProcessAt(0))
-	(*frame.pendingProcess.SkillHitStages())[0].Contact = false
+	(*frame.activeProcess.SkillHitStages())[0].Contact = false
 	if !(*s.actions.ProcessAt(0).SkillHitStages())[0].Contact {
 		t.Fatal("uncommitted clone changed runtime facts")
 	}

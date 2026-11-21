@@ -242,7 +242,7 @@ func (f *Frame) evalContext(ability planbundle.CompiledAbility) (formula.Generic
 	if ctx.RuntimeSkillKey == "" {
 		ctx.RuntimeSkillKey = f.processUseSkillKey
 	}
-	if p := f.pendingProcess; p != nil && p.HasEmpoweredAbility() && f.processMomentKind == "STEP_EXECUTION" && f.processUseKey == p.UseKey() && f.ownerProviderRef == p.ProviderRef() && f.providerOwnerKey() == p.Owner() && ctx.RuntimeSkillKey == p.SkillKey() {
+	if p := f.activeProcess; p != nil && p.HasEmpoweredAbility() && f.processMomentKind == "STEP_EXECUTION" && f.processUseKey == p.UseKey() && f.ownerProviderRef == p.ProviderRef() && f.providerOwnerKey() == p.Owner() && ctx.RuntimeSkillKey == p.SkillKey() {
 		ctx.ProcessStartStateValues = p.StartState()
 	}
 	if ctx.RuntimeSkillKey == "" && f.ownerProviderRef != "" {
@@ -256,7 +256,7 @@ func (f *Frame) evalContext(ability planbundle.CompiledAbility) (formula.Generic
 			}
 		}
 	}
-	if process := f.pendingProcess; process != nil && f.processMomentKind == "STEP_EXECUTION" && process.StepIndex() >= 0 && process.Definition().Steps[process.StepIndex()].StepType == "CHARGE" {
+	if process := f.activeProcess; process != nil && f.processMomentKind == "STEP_EXECUTION" && process.StepIndex() >= 0 && process.Definition().Steps[process.StepIndex()].StepType == "CHARGE" {
 		ctx.HasUseChargeDuration, ctx.UseChargeDurationMs = true, f.run.loop.TimeMs()-process.StepStartedAtMs()
 	} else if action := f.run.actions.ActionForUse(f.skillActionUseRef()); action != nil && action.HasChargeDuration() {
 		ctx.HasUseChargeDuration, ctx.UseChargeDurationMs = true, action.ChargeDuration()

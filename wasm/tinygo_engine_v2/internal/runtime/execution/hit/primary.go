@@ -87,7 +87,7 @@ type PrimaryPayloadHost[Event, Binding any] interface {
 type PrimaryExecutionHost[Event, Binding any] interface {
 	PrimaryPayloadHost[Event, Binding]
 	// QueuePrimaryDamage 在原帧重新绑定真实负载并追加已确定资格的伤害事实，返回前恢复外层求值范围。
-	QueuePrimaryDamage(event Event, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack, payload, parent planbundle.CompiledAbility, rootDamage bool)
+	QueuePrimaryDamage(event Event, original *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack, payload, parent planbundle.CompiledAbility, rootDamage bool)
 }
 
 // PrepareNativePrimary 校验显式主体要求及候选角色，然后构造完整主体身份，不发布绑定。
@@ -141,21 +141,21 @@ func PreparePrimaryReplacement(input PrimaryReplacementInput, host PrimaryReplac
 
 // ExecutePrimaryReplacement 执行真实替换后暂存过程和接触事实，最后仅为实际负载追加原命中伤害事件资格。
 func ExecutePrimaryReplacement[Event, Binding any](frame *Frame, event Event, context *Context, prepared PrimaryReplacement, payload planbundle.CompiledAbility, nowMs int64, host PrimaryExecutionHost[Event, Binding]) *model.EngineError {
-	if err := ExecutePrimaryPayload(event, prepared.Changes, prepared.Association, payload, nowMs, host); err != nil {
+	if err := ExecutePrimaryPayload(event, prepared.Original, prepared.Changes, prepared.Association, payload, nowMs, host); err != nil {
 		return err
 	}
 	p := prepared.Changes.View()
 	frame.StageMutation(prepared.Original, prepared.Changes)
 	frame.StageContact(p, *prepared.Association)
 	frame.StageFinished(p)
-	host.QueuePrimaryDamage(event, prepared.Changes, prepared.Association, payload, context.ability, context.facts.RootDamageEvent)
+	host.QueuePrimaryDamage(event, prepared.Original, prepared.Changes, prepared.Association, payload, context.ability, context.facts.RootDamageEvent)
 	return nil
 }
 
 // ExecutePrimaryPayload 在原生主体位置执行完整替换时点与负载，不提交或安排另一刀。
-func ExecutePrimaryPayload[Event, Binding any](event Event, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack, payload planbundle.CompiledAbility, nowMs int64, host PrimaryPayloadHost[Event, Binding]) *model.EngineError {
-	binding := host.BeginEmpoweredProcess(changes, association.Target, association)
-	defer host.EndEmpoweredProcess(binding)
+func ExecutePrimaryPayload[Event, Binding any](event Event, original *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack, payload planbundle.CompiledAbility, nowMs int64, host PrimaryPayloadHost[Event, Binding]) (err *model.EngineError) {
+	binding := host.BeginEmpoweredProcess(original, changes, association.Target, association)
+	defer func() { host.EndEmpoweredProcess(binding, err) }()
 	if err := host.EmpoweredProcessMoment(changes, association.Target, association, "STEP_EXECUTION"); err != nil {
 		return err
 	}

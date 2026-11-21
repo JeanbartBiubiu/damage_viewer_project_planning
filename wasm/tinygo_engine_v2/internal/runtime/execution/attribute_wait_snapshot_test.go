@@ -22,8 +22,8 @@ func TestInitialWaitingSnapshotSurvivesSameFrameAttributeWrites(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	frame.pendingBasicAttackWait = wait
-	frozen := frame.pendingBasicAttackWait
+	frame.actionFrame.StageAttackWait(wait)
+	frozen := frame.actionFrame.AttackWait()
 	if frozen == nil {
 		t.Fatal("waiting snapshot was not captured")
 	}
@@ -51,7 +51,7 @@ func TestUpdatedWaitingSnapshotSurvivesFurtherStagedWrites(t *testing.T) {
 	if _, err := frame.prepareBasicAttackWait(); err != nil {
 		t.Fatal(err)
 	}
-	frozen := frame.pendingBasicAttackWait
+	frozen := frame.actionFrame.AttackWait()
 	if frozen == nil || basicAttackProgressDeadline(frozen) != 700 {
 		t.Fatal("expected adjusted wait", frozen)
 	}

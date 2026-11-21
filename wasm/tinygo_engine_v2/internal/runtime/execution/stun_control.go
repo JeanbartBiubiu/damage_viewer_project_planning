@@ -48,7 +48,7 @@ func (f *Frame) prepareStunAttackPermission() *model.EngineError {
 		return err
 	}
 	if before != after || after > f.run.loop.TimeMs() {
-		f.pendingActionWait = true
+		f.actionFrame.SetActionWait(true)
 	}
 	return nil
 }

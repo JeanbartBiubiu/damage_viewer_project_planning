@@ -57,9 +57,9 @@ type EmpoweredGroupInput struct {
 // ProcessMomentHost 只交接当前共享帧中的原过程时点与有限求值绑定。
 type ProcessMomentHost[Binding any] interface {
 	// BeginEmpoweredProcess 进入本过程的有限同步求值范围，返回只属于此调用的恢复凭据。
-	BeginEmpoweredProcess(changes *actionpkg.ProcessChangeSet, target string, association *model.ProcessEmpoweredAttack) Binding
-	// EndEmpoweredProcess 记录本范围的实际输出并用原凭据恢复调用者绑定，不撤销共享暂存。
-	EndEmpoweredProcess(binding Binding)
+	BeginEmpoweredProcess(original *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, target string, association *model.ProcessEmpoweredAttack) Binding
+	// EndEmpoweredProcess 记录本范围的实际输出并恢复调用者绑定；发生错误时恢复局部数值基线。
+	EndEmpoweredProcess(binding Binding, err *model.EngineError)
 	// EmpoweredProcessMoment 在共享暂存中同步执行指定原过程时点。
 	EmpoweredProcessMoment(changes *actionpkg.ProcessChangeSet, target string, association *model.ProcessEmpoweredAttack, kind string) *model.EngineError
 }
@@ -67,9 +67,9 @@ type ProcessMomentHost[Binding any] interface {
 // EmpoweredFailureHost 只交接当前共享帧的失败时点及其有限求值范围。
 type EmpoweredFailureHost[Binding any] interface {
 	// BeginEmpoweredProcess 绑定本次独占暂存，返回当前调用的恢复凭据。
-	BeginEmpoweredProcess(changes *actionpkg.ProcessChangeSet, target string, association *model.ProcessEmpoweredAttack) Binding
-	// EndEmpoweredProcess 恢复原绑定并登记本范围实际产生的输出，不撤销共享暂存。
-	EndEmpoweredProcess(binding Binding)
+	BeginEmpoweredProcess(original *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, target string, association *model.ProcessEmpoweredAttack) Binding
+	// EndEmpoweredProcess 恢复原绑定并登记实际输出；发生错误时恢复局部数值基线。
+	EndEmpoweredProcess(binding Binding, err *model.EngineError)
 	// EmpoweredFailureMoment 在原位置执行已经确定的失败时点和原因。
 	EmpoweredFailureMoment(changes *actionpkg.ProcessChangeSet, reason string) *model.EngineError
 }
@@ -112,9 +112,9 @@ func StageEmpoweredFailure[Binding any](frame *Frame, original *actionpkg.Proces
 	p := changes.View()
 	reason := "EVENT_ABORTED"
 	changes.Finish("failed", reason, nowMs)
-	binding := host.BeginEmpoweredProcess(changes, p.Target(), nil)
+	binding := host.BeginEmpoweredProcess(original, changes, p.Target(), nil)
 	err := host.EmpoweredFailureMoment(changes, reason)
-	host.EndEmpoweredProcess(binding)
+	host.EndEmpoweredProcess(binding, err)
 	if err != nil {
 		return err
 	}
@@ -124,9 +124,9 @@ func StageEmpoweredFailure[Binding any](frame *Frame, original *actionpkg.Proces
 }
 
 // CompleteEmpoweredProcess 执行原三个过程时点与实际负载，完成标记仍在最后时点之前暂存。
-func CompleteEmpoweredProcess[Event, Binding any](event Event, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack, payload planbundle.CompiledAbility, nowMs int64, host EmpoweredGroupHost[Event, Binding]) *model.EngineError {
-	binding := host.BeginEmpoweredProcess(changes, association.Target, association)
-	defer host.EndEmpoweredProcess(binding)
+func CompleteEmpoweredProcess[Event, Binding any](event Event, original *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack, payload planbundle.CompiledAbility, nowMs int64, host EmpoweredGroupHost[Event, Binding]) (err *model.EngineError) {
+	binding := host.BeginEmpoweredProcess(original, changes, association.Target, association)
+	defer func() { host.EndEmpoweredProcess(binding, err) }()
 	if err := host.EmpoweredProcessMoment(changes, association.Target, association, "STEP_EXECUTION"); err != nil {
 		return err
 	}
@@ -155,7 +155,7 @@ func ExecuteEmpoweredGroup[Event, Binding any](input EmpoweredGroupInput, waits 
 		association := &model.ProcessEmpoweredAttack{UseRef: input.UseRef, HitRef: "hit:" + strconv.FormatUint(input.OccurrenceID, 10), Target: input.Target}
 		changes.SetEmpoweredAttack(association)
 		payload := input.Abilities[changes.View().EmpoweredAbilityIndex()]
-		if err := CompleteEmpoweredProcess(event, changes, association, payload, input.NowMs, host); err != nil {
+		if err := CompleteEmpoweredProcess(event, p, changes, association, payload, input.NowMs, host); err != nil {
 			return err
 		}
 		host.StageEmpoweredResult(p, changes, association)

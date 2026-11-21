@@ -155,14 +155,14 @@ func TestFrameAllocationWaitContextResetsAndKeepsAttackDirection(t *testing.T) {
 			context.eventCtx = &eventFormulaSnapshot{EventType: "stale"}
 			context.processActualCosts = model.BorrowNumericView(map[string]float64{"mana": 10})
 			context.processCostReadable = true
-			context.pendingBasicAttackWait = state.actions.BasicAttack().Wait()
+			context.actionFrame.StageAttackWait(state.actions.BasicAttack().Wait())
 			if err := frame.basicAttackWaitContext(&context); err != nil {
 				t.Fatal(err)
 			}
 			if context.sourceKey != "source" || context.targetKey != "target" || context.ownerCombatantKey != "source" || context.ownerProviderRef != "attack" || context.abilityRef != state.actions.BasicAttack().Plan().InitialControlAbilityRef || !context.strictReads {
 				t.Fatal("waiting context inherited an unrelated frame direction or owner")
 			}
-			if context.fatal || context.committed || context.skipBlockedWrites || context.eventCtx != nil || context.processActualCosts.Present() || context.processCostReadable || context.pendingBasicAttackWait != nil {
+			if context.fatal || context.committed || context.skipBlockedWrites || context.eventCtx != nil || context.processActualCosts.Present() || context.processCostReadable || context.actionFrame.AttackWait() != nil {
 				t.Fatal("reused waiting context retained stale execution state")
 			}
 			if context.stageFor("source") != source {
@@ -240,7 +240,7 @@ func TestFrameAllocationWaitProviderPreviewAndCooldownWritesStayIndependent(t *t
 	if _, err := frame.prepareBasicAttackWait(); err != nil {
 		t.Fatal(err)
 	}
-	wait := frame.pendingBasicAttackWait
+	wait := frame.actionFrame.AttackWait()
 	if wait == nil || basicAttackProgressDeadline(wait) != 700 || wait.SourceAttributes().At("attack_speed").Resolved != 2 || source.cooldowns.AbilityReadyAt("source", control) != 700 || state.basicAttackReadyAt() != 1000 || state.combatants["source"].cooldowns.AbilityReadyAt("source", control) != 1000 {
 		t.Fatal("waiting preflight did not stage the provider-adjusted cooldown", wait)
 	}
@@ -267,7 +267,7 @@ func TestFrameAllocationWaitProviderPreviewAndCooldownWritesStayIndependent(t *t
 	if _, err := remove.prepareBasicAttackWait(); err != nil {
 		t.Fatal(err)
 	}
-	if remove.pendingBasicAttackWait == nil || basicAttackProgressDeadline(remove.pendingBasicAttackWait) != 900 || remove.stageFor("source").attributesView().At("attack_speed").Resolved != 2 || state.basicAttackReadyAt() != 700 || wait.SourceAttributes().At("attack_speed").Resolved != 2 {
+	if remove.actionFrame.AttackWait() == nil || basicAttackProgressDeadline(remove.actionFrame.AttackWait()) != 900 || remove.stageFor("source").attributesView().At("attack_speed").Resolved != 2 || state.basicAttackReadyAt() != 700 || wait.SourceAttributes().At("attack_speed").Resolved != 2 {
 		t.Fatal("provider removal preview changed an older frame or waiting snapshot")
 	}
 	remove.commit()
@@ -439,14 +439,14 @@ func TestFrameAllocationCallerOwnedInitializationResetsAndKeepsEarlierViews(t *t
 	frame.ownerCombatantKey, frame.ownerProviderRef, frame.processUseKey = "source", "stale", "stale"
 	frame.commandCount, frame.chainDepth = 3, 2
 	frame.eventCtx = &snapshot
-	frame.pendingBasicAttackWait = actionpkg.NewAttackWait(actionpkg.AttackWaitSeed{Anchor: 900})
+	frame.actionFrame.StageAttackWait(actionpkg.NewAttackWait(actionpkg.AttackWaitSeed{Anchor: 900}))
 	frame.pendingEvents = []emittedEvent{{eventType: "stale"}}
 	frame.processActualCosts = model.BorrowNumericView(map[string]float64{"mana": 10})
 	state.initExecutionFrame(&frame, "target", "target", "second")
 	if frame.frameID != firstID+1 || frame.sourceKey != "target" || frame.targetKey != "target" || frame.abilityRef != "second" || frame.run != state {
 		t.Fatal("caller-owned reinitialization lost its new identity")
 	}
-	if frame.fatal || frame.fatalErr != nil || frame.committed || frame.strictReads || frame.skipBlockedWrites || frame.processCostReadable || frame.eventCtx != nil || frame.pendingBasicAttackWait != nil || len(frame.pendingEvents) != 0 || frame.processActualCosts.Present() || frame.ownerCombatantKey != "" || frame.ownerProviderRef != "" || frame.processUseKey != "" || frame.commandCount != 0 || frame.chainDepth != 0 || frame.staged.Len() != 0 {
+	if frame.fatal || frame.fatalErr != nil || frame.committed || frame.strictReads || frame.skipBlockedWrites || frame.processCostReadable || frame.eventCtx != nil || frame.actionFrame.AttackWait() != nil || len(frame.pendingEvents) != 0 || frame.processActualCosts.Present() || frame.ownerCombatantKey != "" || frame.ownerProviderRef != "" || frame.processUseKey != "" || frame.commandCount != 0 || frame.chainDepth != 0 || frame.staged.Len() != 0 {
 		t.Fatal("caller-owned reinitialization retained prior execution state")
 	}
 	if !reflect.DeepEqual(frame.entrySourceAttrs, state.combatants["target"].attributesView()) || !reflect.DeepEqual(frame.entryTargetAttrs, state.combatants["target"].attributesView()) {
@@ -474,22 +474,22 @@ func TestFrameAllocationCallerOwnedProcessKeepsIndependentPendingCopies(t *testi
 	originalCosts := maps.Clone(process.ActualCosts())
 	var frame Frame
 	state.initProcessFrame(&frame, process)
-	if frame.processOriginal != process || frame.pendingProcess == process || !frame.strictReads || frame.ownerCombatantKey != process.Owner() || frame.ownerProviderRef != process.ProviderRef() {
+	if frame.activeProcessOriginal != process || frame.activeProcess == process || !frame.strictReads || frame.ownerCombatantKey != process.Owner() || frame.ownerProviderRef != process.ProviderRef() {
 		t.Fatal("caller-owned process initialization lost ownership or pending isolation")
 	}
 	firstID := frame.frameID
-	firstPending := frame.pendingProcess
-	frame.processChanges.SetActualCost("audit", 10)
-	frame.processChanges.EnterStep(firstPending.StepIndex(), planbundle.CompiledProcessStep{StepKey: "pending-only"}, state.loop.TimeMs())
+	firstPending := frame.activeProcess
+	frame.activeProcessChanges.SetActualCost("audit", 10)
+	frame.activeProcessChanges.EnterStep(firstPending.StepIndex(), planbundle.CompiledProcessStep{StepKey: "pending-only"}, state.loop.TimeMs())
 	if !reflect.DeepEqual(process.ActualCosts(), originalCosts) || process.StepKey() == "pending-only" {
 		t.Fatal("pending process changes leaked before commit")
 	}
 	frame.fatal, frame.committed = true, true
 	state.initProcessFrame(&frame, process)
-	if frame.frameID != firstID+1 || frame.fatal || frame.committed || frame.pendingProcess == firstPending || frame.pendingProcess == process || frame.processOriginal != process {
+	if frame.frameID != firstID+1 || frame.fatal || frame.committed || frame.activeProcess == firstPending || frame.activeProcess == process || frame.activeProcessOriginal != process {
 		t.Fatal("reinitialized process frame retained an earlier pending process")
 	}
-	if !reflect.DeepEqual(frame.pendingProcess.ActualCosts(), originalCosts) || firstPending.ActualCosts()["audit"] != 10 || firstPending.StepKey() != "pending-only" {
+	if !reflect.DeepEqual(frame.activeProcess.ActualCosts(), originalCosts) || firstPending.ActualCosts()["audit"] != 10 || firstPending.StepKey() != "pending-only" {
 		t.Fatal("new process initialization changed an earlier independent pending copy")
 	}
 }

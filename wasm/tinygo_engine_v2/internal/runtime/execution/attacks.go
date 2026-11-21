@@ -27,12 +27,6 @@ type startStateBridge struct{ frame *Frame }
 
 type attackProviderPreviewBridge struct{ frame *Frame }
 
-// 等待按实际挂载实例分槽；不对含字符串的组合身份做结构体哈希。
-type pendingAmmoRecovery struct {
-	ammo *actionpkg.AmmoView
-	wait actionpkg.AmmoWait
-}
-
 type ammoUseCapture = actionflow.AmmoCapture
 
 const maxJSONSafeInteger int64 = 9007199254740991
@@ -246,11 +240,11 @@ func (bridge ammoWorkBridge) ReadAmmoInventory(ammo *actionpkg.AmmoView) (float6
 }
 
 func (bridge ammoWorkBridge) ReadAmmoWait(ammo *actionpkg.AmmoView) actionpkg.AmmoWait {
-	return bridge.frame.ammoWait(ammo)
+	return bridge.frame.actionFrame.AmmoWait(ammo)
 }
 
 func (bridge ammoWorkBridge) WriteAmmoWait(ammo *actionpkg.AmmoView, wait actionpkg.AmmoWait) {
-	bridge.frame.setAmmoWait(ammo, wait)
+	bridge.frame.actionFrame.StageAmmoWait(ammo, wait)
 }
 
 func (bridge ammoWorkBridge) AmmoAmount(program formula.GenericProgramID, ability planbundle.CompiledAbility, strict bool) (float64, *model.EngineError) {
@@ -326,10 +320,7 @@ func (bridge attackWaitBridge) AttackPeriod() (float64, *model.EngineError) {
 
 func (bridge attackWaitBridge) AttackAmmo(ammo *actionpkg.AmmoView) (float64, actionpkg.AmmoWait, *model.EngineError) {
 	frame := bridge.frame
-	wait := ammo.Wait()
-	if frame.hasPendingBasicAttackAmmo() {
-		wait = frame.ammoWait(ammo)
-	}
+	wait := frame.actionFrame.AmmoWait(ammo)
 	value, err := frame.ammoInventory(ammo)
 	return value, wait, err
 }
@@ -421,35 +412,11 @@ func (f *Frame) ammoInventory(ammo *actionpkg.AmmoView) (float64, *model.EngineE
 	return value, nil
 }
 
-func (f *Frame) ammoWait(ammo *actionpkg.AmmoView) actionpkg.AmmoWait {
-	for _, pending := range f.pendingAmmoWaits {
-		if pending.ammo == ammo {
-			return pending.wait
-		}
+func (f *Frame) basicAttackAmmo() *actionpkg.AmmoView {
+	if attack := f.run.actions.BasicAttack(); attack != nil {
+		return attack.Ammo()
 	}
-	return ammo.Wait()
-}
-
-func (f *Frame) setAmmoWait(ammo *actionpkg.AmmoView, wait actionpkg.AmmoWait) {
-	for i := range f.pendingAmmoWaits {
-		if f.pendingAmmoWaits[i].ammo == ammo {
-			f.pendingAmmoWaits[i].wait = wait
-			return
-		}
-	}
-	f.pendingAmmoWaits = append(f.pendingAmmoWaits, pendingAmmoRecovery{ammo: ammo, wait: wait})
-}
-
-func (f *Frame) hasPendingBasicAttackAmmo() bool {
-	if f.run.actions.BasicAttack() == nil || f.run.actions.BasicAttack().Ammo() == nil {
-		return false
-	}
-	for _, pending := range f.pendingAmmoWaits {
-		if pending.ammo == f.run.actions.BasicAttack().Ammo() {
-			return true
-		}
-	}
-	return false
+	return nil
 }
 
 func (f *Frame) ammoCombatantsLive(ammo *actionpkg.AmmoView) bool {
@@ -471,7 +438,7 @@ func (s *Engine) initializeDrivenAmmo() *model.EngineError {
 
 func (f *Frame) stageAmmoConsumption(operation planbundle.CompiledOperation, ability planbundle.CompiledAbility, before, after float64) *model.EngineError {
 	ammo := f.run.findAmmo(f.providerOwnerKey(), f.ownerProviderRef, operation.Ref)
-	input := actionflow.AmmoConsumption{Ammo: ammo, Process: f.pendingProcess, UseKey: f.processUseKey, PendingCapture: f.pendingAmmoCapture != nil, ProcessIsNew: f.processIsNew, Before: before, After: after}
+	input := actionflow.AmmoConsumption{Ammo: ammo, Process: f.activeProcess, UseKey: f.processUseKey, PendingCapture: f.actionFrame.AmmoCapture() != nil, ProcessIsNew: f.actionFrame.StartsProcess(), Before: before, After: after}
 	if use := f.run.skillUses[f.processUseKey]; use != nil {
 		input.Use = use.identity
 		input.UseCaptured = use.ammoBefore != nil
@@ -479,7 +446,7 @@ func (f *Frame) stageAmmoConsumption(operation planbundle.CompiledOperation, abi
 	if err := f.run.skillActionFlowExecutor().ValidateAmmoConsumption(input, operation, ability, ammoWorkBridge{frame: f}); err != nil {
 		return err
 	}
-	f.pendingAmmoCapture = actionflow.NewAmmoCapture(f.processUseKey, ammo.Owner(), ammo.ProviderRef(), operation.Ref, before)
+	f.actionFrame.StageAmmoCapture(actionflow.NewAmmoCapture(f.processUseKey, ammo.Owner(), ammo.ProviderRef(), operation.Ref, before))
 	use := f.processUseKey
 	f.pendingMechanicRecords = append(f.pendingMechanicRecords, f.ammoRecordFor(ammo, model.MechanicStateChanged, before, after, operation.Path, &use, nil))
 	return nil
@@ -496,9 +463,9 @@ func (f *Frame) ammoRecordFor(ammo *actionpkg.AmmoView, kind string, before, aft
 }
 
 func (f *Frame) commitAmmoWait() {
-	for _, pending := range f.pendingAmmoWaits {
-		ammo := pending.ammo
-		if f.run.skillActionFlowExecutor().PublishAmmoWait(ammo, pending.wait, f.ammoCombatantsLive(ammo)) {
+	for i := 0; i < f.actionFrame.AmmoWaitCount(); i++ {
+		ammo, wait := f.actionFrame.AmmoWaitAt(i)
+		if f.run.skillActionFlowExecutor().PublishAmmoWait(ammo, wait, f.ammoCombatantsLive(ammo)) {
 			f.run.pushCombatEvent(scheduler.GenericEvent{TimeMs: ammo.Wait().ReadyAt, Category: scheduler.GenericCategoryAmmoRecovery,
 				Kind: scheduler.GenericEventAmmoRecovery, AmmoGeneration: ammo.Wait().Generation, AmmoStateKey: ammo.Binding().StateKey, DriverEntryIndex: -1,
 				ProviderInstanceRef: scheduler.ProviderInstanceRef{CombatantKey: ammo.Owner(), ProviderRef: ammo.ProviderRef()}})
@@ -514,10 +481,10 @@ func (f *Frame) applyAmmoDurationChange(operation planbundle.CompiledOperation, 
 	ammo := f.run.findAmmo(f.providerOwnerKey(), f.ownerProviderRef, operation.Ref)
 	var before actionpkg.AmmoWait
 	if ammo != nil {
-		before = f.ammoWait(ammo)
+		before = f.actionFrame.AmmoWait(ammo)
 	}
 	err := f.run.skillActionFlowExecutor().SubtractAmmoDuration(ammo, operation, ability, f.run.loop.TimeMs(), ammoWorkBridge{frame: f})
-	if err == nil && ammo != nil && f.ammoWait(ammo) != before {
+	if err == nil && ammo != nil && f.actionFrame.AmmoWait(ammo) != before {
 		f.stageFor(ammo.Owner()).dirty = true
 	}
 	return err
@@ -590,7 +557,7 @@ func (s *Engine) handleBasicAttack() (err *model.EngineError) {
 		} else if until > s.loop.TimeMs() {
 			var frame Frame
 			s.initExecutionFrame(&frame, attack.Plan().Source, attack.Plan().Target, attack.Plan().InitialControlAbilityRef)
-			frame.pendingActionWait = true
+			frame.actionFrame.SetActionWait(true)
 			frame.commit()
 			return frame.fatalErr
 		}
@@ -647,7 +614,7 @@ func (f *Frame) populateMechanicEvalContext(context *formula.GenericEvalContext,
 			}
 			useRef := actionflow.MechanicUseReference(f.processUseKey, f.eventCtx, factUse)
 			if use := f.run.skillUses[useRef]; use != nil {
-				if value, present := actionflow.UseAmmoBefore(use.identity, useRef, f.providerOwnerKey(), f.ownerProviderRef, ability.SkillKey, provider.AmmoBinding.StateKey, use.ammoBefore, f.pendingAmmoCapture); present {
+				if value, present := actionflow.UseAmmoBefore(use.identity, useRef, f.providerOwnerKey(), f.ownerProviderRef, ability.SkillKey, provider.AmmoBinding.StateKey, use.ammoBefore, f.actionFrame.AmmoCapture()); present {
 					context.UseAmmoBefore, context.HasUseAmmoBefore = value, true
 				}
 			}
@@ -699,8 +666,8 @@ func (f *Frame) prepareBasicAttackWait() (int, *model.EngineError) {
 		return 0, err
 	}
 	var preview Frame
-	result, err := f.run.basicAttackFlowExecutor().PrepareWait(f.run.loop.TimeMs(), f.attackWaitInput(), f.processOriginal, f.pendingProcess, attackWaitBridge{frame: f, preview: &preview})
-	f.pendingBasicAttackWait = result.Wait
+	result, err := f.run.basicAttackFlowExecutor().PrepareWait(f.run.loop.TimeMs(), f.attackWaitInput(), f.actionFrame.ProcessOriginal(), f.actionFrame.Process(), attackWaitBridge{frame: f, preview: &preview})
+	f.actionFrame.StageAttackWait(result.Wait)
 	return result.ExtraQueue, err
 }
 
@@ -713,18 +680,18 @@ func (f *Frame) prepareBasicAttackProgress() (int, *model.EngineError) {
 	}
 	var preview Frame
 	result, err := f.run.basicAttackFlowExecutor().PrepareWaitProgress(f.run.loop.TimeMs(), f.attackWaitInput(), attackWaitBridge{frame: f, preview: &preview})
-	f.pendingBasicAttackWait = result.Wait
+	f.actionFrame.StageAttackWait(result.Wait)
 	return result.ExtraQueue, err
 }
 
 func (f *Frame) attackWaitInput() actionflow.AttackWaitInput {
-	return actionflow.AttackWaitInput{PendingWait: f.pendingBasicAttackWait, PendingAmmo: f.hasPendingBasicAttackAmmo(), PendingAction: f.pendingActionWait, HasQueuedAttack: f.run.loop.HasBasicAttack(), CombatantsAlive: f.continuousCombatantsLive()}
+	return f.actionFrame.AttackWaitInput(f.basicAttackAmmo(), f.run.loop.HasBasicAttack(), f.continuousCombatantsLive())
 }
 
 func (f *Frame) basicAttackWaitContext(context *Frame) *model.EngineError {
 	attack := f.run.actions.BasicAttack()
-	*context = Frame{run: f.run, sourceKey: attack.Plan().Source, targetKey: attack.Plan().Target,
-		abilityRef: attack.Plan().InitialControlAbilityRef, strictReads: true, staged: f.staged}
+	*context = Frame{run: f.run, staged: f.staged, evalScope: evalScope{sourceKey: attack.Plan().Source, targetKey: attack.Plan().Target,
+		abilityRef: attack.Plan().InitialControlAbilityRef, strictReads: true}}
 	parsed, _ := planbundle.ParseAbilityRef(attack.Plan().InitialControlAbilityRef)
 	context.ownerCombatantKey, context.ownerProviderRef = attack.Plan().Source, parsed.ProviderRef
 	providerChanges := false
@@ -762,11 +729,11 @@ func (f *Frame) unmountWaitingProvider(owner, ref string) {
 }
 
 func (f *Frame) commitBasicAttackWait() {
-	if f.run.actions.BasicAttack() == nil || f.pendingBasicAttackWait == nil && !f.hasPendingBasicAttackAmmo() && !f.pendingActionWait {
+	if f.run.actions.BasicAttack() == nil || !f.actionFrame.HasAttackWaitChange(f.basicAttackAmmo()) {
 		return
 	}
 	attack := f.run.actions.BasicAttack()
-	wait := f.pendingBasicAttackWait
+	wait := f.actionFrame.AttackWait()
 	initial := wait != nil && attack.Wait() == nil
 	if wait != nil {
 		f.run.actions.SetAttackWait(wait)

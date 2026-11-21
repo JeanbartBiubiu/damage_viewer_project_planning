@@ -113,7 +113,7 @@ func StageCountedStart[Binding any](frame *Frame, prepared CountedStart, use *ac
 	frame.StageReservation(use, prepared.Original, prepared.Index)
 	p := prepared.Changes.View()
 	if p.WindowConsumed() == p.WindowMaximum() {
-		if err := CompleteCountedWindow(prepared.Changes, nowMs, host); err != nil {
+		if err := CompleteCountedWindow(prepared.Original, prepared.Changes, nowMs, host); err != nil {
 			return err
 		}
 		frame.StageFinished(p)
@@ -132,7 +132,7 @@ func PrepareCountedCompletion(original *actionpkg.ProcessView) CountedCompletion
 // StageCountedCompletion 在原窗口结束帧执行完成时点，保留待命中预留和原步骤身份。
 func StageCountedCompletion[Binding any](frame *Frame, prepared CountedCompletion, nowMs int64, host ProcessMomentHost[Binding]) *model.EngineError {
 	frame.StageMutation(prepared.Original, prepared.Changes)
-	if err := CompleteCountedWindow(prepared.Changes, nowMs, host); err != nil {
+	if err := CompleteCountedWindow(prepared.Original, prepared.Changes, nowMs, host); err != nil {
 		return err
 	}
 	frame.StageFinished(prepared.Changes.View())
@@ -167,10 +167,10 @@ func PrepareCountedHit(input CountedHitInput, identity Identity) (CountedHit, *m
 }
 
 // CompleteCountedWindow 在原完成边界执行两个过程时点，实际消耗不因此变成已命中。
-func CompleteCountedWindow[Binding any](changes *actionpkg.ProcessChangeSet, nowMs int64, host ProcessMomentHost[Binding]) *model.EngineError {
+func CompleteCountedWindow[Binding any](original *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, nowMs int64, host ProcessMomentHost[Binding]) (err *model.EngineError) {
 	target := changes.View().Target()
-	binding := host.BeginEmpoweredProcess(changes, target, nil)
-	defer host.EndEmpoweredProcess(binding)
+	binding := host.BeginEmpoweredProcess(original, changes, target, nil)
+	defer func() { host.EndEmpoweredProcess(binding, err) }()
 	if err := host.EmpoweredProcessMoment(changes, target, nil, "STEP_COMPLETE"); err != nil {
 		return err
 	}
@@ -180,10 +180,10 @@ func CompleteCountedWindow[Binding any](changes *actionpkg.ProcessChangeSet, now
 
 // ExecuteCountedPayload 保留等待步骤，仅在当前真实命中执行预留负载和原时点事实。
 func ExecuteCountedPayload[Event, Binding any](frame *Frame, event Event, prepared CountedHit, payload planbundle.CompiledAbility, host CountedPayloadHost[Event, Binding]) *model.EngineError {
-	binding := host.BeginEmpoweredProcess(prepared.Changes, prepared.Association.Target, prepared.Association)
+	binding := host.BeginEmpoweredProcess(prepared.Original, prepared.Changes, prepared.Association.Target, prepared.Association)
 	host.RecordCountedExecution(prepared.Changes.View())
 	err := host.EmpoweredPayload(event, prepared.Changes, prepared.Association, payload)
-	host.EndEmpoweredProcess(binding)
+	host.EndEmpoweredProcess(binding, err)
 	if err != nil {
 		return err
 	}

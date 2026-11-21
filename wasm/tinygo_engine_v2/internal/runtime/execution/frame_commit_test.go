@@ -6,6 +6,7 @@ import (
 	compilebundle "tinygo_engine_v2/internal/compile"
 	model "tinygo_engine_v2/internal/model"
 	planbundle "tinygo_engine_v2/internal/plan"
+	actionpkg "tinygo_engine_v2/internal/runtime/action"
 	scheduler "tinygo_engine_v2/internal/scheduler"
 	formuladefinition "tinygo_engine_v2/internal/testkit/formuladefinition"
 )
@@ -50,6 +51,69 @@ func frameCommitFrame(s *Engine) (*Frame, planbundle.CompiledAbility, []planbund
 	f.ownerProviderRef = "attack"
 	start := int(ability.OperationStart)
 	return f, ability, s.compiled.Operations[start : start+int(ability.OperationCount)]
+}
+
+func TestFrameCommitChecksProcessDeadlineBeforeAttackWaitBudget(t *testing.T) {
+	s := empoweredRefreshFixture(t, false)
+	process := s.actions.EmpoweredAt(0)
+	attack := s.actions.BasicAttack()
+	attackCooldown := actionpkg.AbilityCooldownIdentity(attack.Plan().Source, attack.Plan().InitialControlAbilityRef)
+	var f Frame
+	s.initProcessFrame(&f, process)
+	f.stageFor(attack.Plan().Source).writableCooldowns().Set(attackCooldown, 1250, s.loop.TimeMs())
+	f.activeProcessChanges.SetTiming(maxJSONSafeInteger+1, nil)
+	s.currentEventCommands = s.budget.MaxCommandsPerEvent
+	commands := s.currentEventCommands
+	ready := s.combatants[attack.Plan().Source].cooldowns.AbilityReadyAt(attack.Plan().Source, attack.Plan().InitialControlAbilityRef)
+
+	f.commit()
+	if f.fatalErr == nil || f.fatalErr.Path != "processInstances.advanceAtMs" || f.committed || s.currentEventCommands != commands || s.budgetCause != "" {
+		t.Fatalf("deadline did not win before command consumption: err=%+v commands=%d budget=%s", f.fatalErr, s.currentEventCommands, s.budgetCause)
+	}
+	if s.combatants[attack.Plan().Source].cooldowns.AbilityReadyAt(attack.Plan().Source, attack.Plan().InitialControlAbilityRef) != ready {
+		t.Fatal("failed preparation published the staged cooldown")
+	}
+	f.fatal, f.fatalErr = false, nil
+	f.activeProcessChanges.SetTiming(process.AdvanceAtMs(), process.ExpiresAtMs())
+	f.commit()
+	if f.fatalErr == nil || f.fatalErr.BudgetCause != model.BudgetCauseMaxCommandsPerEvent || f.committed || s.currentEventCommands != commands+1 {
+		t.Fatalf("attack wait did not charge at the original boundary: err=%+v commands=%d", f.fatalErr, s.currentEventCommands)
+	}
+}
+
+func TestFrameCommitChecksProjectionBeforeAutomaticCooldownWake(t *testing.T) {
+	c, r := automaticChainInput(t, 2, false)
+	health, _ := resourceMaxInput(t, 500, 1500, false)
+	window := health.SharedProviders[len(health.SharedProviders)-1]
+	stateful := hitFlatProvider("stateful_provider", "armor", 10)
+	stateful.InitialStateSchema = map[string]any{"counter": float64(0)}
+	c.SharedProviders = append(c.SharedProviders, window, stateful)
+	s := frameCommitState(t, c, r)
+	action := s.actions.NewAutomaticAction(s.actions.AutomaticAt(1), 0)
+	process := actionpkg.NewProcess(actionpkg.ProcessSeed{Snapshot: model.ProcessInstanceSnapshot{Owner: "source", Target: "target", UseKey: action.UseRef()}})
+	var f Frame
+	s.initProcessFrame(&f, process)
+	f.actionFrame.MarkProcessStart()
+	startingQueue := s.loop.RemainingCapacity()
+	startingProviders := s.combatants["source"].instances.Providers().Len()
+	if _, err := f.prepareCooldownWakeups(); err == nil || err.Path != "automaticSkills.qualifications" {
+		t.Fatalf("fixture lacks a rejected cooldown wake: %+v", err)
+	}
+	ops := []planbundle.CompiledOperation{
+		{Operation: "apply_provider", Target: "self", ProviderDefinitionRef: window.ProviderKey},
+		{Operation: "apply_provider", Target: "self", ProviderDefinitionRef: stateful.ProviderKey},
+	}
+	if err := f.executeOperations(planbundle.CompiledAbility{}, ops); err != nil {
+		t.Fatal(err)
+	}
+	commands := s.currentEventCommands
+	f.commit()
+	if f.fatalErr == nil || f.fatalErr.Path != "providers" || f.committed || s.budgetCause != "" || s.currentEventCommands != commands {
+		t.Fatalf("projection did not win before cooldown wake: err=%+v commands=%d budget=%s", f.fatalErr, s.currentEventCommands, s.budgetCause)
+	}
+	if s.loop.RemainingCapacity() != startingQueue || s.combatants["source"].instances.Providers().Len() != startingProviders || s.actions.ProcessCount() != 0 {
+		t.Fatal("failed preparation published a queue entry, effect or main process")
+	}
 }
 
 func TestFrameCommitBudgetDropsDamageHealingShieldHistoryAndEvidence(t *testing.T) {

@@ -24,13 +24,13 @@ func (f *Frame) stagePassiveProcess(ability planbundle.CompiledAbility, operatio
 	if f.plannedProcessCount() >= f.run.budget.MaxProcessInstances {
 		return f.run.budgetError(model.BudgetCauseMaxProcessInstances, "passive process instance budget exceeded")
 	}
-	f.pendingPassiveProcesses.Append(process)
+	f.actionFrame.StagePassiveProcess(process)
 	return nil
 }
 
 func (f *Frame) plannedProcessCount() int {
-	count := f.run.actions.ProcessCount() + f.pendingPassiveProcesses.Len()
-	if f.processIsNew && f.pendingProcess != nil && f.processOriginal != nil {
+	count := f.run.actions.ProcessCount() + f.actionFrame.PassiveProcessCount()
+	if f.actionFrame.StartsProcess() && f.actionFrame.Process() != nil {
 		count++
 	}
 	return count

@@ -7,6 +7,7 @@ import (
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/plan"
+	actionpkg "tinygo_engine_v2/internal/runtime/action"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 	"tinygo_engine_v2/internal/runtime/execution/usage"
 	"tinygo_engine_v2/internal/scheduler"
@@ -91,8 +92,10 @@ func TestFrameQueueKeepsFirstFailure(t *testing.T) {
 
 	frame := cumulativeRefundFrame(state)
 	frame.pendingStateExpiry = []pendingFrameStateExpiry{{at: 400}}
-	frame.pendingProcessTimer = true
-	frame.processOriginal = state.actions.ProcessAt(0)
+	process := state.actions.ProcessAt(0)
+	changes := actionpkg.StageProcess(process)
+	frame.actionFrame.StageProcess(process, changes)
+	frame.actionFrame.StageProcessTimer(changes, true)
 	frame.commitFrameQueues()
 
 	err := state.processFailure
