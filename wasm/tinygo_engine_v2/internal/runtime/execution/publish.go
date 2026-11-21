@@ -4,9 +4,15 @@ package execution
 import (
 	"sort"
 	"tinygo_engine_v2/internal/model"
+	planbundle "tinygo_engine_v2/internal/plan"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 	"tinygo_engine_v2/internal/runtime/execution/lifecycle"
 )
+
+type commitCapacityFailure struct {
+	cause   model.BudgetCause
+	message string
+}
 
 type pendingFrameStateExpiry struct {
 	at      int64
@@ -97,16 +103,32 @@ func (f *Frame) stageProviderTargetStateExpiry(owner, provider, target, key stri
 	lifecycle.StageTargetStateExpiry(owner, provider, target, key, expires, (*stateExecutionFrame)(f))
 }
 
-func (f *Frame) commitKeysAndPreflight(keyBuffer []string) ([]string, *model.EngineError) {
+func (f *Frame) prepareAndValidateCommit(keyBuffer []string) ([]string, int, *model.EngineError) {
+	if f.run.compiled.Features.NeedsDynamicProviderFlush() {
+		f.flushDynamicProviders()
+		if f.fatal {
+			return nil, 0, f.fatalErr
+		}
+	}
+	if f.run.compiled.Features.Has(planbundle.FeatureShieldLifecycle) {
+		f.prepareShieldLifecycleRemovals()
+		if f.run.compiled.Features.Has(planbundle.FeatureStagedLinkedShield) || f.run.compiled.Features.AllowsDurationOnlyLinkedShieldProjection() {
+			// Depletion can append a removal after the first projection pass.
+			f.flushDynamicProviders()
+			if f.fatal {
+				return nil, 0, f.fatalErr
+			}
+		}
+	}
 	if f.run.processFailure != nil {
-		return nil, f.run.processFailure
+		return nil, 0, f.run.processFailure
 	}
 	if err := f.validatePlannedProcessDeadline(); err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 	waitEvents, waitError := f.prepareBasicAttackWait()
 	if waitError != nil {
-		return nil, waitError
+		return nil, 0, waitError
 	}
 	keys := sortedFrameCombatantKeys(f.staged, keyBuffer)
 	for _, key := range keys {
@@ -116,13 +138,13 @@ func (f *Frame) commitKeysAndPreflight(keyBuffer []string) ([]string, *model.Eng
 		}
 		executor := f.run.lifecycleExecutor()
 		if err := executor.ValidateProjectedMutations(&f.effectProjection, mutations); err != nil {
-			return nil, err
+			return nil, 0, err
 		}
 	}
 	count := len(f.pendingStateExpiry) + len(f.pendingAnchoredTicks) + waitEvents
 	cooldownEvents, cooldownError := f.prepareCooldownWakeups()
 	if cooldownError != nil {
-		return nil, cooldownError
+		return nil, 0, cooldownError
 	}
 	count += cooldownEvents
 	for _, pending := range f.pendingAmmoWaits {
@@ -137,8 +159,13 @@ func (f *Frame) commitKeysAndPreflight(keyBuffer []string) ([]string, *model.Eng
 		count++
 	}
 	count += f.pendingPassiveProcesses.Len()
+	return keys, count, nil
+}
+
+// 容量检查只借用已准备的状态。预算归因由帧在原位置登记。
+func (f *Frame) preflightCommitCapacity(keys []string, count int) (commitCapacityFailure, *model.EngineError) {
 	if f.plannedProcessCount() > f.run.budget.MaxProcessInstances {
-		return nil, f.run.budgetError(model.BudgetCauseMaxProcessInstances, "passive process instance budget exceeded")
+		return commitCapacityFailure{cause: model.BudgetCauseMaxProcessInstances, message: "passive process instance budget exceeded"}, nil
 	}
 	count += lifecycle.CountShieldExpiries(f.pendingShieldExpires, (*lifecycleStagedShieldExpiryReads)(f))
 	// 只对本帧有生命周期操作的挂载列表做小范围预演。队列、历史与过程总表不复制。
@@ -147,20 +174,20 @@ func (f *Frame) commitKeysAndPreflight(keyBuffer []string) ([]string, *model.Eng
 		if len(staged.providerOps) == 0 {
 			continue
 		}
-		executor := f.run.lifecycleExecutor()
+		executor := lifecycle.New(&f.run.compiled, &f.run.formulas, &f.run.effectIdentities, f.run.req.SessionID)
 		added, err := executor.PreflightOwner(staged.instances, staged.providerOps, lifecycle.MutationPreflight{
 			Now: f.run.loop.TimeMs(), Stop: f.run.loop.StartMs() + f.run.loop.DurationMs(),
 			BasicAttack: f.run.actions.BasicAttack() != nil, ParticipantsAlive: f.continuousCombatantsLive(),
 		})
 		if err != nil {
-			return nil, err
+			return commitCapacityFailure{}, err
 		}
 		count += added
 	}
 	if !f.run.loop.CanEnqueue(count) {
-		return nil, f.run.budgetError(model.BudgetCauseMaxQueueEvents, "frame combat event queue overflow")
+		return commitCapacityFailure{cause: model.BudgetCauseMaxQueueEvents, message: "frame combat event queue overflow"}, nil
 	}
-	return keys, nil
+	return commitCapacityFailure{}, nil
 }
 
 // 只扣除已经暂存在本帧的两类计时请求；总帧排程仍由原统一预检核定。

@@ -30,28 +30,24 @@ func (f *Frame) commit() {
 	if f.fatal || f.committed {
 		return
 	}
-	if f.run.compiled.Features.NeedsDynamicProviderFlush() {
-		f.flushDynamicProviders()
-		if f.fatal {
-			return
-		}
-	}
-	if f.run.compiled.Features.Has(planbundle.FeatureShieldLifecycle) {
-		f.prepareShieldLifecycleRemovals()
-		if f.run.compiled.Features.Has(planbundle.FeatureStagedLinkedShield) || f.run.compiled.Features.AllowsDurationOnlyLinkedShieldProjection() {
-			// Depletion can append a removal after the first projection pass.
-			f.flushDynamicProviders()
-			if f.fatal {
-				return
-			}
-		}
-	}
 	var keyBuffer [2]string
-	keys, err := f.commitKeysAndPreflight(keyBuffer[:0])
+	keys, count, err := f.prepareAndValidateCommit(keyBuffer[:0])
+	if err == nil {
+		var limit commitCapacityFailure
+		limit, err = f.preflightCommitCapacity(keys, count)
+		if limit.cause != "" {
+			err = f.run.budgetError(limit.cause, limit.message)
+		}
+	}
+	if err == nil {
+		err = f.publishCommit(keys)
+	}
 	if err != nil {
 		f.fatal, f.fatalErr = true, err
-		return
 	}
+}
+
+func (f *Frame) publishCommit(keys []string) *model.EngineError {
 	for _, key := range keys {
 		staged := f.staged.Get(key)
 		c, ok := f.run.combatants[key]
@@ -75,7 +71,7 @@ func (f *Frame) commit() {
 	evalCtx, err := f.evalContext(planbundle.CompiledAbility{})
 	if err != nil {
 		f.run.recordFirstProcessFailure(err)
-		return
+		return f.run.processFailure
 	}
 	for _, key := range keys {
 		mutations := f.staged.Get(key).providerOps
@@ -85,23 +81,20 @@ func (f *Frame) commit() {
 		executor := f.run.lifecycleExecutor()
 		if err := executor.PublishMutations(mutations, evalCtx, f.run.loop.TimeMs(), (*lifecycleLiveEffects)(f.run)); err != nil {
 			f.run.recordFirstProcessFailure(err)
-			f.fatal, f.fatalErr = true, f.run.processFailure
-			return
+			return f.run.processFailure
 		}
 	}
 	// 延后错误不改变同一发布动作内两方的执行范围。
 	if err := f.run.processFailure; err != nil {
-		f.fatal, f.fatalErr = true, err
-		return
+		return err
 	}
 	f.commitProjectedProviderLifecycles()
 	if err := f.run.processFailure; err != nil {
-		f.fatal, f.fatalErr = true, err
-		return
+		return err
 	}
 	if f.fatal {
 		f.run.recordFirstProcessFailure(f.fatalErr)
-		return
+		return f.run.processFailure
 	}
 	if f.run.compiled.Features.Has(planbundle.FeatureResourceMax) {
 		for _, key := range keys {
@@ -126,9 +119,8 @@ func (f *Frame) commit() {
 	}
 	f.run.freezeActionDeaths()
 	f.commitFrameQueues()
-	if f.run.processFailure != nil {
-		f.fatal, f.fatalErr = true, f.run.processFailure
-		return
+	if err := f.run.processFailure; err != nil {
+		return err
 	}
 	f.commitFrameFacts()
 	if !f.run.settlingProcessDeaths && f.run.processFailure == nil {
@@ -137,9 +129,7 @@ func (f *Frame) commit() {
 	if f.run.processFailure == nil {
 		f.run.recordFirstProcessFailure(f.run.failStunnedProcesses())
 	}
-	if err := f.run.processFailure; err != nil {
-		f.fatal, f.fatalErr = true, err
-	}
+	return f.run.processFailure
 }
 
 // 只保存当前帧新增的事实，不复制整场伤害历史、过程列表或可靠记录。

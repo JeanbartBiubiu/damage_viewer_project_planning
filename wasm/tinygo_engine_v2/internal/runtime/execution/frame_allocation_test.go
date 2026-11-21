@@ -365,7 +365,7 @@ func TestFrameAllocationCommitKeysUseLocalBufferAndLexicalOrder(t *testing.T) {
 				frame.stageFor(key)
 			}
 			keyBuffer := [2]string{"untouched0", "untouched1"}
-			keys, err := frame.commitKeysAndPreflight(keyBuffer[:0])
+			keys, _, err := frame.prepareAndValidateCommit(keyBuffer[:0])
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -382,7 +382,7 @@ func TestFrameAllocationCommitKeysUseLocalBufferAndLexicalOrder(t *testing.T) {
 			child.stageFor("omega")
 			child.stageFor("beta")
 			var childBuffer [2]string
-			childKeys, err := child.commitKeysAndPreflight(childBuffer[:0])
+			childKeys, _, err := child.prepareAndValidateCommit(childBuffer[:0])
 			if err != nil || !reflect.DeepEqual(childKeys, []string{"beta", "omega"}) || !reflect.DeepEqual(keys, scenario.want) {
 				t.Fatal("child preflight changed the parent's commit keys", childKeys, keys, err)
 			}

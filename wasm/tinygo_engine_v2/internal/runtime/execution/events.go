@@ -3,6 +3,7 @@ package execution
 
 import (
 	"strings"
+	"tinygo_engine_v2/internal/base/attribute"
 	"tinygo_engine_v2/internal/base/typeset"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
@@ -407,8 +408,8 @@ func (f *Frame) dispatchPendingEvents() *model.EngineError {
 }
 
 func (f *Frame) captureEmitSnapshot(eventType, eventSourceKey, eventTargetKey string) eventFormulaSnapshot {
-	src := f.stageFor(eventSourceKey)
-	tgt := f.stageFor(eventTargetKey)
+	sourceAttrs, sourceResources := f.emitCombatantSnapshot(eventSourceKey)
+	targetAttrs, targetResources := f.emitCombatantSnapshot(eventTargetKey)
 	entrySrcAttrs, entrySrcRes := f.entryMapsForKey(eventSourceKey)
 	entryTgtAttrs, entryTgtRes := f.entryMapsForKey(eventTargetKey)
 	snap := eventFormulaSnapshot{
@@ -419,10 +420,10 @@ func (f *Frame) captureEmitSnapshot(eventType, eventSourceKey, eventTargetKey st
 		EntryTargetAttrs:     entryTgtAttrs,
 		EntrySourceResources: entrySrcRes,
 		EntryTargetResources: entryTgtRes,
-		SourceAttrs:          src.attributesView(),
-		TargetAttrs:          tgt.attributesView(),
-		SourceResources:      src.readonlyResources(),
-		TargetResources:      tgt.readonlyResources(),
+		SourceAttrs:          sourceAttrs,
+		TargetAttrs:          targetAttrs,
+		SourceResources:      sourceResources,
+		TargetResources:      targetResources,
 		CastInstanceID:       f.castInstanceID,
 		CastOrigin:           f.castOrigin,
 	}
@@ -431,6 +432,17 @@ func (f *Frame) captureEmitSnapshot(eventType, eventSourceKey, eventTargetKey st
 		snap.SkillHit = f.eventCtx.SkillHit
 	}
 	return snap
+}
+
+func (f *Frame) emitCombatantSnapshot(key string) (attribute.Table, model.ResourceView) {
+	if !f.committed {
+		staged := f.stageFor(key)
+		return staged.attributesView(), staged.readonlyResources()
+	}
+	if staged := f.staged.Get(key); staged != nil {
+		return staged.attributesView(), staged.readonlyResources()
+	}
+	return f.entryMapsForKey(key)
 }
 
 func cloneEventSnapshot(src *eventFormulaSnapshot) *eventFormulaSnapshot {
