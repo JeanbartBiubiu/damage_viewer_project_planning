@@ -28,11 +28,11 @@ type StagedAttributeWork interface {
 	AttributeResolver(owner string) effectpkg.AttributeResolver
 	// AttributePair 返回同一读取点的全局双方视图，沿原暂存优先规则回退到已发布值。
 	AttributePair() [2]attribute.Table
-	// AttributeContext 在原调用点准备能力上下文，准备可能改变所属效果投影。
-	AttributeContext(ability planbundle.CompiledAbility) formula.GenericEvalContext
+	// AttributeContext 在原调用点准备能力上下文，准备可能改变所属效果投影，失败时返回原错误。
+	AttributeContext(ability planbundle.CompiledAbility) (formula.GenericEvalContext, *model.EngineError)
 	// AttributeProviderContext 在原探测点提供实际挂载事实，不创建捕获上下文的回调。
 	AttributeProviderContext(host, owner, provider string) pipeline.ProviderFormulaContext
-	// RecordAttributeFailure 立即保存原失败事实，不回滚或提前终止两遍循环。
+	// RecordAttributeFailure 立即保存原失败事实，保留已完成的暂存写入。
 	RecordAttributeFailure(err *model.EngineError)
 	// AttributeFailed 查询当前真实失败状态，仅决定是否保存成功缓存。
 	AttributeFailed() bool
@@ -80,9 +80,13 @@ func SyncHPResolved(attrs attribute.Table) attribute.Table {
 	return attrs.With("hp", slot)
 }
 
-// RecomputeStagedAttributes 完整消费原整轮缓存和两遍求解；失败按原位置记录后继续原循环。
+// RecomputeStagedAttributes 沿用整轮缓存和两遍求解，属性运算失败后继续两遍循环，上下文准备失败立即结束。
 func RecomputeStagedAttributes(rules AttributeRules, cache *evaluation.State, source, target string, ability planbundle.CompiledAbility, work StagedAttributeWork) {
-	context := work.AttributeContext(ability)
+	context, err := work.AttributeContext(ability)
+	if err != nil {
+		work.RecordAttributeFailure(err)
+		return
+	}
 	memos, inputs, unchanged := stagedAttributeMemo(rules, cache, source, target, context, work)
 	keys := [2]string{source, target}
 	if unchanged {
@@ -98,7 +102,11 @@ func RecomputeStagedAttributes(rules AttributeRules, cache *evaluation.State, so
 				continue
 			}
 			numbers := work.AttributeNumbers(key)
-			context := work.AttributeContext(ability)
+			context, err := work.AttributeContext(ability)
+			if err != nil {
+				work.RecordAttributeFailure(err)
+				return
+			}
 			numbers.SetAttributes(ResolveStagedAttributes(rules, cache, key, numbers.Attributes(), context, work))
 			numbers.SetAttributes(SyncHPResolved(numbers.Attributes()))
 		}
@@ -106,8 +114,12 @@ func RecomputeStagedAttributes(rules AttributeRules, cache *evaluation.State, so
 	for index, memo := range memos {
 		if memo != nil && !work.AttributeFailed() {
 			output := work.AttributeNumbers(keys[index]).Attributes()
-			strict := work.AttributeContext(ability).StrictReads
-			memo.Remember(inputs[index], output, strict)
+			context, err := work.AttributeContext(ability)
+			if err != nil {
+				work.RecordAttributeFailure(err)
+				return
+			}
+			memo.Remember(inputs[index], output, context.StrictReads)
 		}
 	}
 }

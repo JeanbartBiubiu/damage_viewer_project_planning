@@ -345,7 +345,7 @@ func (r *operationReads) NumericOwner(key string) operation.Owner {
 	return operation.Owner{Numbers: &sc.numbers, Instances: &sc.instances, Dirty: &sc.dirty}
 }
 
-func (r *operationReads) NumericContext(ability planbundle.CompiledAbility) formula.GenericEvalContext {
+func (r *operationReads) NumericContext(ability planbundle.CompiledAbility) (formula.GenericEvalContext, *model.EngineError) {
 	return (*Frame)(r).evalContext(ability)
 }
 

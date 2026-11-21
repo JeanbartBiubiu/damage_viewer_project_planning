@@ -56,7 +56,7 @@ type stateExecutionFrameAPI interface {
 	// StateAmount 按原能力上下文读取当前金额。
 	StateAmount(program formula.GenericProgramID, ability planbundle.CompiledAbility) (float64, *model.EngineError)
 	// StateContext 准备当前状态属性同步的实际读值。
-	StateContext(ability planbundle.CompiledAbility) formula.GenericEvalContext
+	StateContext(ability planbundle.CompiledAbility) (formula.GenericEvalContext, *model.EngineError)
 	// StateBag 借用本帧指定状态袋，保留原创建标记。
 	StateBag(owner, provider string, create bool) effectpkg.BagChange
 	// ReadStateBag 保留原目标状态惰性到期标记和只读范围。
@@ -270,10 +270,6 @@ func (r *lifecycleStateActions) ConsumeStateAmmo(operation planbundle.CompiledOp
 func (r *lifecycleStateActions) ReleaseStateTargetCooldowns(owner, provider, previous string) {
 	f := (*Frame)(r)
 	f.stageFor(owner).writableCooldowns().RemoveTarget(owner, provider, previous, f.run.loop.TimeMs())
-}
-
-func (f *Frame) resolveTargetStateWriteAttributes(owner string, ability planbundle.CompiledAbility) {
-	f.resolveTargetStateAttributes(owner, ability, f.evalContext(ability))
 }
 
 func (f *Frame) resolveTargetStateAttributes(owner string, ability planbundle.CompiledAbility, context formula.GenericEvalContext) {
@@ -526,7 +522,7 @@ func (r *stateExecutionFrame) StateAmount(program formula.GenericProgramID, abil
 	return (*Frame)(r).evalAmount(program, ability)
 }
 
-func (r *stateExecutionFrame) StateContext(ability planbundle.CompiledAbility) formula.GenericEvalContext {
+func (r *stateExecutionFrame) StateContext(ability planbundle.CompiledAbility) (formula.GenericEvalContext, *model.EngineError) {
 	return (*Frame)(r).evalContext(ability)
 }
 

@@ -65,7 +65,7 @@ func (r *numericStagedAttributes) AttributePair() [2]attribute.Table {
 	return pair
 }
 
-func (r *numericStagedAttributes) AttributeContext(ability planbundle.CompiledAbility) formula.GenericEvalContext {
+func (r *numericStagedAttributes) AttributeContext(ability planbundle.CompiledAbility) (formula.GenericEvalContext, *model.EngineError) {
 	return (*Frame)(r).evalContext(ability)
 }
 
@@ -103,7 +103,7 @@ func (r *numericLiveAttributes) PublishLiveAttributes(owner string, attrs attrib
 }
 
 func (r *numericLiveAttributes) RecordLiveAttributeFailure(err *model.EngineError) {
-	(*Engine)(r).processFailure = err
+	(*Engine)(r).recordFirstProcessFailure(err)
 }
 
 func opponentCombatantKey(owner string) string { return lifecycle.OpponentKey(owner) }
@@ -220,9 +220,12 @@ func (f *Frame) entryMapsForKey(key string) (attribute.Table, model.ResourceView
 	}
 }
 
-func (f *Frame) evalContext(ability planbundle.CompiledAbility) formula.GenericEvalContext {
+func (f *Frame) evalContext(ability planbundle.CompiledAbility) (formula.GenericEvalContext, *model.EngineError) {
 	if f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange || f.run.compiled.HasStagedLinkedShield || f.run.compiled.HasModifierSnapshots {
 		f.flushDynamicProviders()
+	}
+	if f.fatal {
+		return formula.GenericEvalContext{}, f.fatalErr
 	}
 	source, target := f.stageFor(f.sourceKey), f.stageFor(f.targetKey)
 	ctx := formula.GenericEvalContext{
@@ -324,7 +327,7 @@ func (f *Frame) evalContext(ability planbundle.CompiledAbility) formula.GenericE
 			ctx.Facts = f.prepareFormulaFacts(f.run.compiled.Providers[providerIndex].FormulaLinkedReads)
 		}
 	}
-	return ctx
+	return ctx, nil
 }
 
 // providerOwnerKey returns the combatant that owns mounted provider state for this frame.
@@ -405,7 +408,10 @@ func (f *Frame) resolveAttributesFor(combatantKey string, attrs attribute.Table,
 }
 
 func (f *Frame) evalAmount(programID formula.GenericProgramID, ability planbundle.CompiledAbility) (float64, *model.EngineError) {
-	ctx := f.evalContext(ability)
+	ctx, err := f.evalContext(ability)
+	if err != nil {
+		return 0, err
+	}
 	return f.evalAmountWithContext(programID, &ctx)
 }
 

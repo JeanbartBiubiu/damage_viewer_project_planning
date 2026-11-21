@@ -18,8 +18,8 @@ type ProviderPreparationInput struct {
 
 // ProviderPreparation 只在效果操作原位置准备严格读值，不提供操作、帧或队列能力。
 type ProviderPreparation interface {
-	// ProviderContext 准备当前实际双方的求值输入，不把求值结果提前冻结到整批操作之前。
-	ProviderContext(ability plan.CompiledAbility, source, target string) formula.GenericEvalContext
+	// ProviderContext 在单次效果操作的原位置准备当前实际双方的求值输入，读值失败时返回原错。
+	ProviderContext(ability plan.CompiledAbility, source, target string) (formula.GenericEvalContext, *model.EngineError)
 }
 
 // ProviderOperationPreparation 为效果专用操作提供同帧行动资格与事件身份交接。
@@ -82,7 +82,10 @@ func (e *Executor) PrepareProviderMutation(input ProviderPreparationInput, reads
 		}
 		return PreparedLifecycle{ExpireAt: expires, HasExpireAt: true}, nil
 	}
-	evalCtx := reads.ProviderContext(ability, sourceKey, targetKey)
+	evalCtx, err := reads.ProviderContext(ability, sourceKey, targetKey)
+	if err != nil {
+		return PreparedLifecycle{}, err
+	}
 	evalCtx.StrictReads = true
 	return e.PrepareLifecycle(provider, evalCtx, input.Now)
 }

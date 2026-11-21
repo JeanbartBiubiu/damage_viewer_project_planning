@@ -17,7 +17,10 @@ func (f *calculation) applyReceivedShieldModifiers(targetKey string, amount floa
 	providerContext := f.providerFormulaContextFunc(targetKey)
 	for _, collected := range modifiers {
 		modifier := collected.Modifier
-		context := f.evalContext(ability)
+		context, contextErr := f.evalContext(ability)
+		if contextErr != nil {
+			return 0, contextErr
+		}
 		if providerContext != nil {
 			owned := providerContext(modifier.OwnerCombatantKey, modifier.ProviderRef)
 			context.HasProviderContext, context.ProviderState, context.ProviderTargetState = owned.HasProviderContext, owned.ProviderState, owned.ProviderTargetState

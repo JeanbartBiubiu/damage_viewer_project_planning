@@ -162,7 +162,10 @@ func (s *Engine) evalListenerCondition(listener planbundle.CompiledListener, ev 
 			frame.eventCtx.CastOrigin = ev.castOrigin
 		}
 	}
-	ctx := frame.evalContext(ability)
+	ctx, contextErr := frame.evalContext(ability)
+	if contextErr != nil {
+		return false, contextErr
+	}
 	ctx.Facts = frame.prepareFormulaFacts(s.compiled.FormulaFactReads[listener.ConditionProgram])
 	ctx.StrictReads = true
 	value, err := s.formulas.Evaluation.EvalContext(listener.ConditionProgram, &ctx)

@@ -211,8 +211,8 @@ type OwnerProjection struct {
 
 // ProjectionReads 只在原位置准备应用快照的公式输入，不能执行操作、提交或访问队列。
 type ProjectionReads interface {
-	// ApplicationContext 借用当前同步阶段的实际双方读值，嵌套读取仍由原帧保护。
-	ApplicationContext(source, target string) formula.GenericEvalContext
+	// ApplicationContext 借用当前同步阶段的实际双方读值，嵌套读取由原帧保护，失败时返回原错。
+	ApplicationContext(source, target string) (formula.GenericEvalContext, *model.EngineError)
 }
 
 type ProjectionInput struct {

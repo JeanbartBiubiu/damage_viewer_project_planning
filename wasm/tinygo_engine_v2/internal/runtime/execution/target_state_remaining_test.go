@@ -105,7 +105,7 @@ func TestTargetStateRemainingSourceAndTargetIsolation(t *testing.T) {
 	}
 	for _, target := range []string{"source", ""} {
 		f, a, ops := targetRemainingFrame(s, "source", target, targetRemainingProvider, "probe")
-		value, err := s.formulas.Evaluation.Eval(ops[0].ConditionProgram, f.evalContext(a))
+		value, err := s.formulas.Evaluation.Eval(ops[0].ConditionProgram, requireFrameEvalContext(t, f, a))
 		if err != nil || value != 0 {
 			t.Fatal("foreign or absent target inherited mark", target, value, err)
 		}

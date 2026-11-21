@@ -31,8 +31,8 @@ type StateExecutionReads interface {
 	StateProviderReads
 	// StateAmount 使用原能力及当前帧读值求值，不提前读取后续操作金额。
 	StateAmount(program formula.GenericProgramID, ability plan.CompiledAbility) (float64, *model.EngineError)
-	// StateContext 准备原属性重算位置的当前公式上下文。
-	StateContext(ability plan.CompiledAbility) formula.GenericEvalContext
+	// StateContext 在原属性重算位置准备当前公式上下文，读值失败时返回原错。
+	StateContext(ability plan.CompiledAbility) (formula.GenericEvalContext, *model.EngineError)
 	// StateBag 借用指定实际拥有者的状态暂存，create 保留原创建语义。
 	StateBag(owner, provider string, create bool) effectpkg.BagChange
 	// ReadStateBag 在原续时短路位置读取状态，expireTarget 保留原惰性目标到期语义。
@@ -103,7 +103,11 @@ func (e *Executor) ExecuteStateWrite(input StateExecutionInput, reads StateExecu
 		if result.Expiry.Kind != "" {
 			requests.StageStateExpiry(result.ExpireAt, result.Expiry)
 		}
-		attributes.ResolveOwnerStateAttributes(input.Owner, reads.StateContext(ability))
+		context, err := reads.StateContext(ability)
+		if err != nil {
+			return err
+		}
+		attributes.ResolveOwnerStateAttributes(input.Owner, context)
 		attributes.ResolveAllStateAttributes(ability)
 		if result.Ammo {
 			if failed, err := attributes.StateFailure(); failed {
@@ -128,7 +132,11 @@ func (e *Executor) ExecuteStateWrite(input StateExecutionInput, reads StateExecu
 				return err
 			}
 		}
-		attributes.ResolveTargetStateAttributes(input.Owner, ability, reads.StateContext(ability))
+		context, err := reads.StateContext(ability)
+		if err != nil {
+			return err
+		}
+		attributes.ResolveTargetStateAttributes(input.Owner, ability, context)
 	}
 	attributes.MarkStateChanged(input.Owner)
 	return nil
@@ -168,10 +176,17 @@ func (e *Executor) ExecuteStateDuration(input StateExecutionInput, reads StateEx
 	}
 	if op.StateScope == stateScopeProvider {
 		if result.Expired {
-			attributes.ResolveOwnerStateAttributes(input.Owner, reads.StateContext(ability))
+			context, err := reads.StateContext(ability)
+			if err != nil {
+				return err
+			}
+			attributes.ResolveOwnerStateAttributes(input.Owner, context)
 		}
 	} else {
-		context := reads.StateContext(ability)
+		context, err := reads.StateContext(ability)
+		if err != nil {
+			return err
+		}
 		if result.Expired {
 			attributes.ResolveTargetStateAttributes(input.Owner, ability, context)
 		} else if result.ExpireAt > 0 {

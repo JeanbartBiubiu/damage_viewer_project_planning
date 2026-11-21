@@ -31,8 +31,8 @@ type LinkedShieldStage struct {
 // LinkedShieldPreparation 只提供原盾操作所需的期限、应用上下文及随后才借用的所属暂存。
 type LinkedShieldPreparation interface {
 	ShieldPreparation
-	// LinkedShieldContext 在期限求值完成后准备原实际双方上下文。
-	LinkedShieldContext(ability plan.CompiledAbility, source, target string) formula.GenericEvalContext
+	// LinkedShieldContext 在期限求值完成后准备原实际双方上下文，读值失败时返回原错。
+	LinkedShieldContext(ability plan.CompiledAbility, source, target string) (formula.GenericEvalContext, *model.EngineError)
 	// LinkedShieldStaging 在金额、绑定及读值准备成功后取得原同帧暂存。
 	LinkedShieldStaging(target string) LinkedShieldStage
 }
@@ -49,7 +49,10 @@ func (e *Executor) ExecuteLinkedShield(op plan.CompiledOperation, ability plan.C
 			return ShieldProjection{}, err
 		}
 	}
-	context := reads.LinkedShieldContext(ability, source, target)
+	context, err := reads.LinkedShieldContext(ability, source, target)
+	if err != nil {
+		return ShieldProjection{}, err
+	}
 	context.StrictReads = true
 	stage := reads.LinkedShieldStaging(target)
 	return e.stageLinkedShield(op, provider, source, target, amount, expires, now, context, stage.Instances, stage.Mutations)

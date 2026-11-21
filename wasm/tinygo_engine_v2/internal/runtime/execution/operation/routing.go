@@ -112,7 +112,10 @@ func (f *calculation) executeOperation(ability planbundle.CompiledAbility, op *p
 	}
 }
 func (f *calculation) evalAmount(id formula.GenericProgramID, ability planbundle.CompiledAbility) (float64, *model.EngineError) {
-	ctx := f.evalContext(ability)
+	ctx, contextErr := f.evalContext(ability)
+	if contextErr != nil {
+		return 0, contextErr
+	}
 	value, err := f.executor.formulas.Evaluation.EvalContext(id, &ctx)
 	if err != nil {
 		out := engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), f.executor.plan.SchemaHash, f.executor.plan.RulesHash, f.executor.sessionID)

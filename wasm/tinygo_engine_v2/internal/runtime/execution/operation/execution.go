@@ -18,8 +18,8 @@ import (
 type NumericReads interface {
 	// NumericOwner 借用角色及效果的所属变更对象，不发布状态。
 	NumericOwner(key string) Owner
-	// NumericContext 在原读取时点准备公式上下文。
-	NumericContext(ability planbundle.CompiledAbility) formula.GenericEvalContext
+	// NumericContext 在原读取时点准备公式上下文，失败时返回原错误并停止本次求值。
+	NumericContext(ability planbundle.CompiledAbility) (formula.GenericEvalContext, *model.EngineError)
 	// NumericEntryAttributes 返回帧入口的不可变属性，复制伤害另传防御视图。
 	NumericEntryAttributes(key string) attribute.Table
 	// NumericProviderContext 只准备指定宿主、目标和严格性下的效果公式读取。
@@ -182,7 +182,7 @@ func (s *Executor) PipelineModifiers(state *Frame, input Input, reads NumericRea
 	return f.applyPipelineDamageModifiers(host, source, target, command, stage, amount, ability, damageType, traits, evidence)
 }
 func (f *calculation) stageFor(key string) Owner { return f.reads.NumericOwner(key) }
-func (f *calculation) evalContext(ability planbundle.CompiledAbility) formula.GenericEvalContext {
+func (f *calculation) evalContext(ability planbundle.CompiledAbility) (formula.GenericEvalContext, *model.EngineError) {
 	return f.reads.NumericContext(ability)
 }
 func (f *calculation) abilityTypeKeys(ability planbundle.CompiledAbility) []string {
@@ -208,7 +208,10 @@ func (f *calculation) processError(path, message, ref string) *model.EngineError
 	return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, message, path, ref, f.executor.plan.SchemaHash, f.executor.plan.RulesHash, f.executor.sessionID)
 }
 func (f *calculation) evalResultFormula(id formula.GenericProgramID, ability planbundle.CompiledAbility, target string) (float64, *model.EngineError) {
-	ctx := f.evalContext(ability)
+	ctx, contextErr := f.evalContext(ability)
+	if contextErr != nil {
+		return 0, contextErr
+	}
 	ctx.StrictReads = true
 	ctx.TargetAttrs = f.stageFor(target).attributesView()
 	ctx.TargetResources = f.stageFor(target).resourceView()

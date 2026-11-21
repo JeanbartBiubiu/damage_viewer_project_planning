@@ -24,8 +24,8 @@ type AttackWaitPreview struct {
 
 // InitialAttackWaitReads 只在真实当前普攻首次冷却已经核定后准备原公式视图。
 type InitialAttackWaitReads interface {
-	// InitialAttackWaitPreview 借用当前帧双方属性和原能力上下文，不建立新的帧。
-	InitialAttackWaitPreview() AttackWaitPreview
+	// InitialAttackWaitPreview 借用当前帧双方属性和原能力上下文，读值失败时返回原错。
+	InitialAttackWaitPreview() (AttackWaitPreview, *model.EngineError)
 }
 
 // AttackWaitWork 只在当前帧准备期间借用等待相关属性、冷却与金额。
@@ -34,8 +34,8 @@ type AttackWaitWork interface {
 	AttackStunUntil(owner string) (int64, *model.EngineError)
 	// PreviewAttackWait 沿原位置准备必要动态投影及两遍派生，失败不使用半成品。
 	PreviewAttackWait() (float64, *model.EngineError)
-	// ReadAttackWaitPreview 仅在已有未就绪等待时借用预检双方和完整公式上下文。
-	ReadAttackWaitPreview() AttackWaitPreview
+	// ReadAttackWaitPreview 仅在已有未就绪等待时借用预检双方和完整公式上下文，读值失败时返回原错。
+	ReadAttackWaitPreview() (AttackWaitPreview, *model.EngineError)
 	// AttackCooldowns 借用当前所属暂存的唯一冷却账，写入不发布状态。
 	AttackCooldowns() *actionpkg.CooldownLedger
 	// WritableAttackCooldowns 在原首次写入位置取得所属冷却暂存，不复制只读查询。
@@ -62,7 +62,10 @@ func (s BasicAttackExecutor) InitialWait(process *actionpkg.ProcessView, ready, 
 	if ready <= now || ready > maxJSONSafeInteger {
 		return nil, s.error("initial attack cooldown must produce a positive safe waiting timestamp", attack.Plan().InitialControlAbilityRef)
 	}
-	preview := reads.InitialAttackWaitPreview()
+	preview, err := reads.InitialAttackWaitPreview()
+	if err != nil {
+		return nil, err
+	}
 	return actionpkg.NewAttackWait(actionpkg.AttackWaitSeed{InitialReady: ready, Anchor: now, Period: ready - now, Remaining: 1,
 		Speed: preview.Source.At(attack.Plan().AttackSpeedAttributeKey).Resolved, SourceAttributes: preview.Source, TargetAttributes: preview.Target,
 		ProviderState: model.BorrowNumericView(AttackStateSnapshot(preview.Context.ProviderState, preview.Context.ProviderStateDefaults)), TargetState: model.BorrowNumericView(AttackStateSnapshot(preview.Context.ProviderTargetState, preview.Context.ProviderStateDefaults))}), nil
@@ -149,7 +152,10 @@ func (s BasicAttackExecutor) PrepareWaitProgress(now int64, input AttackWaitInpu
 		result.ExtraQueue = attackWaitExtraQueue(input, result.Wait)
 		return result, nil
 	}
-	preview := work.ReadAttackWaitPreview()
+	preview, err := work.ReadAttackWaitPreview()
+	if err != nil {
+		return result, err
+	}
 	speed = preview.Source.At(attack.Plan().AttackSpeedAttributeKey).Resolved
 	if !validAttackSpeed(speed, attack.Plan().AttackSpeedInputMax) {
 		return result, s.error("modified attack speed violates its explicit input bound", "driverPlan.basicAttack.attackSpeedInputMax")

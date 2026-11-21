@@ -11,19 +11,20 @@ import (
 )
 
 type linkedPreparationFixture struct {
-	order     []string
-	failure   *model.EngineError
-	stage     effectpkg.InstanceChangeSet
-	mutations []Mutation
+	order          []string
+	failure        *model.EngineError
+	contextFailure *model.EngineError
+	stage          effectpkg.InstanceChangeSet
+	mutations      []Mutation
 }
 
 func (f *linkedPreparationFixture) ShieldDeadline(plan.CompiledOperation, plan.CompiledAbility) (int64, *model.EngineError) {
 	f.order = append(f.order, "deadline")
 	return 200, f.failure
 }
-func (f *linkedPreparationFixture) LinkedShieldContext(plan.CompiledAbility, string, string) formula.GenericEvalContext {
+func (f *linkedPreparationFixture) LinkedShieldContext(plan.CompiledAbility, string, string) (formula.GenericEvalContext, *model.EngineError) {
 	f.order = append(f.order, "context")
-	return formula.GenericEvalContext{}
+	return formula.GenericEvalContext{}, f.contextFailure
 }
 func (f *linkedPreparationFixture) LinkedShieldStaging(string) LinkedShieldStage {
 	f.order = append(f.order, "stage")
@@ -31,7 +32,7 @@ func (f *linkedPreparationFixture) LinkedShieldStaging(string) LinkedShieldStage
 }
 
 func TestLinkedShieldValidatesBeforeReadsAndBorrowsStageAfterDeadline(t *testing.T) {
-	for _, fail := range []string{"amount", "deadline", ""} {
+	for _, fail := range []string{"amount", "deadline", "context", ""} {
 		t.Run(fail, func(t *testing.T) {
 			compiled := &plan.CompiledSession{Providers: []plan.CompiledProvider{{ProviderKey: "linked", ShieldDefinitionRef: "shield"}}}
 			identities := effectpkg.NewIdentityRegistry()
@@ -46,9 +47,15 @@ func TestLinkedShieldValidatesBeforeReadsAndBorrowsStageAfterDeadline(t *testing
 			if fail == "deadline" {
 				f.failure, wantOrder = &failure, []string{"deadline"}
 			}
+			if fail == "context" {
+				f.contextFailure, wantOrder = &failure, []string{"deadline", "context"}
+			}
 			result, err := executor.ExecuteLinkedShield(plan.CompiledOperation{ShieldRef: "shield", HasShieldDuration: true}, plan.CompiledAbility{}, "source", "target", amount, 100, f)
 			if (err != nil) != (fail != "") || !reflect.DeepEqual(f.order, wantOrder) {
 				t.Fatal("linked shield changed validation, deadline or stage-borrow order", err, f.order)
+			}
+			if fail == "context" && (err != &failure || result.Changed || len(result.Mutations) != 0 || result.Expiry != (ShieldExpiry{})) {
+				t.Fatal("context failure must preserve the original error and leave the shield unstaged", err, result)
 			}
 			if fail != "" && f.stage.Shields().Len() != 1 {
 				t.Fatal("preparation failure touched the old shield")

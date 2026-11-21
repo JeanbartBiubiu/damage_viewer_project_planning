@@ -14,6 +14,7 @@ type processCooldownFixture struct {
 	now               int64
 	order             []string
 	failure           *model.EngineError
+	previewFailure    *model.EngineError
 	previewSawTotal   bool
 	preview           AttackWaitPreview
 	previewOwner, ref string
@@ -31,11 +32,11 @@ func (f *processCooldownFixture) WritableProcessCooldown(string) *actionpkg.Cool
 	f.order = append(f.order, "ledger")
 	return f.ledger
 }
-func (f *processCooldownFixture) InitialAttackWaitPreview() AttackWaitPreview {
+func (f *processCooldownFixture) InitialAttackWaitPreview() (AttackWaitPreview, *model.EngineError) {
 	f.order = append(f.order, "preview")
 	entry, found := f.ledger.Entry(actionpkg.AbilityCooldownIdentity(f.previewOwner, f.ref))
 	f.previewSawTotal = found && entry.HasOrdinaryTotal && entry.OrdinaryTotalMs == 250
-	return f.preview
+	return f.preview, f.previewFailure
 }
 
 func TestProcessCooldownKeepsOrdinaryTotalBeforeActualAttackWait(t *testing.T) {
@@ -54,6 +55,13 @@ func TestProcessCooldownKeepsOrdinaryTotalBeforeActualAttackWait(t *testing.T) {
 	}
 	if !reflect.DeepEqual(work.order, []string{"stage", "ledger", "preview"}) {
 		t.Fatal("process cooldown changed the numeric/total/wait order", work.order)
+	}
+	failure := model.NewEngineError(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "attack preview failed")
+	work.ledger, work.order, work.previewFailure, work.previewSawTotal = actionpkg.NewCooldownLedger(), nil, &failure, false
+	wait, err = executor.StageCooldown(process, 350, 100, work)
+	if err != &failure || wait != nil || !work.previewSawTotal || state.BasicAttack().Wait() != nil ||
+		!reflect.DeepEqual(work.order, []string{"stage", "ledger", "preview"}) {
+		t.Fatal("initial preview failure must return the original error after staging only the cooldown", err, wait, work)
 	}
 }
 

@@ -199,10 +199,10 @@ func (f *Frame) commitFrameQueues() {
 		f.run.enqueueProviderTickAt(pending.at, pending.owner, pending.provider, pending.intervalMs, pending.expireAt, pending.activatedAt)
 	}
 	f.enqueueCommittedTimedShields()
-	if f.pendingProcessTimer {
-		f.run.processFailure = f.run.enqueueProcessTimer(f.processOriginal)
+	if f.pendingProcessTimer && f.run.processFailure == nil {
+		f.run.recordFirstProcessFailure(f.run.enqueueProcessTimer(f.processOriginal))
 	}
 	for i := 0; i < f.pendingPassiveProcesses.Len() && f.run.processFailure == nil; i++ {
-		f.run.processFailure = f.run.enqueueProcessTimer(f.pendingPassiveProcesses.At(i))
+		f.run.recordFirstProcessFailure(f.run.enqueueProcessTimer(f.pendingPassiveProcesses.At(i)))
 	}
 }

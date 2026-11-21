@@ -440,12 +440,18 @@ func (s *Engine) consumeEventCommands(count int) *model.EngineError {
 	return nil
 }
 
+func (s *Engine) recordFirstProcessFailure(err *model.EngineError) {
+	if s.processFailure == nil && err != nil {
+		s.processFailure = err
+	}
+}
+
 func (s *Engine) pushCombatEvent(ev scheduler.GenericEvent) bool {
 	if s.loop.Enqueue(ev) == model.ErrOK {
 		return true
 	}
 	if s.processFailure == nil {
-		s.processFailure = s.budgetError(model.BudgetCauseMaxQueueEvents, "event queue capacity exceeded")
+		s.recordFirstProcessFailure(s.budgetError(model.BudgetCauseMaxQueueEvents, "event queue capacity exceeded"))
 	}
 	return false
 }
@@ -456,10 +462,10 @@ func (s *Engine) finalizeStopReason() { s.loop.Finalize(s.LoopStopState()) }
 
 func (s *Engine) checkDeathStopReason() {
 	if !s.settlingProcessDeaths && s.processFailure == nil {
-		s.processFailure = s.failDeadProcesses()
+		s.recordFirstProcessFailure(s.failDeadProcesses())
 	}
 	if s.processFailure == nil {
-		s.processFailure = s.failStunnedProcesses()
+		s.recordFirstProcessFailure(s.failStunnedProcesses())
 	}
 	if s.loop.Stopped() {
 		return

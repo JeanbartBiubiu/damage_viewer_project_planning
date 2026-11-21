@@ -30,7 +30,11 @@ func (f *calculation) incomingCappedFlat(cmd pipeline.Command, ability planbundl
 		result = f.processError("damage.incoming_pre_mitigation", "capped flat lost its actual recipient or compiled shape", mod.ModifierKey)
 		return
 	}
-	ctx := f.evalContext(ability)
+	ctx, contextErr := f.evalContext(ability)
+	if contextErr != nil {
+		result = contextErr
+		return
+	}
 	ctx.StrictReads, ctx.HasDamageContext = true, true
 	ctx.DamageTypeKey = cmd.DamageType
 	condition, err := f.executor.formulas.Evaluation.EvalContext(mod.ConditionProg, &ctx)

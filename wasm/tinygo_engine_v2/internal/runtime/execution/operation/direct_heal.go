@@ -21,7 +21,11 @@ func (s *Executor) DirectHeal(state *Frame, input Input, reads NumericReads, bou
 		return err
 	}
 	hpBefore := f.stageFor(cmd.Target).attributesView().At("hp").Current
-	heal, err := f.settleHealing(cmd.Source, cmd.Target, cmd.Amount, model.HealDirect, ability, f.evalContext(ability))
+	ctx, err := f.evalContext(ability)
+	if err != nil {
+		return err
+	}
+	heal, err := f.settleHealing(cmd.Source, cmd.Target, cmd.Amount, model.HealDirect, ability, ctx)
 	if err != nil {
 		return err
 	}

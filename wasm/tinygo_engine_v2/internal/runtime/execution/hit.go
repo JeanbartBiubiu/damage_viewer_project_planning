@@ -121,7 +121,10 @@ func (f *Frame) HitParticipation(program formula.GenericProgramID, ability planb
 }
 
 func (f *Frame) HitConditionValue(condition planbundle.CompiledSkillHitValueCond, candidateKey string) (float64, *model.EngineError) {
-	ctx := f.evalContext(planbundle.CompiledAbility{Params: f.skillHitAbilityParams()})
+	ctx, contextErr := f.evalContext(planbundle.CompiledAbility{Params: f.skillHitAbilityParams()})
+	if contextErr != nil {
+		return 0, contextErr
+	}
 	value, err := f.run.formulas.Evaluation.EvalContext(condition.ValueProg, &ctx)
 	if err == nil {
 		return value, nil
@@ -301,7 +304,10 @@ func (f *Frame) EndAttachedListener(binding attachedListenerBinding, executed bo
 }
 
 func (f *Frame) AttachedListenerCondition(definition planbundle.CompiledListener, ability planbundle.CompiledAbility) (bool, *model.EngineError) {
-	ctx := f.evalContext(ability)
+	ctx, contextErr := f.evalContext(ability)
+	if contextErr != nil {
+		return false, contextErr
+	}
 	value, err := f.run.formulas.Evaluation.EvalContext(definition.ConditionProgram, &ctx)
 	if err != nil {
 		return false, f.formulaError(definition.ConditionProgram, err.Error())
@@ -583,7 +589,10 @@ func (f *Frame) HitAttemptBudgetError() *model.EngineError {
 }
 
 func (f *Frame) evalSkillHitParticipation(programID formula.GenericProgramID, ability planbundle.CompiledAbility) (float64, *model.EngineError) {
-	ctx := f.evalContext(ability)
+	ctx, err := f.evalContext(ability)
+	if err != nil {
+		return 0, err
+	}
 	if f.ownerProviderRef != "" {
 		bag := f.stageFor(f.providerOwnerKey()).providerState.Lookup(f.ownerProviderRef)
 		if bag.Present() && bag.TargetKey() == f.targetKey {

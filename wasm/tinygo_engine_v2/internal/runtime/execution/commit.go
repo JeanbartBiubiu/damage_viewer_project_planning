@@ -72,20 +72,32 @@ func (f *Frame) commit() {
 	if len(f.pendingAmountBudgets) != 0 {
 		f.commitAmountBudgets()
 	}
-	evalAbility := planbundle.CompiledAbility{}
-	evalCtx := f.evalContext(evalAbility)
+	evalCtx, err := f.evalContext(planbundle.CompiledAbility{})
+	if err != nil {
+		f.run.recordFirstProcessFailure(err)
+		return
+	}
 	for _, key := range keys {
 		mutations := f.staged.Get(key).providerOps
 		if len(mutations) == 0 {
 			continue
 		}
 		executor := f.run.lifecycleExecutor()
-		if err := executor.PublishMutations(mutations, evalCtx, f.run.loop.TimeMs(), (*lifecycleLiveEffects)(f.run)); err != nil {
+		f.run.recordFirstProcessFailure(executor.PublishMutations(mutations, evalCtx, f.run.loop.TimeMs(), (*lifecycleLiveEffects)(f.run)))
+		if err := f.run.processFailure; err != nil {
 			f.fatal, f.fatalErr = true, err
 			return
 		}
 	}
 	f.commitProjectedProviderLifecycles()
+	if err := f.run.processFailure; err != nil {
+		f.fatal, f.fatalErr = true, err
+		return
+	}
+	if f.fatal {
+		f.run.recordFirstProcessFailure(f.fatalErr)
+		return
+	}
 	if f.run.compiled.HasResourceMax {
 		for _, key := range keys {
 			c := f.run.combatants[key]
@@ -93,9 +105,6 @@ func (f *Frame) commit() {
 			c.setAttributes(operation.SyncHPResolved(c.attributesView()))
 			f.run.combatants[key] = c
 		}
-	}
-	if f.fatal {
-		return
 	}
 	if f.pendingProcess != nil {
 		f.processChanges.Publish(f.processOriginal)
@@ -118,17 +127,13 @@ func (f *Frame) commit() {
 	}
 	f.commitFrameFacts()
 	if !f.run.settlingProcessDeaths && f.run.processFailure == nil {
-		f.run.processFailure = f.run.failDeadProcesses()
-		if f.run.processFailure != nil {
-			f.fatal = true
-			f.fatalErr = f.run.processFailure
-		}
+		f.run.recordFirstProcessFailure(f.run.failDeadProcesses())
 	}
 	if f.run.processFailure == nil {
-		f.run.processFailure = f.run.failStunnedProcesses()
-		if f.run.processFailure != nil {
-			f.fatal, f.fatalErr = true, f.run.processFailure
-		}
+		f.run.recordFirstProcessFailure(f.run.failStunnedProcesses())
+	}
+	if err := f.run.processFailure; err != nil {
+		f.fatal, f.fatalErr = true, err
 	}
 }
 

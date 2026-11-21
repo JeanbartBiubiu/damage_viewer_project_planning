@@ -157,17 +157,17 @@ func TestAmmoCaptureRejectsMissingUseAndOtherProviderEvenWithSameSkill(test *tes
 	frame.ownerCombatantKey, frame.ownerProviderRef = "source", "attack"
 	frame.driverEntryKey = "basic:native-test:1:hit"
 	ability := state.compiled.Abilities[2]
-	context := frame.evalContext(ability)
+	context := requireFrameEvalContext(test, frame, ability)
 	if !context.HasUseAmmoBefore || context.UseAmmoBefore != 4 {
 		test.Fatal("original use capture unavailable", context)
 	}
 	frame.ownerProviderRef = "other_attack"
-	if context := frame.evalContext(ability); context.HasUseAmmoBefore {
+	if context := requireFrameEvalContext(test, frame, ability); context.HasUseAmmoBefore {
 		test.Fatal("capture crossed provider ownership")
 	}
 	frame.ownerProviderRef = "attack"
 	frame.ownerCombatantKey = "target"
-	if context := frame.evalContext(ability); context.HasUseAmmoBefore {
+	if context := requireFrameEvalContext(test, frame, ability); context.HasUseAmmoBefore {
 		test.Fatal("capture crossed party ownership")
 	}
 	if _, err := state.compiled.Formulas.Evaluation.Eval(state.compiled.Operations[ability.OperationStart].SkillHit.Candidates[0].ParticipationProgram, formula.GenericEvalContext{}); err == nil {

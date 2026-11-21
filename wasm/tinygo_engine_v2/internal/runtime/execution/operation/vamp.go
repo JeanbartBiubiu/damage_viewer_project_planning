@@ -60,7 +60,10 @@ func (f *calculation) settleDamageVamp(cmd pipeline.Command, op planbundle.Compi
 		f.recordVamp(op.Ref, data)
 		return nil
 	}
-	ctx := f.evalContext(ability)
+	ctx, err := f.evalContext(ability)
+	if err != nil {
+		return err
+	}
 	ctx.StrictReads = true
 	ctx.HasDamageContext = true
 	ctx.HasDamageParticipants = true

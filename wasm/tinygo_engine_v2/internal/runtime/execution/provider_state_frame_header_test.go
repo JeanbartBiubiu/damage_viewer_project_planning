@@ -150,7 +150,7 @@ func TestProviderFrameHeaderFormulaReadsKeepOriginalExpiryScopes(t *testing.T) {
 		want := providerStateOwnershipSnapshot(original)
 		state.loop.Advance(50)
 		frame, ability, _ := providerFrameHeaderFrame(state, "target")
-		context := frame.evalContext(ability)
+		context := requireFrameEvalContext(t, frame, ability)
 		local := frame.stageFor("source").providerState.Lookup("attack")
 		if context.ProviderState.At("stacks") != 0 || context.ProviderTargetState.At("hits") != 3 ||
 			local.ExpireAt().At("stacks") != 0 || local.TargetExpireAt().At("hits") != 50 {

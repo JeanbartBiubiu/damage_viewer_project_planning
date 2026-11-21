@@ -1,11 +1,90 @@
 package lifecycle
 
 import (
+	"reflect"
 	"testing"
+	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
 	"tinygo_engine_v2/internal/plan"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 )
+
+type stateContextFailure struct {
+	bag    effectpkg.BagChange
+	err    *model.EngineError
+	order  []string
+	amount float64
+}
+
+func (f *stateContextFailure) StateAmount(formula.GenericProgramID, plan.CompiledAbility) (float64, *model.EngineError) {
+	f.order = append(f.order, "amount")
+	return f.amount, nil
+}
+
+func (f *stateContextFailure) StateContext(plan.CompiledAbility) (formula.GenericEvalContext, *model.EngineError) {
+	f.order = append(f.order, "context")
+	return formula.GenericEvalContext{}, f.err
+}
+
+func (f *stateContextFailure) StateBag(string, string, bool) effectpkg.BagChange {
+	f.order = append(f.order, "bag")
+	return f.bag
+}
+
+func (*stateContextFailure) StateProviders(string) effectpkg.ProviderList {
+	return effectpkg.ProviderList{}
+}
+func (*stateContextFailure) ReadStateBag(string, string, bool) effectpkg.BagView {
+	return effectpkg.BagView{}
+}
+
+func TestStateContextErrorStopsAtOriginalRead(t *testing.T) {
+	for _, tc := range []struct {
+		name, scope string
+		duration    bool
+		amount      float64
+		wantValue   float64
+	}{
+		{name: "owner write", scope: stateScopeProvider, amount: 7, wantValue: 7},
+		{name: "target write", scope: stateScopeProviderTarget, amount: 7, wantValue: 7},
+		{name: "owner expires", scope: stateScopeProvider, duration: true, amount: 100, wantValue: 0},
+		{name: "target expires", scope: stateScopeProviderTarget, duration: true, amount: 100, wantValue: 0},
+		{name: "target remains active", scope: stateScopeProviderTarget, duration: true, amount: 25, wantValue: 3},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			var live effectpkg.BagState
+			stage := effectpkg.StageBags(&live)
+			bag := stage.Edit("provider", true)
+			bag.Ensure()
+			bag.SetStateValue("mark", 3)
+			bag.ActivateProviderTarget("target")
+			bag.SetTargetValue("mark", 3)
+			failure := model.NewEngineError(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "state context failed")
+			reads := &stateContextFailure{bag: bag, err: &failure, amount: tc.amount}
+			input := StateExecutionInput{Owner: "source", Target: "target", Provider: "provider", Now: 100,
+				Operation: plan.CompiledOperation{Ref: "mark", HasAmount: true, StateScope: tc.scope, ValuePolicy: "set", OwnerProviderIndex: -1}}
+			executor := New(&plan.CompiledSession{}, nil, nil, "")
+			var err *model.EngineError
+			wantOrder := []string{"amount", "bag", "context"}
+			if tc.duration {
+				input.Operation.ValuePolicy, input.Operation.Target = "subtract", model.SelectorSelf
+				bag.SetExpireAt("mark", 200)
+				bag.SetTargetExpireAt("mark", 200)
+				err = executor.ExecuteStateDuration(input, reads, nil, nil, nil)
+				wantOrder = []string{"bag", "amount", "context"}
+			} else {
+				err = executor.ExecuteStateWrite(input, reads, nil, nil, nil)
+			}
+			value := bag.State().At("mark")
+			if tc.scope == stateScopeProviderTarget {
+				value = bag.ReadTargetValue("mark")
+			}
+			if err != &failure || value != tc.wantValue || live.Edit("provider", false).Present() || !reflect.DeepEqual(reads.order, wantOrder) {
+				t.Fatal("state context failure changed the staged prefix or original read order", err, value, reads.order)
+			}
+		})
+	}
+}
 
 type anchoredWriteFixture struct {
 	providers effectpkg.ProviderList

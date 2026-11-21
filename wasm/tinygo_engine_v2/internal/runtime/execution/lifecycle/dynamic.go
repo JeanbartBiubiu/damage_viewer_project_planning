@@ -94,8 +94,11 @@ func (e *Executor) ProjectDynamic(input ProjectionInput) (bool, *model.EngineErr
 			sc.Instances.ProjectProviders()
 			var snapshots map[string]float64
 			if p.HasModifierSnapshots && mut.Kind != "expire" {
-				var snapshotErr *model.EngineError
-				snapshots, snapshotErr = e.FreezeModifierSnapshots(p, mut.SourceKey, owner, input.Reads.ApplicationContext(mut.SourceKey, owner))
+				context, snapshotErr := input.Reads.ApplicationContext(mut.SourceKey, owner)
+				if snapshotErr != nil {
+					return changed, snapshotErr
+				}
+				snapshots, snapshotErr = e.FreezeModifierSnapshots(p, mut.SourceKey, owner, context)
 				if snapshotErr != nil {
 					return changed, snapshotErr
 				}

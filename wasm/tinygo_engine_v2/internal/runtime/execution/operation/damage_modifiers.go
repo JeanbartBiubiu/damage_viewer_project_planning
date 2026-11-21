@@ -32,7 +32,10 @@ func (f *calculation) applyPipelineDamageModifiers(
 	if len(mods) == 0 {
 		return amount, evidence, nil
 	}
-	baseCtx := f.evalContext(ability)
+	baseCtx, contextErr := f.evalContext(ability)
+	if contextErr != nil {
+		return 0, evidence, contextErr
+	}
 	baseCtx.StrictReads = true
 	// 伤害命令可以重定向目标；条件和金额必须读取同一笔实际参与者。
 	baseCtx.SourceAttrs = f.stageFor(sourceKey).attributesView()

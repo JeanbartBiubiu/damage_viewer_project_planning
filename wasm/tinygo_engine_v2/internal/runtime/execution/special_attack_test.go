@@ -36,7 +36,8 @@ func TestSpecialAttackStatusPresenceChoosesOneBodyAndExpiresAtBoundary(test *tes
 		if err != nil || state.runLoop() != nil {
 			test.Fatal(err)
 		}
-		context := state.newExecutionFrame("source", "target", authoringRef("native_hit")).evalContext(state.compiled.Abilities[2])
+		frame := state.newExecutionFrame("source", "target", authoringRef("native_hit"))
+		context := requireFrameEvalContext(test, frame, state.compiled.Abilities[2])
 		if context.SourceStatuses.At("ordinary_slow") || !context.TargetStatuses.At("ordinary_slow") {
 			test.Fatal("status presence crossed party ownership")
 		}

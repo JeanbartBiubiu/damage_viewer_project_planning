@@ -20,7 +20,7 @@ type pendingShieldExpire = lifecycle.ShieldExpiry
 
 type lifecycleProjectionReadsAPI interface {
 	// ApplicationContext 仅在当前投影阶段借用应用时读值，不执行或提交其他功能。
-	ApplicationContext(source, target string) formula.GenericEvalContext
+	ApplicationContext(source, target string) (formula.GenericEvalContext, *model.EngineError)
 }
 
 // 使用同布局借用建立固定窄适配，不为每个事件分配转接对象。
@@ -28,7 +28,7 @@ type lifecycleProjectionReads Frame
 
 type lifecycleProviderPreparationAPI interface {
 	// ProviderContext 准备原效果操作位置的实际双方读值，不执行生命周期规则。
-	ProviderContext(ability planbundle.CompiledAbility, source, target string) formula.GenericEvalContext
+	ProviderContext(ability planbundle.CompiledAbility, source, target string) (formula.GenericEvalContext, *model.EngineError)
 	// ImmediatePeriodicApplication 同步交给行动执行核对实际立即周期资格。
 	ImmediatePeriodicApplication(operation planbundle.CompiledOperation) *model.EngineError
 	// ExpireEventProvider 同步交给命中事实核对真实事件实例并暂存卸载。
@@ -93,7 +93,7 @@ type lifecycleShieldPreparationAPI interface {
 	// ShieldDeadline 仅在普通盾原操作时点求值严格期限。
 	ShieldDeadline(op planbundle.CompiledOperation, ability planbundle.CompiledAbility) (int64, *model.EngineError)
 	// LinkedShieldContext 在原期限求值之后准备实际双方的应用读值。
-	LinkedShieldContext(ability planbundle.CompiledAbility, source, target string) formula.GenericEvalContext
+	LinkedShieldContext(ability planbundle.CompiledAbility, source, target string) (formula.GenericEvalContext, *model.EngineError)
 	// LinkedShieldStaging 在前置检查成功后借用原同帧效果暂存。
 	LinkedShieldStaging(target string) lifecycle.LinkedShieldStage
 }
@@ -177,8 +177,11 @@ func (f *Frame) cooldownDurationFactor(process *actionpkg.ProcessView) (float64,
 func (f *Frame) evalShieldDuration(op planbundle.CompiledOperation, ability planbundle.CompiledAbility) (int64, *model.EngineError) {
 	wasStrict := f.strictReads
 	f.strictReads = true
-	context := f.evalContext(ability)
+	context, contextErr := f.evalContext(ability)
 	f.strictReads = wasStrict
+	if contextErr != nil {
+		return 0, contextErr
+	}
 	executor := f.run.lifecycleExecutor()
 	deadline, err := executor.ShieldDuration(op, context, f.run.loop.TimeMs())
 	return deadline, f.preserveLifecycleFormulaError(err)
@@ -188,7 +191,7 @@ func (f *Frame) enqueueCommittedTimedShields() {
 	lifecycle.PublishShieldExpiries(f.pendingShieldExpires, (*lifecycleLiveShieldExpiryReads)(f.run), (*lifecycleExpiryRequests)(f.run))
 }
 
-func (r *lifecycleProjectionReads) ApplicationContext(source, target string) formula.GenericEvalContext {
+func (r *lifecycleProjectionReads) ApplicationContext(source, target string) (formula.GenericEvalContext, *model.EngineError) {
 	return (*Frame)(r).evalContextForProviderApply(planbundle.CompiledAbility{}, source, target)
 }
 
@@ -238,7 +241,7 @@ func (f *Frame) adoptLifecycleBudget(err *model.EngineError) *model.EngineError 
 	return err
 }
 
-func (r *lifecycleProviderPreparation) ProviderContext(ability planbundle.CompiledAbility, source, target string) formula.GenericEvalContext {
+func (r *lifecycleProviderPreparation) ProviderContext(ability planbundle.CompiledAbility, source, target string) (formula.GenericEvalContext, *model.EngineError) {
 	return (*Frame)(r).evalContextForProviderApply(ability, source, target)
 }
 
@@ -310,7 +313,7 @@ func (r *lifecycleShieldPreparation) ShieldDeadline(op planbundle.CompiledOperat
 	return (*Frame)(r).evalShieldDuration(op, ability)
 }
 
-func (r *lifecycleShieldPreparation) LinkedShieldContext(ability planbundle.CompiledAbility, source, target string) formula.GenericEvalContext {
+func (r *lifecycleShieldPreparation) LinkedShieldContext(ability planbundle.CompiledAbility, source, target string) (formula.GenericEvalContext, *model.EngineError) {
 	return (*Frame)(r).evalContextForProviderApply(ability, source, target)
 }
 
@@ -760,8 +763,11 @@ func validateShieldLifecycleSnapshot(snapshot model.Snapshot, compiled planbundl
 	return lifecycle.ValidateShieldSnapshot(snapshot, compiled, sessionID)
 }
 
-func (f *Frame) evalContextForProviderApply(ability planbundle.CompiledAbility, sourceKey, targetKey string) formula.GenericEvalContext {
-	ctx := f.evalContext(ability)
+func (f *Frame) evalContextForProviderApply(ability planbundle.CompiledAbility, sourceKey, targetKey string) (formula.GenericEvalContext, *model.EngineError) {
+	ctx, err := f.evalContext(ability)
+	if err != nil {
+		return formula.GenericEvalContext{}, err
+	}
 	if sourceKey != "" && sourceKey != f.sourceKey {
 		sc := f.stageFor(sourceKey)
 		ctx.SourceAttrs = sc.attributesView()
@@ -772,7 +778,7 @@ func (f *Frame) evalContextForProviderApply(ability planbundle.CompiledAbility, 
 		ctx.TargetAttrs = sc.attributesView()
 		ctx.TargetResources = sc.resourceView()
 	}
-	return ctx
+	return ctx, nil
 }
 
 func (s *Engine) recordProviderLifecycleEvidence(kind model.EvidenceKind, inst effectpkg.Provider) {

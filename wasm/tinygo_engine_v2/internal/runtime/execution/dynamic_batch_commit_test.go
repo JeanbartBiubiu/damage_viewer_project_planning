@@ -26,10 +26,7 @@ func TestIndependentDynamicBatchCommitCannotObserveRemovedIntermediate(t *testin
 	if err := frame.executeOperations(plan.CompiledAbility{}, []plan.CompiledOperation{{Operation: "expire_provider", Target: "self", ProviderRef: ref}, {Operation: "apply_provider", Target: "self", ProviderDefinitionRef: "health_window"}}); err != nil {
 		t.Fatal(err)
 	}
-	_ = frame.evalContext(plan.CompiledAbility{})
-	if frame.fatal {
-		t.Fatal(frame.fatalErr)
-	}
+	requireFrameEvalContext(t, &frame, plan.CompiledAbility{})
 	frame.commit()
 	if frame.fatal || state.processFailure != nil {
 		t.Fatal("commit evaluated an invisible removed intermediate", frame.fatalErr, state.processFailure)

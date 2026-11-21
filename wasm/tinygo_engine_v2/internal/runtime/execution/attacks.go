@@ -127,10 +127,16 @@ func (bridge attackProviderPreviewBridge) ResolveWaitingAttributes() *model.Engi
 	return nil
 }
 
-func (bridge attackWaitBridge) InitialAttackWaitPreview() actionflow.AttackWaitPreview {
+func (bridge attackWaitBridge) InitialAttackWaitPreview() (actionflow.AttackWaitPreview, *model.EngineError) {
 	frame := bridge.frame
 	attack := frame.run.actions.BasicAttack()
-	return actionflow.AttackWaitPreview{Source: frame.stageFor(attack.Plan().Source).attributesView(), Target: frame.stageFor(attack.Plan().Target).attributesView(), Context: frame.evalContext(attack.InitialAbility())}
+	source := frame.stageFor(attack.Plan().Source).attributesView()
+	target := frame.stageFor(attack.Plan().Target).attributesView()
+	context, err := frame.evalContext(attack.InitialAbility())
+	if err != nil {
+		return actionflow.AttackWaitPreview{}, err
+	}
+	return actionflow.AttackWaitPreview{Source: source, Target: target, Context: context}, nil
 }
 
 func (bridge basicAttackBridge) BeginNativeAttack() (string, *model.EngineError) {
@@ -248,10 +254,11 @@ func (bridge ammoWorkBridge) WriteAmmoWait(ammo *actionpkg.AmmoView, wait action
 }
 
 func (bridge ammoWorkBridge) AmmoAmount(program formula.GenericProgramID, ability planbundle.CompiledAbility, strict bool) (float64, *model.EngineError) {
-	if strict {
-		bridge.frame.strictReads = true
-	}
-	return bridge.frame.evalAmount(program, ability)
+	previous := bridge.frame.strictReads
+	bridge.frame.strictReads = previous || strict
+	value, err := bridge.frame.evalAmount(program, ability)
+	bridge.frame.strictReads = previous
+	return value, err
 }
 
 func (bridge ammoWorkBridge) WriteAmmoInventory(ammo *actionpkg.AmmoView, value float64) {
@@ -286,10 +293,16 @@ func (bridge attackWaitBridge) PreviewAttackWait() (float64, *model.EngineError)
 	return bridge.preview.stageFor(attack.Plan().Source).attributesView().At(attack.Plan().AttackSpeedAttributeKey).Resolved, nil
 }
 
-func (bridge attackWaitBridge) ReadAttackWaitPreview() actionflow.AttackWaitPreview {
+func (bridge attackWaitBridge) ReadAttackWaitPreview() (actionflow.AttackWaitPreview, *model.EngineError) {
 	attack := bridge.frame.run.actions.BasicAttack()
 	bridge.frame.stageFor(attack.Plan().Target)
-	return actionflow.AttackWaitPreview{Source: bridge.preview.stageFor(attack.Plan().Source).attributesView(), Target: bridge.preview.stageFor(attack.Plan().Target).attributesView(), Context: bridge.preview.evalContext(attack.InitialAbility())}
+	source := bridge.preview.stageFor(attack.Plan().Source).attributesView()
+	target := bridge.preview.stageFor(attack.Plan().Target).attributesView()
+	context, err := bridge.preview.evalContext(attack.InitialAbility())
+	if err != nil {
+		return actionflow.AttackWaitPreview{}, err
+	}
+	return actionflow.AttackWaitPreview{Source: source, Target: target, Context: context}, nil
 }
 
 func (bridge attackWaitBridge) AttackCooldowns() *actionpkg.CooldownLedger {

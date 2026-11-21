@@ -57,7 +57,7 @@ func TestStagedShieldAttributesDisappearBeforePostDamageReads(t *testing.T) {
 	if err := f.executeOperations(plan.CompiledAbility{}, ops[:1]); err != nil {
 		t.Fatal(err)
 	}
-	if got := f.evalContext(plan.CompiledAbility{}).TargetAttrs.At("armor").Resolved; got != 100 {
+	if got := requireFrameEvalContext(t, f, plan.CompiledAbility{}).TargetAttrs.At("armor").Resolved; got != 100 {
 		t.Fatal("live post-damage read kept depleted shield armor", got)
 	}
 	if err := f.executeOperations(plan.CompiledAbility{}, ops[1:]); err != nil {

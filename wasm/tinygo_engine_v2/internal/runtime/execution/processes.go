@@ -196,7 +196,7 @@ func (bridge *processMomentBridge) WritableProcessCooldown(owner string) *action
 	return (*Frame)(bridge).stageFor(owner).writableCooldowns()
 }
 
-func (bridge *processMomentBridge) InitialAttackWaitPreview() actionflow.AttackWaitPreview {
+func (bridge *processMomentBridge) InitialAttackWaitPreview() (actionflow.AttackWaitPreview, *model.EngineError) {
 	return (attackWaitBridge{frame: (*Frame)(bridge)}).InitialAttackWaitPreview()
 }
 

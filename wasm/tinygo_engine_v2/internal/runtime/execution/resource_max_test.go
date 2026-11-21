@@ -52,13 +52,13 @@ func TestResourceMaxNetBatchesReadsAndWholeFrameRollback(t *testing.T) {
 			t.Fatal(err)
 		}
 		if separated {
-			_ = frame.evalContext(plan.CompiledAbility{})
+			requireFrameEvalContext(t, &frame, plan.CompiledAbility{})
 		}
 		op = plan.CompiledOperation{Operation: "apply_provider", Target: "self", ProviderDefinitionRef: "health_window"}
 		if err := frame.executeOperations(plan.CompiledAbility{}, []plan.CompiledOperation{op}); err != nil {
 			t.Fatal(err)
 		}
-		_ = frame.evalContext(plan.CompiledAbility{})
+		requireFrameEvalContext(t, &frame, plan.CompiledAbility{})
 		want := 1200.0
 		if separated {
 			want = 1300
@@ -192,7 +192,7 @@ func TestResourceMaxQueueBudgetRollbackAfterVisibleFlush(t *testing.T) {
 	if err := frame.executeOperations(plan.CompiledAbility{}, []plan.CompiledOperation{{Operation: "apply_provider", Target: "self", ProviderDefinitionRef: "health_window"}}); err != nil {
 		t.Fatal(err)
 	}
-	_ = frame.evalContext(plan.CompiledAbility{})
+	requireFrameEvalContext(t, &frame, plan.CompiledAbility{})
 	if frame.stageFor("source").attributesView().At("hp").Current != 800 {
 		t.Fatal("no real staged grant")
 	}

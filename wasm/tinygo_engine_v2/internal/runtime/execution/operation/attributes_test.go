@@ -14,16 +14,18 @@ import (
 )
 
 type attributeWorkFixture struct {
-	numbers       map[string]*actor.ChangeSet
-	resolvers     map[string]effectpkg.AttributeResolver
-	contextFailed []bool
-	failures      []*model.EngineError
-	contexts      int
-	providers     int
-	live          map[string]LiveAttributeState
-	publications  []string
-	initialOrders int
-	initialCalls  []string
+	numbers        map[string]*actor.ChangeSet
+	resolvers      map[string]effectpkg.AttributeResolver
+	contextFailed  []bool
+	failures       []*model.EngineError
+	contexts       int
+	contextErrorAt int
+	contextError   *model.EngineError
+	providers      int
+	live           map[string]LiveAttributeState
+	publications   []string
+	initialOrders  int
+	initialCalls   []string
 }
 
 func attributeSlot(value float64) model.AttributeSlotDef {
@@ -60,10 +62,13 @@ func (w *attributeWorkFixture) AttributeResolver(owner string) effectpkg.Attribu
 func (w *attributeWorkFixture) AttributePair() [2]attribute.Table {
 	return [2]attribute.Table{w.numbers["source"].Attributes(), w.numbers["target"].Attributes()}
 }
-func (w *attributeWorkFixture) AttributeContext(ability planbundle.CompiledAbility) formula.GenericEvalContext {
+func (w *attributeWorkFixture) AttributeContext(ability planbundle.CompiledAbility) (formula.GenericEvalContext, *model.EngineError) {
 	w.contexts++
 	w.contextFailed = append(w.contextFailed, len(w.failures) != 0)
-	return formula.GenericEvalContext{StrictReads: true, SourceAttrs: w.numbers["source"].Attributes(), TargetAttrs: w.numbers["target"].Attributes()}
+	if w.contexts == w.contextErrorAt {
+		return formula.GenericEvalContext{}, w.contextError
+	}
+	return formula.GenericEvalContext{StrictReads: true, SourceAttrs: w.numbers["source"].Attributes(), TargetAttrs: w.numbers["target"].Attributes()}, nil
 }
 func (w *attributeWorkFixture) AttributeProviderContext(host, owner, provider string) pipeline.ProviderFormulaContext {
 	w.providers++
@@ -127,6 +132,42 @@ func TestAttributeRecomputeRecordsFailureBeforeContinuingOriginalTwoPasses(t *te
 		if err.Path != "combatants.target.attributes" || err.SessionID != "numeric-test" {
 			t.Fatalf("failure lost original owner or run identity: %+v", err)
 		}
+	}
+}
+
+func TestAttributeContextFailureStopsRecomputeAtRead(t *testing.T) {
+	rules := attributeRulesFixture(t, formula.GenericProgram{Key: "constant", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 1}}})
+	for _, tc := range []struct {
+		name               string
+		failAt             int
+		sourceHP, targetHP float64
+	}{
+		{"before cache probe", 1, 100, 100},
+		{"after first source write", 3, 25, 100},
+		{"before remembering source", 6, 25, 25},
+		{"before remembering target", 7, 25, 25},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			work := newAttributeWork()
+			work.contextErrorAt = tc.failAt
+			work.contextError = &model.EngineError{Path: "projection.original"}
+			for _, numbers := range work.numbers {
+				attrs := numbers.Attributes()
+				hp := attrs.At("hp")
+				hp.Current = 25
+				numbers.SetAttributes(attrs.With("hp", hp))
+			}
+			var cache evaluation.State
+			RecomputeStagedAttributes(rules, &cache, "source", "target", planbundle.CompiledAbility{}, work)
+			if work.contexts != tc.failAt || len(work.failures) != 1 || work.failures[0] != work.contextError {
+				t.Fatalf("preparation error was replaced or recompute continued: contexts=%d failures=%v", work.contexts, work.failures)
+			}
+			sourceHP := work.numbers["source"].Attributes().At("hp").Resolved
+			targetHP := work.numbers["target"].Attributes().At("hp").Resolved
+			if sourceHP != tc.sourceHP || targetHP != tc.targetHP {
+				t.Fatalf("resolved hp = (%v, %v), want (%v, %v)", sourceHP, targetHP, tc.sourceHP, tc.targetHP)
+			}
+		})
 	}
 }
 

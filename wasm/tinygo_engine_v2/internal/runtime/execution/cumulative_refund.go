@@ -28,6 +28,9 @@ func (bridge cooldownRefundBridge) ReserveRefundRatio(limit model.CumulativeRati
 		GroupKey: limit.GroupKey, Scope: model.OncePerUseScopeProviderTarget, UseSource: event.UseSource, UseKey: event.UseKey, Target: event.EventTargetKey}, SubjectRef: subjectRef}
 	reservation, err := frame.run.useTriggerLedger.ReserveAmount(key, event.UseSkillKey, limit.MaxRatio, requested)
 	if err != nil {
+		if err.BudgetCause != "" && frame.run.budgetCause == "" {
+			frame.run.budgetCause = err.BudgetCause
+		}
 		return 0, 0, err
 	}
 	if reservation.Granted() > 0 {
