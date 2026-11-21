@@ -1,60 +1,43 @@
 package compile
 
 import (
+	"slices"
+
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/plan"
 )
 
-// compileFormulaFactRequests 在读取授权与编号绑定完成后建立有限请求。
-// 运行时按实际供值定义直接取请求，不扫描全程序，也不提前读取条件两支的值。
-func compileFormulaFactRequests(session *plan.CompiledSession, formulas *formula.Builder) map[formula.GenericProgramID][]formula.FactRequest {
-	if !session.Features.HasSpecialFormulaFacts() {
-		return nil
-	}
-	requests := make(map[formula.GenericProgramID][]formula.FactRequest)
-	add := func(program formula.GenericProgramID) {
-		if _, exists := requests[program]; exists {
-			return
-		}
+// compileFormulaFactRequests 在读取校验与参与度挂载都完成后登记请求及实际供值资格。
+func compileFormulaFactRequests(session *plan.CompiledSession, formulas *formula.Builder) [][]formula.FactRequest {
+	var requests [][]formula.FactRequest
+	count := formulas.Count()
+	for index := 0; index < count; index++ {
 		var own []formula.FactRequest
-		for _, read := range formulas.ReadDependencies(program) {
+		for _, read := range formulas.ReadDependencies(formula.GenericProgramID(index)) {
 			request, special := formula.FactRequestForRead(read)
-			if !special {
-				continue
-			}
-			found := false
-			for _, prior := range own {
-				if prior == request {
-					found = true
-					break
-				}
-			}
-			if !found {
+			if special && !slices.Contains(own, request) {
 				own = append(own, request)
 			}
 		}
-		if len(own) > 0 {
-			requests[program] = own
+		if len(own) != 0 {
+			if requests == nil {
+				requests = make([][]formula.FactRequest, count)
+			}
+			requests[index] = own
 		}
 	}
-	for index := 0; index < formulas.Count(); index++ {
-		add(formula.GenericProgramID(index))
+	if requests == nil {
+		return nil
 	}
+	session.Features |= plan.FeatureHasSpecialFormulaFacts
 	link := func(owner int, id formula.GenericProgramID) {
 		if owner < 0 || owner >= len(session.Providers) {
 			return
 		}
 		provider := &session.Providers[owner]
 		for _, request := range requests[id] {
-			if request.Kind != formula.ReadLinkedShieldPresent {
-				continue
-			}
-			found := false
-			for _, prior := range provider.FormulaLinkedReads {
-				found = found || prior == request
-			}
-			if !found {
-				provider.FormulaLinkedReads = append(provider.FormulaLinkedReads, request)
+			if request.Kind == formula.ReadLinkedShieldPresent && !slices.Contains(provider.AuthorizedLinkedShields, request.Index) {
+				provider.AuthorizedLinkedShields = append(provider.AuthorizedLinkedShields, request.Index)
 			}
 		}
 	}

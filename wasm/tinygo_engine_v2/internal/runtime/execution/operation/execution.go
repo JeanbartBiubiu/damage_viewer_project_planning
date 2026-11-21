@@ -20,6 +20,8 @@ type NumericReads interface {
 	NumericOwner(key string) Owner
 	// NumericContext 在原读取时点准备公式上下文，失败时返回原错误并停止本次求值。
 	NumericContext(ability planbundle.CompiledAbility) (formula.GenericEvalContext, *model.EngineError)
+	// NumericLinkedFacts 按当前帧实际供值资格准备指定公式的关联盾事实。
+	NumericLinkedFacts(ability planbundle.CompiledAbility, requests []formula.FactRequest) formula.FactView
 	// NumericEntryAttributes 返回帧入口的不可变属性，复制伤害另传防御视图。
 	NumericEntryAttributes(key string) attribute.Table
 	// NumericProviderContext 只准备指定宿主、目标和严格性下的效果公式读取。
@@ -185,6 +187,12 @@ func (f *calculation) stageFor(key string) Owner { return f.reads.NumericOwner(k
 func (f *calculation) evalContext(ability planbundle.CompiledAbility) (formula.GenericEvalContext, *model.EngineError) {
 	return f.reads.NumericContext(ability)
 }
+func (f *calculation) attachLinkedFacts(context *formula.GenericEvalContext, ability planbundle.CompiledAbility, id formula.GenericProgramID) {
+	if requests := f.executor.plan.FormulaFacts(id); len(requests) != 0 {
+		context.Facts = f.reads.NumericLinkedFacts(ability, requests)
+	}
+}
+
 func (f *calculation) abilityTypeKeys(ability planbundle.CompiledAbility) []string {
 	return f.reads.NumericAbilityTypes(ability)
 }
@@ -215,6 +223,7 @@ func (f *calculation) evalResultFormula(id formula.GenericProgramID, ability pla
 	ctx.StrictReads = true
 	ctx.TargetAttrs = f.stageFor(target).attributesView()
 	ctx.TargetResources = f.stageFor(target).resourceView()
+	f.attachLinkedFacts(&ctx, ability, id)
 	value, err := f.executor.formulas.Evaluation.EvalContext(id, &ctx)
 	if err != nil {
 		return 0, evaluation.PreserveFormulaIssue(err, f.formulaError(id, err.Error()), f.input.AbilityRef)

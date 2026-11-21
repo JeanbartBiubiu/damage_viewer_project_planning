@@ -177,7 +177,7 @@ func (f *Frame) cooldownDurationFactor(process *actionpkg.ProcessView) (float64,
 func (f *Frame) evalShieldDuration(op planbundle.CompiledOperation, ability planbundle.CompiledAbility) (int64, *model.EngineError) {
 	wasStrict := f.strictReads
 	f.strictReads = true
-	context, contextErr := f.evalContext(ability)
+	context, contextErr := f.evalContextForProgram(ability, op.ShieldDurationProgram)
 	f.strictReads = wasStrict
 	if contextErr != nil {
 		return 0, contextErr

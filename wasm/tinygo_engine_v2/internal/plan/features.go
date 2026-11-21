@@ -1,5 +1,7 @@
 package plan
 
+import "tinygo_engine_v2/internal/formula"
+
 // SessionFeatures 由编译阶段汇总，运行阶段只读。
 type SessionFeatures uint64
 
@@ -26,6 +28,7 @@ const (
 	FeatureCooldownDuration
 	FeatureProviderDurationChange
 	FeatureActionStun
+	FeatureHasSpecialFormulaFacts
 )
 
 // Has 测试指定的位是否全部存在。
@@ -53,7 +56,15 @@ func (f SessionFeatures) NeedsExactExpirySweep() bool {
 	return f.Has(FeatureActionStun) || f.NeedsDynamicProviderFlush()
 }
 
-// HasSpecialFormulaFacts 判断会话是否启用三类公式事实读取之一。
+// HasSpecialFormulaFacts 判断编译后是否有需要在求值前准备的事实。
 func (f SessionFeatures) HasSpecialFormulaFacts() bool {
-	return f.Any(FeatureLinkedShieldReads | FeatureReceivedShieldReads | FeatureDamageStateBefore)
+	return f.Has(FeatureHasSpecialFormulaFacts)
+}
+
+// FormulaFacts 借用编译公式的事实请求；运行初始化追加的编号没有编译事实。
+func (s *CompiledSession) FormulaFacts(id formula.GenericProgramID) []formula.FactRequest {
+	if !s.Features.HasSpecialFormulaFacts() || int(id) >= len(s.FormulaFactReads) {
+		return nil
+	}
+	return s.FormulaFactReads[id]
 }

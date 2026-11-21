@@ -318,15 +318,6 @@ func (f *Frame) evalContext(ability planbundle.CompiledAbility) (formula.Generic
 		ctx.OperationOutputs = formula.BorrowOperationOutputs(f.numeric.Outputs())
 	}
 	f.populateMechanicEvalContext(&ctx, ability)
-	if f.run.compiled.Features.Has(planbundle.FeatureLinkedShieldReads) && f.ownerProviderRef != "" {
-		providerIndex := int(ability.ProviderIndex)
-		if instance, _, found := f.stageFor(f.providerOwnerKey()).instances.Providers().Find(f.ownerProviderRef); found {
-			providerIndex = int(instance.DefinitionIndex)
-		}
-		if providerIndex < len(f.run.compiled.Providers) {
-			ctx.Facts = f.prepareFormulaFacts(f.run.compiled.Providers[providerIndex].FormulaLinkedReads)
-		}
-	}
 	return ctx, nil
 }
 
@@ -408,7 +399,7 @@ func (f *Frame) resolveAttributesFor(combatantKey string, attrs attribute.Table,
 }
 
 func (f *Frame) evalAmount(programID formula.GenericProgramID, ability planbundle.CompiledAbility) (float64, *model.EngineError) {
-	ctx, err := f.evalContext(ability)
+	ctx, err := f.evalContextForProgram(ability, programID)
 	if err != nil {
 		return 0, err
 	}

@@ -349,6 +349,10 @@ func (r *operationReads) NumericContext(ability planbundle.CompiledAbility) (for
 	return (*Frame)(r).evalContext(ability)
 }
 
+func (r *operationReads) NumericLinkedFacts(ability planbundle.CompiledAbility, requests []formula.FactRequest) formula.FactView {
+	return (*Frame)(r).frameLinkedFacts(ability, requests)
+}
+
 func (r *operationReads) NumericEntryAttributes(key string) attribute.Table {
 	f := (*Frame)(r)
 	if key == f.sourceKey {

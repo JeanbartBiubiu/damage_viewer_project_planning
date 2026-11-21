@@ -44,8 +44,8 @@ type CompiledSession struct {
 	Abilities                 []CompiledAbility
 	Operations                []CompiledOperation
 	Formulas                  formula.Library
-	// FormulaFactReads 只在实际条件准备时使用；运行期不遍历公式收集特殊事实。
-	FormulaFactReads     map[formula.GenericProgramID][]formula.FactRequest
+	// FormulaFactReads 按编译公式编号存放特殊读取请求。
+	FormulaFactReads     [][]formula.FactRequest
 	Settings             model.GenericCompileSettings
 	AbilityRefIndex      map[string]CompiledAbilityRef
 	RuleModifiers        []CompiledModifier
@@ -208,8 +208,8 @@ type CompiledProvider struct {
 	ClosedStatusKey string
 	// ActionStun 来自已验证目录的眩晕类型，供实际拥有者的行动资格使用。
 	ActionStun bool
-	// FormulaLinkedReads 只准备此定义已获准读取的关联盾事实，不含监听专属回执。
-	FormulaLinkedReads        []formula.FactRequest
+	// AuthorizedLinkedShields 记录此供值定义获准读取的关联盾编号。
+	AuthorizedLinkedShields   []uint16
 	PermanentCharacterPeriod  bool
 	TargetTimings             []CompiledTargetTiming
 	HasReceivedShieldBinding  bool

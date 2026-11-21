@@ -359,8 +359,24 @@ func TestLinkedShieldDeclaredWithoutApplyReadsZeroThroughRunGeneric(t *testing.T
 	if done.Summary.SourceFinalHp != 500 {
 		t.Fatal("absent shield did not read zero", done.Summary)
 	}
-	// Discarded/foreign frame provider contexts cannot turn an unknown reference into zero.
 	result := compile.CompileGeneric(c)
+	if !result.OK {
+		t.Fatalf("compile: %+v", result.Result.Errors)
+	}
+	// 保留同一挂载引用和调用能力，实际定义换为没有关联盾读取资格的普通定义。
+	c.SharedProviders = append(c.SharedProviders, model.ProviderDefinition{ProviderKey: "foreign_mount", StableID: "foreign_mount", Kind: "character"})
+	r.InitialSnapshot.Combatants[0].Providers[0].DefinitionRef = "foreign_mount"
+	mismatch := compile.CompileGeneric(c)
+	if !mismatch.OK {
+		t.Fatalf("compile with alternate definition: %+v", mismatch.Result.Errors)
+	}
+	if _, err := runForTest(mismatch.Session, r); err == nil || err.Code != model.GenericErrFormulaTypeError ||
+		!strings.Contains(err.Message, "actual provider context") {
+		t.Fatalf("expected the original missing provider context error: %+v", err)
+	}
+
+	// Discarded/foreign frame provider contexts cannot turn an unknown reference into zero.
+	r.InitialSnapshot.Combatants[0].Providers[0].DefinitionRef = c.SharedProviders[0].ProviderKey
 	state, err := newGenericRunState(result.Session, r)
 	if err != nil {
 		t.Fatal(err)

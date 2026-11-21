@@ -116,6 +116,7 @@ func (f *calculation) evalAmount(id formula.GenericProgramID, ability planbundle
 	if contextErr != nil {
 		return 0, contextErr
 	}
+	f.attachLinkedFacts(&ctx, ability, id)
 	value, err := f.executor.formulas.Evaluation.EvalContext(id, &ctx)
 	if err != nil {
 		out := engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), f.executor.plan.SchemaHash, f.executor.plan.RulesHash, f.executor.sessionID)
