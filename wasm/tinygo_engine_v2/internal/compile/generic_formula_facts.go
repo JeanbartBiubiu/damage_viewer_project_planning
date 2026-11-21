@@ -8,7 +8,7 @@ import (
 // compileFormulaFactRequests 在读取授权与编号绑定完成后建立有限请求。
 // 运行时按实际供值定义直接取请求，不扫描全程序，也不提前读取条件两支的值。
 func compileFormulaFactRequests(session *plan.CompiledSession, formulas *formula.Builder) map[formula.GenericProgramID][]formula.FactRequest {
-	if !session.HasLinkedShieldReads && !session.HasReceivedShieldReads && !session.HasDamageStateBefore {
+	if !session.Features.HasSpecialFormulaFacts() {
 		return nil
 	}
 	requests := make(map[formula.GenericProgramID][]formula.FactRequest)

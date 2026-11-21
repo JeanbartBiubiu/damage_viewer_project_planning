@@ -2,6 +2,7 @@ package compile
 
 import (
 	"testing"
+	"tinygo_engine_v2/internal/plan"
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
@@ -17,7 +18,7 @@ func elapsedCompileInput() model.CompileRequest {
 func TestCompileProviderElapsedIsRestrictedToFiniteModifier(t *testing.T) {
 	r := elapsedCompileInput()
 	result := CompileGeneric(r)
-	if !result.OK || !result.Session.HasProviderElapsedReads || !result.Session.Providers[1].NeedsElapsedTime {
+	if !result.OK || !result.Session.Features.Has(plan.FeatureProviderElapsedReads) || !result.Session.Providers[1].NeedsElapsedTime {
 		t.Fatal(result.Result.Errors)
 	}
 	program := result.Session.Providers[1].Modifiers[0].ValueProgram

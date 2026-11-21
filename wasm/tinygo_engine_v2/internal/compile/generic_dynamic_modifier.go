@@ -51,7 +51,8 @@ func finalizeDynamicModifiers(ctx *genericCompileContext) {
 					fail("", "resource_max requires nonnegative hp add and its explicit current-value policy")
 					continue
 				}
-				p.HasResourceMax, ctx.session.HasResourceMax = true, true
+				p.HasResourceMax = true
+				ctx.session.Features |= plan.FeatureResourceMax
 				p.PermanentResourceMax = permanent
 			} else {
 				if mod.Target != "self" || mod.ValuePolicy != "multiply" || value <= 0 || mod.CurrentValuePolicy != "" || !mod.HasAffectedAbilityRefs {
@@ -79,10 +80,12 @@ func finalizeDynamicModifiers(ctx *genericCompileContext) {
 					}
 					mod.CooldownTargets = append(mod.CooldownTargets, plan.CompiledCooldownDurationTarget{CombatantKey: parsed.Combatant, ProviderRef: parsed.ProviderRef, ProviderIndex: ref.ProviderIndex, AbilityIndex: ref.AbilityIndex})
 				}
-				p.HasCooldownDuration, ctx.session.HasCooldownDuration = true, true
+				p.HasCooldownDuration = true
+				ctx.session.Features |= plan.FeatureCooldownDuration
 			}
 			if !permanent {
-				p.NeedsModifierExpiry, ctx.session.HasFiniteModifierExpiry = true, true
+				p.NeedsModifierExpiry = true
+				ctx.session.Features |= plan.FeatureFiniteModifierExpiry
 			}
 		}
 		if p.HasResourceMax || p.HasCooldownDuration {

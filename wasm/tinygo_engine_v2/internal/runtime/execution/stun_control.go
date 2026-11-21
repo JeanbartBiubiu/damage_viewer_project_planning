@@ -2,11 +2,12 @@ package execution
 
 import (
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/runtime/execution/actionflow"
 )
 
 func (s *Engine) stunUntil(owner string) (int64, *model.EngineError) {
-	if !s.compiled.HasActionStun {
+	if !s.compiled.Features.Has(plan.FeatureActionStun) {
 		return 0, nil
 	}
 	actor, exists := s.combatants[owner]
@@ -25,7 +26,7 @@ func (s *Engine) controlQueryError(err *model.EngineError) *model.EngineError {
 }
 
 func (f *Frame) stunUntil(owner string) (int64, *model.EngineError) {
-	if !f.run.compiled.HasActionStun {
+	if !f.run.compiled.Features.Has(plan.FeatureActionStun) {
 		return 0, nil
 	}
 	staged := f.stageFor(owner)
@@ -41,7 +42,7 @@ func (f *Frame) stunUntil(owner string) (int64, *model.EngineError) {
 }
 
 func (f *Frame) prepareStunAttackPermission() *model.EngineError {
-	if !f.run.compiled.HasActionStun || f.run.actions.BasicAttack() == nil {
+	if !f.run.compiled.Features.Has(plan.FeatureActionStun) || f.run.actions.BasicAttack() == nil {
 		return nil
 	}
 	owner := f.run.actions.BasicAttack().Plan().Source
@@ -60,7 +61,7 @@ func (f *Frame) prepareStunAttackPermission() *model.EngineError {
 }
 
 func (s *Engine) failStunnedProcesses() *model.EngineError {
-	if !s.compiled.HasActionStun || s.settlingProcessDeaths {
+	if !s.compiled.Features.Has(plan.FeatureActionStun) || s.settlingProcessDeaths {
 		return nil
 	}
 	return s.processFlowExecutor().FailStunnedProcesses(s.loop.TimeMs(), processControlBridge{engine: s}, processFlowBridge{engine: s})

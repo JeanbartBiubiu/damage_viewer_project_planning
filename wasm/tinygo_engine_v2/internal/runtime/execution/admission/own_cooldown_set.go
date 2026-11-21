@@ -46,7 +46,7 @@ func selectedOwnInitialCooldown(input Input, selection SourceSelection, owner, p
 
 // ValidateCooldownStateExpirySources 在实际手动／自动计划建立后核对新增冷却到期来源，不移动旧回盾检查。
 func ValidateCooldownStateExpirySources(input Input, reads InitialSourceReads) *model.EngineError {
-	if !input.Compiled.HasStateOnExpire {
+	if !input.Compiled.Features.Has(plan.FeatureStateOnExpire) {
 		return nil
 	}
 	for _, actor := range input.Compiled.Combatants {

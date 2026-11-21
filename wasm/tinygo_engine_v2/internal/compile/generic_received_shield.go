@@ -3,6 +3,7 @@ package compile
 import (
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
 
 func validateReceivedShieldReadContext(deps []formula.GenericInstr, path string, ctx *genericCompileContext) {
@@ -118,7 +119,7 @@ func finalizeReceivedShieldReads(ctx *genericCompileContext) {
 				continue
 			}
 			shield.HasReceivedShieldBinding, shield.ReceivedShieldParentIndex = true, uint16(parent)
-			session.HasReceivedShieldReads = true
+			session.Features |= plan.FeatureReceivedShieldReads
 			allowed[listener.ConditionProgram] = true
 		}
 	}
@@ -147,7 +148,7 @@ func finalizeReceivedShieldReads(ctx *genericCompileContext) {
 			}
 		}
 	}
-	if session.HasReceivedShieldReads {
+	if session.Features.Has(plan.FeatureReceivedShieldReads) {
 		for _, operation := range session.Operations {
 			if operation.Operation == model.OperationKindRepeat {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, operation.Path, "received shield absorption cannot be mixed with copyable damage replay", operation.Ref)

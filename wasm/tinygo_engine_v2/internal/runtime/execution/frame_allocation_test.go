@@ -310,7 +310,7 @@ func TestWaitPreviewStrictRemovalIsNotProjectedTwiceOrPublishedToParent(t *testi
 		t.Fatal("missing installed provider")
 	}
 	// 即使快照定义未被当前操作使用，整场标志也会开启帧投影读取。
-	state.compiled.HasModifierSnapshots = true
+	state.compiled.Features |= planbundle.FeatureModifierSnapshots
 	remove := state.newExecutionFrame("source", "source", "strict-remove")
 	parent := remove.stageFor("source")
 	parent.providerOps = []stagedProviderMutation{{Kind: "expire", ProviderRef: reference, DefinitionRef: "waiting-speed", SourceKey: "source", TargetKey: "source", Strict: true}}
@@ -338,7 +338,7 @@ func TestWaitPreviewStrictRemovalIsNotProjectedTwiceOrPublishedToParent(t *testi
 
 func TestWaitPreviewRepairDoesNotAcceptActuallyMissingStrictInstance(t *testing.T) {
 	state := frameAllocationWaitingProviderState(t)
-	state.compiled.HasModifierSnapshots = true
+	state.compiled.Features |= planbundle.FeatureModifierSnapshots
 	frame := state.newExecutionFrame("source", "source", "missing-strict")
 	frame.stageFor("source").providerOps = []stagedProviderMutation{{Kind: "expire", ProviderRef: "missing", TargetKey: "source", Strict: true}}
 	frame.commit()

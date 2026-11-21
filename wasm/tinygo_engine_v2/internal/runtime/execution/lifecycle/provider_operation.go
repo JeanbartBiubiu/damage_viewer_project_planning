@@ -72,7 +72,7 @@ func (e *Executor) PrepareProviderMutation(input ProviderPreparationInput, reads
 	if provider.HasModifierSnapshots && providerRef != "" {
 		return PreparedLifecycle{}, e.fail(model.GenericErrRuntimeInvariantFailed, "providerRef", "snapshot attribute refresh requires its complete actual application", providerRef)
 	}
-	if provider.AtomicDynamic && len(provider.StatusContributions) == 0 && (e.compiled.HasResourceMax || e.compiled.HasCooldownDuration || e.compiled.HasProviderDurationChange) {
+	if provider.AtomicDynamic && len(provider.StatusContributions) == 0 && (e.compiled.Features.Has(plan.FeatureResourceMax) || e.compiled.Features.Has(plan.FeatureCooldownDuration) || e.compiled.Features.Has(plan.FeatureProviderDurationChange)) {
 		if (provider.HasResourceMax || provider.HasCooldownDuration) && sourceKey != targetKey {
 			return PreparedLifecycle{}, e.fail(model.GenericErrRuntimeInvariantFailed, "target", "dynamic modifier requires actual self application", provider.ProviderKey)
 		}

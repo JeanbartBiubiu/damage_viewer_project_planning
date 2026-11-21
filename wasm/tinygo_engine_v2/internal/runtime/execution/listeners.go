@@ -75,7 +75,7 @@ func (s *Engine) dispatchListenerOperations(listener planbundle.CompiledListener
 		frame.castInstanceID = eventCtx.CastInstanceID
 		frame.castOrigin = eventCtx.CastOrigin
 	}
-	if s.compiled.HasCumulativeCooldownRefund {
+	if s.compiled.Features.Has(planbundle.FeatureCumulativeCooldownRefund) {
 		return frame.dispatchWithAmountBudgets(payload.Ability, payload.Operations)
 	}
 	return frame.finishListenerOperations(payload.Ability, payload.Operations)

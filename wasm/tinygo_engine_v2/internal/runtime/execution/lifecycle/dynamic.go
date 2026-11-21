@@ -197,7 +197,7 @@ func (e *Executor) ProjectDynamic(input ProjectionInput) (bool, *model.EngineErr
 // 只为已启用同帧状态清理的计算组合纯有限眩晕；不改变其原实例复用政策。
 func (e *Executor) canProjectFiniteActionStun(provider plan.CompiledProvider) bool {
 	lifecycle := provider.Lifecycle
-	return e.compiled.HasProviderDurationChange && provider.ActionStun && provider.Kind == "status" &&
+	return e.compiled.Features.Has(plan.FeatureProviderDurationChange) && provider.ActionStun && provider.Kind == "status" &&
 		provider.AbilityCount == 0 && len(provider.Modifiers)+len(provider.Listeners)+len(provider.StateFields)+len(provider.Processes)+len(provider.StatusContributions) == 0 &&
 		provider.AmmoBinding == nil && provider.ShieldDefinitionRef == "" && !provider.NeedsElapsedTime &&
 		lifecycle != nil && lifecycle.HasDuration && lifecycle.MaxStacks == 1 && lifecycle.RefreshPolicy == model.RefreshPolicyReplace && lifecycle.TickIntervalMs == 0

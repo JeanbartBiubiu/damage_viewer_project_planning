@@ -26,7 +26,7 @@ func targetRemainingCompileInput() model.CompileRequest {
 func TestCompileTargetStateRemainingOwnConditions(t *testing.T) {
 	r := targetRemainingCompileInput()
 	result := CompileGeneric(r)
-	if !result.OK || !result.Session.HasTargetStateTimeReads {
+	if !result.OK || !result.Session.Features.Has(plan.FeatureTargetStateTimeReads) {
 		t.Fatal(result.Result.Errors)
 	}
 	op := r.SharedProviders[0].Abilities[0].Operations[0]
@@ -147,7 +147,7 @@ func TestCompileTargetStateRemainingNamedIfCannotAuthorizeAmount(t *testing.T) {
 		ctx := &genericCompileContext{session: &session, formulas: registry, collector: newGenericCollector("schema", "rules")}
 		finalizeTargetStateRemaining(ctx)
 		if !amountUse {
-			if len(ctx.collector.errors) != 0 || !session.HasTargetStateTimeReads || !ctx.formulas.Instructions(named)[0].ReferenceBound {
+			if len(ctx.collector.errors) != 0 || !session.Features.Has(plan.FeatureTargetStateTimeReads) || !ctx.formulas.Instructions(named)[0].ReferenceBound {
 				t.Fatal(ctx.collector.errors)
 			}
 		} else {

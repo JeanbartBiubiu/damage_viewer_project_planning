@@ -2,6 +2,7 @@ package lifecycle
 
 import (
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 )
 
@@ -21,7 +22,7 @@ func lookupInitialEffect(owners [2]InitialEffectOwner, key string) InitialEffect
 }
 
 func (e *Executor) ValidateTargetTimingFresh(owners [2]InitialEffectOwner) *model.EngineError {
-	if !e.compiled.HasTargetTiming {
+	if !e.compiled.Features.Has(plan.FeatureTargetTiming) {
 		return nil
 	}
 	for _, actual := range owners {

@@ -85,7 +85,7 @@ func finalizeDamageStateBefore(ctx *genericCompileContext) {
 				s.DamageStateReaders = append(s.DamageStateReaders, plan.CompiledDamageStateReader{Owner: listener.OwnerCombatantKey, ProviderRef: listener.OwnerProviderRef, ProviderIndex: uint16(parent), StateKey: read.ReadKey})
 			}
 			listener.ReadsDamageStateBefore = true
-			s.HasDamageStateBefore = true
+			s.Features |= plan.FeatureDamageStateBefore
 			allowed[listener.ConditionProgram] = true
 		}
 	}

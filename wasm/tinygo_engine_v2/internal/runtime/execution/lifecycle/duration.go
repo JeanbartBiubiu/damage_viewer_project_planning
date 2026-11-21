@@ -55,7 +55,7 @@ func (e *Executor) prepareDurationExtension(operation plan.CompiledOperation, ow
 }
 
 func (e *Executor) durationExtensionDeadline(operation plan.CompiledOperation, owner, source, provider string, now int64) (int64, *model.EngineError) {
-	if !e.compiled.HasProviderDurationChange || operation.Target != model.SelectorSelf || operation.ValuePolicy != "ensure_remaining" ||
+	if !e.compiled.Features.Has(plan.FeatureProviderDurationChange) || operation.Target != model.SelectorSelf || operation.ValuePolicy != "ensure_remaining" ||
 		owner != source || owner != model.SelectorSource || provider == "" || !operation.HasAmount {
 		return 0, e.invariant(operation.Path, "provider duration change requires its actual source owner and complete definition", operation.ProviderDefinitionRef)
 	}
@@ -73,7 +73,7 @@ func (e *Executor) durationExtensionDeadline(operation plan.CompiledOperation, o
 
 // 实际帧身份不能由事件来源或技能名替代，父挂载也必须与编译的拥有者一致。
 func (e *Executor) actualOwnDefinition(operation plan.CompiledOperation, owner, source, provider string) (uint16, *model.EngineError) {
-	if !e.compiled.HasProviderDurationChange || operation.Target != model.SelectorSelf || owner != source || provider == "" {
+	if !e.compiled.Features.Has(plan.FeatureProviderDurationChange) || operation.Target != model.SelectorSelf || owner != source || provider == "" {
 		return 0, e.invariant(operation.Path, "own lifecycle change requires its actual source owner", operation.ProviderDefinitionRef)
 	}
 	owned := 0

@@ -66,7 +66,7 @@ func finalizeImmediatePeriodic(ctx *genericCompileContext) {
 			fail("immediate first period requires one actual planned character parent and complete finite single-instance damage")
 			continue
 		}
-		ctx.session.HasImmediatePeriodic = true
+		ctx.session.Features |= plan.FeatureImmediatePeriodic
 	}
 }
 
@@ -143,7 +143,7 @@ func finalizeTotalCooldownRefunds(ctx *genericCompileContext) {
 			continue
 		}
 		op.TotalCooldownTarget, op.TotalCooldownRatio = target, ratio
-		ctx.session.HasTotalCooldownRefund = true
+		ctx.session.Features |= plan.FeatureTotalCooldownRefund
 		if op.CumulativeLimit != nil {
 			for previousIndex := 0; previousIndex < index; previousIndex++ {
 				previous := ctx.session.Operations[previousIndex]
@@ -151,7 +151,7 @@ func finalizeTotalCooldownRefunds(ctx *genericCompileContext) {
 					ctx.collector.addError(model.GenericErrFormulaTypeError, op.Path+".cumulativeLimit.maxRatio", "same cumulative refund identity requires one consistent maximum", op.AbilityRefStr)
 				}
 			}
-			ctx.session.HasCumulativeCooldownRefund = true
+			ctx.session.Features |= plan.FeatureCumulativeCooldownRefund
 		}
 	}
 }

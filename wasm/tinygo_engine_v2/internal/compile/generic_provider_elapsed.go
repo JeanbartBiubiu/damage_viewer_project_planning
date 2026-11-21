@@ -3,6 +3,7 @@ package compile
 import (
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
 
 func validateProviderElapsedReads(ctx *genericCompileContext) {
@@ -28,7 +29,8 @@ func validateProviderElapsedReads(ctx *genericCompileContext) {
 					ctx.collector.addError(model.GenericErrFormulaTypeError, path, "MOMENT_EVALUATION strength may read only its own provider.elapsed_ms and frozen static values", contribution.ResultRef)
 				}
 			}
-			provider.HasMomentStatus, provider.NeedsElapsedTime, ctx.session.HasProviderElapsedReads = true, true, true
+			provider.HasMomentStatus, provider.NeedsElapsedTime = true, true
+			ctx.session.Features |= plan.FeatureProviderElapsedReads
 			allowed[contribution.StrengthProgram] = true
 		}
 		for _, modifier := range provider.Modifiers {
@@ -48,7 +50,8 @@ func validateProviderElapsedReads(ctx *genericCompileContext) {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, path, "provider.elapsed_ms requires a finite single-layer source_target replace lifecycle", provider.ProviderKey)
 				continue
 			}
-			provider.NeedsElapsedTime, ctx.session.HasProviderElapsedReads = true, true
+			provider.NeedsElapsedTime = true
+			ctx.session.Features |= plan.FeatureProviderElapsedReads
 			allowed[modifier.ValueProgram] = true
 		}
 	}

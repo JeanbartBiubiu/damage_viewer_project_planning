@@ -22,7 +22,7 @@ func (r *ownExpiryReads) DurationProviders(string) effectpkg.ProviderList {
 }
 
 func TestOwnDefinitionExpiryUsesActualFrameIdentityAndUniqueLiveInstance(t *testing.T) {
-	compiled := plan.CompiledSession{HasProviderDurationChange: true,
+	compiled := plan.CompiledSession{Features: plan.FeatureProviderDurationChange,
 		Providers:  []plan.CompiledProvider{{ProviderKey: "parent"}, {ProviderKey: "slow", AtomicDynamic: true}},
 		Combatants: []plan.CompiledCombatant{{Key: "source", ProviderMounts: []plan.CompiledProviderMount{{ProviderRef: "real_parent", DefinitionIndex: 0}}}}}
 	e := New(&compiled, nil, nil, "session")

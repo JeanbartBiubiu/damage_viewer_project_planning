@@ -7,7 +7,7 @@ import (
 
 // ValidateTargetTimingDefinition 核对有界目标时序的静态来源，不安装运行状态。
 func ValidateTargetTimingDefinition(input Input, provider planbundle.CompiledProvider, ref string) *model.EngineError {
-	if !input.Compiled.HasTargetTiming || len(provider.TargetTimings) > 4 || (provider.Kind != "character" && provider.Kind != "build") || provider.StableID == "" || provider.SkillKey == "" || provider.Lifecycle != nil || provider.AmmoBinding != nil || len(provider.Processes)+len(provider.Modifiers)+len(provider.StatusContributions) != 0 {
+	if !input.Compiled.Features.Has(planbundle.FeatureTargetTiming) || len(provider.TargetTimings) > 4 || (provider.Kind != "character" && provider.Kind != "build") || provider.StableID == "" || provider.SkillKey == "" || provider.Lifecycle != nil || provider.AmmoBinding != nil || len(provider.Processes)+len(provider.Modifiers)+len(provider.StatusContributions) != 0 {
 		return fail(input, "target timing requires its complete bounded permanent natural source", ref)
 	}
 	return nil

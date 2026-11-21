@@ -213,7 +213,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 			for _, operation := range session.Operations[start : start+count] {
 				if operation.Operation == "damage" {
 					provider.PermanentCharacterPeriod = true
-					session.HasPermanentCharacterPeriod = true
+					session.Features |= plan.FeaturePermanentCharacterPeriod
 				}
 			}
 		}
@@ -374,7 +374,8 @@ func compileProviderDefinition(provider model.ProviderDefinition, path string, c
 	if compiled.Lifecycle != nil && compiled.Lifecycle.HasDuration {
 		for _, mod := range compiled.Modifiers {
 			if mod.Kind == "attribute" && (mod.Stage == "total" && mod.ValuePolicy == "multiply" || mod.Stage == "final") || mod.HasMultiplierGroup && mod.Kind == "pipeline" && mod.Command == "damage" {
-				compiled.NeedsModifierExpiry, session.HasFiniteModifierExpiry = true, true
+				compiled.NeedsModifierExpiry = true
+				session.Features |= plan.FeatureFiniteModifierExpiry
 			}
 		}
 	}

@@ -30,7 +30,7 @@ func finalizeTargetStateRemaining(ctx *genericCompileContext) {
 				ctx.collector.addError(model.GenericErrUnknownRef, path, "target state remaining time requires a declared own finite ordinary integer field", read.ReadKey)
 				continue
 			}
-			ctx.session.HasTargetStateTimeReads = true
+			ctx.session.Features |= plan.FeatureTargetStateTimeReads
 		}
 	}
 	for owner, provider := range ctx.session.Providers {

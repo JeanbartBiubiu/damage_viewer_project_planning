@@ -616,7 +616,7 @@ func (f *Frame) applyCooldownChange(targetKey, abilityRef string, readyAt int64)
 }
 
 func (s *Engine) targetMarkSummaryOutput() *model.TargetMarkSummary {
-	if !s.compiled.HasTargetMarkConsumption {
+	if !s.compiled.Features.Has(planbundle.FeatureTargetMarkConsumption) {
 		return nil
 	}
 	copy := s.report.TargetMarkSummary()
@@ -626,7 +626,7 @@ func (s *Engine) targetMarkSummaryOutput() *model.TargetMarkSummary {
 func (f *Frame) commitTargetMarkSummary() { f.run.report.AddTargetMark(f.pendingTargetMark) }
 
 func (s *Engine) initTargetMarkSources() *model.EngineError {
-	if !s.compiled.HasTargetMarkConsumption {
+	if !s.compiled.Features.Has(planbundle.FeatureTargetMarkConsumption) {
 		return nil
 	}
 	sources := admission.TargetMarkSources{StartMs: s.loop.StartMs(), Selection: admission.SourceSelection{SkillBindings: s.plannedSkillBindings()}}
@@ -649,7 +649,7 @@ func (f *Frame) targetMarkContact(abilityRef, kind string) (*contractpkg.SkillHi
 	fail := func(message string) (*contractpkg.SkillHitFacts, *model.EngineError) {
 		return nil, f.run.basicAttackErr(message, f.abilityRef)
 	}
-	if !f.run.compiled.HasTargetMarkConsumption || !f.mountedListener || f.castInstanceID == 0 || f.eventCtx == nil || f.eventCtx.EventType != kind || f.eventCtx.SkillHit == nil || !f.eventCtx.HasUse {
+	if !f.run.compiled.Features.Has(planbundle.FeatureTargetMarkConsumption) || !f.mountedListener || f.castInstanceID == 0 || f.eventCtx == nil || f.eventCtx.EventType != kind || f.eventCtx.SkillHit == nil || !f.eventCtx.HasUse {
 		return fail("target mark requires its native mounted listener contact")
 	}
 	contact := f.eventCtx.SkillHit

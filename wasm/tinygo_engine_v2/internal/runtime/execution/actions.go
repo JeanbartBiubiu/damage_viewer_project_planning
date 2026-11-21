@@ -1136,7 +1136,7 @@ func (state *Engine) skillSummaries() (model.SkillActionSummary, model.SkillUseS
 
 func validateImmediatePeriodicRefundFreshSnapshot(compiled planbundle.CompiledSession, request model.RunRequest) *model.EngineError {
 	executor := actionflow.NewSkillActionExecutor(nil, compiled.Abilities, compiled.Providers, actionflow.Identity{SchemaHash: compiled.SchemaHash, RulesHash: compiled.RulesHash, SessionID: request.SessionID})
-	return executor.ValidateRefundSnapshot(request.InitialSnapshot, compiled.HasTotalCooldownRefund)
+	return executor.ValidateRefundSnapshot(request.InitialSnapshot, compiled.Features.Has(planbundle.FeatureTotalCooldownRefund))
 }
 
 func (f *Frame) validateImmediatePeriodicApplication(operation planbundle.CompiledOperation) *model.EngineError {
@@ -1144,7 +1144,7 @@ func (f *Frame) validateImmediatePeriodicApplication(operation planbundle.Compil
 	if f.pendingProcess != nil {
 		expectedTarget = opponentCombatantKey(f.pendingProcess.Owner())
 	}
-	return f.run.skillActionFlowExecutor().ValidateImmediatePeriod(operation, f.pendingProcess, f.processMomentKind, f.ownerCombatantKey, f.ownerProviderRef, expectedTarget, f.run.compiled.HasImmediatePeriodic)
+	return f.run.skillActionFlowExecutor().ValidateImmediatePeriod(operation, f.pendingProcess, f.processMomentKind, f.ownerCombatantKey, f.ownerProviderRef, expectedTarget, f.run.compiled.Features.Has(planbundle.FeatureImmediatePeriodic))
 }
 
 func (s *Engine) bindImmediatePeriodicUse(owner, source, definition, use string) {

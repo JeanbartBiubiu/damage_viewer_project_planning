@@ -248,7 +248,7 @@ func (e *Executor) StageAnchoredTargetWrite(input AnchoredWriteInput, reads Stat
 }
 
 func (e *Executor) stageStateTargetTiming(input StateExecutionInput, result StateWriteResult, bag effectpkg.BagChange, reads StateExecutionReads, requests TimingRequests) (bool, *model.EngineError) {
-	if !e.compiled.HasTargetTiming {
+	if !e.compiled.Features.Has(plan.FeatureTargetTiming) {
 		return false, nil
 	}
 	instance, slot, timing, found := e.TargetTimingBinding(reads.StateProviders(input.Owner), input.Owner, input.Provider, input.Operation.Ref, input.Now)

@@ -134,7 +134,7 @@ func finalizeTargetTiming(req model.CompileRequest, ctx *genericCompileContext) 
 		if len(p.TargetTimings) == 0 {
 			continue
 		}
-		s.HasTargetTiming = true
+		s.Features |= plan.FeatureTargetTiming
 		fail := func(message string) {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, p.ProviderKey, message, p.ProviderKey)
 		}

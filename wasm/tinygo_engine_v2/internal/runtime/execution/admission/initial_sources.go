@@ -138,7 +138,7 @@ func ValidateEquipmentHitProvider(input Input, provider planbundle.CompiledProvi
 
 // ValidateStateOnExpireSources 先完整核对原序挂载，再检查原序驱动；拒绝不改变运行状态。
 func ValidateStateOnExpireSources(input Input, entries []model.DriverEntry, reads InitialSourceReads) *model.EngineError {
-	if !input.Compiled.HasStateOnExpire {
+	if !input.Compiled.Features.Has(planbundle.FeatureStateOnExpire) {
 		return nil
 	}
 	for _, actor := range input.Compiled.Combatants {

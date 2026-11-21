@@ -4,6 +4,7 @@ import (
 	"sort"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
 
 // This capability is inferred from actual own-attack listener conditions. A
@@ -49,7 +50,7 @@ func finalizeAttackStartStateReads(ctx *genericCompileContext) {
 			if !found {
 				provider.AttackStartStateKeys = append(provider.AttackStartStateKeys, key)
 			}
-			ctx.session.HasAttackStartStateReads = true
+			ctx.session.Features |= plan.FeatureAttackStartStateReads
 		}
 		allowed[listener.ConditionProgram] = true
 	}

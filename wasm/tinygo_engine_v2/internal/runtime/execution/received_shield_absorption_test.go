@@ -37,7 +37,7 @@ func receivedShieldInput(delay int64, amounts ...float64) (model.CompileRequest,
 func receivedShieldState(t *testing.T, c model.CompileRequest, r model.RunRequest) *Engine {
 	t.Helper()
 	s := frameCommitState(t, c, r)
-	if !s.compiled.HasReceivedShieldReads {
+	if !s.compiled.Features.Has(plan.FeatureReceivedShieldReads) {
 		t.Fatal("the actual listener did not authorize collection")
 	}
 	return s

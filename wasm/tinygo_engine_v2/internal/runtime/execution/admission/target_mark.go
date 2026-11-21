@@ -26,7 +26,7 @@ type TargetMarkSources struct {
 // ValidateTargetMarkSources 按原操作顺序检查零时刻新场景及真实父来源、触发入口和恢复资源。
 // 所有数值及状态只读借用，首个失败保留原完整错误身份，不安装状态或创建使用身份。
 func ValidateTargetMarkSources(input Input, sources TargetMarkSources) *model.EngineError {
-	if !input.Compiled.HasTargetMarkConsumption {
+	if !input.Compiled.Features.Has(planbundle.FeatureTargetMarkConsumption) {
 		return nil
 	}
 	for _, initial := range sources.Initial {
@@ -65,6 +65,6 @@ func ValidateTargetMarkSources(input Input, sources TargetMarkSources) *model.En
 
 func targetMarkListenerOwned(input Input, listener planbundle.CompiledListener, op planbundle.CompiledOperation) bool {
 	mark := op.TargetMark
-	return input.Compiled.HasTargetMarkConsumption && mark != nil && listener.OperationCount == 1 && listener.SourceAbilityIndex >= 0 &&
+	return input.Compiled.Features.Has(planbundle.FeatureTargetMarkConsumption) && mark != nil && listener.OperationCount == 1 && listener.SourceAbilityIndex >= 0 &&
 		listener.OwnerCombatantKey == mark.OwnerCombatantKey && listener.OwnerProviderRef == mark.OwnerProviderRef && !listener.HasAbilityRef && !listener.HasOncePerUse && listener.PerCastThrottleMs == 0
 }

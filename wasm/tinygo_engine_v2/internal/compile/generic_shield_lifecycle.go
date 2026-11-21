@@ -53,7 +53,7 @@ func finalizeShieldLifecycleBindings(req model.CompileRequest, ctx *genericCompi
 		if provider.ShieldDefinitionRef == "" {
 			continue
 		}
-		ctx.session.HasShieldLifecycle = true
+		ctx.session.Features |= plan.FeatureShieldLifecycle
 		if strings.TrimSpace(provider.ShieldDefinitionRef) == "" || strings.ContainsAny(provider.ShieldDefinitionRef, "[]\r\n") {
 			add(model.GenericErrUnknownRef, "sharedProviders["+itoa(i)+"].linkedShieldDefinitionRef", "linked shield definition reference is invalid", provider.ShieldDefinitionRef)
 		}
@@ -66,7 +66,7 @@ func finalizeShieldLifecycleBindings(req model.CompileRequest, ctx *genericCompi
 		if !op.HasShieldLifecycleProvider {
 			continue
 		}
-		ctx.session.HasShieldLifecycle = true
+		ctx.session.Features |= plan.FeatureShieldLifecycle
 		provider := &ctx.session.Providers[op.ShieldLifecycleProviderIndex]
 		if old, found := definitions[op.ShieldRef]; found && (old.provider != op.ShieldLifecycleProviderIndex || (old.target != "" && old.target != op.Target)) {
 			add(model.GenericErrUnknownRef, op.Path+".shieldRef", "shield definition must have one lifecycle provider and target selector", op.ShieldRef)
@@ -151,7 +151,7 @@ func finalizeShieldLifecycleBindings(req model.CompileRequest, ctx *genericCompi
 				continue
 			}
 			ctx.bindFormulaRead(formula.GenericProgramID(programIndex), instructionIndex, binding.provider)
-			ctx.session.HasLinkedShieldReads = true
+			ctx.session.Features |= plan.FeatureLinkedShieldReads
 		}
 	}
 }

@@ -168,7 +168,7 @@ func TestLiveReapplicationRereadsAfterExpiredRemoval(t *testing.T) {
 
 func TestLiveRemovalKeepsMissingReverseShieldAndStrictErrorIdentity(t *testing.T) {
 	executor, work := liveEffectCase()
-	executor.compiled.HasShieldLifecycle = true
+	executor.compiled.Features |= plan.FeatureShieldLifecycle
 	state := work.states["target"]
 	state.Instances.SetShields(effectpkg.ShieldList{}.Append(effectpkg.Shield{ShieldRef: "orphan", LifecycleProviderRef: "missing", Remaining: 10}))
 	state.Instances.AppendProvider(effectpkg.Provider{ProviderRef: "present", DefinitionRef: "status", Owner: "target", Source: "source"})
@@ -187,7 +187,9 @@ func TestLiveSweepKeepsOrdinaryPolicyAndRechecksLinkedShields(t *testing.T) {
 	for _, linked := range []bool{false, true} {
 		t.Run(map[bool]string{false: "ordinary", true: "linked"}[linked], func(t *testing.T) {
 			executor, work := liveEffectCase()
-			executor.compiled.HasShieldLifecycle = linked
+			if linked {
+				executor.compiled.Features |= plan.FeatureShieldLifecycle
+			}
 			state := work.states["source"]
 			state.Instances.AppendProvider(effectpkg.Provider{ProviderRef: "expired", Owner: "source", Source: "source", ExpireAt: 100})
 			state.Instances.SetShields(effectpkg.ShieldList{}.Append(effectpkg.Shield{ShieldRef: "old_shield", Remaining: 5, ExpireAt: 50}))
@@ -233,9 +235,43 @@ func TestEffectExpiryOwnsStaleQualificationAndOriginalFrameCommand(t *testing.T)
 	}
 }
 
+func TestProviderExpiryKeepsAutomatedModeIndependentOfFeatures(t *testing.T) {
+	for _, tc := range []struct {
+		name      string
+		features  plan.SessionFeatures
+		automated bool
+		wantFrame bool
+	}{
+		{name: "manual_without_features"},
+		{name: "manual_with_unrelated_feature", features: plan.FeatureReceivedShieldReads},
+		{name: "automated_without_features", automated: true, wantFrame: true},
+		{name: "manual_with_action_stun", features: plan.FeatureActionStun, wantFrame: true},
+		{name: "manual_with_dynamic_projection", features: plan.FeatureProviderDurationChange, wantFrame: true},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			executor, work := liveEffectCase()
+			executor.compiled.Features = tc.features
+			state := work.states["target"]
+			state.Instances.AppendProvider(effectpkg.Provider{ProviderRef: "expired", DefinitionRef: "status", Source: "source", Owner: "target", ExpireAt: 100})
+			work.states["target"] = state
+
+			executor.HandleExpiry(effectpkg.ExpiryPayload{Kind: "provider", CombatantKey: "target", ProviderRef: "expired"}, 100, tc.automated, work, work)
+
+			wantFrames := 0
+			if tc.wantFrame {
+				wantFrames = 1
+			}
+			_, _, stillLive := work.states["target"].Instances.Providers().Find("expired")
+			if len(work.frames) != wantFrames || stillLive != tc.wantFrame {
+				t.Fatalf("独立到期帧数量为 %d，供值器仍存在 %t，预期有 %d 个独立帧", len(work.frames), stillLive, wantFrames)
+			}
+		})
+	}
+}
+
 func TestEffectMutationPublicationStopsOnlyAtOriginalExplicitFailure(t *testing.T) {
 	executor, work := liveEffectCase()
-	executor.compiled.HasImmediatePeriodic = true
+	executor.compiled.Features |= plan.FeatureImmediatePeriodic
 	failure := model.NewEngineError(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "bind failure")
 	work.bindFailure = &failure
 	err := executor.PublishMutations([]Mutation{{Kind: "apply", DefinitionRef: "status", TargetKey: "target", SourceKey: "source"}, {Kind: "apply", DefinitionRef: "status", TargetKey: "source", SourceKey: "source"}}, formula.GenericEvalContext{}, 100, work)

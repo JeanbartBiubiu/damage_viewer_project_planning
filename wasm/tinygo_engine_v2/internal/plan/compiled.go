@@ -26,45 +26,24 @@ type CompiledTargetTiming struct {
 	Phased       bool
 }
 type CompiledSession struct {
-	MultiplierGroupCount        uint32
-	IncomingCappedFlatSources   []CompiledIncomingCappedFlatSource
-	HasPermanentCharacterPeriod bool
-	HasImmediatePeriodic        bool
-	HasTotalCooldownRefund      bool
-	HasCumulativeCooldownRefund bool
-	HasTargetTiming             bool
-	HasDamageStateBefore        bool
-	DamageStateReaders          []CompiledDamageStateReader
-	HasTargetMarkConsumption    bool
-	HasReceivedShieldReads      bool
-	HasAttackStartStateReads    bool
-	HasStateOnExpire            bool
-	HasStagedLinkedShield       bool
-	HasModifierSnapshots        bool
-	AttributeLayout             *attribute.Layout
-	SkillActionBindings         []CompiledSkillActionBinding
-	HasMechanicReads            bool
-	HasShieldLifecycle          bool
-	HasLinkedShieldReads        bool
-	HasProviderElapsedReads     bool
-	HasTargetStateTimeReads     bool
-	HasFiniteModifierExpiry     bool
-	HasResourceMax              bool
-	PermanentResourceMax        []CompiledPermanentResourceMax
-	HasCooldownDuration         bool
-	HasProviderDurationChange   bool
-	HasActionStun               bool
-	StatusKeys                  []string
-	SchemaVersion               string
-	SchemaHash                  string
-	RulesHash                   string
-	Types                       typeset.CatalogResult
-	RuntimeTypes                RuntimeTypeBindings
-	Combatants                  []CompiledCombatant
-	Providers                   []CompiledProvider
-	Abilities                   []CompiledAbility
-	Operations                  []CompiledOperation
-	Formulas                    formula.Library
+	Features                  SessionFeatures
+	MultiplierGroupCount      uint32
+	IncomingCappedFlatSources []CompiledIncomingCappedFlatSource
+	DamageStateReaders        []CompiledDamageStateReader
+	AttributeLayout           *attribute.Layout
+	SkillActionBindings       []CompiledSkillActionBinding
+	PermanentResourceMax      []CompiledPermanentResourceMax
+	StatusKeys                []string
+	SchemaVersion             string
+	SchemaHash                string
+	RulesHash                 string
+	Types                     typeset.CatalogResult
+	RuntimeTypes              RuntimeTypeBindings
+	Combatants                []CompiledCombatant
+	Providers                 []CompiledProvider
+	Abilities                 []CompiledAbility
+	Operations                []CompiledOperation
+	Formulas                  formula.Library
 	// FormulaFactReads 只在实际条件准备时使用；运行期不遍历公式收集特殊事实。
 	FormulaFactReads     map[formula.GenericProgramID][]formula.FactRequest
 	Settings             model.GenericCompileSettings

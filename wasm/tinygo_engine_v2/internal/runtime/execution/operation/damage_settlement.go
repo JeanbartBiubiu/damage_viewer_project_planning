@@ -44,7 +44,7 @@ func (f *calculation) applyDamageCommand(cmd pipeline.Command, op planbundle.Com
 	}
 	mitigated := numbers.MitigatedAmount
 	var beforeState []contract.DamageStateBefore
-	if f.executor.plan.HasDamageStateBefore {
+	if f.executor.plan.Features.Has(planbundle.FeatureDamageStateBefore) {
 		var captureErr *model.EngineError
 		beforeState, captureErr = f.captureDamageStateBefore(cmd.Source, cmd.Target)
 		if captureErr != nil {
@@ -52,8 +52,8 @@ func (f *calculation) applyDamageCommand(cmd pipeline.Command, op planbundle.Com
 		}
 	}
 	targetHPBefore := attribute.ReadHP(viewAttributes)
-	outcome, nextAttributes, nextShields := viewShields.ApplyDamage(rawForEvidence, mitigated, viewAttributes, f.input.TimeMs, f.executor.plan.HasReceivedShieldReads)
-	if f.executor.plan.HasReceivedShieldReads {
+	outcome, nextAttributes, nextShields := viewShields.ApplyDamage(rawForEvidence, mitigated, viewAttributes, f.input.TimeMs, f.executor.plan.Features.Has(planbundle.FeatureReceivedShieldReads))
+	if f.executor.plan.Features.Has(planbundle.FeatureReceivedShieldReads) {
 		if err := f.bindReceivedShieldAbsorptions(outcome.ShieldAbsorptions, cmd.Target, outcome.ShieldAbsorbed); err != nil {
 			return err
 		}
@@ -64,7 +64,7 @@ func (f *calculation) applyDamageCommand(cmd pipeline.Command, op planbundle.Com
 	}
 	f.recordOperationOutput(op, outcome)
 	damageID := f.nextDamageID()
-	if f.executor.plan.HasDamageStateBefore {
+	if f.executor.plan.Features.Has(planbundle.FeatureDamageStateBefore) {
 		f.recordDamageStateBefore(beforeState, damageID, cmd.Target)
 	}
 	result := pipeline.CommandResult{

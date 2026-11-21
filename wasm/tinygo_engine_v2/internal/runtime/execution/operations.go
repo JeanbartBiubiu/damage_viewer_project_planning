@@ -177,7 +177,7 @@ func (f *Frame) executeOperations(ability planbundle.CompiledAbility, ops []plan
 }
 
 func (f *Frame) bumpCommandBudget() *model.EngineError {
-	if f.run.actions.AttackActive() || f.run.effectInitialization.Active() || f.run.hasSkillPlan() || f.run.compiled.HasTargetTiming {
+	if f.run.actions.AttackActive() || f.run.effectInitialization.Active() || f.run.hasSkillPlan() || f.run.compiled.Features.Has(planbundle.FeatureTargetTiming) {
 		return f.run.consumeEventCommands(1)
 	}
 	if f.copyableCollector != nil {
@@ -207,7 +207,7 @@ func (r *operationReads) PrepareNumericOperation(op *planbundle.CompiledOperatio
 	if op.ColdResourceMax {
 		return true, f.skipInstalledPermanentResourceMax(*op)
 	}
-	if (f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange || f.run.compiled.HasStagedLinkedShield || f.run.compiled.HasModifierSnapshots) && op.Operation != "apply_provider" && op.Operation != "refresh_provider" && op.Operation != "expire_provider" {
+	if f.run.compiled.Features.NeedsDynamicProviderFlush() && op.Operation != "apply_provider" && op.Operation != "refresh_provider" && op.Operation != "expire_provider" {
 		f.flushDynamicProviders()
 		if f.fatal {
 			return false, f.fatalErr
@@ -515,7 +515,7 @@ func (f *Frame) queueDamageTaken(cmd pipeline.Command, operation planbundle.Comp
 	event.hasUse = event.useKey != ""
 	attachUseToSnapshot(&event)
 	f.pendingEvents = append(f.pendingEvents, event)
-	if f.run.compiled.HasReceivedShieldReads {
+	if f.run.compiled.Features.Has(planbundle.FeatureReceivedShieldReads) {
 		f.recordReceivedShieldDamageTaken(cmd, operation, outcome, killed, damageID, event)
 		return
 	}
@@ -552,14 +552,14 @@ func validateReceivedShieldInitialSnapshot(compiled planbundle.CompiledSession, 
 
 func (f *Frame) bindReceivedShieldAbsorptions(snapshot *pipeline.ShieldAbsorptionSnapshot, target string, total float64) *model.EngineError {
 	return operation.BindReceivedShieldAbsorptions(operation.ShieldAbsorptionBindingInput{
-		Enabled: f.run.compiled.HasReceivedShieldReads, Providers: f.run.compiled.Providers,
+		Enabled: f.run.compiled.Features.Has(planbundle.FeatureReceivedShieldReads), Providers: f.run.compiled.Providers,
 		SchemaHash: f.run.compiled.SchemaHash, RulesHash: f.run.compiled.RulesHash, SessionID: f.run.req.SessionID,
 	}, (*operationReads)(f), snapshot, target, total)
 }
 
 func (f *Frame) receivedLinkedShieldAbsorbed(index uint16) (float64, error) {
 	return operation.ReceivedLinkedShieldAbsorbed(operation.ReceivedLinkedShieldInput{
-		Enabled: f.run.compiled.HasReceivedShieldReads, Providers: f.run.compiled.Providers, Combatants: f.run.compiled.Combatants,
+		Enabled: f.run.compiled.Features.Has(planbundle.FeatureReceivedShieldReads), Providers: f.run.compiled.Providers, Combatants: f.run.compiled.Combatants,
 		Event: f.eventCtx, Owner: f.providerOwnerKey(), ProviderRef: f.ownerProviderRef,
 	}, (*operationReads)(f), index)
 }
@@ -600,7 +600,7 @@ func (r *operationReads) NumericRecoveryRecipient(target string, op planbundle.C
 
 func (r *operationReads) RecordNumericHealing(record model.DirectHealingRecord, op planbundle.CompiledOperation, heal operation.HealingOutcome) {
 	f := (*Frame)(r)
-	if f.run.compiled.HasResourceMax {
+	if f.run.compiled.Features.Has(planbundle.FeatureResourceMax) {
 		order := f.run.reserveHealthOrder()
 		record.HealthOrder = &order
 	}

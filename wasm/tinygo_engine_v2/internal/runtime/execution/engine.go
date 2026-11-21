@@ -169,7 +169,7 @@ type Engine struct {
 var _ EngineAPI = (*Engine)(nil)
 
 func (s *Engine) Finish() (model.DoneResult, *model.EngineError) {
-	if s.compiled.HasProviderElapsedReads && s.budgetCause == "" {
+	if s.compiled.Features.Has(planbundle.FeatureProviderElapsedReads) && s.budgetCause == "" {
 		s.refreshProviderAwareAttributes(model.SelectorSource, model.SelectorTarget)
 		if s.processFailure != nil {
 			return model.DoneResult{}, s.processFailure
@@ -188,13 +188,13 @@ func New(compiled planbundle.CompiledSession, req model.RunRequest, loop *schedu
 	if len(req.InitialSnapshot.UseAmountBudgets) != 0 {
 		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "cumulative refund budgets are output facts and cannot be restored", "initialSnapshot.useAmountBudgets", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
 	}
-	if compiled.HasImmediatePeriodic || compiled.HasTotalCooldownRefund {
+	if compiled.Features.Has(planbundle.FeatureImmediatePeriodic) || compiled.Features.Has(planbundle.FeatureTotalCooldownRefund) {
 		if err := validateImmediatePeriodicRefundFreshSnapshot(compiled, req); err != nil {
 			return nil, err
 		}
 	}
 	// TinyGo在函数入口为错误闭包捕获的参数分配；特性门须放在调用点。
-	if compiled.HasReceivedShieldReads {
+	if compiled.Features.Has(planbundle.FeatureReceivedShieldReads) {
 		if err := validateReceivedShieldInitialSnapshot(compiled, req); err != nil {
 			return nil, err
 		}
@@ -347,7 +347,7 @@ func New(compiled planbundle.CompiledSession, req model.RunRequest, loop *schedu
 	if err := state.initIncomingCappedFlatSources(); err != nil {
 		return nil, err
 	}
-	if compiled.HasPermanentCharacterPeriod {
+	if compiled.Features.Has(planbundle.FeaturePermanentCharacterPeriod) {
 		if err := state.initPermanentCharacterPeriods(); err != nil {
 			return nil, err
 		}
@@ -362,7 +362,7 @@ func New(compiled planbundle.CompiledSession, req model.RunRequest, loop *schedu
 	// Fresh-scene admission above still compares the authored equipped maximum
 	// with Resolved. Only after all admission checks may runtime HP reads switch
 	// to Current; half-health scenes must pass the same untouched input checks.
-	if compiled.HasResourceMax {
+	if compiled.Features.Has(planbundle.FeatureResourceMax) {
 		for key, c := range state.combatants {
 
 			c.setAttributes(operation.SyncHPResolved(c.attributesView()))
@@ -383,7 +383,7 @@ func New(compiled planbundle.CompiledSession, req model.RunRequest, loop *schedu
 		}
 		state.pushCombatEvent(scheduler.GenericEvent{TimeMs: state.loop.StartMs(), Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventBasicAttack, DriverEntryIndex: -1})
 	}
-	if compiled.HasActionStun && state.actions.ProcessCount() != 0 {
+	if compiled.Features.Has(planbundle.FeatureActionStun) && state.actions.ProcessCount() != 0 {
 		// 恢复输入已经带控制事实时，先按同一死亡/控制顺序收敛，
 		// 不能等待下一个过程时点提交后才阻止其负载。
 		state.checkDeathStopReason()
@@ -528,7 +528,7 @@ func (s *Engine) LoopStopState() scheduler.LoopStopState {
 
 func (s *Engine) SelectLoopEvent(event scheduler.GenericEvent) (scheduler.GenericEvent, *model.EngineError) {
 	var err *model.EngineError
-	if s.compiled.HasStateOnExpire && event.Category != scheduler.GenericCategoryStateCooldownExpiry && s.currentStateOnExpire(event) {
+	if s.compiled.Features.Has(planbundle.FeatureStateOnExpire) && event.Category != scheduler.GenericCategoryStateCooldownExpiry && s.currentStateOnExpire(event) {
 		event, err = s.selectCombatBeforeStateOnExpire(event)
 		if err != nil {
 			return event, err
@@ -585,7 +585,7 @@ func (s *Engine) restoreSameTimeCandidates(events []scheduler.GenericEvent) bool
 }
 
 func (s *Engine) HandleLoopEvent(event scheduler.GenericEvent) *model.EngineError {
-	if s.hasSkillPlan() || s.currentStateOnExpire(event) || s.compiled.HasTargetTiming {
+	if s.hasSkillPlan() || s.currentStateOnExpire(event) || s.compiled.Features.Has(planbundle.FeatureTargetTiming) {
 		s.currentEventCommands = 0
 	}
 	switch event.Kind {
@@ -628,7 +628,7 @@ func (s *Engine) ObserveFinal() { s.appendFinalSample() }
 func (s *Engine) PublishLoopWait() { s.publishBasicAttackWait() }
 
 func (s *Engine) SettleLoopEnd() *model.EngineError {
-	if s.compiled.HasResourceMax {
+	if s.compiled.Features.Has(planbundle.FeatureResourceMax) {
 		s.settleLiveResourceExpiry()
 		if s.processFailure != nil && s.processFailure.BudgetCause == "" {
 			return s.processFailure

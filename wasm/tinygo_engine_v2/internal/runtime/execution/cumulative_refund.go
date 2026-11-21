@@ -2,6 +2,7 @@ package execution
 
 import (
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 	"tinygo_engine_v2/internal/runtime/execution/usage"
 )
 
@@ -56,7 +57,7 @@ func (f *Frame) releasePendingAmountBudgets() {
 }
 
 func (s *Engine) snapshotUseAmountBudgets() []model.UseAmountBudgetEntry {
-	if !s.compiled.HasCumulativeCooldownRefund {
+	if !s.compiled.Features.Has(plan.FeatureCumulativeCooldownRefund) {
 		return nil
 	}
 	rows := s.useTriggerLedger.SnapshotAmounts()

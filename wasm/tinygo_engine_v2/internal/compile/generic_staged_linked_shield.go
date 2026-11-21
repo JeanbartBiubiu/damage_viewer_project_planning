@@ -4,6 +4,7 @@ import (
 	"math"
 	"strings"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
 
 func finalizeStagedLinkedShields(ctx *genericCompileContext) {
@@ -25,6 +26,7 @@ func finalizeStagedLinkedShields(ctx *genericCompileContext) {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, "sharedProviders["+itoa(pi)+"]", "linked shield attributes require a complete pure static own non-HP modifier group", p.ProviderKey)
 			continue
 		}
-		p.AtomicLinkedShield, ctx.session.HasStagedLinkedShield = true, true
+		p.AtomicLinkedShield = true
+		ctx.session.Features |= plan.FeatureStagedLinkedShield
 	}
 }

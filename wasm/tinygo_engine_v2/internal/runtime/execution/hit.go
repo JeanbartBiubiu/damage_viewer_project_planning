@@ -654,7 +654,7 @@ func (s *Engine) dispatchSkillHitEvent(ev emittedEvent, chainDepth int) *model.E
 		return err
 	}
 	s.refreshEmittedEventLiveSnapshot(&ev)
-	if s.compiled.HasTargetMarkConsumption && ev.eventType == model.EventTypeBasicAttackHit {
+	if s.compiled.Features.Has(planbundle.FeatureTargetMarkConsumption) && ev.eventType == model.EventTypeBasicAttackHit {
 		// Retain the native contact for the new operation without authorizing
 		// public event.skill_hit formula reads on ordinary attack listeners.
 		ev.snapshot.SkillHit = freeze.FrozenFacts()

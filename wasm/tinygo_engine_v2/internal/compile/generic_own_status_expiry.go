@@ -81,7 +81,7 @@ func finalizeOwnStatusExpiry(ctx *genericCompileContext) {
 		}
 		// 使用现有同帧效果投影，施加与移除都保留当前暂存顺序；不把状态改成属性修正。
 		ctx.session.Providers[target].AtomicDynamic = true
-		ctx.session.HasProviderDurationChange = true
+		ctx.session.Features |= planbundle.FeatureProviderDurationChange
 		installed = true
 	}
 	if installed {

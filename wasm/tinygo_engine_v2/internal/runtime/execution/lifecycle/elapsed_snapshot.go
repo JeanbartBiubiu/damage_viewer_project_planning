@@ -8,7 +8,7 @@ import (
 
 func ValidateElapsedSnapshot(snapshot model.Snapshot, compiled plan.CompiledSession, sessionID string) *model.EngineError {
 	executor := New(&compiled, nil, nil, sessionID)
-	if !compiled.HasProviderElapsedReads {
+	if !compiled.Features.Has(plan.FeatureProviderElapsedReads) {
 		return nil
 	}
 	for _, combatant := range snapshot.Combatants {

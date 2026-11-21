@@ -380,8 +380,8 @@ func TestCompileGroupedFiniteDamageHasExactExpiryAndIndependentPathIsUnchanged(t
 			t.Fatal(result.Result.Errors)
 		}
 		want := group != ""
-		if result.Session.Providers[1].NeedsModifierExpiry != want || result.Session.HasFiniteModifierExpiry != want {
-			t.Fatal(group, result.Session.Providers[1].NeedsModifierExpiry, result.Session.HasFiniteModifierExpiry)
+		if result.Session.Providers[1].NeedsModifierExpiry != want || result.Session.Features.Has(plan.FeatureFiniteModifierExpiry) != want {
+			t.Fatal(group, result.Session.Providers[1].NeedsModifierExpiry, result.Session.Features.Has(plan.FeatureFiniteModifierExpiry))
 		}
 	}
 }

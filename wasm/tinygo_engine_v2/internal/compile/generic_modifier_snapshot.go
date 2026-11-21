@@ -5,6 +5,7 @@ import (
 	"strings"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
 
 func pureSnapshotAttributeProvider(reference string, ctx *genericCompileContext) bool {
@@ -94,7 +95,8 @@ func finalizeModifierSnapshots(ctx *genericCompileContext) {
 			ctx.collector.addError(model.GenericErrFormulaTypeError, "sharedProviders["+itoa(pi)+"]", "application snapshots require a complete finite self attribute-add group or target reduction and same-ratio source gain graph", p.ProviderKey)
 			continue
 		}
-		p.HasModifierSnapshots, p.AtomicDynamic, ctx.session.HasModifierSnapshots = true, true, true
+		p.HasModifierSnapshots, p.AtomicDynamic = true, true
+		ctx.session.Features |= plan.FeatureModifierSnapshots
 		p.SelfModifierSnapshots = self
 		for i := range p.Modifiers {
 			if value, fixed := ctx.formulas.FoldStatic(p.Modifiers[i].ValueProgram); fixed {

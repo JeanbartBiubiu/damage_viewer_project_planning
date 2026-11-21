@@ -35,7 +35,7 @@ func cumulativeRefundState(t *testing.T, total int64, accepted bool) *Engine {
 		}
 	}
 	// 这里只激活输出投影；测试不将手构造的编译操作当成作者契约验收。
-	s.compiled.HasCumulativeCooldownRefund = true
+	s.compiled.Features |= planbundle.FeatureCumulativeCooldownRefund
 	return s
 }
 

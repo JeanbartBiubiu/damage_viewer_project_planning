@@ -528,7 +528,7 @@ func (f *Frame) plannedAmmoReady(ability planbundle.CompiledAbility) (bool, int6
 }
 
 func (f *Frame) captureAttackStartState(use *skillUseRuntime) *model.EngineError {
-	if !f.run.compiled.HasAttackStartStateReads {
+	if !f.run.compiled.Features.Has(planbundle.FeatureAttackStartStateReads) {
 		return nil
 	}
 	var identity *actionpkg.UseView
@@ -545,7 +545,7 @@ func (f *Frame) captureAttackStartState(use *skillUseRuntime) *model.EngineError
 }
 
 func (f *Frame) populateAttackStartStateContext(ctx *formula.GenericEvalContext) {
-	if !f.run.compiled.HasAttackStartStateReads || f.eventCtx == nil {
+	if !f.run.compiled.Features.Has(planbundle.FeatureAttackStartStateReads) || f.eventCtx == nil {
 		return
 	}
 	use := f.run.skillUses[f.eventCtx.UseKey]
@@ -633,7 +633,7 @@ func (s *Engine) basicAttackAmmoReady() (bool, *model.EngineError) {
 
 func (f *Frame) populateMechanicEvalContext(context *formula.GenericEvalContext, ability planbundle.CompiledAbility) {
 	f.populateAttackStartStateContext(context)
-	if !f.run.compiled.HasMechanicReads {
+	if !f.run.compiled.Features.Has(planbundle.FeatureMechanicReads) {
 		return
 	}
 	if int(ability.ProviderIndex) < len(f.run.compiled.Providers) {

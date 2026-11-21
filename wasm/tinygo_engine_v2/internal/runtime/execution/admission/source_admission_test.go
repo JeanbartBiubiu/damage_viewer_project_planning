@@ -70,7 +70,7 @@ func TestListenerAdmissionPreservesHeaderAndOperationFirstErrors(t *testing.T) {
 func TestListenerDurationAdmissionRequiresActualSelectionAndAttackOwner(t *testing.T) {
 	input, listener, sources := sourceListenerInput(t, model.EventTypeBasicAttackHit,
 		planbundle.CompiledOperation{Operation: "provider_duration_change", Target: "self", ValuePolicy: "ensure_remaining", OwnerProviderIndex: 0, Path: "operations.duration"})
-	input.Compiled.HasProviderDurationChange = true
+	input.Compiled.Features |= planbundle.FeatureProviderDurationChange
 	binding := planbundle.CompiledSkillActionBinding{SkillActionBinding: model.SkillActionBinding{Source: model.SelectorSource, ProviderRef: "selected"}}
 	input.Compiled.SkillActionBindings = []planbundle.CompiledSkillActionBinding{binding}
 	if issue := ValidateEquipmentHitListener(input, listener, sources); issue == nil {
@@ -132,7 +132,7 @@ func TestListenerTotalRefundAdmissionKeepsUniqueMountAndSelectedInitial(t *testi
 
 func targetMarkAdmissionInput() (Input, TargetMarkSources) {
 	mark := &planbundle.CompiledTargetMark{OwnerCombatantKey: model.SelectorSource, OwnerProviderRef: "parent", StateKey: "mark", TriggerKind: model.EventTypeSkillHit, TriggerAbilityRef: "source.provider[trigger].ability[hit]", Restore: &planbundle.CompiledOperation{ResourceKey: "mana"}}
-	input := Input{Compiled: &planbundle.CompiledSession{HasTargetMarkConsumption: true, Operations: []planbundle.CompiledOperation{{TargetMark: mark, Path: "operations.mark"}}}, Identity: Identity{SchemaHash: "schema", RulesHash: "rules", SessionID: "session"}}
+	input := Input{Compiled: &planbundle.CompiledSession{Features: planbundle.FeatureTargetMarkConsumption, Operations: []planbundle.CompiledOperation{{TargetMark: mark, Path: "operations.mark"}}}, Identity: Identity{SchemaHash: "schema", RulesHash: "rules", SessionID: "session"}}
 	input.Actors[0] = Actor{Key: model.SelectorSource, Present: true, Resources: model.BorrowResources(map[string]model.ResourceSlotDef{"mana": {Current: 0, Max: 100}})}
 	sources := TargetMarkSources{Selection: SourceSelection{SkillBindings: []planbundle.CompiledSkillActionBinding{
 		{SkillActionBinding: model.SkillActionBinding{Source: model.SelectorSource, ProviderRef: "parent"}},

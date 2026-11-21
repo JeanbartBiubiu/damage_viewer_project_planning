@@ -4,6 +4,7 @@ package execution
 import (
 	"strconv"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 	actionpkg "tinygo_engine_v2/internal/runtime/action"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 	reportpkg "tinygo_engine_v2/internal/runtime/report"
@@ -158,7 +159,7 @@ func (s *Engine) recordEvidence(item model.EvidenceItem) {
 func (s *Engine) handleSample() { s.report.AppendSample(s.buildSeriesPoint(s.loop.TimeMs())) }
 
 func (s *Engine) buildSeriesPoint(timeMs int64) model.SeriesPoint {
-	if s.compiled.HasResourceMax && timeMs == s.loop.TimeMs() {
+	if s.compiled.Features.Has(plan.FeatureResourceMax) && timeMs == s.loop.TimeMs() {
 		s.settleLiveResourceExpiry()
 	}
 	return s.report.SeriesPoint(timeMs, s.combatantHp(model.SelectorSource), s.combatantHp(model.SelectorTarget))
@@ -216,7 +217,7 @@ func (s *Engine) buildDoneResult(final bool) model.DoneResult {
 		automaticRecords = output.AutomaticRecords
 	}
 	var resourceRecords *[]model.ResourceChangeRecord
-	if s.compiled.HasResourceMax {
+	if s.compiled.Features.Has(plan.FeatureResourceMax) {
 		resourceRecords = &output.ResourceChangeRecords
 	}
 

@@ -169,7 +169,7 @@ func finalizeTargetMarkConsumption(req model.CompileRequest, ctx *genericCompile
 		if writers != 1 {
 			fail("target mark requires exactly one unblocked own INITIAL SET1 listener")
 		}
-		ctx.session.HasTargetMarkConsumption = true
+		ctx.session.Features |= plan.FeatureTargetMarkConsumption
 	}
 }
 

@@ -6,6 +6,7 @@ import (
 	testing "testing"
 	compile "tinygo_engine_v2/internal/compile"
 	model "tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 	runtimeengine "tinygo_engine_v2/internal/runtime"
 	formuladefinition "tinygo_engine_v2/internal/testkit/formuladefinition"
 )
@@ -53,7 +54,7 @@ func TestPureLinkedShieldInitializationPrecedesRealBackgroundAttack(t *testing.T
 			c, r, parent, _ := pureInitializedShieldInput(mode)
 			c.SharedProviders[parent].Kind = kind
 			compiled := authoringCompile(t, c)
-			if compiled.HasStateOnExpire || compiled.HasReceivedShieldReads {
+			if compiled.Features.Has(plan.FeatureStateOnExpire) || compiled.Features.Has(plan.FeatureReceivedShieldReads) {
 				t.Fatal("a pure initializer invented wait state or capture")
 			}
 			done, err := runtimeengine.RunGeneric(compiled, r)

@@ -131,7 +131,7 @@ func (f *Frame) commitProjectedProviderLifecycles() {
 }
 
 func (f *Frame) flushDynamicProviders() {
-	if f.fatal || f.committed || (!f.run.compiled.HasResourceMax && !f.run.compiled.HasCooldownDuration && !f.run.compiled.HasProviderDurationChange && !f.run.compiled.HasStagedLinkedShield && !f.run.compiled.HasModifierSnapshots) {
+	if f.fatal || f.committed || !f.run.compiled.Features.NeedsDynamicProviderFlush() {
 		return
 	}
 	initialRead, entered := f.effectProjection.Begin()
@@ -163,7 +163,7 @@ func (f *Frame) flushDynamicProviders() {
 }
 
 func (f *Frame) cooldownDurationFactor(process *actionpkg.ProcessView) (float64, *model.EngineError) {
-	if !f.run.compiled.HasCooldownDuration {
+	if !f.run.compiled.Features.Has(planbundle.FeatureCooldownDuration) {
 		return 1, nil
 	}
 	f.flushDynamicProviders()
@@ -559,14 +559,14 @@ func (s *Engine) readLiveProviderFormulaContext(combatantKey, castTargetKey, own
 		s.resolveProviderStateFieldDefs(bagOwnerKey, providerRef, c.instances.Providers()), s.loop.TimeMs(), effectpkg.ReadOptions{ExpireTarget: true, Defaults: true, TargetView: activeTarget != "", TargetKey: activeTarget, Cooldowns: c.cooldowns.View(), OwnerKey: bagOwnerKey})
 	if !bag.Present() {
 		ctx := providerFormulaContextFromBag(effectpkg.BagView{}, activeTarget)
-		if s.compiled.HasProviderElapsedReads || s.compiled.HasFiniteModifierExpiry {
+		if s.compiled.Features.Has(planbundle.FeatureProviderElapsedReads) || s.compiled.Features.Has(planbundle.FeatureFiniteModifierExpiry) {
 			ctx = withProviderElapsed(ctx, c.instances.Providers(), providerRef, s.loop.TimeMs(), s.compiled.Providers)
 		}
 		return ctx
 	}
 	s.combatants[bagOwnerKey] = c
 	ctx := providerFormulaContextFromBag(bag, activeTarget)
-	if s.compiled.HasProviderElapsedReads || s.compiled.HasFiniteModifierExpiry {
+	if s.compiled.Features.Has(planbundle.FeatureProviderElapsedReads) || s.compiled.Features.Has(planbundle.FeatureFiniteModifierExpiry) {
 		ctx = withProviderElapsed(ctx, c.instances.Providers(), providerRef, s.loop.TimeMs(), s.compiled.Providers)
 	}
 	return ctx
@@ -579,7 +579,7 @@ func (s *Engine) resolveAttributesFor(combatantKey string, attrs attribute.Table
 // refreshProviderAwareAttributes lazy-expires provider timed state and re-resolves attributes
 // so the next run event reflects recovered resolved values without a state write.
 func (s *Engine) refreshProviderAwareAttributes(sourceKey, targetKey string) {
-	if s.compiled.HasResourceMax {
+	if s.compiled.Features.Has(planbundle.FeatureResourceMax) {
 		s.settleLiveResourceExpiry()
 	}
 	evalCtx := s.evalContextForCombatants(sourceKey, targetKey)
@@ -623,10 +623,10 @@ func (f *Frame) applyProviderEnsureRemaining(operation planbundle.CompiledOperat
 }
 
 func (s *Engine) initResourceMaxState() *model.EngineError {
-	if !s.report.InitResourceRecords(s.req.RecordBudget, s.compiled.HasResourceMax) {
+	if !s.report.InitResourceRecords(s.req.RecordBudget, s.compiled.Features.Has(planbundle.FeatureResourceMax)) {
 		return s.processErr("recordBudget.maxResourceChangeRecords", "resource change record budget must be in [0,10000]", "")
 	}
-	if !s.compiled.HasResourceMax {
+	if !s.compiled.Features.Has(planbundle.FeatureResourceMax) {
 		return nil
 	}
 	for _, key := range []string{"source", "target"} {
@@ -645,7 +645,7 @@ func (s *Engine) initResourceMaxState() *model.EngineError {
 func (s *Engine) reserveHealthOrder() uint64 { s.nextHealthOrder++; return s.nextHealthOrder }
 
 func (f *Frame) settleResourceMax(owner string, contributors []model.ResourceChangeContributor) {
-	if !f.run.compiled.HasResourceMax {
+	if !f.run.compiled.Features.Has(planbundle.FeatureResourceMax) {
 		return
 	}
 	sc := f.stageFor(owner)
@@ -673,14 +673,14 @@ func (s *Engine) commitResourceChange(row model.ResourceChangeRecord) {
 }
 
 func (s *Engine) resourceSummaryOutput() *model.ResourceChangeSummary {
-	if !s.compiled.HasResourceMax {
+	if !s.compiled.Features.Has(planbundle.FeatureResourceMax) {
 		return nil
 	}
 	return s.report.ResourceSummary(s.combatants["source"].attributesView().At("hp").Max, s.combatants["target"].attributesView().At("hp").Max)
 }
 
 func (s *Engine) settleLiveResourceExpiry() {
-	if !s.compiled.HasResourceMax || s.processFailure != nil || s.budgetCause != "" {
+	if !s.compiled.Features.Has(planbundle.FeatureResourceMax) || s.processFailure != nil || s.budgetCause != "" {
 		return
 	}
 	needed := false
@@ -735,7 +735,7 @@ func (f *Frame) stageShieldProviderRemoval(sc *stagedCombatant, owner, ref strin
 }
 
 func (f *Frame) settleDepletedShieldAttributes() *model.EngineError {
-	if !f.run.compiled.HasStagedLinkedShield {
+	if !f.run.compiled.Features.Has(planbundle.FeatureStagedLinkedShield) {
 		return nil
 	}
 	f.prepareShieldLifecycleRemovals()

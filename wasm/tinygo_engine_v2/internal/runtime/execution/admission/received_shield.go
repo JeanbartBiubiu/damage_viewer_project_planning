@@ -8,7 +8,7 @@ import (
 // ValidateReceivedShieldInitialSnapshot 校验原始初始快照中的真实自身父挂载。
 // 仅接受原初始化器能够创建关联盾的完整新场景，不安装实例或补齐恢复身份。
 func ValidateReceivedShieldInitialSnapshot(compiled *planbundle.CompiledSession, snapshot model.Snapshot, sessionID string) *model.EngineError {
-	if !compiled.HasReceivedShieldReads {
+	if !compiled.Features.Has(planbundle.FeatureReceivedShieldReads) {
 		return nil
 	}
 	input := Input{Compiled: compiled, Identity: Identity{SchemaHash: compiled.SchemaHash, RulesHash: compiled.RulesHash, SessionID: sessionID}}

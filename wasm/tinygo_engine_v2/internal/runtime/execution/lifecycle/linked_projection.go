@@ -10,7 +10,7 @@ func (e *Executor) canProjectDurationLinkedShield(p plan.CompiledProvider) bool 
 	if p.AtomicLinkedShield {
 		return true
 	}
-	return e.compiled.HasProviderDurationChange && !e.compiled.HasResourceMax && !e.compiled.HasCooldownDuration &&
+	return e.compiled.Features.AllowsDurationOnlyLinkedShieldProjection() &&
 		p.ShieldDefinitionRef != "" && p.Kind == "status" && p.TypeSet.Empty() && p.AbilityCount == 0 &&
 		len(p.Modifiers)+len(p.Listeners)+len(p.StateFields)+len(p.Processes)+len(p.StatusContributions) == 0 &&
 		p.AmmoBinding == nil && !p.NeedsElapsedTime && !p.HasResourceMax && !p.HasCooldownDuration &&

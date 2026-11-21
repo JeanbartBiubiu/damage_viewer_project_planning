@@ -38,7 +38,7 @@ func TestCompileReceivedShieldBindsActualNaturalParentAndPassiveAbility(t *testi
 			r.SharedProviders[0].Abilities = append(r.SharedProviders[0].Abilities, ability)
 		}
 		got := CompileGeneric(r)
-		if !got.OK || !got.Session.HasReceivedShieldReads {
+		if !got.OK || !got.Session.Features.Has(plan.FeatureReceivedShieldReads) {
 			t.Fatal("real own shield listener rejected", mode, got.Result.Errors)
 		}
 		p := got.Session.Providers[len(got.Session.Providers)-1]

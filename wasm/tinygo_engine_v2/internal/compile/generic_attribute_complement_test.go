@@ -3,6 +3,7 @@ package compile
 import (
 	"math"
 	"testing"
+	"tinygo_engine_v2/internal/plan"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -91,7 +92,7 @@ func TestCompileFinalAttributeLimitRequiresPlainFiniteStaticMin(t *testing.T) {
 	r := minimalValidCompileRequest()
 	duration := statusConst(1000)
 	r.SharedProviders = append(r.SharedProviders, model.ProviderDefinition{ProviderKey: "finite_limit", Kind: "status", StableID: "finite_limit", Lifecycle: &model.ProviderLifecycle{DurationMs: &duration, MaxStacks: 1, RefreshPolicy: model.RefreshPolicyReplace, InstanceScope: model.InstanceScopeSourceTarget}, Modifiers: []model.ModifierDefinition{limit()}})
-	if got := CompileGeneric(r); !got.OK || !got.Session.HasFiniteModifierExpiry || !got.Session.Providers[1].NeedsModifierExpiry || !got.Session.Providers[1].AtomicDynamic {
+	if got := CompileGeneric(r); !got.OK || !got.Session.Features.Has(plan.FeatureFiniteModifierExpiry) || !got.Session.Providers[1].NeedsModifierExpiry || !got.Session.Providers[1].AtomicDynamic {
 		t.Fatal("finite final limit did not reuse modifier expiry and atomic actual instance", got.Result.Errors)
 	}
 }

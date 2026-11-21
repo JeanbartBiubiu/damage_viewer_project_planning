@@ -148,7 +148,7 @@ func (f *Frame) maybeQueueDamageInstanceEvent(
 	snapshot.DamageSnapshot = snap
 	snapshot.DamageTraits = traits
 	snapshot.DamageTypeKey = cmd.DamageType
-	if f.run.compiled.HasDamageStateBefore {
+	if f.run.compiled.Features.Has(planbundle.FeatureDamageStateBefore) {
 		snapshot.DamageStateBefore, snapshot.DamageID = beforeState, damageID
 	}
 	event := emittedEvent{
@@ -177,7 +177,7 @@ func (f *Frame) maybeQueueDamageInstanceEvent(
 		if event.hasUse {
 			data["useRef"], data["skillKey"] = event.useKey, event.useSkillKey
 		}
-		if f.run.compiled.HasDamageStateBefore {
+		if f.run.compiled.Features.Has(planbundle.FeatureDamageStateBefore) {
 			data["damageId"] = damageID
 		}
 		if op.Ref != "" {

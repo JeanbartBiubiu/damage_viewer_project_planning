@@ -3,6 +3,7 @@ package compile
 import (
 	"testing"
 	"tinygo_engine_v2/internal/formula"
+	"tinygo_engine_v2/internal/plan"
 
 	"tinygo_engine_v2/internal/model"
 )
@@ -18,7 +19,7 @@ func TestCompileLinkedShieldPresenceAllowsDeclaredDefinitionWithoutApply(t *test
 	req := linkedShieldCompileInput()
 	req.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{{Operation: "heal", Target: "self", Amount: timedShieldExpr(0), Condition: &model.GenericFormulaExpr{Op: "read", Path: "provider.linked_shield[configured_barrier].present"}}}
 	result := CompileGeneric(req)
-	if !result.OK || !result.Session.HasLinkedShieldReads {
+	if !result.OK || !result.Session.Features.Has(plan.FeatureLinkedShieldReads) {
 		t.Fatalf("compile: %+v", result.Result.Errors)
 	}
 	var found bool
@@ -65,7 +66,7 @@ func TestCompileShieldLifecycleBindsProviderIndex(t *testing.T) {
 		t.Fatalf("compile: %+v", result.Result.Errors)
 	}
 	op := result.Session.Operations[0]
-	if !result.Session.HasShieldLifecycle || !op.HasShieldLifecycleProvider || op.ShieldLifecycleProviderIndex != 1 || result.Session.Providers[1].ShieldDefinitionRef != "configured_barrier" {
+	if !result.Session.Features.Has(plan.FeatureShieldLifecycle) || !op.HasShieldLifecycleProvider || op.ShieldLifecycleProviderIndex != 1 || result.Session.Providers[1].ShieldDefinitionRef != "configured_barrier" {
 		t.Fatalf("binding=%+v provider=%+v", op, result.Session.Providers[1])
 	}
 }

@@ -30,15 +30,15 @@ func (f *Frame) commit() {
 	if f.fatal || f.committed {
 		return
 	}
-	if f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange || f.run.compiled.HasStagedLinkedShield || f.run.compiled.HasModifierSnapshots {
+	if f.run.compiled.Features.NeedsDynamicProviderFlush() {
 		f.flushDynamicProviders()
 		if f.fatal {
 			return
 		}
 	}
-	if f.run.compiled.HasShieldLifecycle {
+	if f.run.compiled.Features.Has(planbundle.FeatureShieldLifecycle) {
 		f.prepareShieldLifecycleRemovals()
-		if f.run.compiled.HasStagedLinkedShield || f.run.compiled.HasProviderDurationChange && !f.run.compiled.HasResourceMax && !f.run.compiled.HasCooldownDuration {
+		if f.run.compiled.Features.Has(planbundle.FeatureStagedLinkedShield) || f.run.compiled.Features.AllowsDurationOnlyLinkedShieldProjection() {
 			// Depletion can append a removal after the first projection pass.
 			f.flushDynamicProviders()
 			if f.fatal {
@@ -98,7 +98,7 @@ func (f *Frame) commit() {
 		f.run.recordFirstProcessFailure(f.fatalErr)
 		return
 	}
-	if f.run.compiled.HasResourceMax {
+	if f.run.compiled.Features.Has(planbundle.FeatureResourceMax) {
 		for _, key := range keys {
 			c := f.run.combatants[key]
 
@@ -170,7 +170,7 @@ func (f *Frame) recordGenericExecuteEvidence(ev genericExecuteEvidence) {
 }
 
 func (f *Frame) recordGenericDamageEvidence(ev genericDamageEvidence) {
-	if f.run.compiled.HasResourceMax {
+	if f.run.compiled.Features.Has(planbundle.FeatureResourceMax) {
 		ev.HealthOrder = f.run.reserveHealthOrder()
 	}
 	if f.empoweredAttack != nil {

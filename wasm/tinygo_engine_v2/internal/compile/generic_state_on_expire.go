@@ -6,6 +6,7 @@ import (
 	"sort"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
 
 // 到期操作复用普通操作表及已有状态期限，不创建周期能力。
@@ -59,7 +60,8 @@ func compileStateOnExpire(req model.CompileRequest, ctx *genericCompileContext) 
 			}
 			field.OnExpireCount = uint16(len(ctx.session.Operations)) - field.OnExpireStart
 			ctx.session.Providers[index].StateFields[key] = field
-			ctx.session.Providers[index].HasStateOnExpire, ctx.session.HasStateOnExpire = true, true
+			ctx.session.Providers[index].HasStateOnExpire = true
+			ctx.session.Features |= plan.FeatureStateOnExpire
 			ctx.session.Providers[index].HasCooldownStateExpiry = ctx.session.Providers[index].HasCooldownStateExpiry || cooldown
 		}
 	}

@@ -140,7 +140,7 @@ func ownedProviderDurationListener(input Input, selection SourceSelection, liste
 	attack := selection.BasicAttack
 	hit := hitDeclared && listener.EventMatcher.RequiresAllType(hitType) && (attack == nil || attack.Source == listener.OwnerCombatantKey)
 	started := startDeclared && listener.EventMatcher.RequiresAllType(startType)
-	if !input.Compiled.HasProviderDurationChange || listener.OwnerCombatantKey != model.SelectorSource || !ownerDeclared ||
+	if !input.Compiled.Features.Has(planbundle.FeatureProviderDurationChange) || listener.OwnerCombatantKey != model.SelectorSource || !ownerDeclared ||
 		!listener.EventMatcher.RequiresAllType(ownerType) || (!hit && !started) || operation.Target != model.SelectorSelf || operation.ValuePolicy != "ensure_remaining" ||
 		!plannedProvider(selection, listener.OwnerCombatantKey, listener.OwnerProviderRef) {
 		return false

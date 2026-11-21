@@ -138,7 +138,7 @@ func unmountProviderModifiersAcross(combatants map[string]combatantRuntime, owne
 }
 
 func (f *Frame) captureDamageStateBefore(source, target string) ([]frozenDamageStateBefore, *model.EngineError) {
-	if !f.run.compiled.HasDamageStateBefore || f.copyableCollector != nil && f.copyableCollector.Phantom() {
+	if !f.run.compiled.Features.Has(planbundle.FeatureDamageStateBefore) || f.copyableCollector != nil && f.copyableCollector.Phantom() {
 		return nil, nil
 	}
 	var rows []frozenDamageStateBefore
@@ -221,7 +221,7 @@ func (f *Frame) entryMapsForKey(key string) (attribute.Table, model.ResourceView
 }
 
 func (f *Frame) evalContext(ability planbundle.CompiledAbility) (formula.GenericEvalContext, *model.EngineError) {
-	if f.run.compiled.HasResourceMax || f.run.compiled.HasCooldownDuration || f.run.compiled.HasProviderDurationChange || f.run.compiled.HasStagedLinkedShield || f.run.compiled.HasModifierSnapshots {
+	if f.run.compiled.Features.NeedsDynamicProviderFlush() {
 		f.flushDynamicProviders()
 	}
 	if f.fatal {
@@ -263,7 +263,7 @@ func (f *Frame) evalContext(ability planbundle.CompiledAbility) (formula.Generic
 	}
 	if f.ownerProviderRef != "" {
 		ctx.HasProviderContext = true
-		if f.run.compiled.HasTargetStateTimeReads {
+		if f.run.compiled.Features.Has(planbundle.FeatureTargetStateTimeReads) {
 			ctx.HasTargetStateRemainingContext = true
 			ctx.TargetStateRemainingNowMs = f.run.loop.TimeMs()
 		}
@@ -318,7 +318,7 @@ func (f *Frame) evalContext(ability planbundle.CompiledAbility) (formula.Generic
 		ctx.OperationOutputs = formula.BorrowOperationOutputs(f.numeric.Outputs())
 	}
 	f.populateMechanicEvalContext(&ctx, ability)
-	if f.run.compiled.HasLinkedShieldReads && f.ownerProviderRef != "" {
+	if f.run.compiled.Features.Has(planbundle.FeatureLinkedShieldReads) && f.ownerProviderRef != "" {
 		providerIndex := int(ability.ProviderIndex)
 		if instance, _, found := f.stageFor(f.providerOwnerKey()).instances.Providers().Find(f.ownerProviderRef); found {
 			providerIndex = int(instance.DefinitionIndex)
@@ -397,7 +397,7 @@ func (f *Frame) readProviderFormulaContext(combatantKey, targetKey string, stric
 	activeTarget := providerTargetActiveKey(combatantKey, ownerCombatantKey, targetKey)
 	bag := f.providerStateBagForRead(bagOwner, providerRef, strict, effectpkg.ReadOptions{ExpireTarget: true, Defaults: true, TargetView: activeTarget != "", TargetKey: activeTarget})
 	ctx := providerFormulaContextFromBag(bag, activeTarget)
-	if f.run.compiled.HasProviderElapsedReads || f.run.compiled.HasFiniteModifierExpiry {
+	if f.run.compiled.Features.Has(planbundle.FeatureProviderElapsedReads) || f.run.compiled.Features.Has(planbundle.FeatureFiniteModifierExpiry) {
 		ctx = withProviderElapsed(ctx, f.stageFor(bagOwner).instances.Providers(), providerRef, f.run.loop.TimeMs(), f.run.compiled.Providers)
 	}
 	return ctx
@@ -455,7 +455,7 @@ func materializedProviderFormulaContext(actors map[string]combatantRuntime, comp
 			bag = change.View()
 		}
 		context := providerFormulaContextFromBag(bag, activeTarget)
-		if compiled.HasProviderElapsedReads || compiled.HasFiniteModifierExpiry {
+		if compiled.Features.Has(planbundle.FeatureProviderElapsedReads) || compiled.Features.Has(planbundle.FeatureFiniteModifierExpiry) {
 			context = withProviderElapsed(context, owner.instances.Providers(), providerRef, at, compiled.Providers)
 		}
 		return context

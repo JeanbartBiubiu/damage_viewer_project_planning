@@ -116,7 +116,7 @@ func TestInitialStaticListenerKeepsShortCircuitAndOperationError(t *testing.T) {
 	}
 	reads.visits = nil
 	reads.matched = false
-	input.Compiled.HasStateOnExpire = true
+	input.Compiled.Features |= planbundle.FeatureStateOnExpire
 	input.Compiled.Providers = []planbundle.CompiledProvider{{HasStateOnExpire: true}}
 	input.Compiled.Operations[0] = planbundle.CompiledOperation{Operation: "shield", Target: "self", HasAmount: true, HasShieldLifecycleProvider: true, OwnerProviderIndex: 0}
 	if err := ValidateStaticInitializationListener(input, listener, reads); err != nil || len(reads.visits) != 0 {
@@ -139,7 +139,7 @@ func TestInitialTriggeredSourceKeepsStaticFallbackAndActualFields(t *testing.T) 
 func TestInitialExpirySourcesValidateMountsBeforeDriverRestrictions(t *testing.T) {
 	input, listener, reads := initialSourceListener(t, model.EventTypeSourceInitialized)
 	listener.OperationCount = 1
-	input.Compiled.HasStateOnExpire = true
+	input.Compiled.Features |= planbundle.FeatureStateOnExpire
 	input.Compiled.Combatants = []planbundle.CompiledCombatant{{Key: "source", ProviderMounts: []planbundle.CompiledProviderMount{{DefinitionIndex: 0, ProviderRef: "selected"}}}}
 	input.Compiled.Providers = []planbundle.CompiledProvider{{HasStateOnExpire: true}}
 	input.Compiled.Listeners = []planbundle.CompiledListener{listener}

@@ -10,7 +10,7 @@ import (
 
 func ValidateShieldSnapshot(snapshot model.Snapshot, compiled plan.CompiledSession, sessionID string) *model.EngineError {
 	executor := New(&compiled, nil, nil, sessionID)
-	if !compiled.HasShieldLifecycle {
+	if !compiled.Features.Has(plan.FeatureShieldLifecycle) {
 		for _, c := range snapshot.Combatants {
 			for _, sh := range c.Shields {
 				if sh.DefinitionRef != "" || sh.LifecycleProviderRef != "" {

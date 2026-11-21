@@ -3,6 +3,7 @@ package compile
 import (
 	"strings"
 	"testing"
+	"tinygo_engine_v2/internal/plan"
 
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
@@ -58,7 +59,7 @@ func TestCompileMomentSlowAuthorizesOnlyExplicitActualInstanceMode(t *testing.T)
 				t.Fatal(compiled.Result.Errors)
 			}
 			provider := compiled.Session.Providers[1]
-			if !provider.HasMomentStatus || !provider.NeedsElapsedTime || !compiled.Session.HasProviderElapsedReads {
+			if !provider.HasMomentStatus || !provider.NeedsElapsedTime || !compiled.Session.Features.Has(plan.FeatureProviderElapsedReads) {
 				t.Fatal("explicit constant mode must retain the same actual-instance guard", provider)
 			}
 			for _, elapsed := range []int64{0, 999, 1000, 2499} {

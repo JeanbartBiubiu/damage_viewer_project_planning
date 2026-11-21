@@ -6,6 +6,7 @@ import (
 	strings "strings"
 	testing "testing"
 	model "tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 	runtimeengine "tinygo_engine_v2/internal/runtime"
 )
 
@@ -60,7 +61,7 @@ func TestReceivedShieldOldNoReaderEvidenceAndCopyableMarkerStayUnchanged(t *test
 	newDone := authoringRun(t, c, r)
 	c.SharedProviders[2].Listeners[1].Condition = authoringAmount(authoringBinary("gt", authoringRead("event.damage.actualHpLoss"), gfConst(0)))
 	old := authoringCompile(t, c)
-	if old.HasReceivedShieldReads {
+	if old.Features.Has(plan.FeatureReceivedShieldReads) {
 		t.Fatal("a health-only listener enabled per-shield collection")
 	}
 	oldDone, err := runtimeengine.RunGeneric(old, r)

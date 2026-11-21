@@ -105,7 +105,8 @@ func finalizeProviderDurationChanges(ctx *genericCompileContext) {
 		provider.AtomicDynamic = true
 		duration, _ := ctx.formulas.FoldStatic(provider.Lifecycle.DurationProgram)
 		provider.StaticDurationMs = int64(duration)
-		ctx.session.HasProviderDurationChange = true
-		provider.NeedsModifierExpiry, ctx.session.HasFiniteModifierExpiry = true, true
+		ctx.session.Features |= planbundle.FeatureProviderDurationChange
+		provider.NeedsModifierExpiry = true
+		ctx.session.Features |= planbundle.FeatureFiniteModifierExpiry
 	}
 }

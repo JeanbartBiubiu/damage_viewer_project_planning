@@ -3,6 +3,7 @@ package execution
 import (
 	testing "testing"
 	model "tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 )
 
 func beforePacketsInput() (model.CompileRequest, model.RunRequest) {
@@ -56,7 +57,7 @@ func TestDamageStateBeforeWrongContextsAndMissingAreNotZero(t *testing.T) {
 func TestDamageStateBeforeNoReaderSessionHasNoCapture(t *testing.T) {
 	c, r := targetTimingInput(false, 0)
 	session := authoringCompile(t, c)
-	if session.HasDamageStateBefore || session.DamageStateReaders != nil {
+	if session.Features.Has(plan.FeatureDamageStateBefore) || session.DamageStateReaders != nil {
 		t.Fatal("readers enabled without a consumer")
 	}
 	state, err := newGenericRunState(session, r)

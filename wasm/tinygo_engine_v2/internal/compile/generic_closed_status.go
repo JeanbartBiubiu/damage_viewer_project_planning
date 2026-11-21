@@ -1,6 +1,9 @@
 package compile
 
-import "tinygo_engine_v2/internal/model"
+import (
+	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
+)
 
 // 候选与全部定义完成后绑定真实逻辑状态键；控制类别和类型本身不充当状态键。
 func finalizeClosedStatusBindings(ctx *genericCompileContext) {
@@ -11,7 +14,8 @@ func finalizeClosedStatusBindings(ctx *genericCompileContext) {
 				ctx.collector.addError(model.GenericErrUnknownRef, "providers."+provider.ProviderKey, "stun action control requires an actual status definition", provider.ProviderKey)
 				continue
 			}
-			provider.ActionStun, ctx.session.HasActionStun = true, true
+			provider.ActionStun = true
+			ctx.session.Features |= plan.FeatureActionStun
 		}
 	}
 	for _, operation := range ctx.session.Operations {

@@ -3,6 +3,7 @@ package lifecycle
 import (
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 	actionpkg "tinygo_engine_v2/internal/runtime/action"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 )
@@ -175,7 +176,7 @@ func (e *Executor) PublishMutations(mutations []Mutation, context formula.Generi
 			if err := e.ApplyLive(ProviderApplication{Owner: mutation.TargetKey, Source: mutation.SourceKey, Definition: mutation.DefinitionRef, Reference: mutation.ProviderRef, Expiry: mutation.ExpireAt, HasExpiry: mutation.HasExpireAt, Contributions: mutation.Contributions}, now, work); err != nil {
 				return err
 			}
-			if e.compiled.HasImmediatePeriodic {
+			if e.compiled.Features.Has(plan.FeatureImmediatePeriodic) {
 				work.BindImmediateEffectUse(mutation.TargetKey, mutation.SourceKey, mutation.DefinitionRef, mutation.UseRef)
 			}
 		case "refresh":
@@ -200,7 +201,7 @@ func (e *Executor) PublishMutations(mutations []Mutation, context formula.Generi
 }
 
 func (e *Executor) SweepLive(now int64, work ProviderWork, expired ExpiredEffects) {
-	if e.compiled.HasShieldLifecycle {
+	if e.compiled.Features.Has(plan.FeatureShieldLifecycle) {
 		for _, owner := range [2]string{model.SelectorSource, model.SelectorTarget} {
 			state, _ := work.ReadEffects(owner)
 			SweepLinkedProviders(owner, state.Instances.Providers(), now, expired)

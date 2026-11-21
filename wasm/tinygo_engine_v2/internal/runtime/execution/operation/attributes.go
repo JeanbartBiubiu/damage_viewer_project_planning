@@ -222,7 +222,7 @@ func ResolveLiveAttributes(rules AttributeRules, cache *evaluation.State, owner 
 			return attrs
 		}
 	}
-	if rules.Plan.HasResourceMax {
+	if rules.Plan.Features.Has(planbundle.FeatureResourceMax) {
 		resolved = SyncHPResolved(resolved)
 	}
 	return resolved
@@ -287,7 +287,7 @@ func PrepareInitialAttributes(rules AttributeRules, work InitialAttributeWork) *
 			continue
 		}
 		var providers pipeline.ProviderFormulaContextFunc
-		if rules.Plan.HasProviderElapsedReads || rules.Plan.HasFiniteModifierExpiry {
+		if rules.Plan.Features.Has(planbundle.FeatureProviderElapsedReads) || rules.Plan.Features.Has(planbundle.FeatureFiniteModifierExpiry) {
 			providers = work.InitialAttributeProviders(owner, model.SelectorTarget)
 		}
 		source, _ := work.InitialAttributeState(model.SelectorSource)

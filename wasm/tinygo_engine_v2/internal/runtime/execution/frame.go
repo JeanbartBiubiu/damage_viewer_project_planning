@@ -349,7 +349,7 @@ func parseFrameAbilityOwner(ref string) (string, bool) {
 }
 
 func (f *Frame) commandsSpent() int {
-	if f.run.actions.AttackActive() || f.run.effectInitialization.Active() || f.run.hasSkillPlan() || f.run.compiled.HasTargetTiming {
+	if f.run.actions.AttackActive() || f.run.effectInitialization.Active() || f.run.hasSkillPlan() || f.run.compiled.Features.Has(planbundle.FeatureTargetTiming) {
 		return f.run.currentEventCommands
 	}
 	if f.copyableCollector != nil {
@@ -360,7 +360,7 @@ func (f *Frame) commandsSpent() int {
 
 // 整批联动在分配事件前消费额度；失败帧也不退回已经消费的额度。
 func (f *Frame) consumeCommands(count int) *model.EngineError {
-	if f.run.actions.AttackActive() || f.run.effectInitialization.Active() || f.run.hasSkillPlan() || f.run.compiled.HasTargetTiming {
+	if f.run.actions.AttackActive() || f.run.effectInitialization.Active() || f.run.hasSkillPlan() || f.run.compiled.Features.Has(planbundle.FeatureTargetTiming) {
 		return f.run.consumeEventCommands(count)
 	}
 	remaining := f.run.budget.MaxCommandsPerEvent - f.commandsSpent()

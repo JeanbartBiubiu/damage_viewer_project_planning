@@ -290,7 +290,7 @@ func validateMechanicFormulaContexts(ctx *genericCompileContext) {
 				continue
 			}
 			if instruction.ReadKind == formula.ReadUseAmmoBefore || instruction.ReadKind == formula.ReadSourceStatusPresent || instruction.ReadKind == formula.ReadTargetStatusPresent {
-				ctx.session.HasMechanicReads = true
+				ctx.session.Features |= plan.FeatureMechanicReads
 			}
 			if instruction.ReadKind == formula.ReadUseAmmoBefore && !allowedAmmo[formula.GenericProgramID(index)] && !named {
 				ctx.collector.addError(model.GenericErrFormulaTypeError, program.Key, "use.ammo.before is restricted to the owning ammo attack's result conditions", "use.ammo.before")

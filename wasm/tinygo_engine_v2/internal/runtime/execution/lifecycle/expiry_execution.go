@@ -2,6 +2,7 @@ package lifecycle
 
 import (
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/plan"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 )
 
@@ -51,7 +52,7 @@ func (e *Executor) HandleExpiry(payload effectpkg.ExpiryPayload, now int64, auto
 			}
 		}
 		context := work.ProviderRemovalContext(model.SelectorSource, model.SelectorTarget)
-		if !automated && !e.compiled.HasActionStun && !e.compiled.HasResourceMax && !e.compiled.HasCooldownDuration && !e.compiled.HasProviderDurationChange && !e.compiled.HasStagedLinkedShield && !e.compiled.HasModifierSnapshots {
+		if !automated && !e.compiled.Features.NeedsExactExpirySweep() {
 			e.RemoveLive(payload.CombatantKey, payload.ProviderRef, context, model.EvidenceKindProviderExpire, now, work)
 			return
 		}
@@ -75,7 +76,7 @@ func (e *Executor) RemoveExpiredShield(owner, reference string, now int64, work 
 	if !exists {
 		return
 	}
-	if e.compiled.HasShieldLifecycle {
+	if e.compiled.Features.Has(plan.FeatureShieldLifecycle) {
 		if state.Instances.Shields().HasExpiredRef(reference, now) {
 			e.RemoveLiveShield(owner, reference, model.EvidenceKindProviderExpire, now, work, execution)
 		}

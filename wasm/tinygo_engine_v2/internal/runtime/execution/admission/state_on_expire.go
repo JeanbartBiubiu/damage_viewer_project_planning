@@ -9,7 +9,7 @@ import (
 func ownLinkedShieldInitialization(compiled plan.CompiledSession, listener plan.CompiledListener) bool {
 	initialized, declared := compiled.RuntimeTypes.SourceInitialized.Lookup()
 	ownerType, ownerDeclared := compiled.RuntimeTypes.SourceOwner.Lookup()
-	if !compiled.HasStateOnExpire || !declared || !ownerDeclared || !listener.EventMatcher.RequiresAllType(initialized) || !listener.EventMatcher.RequiresAllType(ownerType) || listener.HasAbilityRef || listener.HasCondition || listener.HasOncePerUse || listener.PerCastThrottleMs != 0 || listener.MaxTriggersPerEvent != 1 || listener.OperationCount != 1 {
+	if !compiled.Features.Has(plan.FeatureStateOnExpire) || !declared || !ownerDeclared || !listener.EventMatcher.RequiresAllType(initialized) || !listener.EventMatcher.RequiresAllType(ownerType) || listener.HasAbilityRef || listener.HasCondition || listener.HasOncePerUse || listener.PerCastThrottleMs != 0 || listener.MaxTriggersPerEvent != 1 || listener.OperationCount != 1 {
 		return false
 	}
 	operation := compiled.Operations[listener.OperationStart]

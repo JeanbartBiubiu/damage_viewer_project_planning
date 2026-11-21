@@ -1,6 +1,7 @@
 package lifecycle
 
 import (
+	"tinygo_engine_v2/internal/plan"
 	actionpkg "tinygo_engine_v2/internal/runtime/action"
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 )
@@ -27,7 +28,7 @@ type ExpiredEffects interface {
 }
 
 func (e *Executor) prepareProviderRemoval(instances *effectpkg.InstanceState, reference string) (effectpkg.Provider, bool) {
-	if e.compiled.HasShieldLifecycle {
+	if e.compiled.Features.Has(plan.FeatureShieldLifecycle) {
 		instances.SetShields(instances.Shields().WithoutProvider(reference))
 	}
 	instance, _, exists := instances.Providers().Find(reference)
