@@ -4,13 +4,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import initSqlJs from "sql.js";
 
-const TOOL_DIR = path.dirname(fileURLToPath(import.meta.url));
+const CLI_PATH = fileURLToPath(import.meta.url);
+const TOOL_DIR = path.dirname(CLI_PATH);
 const REPO_ROOT = path.resolve(TOOL_DIR, "..", "..");
-const DB_DIR = path.join(REPO_ROOT, "db", "task_doc_governance");
-const DB_FILE = path.join(DB_DIR, "task_doc_governance.sqlite");
-const SCHEMA_FILE = path.join(DB_DIR, "schema.sql");
-const RULES_FILE = path.join(DB_DIR, "task_rules.json");
-const HEADER_SCHEMA_FILE = path.join(DB_DIR, "document_header.schema.json");
+const { dbFile: DB_FILE, rulesFile: RULES_FILE, headerSchemaFile: HEADER_SCHEMA_FILE } = governancePaths();
 
 const DOC_TYPE_BY_DIR = new Map([
   ["需求澄清", "需求澄清"],
@@ -18,6 +15,7 @@ const DOC_TYPE_BY_DIR = new Map([
   ["详细设计", "详细设计"],
   ["测试记录", "测试记录"],
 ]);
+const TEMPORARY_PLAN_STATUSES = ["draft", "returned", "active"];
 
 const TASK_STATUS_ALIASES = new Map([
   ["未开始", "未开始"],
@@ -30,7 +28,18 @@ const TASK_STATUS_ALIASES = new Map([
   ["完成", "已完成"],
 ]);
 
-let headerContractCache = null;
+const headerContractCache = new Map();
+
+function governancePaths(repoRoot = REPO_ROOT) {
+  const dbDir = path.join(repoRoot, "db", "task_doc_governance");
+  return {
+    dbDir,
+    dbFile: path.join(dbDir, "task_doc_governance.sqlite"),
+    schemaFile: path.join(dbDir, "schema.sql"),
+    rulesFile: path.join(dbDir, "task_rules.json"),
+    headerSchemaFile: path.join(dbDir, "document_header.schema.json"),
+  };
+}
 
 function printUsage() {
   console.log(`Usage:
@@ -57,8 +66,17 @@ function normalizeRelative(filePath) {
   return filePath.split(path.sep).join("/");
 }
 
-function repoRelative(absolutePath) {
-  return normalizeRelative(path.relative(REPO_ROOT, absolutePath));
+function repoRelative(absolutePath, repoRoot = REPO_ROOT) {
+  return normalizeRelative(path.relative(repoRoot, absolutePath));
+}
+
+export function isTemporaryPlanPath(relativePath, docRoot = "文档记录") {
+  const planDirPrefix = `${normalizeRelative(docRoot).replace(/\/+$/, "")}/方案/`;
+  if (!relativePath.startsWith(planDirPrefix)) {
+    return false;
+  }
+  const fileName = relativePath.slice(planDirPrefix.length);
+  return fileName.endsWith(".md") && !fileName.includes("/") && fileName !== "README.md";
 }
 
 function nowTimestamp() {
@@ -86,14 +104,15 @@ function writeTextIfChanged(filePath, content) {
   return false;
 }
 
-function loadHeaderContract() {
-  if (headerContractCache) {
-    return headerContractCache;
+function loadHeaderContract(repoRoot = REPO_ROOT) {
+  const { headerSchemaFile } = governancePaths(repoRoot);
+  if (headerContractCache.has(headerSchemaFile)) {
+    return headerContractCache.get(headerSchemaFile);
   }
-  if (!fs.existsSync(HEADER_SCHEMA_FILE)) {
-    throw new Error(`missing header schema: ${repoRelative(HEADER_SCHEMA_FILE)}`);
+  if (!fs.existsSync(headerSchemaFile)) {
+    throw new Error(`missing header schema: ${repoRelative(headerSchemaFile, repoRoot)}`);
   }
-  const schema = readJson(HEADER_SCHEMA_FILE);
+  const schema = readJson(headerSchemaFile);
   const required = schema.required;
   const statusEnum = schema.properties?.STATUS?.enum;
   const docTypeEnum = schema.properties?.DOC_TYPE?.enum;
@@ -106,13 +125,14 @@ function loadHeaderContract() {
   if (!Array.isArray(docTypeEnum) || docTypeEnum.length === 0) {
     throw new Error("document_header.schema.json must declare DOC_TYPE.enum");
   }
-  headerContractCache = {
+  const contract = {
     required,
     allowedKeys: new Set(Object.keys(schema.properties ?? {})),
     acceptedDocStatus: new Set(statusEnum),
     acceptedDocTypes: new Set(docTypeEnum),
   };
-  return headerContractCache;
+  headerContractCache.set(headerSchemaFile, contract);
+  return contract;
 }
 
 function walkMarkdownFiles(rootDir) {
@@ -229,14 +249,15 @@ function queryRows(db, sql, params = []) {
   return rows;
 }
 
-async function openDatabaseForRebuild() {
-  ensureDir(DB_DIR);
+export async function openDatabaseForRebuild(repoRoot = REPO_ROOT) {
+  const { dbDir, schemaFile } = governancePaths(repoRoot);
+  ensureDir(dbDir);
   const SQL = await initSqlJs({
     locateFile: (file) => path.join(TOOL_DIR, "node_modules", "sql.js", "dist", file),
   });
   const db = new SQL.Database();
   db.run("PRAGMA foreign_keys = ON;");
-  db.run(readText(SCHEMA_FILE));
+  db.run(readText(schemaFile));
   return db;
 }
 
@@ -284,8 +305,9 @@ function buildTaskLookup(rules) {
   return { docToTask, duplicates };
 }
 
-function validateHeaderMetadata(metadata, relativePath, task, issues) {
-  const contract = loadHeaderContract();
+function validateHeaderMetadata(metadata, relativePath, task, issues, repoRoot = REPO_ROOT) {
+  const contract = loadHeaderContract(repoRoot);
+  const previousInvalidHeaders = issues.invalidHeaders.length;
   for (const key of contract.required) {
     if (!metadata[key] || String(metadata[key]).trim() === "") {
       issues.invalidHeaders.push({
@@ -318,6 +340,19 @@ function validateHeaderMetadata(metadata, relativePath, task, issues) {
   }
 
   if (!task) {
+    if (issues.invalidHeaders.length !== previousInvalidHeaders) return;
+    if (metadata.DOC_TYPE !== "其他") {
+      issues.invalidHeaders.push({
+        path: relativePath,
+        reason: `invalid DOC_TYPE "${metadata.DOC_TYPE}" for temporary plan (allowed: 其他)`,
+      });
+    }
+    if (!TEMPORARY_PLAN_STATUSES.includes(metadata.STATUS)) {
+      issues.invalidHeaders.push({
+        path: relativePath,
+        reason: `invalid STATUS "${metadata.STATUS}" for temporary plan (allowed: ${TEMPORARY_PLAN_STATUSES.join(", ")})`,
+      });
+    }
     return;
   }
 
@@ -343,12 +378,35 @@ function validateHeaderMetadata(metadata, relativePath, task, issues) {
   }
 }
 
-function analyzeGovernance(rules, { readHeaders = true } = {}) {
+function classifyUnmappedFiles(rules, docToTask, repoRoot = REPO_ROOT) {
+  const docRootName = rules.docRoot || "文档记录";
+  const docRoot = path.join(repoRoot, docRootName);
+  const excluded = new Set(rules.exclude ?? []);
+  const managedFiles = walkMarkdownFiles(docRoot)
+    .map((absolutePath) => repoRelative(absolutePath, repoRoot))
+    .filter((relativePath) => !excluded.has(relativePath));
+  const unassigned = [];
+  const temporaryPlans = [];
+  for (const relativePath of managedFiles) {
+    if (docToTask.has(relativePath)) {
+      continue;
+    }
+    if (isTemporaryPlanPath(relativePath, docRootName)) {
+      temporaryPlans.push(relativePath);
+    } else {
+      unassigned.push(relativePath);
+    }
+  }
+  return { unassigned, temporaryPlans };
+}
+
+export function analyzeGovernance(rules, { readHeaders = true, repoRoot = REPO_ROOT } = {}) {
   const issues = {
     invalidRules: [],
     duplicates: [],
     missing: [],
     unassigned: [],
+    temporaryPlans: [],
     invalidHeaders: [],
   };
 
@@ -361,7 +419,7 @@ function analyzeGovernance(rules, { readHeaders = true } = {}) {
   }
 
   try {
-    loadHeaderContract();
+    loadHeaderContract(repoRoot);
   } catch (error) {
     issues.invalidRules.push(error.message);
   }
@@ -393,7 +451,7 @@ function analyzeGovernance(rules, { readHeaders = true } = {}) {
 
   for (const task of rules.tasks) {
     for (const relativePath of task.docs ?? []) {
-      const absolutePath = path.join(REPO_ROOT, ...relativePath.split("/"));
+      const absolutePath = path.join(repoRoot, ...relativePath.split("/"));
       if (!fs.existsSync(absolutePath)) {
         issues.missing.push(relativePath);
         continue;
@@ -401,7 +459,7 @@ function analyzeGovernance(rules, { readHeaders = true } = {}) {
       if (!readHeaders) continue;
       try {
         const parsed = parseHeader(readText(absolutePath));
-        validateHeaderMetadata(parsed.metadata, relativePath, task, issues);
+        validateHeaderMetadata(parsed.metadata, relativePath, task, issues, repoRoot);
       } catch (error) {
         issues.invalidHeaders.push({
           path: relativePath,
@@ -411,17 +469,29 @@ function analyzeGovernance(rules, { readHeaders = true } = {}) {
     }
   }
 
-  const docRoot = path.join(REPO_ROOT, rules.docRoot || "文档记录");
-  const excluded = new Set(rules.exclude ?? []);
-  const managedFiles = walkMarkdownFiles(docRoot)
-    .map(repoRelative)
-    .filter((relativePath) => !excluded.has(relativePath));
-  issues.unassigned = managedFiles.filter((relativePath) => !docToTask.has(relativePath));
+  const { unassigned, temporaryPlans } = classifyUnmappedFiles(rules, docToTask, repoRoot);
+  issues.unassigned = unassigned;
+  issues.temporaryPlans = temporaryPlans;
+
+  if (readHeaders) {
+    for (const relativePath of temporaryPlans) {
+      const absolutePath = path.join(repoRoot, ...relativePath.split("/"));
+      try {
+        const parsed = parseHeader(readText(absolutePath));
+        validateHeaderMetadata(parsed.metadata, relativePath, null, issues, repoRoot);
+      } catch (error) {
+        issues.invalidHeaders.push({
+          path: relativePath,
+          reason: error.message,
+        });
+      }
+    }
+  }
 
   return issues;
 }
 
-function issuesHaveErrors(issues) {
+export function issuesHaveErrors(issues) {
   return (
     issues.invalidRules.length > 0 ||
     issues.duplicates.length > 0 ||
@@ -446,23 +516,19 @@ function printIssues(issues, { includeUnassigned = true } = {}) {
     console.log(`unassigned_docs: ${issues.unassigned.length}`);
     for (const item of issues.unassigned) console.log(`  - ${item}`);
   }
+  console.log(`temporary_plans: ${issues.temporaryPlans.length}`);
+  for (const item of issues.temporaryPlans) console.log(`  - ${item}`);
 }
 
-function rebuildDatabase(db, rules, { fixHeaders = false } = {}) {
+export function rebuildDatabase(db, rules, { fixHeaders = false, repoRoot = REPO_ROOT } = {}) {
   const timestamp = nowTimestamp();
-  const contract = loadHeaderContract();
+  const contract = loadHeaderContract(repoRoot);
   const { docToTask, duplicates } = buildTaskLookup(rules);
   if (duplicates.length > 0) {
     throw new Error(`duplicate doc assignment: ${duplicates[0].path}`);
   }
 
-  const docRoot = path.join(REPO_ROOT, rules.docRoot);
-  const markdownFiles = walkMarkdownFiles(docRoot);
-  const excluded = new Set(rules.exclude ?? []);
-  const managedFiles = markdownFiles
-    .map(repoRelative)
-    .filter((relativePath) => !excluded.has(relativePath));
-  const unassigned = managedFiles.filter((relativePath) => !docToTask.has(relativePath));
+  const { unassigned, temporaryPlans } = classifyUnmappedFiles(rules, docToTask, repoRoot);
   const missing = [];
   const changedHeaders = [];
 
@@ -496,7 +562,7 @@ function rebuildDatabase(db, rules, { fixHeaders = false } = {}) {
     );
 
     for (const relativePath of task.docs) {
-      const absolutePath = path.join(REPO_ROOT, ...relativePath.split("/"));
+      const absolutePath = path.join(repoRoot, ...relativePath.split("/"));
       if (!fs.existsSync(absolutePath)) {
         missing.push(relativePath);
         continue;
@@ -562,6 +628,7 @@ function rebuildDatabase(db, rules, { fixHeaders = false } = {}) {
     changedHeaders,
     missing,
     unassigned,
+    temporaryPlans,
   };
 }
 
@@ -639,6 +706,7 @@ async function runRebuild(argv) {
   console.log(`fix_headers: ${fixHeaders}`);
   console.log(`header_updates: ${result.changedHeaders.length}`);
   console.log(`unassigned_docs: ${result.unassigned.length}`);
+  console.log(`temporary_plans: ${result.temporaryPlans.length}`);
   if (result.unassigned.length > 0) {
     console.log("unassigned:");
     for (const relativePath of result.unassigned) {
@@ -656,6 +724,7 @@ async function runRebuild(argv) {
   const postIssues = analyzeGovernance(rules, { readHeaders: true });
   postIssues.missing = [...new Set([...postIssues.missing, ...result.missing])];
   postIssues.unassigned = result.unassigned;
+  postIssues.temporaryPlans = result.temporaryPlans;
   printIssues(postIssues);
   if (issuesHaveErrors(postIssues)) {
     process.exitCode = 1;
@@ -696,7 +765,24 @@ async function main() {
   throw new Error(`unknown command: ${command}`);
 }
 
-main().catch((error) => {
-  console.error(error.message);
-  process.exitCode = 1;
-});
+function isDirectInvocation(entryPath) {
+  if (!entryPath) return false;
+  if (path.resolve(entryPath) === CLI_PATH) return true;
+
+  let actualEntryPath;
+  try {
+    actualEntryPath = fs.realpathSync.native(entryPath);
+  } catch (error) {
+    // 导入时，argv[1] 也可能是普通参数。
+    if (error.code === "ENOENT" || error.code === "ENOTDIR") return false;
+    throw error;
+  }
+  return actualEntryPath === fs.realpathSync.native(CLI_PATH);
+}
+
+if (isDirectInvocation(process.argv[1])) {
+  main().catch((error) => {
+    console.error(error.message);
+    process.exitCode = 1;
+  });
+}

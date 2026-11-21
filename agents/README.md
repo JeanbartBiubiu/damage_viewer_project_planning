@@ -58,13 +58,13 @@ node agents/coordination.mjs todo frontend
 node agents/coordination.mjs todo-ack frontend <待办编号> --decision no_action --note "当前任务不受影响"
 ```
 
-`complete` 在已授权阶段完成且有证据时使用，给所有关系为 1 的角色各写一条待办，编号 `done:<来源>:<任务>`；`--attention` 只能指向这些角色，标为请求关注，其余标为请判断。`notify` 给任一角色写一条请求关注的待办，编号 `notice:<来源>:<任务>`，用于方案就绪、退回或给自己留事项。同编号同内容的重复申报不新增；内容变化时在 `--task` 写明新阶段或方案版本。两者只写文件，不向会话发送输入、不打断对方，也不授予新的开发权限。
+启用多角色异步协作时，`complete` 用于申报已授权且有证据的阶段完成，给所有关系为 1 的角色各写一条待办，编号 `done:<来源>:<任务>`。`--attention` 只能指向这些角色，标为请求关注，其余标为请判断。`notify` 给指定角色写一条请求关注的待办，编号 `notice:<来源>:<任务>`，用于退回方案或提醒具体事项。相同编号和内容只记录一次。内容变化时在 `--task` 写明新阶段或方案版本。两个命令的作用范围是本地待办文件。Antigravity 与 Codex 双窗口直接交接走[方案约定](../文档记录/方案/README.md)。
 
 `todo` 默认列出未关闭条目及未读、待跟进数量，`--all` 包括已关闭项。处置 `follow_up` 表示需要跟进，`no_action` 与 `done` 关闭条目；处置本身不是业务完成，不再广播。
 
 ## 钩子
 
-[.codex/hooks.json](../.codex/hooks.json) 只登记 `SessionStart`，命令通过 Git 定位主检出并执行 [coordination-hook.mjs](coordination-hook.mjs)。已登记角色的根会话启动时获得角色、待办数量与笔记路径提示；子代理、未登记会话和其他任何事件都得到空对象。钩子不读取或保存输入正文与会话转录。Codex 对变更后的钩子要求在 `/hooks` 中重新审阅信任，未信任时会跳过。Antigravity 不使用项目钩子，planner 按角色说明自行查看待办。
+[.codex/hooks.json](../.codex/hooks.json) 只登记 `SessionStart`，命令通过 Git 定位主检出并执行 [coordination-hook.mjs](coordination-hook.mjs)。已登记角色的根会话启动时获得角色、待办数量与笔记路径提示；子代理、未登记会话和其他任何事件都得到空对象。钩子不读取或保存输入正文与会话转录。Codex 对变更后的钩子要求在 `/hooks` 中重新审阅信任，未信任时会跳过。Antigravity 中的方案角色在启用异步协作时按角色说明自行查看待办。
 
 ## 角色笔记
 

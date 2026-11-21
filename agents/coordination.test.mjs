@@ -3,9 +3,18 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { coordinationCommand } from './coordination.mjs';
+import { gitSafeDirectory } from './local-store.mjs';
 import { fixture, isIgnored } from './test-fixture.mjs';
 
 const run = (root, ...args) => coordinationCommand(args, root);
+
+test('Git safe.directory 使用当前平台的分隔符语义并保留确切目录', () => {
+  if (process.platform === 'win32') {
+    assert.equal(gitSafeDirectory('C:\\project\\main repo\\sub\\..\\'), 'C:/project/main repo');
+  } else {
+    assert.equal(gitSafeDirectory('/project/main\\repo/sub/../'), '/project/main\\repo');
+  }
+});
 
 test('角色集合与关系矩阵以配置为准，不对称的矩阵被拒绝', t => {
   const root = fixture(t);

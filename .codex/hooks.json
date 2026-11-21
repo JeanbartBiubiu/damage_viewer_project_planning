@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"const c=require('node:child_process'),p=require('node:path');const r=c.execFileSync('git',['worktree','list','--porcelain','-z'],{encoding:'utf8'}).split('\\0')[0].slice(9);c.execFileSync(process.execPath,[p.join(r,'agents/coordination-hook.mjs')],{stdio:'inherit'});\"",
+            "command": "node -e \"const c=require('node:child_process'),p=require('node:path');const d=p.resolve('.').split(p.sep).join('/');const r=c.execFileSync('git',['-c','safe.directory='+d,'worktree','list','--porcelain','-z'],{encoding:'utf8'}).split('\\0')[0].slice(9);c.execFileSync(process.execPath,[p.join(r,'agents/coordination-hook.mjs')],{stdio:'inherit'});\"",
             "timeout": 5,
             "additionalContextLimit": 512
           }

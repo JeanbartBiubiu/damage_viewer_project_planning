@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import {
   closeSync, existsSync, fsyncSync, mkdirSync, openSync, readFileSync, renameSync, unlinkSync, writeFileSync,
 } from 'node:fs';
-import { basename, dirname, join, resolve } from 'node:path';
+import { basename, dirname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
 
@@ -14,10 +14,14 @@ export function requireScope(value, label) {
   }
 }
 
+export function gitSafeDirectory(directoryPath) {
+  return resolve(directoryPath).replaceAll(sep, '/');
+}
+
 // 同机所有工作树共用主检出中的一份本地数据。
 export function localPaths(repositoryRoot = sourceRoot) {
   const listing = execFileSync('git', [
-    '-c', `safe.directory=${repositoryRoot}`, 'worktree', 'list', '--porcelain', '-z',
+    '-c', `safe.directory=${gitSafeDirectory(repositoryRoot)}`, 'worktree', 'list', '--porcelain', '-z',
   ], { cwd: repositoryRoot, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
   const mainRoot = resolve(listing.split('\0')[0].slice('worktree '.length));
   return { mainRoot, localDirectory: join(mainRoot, 'agents', '.local') };
