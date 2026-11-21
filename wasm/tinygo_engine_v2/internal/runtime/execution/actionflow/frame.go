@@ -74,8 +74,8 @@ type Frame struct {
 	processIsNew             bool
 	processTimer             bool
 	recastExecutionCommitted bool
-	passiveProcesses         []*actionpkg.ProcessView
 	actionWait               bool
+	passiveProcesses         []*actionpkg.ProcessView
 	attackWait               *actionpkg.AttackWaitView
 	cooldownWake             CooldownWakePlan
 	ammoWaits                []pendingAmmoWait

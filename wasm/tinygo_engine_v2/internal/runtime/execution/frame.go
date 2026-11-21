@@ -47,14 +47,11 @@ type stagedCombatant struct {
 
 // evalScope 保存当前同步执行的身份及只读输入，独立于帧级暂存。
 type evalScope struct {
-	sourceKey                string
-	targetKey                string
-	abilityRef               string
-	ownerCombatantKey        string // 实际挂载拥有者，可以与事件或操作来源不同。
-	ownerProviderRef         string
-	mountedListener          bool
-	strictReads              bool
-	borrowedOperationOutputs bool
+	sourceKey         string
+	targetKey         string
+	abilityRef        string
+	ownerCombatantKey string // 实际挂载拥有者，可以与事件或操作来源不同。
+	ownerProviderRef  string
 
 	// 入口视图在真实帧或强化负载入口冻结。
 	entrySourceAttrs     attribute.Table
@@ -63,13 +60,9 @@ type evalScope struct {
 	entryTargetResources model.ResourceView
 	eventCtx             *eventFormulaSnapshot
 	skillHitCandidateKey string
-	skillHitOccurrenceID uint64
-	skipBlockedWrites    bool
-	rootSkillHitDamage   bool // 仅由本次根命中候选继承。
 
 	// 同次施放的身份及来源由多操作、延迟和监听执行继承。
-	castInstanceID uint64
-	castOrigin     string
+	castOrigin string
 
 	processUseKey         string
 	processUseSource      string
@@ -80,10 +73,17 @@ type evalScope struct {
 	activeProcessOriginal *actionpkg.ProcessView
 	activeProcessChanges  *actionpkg.ProcessChangeSet
 	processActualCosts    model.NumericView
-	processCostReadable   bool
 	empoweredAttack       *model.ProcessEmpoweredAttack
+	damageDefenseContext  *formula.GenericEvalContext
 
-	damageDefenseContext *formula.GenericEvalContext
+	skillHitOccurrenceID     uint64
+	castInstanceID           uint64
+	mountedListener          bool
+	strictReads              bool
+	borrowedOperationOutputs bool
+	skipBlockedWrites        bool
+	rootSkillHitDamage       bool // 仅由本次根命中候选继承。
+	processCostReadable      bool
 }
 
 // Frame 拥有单次操作的暂存投影与待提交事实，提交仍由执行协调统一完成。
@@ -92,7 +92,6 @@ type Frame struct {
 	actionFrame            actionflow.Frame
 	pendingAmountBudgets   []usage.AmountReservation
 	numeric                operation.Frame
-	readsDamageStateBefore bool
 	pendingTargetMark      model.TargetMarkSummary
 	effectProjection       lifecycle.Projection
 	empowered              *empoweredFrame
@@ -105,7 +104,6 @@ type Frame struct {
 	commandCount int
 	chainDepth   int
 
-	fatal    bool
 	fatalErr *model.EngineError
 
 	pendingEvents []emittedEvent
@@ -115,7 +113,6 @@ type Frame struct {
 	driverEntryKey    string
 
 	pendingShieldExpires []pendingShieldExpire
-	committed            bool
 	pendingEvidence      []model.EvidenceItem
 	pendingEvidenceKinds []model.EvidenceKind
 	pendingSkillHits     []committedSkillActionHit
@@ -127,9 +124,14 @@ type Frame struct {
 	providerDefinitionRef string
 	providerActivatedAtMs *int64
 	damageOwnerKey        string
-	countCastOnCommit     bool
 	castStatRef           string
 	statRef               string
+
+	// 将帧标记集中，避免比较小的布尔值在指针间重复引入对齐填充。
+	readsDamageStateBefore bool
+	fatal                  bool
+	committed              bool
+	countCastOnCommit      bool
 }
 
 type frameStagedEntry struct {
