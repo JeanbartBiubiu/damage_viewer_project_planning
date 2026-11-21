@@ -135,14 +135,14 @@ func TestListenerCooldownPriorityRemainsDifferentFromOrdinaryCast(t *testing.T) 
 		if listener.ListenerKey != "priority_guard" {
 			continue
 		}
-		if accepted, err := s.ListenerAbility(emittedEvent{}, nil, listener, "source", "target", 0); accepted || err != nil {
+		if accepted, err := (*listenerEngineHost)(s).ListenerAbility(emittedEvent{}, nil, listener, "source", "target", 0); accepted || err != nil {
 			t.Fatal("listener changed cooldown skip priority", accepted, err)
 		}
 		if result, err := s.castAbilityAt("source", "target", ref, 0, nil, nil, ""); result.Accepted || err == nil {
 			t.Fatal("ordinary entry changed its original source validation priority", result, err)
 		}
 		s.loop.Advance(1100)
-		if accepted, err := s.ListenerAbility(emittedEvent{}, nil, listener, "source", "target", 0); accepted || err == nil {
+		if accepted, err := (*listenerEngineHost)(s).ListenerAbility(emittedEvent{}, nil, listener, "source", "target", 0); accepted || err == nil {
 			t.Fatal("ready restricted listener must retain its original error", accepted, err)
 		}
 		return

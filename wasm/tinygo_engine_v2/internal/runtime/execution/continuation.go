@@ -17,7 +17,12 @@ type deferredRepeatRequest = continuation.RepeatRequest
 
 type eventCopyableCollector = continuation.Collector
 
-var _ continuation.Host = (*Engine)(nil)
+type continuationHost Engine
+
+type continuationFrameHost Frame
+
+var _ continuation.CollectionWork = (*continuationFrameHost)(nil)
+var _ continuation.Host = (*continuationHost)(nil)
 
 func (s *Engine) processExecution(use string) (int, *eventCopyableCollector) {
 	return s.continuations.Find(use)
@@ -44,33 +49,35 @@ func (f *Frame) maybeCollectCopyableDamage(op planbundle.CompiledOperation, abil
 		EventSourceKey: f.sourceKey, EventTargetKey: f.targetKey,
 		EntrySourceAttrs: f.entrySourceAttrs, EntryTargetAttrs: f.entryTargetAttrs,
 		EntrySourceResources: f.entrySourceResources, EntryTargetResources: f.entryTargetResources,
-	}, f.commandsSpent(), f.run.budget.MaxCommandsPerEvent, f)
+	}, f.commandsSpent(), f.run.budget.MaxCommandsPerEvent, (*continuationFrameHost)(f))
 }
 
-func (f *Frame) CopyFirstPerCast() map[string]bool { return f.numeric.EnsureFirstPerCast() }
+func (f *continuationFrameHost) CopyFirstPerCast() map[string]bool {
+	return f.numeric.EnsureFirstPerCast()
+}
 
-func (f *Frame) CopyCollectionBudgetError() *model.EngineError {
+func (f *continuationFrameHost) CopyCollectionBudgetError() *model.EngineError {
 	return f.run.budgetError(model.BudgetCauseMaxCommandsPerEvent, "max commands per event exceeded")
 }
 
 func (s *Engine) flushDeferredPhantomReplay(c *eventCopyableCollector) *model.EngineError {
-	return s.continuations.Flush(s, c)
+	return s.continuations.Flush((*continuationHost)(s), c)
 }
 
 func (s *Engine) handleTriggeredContinuation(ev scheduler.GenericEvent) *model.EngineError {
-	return s.continuations.Fire(s, ev.ContinuationID)
+	return s.continuations.Fire((*continuationHost)(s), ev.ContinuationID)
 }
 
 // QueueCopyContinuation 只在原延迟登记位置接线唯一队列。
-func (s *Engine) QueueCopyContinuation(id uint64, delayMs int) *model.EngineError {
+func (s *continuationHost) QueueCopyContinuation(id uint64, delayMs int) *model.EngineError {
 	code := s.loop.Enqueue(scheduler.GenericEvent{TimeMs: s.loop.TimeMs() + int64(delayMs), Category: scheduler.GenericCategoryTriggeredContinuation, Kind: scheduler.GenericEventTriggeredContinuation, ContinuationID: id})
 	if code != model.ErrOK {
-		return s.budgetError(model.BudgetCauseMaxQueueEvents, "triggered continuation queue overflow")
+		return (*Engine)(s).budgetError(model.BudgetCauseMaxQueueEvents, "triggered continuation queue overflow")
 	}
 	return nil
 }
 
-func (s *Engine) ReadRepeatState(owner, provider, key string) (float64, bool) {
+func (s *continuationHost) ReadRepeatState(owner, provider, key string) (float64, bool) {
 	if owner == "" || provider == "" || key == "" {
 		return 0, false
 	}
@@ -79,7 +86,7 @@ func (s *Engine) ReadRepeatState(owner, provider, key string) (float64, bool) {
 		return 0, false
 	}
 	bag := c.providerState.PrepareRead(provider, false,
-		s.resolveProviderStateFieldDefs(owner, provider, c.instances.Providers()), s.loop.TimeMs(), effectpkg.ReadOptions{Cooldowns: c.cooldowns.View(), OwnerKey: owner})
+		(*Engine)(s).resolveProviderStateFieldDefs(owner, provider, c.instances.Providers()), s.loop.TimeMs(), effectpkg.ReadOptions{Cooldowns: c.cooldowns.View(), OwnerKey: owner})
 	if !bag.Present() {
 		return 0, false
 	}
@@ -91,12 +98,12 @@ func (s *Engine) ReadRepeatState(owner, provider, key string) (float64, bool) {
 	return value, true
 }
 
-func (s *Engine) SettleCopyDeaths() { s.checkDeathStopReason() }
+func (s *continuationHost) SettleCopyDeaths() { (*Engine)(s).checkDeathStopReason() }
 
-func (s *Engine) CopiesStopped() bool { return s.loop.Stopped() }
+func (s *continuationHost) CopiesStopped() bool { return s.loop.Stopped() }
 
-func (s *Engine) ApplyCopy(c *eventCopyableCollector, d copyableDamageFrozen, tag string) *model.EngineError {
-	return s.applyPhantomCopyableDamage(c, d, tag)
+func (s *continuationHost) ApplyCopy(c *eventCopyableCollector, d copyableDamageFrozen, tag string) *model.EngineError {
+	return (*Engine)(s).applyPhantomCopyableDamage(c, d, tag)
 }
 
 func (s *Engine) applyPhantomCopyableDamage(collector *eventCopyableCollector, dmg copyableDamageFrozen, repeatTag string) *model.EngineError {

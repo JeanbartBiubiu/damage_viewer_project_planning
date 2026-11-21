@@ -12,7 +12,6 @@ import (
 	effectpkg "tinygo_engine_v2/internal/runtime/effect"
 	"tinygo_engine_v2/internal/runtime/execution/actionflow"
 	"tinygo_engine_v2/internal/runtime/execution/continuation"
-	"tinygo_engine_v2/internal/runtime/execution/hit"
 	"tinygo_engine_v2/internal/runtime/execution/lifecycle"
 	"tinygo_engine_v2/internal/runtime/execution/operation"
 	"tinygo_engine_v2/internal/runtime/execution/usage"
@@ -44,115 +43,6 @@ type stagedCombatant struct {
 	providerState effectpkg.BagChangeSet
 
 	dirty bool
-}
-
-// FrameAPI 只向公式求值暴露已获准的战斗事实读取能力。
-type FrameAPI interface {
-	// SetHitAttemptOccurrence 在取得序号后立即记入原帧，后续失败也保留该尝试身份。
-	SetHitAttemptOccurrence(id uint64)
-	// RequireHitAttackProcess 在原序号取得后检查实际普攻过程资格。
-	RequireHitAttackProcess(ability planbundle.CompiledAbility, skill, use string) *model.EngineError
-	// MarkHitAttack 在首接触与历史核对之前登记原行动的真实命中。
-	MarkHitAttack(use string)
-	// HitAttemptUse 只在原使用查询点借用现有身份和所属历史，调用期间不得替换历史。
-	HitAttemptUse(reference string) hit.AttemptUse
-	// HitAttemptBudgetError 保存唯一预算原因并返回原命中次数错误。
-	HitAttemptBudgetError() *model.EngineError
-	// CopyFirstPerCast 只在资格及首轮预算通过后取得原共享集合。
-	CopyFirstPerCast() map[string]bool
-	// CopyCollectionBudgetError 保存原唯一预算原因，返回本次收集失败。
-	CopyCollectionBudgetError() *model.EngineError
-
-	// AttachedBlocked 在同一帧认领原盾，并由根层同步交接原盾自己的消费监听。
-	AttachedBlocked(context *hit.Context, replacesPrimary bool) *model.EngineError
-	// AttachedHitCandidate 复用当前强化暂存及输出，保留该候选的根伤害资格。
-	AttachedHitCandidate(context *hit.Context, candidate planbundle.CompiledSkillHitCandidate, blocked, rootDamage bool) *model.EngineError
-	// AttachedListenerCondition 在当前共享暂存中求值条件并核对有限结果。
-	AttachedListenerCondition(definition planbundle.CompiledListener, ability planbundle.CompiledAbility) (bool, *model.EngineError)
-	// AttachedListenerError 返回原过程错误，不发布状态。
-	AttachedListenerError(path, message, provider string) *model.EngineError
-	// AttachedListenerOperations 在当前共享帧执行已核定操作，不自行提交。
-	AttachedListenerOperations(ability planbundle.CompiledAbility, operations []planbundle.CompiledOperation) *model.EngineError
-	// AttachedSpellShields 读取当前共享暂存内仍可消费且未被此前负载认领的盾。
-	AttachedSpellShields(target string) (effectpkg.ProviderList, *model.EngineError)
-	// BeginAttachedListener 暂时绑定该监听的实际双方及原阻挡事实，返回当前调用的恢复凭据。
-	BeginAttachedListener(snapshot *eventFormulaSnapshot, definition planbundle.CompiledListener, ability planbundle.CompiledAbility, source, target string) attachedListenerBinding
-	// BeginEmpoweredProcess 绑定本次独占暂存，返回当前调用的恢复凭据。
-	BeginEmpoweredProcess(changes *actionpkg.ProcessChangeSet, target string, association *model.ProcessEmpoweredAttack) empoweredContextBinding
-	// BindAttachedHit 将本负载有限事实与真实使用绑定当前同步求值范围，不发布事件。
-	BindAttachedHit(context *hit.Context)
-	// CommitEmpoweredGroup 统一发布共享强化帧及其尾部；未暂存过程时不提交空帧。
-	CommitEmpoweredGroup() *model.EngineError
-	// CommitHitRule 发布整个规则组，再同步处理已经生成的事实。
-	CommitHitRule() *model.EngineError
-	// EmpoweredActivationHistory 返回原激活使用的真实登记身份和已发生接触数。
-	EmpoweredActivationHistory(use string) hit.ActivationHistory
-	// EmpoweredExecutionError 返回原过程错误，不修改状态。
-	EmpoweredExecutionError(path, message, use string) *model.EngineError
-	// EmpoweredFailureMoment 在原位置执行已经确定的失败时点和原因。
-	EmpoweredFailureMoment(changes *actionpkg.ProcessChangeSet, reason string) *model.EngineError
-	// EmpoweredFinishedAt 借用本组指定完成过程，只用于当前同步尾部。
-	EmpoweredFinishedAt(index int) *actionpkg.ProcessView
-	// EmpoweredFinishedCount 返回当前组已暂存完成的过程数。
-	EmpoweredFinishedCount() int
-	// EmpoweredGroupFailure 在原有全部解决事实发布之后返回本场已经保留的过程错误。
-	EmpoweredGroupFailure() *model.EngineError
-	// EmpoweredOwnerLive 查询当前拥有者存活和实际挂载。
-	EmpoweredOwnerLive(owner, provider string, definition uint16) bool
-	// EmpoweredPayload 在同一共享帧执行本次负载。
-	EmpoweredPayload(event emittedEvent, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack, payload planbundle.CompiledAbility) *model.EngineError
-	// EmpoweredProcessMoment 在共享暂存中同步执行指定原过程时点。
-	EmpoweredProcessMoment(changes *actionpkg.ProcessChangeSet, target string, association *model.ProcessEmpoweredAttack, kind string) *model.EngineError
-	// EndAttachedListener 恢复原求值范围；executed表示已执行操作，需要单独归属实际输出。
-	EndAttachedListener(binding attachedListenerBinding, executed bool)
-	// EndEmpoweredProcess 恢复原绑定并登记本范围实际产生的输出，不撤销共享暂存。
-	EndEmpoweredProcess(saved empoweredContextBinding)
-	// FinishAttachedHit 清除当前候选阻挡写入标记，不恢复或发布其他状态。
-	FinishAttachedHit()
-	// FreezeHitEmpoweredWaits 仅在原生普攻命中入口冻结当前合格等待身份。
-	FreezeHitEmpoweredWaits(owner string) []hit.EmpoweredWait
-	// HitConditionValue 在本帧原有参数及事件上下文中读取右值，保留公式错误归属。
-	HitConditionValue(condition planbundle.CompiledSkillHitValueCond, candidateKey string) (float64, *model.EngineError)
-	// HitExecutionError 生成归属本场的命中错误，不发布状态。
-	HitExecutionError(code model.GenericErrCode, message, path, ref string) *model.EngineError
-	// HitParticipation 在给定实际挂载上求值；live=false表示挂载已经失效。
-	HitParticipation(program formula.GenericProgramID, ability planbundle.CompiledAbility, provider string, definition uint16) (float64, bool, *model.EngineError)
-	// HitRuleCandidate 清理上一候选输出，在共享暂存中执行本候选并暂存其伤害事实。
-	HitRuleCandidate(context *hit.Context, candidate planbundle.CompiledSkillHitCandidate, blocked bool) *model.EngineError
-	// HitSpellShields 返回实际命中目标当前仍活动的法术盾，不应用或移除盾。
-	HitSpellShields(target string) effectpkg.ProviderList
-	// ListenerMountLive 重新读取实际挂载资格，不沿用冻结前的结果。
-	ListenerMountLive(definition planbundle.CompiledListener) bool
-	// ListenerRecoveryError 返回原恢复资格错误，不读取或修改其他状态。
-	ListenerRecoveryError(message, path, target string) *model.EngineError
-	// ListenerRecoveryHP 返回指定实际拥有者在本帧的当前暂存生命，不提交。
-	ListenerRecoveryHP(owner string) float64
-	// PrimaryDamageStart 返回执行负载前已有伤害事实数，不从数值汇总反推。
-	PrimaryDamageStart() int
-	// PublishEmpoweredContact 登记实际目标接触及原激活使用的报告事实。
-	PublishEmpoweredContact(process *actionpkg.ProcessView, association model.ProcessEmpoweredAttack)
-	// PublishEmpoweredFinish 发布已经完成的过程，不再执行负载。
-	PublishEmpoweredFinish(process *actionpkg.ProcessView)
-	// PublishEmpoweredMoment 发布已经在本帧发生的过程时点。
-	PublishEmpoweredMoment(process *actionpkg.ProcessView, kind string)
-	// PublishEmpoweredMutation 发布原过程的暂存并更新等待索引，clearAttack只清除计数窗口的临时关联。
-	PublishEmpoweredMutation(original *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, clearAttack bool)
-	// PublishEmpoweredOutput 将实际能力输出归入已有报告累计。
-	PublishEmpoweredOutput(ref string, damage, healing float64)
-	// PublishEmpoweredPrimary 发布本帧根据真实负载生成的主体替换累计。
-	PublishEmpoweredPrimary(row model.BasicAttackPrimaryReplacement, binding uint16)
-	// PublishEmpoweredReservation 将真实原生使用关联原窗口的既有消耗位置。
-	PublishEmpoweredReservation(use *actionpkg.UseView, process *actionpkg.ProcessView, index int)
-	// QueuePrimaryDamage 在原帧重新绑定真实负载并追加已确定资格的伤害事实，返回前恢复外层求值范围。
-	QueuePrimaryDamage(event emittedEvent, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack, payload, parent planbundle.CompiledAbility, rootDamage bool)
-	// RecordCountedExecution 暂存原有执行时点事实，不执行步骤转移。
-	RecordCountedExecution(process *actionpkg.ProcessView)
-	// ResolveEmpoweredProcess 发布该过程真实目标的解决事实，并保留过程失败。
-	ResolveEmpoweredProcess(process *actionpkg.ProcessView) *model.EngineError
-	// StageEmpoweredResult 追加本次已完成过程的提交事实，不立即发布。
-	StageEmpoweredResult(original *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack)
-	// StagePrimaryPayload 只依据该次负载实际产生的事实暂存主体替换统计。
-	StagePrimaryPayload(process *actionpkg.ProcessView, payload planbundle.CompiledAbility, association *model.ProcessEmpoweredAttack, start int) *model.EngineError
 }
 
 // Frame 拥有单次操作的暂存投影与待提交事实，提交仍由执行协调统一完成。
@@ -257,8 +147,6 @@ type frameStagedCollection struct {
 	count  int
 	extra  map[string]*stagedCombatant
 }
-
-var _ FrameAPI = (*Frame)(nil)
 
 func (s *Engine) combatantHp(key string) float64 {
 	c, ok := s.combatants[key]

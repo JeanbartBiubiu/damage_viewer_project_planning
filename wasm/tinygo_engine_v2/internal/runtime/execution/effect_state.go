@@ -17,83 +17,9 @@ import (
 	"tinygo_engine_v2/internal/scheduler"
 )
 
-type lifecycleStateActionsAPI interface {
-	// ConsumeStateAmmo 只暂存同帧实际弹药消费，错误沿原操作返回。
-	ConsumeStateAmmo(operation planbundle.CompiledOperation, ability planbundle.CompiledAbility, before, after float64) *model.EngineError
-	// ReleaseStateTargetCooldowns 清理切换前的实际目标冷却，复用原帧行动账。
-	ReleaseStateTargetCooldowns(owner, provider, previous string)
-}
-
 type lifecycleStateActions Frame
 
-type lifecycleMarkExecutionAPI interface {
-	// MarkContact 取得当前真实监听接触的有限身份，原冻结命中仍由命中执行持有。
-	MarkContact(abilityRef, kind string) (lifecycle.MarkContact, *model.EngineError)
-	// MarkState 借用当前实际拥有者状态袋，保留原读取点。
-	MarkState(owner, provider string) effectpkg.BagView
-	// MarkAmount 使用当前帧原能力上下文按操作序求值。
-	MarkAmount(operation planbundle.CompiledOperation, ability planbundle.CompiledAbility) (float64, *model.EngineError)
-	// MarkSpellShields 借用当前目标法术盾列表，不决定多盾优先级。
-	MarkSpellShields(target string) effectpkg.ProviderList
-	// ConsumeMarkCommand 使用当前原命令预算，失败沿当前操作返回。
-	ConsumeMarkCommand() *model.EngineError
-	// ClearMark 同帧调用效果状态操作，不新建或提交帧。
-	ClearMark(operation planbundle.CompiledOperation, ability planbundle.CompiledAbility) *model.EngineError
-	// BlockMarkDamage 把当前冻结接触及盾身份接为待提交阻挡事实。
-	BlockMarkDamage(op planbundle.CompiledOperation, ability planbundle.CompiledAbility, shield effectpkg.Provider)
-	// SettleMarkDamage 同帧结算真实伤害，返回新增逐伤数和实际编号。
-	SettleMarkDamage(operation planbundle.CompiledOperation, ability planbundle.CompiledAbility, amount float64) (int, uint64, *model.EngineError)
-	// RestoreMarkResource 在标记伤害阶段之后同帧执行真实资源操作。
-	RestoreMarkResource(operation planbundle.CompiledOperation, ability planbundle.CompiledAbility, amount float64) *model.EngineError
-	// RecordMarkConsumption 仅暂存已经完成的标记事实和统计。
-	RecordMarkConsumption(consumption lifecycle.MarkConsumption)
-}
-
 type lifecycleMarkExecution Frame
-
-// stateExecutionFrameAPI 只目录化状态执行借用的同帧读取、数值同步和行动接线。
-type stateExecutionFrameAPI interface {
-	// StateAmount 按原能力上下文读取当前金额。
-	StateAmount(program formula.GenericProgramID, ability planbundle.CompiledAbility) (float64, *model.EngineError)
-	// StateContext 准备当前状态属性同步的实际读值。
-	StateContext(ability planbundle.CompiledAbility) (formula.GenericEvalContext, *model.EngineError)
-	// StateBag 借用本帧指定状态袋，保留原创建标记。
-	StateBag(owner, provider string, create bool) effectpkg.BagChange
-	// ReadStateBag 保留原目标状态惰性到期标记和只读范围。
-	ReadStateBag(owner, provider string, expireTarget bool) effectpkg.BagView
-	// StateProviders 借用当前已发布的挂载，不切换成未来暂存。
-	StateProviders(owner string) effectpkg.ProviderList
-	// ResolveOwnerStateAttributes 按给定上下文同步拥有者属性。
-	ResolveOwnerStateAttributes(owner string, context formula.GenericEvalContext)
-	// ResolveTargetStateAttributes 按原目标、拥有者顺序同步属性。
-	ResolveTargetStateAttributes(owner string, ability planbundle.CompiledAbility, context formula.GenericEvalContext)
-	// ResolveAllStateAttributes 原位执行跨双方两遍重算。
-	ResolveAllStateAttributes(ability planbundle.CompiledAbility)
-	// StateFailure 读取本帧此前已经保留的失败。
-	StateFailure() (bool, *model.EngineError)
-	// MarkStateChanged 标记实际拥有者的本帧变化。
-	MarkStateChanged(owner string)
-	// ChangeStateCooldown 在原位置交接内部冷却、计时和数值投影。
-	ChangeStateCooldown(operation planbundle.CompiledOperation, ability planbundle.CompiledAbility, amount float64) *model.EngineError
-	// SubtractStateCooldown 在原位置交接内部冷却减时。
-	SubtractStateCooldown(operation planbundle.CompiledOperation, ability planbundle.CompiledAbility) *model.EngineError
-	// StateAmmo 借用该真实字段绑定的共同弹药。
-	StateAmmo(owner, provider, key string) *actionpkg.AmmoView
-	// RecoverStateAmmo 交接已经核定的同帧回充准备。
-	RecoverStateAmmo(ammo *actionpkg.AmmoView, ability planbundle.CompiledAbility) *model.EngineError
-	// SubtractStateAmmo 交接同帧弹药期限减时。
-	SubtractStateAmmo(operation planbundle.CompiledOperation, ability planbundle.CompiledAbility) *model.EngineError
-	// ConsumeStateAmmo 暂存本次真实弹药消费。
-	ConsumeStateAmmo(operation planbundle.CompiledOperation, ability planbundle.CompiledAbility, before, after float64) *model.EngineError
-	// ReleaseStateTargetCooldowns 清理切换前的目标冷却。
-	ReleaseStateTargetCooldowns(owner, provider, previous string)
-	// RemainingTimingSlots 读取唯一队列扣除当前帧待提交计时后的容量。
-	RemainingTimingSlots() int
-	// StageStateExpiry 只追加状态执行已确定的本帧期限请求。
-	StageStateExpiry(at int64, payload effectpkg.ExpiryPayload)
-	// StageAnchoredTick 只追加状态执行已确定的本帧周期请求。
-	StageAnchoredTick(at int64, payload effectpkg.AnchoredPayload)
-}
 
 // 以同布局指针转换借用当前原帧，不创建逐操作适配对象。
 type stateExecutionFrame Frame
@@ -103,23 +29,11 @@ const (
 	stateScopeProviderTarget = effectpkg.StateScopeProviderTarget
 )
 
-var _ lifecycleStateActionsAPI = (*lifecycleStateActions)(nil)
-
 var _ lifecycle.StateWriteActions = (*lifecycleStateActions)(nil)
-
-var _ lifecycleMarkExecutionAPI = (*lifecycleMarkExecution)(nil)
 
 var _ lifecycle.MarkExecution = (*lifecycleMarkExecution)(nil)
 
-var _ stateExecutionFrameAPI = (*stateExecutionFrame)(nil)
-
-var _ lifecycle.StateExecutionReads = (*stateExecutionFrame)(nil)
-
-var _ lifecycle.StateAttributeExecution = (*stateExecutionFrame)(nil)
-
-var _ lifecycle.StateActionExecution = (*stateExecutionFrame)(nil)
-
-var _ lifecycle.TimingRequests = (*stateExecutionFrame)(nil)
+var _ lifecycle.StateExecution = (*stateExecutionFrame)(nil)
 
 // 初始快照的现有状态形状只在恢复边界读取；随后移除CD的旧数值期限。
 func migrateInternalCooldownTimers(bag effectpkg.BagChange, ledger *actionpkg.CooldownLedger, owner, provider string, now int64) {
@@ -503,13 +417,13 @@ func (f *Frame) applyStateChange(op planbundle.CompiledOperation, ability planbu
 	}
 	executor := f.run.lifecycleExecutor()
 	work := (*stateExecutionFrame)(f)
-	return f.adoptLifecycleBudget(executor.ExecuteStateWrite(f.stateExecutionInput(op, ability), work, work, work, work))
+	return f.adoptLifecycleBudget(executor.ExecuteStateWrite(f.stateExecutionInput(op, ability), work))
 }
 
 func (f *Frame) applyStateDurationChange(op planbundle.CompiledOperation, ability planbundle.CompiledAbility) *model.EngineError {
 	executor := f.run.lifecycleExecutor()
 	work := (*stateExecutionFrame)(f)
-	return f.adoptLifecycleBudget(executor.ExecuteStateDuration(f.stateExecutionInput(op, ability), work, work, work, work))
+	return f.adoptLifecycleBudget(executor.ExecuteStateDuration(f.stateExecutionInput(op, ability), work))
 }
 
 func (f *Frame) stateExecutionInput(op planbundle.CompiledOperation, ability planbundle.CompiledAbility) lifecycle.StateExecutionInput {

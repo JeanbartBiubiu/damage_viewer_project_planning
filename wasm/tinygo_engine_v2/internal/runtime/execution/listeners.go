@@ -41,7 +41,7 @@ func (s *Engine) dispatchListeners(ev emittedEvent, chainDepth int) *model.Engin
 	return listenerpkg.Dispatch(&s.listeners, listenerpkg.DispatchInput{
 		Event: facts, Bindings: s.compiled.RuntimeTypes, Compiled: s.compiled.Listeners,
 		CastID: castID, NowMs: s.loop.TimeMs(), ChainDepth: chainDepth,
-	}, ev, collector, s)
+	}, ev, collector, (*listenerEngineHost)(s))
 }
 
 func (s *Engine) listenerMatchesEvent(listener planbundle.CompiledListener, ev emittedEvent, baseEventTypes typeset.TypeSet) bool {
@@ -112,7 +112,7 @@ func (s *Engine) eventTypeSet(keys []string) typeset.TypeSet {
 }
 
 func (f *Frame) checkListenerRecoveryRecipient(targetKey string, op planbundle.CompiledOperation) (bool, *model.EngineError) {
-	return listenerpkg.CheckRecoveryRecipient(listenerpkg.RecoveryRecipient{Mounted: f.mountedListener, Owner: f.ownerCombatantKey, Target: targetKey, Path: op.Path}, f)
+	return listenerpkg.CheckRecoveryRecipient(listenerpkg.RecoveryRecipient{Mounted: f.mountedListener, Owner: f.ownerCombatantKey, Target: targetKey, Path: op.Path}, (*listenerFrameHost)(f))
 }
 
 func (f *Frame) attachRecoveryProvenance(data map[string]interface{}, op planbundle.CompiledOperation) {
@@ -128,11 +128,13 @@ func (f *Frame) attachRecoveryProvenance(data map[string]interface{}, op planbun
 	listenerpkg.AttachRecoveryProvenance(data, facts)
 }
 
-func (f *Frame) ListenerRecoveryHP(owner string) float64 {
-	return attribute.ReadHP(f.stageFor(owner).attributesView())
+var _ listenerpkg.RecoveryHost = (*listenerFrameHost)(nil)
+
+func (f *listenerFrameHost) ListenerRecoveryHP(owner string) float64 {
+	return attribute.ReadHP((*Frame)(f).stageFor(owner).attributesView())
 }
 
-func (f *Frame) ListenerRecoveryError(message, path, target string) *model.EngineError {
+func (f *listenerFrameHost) ListenerRecoveryError(message, path, target string) *model.EngineError {
 	return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, message, path, target, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 }
 

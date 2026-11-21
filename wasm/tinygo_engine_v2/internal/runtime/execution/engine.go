@@ -29,63 +29,16 @@ const (
 
 // EngineAPI 定义单次执行协调的公开能力，调度仍借用根入口创建的唯一循环。
 type EngineAPI interface {
-	// AcceptedListenerOrigin 查询已有行动的真实接纳事实，不创建使用或改变冷却。
-	AcceptedListenerOrigin(event emittedEvent) bool
-	// RuleGroupOrigin 在范围核验通过后读取本次原父能力、实际挂载和真实使用。
-	RuleGroupOrigin(ev emittedEvent, freeze *frozenSkillHitContext) hit.RuleOrigin
-	// RuleGroupReservationFailure 在原额度容量失败点保留本场预算原因。
-	RuleGroupReservationFailure(err *model.EngineError)
-	// RunRuleGroupFrame 建立原共享帧并运输原凭据；候选仍共用该帧且在原事实点提交。
-	RunRuleGroupFrame(ev emittedEvent, freeze *frozenSkillHitContext, group planbundle.CompiledSkillHitRuleGroup, grant hit.RuleGrant, token usage.Reservation, chainDepth int) *model.EngineError
-
 	// DecideNext 在每轮前置位置核对本场业务结束及事件预算，不推进时钟或发布战斗状态。
 	DecideNext(observation scheduler.LoopObservation) (scheduler.LoopDecision, *model.EngineError)
 	// LoopDecisionError 为不符合循环交接契约的决定生成带本场身份的运行错误。
 	LoopDecisionError(message string) *model.EngineError
-	// ApplyCopy 创建并完整提交一笔原始复制伤害；失败保留已经发布的前序事实。
-	ApplyCopy(c *eventCopyableCollector, d copyableDamageFrozen, tag string) *model.EngineError
-	// CopiesStopped 返回唯一循环当前停止状态。
-	CopiesStopped() bool
-	// EmpoweredMountLive 查询实际拥有者的指定挂载，保留原开始时的资格范围。
-	EmpoweredMountLive(owner, provider string, definition uint16) bool
-	// EmpoweredOwnerLive 查询当前拥有者存活和实际挂载。
-	EmpoweredOwnerLive(owner, provider string, definition uint16) bool
-	// EmpoweredWindowAt 借用当前序号的过程视图，只在本次同步准备期间读取。
-	EmpoweredWindowAt(index int) *actionpkg.ProcessView
-	// EmpoweredWindowCount 返回当前强化等待数，不冻结或修改列表。
-	EmpoweredWindowCount() int
 	// EnsureLoopBudgetCause 在尚无预算原因时补记事件数预算。
 	EnsureLoopBudgetCause()
 	// Finish 仅终结活动过程；提交与命中成功后才发布成功完成事实。
 	Finish() (model.DoneResult, *model.EngineError)
-	// FinishListenerDispatch 执行本次派发完成后原有的复制收尾。
-	FinishListenerDispatch(collector *eventCopyableCollector) *model.EngineError
-	// FinishListenerUse 在真实触发成功后提交；失败只释放尚未提交的额度。
-	FinishListenerUse(collector *eventCopyableCollector, definition planbundle.CompiledListener, reserved, triggered bool)
 	// HandleLoopEvent 将已接纳的事件分派到既有门禁、执行帧及提交路径。
 	HandleLoopEvent(event scheduler.GenericEvent) *model.EngineError
-	// HitCandidate 同步执行一个已选候选的真实子帧及提交尾部。
-	HitCandidate(event emittedEvent, context *hit.Context, candidate planbundle.CompiledSkillHitCandidate, blocked bool, depth int) *model.EngineError
-	// HitExecutionError 生成归属本场的命中错误，不发布状态。
-	HitExecutionError(code model.GenericErrCode, message, path, ref string) *model.EngineError
-	// HitPersistentAttributeSlot 查询实际目标上修正落点的显式属性槽，不物化或发布状态。
-	HitPersistentAttributeSlot(target, modifierTarget, key string) bool
-	// HitPrimaryReplacement 同步尝试该原生主体的实际强化替换，返回是否已经替换。
-	HitPrimaryReplacement(event emittedEvent, context *hit.Context, candidate int, depth int) (bool, *model.EngineError)
-	// HitRuleGroup 同步进入一组共用真实帧及共同额度的候选。
-	HitRuleGroup(event emittedEvent, context *hit.Context, group planbundle.CompiledSkillHitRuleGroup, depth int) *model.EngineError
-	// ListenerAbility 同步尝试当前监听的真实子能力，返回是否实际施放。
-	ListenerAbility(event emittedEvent, collector *eventCopyableCollector, definition planbundle.CompiledListener, source, target string, chainDepth int) (bool, *model.EngineError)
-	// ListenerCondition 在任何监听写入之前求值一次条件。
-	ListenerCondition(event emittedEvent, definition planbundle.CompiledListener) (bool, *model.EngineError)
-	// ListenerDispatchError 为当前编译监听生成归属本场的错误。
-	ListenerDispatchError(code model.GenericErrCode, message, path, ref string) *model.EngineError
-	// ListenerMountLive 重新读取实际挂载资格，不沿用冻结前的结果。
-	ListenerMountLive(definition planbundle.CompiledListener) bool
-	// ListenerOperations 同步执行当前监听的真实操作子帧及既有提交、尾部。
-	ListenerOperations(event emittedEvent, collector *eventCopyableCollector, definition planbundle.CompiledListener, source, target string, chainDepth int) *model.EngineError
-	// ListenerSkipped 仅记录已经确定的跳过事实。
-	ListenerSkipped(definition planbundle.CompiledListener, reason string)
 	// LoopBudgetExceeded 保存预算原因及既有错误事实。
 	LoopBudgetExceeded(cause model.BudgetCause, message string)
 	// LoopState 提供事件处理后立即复核的失败、自动运行及普攻参与者事实。
@@ -98,24 +51,10 @@ type EngineAPI interface {
 	ObserveFinal()
 	// ObserveThrough 补齐截至指定时刻的采样，只观察已提交数值。
 	ObserveThrough(at int64)
-	// PlannedPrimaryProvider 查询给定挂载的计划身份，不执行或改变行动。
-	PlannedPrimaryProvider(owner, provider string) bool
-	// PrimaryActivationHistory 返回选中过程实际激活使用的有限历史。
-	PrimaryActivationHistory(use string) hit.ActivationHistory
-	// PrimaryNativeBinding 只在已有替换等待时读取原生主体及其实际挂载，返回本次同步独占的身份值。
-	PrimaryNativeBinding(source string, definition uint16) hit.PrimaryBinding
 	// PublishLoopWait 将当前普攻等待投影写回行动状态，不建立独立时钟。
 	PublishLoopWait()
-	// QueueCopyContinuation 使用父层唯一队列写入已登记载荷的时间及身份；失败不保留载荷。
-	QueueCopyContinuation(id uint64, delayMs int) *model.EngineError
-	// ReadRepeatState 在原重复资格检查位置读取拥有者状态，读取可能准备到期状态。
-	ReadRepeatState(owner, provider, key string) (float64, bool)
-	// ReserveListenerUse 在唯一共同额度账预留，并将凭据绑定本次子帧收集范围。
-	ReserveListenerUse(event emittedEvent, collector *eventCopyableCollector, definition planbundle.CompiledListener) (reserved, skip bool, err *model.EngineError)
 	// SelectLoopEvent 保留状态到期、锚定终点与过程计时之间的同刻特殊顺序。
 	SelectLoopEvent(event scheduler.GenericEvent) (scheduler.GenericEvent, *model.EngineError)
-	// SettleCopyDeaths 在原复制尾部判断死亡，不提前截断同步复制遍历。
-	SettleCopyDeaths()
 	// SettleLoopEnd 结算结束时仍需处理的资源上限到期，并返回实际执行失败。
 	SettleLoopEnd() *model.EngineError
 }
@@ -167,6 +106,7 @@ type Engine struct {
 }
 
 var _ EngineAPI = (*Engine)(nil)
+var _ scheduler.LoopDriver = (*Engine)(nil)
 
 func (s *Engine) Finish() (model.DoneResult, *model.EngineError) {
 	if s.compiled.Features.Has(planbundle.FeatureProviderElapsedReads) && s.budgetCause == "" {

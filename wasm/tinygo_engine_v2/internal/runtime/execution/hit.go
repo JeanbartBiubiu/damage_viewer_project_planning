@@ -30,26 +30,34 @@ type skillUseRuntime struct {
 
 type frozenSkillHitContext = hit.Context
 
-var _ listenerpkg.DispatchHost[emittedEvent, *eventCopyableCollector] = (*Engine)(nil)
+type listenerEngineHost Engine
 
-var _ hit.CandidateHost[emittedEvent] = (*Engine)(nil)
+type listenerFrameHost Frame
 
-var _ hit.OperationHost = (*Engine)(nil)
+type hitEngineHost Engine
 
-var _ hit.SelectionHost = (*Frame)(nil)
+type hitFrameHost Frame
 
-var _ hit.RuleFrameHost = (*Frame)(nil)
+var _ listenerpkg.DispatchHost[emittedEvent, *eventCopyableCollector] = (*listenerEngineHost)(nil)
 
-func (s *Engine) ListenerMountLive(definition planbundle.CompiledListener) bool {
-	return s.listenerStillLive(definition)
+var _ hit.CandidateHost[emittedEvent] = (*hitEngineHost)(nil)
+
+var _ hit.OperationHost = (*hitEngineHost)(nil)
+
+var _ hit.SelectionHost = (*hitFrameHost)(nil)
+
+var _ hit.RuleFrameHost = (*hitFrameHost)(nil)
+
+func (s *listenerEngineHost) ListenerMountLive(definition planbundle.CompiledListener) bool {
+	return (*Engine)(s).listenerStillLive(definition)
 }
 
-func (s *Engine) ListenerCondition(event emittedEvent, definition planbundle.CompiledListener) (bool, *model.EngineError) {
-	return s.evalListenerCondition(definition, event)
+func (s *listenerEngineHost) ListenerCondition(event emittedEvent, definition planbundle.CompiledListener) (bool, *model.EngineError) {
+	return (*Engine)(s).evalListenerCondition(definition, event)
 }
 
-func (s *Engine) ReserveListenerUse(event emittedEvent, collector *eventCopyableCollector, definition planbundle.CompiledListener) (reserved, skip bool, err *model.EngineError) {
-	token, skip, err := s.reserveOncePerUse(definition, event)
+func (s *listenerEngineHost) ReserveListenerUse(event emittedEvent, collector *eventCopyableCollector, definition planbundle.CompiledListener) (reserved, skip bool, err *model.EngineError) {
+	token, skip, err := (*Engine)(s).reserveOncePerUse(definition, event)
 	reserved = token != (usage.Reservation{})
 	if reserved {
 		collector.SetReservation(token)
@@ -57,20 +65,21 @@ func (s *Engine) ReserveListenerUse(event emittedEvent, collector *eventCopyable
 	return
 }
 
-func (s *Engine) FinishListenerUse(collector *eventCopyableCollector, definition planbundle.CompiledListener, reserved, triggered bool) {
+func (s *listenerEngineHost) FinishListenerUse(collector *eventCopyableCollector, definition planbundle.CompiledListener, reserved, triggered bool) {
 	listenerpkg.FinishUse(&s.useTriggerLedger, collector.Reservation(), reserved, triggered)
 	collector.SetReservation(usage.Reservation{})
 }
 
-func (s *Engine) AcceptedListenerOrigin(event emittedEvent) bool {
-	return s.isAcceptedPlannedCastStart(event)
+func (s *listenerEngineHost) AcceptedListenerOrigin(event emittedEvent) bool {
+	return (*Engine)(s).isAcceptedPlannedCastStart(event)
 }
 
-func (s *Engine) ListenerOperations(event emittedEvent, collector *eventCopyableCollector, definition planbundle.CompiledListener, source, target string, chainDepth int) *model.EngineError {
-	return s.dispatchListenerOperations(definition, source, target, chainDepth, &event.snapshot, collector)
+func (s *listenerEngineHost) ListenerOperations(event emittedEvent, collector *eventCopyableCollector, definition planbundle.CompiledListener, source, target string, chainDepth int) *model.EngineError {
+	return (*Engine)(s).dispatchListenerOperations(definition, source, target, chainDepth, &event.snapshot, collector)
 }
 
-func (s *Engine) ListenerAbility(event emittedEvent, collector *eventCopyableCollector, definition planbundle.CompiledListener, source, target string, chainDepth int) (bool, *model.EngineError) {
+func (host *listenerEngineHost) ListenerAbility(event emittedEvent, collector *eventCopyableCollector, definition planbundle.CompiledListener, source, target string, chainDepth int) (bool, *model.EngineError) {
+	s := (*Engine)(host)
 	prepared, err := s.skillActionFlowExecutor().PrepareListenerCast(actionflow.AbilityCastRequest{Source: source, Target: target, AbilityRef: definition.AbilityRef}, actionflow.AbilityCastDefinitions{References: s.compiled.AbilityRefIndex, Combatants: s.compiled.Combatants, Operations: s.compiled.Operations}, (*abilityCastReads)(s))
 	if err != nil {
 		return false, err
@@ -79,8 +88,8 @@ func (s *Engine) ListenerAbility(event emittedEvent, collector *eventCopyableCol
 	return result.Accepted, err
 }
 
-func (s *Engine) ListenerSkipped(definition planbundle.CompiledListener, reason string) {
-	s.recordEvidenceLazy(model.EvidenceKindListenerSkipped, func() model.EvidenceItem {
+func (s *listenerEngineHost) ListenerSkipped(definition planbundle.CompiledListener, reason string) {
+	(*Engine)(s).recordEvidenceLazy(model.EvidenceKindListenerSkipped, func() model.EvidenceItem {
 		data := map[string]interface{}{"reason": reason}
 		if reason == "once_per_use" {
 			data["groupKey"] = definition.OncePerUseGroup
@@ -89,25 +98,25 @@ func (s *Engine) ListenerSkipped(definition planbundle.CompiledListener, reason 
 	})
 }
 
-func (s *Engine) FinishListenerDispatch(collector *eventCopyableCollector) *model.EngineError {
-	return s.flushDeferredPhantomReplay(collector)
+func (s *listenerEngineHost) FinishListenerDispatch(collector *eventCopyableCollector) *model.EngineError {
+	return (*Engine)(s).flushDeferredPhantomReplay(collector)
 }
 
-func (s *Engine) ListenerDispatchError(code model.GenericErrCode, message, path, ref string) *model.EngineError {
-	return s.skillHitErr(code, message, path, ref)
+func (s *listenerEngineHost) ListenerDispatchError(code model.GenericErrCode, message, path, ref string) *model.EngineError {
+	return (*Engine)(s).skillHitErr(code, message, path, ref)
 }
 
-func (s *Engine) HitExecutionError(code model.GenericErrCode, message, path, ref string) *model.EngineError {
-	return s.skillHitErr(code, message, path, ref)
+func (s *hitEngineHost) HitExecutionError(code model.GenericErrCode, message, path, ref string) *model.EngineError {
+	return (*Engine)(s).skillHitErr(code, message, path, ref)
 }
 
-func (f *Frame) HitExecutionError(code model.GenericErrCode, message, path, ref string) *model.EngineError {
+func (f *hitFrameHost) HitExecutionError(code model.GenericErrCode, message, path, ref string) *model.EngineError {
 	return f.run.skillHitErr(code, message, path, ref)
 }
 
-func (f *Frame) HitParticipation(program formula.GenericProgramID, ability planbundle.CompiledAbility, provider string, definition uint16) (float64, bool, *model.EngineError) {
+func (f *hitFrameHost) HitParticipation(program formula.GenericProgramID, ability planbundle.CompiledAbility, provider string, definition uint16) (float64, bool, *model.EngineError) {
 	if provider == "" {
-		value, err := f.evalSkillHitParticipation(program, ability)
+		value, err := (*Frame)(f).evalSkillHitParticipation(program, ability)
 		return value, true, err
 	}
 	if !f.run.processMounted(f.sourceKey, provider, definition) {
@@ -115,12 +124,13 @@ func (f *Frame) HitParticipation(program formula.GenericProgramID, ability planb
 	}
 	savedOwner, savedProvider := f.ownerCombatantKey, f.ownerProviderRef
 	f.ownerCombatantKey, f.ownerProviderRef = f.sourceKey, provider
-	value, err := f.evalSkillHitParticipation(program, ability)
+	value, err := (*Frame)(f).evalSkillHitParticipation(program, ability)
 	f.ownerCombatantKey, f.ownerProviderRef = savedOwner, savedProvider
 	return value, true, err
 }
 
-func (f *Frame) HitConditionValue(condition planbundle.CompiledSkillHitValueCond, candidateKey string) (float64, *model.EngineError) {
+func (host *hitFrameHost) HitConditionValue(condition planbundle.CompiledSkillHitValueCond, candidateKey string) (float64, *model.EngineError) {
+	f := (*Frame)(host)
 	ctx, contextErr := f.evalContextForProgram(planbundle.CompiledAbility{Params: f.skillHitAbilityParams()}, condition.ValueProg)
 	if contextErr != nil {
 		return 0, contextErr
@@ -136,19 +146,19 @@ func (f *Frame) HitConditionValue(condition planbundle.CompiledSkillHitValueCond
 	return 0, f.preserveFormulaIssue(err, wrapped)
 }
 
-func (s *Engine) HitCandidate(event emittedEvent, context *hit.Context, candidate planbundle.CompiledSkillHitCandidate, blocked bool, depth int) *model.EngineError {
-	return s.executeSkillHitCandidate(event, context, candidate, blocked, depth)
+func (s *hitEngineHost) HitCandidate(event emittedEvent, context *hit.Context, candidate planbundle.CompiledSkillHitCandidate, blocked bool, depth int) *model.EngineError {
+	return (*Engine)(s).executeSkillHitCandidate(event, context, candidate, blocked, depth)
 }
 
-func (s *Engine) HitRuleGroup(event emittedEvent, context *hit.Context, group planbundle.CompiledSkillHitRuleGroup, depth int) *model.EngineError {
-	return s.executeSkillHitRuleGroup(event, context, group, depth)
+func (s *hitEngineHost) HitRuleGroup(event emittedEvent, context *hit.Context, group planbundle.CompiledSkillHitRuleGroup, depth int) *model.EngineError {
+	return (*Engine)(s).executeSkillHitRuleGroup(event, context, group, depth)
 }
 
-func (s *Engine) HitPrimaryReplacement(event emittedEvent, context *hit.Context, candidate int, depth int) (bool, *model.EngineError) {
-	return s.executePrimaryReplacement(event, context, candidate, depth)
+func (s *hitEngineHost) HitPrimaryReplacement(event emittedEvent, context *hit.Context, candidate int, depth int) (bool, *model.EngineError) {
+	return (*Engine)(s).executePrimaryReplacement(event, context, candidate, depth)
 }
 
-func (s *Engine) HitPersistentAttributeSlot(target, modifierTarget, key string) bool {
+func (s *hitEngineHost) HitPersistentAttributeSlot(target, modifierTarget, key string) bool {
 	combatant, found := s.combatants[modifierMountCombatantKey(target, modifierTarget)]
 	if !found {
 		return false
@@ -157,7 +167,8 @@ func (s *Engine) HitPersistentAttributeSlot(target, modifierTarget, key string) 
 	return found
 }
 
-func (f *Frame) HitRuleCandidate(context *hit.Context, candidate planbundle.CompiledSkillHitCandidate, blocked bool) *model.EngineError {
+func (host *hitFrameHost) HitRuleCandidate(context *hit.Context, candidate planbundle.CompiledSkillHitCandidate, blocked bool) *model.EngineError {
+	f := (*Frame)(host)
 	operations, err := f.run.skillHitCandidateOperations(context, candidate, blocked)
 	if err != nil {
 		return err
@@ -172,7 +183,8 @@ func (f *Frame) HitRuleCandidate(context *hit.Context, candidate planbundle.Comp
 	return nil
 }
 
-func (f *Frame) CommitHitRule() *model.EngineError {
+func (host *hitFrameHost) CommitHitRule() *model.EngineError {
+	f := (*Frame)(host)
 	f.commit()
 	if f.fatal {
 		return f.fatalErr
@@ -180,50 +192,51 @@ func (f *Frame) CommitHitRule() *model.EngineError {
 	return f.dispatchPendingEvents()
 }
 
-func (f *Frame) AttachedHitCandidate(context *hit.Context, candidate planbundle.CompiledSkillHitCandidate, blocked, rootDamage bool) *model.EngineError {
+func (f *hitFrameHost) AttachedHitCandidate(context *hit.Context, candidate planbundle.CompiledSkillHitCandidate, blocked, rootDamage bool) *model.EngineError {
 	f.skillHitCandidateKey, f.skipBlockedWrites = candidate.CandidateKey, blocked
 	savedRoot := f.rootSkillHitDamage
 	f.rootSkillHitDamage = rootDamage
-	err := f.executeOperations(context.Ability(), f.run.compiled.Operations[int(candidate.OperationStart):int(candidate.OperationStart)+int(candidate.OperationCount)])
+	err := (*Frame)(f).executeOperations(context.Ability(), f.run.compiled.Operations[int(candidate.OperationStart):int(candidate.OperationStart)+int(candidate.OperationCount)])
 	f.rootSkillHitDamage = savedRoot
 	return err
 }
 
-func (f *Frame) AttachedSpellShields(target string) (effectpkg.ProviderList, *model.EngineError) {
-	return f.empoweredSpellShields(target)
+func (f *hitFrameHost) AttachedSpellShields(target string) (effectpkg.ProviderList, *model.EngineError) {
+	return (*Frame)(f).empoweredSpellShields(target)
 }
 
-func (f *Frame) BindAttachedHit(context *hit.Context) {
+func (f *hitFrameHost) BindAttachedHit(context *hit.Context) {
 	facts := context.View()
 	f.eventCtx.HasSkillHit, f.eventCtx.SkillHit = true, context.FrozenFacts()
 	f.eventCtx.HasUse, f.eventCtx.UseKey, f.eventCtx.UseSource, f.eventCtx.UseSkillKey = true, facts.UseRef, facts.SourceKey, facts.SkillKey
 	f.skillHitOccurrenceID = facts.OccurrenceID
 }
 
-func (f *Frame) FinishAttachedHit() {
+func (f *hitFrameHost) FinishAttachedHit() {
 	f.skipBlockedWrites = false
 }
 
-func (f *Frame) AttachedBlocked(context *hit.Context, replacesPrimary bool) *model.EngineError {
+func (f *hitFrameHost) AttachedBlocked(context *hit.Context, replacesPrimary bool) *model.EngineError {
 	if replacesPrimary {
 		f.empowered.MarkPrimaryBlocked()
 	}
-	return f.stageEmpoweredSpellShield(context)
+	return (*Frame)(f).stageEmpoweredSpellShield(context)
 }
 
-func (f *Frame) BeginEmpoweredProcess(changes *actionpkg.ProcessChangeSet, target string, association *model.ProcessEmpoweredAttack) empoweredContextBinding {
-	return f.bindEmpoweredContext(changes, target, changes.View().Ability(), association)
+func (f *hitFrameHost) BeginEmpoweredProcess(changes *actionpkg.ProcessChangeSet, target string, association *model.ProcessEmpoweredAttack) empoweredContextBinding {
+	return (*Frame)(f).bindEmpoweredContext(changes, target, changes.View().Ability(), association)
 }
 
-func (f *Frame) EmpoweredOwnerLive(owner, provider string, definition uint16) bool {
-	return f.run.EmpoweredOwnerLive(owner, provider, definition)
+func (f *hitFrameHost) EmpoweredOwnerLive(owner, provider string, definition uint16) bool {
+	return (*hitEngineHost)(f.run).EmpoweredOwnerLive(owner, provider, definition)
 }
 
-func (f *Frame) EmpoweredActivationHistory(use string) hit.ActivationHistory {
+func (f *hitFrameHost) EmpoweredActivationHistory(use string) hit.ActivationHistory {
 	return f.run.empoweredActivationHistory(use)
 }
 
-func (s *Engine) EmpoweredOwnerLive(owner, provider string, definition uint16) bool {
+func (host *hitEngineHost) EmpoweredOwnerLive(owner, provider string, definition uint16) bool {
+	s := (*Engine)(host)
 	return !s.actions.Dead(owner) && s.combatantHp(owner) > 0 && s.processMounted(owner, provider, definition)
 }
 
@@ -236,26 +249,27 @@ func (s *Engine) empoweredActivationHistory(use string) hit.ActivationHistory {
 		State: value.identity.HistoryState(), Contacts: value.history.TotalCount()}
 }
 
-func (f *Frame) EmpoweredProcessMoment(changes *actionpkg.ProcessChangeSet, target string, association *model.ProcessEmpoweredAttack, kind string) *model.EngineError {
-	return f.applyProcessMoment(kind, "")
+func (f *hitFrameHost) EmpoweredProcessMoment(changes *actionpkg.ProcessChangeSet, target string, association *model.ProcessEmpoweredAttack, kind string) *model.EngineError {
+	return (*Frame)(f).applyProcessMoment(kind, "")
 }
 
-func (f *Frame) EmpoweredFailureMoment(changes *actionpkg.ProcessChangeSet, reason string) *model.EngineError {
-	return f.applyProcessMoment("PROCESS_FAILURE", reason)
+func (f *hitFrameHost) EmpoweredFailureMoment(changes *actionpkg.ProcessChangeSet, reason string) *model.EngineError {
+	return (*Frame)(f).applyProcessMoment("PROCESS_FAILURE", reason)
 }
 
-func (f *Frame) EmpoweredPayload(event emittedEvent, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack, payload planbundle.CompiledAbility) *model.EngineError {
-	return f.executeEmpoweredPayload(event, changes.View(), payload)
+func (f *hitFrameHost) EmpoweredPayload(event emittedEvent, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack, payload planbundle.CompiledAbility) *model.EngineError {
+	return (*Frame)(f).executeEmpoweredPayload(event, changes.View(), payload)
 }
 
-func (f *Frame) StageEmpoweredResult(original *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack) {
+func (f *hitFrameHost) StageEmpoweredResult(original *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack) {
 	p := changes.View()
 	f.empowered.StageMutation(original, changes)
 	f.empowered.StageContact(p, *association)
 	f.empowered.StageFinished(p)
 }
 
-func (f *Frame) CommitEmpoweredGroup() *model.EngineError {
+func (host *hitFrameHost) CommitEmpoweredGroup() *model.EngineError {
+	f := (*Frame)(host)
 	f.pendingProcess = nil
 	f.commit()
 	if f.fatal {
@@ -264,29 +278,29 @@ func (f *Frame) CommitEmpoweredGroup() *model.EngineError {
 	return f.dispatchPendingEvents()
 }
 
-func (f *Frame) EmpoweredFinishedCount() int { return f.empowered.FinishedCount() }
+func (f *hitFrameHost) EmpoweredFinishedCount() int { return f.empowered.FinishedCount() }
 
-func (f *Frame) EmpoweredFinishedAt(index int) *actionpkg.ProcessView {
+func (f *hitFrameHost) EmpoweredFinishedAt(index int) *actionpkg.ProcessView {
 	return f.empowered.FinishedAt(index)
 }
 
-func (f *Frame) ResolveEmpoweredProcess(process *actionpkg.ProcessView) *model.EngineError {
+func (f *hitFrameHost) ResolveEmpoweredProcess(process *actionpkg.ProcessView) *model.EngineError {
 	return f.run.publishProcessResolved(process)
 }
 
-func (f *Frame) EmpoweredGroupFailure() *model.EngineError {
+func (f *hitFrameHost) EmpoweredGroupFailure() *model.EngineError {
 	return f.run.processFailure
 }
 
-func (f *Frame) EmpoweredExecutionError(path, message, use string) *model.EngineError {
+func (f *hitFrameHost) EmpoweredExecutionError(path, message, use string) *model.EngineError {
 	return f.run.processErr(path, message, use)
 }
 
-func (f *Frame) ListenerMountLive(definition planbundle.CompiledListener) bool {
+func (f *listenerFrameHost) ListenerMountLive(definition planbundle.CompiledListener) bool {
 	return f.run.listenerStillLive(definition)
 }
 
-func (f *Frame) BeginAttachedListener(snapshot *eventFormulaSnapshot, definition planbundle.CompiledListener, ability planbundle.CompiledAbility, source, target string) attachedListenerBinding {
+func (f *listenerFrameHost) BeginAttachedListener(snapshot *eventFormulaSnapshot, definition planbundle.CompiledListener, ability planbundle.CompiledAbility, source, target string) attachedListenerBinding {
 	saved := attachedListenerBinding{owner: f.ownerCombatantKey, provider: f.ownerProviderRef, source: f.sourceKey, target: f.targetKey,
 		ability: f.abilityRef, context: f.eventCtx, beforeDamage: f.numeric.Facts().Damage, beforeHealing: f.numeric.Facts().Healing}
 	f.sourceKey, f.targetKey = source, target
@@ -294,7 +308,7 @@ func (f *Frame) BeginAttachedListener(snapshot *eventFormulaSnapshot, definition
 	return saved
 }
 
-func (f *Frame) EndAttachedListener(binding attachedListenerBinding, executed bool) {
+func (f *listenerFrameHost) EndAttachedListener(binding attachedListenerBinding, executed bool) {
 	if executed {
 		f.empowered.RecordOutput(f.abilityRef, f.numeric.Facts().Damage-binding.beforeDamage, f.numeric.Facts().Healing-binding.beforeHealing)
 		f.numeric.SetTotals(binding.beforeDamage, binding.beforeHealing)
@@ -303,7 +317,8 @@ func (f *Frame) EndAttachedListener(binding attachedListenerBinding, executed bo
 	f.sourceKey, f.targetKey = binding.source, binding.target
 }
 
-func (f *Frame) AttachedListenerCondition(definition planbundle.CompiledListener, ability planbundle.CompiledAbility) (bool, *model.EngineError) {
+func (host *listenerFrameHost) AttachedListenerCondition(definition planbundle.CompiledListener, ability planbundle.CompiledAbility) (bool, *model.EngineError) {
+	f := (*Frame)(host)
 	ctx, contextErr := f.evalContextForProgram(ability, definition.ConditionProgram)
 	if contextErr != nil {
 		return false, contextErr
@@ -318,40 +333,41 @@ func (f *Frame) AttachedListenerCondition(definition planbundle.CompiledListener
 	return value != 0, nil
 }
 
-func (f *Frame) AttachedListenerOperations(ability planbundle.CompiledAbility, operations []planbundle.CompiledOperation) *model.EngineError {
-	return f.executeOperations(ability, operations)
+func (f *listenerFrameHost) AttachedListenerOperations(ability planbundle.CompiledAbility, operations []planbundle.CompiledOperation) *model.EngineError {
+	return (*Frame)(f).executeOperations(ability, operations)
 }
 
-func (f *Frame) AttachedListenerError(path, message, provider string) *model.EngineError {
+func (f *listenerFrameHost) AttachedListenerError(path, message, provider string) *model.EngineError {
 	return f.run.processErr(path, message, provider)
 }
 
-func (f *Frame) PrimaryDamageStart() int { return len(f.numeric.Facts().Damages) }
+func (f *hitFrameHost) PrimaryDamageStart() int { return len(f.numeric.Facts().Damages) }
 
-func (f *Frame) StagePrimaryPayload(process *actionpkg.ProcessView, payload planbundle.CompiledAbility, association *model.ProcessEmpoweredAttack, start int) *model.EngineError {
-	return f.stagePrimaryReplacement(process, payload, association, start)
+func (f *hitFrameHost) StagePrimaryPayload(process *actionpkg.ProcessView, payload planbundle.CompiledAbility, association *model.ProcessEmpoweredAttack, start int) *model.EngineError {
+	return (*Frame)(f).stagePrimaryReplacement(process, payload, association, start)
 }
 
-func (s *Engine) PlannedPrimaryProvider(owner, provider string) bool {
-	return s.plannedSkillProvider(owner, provider)
+func (s *hitEngineHost) PlannedPrimaryProvider(owner, provider string) bool {
+	return (*Engine)(s).plannedSkillProvider(owner, provider)
 }
 
-func (s *Engine) PrimaryNativeBinding(source string, definition uint16) hit.PrimaryBinding {
+func (s *hitEngineHost) PrimaryNativeBinding(source string, definition uint16) hit.PrimaryBinding {
 	b := s.actions.BasicAttack()
 	if b == nil || !b.HasPrimary() {
 		return hit.PrimaryBinding{}
 	}
 	native, identity := b.Plan(), b.Primary()
-	return hit.PrimaryBinding{Present: true, Mounted: s.processMounted(source, identity.ProviderRef, definition),
+	return hit.PrimaryBinding{Present: true, Mounted: (*Engine)(s).processMounted(source, identity.ProviderRef, definition),
 		Plan: b.PrimaryHitPlan(), Candidate: b.PrimaryCandidate(), HitAbilityRef: native.HitAbilityRef,
 		Source: native.Source, Target: native.Target, Skill: native.SkillKey, Identity: identity}
 }
 
-func (s *Engine) PrimaryActivationHistory(use string) hit.ActivationHistory {
-	return s.empoweredActivationHistory(use)
+func (s *hitEngineHost) PrimaryActivationHistory(use string) hit.ActivationHistory {
+	return (*Engine)(s).empoweredActivationHistory(use)
 }
 
-func (f *Frame) QueuePrimaryDamage(event emittedEvent, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack, payload, parent planbundle.CompiledAbility, rootDamage bool) {
+func (host *hitFrameHost) QueuePrimaryDamage(event emittedEvent, changes *actionpkg.ProcessChangeSet, association *model.ProcessEmpoweredAttack, payload, parent planbundle.CompiledAbility, rootDamage bool) {
+	f := (*Frame)(host)
 	p := changes.View()
 	saved := f.bindEmpoweredContext(changes, association.Target, payload, association)
 	f.eventCtx = cloneEventSnapshot(&event.snapshot)
@@ -359,40 +375,40 @@ func (f *Frame) QueuePrimaryDamage(event emittedEvent, changes *actionpkg.Proces
 	f.rootSkillHitDamage = rootDamage
 	f.maybeQueueDamageDealtEvent(parent)
 	f.rootSkillHitDamage = false
-	f.EndEmpoweredProcess(saved)
+	host.EndEmpoweredProcess(saved)
 }
 
 func (s *Engine) hitIdentity() hit.Identity {
 	return hit.Identity{SchemaHash: s.compiled.SchemaHash, RulesHash: s.compiled.RulesHash, SessionID: s.req.SessionID}
 }
 
-func (s *Engine) EmpoweredWindowCount() int { return s.actions.EmpoweredCount() }
+func (s *hitEngineHost) EmpoweredWindowCount() int { return s.actions.EmpoweredCount() }
 
-func (s *Engine) EmpoweredWindowAt(index int) *actionpkg.ProcessView {
+func (s *hitEngineHost) EmpoweredWindowAt(index int) *actionpkg.ProcessView {
 	return s.actions.EmpoweredAt(index)
 }
 
-func (s *Engine) EmpoweredMountLive(owner, provider string, definition uint16) bool {
-	return s.processMounted(owner, provider, definition)
+func (s *hitEngineHost) EmpoweredMountLive(owner, provider string, definition uint16) bool {
+	return (*Engine)(s).processMounted(owner, provider, definition)
 }
 
-func (f *Frame) RecordCountedExecution(process *actionpkg.ProcessView) {
-	f.recordProcess(process, "process_moment", "STEP_EXECUTION")
+func (f *hitFrameHost) RecordCountedExecution(process *actionpkg.ProcessView) {
+	(*Frame)(f).recordProcess(process, "process_moment", "STEP_EXECUTION")
 	f.empowered.RecordMoment(process.Freeze(), "STEP_EXECUTION")
 }
 
-func (f *Frame) HitSpellShields(target string) effectpkg.ProviderList {
-	return f.activeSpellShields(target)
+func (f *hitFrameHost) HitSpellShields(target string) effectpkg.ProviderList {
+	return (*Frame)(f).activeSpellShields(target)
 }
 
-func (f *Frame) FreezeHitEmpoweredWaits(owner string) []hit.EmpoweredWait {
+func (f *hitFrameHost) FreezeHitEmpoweredWaits(owner string) []hit.EmpoweredWait {
 	if f.run.actions.EmpoweredCount() == 0 {
 		return nil
 	}
 	return f.run.freezeEmpoweredWaits(owner)
 }
 
-func (f *Frame) PublishEmpoweredMutation(original *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, clearAttack bool) {
+func (f *hitFrameHost) PublishEmpoweredMutation(original *actionpkg.ProcessView, changes *actionpkg.ProcessChangeSet, clearAttack bool) {
 	changes.Publish(original)
 	if clearAttack {
 		f.run.actions.ClearEmpoweredAttack(original)
@@ -400,19 +416,19 @@ func (f *Frame) PublishEmpoweredMutation(original *actionpkg.ProcessView, change
 	f.run.updateEmpoweredWait(original)
 }
 
-func (f *Frame) PublishEmpoweredReservation(use *actionpkg.UseView, process *actionpkg.ProcessView, index int) {
+func (f *hitFrameHost) PublishEmpoweredReservation(use *actionpkg.UseView, process *actionpkg.ProcessView, index int) {
 	f.run.actions.ReserveUseEmpowerment(use, process.Reference(), index)
 }
 
-func (f *Frame) PublishEmpoweredPrimary(row model.BasicAttackPrimaryReplacement, binding uint16) {
+func (f *hitFrameHost) PublishEmpoweredPrimary(row model.BasicAttackPrimaryReplacement, binding uint16) {
 	f.run.commitPrimaryReplacement(row, binding)
 }
 
-func (f *Frame) PublishEmpoweredMoment(process *actionpkg.ProcessView, kind string) {
+func (f *hitFrameHost) PublishEmpoweredMoment(process *actionpkg.ProcessView, kind string) {
 	f.run.publishSkillActionMoment(process, kind)
 }
 
-func (f *Frame) PublishEmpoweredContact(process *actionpkg.ProcessView, association model.ProcessEmpoweredAttack) {
+func (f *hitFrameHost) PublishEmpoweredContact(process *actionpkg.ProcessView, association model.ProcessEmpoweredAttack) {
 	s := f.run
 	use := s.skillUses[process.UseKey()]
 	use.history.Append(association.Target)
@@ -423,11 +439,11 @@ func (f *Frame) PublishEmpoweredContact(process *actionpkg.ProcessView, associat
 	}
 }
 
-func (f *Frame) PublishEmpoweredFinish(process *actionpkg.ProcessView) {
+func (f *hitFrameHost) PublishEmpoweredFinish(process *actionpkg.ProcessView) {
 	f.run.publishSkillActionFinish(process)
 }
 
-func (f *Frame) PublishEmpoweredOutput(ref string, damage, healing float64) {
+func (f *hitFrameHost) PublishEmpoweredOutput(ref string, damage, healing float64) {
 	f.run.report.AbilityOutput(ref, damage, healing)
 }
 
@@ -474,7 +490,7 @@ func (f *Frame) resolveSkillHit(op planbundle.CompiledOperation, ability planbun
 		Ability: ability, Plan: op.SkillHit, AbilityRef: f.abilityRef, EntryKey: f.driverEntryKey,
 		SourceKey: f.sourceKey, TargetKey: f.targetKey, RootDamageEvent: f.chainDepth == 0,
 		MaxEvents: f.run.budget.MaxEvents, Entries: f.run.req.DriverPlan.Entries, Identity: f.run.hitIdentity(),
-	}, f)
+	}, (*hitFrameHost)(f))
 	if err != nil {
 		return err
 	}
@@ -568,15 +584,15 @@ func skillHitEvidenceData(freeze *frozenSkillHitContext) map[string]interface{} 
 	return data
 }
 
-func (f *Frame) SetHitAttemptOccurrence(id uint64) { f.skillHitOccurrenceID = id }
+func (f *hitFrameHost) SetHitAttemptOccurrence(id uint64) { f.skillHitOccurrenceID = id }
 
-func (f *Frame) RequireHitAttackProcess(ability planbundle.CompiledAbility, skill, use string) *model.EngineError {
-	return f.requireAttackProcess(ability, skill, use)
+func (f *hitFrameHost) RequireHitAttackProcess(ability planbundle.CompiledAbility, skill, use string) *model.EngineError {
+	return (*Frame)(f).requireAttackProcess(ability, skill, use)
 }
 
-func (f *Frame) MarkHitAttack(use string) { f.run.markBasicAttackHit(use) }
+func (f *hitFrameHost) MarkHitAttack(use string) { f.run.markBasicAttackHit(use) }
 
-func (f *Frame) HitAttemptUse(reference string) hit.AttemptUse {
+func (f *hitFrameHost) HitAttemptUse(reference string) hit.AttemptUse {
 	use := f.run.skillUses[reference]
 	if use == nil {
 		return hit.AttemptUse{}
@@ -584,7 +600,7 @@ func (f *Frame) HitAttemptUse(reference string) hit.AttemptUse {
 	return hit.AttemptUse{Present: true, HistoryState: use.identity.HistoryState(), History: &use.history}
 }
 
-func (f *Frame) HitAttemptBudgetError() *model.EngineError {
+func (f *hitFrameHost) HitAttemptBudgetError() *model.EngineError {
 	return f.run.budgetError(model.BudgetCauseMaxSkillHits, "skill hit occurrences exceeded run budget")
 }
 
@@ -650,7 +666,7 @@ func (s *Engine) dispatchSkillHitEvent(ev emittedEvent, chainDepth int) *model.E
 			return err
 		}
 	}
-	if err := hit.ExecuteCandidates(freeze, ev, chainDepth, s); err != nil {
+	if err := hit.ExecuteCandidates(freeze, ev, chainDepth, (*hitEngineHost)(s)); err != nil {
 		return err
 	}
 	s.refreshEmittedEventLiveSnapshot(&ev)
@@ -700,7 +716,7 @@ func (s *Engine) executeSkillHitCandidate(ev emittedEvent, freeze *frozenSkillHi
 }
 
 func (s *Engine) skillHitCandidateOperations(freeze *frozenSkillHitContext, cand planbundle.CompiledSkillHitCandidate, skipWrites bool) ([]planbundle.CompiledOperation, *model.EngineError) {
-	return hit.CandidateOperations(freeze, cand, skipWrites, s.compiled.Operations, s.compiled.Providers, s)
+	return hit.CandidateOperations(freeze, cand, skipWrites, s.compiled.Operations, s.compiled.Providers, (*hitEngineHost)(s))
 }
 
 func (s *Engine) initSkillHitCandidateFrame(frame *Frame, ev emittedEvent, freeze *frozenSkillHitContext, chainDepth int) {
@@ -813,7 +829,7 @@ func (s *Engine) listenerStillLive(listener planbundle.CompiledListener) bool {
 	return !inst.Expired(s.loop.TimeMs())
 }
 
-func (s *Engine) RuleGroupOrigin(ev emittedEvent, freeze *frozenSkillHitContext) hit.RuleOrigin {
+func (s *hitEngineHost) RuleGroupOrigin(ev emittedEvent, freeze *frozenSkillHitContext) hit.RuleOrigin {
 	ref, exists := s.compiled.AbilityRefIndex[freeze.AbilityRef()]
 	origin := hit.RuleOrigin{Reference: ref, HasReference: exists, Combatants: s.compiled.Combatants,
 		Abilities: s.compiled.Abilities, Providers: s.compiled.Providers, Operations: s.compiled.Operations,
@@ -828,26 +844,26 @@ func (s *Engine) RuleGroupOrigin(ev emittedEvent, freeze *frozenSkillHitContext)
 	return origin
 }
 
-func (s *Engine) RuleGroupReservationFailure(err *model.EngineError) {
+func (s *hitEngineHost) RuleGroupReservationFailure(err *model.EngineError) {
 	if err != nil && err.BudgetCause != "" {
 		s.budgetCause = err.BudgetCause
 	}
 }
 
-func (s *Engine) RunRuleGroupFrame(ev emittedEvent, freeze *frozenSkillHitContext, group planbundle.CompiledSkillHitRuleGroup, grant hit.RuleGrant, token usage.Reservation, chainDepth int) *model.EngineError {
+func (s *hitEngineHost) RunRuleGroupFrame(ev emittedEvent, freeze *frozenSkillHitContext, group planbundle.CompiledSkillHitRuleGroup, grant hit.RuleGrant, token usage.Reservation, chainDepth int) *model.EngineError {
 	collector := eventCopyableCollector{}
 	collector.SetReservation(token)
 	var frameStorage Frame
-	s.initSkillHitCandidateFrame(&frameStorage, ev, freeze, chainDepth)
+	(*Engine)(s).initSkillHitCandidateFrame(&frameStorage, ev, freeze, chainDepth)
 	frame := &frameStorage
 	frame.ownerCombatantKey, frame.ownerProviderRef = grant.Key.Owner, grant.Key.ProviderRef
 	frame.strictReads = true
 	frame.copyableCollector = &collector
-	return hit.ExecuteRuleGroup(freeze, group, frame)
+	return hit.ExecuteRuleGroup(freeze, group, (*hitFrameHost)(frame))
 }
 
 func (s *Engine) executeSkillHitRuleGroup(ev emittedEvent, freeze *frozenSkillHitContext, group planbundle.CompiledSkillHitRuleGroup, chainDepth int) *model.EngineError {
-	return hit.ExecuteAdmittedGroup(freeze, group, ev, chainDepth, s.hitIdentity(), &s.useTriggerLedger, s)
+	return hit.ExecuteAdmittedGroup(freeze, group, ev, chainDepth, s.hitIdentity(), &s.useTriggerLedger, (*hitEngineHost)(s))
 }
 
 func (s *Engine) skillHitGroupMountLive(owner, provider string, definition uint16) bool {

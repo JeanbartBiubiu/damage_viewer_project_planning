@@ -33,7 +33,7 @@ var requiredContracts = map[string][]string{
 	"internal/base/numeric":                   {"AmplificationGroups"},
 	"internal/base/typeset":                   {"Registry", "Matcher"},
 	"internal/runtime":                        {"Session"},
-	"internal/runtime/execution":              {"Engine", "Frame"},
+	"internal/runtime/execution":              {"Engine"},
 	"internal/runtime/execution/hit":          {"State", "History", "Context", "Frame"},
 	"internal/runtime/execution/listener":     {"State"},
 	"internal/runtime/execution/evaluation":   {"State", "Memo"},

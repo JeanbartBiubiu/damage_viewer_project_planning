@@ -57,7 +57,7 @@ func TestParticipationLinkedShieldFactsUseActualBorrowedProvider(t *testing.T) {
 		}
 		frame := state.newExecutionFrame("source", "target", "participation")
 		frame.ownerCombatantKey, frame.ownerProviderRef = "source", "original_action"
-		value, active, err := frame.HitParticipation(candidate.ParticipationProgram, ability, "passive_mount", definition)
+		value, active, err := (*hitFrameHost)(frame).HitParticipation(candidate.ParticipationProgram, ability, "passive_mount", definition)
 		if err != nil || !active || value != want {
 			t.Fatal("participation lost the actual provider's linked shield fact", want, value, active, err)
 		}
@@ -66,7 +66,7 @@ func TestParticipationLinkedShieldFactsUseActualBorrowedProvider(t *testing.T) {
 		}
 	}
 	frame := state.newExecutionFrame("source", "target", "inactive")
-	if _, active, err := frame.HitParticipation(candidate.ParticipationProgram, ability, "missing_mount", definition); active || err != nil {
+	if _, active, err := (*hitFrameHost)(frame).HitParticipation(candidate.ParticipationProgram, ability, "missing_mount", definition); active || err != nil {
 		t.Fatal("missing actual mount still evaluated participation", active, err)
 	}
 }

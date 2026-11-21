@@ -113,7 +113,7 @@ func (s *Engine) reserveOncePerUse(definition planbundle.CompiledListener, event
 	token, skip, err := listenerpkg.ReserveUse(&s.useTriggerLedger, definition, listenerpkg.UseEvent{
 		EventType: event.eventType, Source: event.sourceKey, Target: event.targetKey, HasUse: event.hasUse,
 		UseKey: event.useKey, UseSource: event.useSource, UseSkillKey: event.useSkillKey,
-	}, event, s, listenerpkg.Identity{SchemaHash: s.compiled.SchemaHash, RulesHash: s.compiled.RulesHash, SessionID: s.req.SessionID})
+	}, event, (*listenerEngineHost)(s), listenerpkg.Identity{SchemaHash: s.compiled.SchemaHash, RulesHash: s.compiled.RulesHash, SessionID: s.req.SessionID})
 	if err != nil && err.BudgetCause != "" {
 		s.budgetCause = err.BudgetCause
 	}

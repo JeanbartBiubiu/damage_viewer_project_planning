@@ -9,7 +9,7 @@ import (
 )
 
 type failingNumericContext struct {
-	NumericReads
+	NumericExecution
 	err   *model.EngineError
 	owner Owner
 }
@@ -37,7 +37,7 @@ func TestNumericConditionContextFailureStopsBeforeCommandPreparation(t *testing.
 	preparation := &numericPreparationSpy{}
 	executor := New(nil, nil, "", false)
 	ops := []planbundle.CompiledOperation{{HasCondition: true}, {}}
-	got := executor.Execute(&Frame{}, Input{}, failingNumericContext{err: want}, nil, nil, nil, preparation, planbundle.CompiledAbility{}, ops)
+	got := executor.Execute(&Frame{}, Input{}, failingNumericContext{err: want}, preparation, planbundle.CompiledAbility{}, ops)
 	if got != want || preparation.commands != 0 {
 		t.Fatalf("got error %p and %d prepared commands, want original error %p and no preparation", got, preparation.commands, want)
 	}

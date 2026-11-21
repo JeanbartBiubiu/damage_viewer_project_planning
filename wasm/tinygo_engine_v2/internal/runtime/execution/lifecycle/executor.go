@@ -55,9 +55,9 @@ type ExecutorAPI interface {
 	// 不发布状态或保存借用；缺失和精确到期为空操作，多实例或异源身份错误保持失败。
 	PrepareOwnDefinitionExpiry(operation plan.CompiledOperation, owner, source, provider, target string, now int64, reads ProviderDurationPreparation) (Mutation, bool, *model.EngineError)
 	// ExecuteStateDuration 拥有普通状态减时及两种目标续时的资格、金额短路和暂存流程。
-	ExecuteStateDuration(input StateExecutionInput, reads StateExecutionReads, attributes StateAttributeExecution, actions StateActionExecution, requests TimingRequests) *model.EngineError
+	ExecuteStateDuration(input StateExecutionInput, work StateExecution) *model.EngineError
 	// ExecuteStateWrite 拥有状态写入、期限和回充资格的完整流程；真实暂存和跨功能同步仍在原帧。
-	ExecuteStateWrite(input StateExecutionInput, reads StateExecutionReads, attributes StateAttributeExecution, actions StateActionExecution, requests TimingRequests) *model.EngineError
+	ExecuteStateWrite(input StateExecutionInput, work StateExecution) *model.EngineError
 	// FindAnchoredAbility 按编译顺序定位该真实实例的锚定周期，不用状态键拼接新的注册表。
 	FindAnchoredAbility(index uint16, key string) (*plan.CompiledAbility, bool)
 	// FindDefinition 按编译顺序定位定义，不隐式生成缺失定义。

@@ -112,7 +112,7 @@ func TestExecutionBudgetUseLedgerExplicitCauseAndCommitBoundary(t *testing.T) {
 		t.Fatal("expected budget failure")
 	}
 	f.commit()
-	s.FinishListenerUse(f.copyableCollector, listener, true, false)
+	(*listenerEngineHost)(s).FinishListenerUse(f.copyableCollector, listener, true, false)
 	if s.useTriggerLedger.Len() != 0 || s.useTriggerLedger.Pending() != 0 {
 		t.Fatalf("failed frame retained a use reservation: %+v", s.useTriggerLedger)
 	}
@@ -127,7 +127,7 @@ func TestExecutionBudgetUseLedgerExplicitCauseAndCommitBoundary(t *testing.T) {
 		t.Fatal(err)
 	}
 	f.commit()
-	s.FinishListenerUse(f.copyableCollector, listener, true, false)
+	(*listenerEngineHost)(s).FinishListenerUse(f.copyableCollector, listener, true, false)
 	if len(s.snapshotUseTriggerLedger()) != 1 || s.useTriggerLedger.Pending() != 0 {
 		t.Fatalf("a committed listener loses its ledger on later failure: %+v", s.useTriggerLedger)
 	}

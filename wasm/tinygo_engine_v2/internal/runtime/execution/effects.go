@@ -18,99 +18,20 @@ import (
 
 type pendingShieldExpire = lifecycle.ShieldExpiry
 
-type lifecycleProjectionReadsAPI interface {
-	// ApplicationContext 仅在当前投影阶段借用应用时读值，不执行或提交其他功能。
-	ApplicationContext(source, target string) (formula.GenericEvalContext, *model.EngineError)
-}
-
 // 使用同布局借用建立固定窄适配，不为每个事件分配转接对象。
 type lifecycleProjectionReads Frame
 
-type lifecycleProviderPreparationAPI interface {
-	// ProviderContext 准备原效果操作位置的实际双方读值，不执行生命周期规则。
-	ProviderContext(ability planbundle.CompiledAbility, source, target string) (formula.GenericEvalContext, *model.EngineError)
-	// ImmediatePeriodicApplication 同步交给行动执行核对实际立即周期资格。
-	ImmediatePeriodicApplication(operation planbundle.CompiledOperation) *model.EngineError
-	// ExpireEventProvider 同步交给命中事实核对真实事件实例并暂存卸载。
-	ExpireEventProvider(operation planbundle.CompiledOperation) *model.EngineError
-	// PrepareDurationRead 在原静态期限核验后准备动态效果投影。
-	PrepareDurationRead() *model.EngineError
-	// DurationProviders 借用原投影后的当前拥有者暂存实例。
-	DurationProviders(owner string) effectpkg.ProviderList
-}
-
 type lifecycleProviderPreparation Frame
 
-type lifecycleLiveEffectsAPI interface {
-	// ReadEffects 运输当前真实所属状态头，不创建缺失角色或状态袋。
-	ReadEffects(owner string) (lifecycle.LiveEffects, bool)
-	// EffectOwnerOrder 在原普通清扫位置取得当前拥有者遍历序，不改变排序政策。
-	EffectOwnerOrder(buffer []string) []string
-	// PublishEffects 只发布效果字段和已决定的原冷却头，不覆盖角色数值。
-	PublishEffects(owner string, effects lifecycle.LiveEffects)
-	// ProviderRemovalContext 在原实际位置准备有限双方上下文。
-	ProviderRemovalContext(source, target string) formula.GenericEvalContext
-	// MountEffectModifiers 运输双方效果状态，执行所属修正挂载。
-	MountEffectModifiers(owner string, instance effectpkg.Provider)
-	// UnmountEffectModifiers 在原位置卸载实际双方修正。
-	UnmountEffectModifiers(owner, reference string)
-	// ResolveAppliedEffects 按原应用上下文同步双方数值，保留延后失败。
-	ResolveAppliedEffects(owner, source string)
-	// ResolveRemovedEffects 按指定原上下文同步数值，不重新准备读值。
-	ResolveRemovedEffects(owner string, context formula.GenericEvalContext)
-	// RemoveEffectDependents 按原顺序清理行动弹药和监听绑定。
-	RemoveEffectDependents(owner, reference string)
-	// ScheduleEffectTick 在原新建位置交接真实首周期请求。
-	ScheduleEffectTick(instance effectpkg.Provider)
-	// RecordEffect 观察已发生实例事实，保留后续失败前缀。
-	RecordEffect(kind model.EvidenceKind, instance effectpkg.Provider)
-	// BindEffectListeners 沿原位置绑定动态监听。
-	BindEffectListeners(instance effectpkg.Provider) *model.EngineError
-	// BindImmediateEffectUse 交接普通应用成功后的实际使用绑定。
-	BindImmediateEffectUse(owner, source, definition, use string)
-	// EnqueueExpiry 运输已决定的期限给唯一队列，沿原延后错误通道返回。
-	EnqueueExpiry(at int64, payload effectpkg.ExpiryPayload)
-	// CommitEffectExpiry 开立原到期帧，消费预算、借所属暂存并统一提交。
-	CommitEffectExpiry(command lifecycle.ExpiryFrame)
-	// ExpireProviderCooldown 进入原内部冷却到期阶段。
-	ExpireProviderCooldown(payload effectpkg.ExpiryPayload)
-	// ExpireTargetTiming 进入原目标计时到期阶段。
-	ExpireTargetTiming(payload effectpkg.ExpiryPayload)
-	// ExpireTargetState 进入原目标状态到期阶段。
-	ExpireTargetState(payload effectpkg.ExpiryPayload)
-	// ExpireSourceState 进入原来源状态到期阶段。
-	ExpireSourceState(payload effectpkg.ExpiryPayload)
-	// SweepEffects 在原无效载荷位置交接完整清扫。
-	SweepEffects()
-	// RemoveExpiredProvider 按实际来源交接完整实例移除。
-	RemoveExpiredProvider(owner, provider, source string)
-	// RemoveExpiredShield 按原帧边界交接当前护盾移除。
-	RemoveExpiredShield(owner, reference string)
-}
 type lifecycleLiveEffects Engine
-
-type lifecycleShieldPreparationAPI interface {
-	// ShieldDeadline 仅在普通盾原操作时点求值严格期限。
-	ShieldDeadline(op planbundle.CompiledOperation, ability planbundle.CompiledAbility) (int64, *model.EngineError)
-	// LinkedShieldContext 在原期限求值之后准备实际双方的应用读值。
-	LinkedShieldContext(ability planbundle.CompiledAbility, source, target string) (formula.GenericEvalContext, *model.EngineError)
-	// LinkedShieldStaging 在前置检查成功后借用原同帧效果暂存。
-	LinkedShieldStaging(target string) lifecycle.LinkedShieldStage
-}
 
 type lifecycleShieldPreparation Frame
 
-var _ lifecycleProjectionReadsAPI = (*lifecycleProjectionReads)(nil)
-
 var _ lifecycle.ProjectionReads = (*lifecycleProjectionReads)(nil)
-
-var _ lifecycleProviderPreparationAPI = (*lifecycleProviderPreparation)(nil)
 
 var _ lifecycle.ProviderOperationPreparation = (*lifecycleProviderPreparation)(nil)
 
 var _ lifecycle.ProviderDurationPreparation = (*lifecycleProviderPreparation)(nil)
-
-var _ lifecycleLiveEffectsAPI = (*lifecycleLiveEffects)(nil)
 
 var _ lifecycle.ExpiredEffects = (*lifecycleLiveEffects)(nil)
 
@@ -119,8 +40,6 @@ var _ lifecycle.ProviderWork = (*lifecycleLiveEffects)(nil)
 var _ lifecycle.ExpiryExecution = (*lifecycleLiveEffects)(nil)
 
 var _ lifecycle.ProjectedEffectPublication = (*lifecycleLiveEffects)(nil)
-
-var _ lifecycleShieldPreparationAPI = (*lifecycleShieldPreparation)(nil)
 
 var _ lifecycle.ShieldPreparation = (*lifecycleShieldPreparation)(nil)
 

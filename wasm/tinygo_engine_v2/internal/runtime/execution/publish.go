@@ -33,27 +33,11 @@ type pendingFrameProviderTick struct {
 	activatedAt int64
 }
 
-// lifecycleStagedShieldExpiryReadsAPI 只运输原预检位置的所属盾视图。
-type lifecycleStagedShieldExpiryReadsAPI interface {
-	// ShieldExpiryState 借用本帧已经存在的暂存盾列表，不创建角色暂存或补值。
-	ShieldExpiryState(owner string) (effectpkg.ShieldList, bool)
-}
-
 type lifecycleStagedShieldExpiryReads Frame
-
-// lifecycleLiveShieldExpiryReadsAPI 只运输原队列发布位置的实际盾视图。
-type lifecycleLiveShieldExpiryReadsAPI interface {
-	// ShieldExpiryState 借用当前真实拥有者的已发布盾列表，不复用预检缓存。
-	ShieldExpiryState(owner string) (effectpkg.ShieldList, bool)
-}
 
 type lifecycleLiveShieldExpiryReads Engine
 
-var _ lifecycleStagedShieldExpiryReadsAPI = (*lifecycleStagedShieldExpiryReads)(nil)
-
 var _ lifecycle.ShieldExpiryReads = (*lifecycleStagedShieldExpiryReads)(nil)
-
-var _ lifecycleLiveShieldExpiryReadsAPI = (*lifecycleLiveShieldExpiryReads)(nil)
 
 var _ lifecycle.ShieldExpiryReads = (*lifecycleLiveShieldExpiryReads)(nil)
 

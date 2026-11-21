@@ -10,71 +10,19 @@ import (
 	"tinygo_engine_v2/internal/scheduler"
 )
 
-type lifecycleTickExecutionAPI interface {
-	// PeriodicBoundary 在永久周期原边界核对死亡；首次边界清零该事件命令数。
-	PeriodicBoundary(first bool) bool
-	// PeriodicParticipantsAlive 只读取当前背景普攻双方生命，供周期续排原位复核。
-	PeriodicParticipantsAlive() bool
-	// PeriodicCooldownBlocked 用实际拥有者冷却账判断本次周期是否受阻。
-	PeriodicCooldownBlocked(owner, ref string) bool
-	// PeriodicConditionBlocked 准备当前双方读值并运行既有施放条件。
-	PeriodicConditionBlocked(source, target string, ability planbundle.CompiledAbility, ref string) (bool, *model.EngineError)
-	// RunPeriodicFrame 组合本周期的真实帧、同帧付款/操作和统一提交，不承接周期资格规则。
-	RunPeriodicFrame(invocation lifecycle.TickInvocation) *model.EngineError
-	// RecordPeriodicTick 在真实周期帧成功后记录原有周期事实。
-	RecordPeriodicTick(owner string, instance effectpkg.Provider)
-	// EnqueuePeriodicTick 将已决定的计时交给唯一循环，保持原直接入队边界。
-	EnqueuePeriodicTick(request lifecycle.ProviderTickRequest)
-}
-
 type lifecycleTickExecution Engine
-
-type lifecycleTimingRequestsAPI interface {
-	// RemainingTimingSlots 返回唯一队列容量减该帧已暂存计时数，不创建独立容量账。
-	RemainingTimingSlots() int
-	// StageStateExpiry 追加当前效果状态期限，等待真实预检和提交。
-	StageStateExpiry(at int64, payload effectpkg.ExpiryPayload)
-	// StageAnchoredTick 追加当前效果锚定周期，等待真实预检和提交。
-	StageAnchoredTick(at int64, payload effectpkg.AnchoredPayload)
-}
 
 type lifecycleTimingRequests Frame
 
-type lifecycleAnchoredExecutionAPI interface {
-	// AnchoredCooldownBlocked 读取真实拥有者冷却账，不缓存周期资格。
-	AnchoredCooldownBlocked(owner, abilityRef string) bool
-	// AnchoredConditionBlocked 在原位置准备读值并判断当前周期条件。
-	AnchoredConditionBlocked(source, target string, ability planbundle.CompiledAbility, ref string) (bool, *model.EngineError)
-	// RunAnchoredFrame 组合该周期真实帧、操作与末拍清理，分别返回发布和尾部错误。
-	RunAnchoredFrame(invocation lifecycle.AnchoredInvocation) (bool, *model.EngineError)
-	// ReleaseAnchoredHold 从当前已提交效果状态释放同世代末拍保护。
-	ReleaseAnchoredHold(payload effectpkg.AnchoredPayload, settled bool)
-	// RecordAnchoredTick 在真实执行和同步尾部成功后记录原有周期事实。
-	RecordAnchoredTick(invocation lifecycle.AnchoredInvocation)
-}
-
 type lifecycleAnchoredExecution Engine
-
-type lifecycleExpiryRequestsAPI interface {
-	// EnqueueExpiry 将当前效果已决定的实际期限交给唯一循环，不推进时钟。
-	EnqueueExpiry(at int64, payload effectpkg.ExpiryPayload)
-}
 
 type lifecycleExpiryRequests Engine
 
-var _ lifecycleTickExecutionAPI = (*lifecycleTickExecution)(nil)
-
 var _ lifecycle.TickExecution = (*lifecycleTickExecution)(nil)
-
-var _ lifecycleTimingRequestsAPI = (*lifecycleTimingRequests)(nil)
 
 var _ lifecycle.TimingRequests = (*lifecycleTimingRequests)(nil)
 
-var _ lifecycleAnchoredExecutionAPI = (*lifecycleAnchoredExecution)(nil)
-
 var _ lifecycle.AnchoredExecution = (*lifecycleAnchoredExecution)(nil)
-
-var _ lifecycleExpiryRequestsAPI = (*lifecycleExpiryRequests)(nil)
 
 var _ lifecycle.ExpiryRequests = (*lifecycleExpiryRequests)(nil)
 

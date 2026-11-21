@@ -22,6 +22,10 @@ type operationReads Frame
 
 type healingOutcome = operation.HealingOutcome
 
+var _ operation.NumericExecution = (*operationReads)(nil)
+
+var _ operation.Preparation = (*operationReads)(nil)
+
 var _ operation.EventHost = (*operationReads)(nil)
 
 var _ operation.ReceivedShieldReads = (*operationReads)(nil)
@@ -169,7 +173,8 @@ func (f *Frame) executeOperations(ability planbundle.CompiledAbility, ops []plan
 		return f.fatalErr
 	}
 	executor := f.operationExecutor()
-	err := executor.Execute(&f.numeric, f.operationInput(), (*operationReads)(f), (*operationReads)(f), (*operationReads)(f), (*operationReads)(f), (*operationReads)(f), ability, ops)
+	work := (*operationReads)(f)
+	err := executor.Execute(&f.numeric, f.operationInput(), work, work, ability, ops)
 	if err != nil {
 		f.fatal, f.fatalErr = true, err
 	}
@@ -196,7 +201,8 @@ func (f *Frame) bumpCommandBudget() *model.EngineError {
 
 func (f *Frame) executeOperation(ability planbundle.CompiledAbility, op *planbundle.CompiledOperation) *model.EngineError {
 	executor := f.operationExecutor()
-	return executor.ExecuteOne(&f.numeric, f.operationInput(), (*operationReads)(f), (*operationReads)(f), (*operationReads)(f), (*operationReads)(f), (*operationReads)(f), ability, op)
+	work := (*operationReads)(f)
+	return executor.ExecuteOne(&f.numeric, f.operationInput(), work, work, ability, op)
 }
 
 func (r *operationReads) PrepareNumericOperation(op *planbundle.CompiledOperation) (bool, *model.EngineError) {

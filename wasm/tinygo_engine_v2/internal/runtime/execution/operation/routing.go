@@ -23,9 +23,17 @@ type Preparation interface {
 	CollectNumericDamage(op planbundle.CompiledOperation, ability planbundle.CompiledAbility, amount float64, target string, crit CritEvidence) *model.EngineError
 }
 
+// NumericExecution 借用操作执行所需的数值读取、结算交接和记录能力。
+type NumericExecution interface {
+	NumericReads
+	DamageReads
+	NumericBoundary
+	NumericRecording
+}
+
 // Execute 依原顺序判断条件并执行操作；失败保留此前暂存和原部分发布边界。
-func (s *Executor) Execute(state *Frame, input Input, reads NumericReads, damageReads DamageReads, boundary NumericBoundary, recording NumericRecording, preparation Preparation, ability planbundle.CompiledAbility, ops []planbundle.CompiledOperation) *model.EngineError {
-	f := calculation{executor: s, state: state, input: input, reads: reads, damageReads: damageReads, boundary: boundary, recording: recording, preparation: preparation}
+func (s *Executor) Execute(state *Frame, input Input, numeric NumericExecution, preparation Preparation, ability planbundle.CompiledAbility, ops []planbundle.CompiledOperation) *model.EngineError {
+	f := calculation{executor: s, state: state, input: input, reads: numeric, damageReads: numeric, boundary: numeric, recording: numeric, preparation: preparation}
 	for index := range ops {
 		op := &ops[index]
 		if failed, err := preparation.NumericFailure(); failed {
@@ -48,8 +56,8 @@ func (s *Executor) Execute(state *Frame, input Input, reads NumericReads, damage
 }
 
 // ExecuteOne 执行已由调用者准备条件的单个操作，复用相同预算和路由。
-func (s *Executor) ExecuteOne(state *Frame, input Input, reads NumericReads, damageReads DamageReads, boundary NumericBoundary, recording NumericRecording, preparation Preparation, ability planbundle.CompiledAbility, op *planbundle.CompiledOperation) *model.EngineError {
-	f := calculation{executor: s, state: state, input: input, reads: reads, damageReads: damageReads, boundary: boundary, recording: recording, preparation: preparation}
+func (s *Executor) ExecuteOne(state *Frame, input Input, numeric NumericExecution, preparation Preparation, ability planbundle.CompiledAbility, op *planbundle.CompiledOperation) *model.EngineError {
+	f := calculation{executor: s, state: state, input: input, reads: numeric, damageReads: numeric, boundary: numeric, recording: numeric, preparation: preparation}
 	return f.executeOperation(ability, op)
 }
 func (f *calculation) executeOperation(ability planbundle.CompiledAbility, op *planbundle.CompiledOperation) *model.EngineError {

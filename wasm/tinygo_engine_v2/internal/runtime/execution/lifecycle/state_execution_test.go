@@ -10,6 +10,8 @@ import (
 )
 
 type stateContextFailure struct {
+	StateExecution
+
 	bag    effectpkg.BagChange
 	err    *model.EngineError
 	order  []string
@@ -70,10 +72,10 @@ func TestStateContextErrorStopsAtOriginalRead(t *testing.T) {
 				input.Operation.ValuePolicy, input.Operation.Target = "subtract", model.SelectorSelf
 				bag.SetExpireAt("mark", 200)
 				bag.SetTargetExpireAt("mark", 200)
-				err = executor.ExecuteStateDuration(input, reads, nil, nil, nil)
+				err = executor.ExecuteStateDuration(input, reads)
 				wantOrder = []string{"bag", "amount", "context"}
 			} else {
-				err = executor.ExecuteStateWrite(input, reads, nil, nil, nil)
+				err = executor.ExecuteStateWrite(input, reads)
 			}
 			value := bag.State().At("mark")
 			if tc.scope == stateScopeProviderTarget {

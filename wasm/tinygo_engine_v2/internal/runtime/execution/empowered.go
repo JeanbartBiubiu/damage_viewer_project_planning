@@ -49,7 +49,7 @@ func (s *Engine) startEmpoweredProcess(entry model.DriverEntry, entryIndex int, 
 	if attack := s.actions.BasicAttack(); attack != nil {
 		nativeOwner = attack.Plan().Source
 	}
-	reject, err := hit.EmpoweredStartDecision(owner, target, nativeOwner, provider, use, definition, s.compiled.SkillActionBindings, s, s.hitIdentity())
+	reject, err := hit.EmpoweredStartDecision(owner, target, nativeOwner, provider, use, definition, s.compiled.SkillActionBindings, (*hitEngineHost)(s), s.hitIdentity())
 	if err != nil {
 		return actionflow.ActionResult{}, err
 	}
@@ -64,7 +64,7 @@ func (s *Engine) updateEmpoweredWait(p *actionpkg.ProcessView) {
 }
 
 func (s *Engine) freezeEmpoweredWaits(owner string) []empoweredWaitFreeze {
-	return hit.FreezeEmpoweredWaits(owner, s.loop.TimeMs(), s)
+	return hit.FreezeEmpoweredWaits(owner, s.loop.TimeMs(), (*hitEngineHost)(s))
 }
 
 func (s *Engine) empoweredWaitCurrent(wait empoweredWaitFreeze, owner string) bool {
@@ -114,7 +114,7 @@ func (f *Frame) bindEmpoweredContext(changes *actionpkg.ProcessChangeSet, target
 	return saved
 }
 
-func (f *Frame) EndEmpoweredProcess(saved empoweredContextBinding) {
+func (f *hitFrameHost) EndEmpoweredProcess(saved empoweredContextBinding) {
 	f.empowered.RecordOutput(f.abilityRef, f.numeric.Facts().Damage-saved.beforeDamage, f.numeric.Facts().Healing-saved.beforeHealing)
 	f.sourceKey, f.targetKey, f.ownerCombatantKey, f.ownerProviderRef = saved.sourceKey, saved.targetKey, saved.ownerCombatantKey, saved.ownerProviderRef
 	f.abilityRef, f.processUseKey, f.processUseSource, f.processUseSkillKey = saved.abilityRef, saved.processUseKey, saved.processUseSource, saved.processUseSkillKey
@@ -128,13 +128,13 @@ func (f *Frame) EndEmpoweredProcess(saved empoweredContextBinding) {
 }
 
 func (s *Engine) stageEmpoweredFailure(f *Frame, original *actionpkg.ProcessView) *model.EngineError {
-	return hit.StageEmpoweredFailure(f.empowered, original, s.loop.TimeMs(), f)
+	return hit.StageEmpoweredFailure(f.empowered, original, s.loop.TimeMs(), (*hitFrameHost)(f))
 }
 
-func (f *Frame) commitEmpoweredProcesses() { f.empowered.PublishProcesses(f) }
+func (f *Frame) commitEmpoweredProcesses() { f.empowered.PublishProcesses((*hitFrameHost)(f)) }
 
 func (f *Frame) commitEmpoweredFacts() {
-	f.empowered.PublishFacts(f)
+	f.empowered.PublishFacts((*hitFrameHost)(f))
 	f.numeric.SetTotals(0, 0)
 }
 
@@ -162,7 +162,7 @@ func (s *Engine) executeEmpoweredGroup(ev emittedEvent, waits []empoweredWaitFre
 	f.chainDepth = depth
 	f.strictReads = true
 	return hit.ExecuteEmpoweredGroup(hit.EmpoweredGroupInput{Source: ev.sourceKey, Target: ev.targetKey,
-		UseRef: ev.skillHit.View().UseRef, OccurrenceID: ev.skillHit.View().OccurrenceID, NowMs: s.loop.TimeMs(), Abilities: s.compiled.Abilities}, waits, ev, f)
+		UseRef: ev.skillHit.View().UseRef, OccurrenceID: ev.skillHit.View().OccurrenceID, NowMs: s.loop.TimeMs(), Abilities: s.compiled.Abilities}, waits, ev, (*hitFrameHost)(f))
 }
 
 func (f *Frame) executeEmpoweredPayload(parent emittedEvent, p *actionpkg.ProcessView, ability planbundle.CompiledAbility) *model.EngineError {
@@ -179,7 +179,7 @@ func (f *Frame) executeEmpoweredPayload(parent emittedEvent, p *actionpkg.Proces
 		RootDamage: f.rootSkillHitDamage, UseKey: p.UseKey(), SkillKey: p.SkillKey(), Owner: p.Owner(), Target: parent.targetKey,
 		PriorQualifiedContacts: priorContacts, Ability: ability, Plan: plan, AbilityRef: f.abilityRef, ReplacesPrimary: p.ReplacesPrimary(),
 		Identity: hit.Identity{SchemaHash: f.run.compiled.SchemaHash, RulesHash: f.run.compiled.RulesHash, SessionID: f.run.req.SessionID},
-	}, f)
+	}, (*hitFrameHost)(f))
 	f.empowered.RecordOutput(f.abilityRef, f.numeric.Facts().Damage-beforeDamage, f.numeric.Facts().Healing-beforeHealing)
 	f.numeric.SetTotals(beforeDamage, beforeHealing)
 	f.abilityRef, f.castOrigin, f.eventCtx = savedRef, savedOrigin, savedContext
@@ -201,7 +201,7 @@ func (f *Frame) stageEmpoweredSpellShield(freeze *frozenSkillHitContext) *model.
 		Types: f.run.eventTypeSet(event.types), HasBlockedHit: true, ShieldOwner: freeze.View().ShieldOwner, ShieldProviderRef: freeze.View().ShieldProviderRef}
 	if err := listenerpkg.ConsumeAttachedShield(&f.run.listeners, listenerpkg.AttachedShieldInput{Event: facts,
 		Bindings: f.run.compiled.RuntimeTypes, Compiled: f.run.compiled.Listeners, Operations: f.run.compiled.Operations,
-		Abilities: f.run.compiled.Abilities, ShieldOwner: freeze.View().ShieldOwner, ShieldProviderRef: freeze.View().ShieldProviderRef}, &context, f); err != nil {
+		Abilities: f.run.compiled.Abilities, ShieldOwner: freeze.View().ShieldOwner, ShieldProviderRef: freeze.View().ShieldProviderRef}, &context, (*listenerFrameHost)(f)); err != nil {
 		return err
 	}
 	// The removed shield listener is no longer live at dispatch; unrelated
@@ -222,7 +222,7 @@ func (s *Engine) reserveEmpoweredAttackStart(useRef, target string) *model.Engin
 	if use != nil {
 		facts.HasUse, facts.UseSource, facts.UseSkill, facts.AlreadyReserved = true, use.identity.Source(), use.identity.SkillKey(), use.identity.EmpoweredReference().Present
 	}
-	prepared, err := hit.PrepareCountedStart(facts, useRef, target, s.loop.TimeMs(), s, s.hitIdentity())
+	prepared, err := hit.PrepareCountedStart(facts, useRef, target, s.loop.TimeMs(), (*hitEngineHost)(s), s.hitIdentity())
 	if err != nil || prepared.Original == nil {
 		return err
 	}
@@ -231,7 +231,7 @@ func (s *Engine) reserveEmpoweredAttackStart(useRef, target string) *model.Engin
 	var frame Frame
 	s.initExecutionFrame(&frame, p.Owner(), p.Target(), p.AbilityRef())
 	frame.empowered = &empoweredFrame{}
-	if err := hit.StageCountedStart(frame.empowered, prepared, use.identity, s.loop.TimeMs(), &frame); err != nil {
+	if err := hit.StageCountedStart(frame.empowered, prepared, use.identity, s.loop.TimeMs(), (*hitFrameHost)(&frame)); err != nil {
 		return err
 	}
 	frame.recordEvidenceLazy("empowered_attack_consumed", func() model.EvidenceItem {
@@ -257,7 +257,7 @@ func (s *Engine) finishCountedEmpoweredWindow(original *actionpkg.ProcessView) *
 	var frame Frame
 	s.initExecutionFrame(&frame, p.Owner(), p.Target(), p.AbilityRef())
 	frame.empowered = &empoweredFrame{}
-	if err := hit.StageCountedCompletion(frame.empowered, prepared, s.loop.TimeMs(), &frame); err != nil {
+	if err := hit.StageCountedCompletion(frame.empowered, prepared, s.loop.TimeMs(), (*hitFrameHost)(&frame)); err != nil {
 		return err
 	}
 	frame.commit()
@@ -294,7 +294,7 @@ func (s *Engine) executeReservedEmpoweredAttack(ev emittedEvent, depth int) *mod
 	s.initExecutionFrame(&frame, ev.sourceKey, ev.targetKey, ev.skillHit.AbilityRef())
 	frame.empowered = &empoweredFrame{}
 	frame.chainDepth, frame.strictReads = depth, true
-	if err := hit.ExecuteCountedPayload(frame.empowered, ev, prepared, s.compiled.Abilities[p.EmpoweredAbilityIndex()], &frame); err != nil {
+	if err := hit.ExecuteCountedPayload(frame.empowered, ev, prepared, s.compiled.Abilities[p.EmpoweredAbilityIndex()], (*hitFrameHost)(&frame)); err != nil {
 		return err
 	}
 	frame.commit()
@@ -339,7 +339,7 @@ func (s *Engine) bindBasicAttackPrimary(ability planbundle.CompiledAbility, prov
 		Plan: s.compiled.Operations[ability.OperationStart].SkillHit, Bindings: s.compiled.SkillActionBindings,
 		Owner: native.Source, Provider: provider, Definition: s.compiled.Providers[ability.ProviderIndex].ProviderKey,
 		StartAbilityRef: native.StartAbilityRef, InitialControlAbilityRef: native.InitialControlAbilityRef, HitAbilityRef: native.HitAbilityRef,
-	}, s, s.hitIdentity())
+	}, (*hitEngineHost)(s), s.hitIdentity())
 	if err != nil || !found {
 		return err
 	}
@@ -349,7 +349,7 @@ func (s *Engine) bindBasicAttackPrimary(ability planbundle.CompiledAbility, prov
 
 func (s *Engine) executePrimaryReplacement(ev emittedEvent, freeze *frozenSkillHitContext, candidate int, depth int) (bool, *model.EngineError) {
 	prepared, err := hit.PreparePrimaryReplacement(hit.PrimaryReplacementInput{Context: freeze, Candidate: candidate,
-		EventType: ev.eventType, Source: ev.sourceKey, Target: ev.targetKey, NowMs: s.loop.TimeMs()}, s, s.hitIdentity())
+		EventType: ev.eventType, Source: ev.sourceKey, Target: ev.targetKey, NowMs: s.loop.TimeMs()}, (*hitEngineHost)(s), s.hitIdentity())
 	if err != nil || prepared.Changes == nil {
 		return false, err
 	}
@@ -359,7 +359,7 @@ func (s *Engine) executePrimaryReplacement(ev emittedEvent, freeze *frozenSkillH
 	s.initExecutionFrame(&storage, ev.sourceKey, ev.targetKey, freeze.AbilityRef())
 	f := &storage
 	f.empowered, f.chainDepth, f.strictReads = &empoweredFrame{}, depth, true
-	if err := hit.ExecutePrimaryReplacement(f.empowered, ev, freeze, prepared, payload, s.loop.TimeMs(), f); err != nil {
+	if err := hit.ExecutePrimaryReplacement(f.empowered, ev, freeze, prepared, payload, s.loop.TimeMs(), (*hitFrameHost)(f)); err != nil {
 		return false, err
 	}
 	f.pendingProcess = nil

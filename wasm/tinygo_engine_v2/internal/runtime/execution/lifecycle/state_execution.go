@@ -26,9 +26,12 @@ type StateProviderReads interface {
 	StateProviders(owner string) effectpkg.ProviderList
 }
 
-// StateExecutionReads 只在状态操作原读取点借用真实状态和公式上下文。
-type StateExecutionReads interface {
+// StateExecution 在原帧借用状态读写、属性同步、行动交接和计时暂存能力。
+type StateExecution interface {
 	StateProviderReads
+	StateWriteActions
+	TimingRequests
+
 	// StateAmount 使用原能力及当前帧读值求值，不提前读取后续操作金额。
 	StateAmount(program formula.GenericProgramID, ability plan.CompiledAbility) (float64, *model.EngineError)
 	// StateContext 在原属性重算位置准备当前公式上下文，读值失败时返回原错。
@@ -37,10 +40,7 @@ type StateExecutionReads interface {
 	StateBag(owner, provider string, create bool) effectpkg.BagChange
 	// ReadStateBag 在原续时短路位置读取状态，expireTarget 保留原惰性目标到期语义。
 	ReadStateBag(owner, provider string, expireTarget bool) effectpkg.BagView
-}
 
-// StateAttributeExecution 仅交接状态操作引起的原位属性同步及当前帧错误。
-type StateAttributeExecution interface {
 	// ResolveOwnerStateAttributes 以已经准备的上下文重算实际状态拥有者。
 	ResolveOwnerStateAttributes(owner string, context formula.GenericEvalContext)
 	// ResolveTargetStateAttributes 按原目标、拥有者顺序重算双方，不提交暂存。
@@ -51,11 +51,7 @@ type StateAttributeExecution interface {
 	StateFailure() (bool, *model.EngineError)
 	// MarkStateChanged 标记该拥有者的所属暂存，不发布状态。
 	MarkStateChanged(owner string)
-}
 
-// StateActionExecution 只在状态操作指定位置交接共同弹药和内部冷却，不提供其他行动控制。
-type StateActionExecution interface {
-	StateWriteActions
 	// ChangeStateCooldown 在同一帧处理实际内部冷却写入，保留原行动账和效果投影顺序。
 	ChangeStateCooldown(operation plan.CompiledOperation, ability plan.CompiledAbility, amount float64) *model.EngineError
 	// SubtractStateCooldown 在同一帧处理实际内部冷却减时，不创建子帧。
@@ -76,97 +72,97 @@ type AnchoredWriteInput struct {
 }
 
 // ExecuteStateWrite 拥有状态写入、期限和回充资格的完整流程；真实暂存和跨功能同步仍在原帧。
-func (e *Executor) ExecuteStateWrite(input StateExecutionInput, reads StateExecutionReads, attributes StateAttributeExecution, actions StateActionExecution, requests TimingRequests) *model.EngineError {
+func (e *Executor) ExecuteStateWrite(input StateExecutionInput, work StateExecution) *model.EngineError {
 	op, ability := input.Operation, input.Ability
 	if err := e.ValidateStateWrite(op, input.Provider); err != nil {
 		return err
 	}
-	amount, err := reads.StateAmount(op.AmountProgram, ability)
+	amount, err := work.StateAmount(op.AmountProgram, ability)
 	if err != nil {
 		return err
 	}
 	if !effectpkg.FiniteState(amount) {
 		return e.fail(model.GenericErrFormulaTypeError, "", "non-finite state result", "")
 	}
-	bag := reads.StateBag(input.Owner, input.Provider, true)
+	bag := work.StateBag(input.Owner, input.Provider, true)
 	bag.Ensure()
 	if field, exists := bag.Fields().Lookup(op.Ref); exists && field.StateKind == model.ProviderStateKindCooldown {
-		return actions.ChangeStateCooldown(op, ability, amount)
+		return work.ChangeStateCooldown(op, ability, amount)
 	}
 	result, err := e.WriteState(StateWriteInput{Operation: op, Ability: ability, Owner: input.Owner,
 		Provider: input.Provider, Target: input.Target, Amount: amount, Now: input.Now,
-		Automated: input.Automated, Bag: bag, Actions: actions})
+		Automated: input.Automated, Bag: bag, Actions: work})
 	if err != nil {
 		return err
 	}
 	if op.StateScope == stateScopeProvider {
 		if result.Expiry.Kind != "" {
-			requests.StageStateExpiry(result.ExpireAt, result.Expiry)
+			work.StageStateExpiry(result.ExpireAt, result.Expiry)
 		}
-		context, err := reads.StateContext(ability)
+		context, err := work.StateContext(ability)
 		if err != nil {
 			return err
 		}
-		attributes.ResolveOwnerStateAttributes(input.Owner, context)
-		attributes.ResolveAllStateAttributes(ability)
+		work.ResolveOwnerStateAttributes(input.Owner, context)
+		work.ResolveAllStateAttributes(ability)
 		if result.Ammo {
-			if failed, err := attributes.StateFailure(); failed {
+			if failed, err := work.StateFailure(); failed {
 				return err
 			}
-			ammo := actions.StateAmmo(input.Owner, input.Provider, op.Ref)
+			ammo := work.StateAmmo(input.Owner, input.Provider, op.Ref)
 			if ammo != nil && (result.After == 0 || ammo.Definition().StateFields[op.Ref].AmmoRecovery.OneByOne) {
-				if err := actions.RecoverStateAmmo(ammo, ability); err != nil {
+				if err := work.RecoverStateAmmo(ammo, ability); err != nil {
 					return err
 				}
 			}
 		}
 	} else {
-		handled, err := e.stageStateTargetTiming(input, result, bag, reads, requests)
+		handled, err := e.stageStateTargetTiming(input, result, bag, work)
 		if err != nil {
 			return err
 		}
 		if result.ExpireAt > 0 && !handled {
-			StageTargetStateExpiry(input.Owner, input.Provider, input.Target, op.Ref, result.ExpireAt, requests)
+			StageTargetStateExpiry(input.Owner, input.Provider, input.Target, op.Ref, result.ExpireAt, work)
 			if err := e.StageAnchoredTargetWrite(AnchoredWriteInput{Owner: input.Owner, Provider: input.Provider, Source: input.Source,
-				Target: input.Target, Key: op.Ref, Expires: result.ExpireAt, Now: input.Now, Stop: input.Stop, Bag: bag}, reads, requests); err != nil {
+				Target: input.Target, Key: op.Ref, Expires: result.ExpireAt, Now: input.Now, Stop: input.Stop, Bag: bag}, work, work); err != nil {
 				return err
 			}
 		}
-		context, err := reads.StateContext(ability)
+		context, err := work.StateContext(ability)
 		if err != nil {
 			return err
 		}
-		attributes.ResolveTargetStateAttributes(input.Owner, ability, context)
+		work.ResolveTargetStateAttributes(input.Owner, ability, context)
 	}
-	attributes.MarkStateChanged(input.Owner)
+	work.MarkStateChanged(input.Owner)
 	return nil
 }
 
 // ExecuteStateDuration 拥有普通状态减时及两种目标续时的资格、金额短路和暂存流程。
-func (e *Executor) ExecuteStateDuration(input StateExecutionInput, reads StateExecutionReads, attributes StateAttributeExecution, actions StateActionExecution, requests TimingRequests) *model.EngineError {
+func (e *Executor) ExecuteStateDuration(input StateExecutionInput, work StateExecution) *model.EngineError {
 	op, ability := input.Operation, input.Ability
 	if err := e.ValidateDurationChange(op, input.Provider); err != nil {
 		return err
 	}
 	if op.ValuePolicy == "ensure_remaining_preserve_phase" {
-		return e.ensurePhasedStateRemaining(input, reads, attributes, requests)
+		return e.ensurePhasedStateRemaining(input, work)
 	}
 	if op.ValuePolicy == "ensure_remaining" {
-		return e.ensureStateRemaining(input, reads, attributes, requests)
+		return e.ensureStateRemaining(input, work)
 	}
-	bag := reads.StateBag(input.Owner, input.Provider, true)
+	bag := work.StateBag(input.Owner, input.Provider, true)
 	bag.Ensure()
 	if op.OwnerProviderIndex >= 0 && op.OwnerProviderIndex < len(e.compiled.Providers) && e.compiled.Providers[op.OwnerProviderIndex].StateFields[op.Ref].StateKind == model.ProviderStateKindAmmo {
-		return actions.SubtractStateAmmo(op, ability)
+		return work.SubtractStateAmmo(op, ability)
 	}
 	if field, exists := bag.Fields().Lookup(op.Ref); exists && field.StateKind == model.ProviderStateKindCooldown {
-		return actions.SubtractStateCooldown(op, ability)
+		return work.SubtractStateCooldown(op, ability)
 	}
 	active, err := e.StateDurationActive(op, bag, input.Now)
 	if err != nil || !active {
 		return err
 	}
-	amount, err := reads.StateAmount(op.AmountProgram, ability)
+	amount, err := work.StateAmount(op.AmountProgram, ability)
 	if err != nil {
 		return err
 	}
@@ -176,24 +172,24 @@ func (e *Executor) ExecuteStateDuration(input StateExecutionInput, reads StateEx
 	}
 	if op.StateScope == stateScopeProvider {
 		if result.Expired {
-			context, err := reads.StateContext(ability)
+			context, err := work.StateContext(ability)
 			if err != nil {
 				return err
 			}
-			attributes.ResolveOwnerStateAttributes(input.Owner, context)
+			work.ResolveOwnerStateAttributes(input.Owner, context)
 		}
 	} else {
-		context, err := reads.StateContext(ability)
+		context, err := work.StateContext(ability)
 		if err != nil {
 			return err
 		}
 		if result.Expired {
-			attributes.ResolveTargetStateAttributes(input.Owner, ability, context)
+			work.ResolveTargetStateAttributes(input.Owner, ability, context)
 		} else if result.ExpireAt > 0 {
-			StageTargetStateExpiry(input.Owner, input.Provider, bag.TargetKey(), op.Ref, result.ExpireAt, requests)
+			StageTargetStateExpiry(input.Owner, input.Provider, bag.TargetKey(), op.Ref, result.ExpireAt, work)
 		}
 	}
-	attributes.MarkStateChanged(input.Owner)
+	work.MarkStateChanged(input.Owner)
 	return nil
 }
 
@@ -247,27 +243,27 @@ func (e *Executor) StageAnchoredTargetWrite(input AnchoredWriteInput, reads Stat
 	return nil
 }
 
-func (e *Executor) stageStateTargetTiming(input StateExecutionInput, result StateWriteResult, bag effectpkg.BagChange, reads StateExecutionReads, requests TimingRequests) (bool, *model.EngineError) {
+func (e *Executor) stageStateTargetTiming(input StateExecutionInput, result StateWriteResult, bag effectpkg.BagChange, work StateExecution) (bool, *model.EngineError) {
 	if !e.compiled.Features.Has(plan.FeatureTargetTiming) {
 		return false, nil
 	}
-	instance, slot, timing, found := e.TargetTimingBinding(reads.StateProviders(input.Owner), input.Owner, input.Provider, input.Operation.Ref, input.Now)
+	instance, slot, timing, found := e.TargetTimingBinding(work.StateProviders(input.Owner), input.Owner, input.Provider, input.Operation.Ref, input.Now)
 	if !found {
 		return false, nil
 	}
-	return true, e.StageTargetTiming(instance, slot, timing, input.Target, input.Operation.Ref, result.After, result.ExpireAt, input.Now, input.Stop, bag, requests)
+	return true, e.StageTargetTiming(instance, slot, timing, input.Target, input.Operation.Ref, result.After, result.ExpireAt, input.Now, input.Stop, bag, work)
 }
 
-func (e *Executor) ensureStateRemaining(input StateExecutionInput, reads StateExecutionReads, attributes StateAttributeExecution, requests TimingRequests) *model.EngineError {
+func (e *Executor) ensureStateRemaining(input StateExecutionInput, work StateExecution) *model.EngineError {
 	op := input.Operation
 	if err := e.ValidateTargetRemaining(op); err != nil {
 		return err
 	}
-	bag := reads.ReadStateBag(input.Owner, input.Provider, true)
+	bag := work.ReadStateBag(input.Owner, input.Provider, true)
 	if bag.TargetStateRemainingMs(op.Ref, input.Target, input.Now) == 0 {
 		return nil
 	}
-	amount, err := reads.StateAmount(op.AmountProgram, input.Ability)
+	amount, err := work.StateAmount(op.AmountProgram, input.Ability)
 	if err != nil {
 		return err
 	}
@@ -275,26 +271,26 @@ func (e *Executor) ensureStateRemaining(input StateExecutionInput, reads StateEx
 	if err != nil || !changed {
 		return err
 	}
-	change := reads.StateBag(input.Owner, input.Provider, false)
+	change := work.StateBag(input.Owner, input.Provider, false)
 	change.SetTargetExpireAt(op.Ref, next)
-	StageTargetStateExpiry(input.Owner, input.Provider, input.Target, op.Ref, next, requests)
-	attributes.MarkStateChanged(input.Owner)
+	StageTargetStateExpiry(input.Owner, input.Provider, input.Target, op.Ref, next, work)
+	work.MarkStateChanged(input.Owner)
 	return nil
 }
 
-func (e *Executor) ensurePhasedStateRemaining(input StateExecutionInput, reads StateExecutionReads, attributes StateAttributeExecution, requests TimingRequests) *model.EngineError {
+func (e *Executor) ensurePhasedStateRemaining(input StateExecutionInput, work StateExecution) *model.EngineError {
 	op := input.Operation
-	instance, slot, timing, exists := e.TargetTimingBinding(reads.StateProviders(input.Owner), input.Owner, input.Provider, op.Ref, input.Now)
+	instance, slot, timing, exists := e.TargetTimingBinding(work.StateProviders(input.Owner), input.Owner, input.Provider, op.Ref, input.Now)
 	event := input.Event
 	if !exists || !timing.Phased || op.Target != model.SelectorSelf || op.StateScope != stateScopeProviderTarget || int(instance.DefinitionIndex) != op.OwnerProviderIndex ||
 		!input.MountedListener || event == nil || event.EventType != model.EventTypeSkillHit || event.EventSourceKey != input.Owner || event.SkillHit == nil || event.SkillHit.Blocked != 0 {
 		return e.invariant(op.Path, "phase preserving extension requires its actual unblocked owner skill hit and phased anchor", "")
 	}
-	bag := reads.ReadStateBag(input.Owner, input.Provider, false)
+	bag := work.ReadStateBag(input.Owner, input.Provider, false)
 	if !bag.Present() || !bag.HasTiming() || bag.TargetStateRemainingMs(op.Ref, input.Target, input.Now) == 0 || !bag.Timing(slot).Active {
 		return nil
 	}
-	amount, err := reads.StateAmount(op.AmountProgram, input.Ability)
+	amount, err := work.StateAmount(op.AmountProgram, input.Ability)
 	if err != nil {
 		return err
 	}
@@ -309,17 +305,17 @@ func (e *Executor) ensurePhasedStateRemaining(input StateExecutionInput, reads S
 	if next <= bag.TargetExpireAt().At(op.Ref) {
 		return nil
 	}
-	change := reads.StateBag(input.Owner, input.Provider, false)
+	change := work.StateBag(input.Owner, input.Provider, false)
 	fact := change.Timing(slot)
 	prior := fact.Expiry
 	fact.Expiry, fact.Protect = next, false
 	change.SetTiming(slot, fact)
 	change.SetTargetExpireAt(op.Ref, next)
-	requests.StageStateExpiry(next, effectpkg.ExpiryPayload{Kind: "target_timing", CombatantKey: input.Owner, ProviderRef: input.Provider,
+	work.StageStateExpiry(next, effectpkg.ExpiryPayload{Kind: "target_timing", CombatantKey: input.Owner, ProviderRef: input.Provider,
 		TargetKey: input.Target, StateKey: op.Ref, StateGeneration: fact.Generation, ExpectedExpireAt: next, TimingSlot: slot})
-	if err := e.StageTargetPhases(instance, slot, timing, change, prior, input.Stop, requests); err != nil {
+	if err := e.StageTargetPhases(instance, slot, timing, change, prior, input.Stop, work); err != nil {
 		return err
 	}
-	attributes.MarkStateChanged(input.Owner)
+	work.MarkStateChanged(input.Owner)
 	return nil
 }
