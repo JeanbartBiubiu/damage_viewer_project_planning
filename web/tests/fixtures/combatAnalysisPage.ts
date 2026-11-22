@@ -5,25 +5,47 @@ import { resolve } from 'node:path';
 import { expect, type Page, type TestInfo } from '@playwright/test';
 import type { AutomaticSkillView } from '../../src/engine/automaticSkillPresentation';
 import type { AutomaticSkillArchive } from '../../src/pages/simulation/SimulationScenarioPanel';
-import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
+import type { SimulationSelection, SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import type { SimulationAvailabilityResponse } from '../../src/types/simulationAvailability';
 import type { Equipment } from '../../src/types/equipment';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
 import { SIMULATION_ADAPTER_VERSION } from '../../src/engine/simulationAdapter';
+import { simulationHash } from '../../src/engine/simulationHash';
 import { simulationAutomaticSample } from './simulationAutomaticSkills';
 import { simulationAvailabilitySample } from './simulationAvailability';
 import { chooseSimulationEntity, chooseSimulationLevel } from './simulationSelection';
-import { expectSimulationConfigurationReady } from './simulationSnapshotRequests';
 import { syncSimulationSkillSources } from './simulationSkillSources';
 
-const API = 'http://127.0.0.1:19616';
 export const combatAnalysisOutput = resolve('output/combat-analysis/skill-roster-layout');
 export type FrozenCombatAnalysis = AutomaticSkillArchive & { displayDefinitionVersion: 2; view: AutomaticSkillView };
 type WorkerObservation = { messages: string[]; terminated: number };
+type HeldResponse = { started: Promise<void>; release: () => void };
+type ResponseGate = { requested: () => void; wait: Promise<void> };
+
+function holdResponse() {
+  let release!: () => void;
+  let requested!: () => void;
+  const started = new Promise<void>(resolve => { requested = resolve; });
+  const wait = new Promise<void>(resolve => { release = resolve; });
+  return { started, release, requested, wait };
+}
+
+export function combatAnalysisSample(): SimulationSnapshot {
+  const snapshot = simulationAutomaticSample(true);
+  for (const side of ['source', 'target'] as const) {
+    const actor = snapshot[side];
+    // 本合成作者样本的暴击、穿透及吸血都取明确的零值。
+    Object.assign(actor.selectedLevelValues, { critical_strike_chance: 0, critical_strike_damage_bonus_percent: 0,
+      armor_pen_percent: 0, armor_pen_flat: 0, life_steal_percent: 0 });
+    actor.attributes.levelValues['1'] = { ...actor.selectedLevelValues };
+  }
+  return snapshot;
+}
 
 /** 仅隔离 HTTP；页面、适配器、正式 Worker 和 Wasm 都保持真实运行，不写业务数据。 */
-export async function installCombatAnalysisApi(page: Page, sample: SimulationSnapshot = simulationAutomaticSample(true), options: {
+export async function installCombatAnalysisApi(page: Page, sample: SimulationSnapshot = combatAnalysisSample(), options: {
   availability?: SimulationAvailabilityResponse; equipmentCatalog?: Equipment[];
+  snapshotForSelection?: (selection: SimulationSelection) => SimulationSnapshot;
 } = {}) {
   const requests: Array<{ method: string; path: string }> = [];
   const pageErrors: string[] = [];
@@ -32,10 +54,11 @@ export async function installCombatAnalysisApi(page: Page, sample: SimulationSna
   let availabilityReads = 0;
   let availability = structuredClone(options.availability ?? simulationAvailabilitySample(sample));
   let availabilityUnavailable = false;
-  const heldConfigurations = new Map<string, { requested: () => void; wait: Promise<void> }>();
+  let nextAvailability: ResponseGate | null = null;
+  const heldConfigurations = new Map<string, ResponseGate>();
   page.on('pageerror', error => pageErrors.push(error.message));
   page.on('worker', worker => workers.push(worker.url()));
-  await page.addInitScript(({ api }) => {
+  await page.addInitScript(() => {
     const state: WorkerObservation = { messages: [], terminated: 0 };
     (window as typeof window & { combatAnalysisWorkers: WorkerObservation }).combatAnalysisWorkers = state;
     const postMessage = Worker.prototype.postMessage;
@@ -45,7 +68,7 @@ export async function installCombatAnalysisApi(page: Page, sample: SimulationSna
     };
     const terminate = Worker.prototype.terminate;
     Worker.prototype.terminate = function() { state.terminated++; return terminate.call(this); };
-  }, { api: API });
+  });
   await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
   await page.route('**/api/**', async route => {
     if (await fulfillAuthSession(route, false)) return;
@@ -63,20 +86,33 @@ export async function installCombatAnalysisApi(page: Page, sample: SimulationSna
     if (resource === 'simulation-snapshot') {
       expect(request.method(), 'POST 仅用于只读场景快照').toBe('POST');
       snapshotReads++;
-      const snapshot = structuredClone(sample);
-      snapshot.selection = request.postDataJSON();
-      snapshot.snapshotDigest = '9'.repeat(64);
-      return reply(syncSimulationSkillSources(snapshot));
+      const selection: SimulationSelection = request.postDataJSON();
+      const snapshot = structuredClone(options.snapshotForSelection?.(structuredClone(selection)) ?? sample);
+      snapshot.selection = selection;
+      syncSimulationSkillSources(snapshot);
+      if (options.snapshotForSelection) {
+        const { snapshotDigest: _digest, readAt: _readAt, ...frozen } = snapshot;
+        snapshot.snapshotDigest = await simulationHash(frozen);
+      } else snapshot.snapshotDigest = '9'.repeat(64);
+      return reply(snapshot);
     }
     expect(request.method(), '不得新增或修改业务配置').toBe('GET');
     if (resource === 'simulation-availability') {
       availabilityReads++;
       expect(searchParams.get('wasmSha256')).toBe(WASM_IDENTITY.sha256);
       expect(searchParams.get('adapterVersion')).toBe(SIMULATION_ADAPTER_VERSION);
-      if (availabilityUnavailable) return route.fulfill({ status: 503, json: { error: {
+      const response = availability;
+      const unavailable = availabilityUnavailable;
+      const held = nextAvailability;
+      nextAvailability = null;
+      if (held) {
+        held.requested();
+        await held.wait;
+      }
+      if (unavailable) return route.fulfill({ status: 503, json: { error: {
         code: '503.INDEPENDENT_AVAILABILITY', message: '独立构造目录暂时不可用', details: {}
       } }, headers: { 'Access-Control-Allow-Origin': '*' } });
-      return reply(availability);
+      return reply(response);
     }
     if (resource === 'level-config') return reply(sample.catalogs.levelConfig);
     if (resource === 'characters') return reply({ items: [sample.source.character, sample.target.character], total: 2 });
@@ -113,11 +149,14 @@ export async function installCombatAnalysisApi(page: Page, sample: SimulationSna
     requests,
     setAvailability(next: SimulationAvailabilityResponse) { availability = structuredClone(next); },
     setAvailabilityUnavailable(unavailable: boolean) { availabilityUnavailable = unavailable; },
-    holdNextConfiguration(skillKey: string) {
-      let release!: () => void;
-      let requested!: () => void;
-      const started = new Promise<void>(resolve => { requested = resolve; });
-      const wait = new Promise<void>(resolve => { release = resolve; });
+    holdNextAvailability(): HeldResponse {
+      if (nextAvailability) throw new Error('已有目录响应等待拦截');
+      const { started, release, requested, wait } = holdResponse();
+      nextAvailability = { requested, wait };
+      return { started, release };
+    },
+    holdNextConfiguration(skillKey: string): HeldResponse {
+      const { started, release, requested, wait } = holdResponse();
       heldConfigurations.set(skillKey, { requested, wait });
       return { started, release };
     },
@@ -175,6 +214,8 @@ export async function openCombatAnalysisPage(page: Page) {
   await expect(page.locator('.arco-select[aria-label="普攻技能"]')).toHaveCount(0);
   await expect(page.locator('.arco-select[aria-label="攻击方主动技能候选"]')).toHaveCount(0);
   await expect(page.getByRole('button', { name: '添加自动技能', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '准备计算', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '将缺失属性填写为0', exact: true })).toHaveCount(0);
 }
 
 export async function selectCombatAnalysisCharacters(page: Page, expectedLevels: Record<string, number> = {}) {
@@ -188,8 +229,14 @@ export async function selectCombatAnalysisCharacters(page: Page, expectedLevels:
   }
 }
 
-/** 从实际页面控件配置真实绑定、双方、命中与关系，不直接调用请求装配器。 */
-export async function prepareCombatAnalysisPage(page: Page, backgroundAttack = true) {
+export async function setCombatAnalysisInitialHealth(page: Page, source: number, target: number) {
+  await chooseCombatAnalysisOption(page, '初始生命规则', '手动指定初始当前生命');
+  await page.getByLabel('攻击方初始当前生命', { exact: true }).fill(String(source));
+  await page.getByLabel('目标初始当前生命', { exact: true }).fill(String(target));
+}
+
+/** 从实际页面控件配置真实绑定、双方、命中与关系。 */
+export async function configureCombatAnalysisPage(page: Page, backgroundAttack = true) {
   await openCombatAnalysisPage(page);
   await selectCombatAnalysisCharacters(page);
   await setCombatAnalysisSkill(page, '攻击方', 'sample_basic_attack', backgroundAttack);
@@ -202,21 +249,14 @@ export async function prepareCombatAnalysisPage(page: Page, backgroundAttack = t
   await page.getByRole('button', { name: '上移自动规则 auto_rule_1', exact: true }).click();
   await chooseCombatAnalysisOption(page, '关联冷却 auto_rule_1', '独立单段主动');
   await chooseCombatAnalysisOption(page, '前置资格 auto_rule_2', '独立单段主动');
-  await page.getByRole('button', { name: '准备计算', exact: true }).click();
-  await expectSimulationConfigurationReady(page);
-  await expect(page.getByLabel('攻击方初始当前生命', { exact: true })).toHaveValue('');
-  await expect(page.getByLabel('目标初始当前生命', { exact: true })).toHaveValue('');
-  await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
-  await page.getByLabel('攻击方初始当前生命', { exact: true }).fill('300');
-  await page.getByLabel('目标初始当前生命', { exact: true }).fill('5000');
+  await setCombatAnalysisInitialHealth(page, 300, 5000);
   await page.getByLabel('观察时长（毫秒）', { exact: true }).fill('2600');
-  if (backgroundAttack) await page.getByLabel('攻速输入上界', { exact: true }).fill('10');
   await expect(page.getByRole('button', { name: '开始计算', exact: true })).toBeEnabled();
 }
 
 export async function runCombatAnalysisPage(page: Page) {
   await page.getByRole('button', { name: '开始计算', exact: true }).click();
-  await expect(page.getByText('自动循环观察完成，会话已释放；完整累计、最后等待与资格账本已核对。', { exact: true })).toBeVisible();
+  await expect(page.getByRole('alert').filter({ hasText: /^计算完成。$/ })).toBeVisible();
   await expect(page.getByRole('region', { name: '自动技能结果', exact: true })).toContainText('观察完整核对');
 }
 
@@ -263,7 +303,7 @@ export async function holdNextCombatAnalysisResult(page: Page) {
 
 export async function waitForHeldCombatAnalysis(page: Page) {
   await expect.poll(() => page.evaluate(() => typeof (window as typeof window & { resumeCombatAnalysis?: () => void }).resumeCombatAnalysis)).toBe('function');
-  await expect(page.getByText('正在执行主动技能自动循环', { exact: true })).toBeVisible();
+  await expect(page.getByRole('alert').filter({ hasText: /^正在执行(?:主动技能自动循环|连续普攻)$/ })).toBeVisible();
 }
 
 export const resumeCombatAnalysis = (page: Page) => page.evaluate(() =>

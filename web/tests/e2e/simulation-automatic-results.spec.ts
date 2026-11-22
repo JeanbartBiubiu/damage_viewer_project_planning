@@ -4,15 +4,14 @@ import { expect, test, type Page } from '@playwright/test';
 import type { ContinuousAttackArchive } from '../../src/pages/simulation/SimulationScenarioPanel';
 import type { FrozenCombatAnalysis } from '../fixtures/combatAnalysisPage';
 import {
-  combatAnalysisOutput, combatAnalysisWorkers, chooseCombatAnalysisOption, downloadCombatAnalysis,
+  combatAnalysisOutput, combatAnalysisSample, combatAnalysisWorkers, chooseCombatAnalysisOption, configureCombatAnalysisPage, downloadCombatAnalysis,
   holdNextCombatAnalysisResult, installCombatAnalysisApi, openCombatAnalysisAdvanced, openCombatAnalysisPage,
-  prepareCombatAnalysisPage, resumeCombatAnalysis, runCombatAnalysisPage, selectCombatAnalysisCharacters,
-  setCombatAnalysisCheckbox, setCombatAnalysisSkill, waitForHeldCombatAnalysis
+  resumeCombatAnalysis, runCombatAnalysisPage, selectCombatAnalysisCharacters,
+  setCombatAnalysisCheckbox, setCombatAnalysisInitialHealth, setCombatAnalysisSkill, waitForHeldCombatAnalysis
 } from '../fixtures/combatAnalysisPage';
 import { simulationAutomaticSample } from '../fixtures/simulationAutomaticSkills';
 import { simulationDefaultSourcesSample } from '../fixtures/simulationSnapshot';
 import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';
-import { expectSimulationConfigurationReady } from '../fixtures/simulationSnapshotRequests';
 
 // 独立作者构造，只隔离 HTTP。每份计算均由实际页面配置和正式 Wasm Worker 执行；不代表实库英雄验收。
 const resultRegion = (page: Page) => page.getByRole('region', { name: '自动技能结果', exact: true });
@@ -56,7 +55,7 @@ test('独立构造页面：角色绑定直接呈现，技能不需二次选择�
 });
 
 test('独立构造页面：自动最高等级后，等级0、关闭和清空在重新读取时保留', async ({ page }) => {
-  const sample = simulationAutomaticSample(true);
+  const sample = combatAnalysisSample();
   sample.skillConfigurations.find(configuration => configuration.skill.skillKey === 'sample_active')!.skill.maxLevel = 3;
   const diagnostics = await installCombatAnalysisApi(page, sample);
   await openCombatAnalysisPage(page);
@@ -71,40 +70,36 @@ test('独立构造页面：自动最高等级后，等级0、关闭和清空在�
   await openCombatAnalysisAdvanced(page);
   await expect(page.locator('.arco-select[aria-label^="自动技能目标 "]')).toHaveCount(0);
   const requested = page.waitForRequest(request => request.url().endsWith('/simulation-snapshot') && request.method() === 'POST');
-  await page.getByRole('button', { name: '准备计算', exact: true }).click();
+  await runButton(page).click();
   const selection = (await requested).postDataJSON();
   expect(selection.basicAttackSkillKey).toBe('sample_basic_attack');
   expect(selection.basicAttackLevel).toBe(1);
   expect(selection.plannedSkills).toEqual([]);
   expect(selection.sourceSkillSettings).toContainEqual({ origin: { kind: 'CHARACTER', characterKey: 'actor_a' }, skillKey: 'sample_active', enabled: true, skillLevel: 0 });
   expect(selection.sourceSkillSettings).toContainEqual({ origin: { kind: 'CHARACTER', characterKey: 'actor_a' }, skillKey: 'sample_second', enabled: false });
-  await expect(page.getByRole('button', { name: '准备计算', exact: true })).toBeEnabled();
-  await expectSimulationConfigurationReady(page);
+  await expect(page.getByRole('alert').filter({ hasText: /^计算完成。$/ })).toBeVisible();
   await expect(page.locator('.simulation-level-select[aria-label="攻击方技能 sample_active 等级"]')).toContainText('0（未学）');
   await expect(page.getByRole('switch', { name: '攻击方技能 sample_second 启用', exact: true })).not.toBeChecked();
   await expect(cleared).toContainText('等级');
   await expect(cleared).not.toContainText('1');
   await setCombatAnalysisSkill(page, '攻击方', 'sample_second', true);
-  await expect(page.getByRole('button', { name: '准备计算', exact: true })).toBeDisabled();
+  await expect(runButton(page)).toBeDisabled();
   await expect(cleared).toContainText('等级');
   await expect(cleared).not.toContainText('1');
   diagnostics.assertClean();
 });
 
-test('独立构造页面：关闭全部主动后直接运行真实普攻，原生请求不包含自动技能', async ({ page }, testInfo) => {
+test('独立构造页面：关闭全部主动后按默认满血一键运行真实普攻，原生请求不包含自动技能', async ({ page }, testInfo) => {
   const diagnostics = await installCombatAnalysisApi(page);
   await openCombatAnalysisPage(page);
   await selectCombatAnalysisCharacters(page);
   await setCombatAnalysisSkill(page, '攻击方', 'sample_active', false);
   await setCombatAnalysisSkill(page, '攻击方', 'sample_second', false);
-  await page.getByRole('button', { name: '准备计算', exact: true }).click();
-  await expectSimulationConfigurationReady(page);
-  await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
-  await page.getByLabel('攻击方初始当前生命', { exact: true }).fill('300');
-  await page.getByLabel('目标初始当前生命', { exact: true }).fill('5000');
+  await expect(page.locator('.arco-select[aria-label="初始生命规则"]')).toContainText('双方各自按面板满血开始');
   await page.getByLabel('观察时长（毫秒）', { exact: true }).fill('2600');
-  await page.getByLabel('攻速输入上界', { exact: true }).fill('10');
+  await expect(page.getByLabel('攻速输入上界', { exact: true })).toHaveValue('10');
   await runButton(page).click();
+  await expect(page.getByRole('alert').filter({ hasText: /^计算完成。$/ })).toBeVisible();
   const result = page.getByRole('region', { name: '连续普攻结果', exact: true });
   await expect(result).toBeVisible();
   await expect(result).toContainText('完整观察，目标未被击杀');
@@ -115,6 +110,7 @@ test('独立构造页面：关闭全部主动后直接运行真实普攻，原�
   const archive = JSON.parse(readFileSync(file!, 'utf8')) as ContinuousAttackArchive;
   expect(archive.taskKind).toBe('continuous_attack');
   expect(archive.cleanup).toBe('released');
+  expect(archive.initialHealth).toEqual({ source: 1000, target: 5000 });
   expect(archive.runRequest!.driverPlan.basicAttack).toBeDefined();
   expect(archive.runRequest!.driverPlan.automaticSkills).toBeUndefined();
   expect(archive.snapshot.selection.plannedSkills).toEqual([]);
@@ -155,8 +151,8 @@ test('独立构造页面：换角色立即清除旧规则，迟到作者配置�
 });
 
 for (const basicBinding of ['missing', 'ambiguous'] as const) {
-  test(`独立构造页面：${basicBinding === 'missing' ? '缺少' : '多份'}普通攻击绑定不自动挑选，关闭普攻后可准备并运行纯主动`, async ({ page }, testInfo) => {
-    const sample = simulationAutomaticSample(true);
+  test(`独立构造页面：${basicBinding === 'missing' ? '缺少' : '多份'}普通攻击绑定不自动挑选，关闭普攻后一键运行纯主动`, async ({ page }, testInfo) => {
+    const sample = combatAnalysisSample();
     if (basicBinding === 'missing') {
       sample.source.attachedSkills = sample.source.attachedSkills.filter(relation => relation.skillKey !== 'sample_basic_attack');
       sample.source.skillSources = sample.source.skillSources.filter(source => source.skillKey !== 'sample_basic_attack');
@@ -179,7 +175,7 @@ for (const basicBinding of ['missing', 'ambiguous'] as const) {
     await chooseSimulationLevel(page, '目标等级', 1);
     const fallback = page.getByRole('switch', { name: '开启背景普攻', exact: true });
     await expect(fallback).toBeChecked();
-    await expect(page.getByRole('button', { name: '准备计算', exact: true })).toBeDisabled();
+    await expect(runButton(page)).toBeDisabled();
     await expect(page.getByRole('alert', { name: '场景配置问题', exact: true })).toContainText(basicBinding === 'missing' ? '没有真实已启用的普通攻击绑定' : '有2份普通攻击绑定');
     await expect(page.locator('.arco-select[aria-label="普攻技能"]')).toHaveCount(0);
     if (basicBinding === 'ambiguous') {
@@ -189,12 +185,8 @@ for (const basicBinding of ['missing', 'ambiguous'] as const) {
     }
     await fallback.click();
     await expect(fallback).not.toBeChecked();
-    await expect(page.getByRole('button', { name: '准备计算', exact: true })).toBeEnabled();
-    await page.getByRole('button', { name: '准备计算', exact: true }).click();
-    await expectSimulationConfigurationReady(page);
-    await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
-    await page.getByLabel('攻击方初始当前生命', { exact: true }).fill('300');
-    await page.getByLabel('目标初始当前生命', { exact: true }).fill('5000');
+    await expect(runButton(page)).toBeEnabled();
+    await setCombatAnalysisInitialHealth(page, 300, 5000);
     await page.getByLabel('观察时长（毫秒）', { exact: true }).fill('1600');
     await runCombatAnalysisPage(page);
     const archive = await downloadCombatAnalysis(page, `pure-${basicBinding}-basic-binding`, testInfo);
@@ -243,12 +235,18 @@ function assertRulesAndQualification(archive: FrozenCombatAnalysis, mixed: boole
 
 test('独立构造页面：混合自动连招的曲线、真实使用与伤害联动、冻结来源和过期', async ({ page }, testInfo) => {
   const diagnostics = await installCombatAnalysisApi(page);
-  await prepareCombatAnalysisPage(page);
+  await configureCombatAnalysisPage(page);
   await runCombatAnalysisPage(page);
   const result = resultRegion(page);
   await expect(result.getByRole('region', { name: '混合战斗曲线', exact: true })).toBeVisible();
   await expect(result.getByTestId('continuous-attack-charts').locator('svg')).toBeVisible();
   await expect(result.getByRole('heading', { name: '一次释放资格账本', exact: true })).toBeVisible();
+  const technical = result.locator('summary', { hasText: /^技术与调试详情$/ });
+  const released = result.getByText('会话已正常释放。', { exact: true });
+  await expect(released).toBeHidden();
+  await technical.click();
+  await expect(released).toBeVisible();
+  await technical.click();
   const baseline = await downloadCombatAnalysis(page, 'mixed-detailed', testInfo);
   assertRulesAndQualification(baseline, true);
   const done = baseline.runResult!;
@@ -316,7 +314,7 @@ test('独立构造页面：混合自动连招的曲线、真实使用与伤害�
 
 test('独立构造页面：纯主动曲线和直接治疗，关闭采样与零记录预算保留完整累计', async ({ page }, testInfo) => {
   const diagnostics = await installCombatAnalysisApi(page);
-  await prepareCombatAnalysisPage(page, false);
+  await configureCombatAnalysisPage(page, false);
   await runCombatAnalysisPage(page);
   const result = resultRegion(page);
   await expect(result.getByTestId('continuous-attack-charts').locator('svg')).toBeVisible();
@@ -356,7 +354,7 @@ test('独立构造页面：纯主动曲线和直接治疗，关闭采样与零�
 
 test('独立构造页面：明确未命中的真实使用仍能定位冻结技能与编译过程，不补造伤害', async ({ page }, testInfo) => {
   const diagnostics = await installCombatAnalysisApi(page);
-  await prepareCombatAnalysisPage(page, false);
+  await configureCombatAnalysisPage(page, false);
   await chooseCombatAnalysisOption(page, '自动技能命中预设 auto_rule_1', '明确未命中');
   await runCombatAnalysisPage(page);
   const archive = await downloadCombatAnalysis(page, 'pure-miss-use-origin', testInfo);
@@ -393,7 +391,7 @@ test('独立构造页面：明确未命中的真实使用仍能定位冻结技�
 
 test('独立构造页面：汇总与采样独立，开启和关闭采样都保留规则及资格', async ({ page }, testInfo) => {
   const diagnostics = await installCombatAnalysisApi(page);
-  await prepareCombatAnalysisPage(page, false);
+  await configureCombatAnalysisPage(page, false);
   await chooseCombatAnalysisOption(page, '自动结果明细', '只返回汇总');
   await runCombatAnalysisPage(page);
   const result = resultRegion(page);
@@ -420,26 +418,22 @@ test('独立构造页面：汇总与采样独立，开启和关闭采样都保�
   diagnostics.assertClean();
 });
 
-test('独立构造页面：真实 Worker 运行中拒绝离开保留，确认后旧结果不进入新页面', async ({ page }, testInfo) => {
+test('独立构造页面：公开页运行中阻断切页，取消后可切页且迟到结果不回流', async ({ page }, testInfo) => {
   const diagnostics = await installCombatAnalysisApi(page);
-  await prepareCombatAnalysisPage(page);
+  await configureCombatAnalysisPage(page);
   await holdNextCombatAnalysisResult(page);
   await runButton(page).click();
   await waitForHeldCombatAnalysis(page);
   const before = await combatAnalysisWorkers(page);
-  const link = page.getByRole('link', { name: '普攻模拟', exact: false });
-  const rejected = page.waitForEvent('dialog').then(async dialog => {
-    expect(dialog.message()).toContain('当前计算尚未完成');
-    await dialog.dismiss();
-  });
-  await link.click();
-  await rejected;
+  const navigation = page.getByRole('navigation', { name: '计算', exact: true });
+  const basicAttack = navigation.getByRole('link', { name: '普攻模拟', exact: true });
+  await expect(basicAttack).toHaveCount(0);
+  await page.evaluate(() => { window.location.hash = '#/simulation/basic-attack'; });
   await expect(page).toHaveURL(/#\/simulation\/combat-analysis$/);
   await expect(runButton(page)).toBeDisabled();
   expect((await combatAnalysisWorkers(page)).terminated).toBe(before.terminated);
-  const accepted = page.waitForEvent('dialog').then(dialog => dialog.accept());
-  await link.click();
-  await accepted;
+  await page.getByRole('button', { name: '取消当前请求', exact: true }).click();
+  await basicAttack.click();
   await expect(page).toHaveURL(/#\/simulation\/basic-attack$/);
   await expect.poll(async () => (await combatAnalysisWorkers(page)).terminated).toBeGreaterThan(before.terminated);
   await resumeCombatAnalysis(page);
@@ -455,7 +449,7 @@ test('独立构造页面：真实 Worker 运行中拒绝离开保留，确认后
 
 test('独立构造页面：取消真实计算后重跑，迟到的旧结果不能覆盖新冻结档案', async ({ page }, testInfo) => {
   const diagnostics = await installCombatAnalysisApi(page);
-  await prepareCombatAnalysisPage(page, false);
+  await configureCombatAnalysisPage(page, false);
   await holdNextCombatAnalysisResult(page);
   await runButton(page).click();
   await waitForHeldCombatAnalysis(page);

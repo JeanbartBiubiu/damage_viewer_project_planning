@@ -41,26 +41,36 @@ function useSimulationAvailability(scope: SelectionContext | null) {
   const mounted = useRef(false);
   const active = useRef<{ scope: SelectionContext; controller: AbortController } | null>(null);
   const [state, setState] = useState<AvailabilityState>({ scope: null, loading: false, error: null, response: null });
-  const refresh = useCallback(async (): Promise<SimulationAvailabilityResponse> => {
+  const refresh = useCallback(async (signal?: AbortSignal): Promise<SimulationAvailabilityResponse> => {
     if (!scope || currentScope.current !== scope || !mounted.current) throw new DOMException('计算可用性读取作用域已改变。', 'AbortError');
+    signal?.throwIfAborted();
     active.current?.controller.abort();
     const controller = new AbortController();
     const request = { scope, controller };
+    const ownsRequest = () => mounted.current && active.current === request && currentScope.current === scope;
+    const cancel = () => {
+      controller.abort();
+      if (!ownsRequest()) return;
+      active.current = null;
+      setState(previous => previous.scope === scope ? { ...previous, loading: false } : previous);
+    };
     active.current = request;
-    setState({ scope, loading: true, error: null, response: null });
+    signal?.addEventListener('abort', cancel, { once: true });
+    setState(previous => ({ scope, loading: true, error: null, response: previous.scope === scope ? previous.response : null }));
     try {
       const { data } = await getSimulationAvailability(scope.apiBaseUrl, scope.gameId, controller.signal);
-      if (controller.signal.aborted || active.current !== request || currentScope.current !== scope || !mounted.current) {
+      if (controller.signal.aborted || !ownsRequest()) {
         throw new DOMException('计算可用性读取已取消。', 'AbortError');
       }
       setState({ scope, loading: false, error: null, response: data });
       return data;
     } catch (error) {
-      if (!controller.signal.aborted && active.current === request && currentScope.current === scope && mounted.current) {
+      if (!controller.signal.aborted && ownsRequest()) {
         setState({ scope, loading: false, error: getErrorMessage(error), response: null });
       }
       throw error;
     } finally {
+      signal?.removeEventListener('abort', cancel);
       if (active.current === request) active.current = null;
     }
   }, [scope]);

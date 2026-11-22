@@ -786,6 +786,21 @@ export function inspectSimulationSnapshot(snapshot: SimulationSnapshot, ignoredC
     mechanicRequirements: compiled.provider ? primaryMechanicRequirements(snapshot, compiled.provider.initialStateSchema) : [] };
 }
 
+/** 核对本场固有或明确补充值，以及固定装备平加后的目录范围。 */
+export function simulationAttributeInputIssue(snapshot: SimulationSnapshot,
+  { side, attribute }: SimulationAttributeRequirement, value: number) {
+  const key = attribute.attributeKey;
+  const inRange = (amount: number) => Number.isFinite(amount) && (attribute.minValue === null || amount >= attribute.minValue)
+    && (attribute.maxValue === null || amount <= attribute.maxValue);
+  if (!inRange(value) || attribute.valueType === 'INTEGER' && !Number.isInteger(value)) {
+    return { path: `attributeInputs.${side}.${key}`, message: '违反属性类型或范围' };
+  }
+  if (!inRange(value + equipmentContribution(snapshot, side, key))) {
+    return { path: `combatants.${side}.attributes.${key}`, message: '装备平加后的属性违反真实范围' };
+  }
+  return null;
+}
+
 export function assembleSimulation(
   snapshot: SimulationSnapshot, attributeInputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth,
   assumptions: readonly SimulationEquipmentAssumption[] = [], mechanicInputs: readonly SimulationMechanicStateInput[] = [],
@@ -816,15 +831,11 @@ export function assembleSimulation(
       if (!requirements.some(row => row.side === side && row.attribute.attributeKey === key)) fail(`attributeInputs.${side}.${key}`, '不是本次所需属性');
       combined[key] = finiteNumber(value, `attributeInputs.${side}.${key}`, fail);
     }
-    for (const { attribute } of requirements.filter(row => row.side === side)) {
-      const key = attribute.attributeKey;
+    for (const requirement of requirements.filter(row => row.side === side)) {
+      const key = requirement.attribute.attributeKey;
       const value = finiteNumber(combined[key], `attributeInputs.${side}.${key}`, fail);
-      if ((attribute.valueType === 'INTEGER' && !Number.isInteger(value))
-        || (attribute.minValue !== null && value < attribute.minValue)
-        || (attribute.maxValue !== null && value > attribute.maxValue)) fail(`attributeInputs.${side}.${key}`, '违反属性类型或范围');
-      const resolved = value + equipmentContribution(snapshot, side, key);
-      if (!Number.isFinite(resolved) || (attribute.minValue !== null && resolved < attribute.minValue)
-        || (attribute.maxValue !== null && resolved > attribute.maxValue)) fail(`combatants.${side}.attributes.${key}`, '装备平加后的属性违反真实范围');
+      const issue = simulationAttributeInputIssue(snapshot, requirement, value);
+      if (issue) fail(issue.path, issue.message);
     }
     const hpLimit = combined.hp! + equipmentContribution(snapshot, side, 'hp') + permanentHp[side];
     if (!Number.isFinite(hpLimit) || !(hpLimit > 0)) fail(`combatants.${side}.hp`, '初始生命上限必须是有限正数');

@@ -1,8 +1,10 @@
 import { expect, test, type Page } from '@playwright/test';
-import { combatAnalysisWorkers, installCombatAnalysisApi, openCombatAnalysisPage, prepareCombatAnalysisPage } from '../fixtures/combatAnalysisPage';
+import { combatAnalysisWorkers, configureCombatAnalysisPage, installCombatAnalysisApi, openCombatAnalysisPage } from '../fixtures/combatAnalysisPage';
 import { simulationAutomaticSample } from '../fixtures/simulationAutomaticSkills';
 import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';
 import { simulationAvailabilityEntry, simulationAvailabilitySample, unavailableSimulationEntry } from '../fixtures/simulationAvailability';
+
+const runButton = (page: Page) => page.getByRole('button', { name: '开始计算', exact: true });
 
 // READY 与核验引用完全为本专项独立构造；这些用例不证明真实英雄、装备或实库录入已经可用。
 async function showOption(page: Page, label: string, key: string) {
@@ -47,7 +49,7 @@ test('独立可用目录：角色和装备只有READY可选，未就绪原因保
   await allowedEquipment.option.click();
   await page.keyboard.press('Escape');
   await expect(page.locator('.simulation-equipment-select[aria-label="攻击方装备"]')).toContainText('独立可选装备');
-  await expect(page.getByRole('button', { name: '准备计算', exact: true })).toBeDisabled();
+  await expect(runButton(page)).toBeDisabled();
   expect(diagnostics.snapshotReads).toBe(0);
   expect(diagnostics.workerCount).toBe(0);
   diagnostics.assertClean(false);
@@ -64,7 +66,7 @@ test('独立可用目录：读取失败时没有可选角色，明确重试成�
   await failedOption.option.click();
   await expect(page.locator('.simulation-level-select[aria-label="攻击方等级"]')).toHaveClass(/arco-select-disabled/);
   await page.keyboard.press('Escape');
-  await expect(page.getByRole('button', { name: '准备计算', exact: true })).toBeDisabled();
+  await expect(runButton(page)).toBeDisabled();
   const reads = diagnostics.availabilityReads;
   diagnostics.setAvailabilityUnavailable(false);
   await page.getByRole('button', { name: '重试计算可用目录', exact: true }).click();
@@ -77,7 +79,7 @@ test('独立可用目录：读取失败时没有可选角色，明确重试成�
   diagnostics.assertClean(false);
 });
 
-test('独立可用目录：准备前重读发现角色未就绪，阻断快照与Worker并保留选择草稿', async ({ page }) => {
+test('独立可用目录：开始计算时重读发现角色未就绪，阻断快照与 Worker 并保留选择草稿', async ({ page }) => {
   const sample = simulationAutomaticSample(true);
   const diagnostics = await installCombatAnalysisApi(page, sample);
   await openCombatAnalysisPage(page);
@@ -85,15 +87,15 @@ test('独立可用目录：准备前重读发现角色未就绪，阻断快照�
   await chooseSimulationLevel(page, '攻击方等级', 1);
   await chooseSimulationEntity(page, '目标角色', 'actor_b');
   await chooseSimulationLevel(page, '目标等级', 1);
-  const prepare = page.getByRole('button', { name: '准备计算', exact: true });
-  await expect(prepare).toBeEnabled();
+  const start = runButton(page);
+  await expect(start).toBeEnabled();
   const changed = simulationAvailabilitySample(sample);
   changed.characters[0] = unavailableSimulationEntry(changed.characters[0]!, 'UNVERIFIED', '独立作者摘要已改变，整英雄证明失效');
   diagnostics.setAvailability(changed);
   const reads = diagnostics.availabilityReads;
-  await prepare.click();
+  await start.click();
   await expect(page.getByRole('alert', { name: '场景配置问题', exact: true })).toContainText('独立作者摘要已改变，整英雄证明失效');
-  await expect(prepare).toBeDisabled();
+  await expect(start).toBeDisabled();
   await expect(page.locator('.simulation-entity-select[aria-label="攻击方角色"]')).toContainText('样例A');
   await expect(page.locator('.simulation-level-select[aria-label="攻击方等级"]')).toContainText('1');
   await expect(page.getByRole('switch', { name: '攻击方技能 sample_active 启用', exact: true })).toBeChecked();
@@ -103,30 +105,40 @@ test('独立可用目录：准备前重读发现角色未就绪，阻断快照�
   diagnostics.assertClean(false);
 });
 
-test('独立可用目录：运行前重读发现已选目标未就绪，不新编译且保留生命与属性草稿', async ({ page }) => {
+test('独立可用目录：取消读取后可立即重试，目标未就绪时阻断运行并保留计算条件', async ({ page }) => {
   const sample = simulationAutomaticSample(true);
   const diagnostics = await installCombatAnalysisApi(page, sample);
-  await prepareCombatAnalysisPage(page);
+  await configureCombatAnalysisPage(page);
   const beforeWorkers = await combatAnalysisWorkers(page);
   const snapshots = diagnostics.snapshotReads;
   const reads = diagnostics.availabilityReads;
   const changed = simulationAvailabilitySample(sample);
   changed.characters[1] = unavailableSimulationEntry(changed.characters[1]!, 'ENGINE_UNSUPPORTED', '独立目标新增未支持机制');
-  diagnostics.setAvailability(changed);
-  await page.getByRole('button', { name: '开始计算', exact: true }).click();
-  await expect(page.getByRole('alert', { name: '场景配置问题', exact: true })).toContainText('独立目标新增未支持机制');
-  await expect(page.getByRole('button', { name: '开始计算', exact: true })).toBeDisabled();
-  await expect(page.getByRole('button', { name: '准备计算', exact: true })).toBeDisabled();
+  const held = diagnostics.holdNextAvailability();
+  const problems = page.getByRole('alert', { name: '场景配置问题', exact: true });
+  try {
+    await runButton(page).click();
+    await held.started;
+    await page.getByRole('button', { name: '取消当前请求', exact: true }).click();
+    await expect(runButton(page)).toBeEnabled();
+    diagnostics.setAvailability(changed);
+    await runButton(page).click();
+    await expect(problems).toContainText('独立目标新增未支持机制');
+  } finally {
+    held.release();
+  }
+  await expect(problems).toContainText('独立目标新增未支持机制');
+  await expect(runButton(page)).toBeDisabled();
   await expect(page.getByLabel('攻击方初始当前生命', { exact: true })).toHaveValue('300');
   await expect(page.getByLabel('目标初始当前生命', { exact: true })).toHaveValue('5000');
   await expect(page.getByLabel('观察时长（毫秒）', { exact: true })).toHaveValue('2600');
   await expect(page.getByRole('switch', { name: '攻击方技能 sample_active 启用', exact: true })).toBeChecked();
-  expect(diagnostics.availabilityReads).toBe(reads + 1);
+  expect(diagnostics.availabilityReads).toBe(reads + 2);
   expect(diagnostics.snapshotReads).toBe(snapshots);
   const afterWorkers = await combatAnalysisWorkers(page);
   expect(afterWorkers.messages.filter(type => type === 'compile' || type === 'run'))
     .toEqual(beforeWorkers.messages.filter(type => type === 'compile' || type === 'run'));
-  diagnostics.assertClean();
+  diagnostics.assertClean(false);
 });
 
 test('独立可用目录：已批准排除的来源自动关闭并锁定原因，必需技能保持开启', async ({ page }) => {

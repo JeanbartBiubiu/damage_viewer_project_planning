@@ -1,3 +1,4 @@
+import { fulfillComputeAuthorization } from '../fixtures/computeAuthorization';
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -19,6 +20,9 @@ async function execute(page: Page, input: NativeAutomaticInput, label: string) {
   const bytes = readFileSync(resolve('src/engine/wasm/tinygo_engine_v2.wasm'));
   const wasm = { bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex') };
   if (process.env.SIMULATION_EXPECTED_WASM_SHA256) expect(wasm.sha256).toBe(process.env.SIMULATION_EXPECTED_WASM_SHA256.toLowerCase());
+  await page.route('**/api/auth/wasm-grant', async route => {
+    if (!await fulfillComputeAuthorization(route)) await route.fallback();
+  });
   await page.goto('/');
   const observedWasm = await page.evaluate(async () => {
     const response = await fetch('/src/engine/wasm/tinygo_engine_v2.wasm');

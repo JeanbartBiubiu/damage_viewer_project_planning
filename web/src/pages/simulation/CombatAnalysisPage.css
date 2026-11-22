@@ -278,3 +278,20 @@
 .combat-record-options { margin-top: 20px; }
 .combat-setup-basic-fallback { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 8px 0 16px; color: var(--color-text-2); }
 @media (max-width: 620px) { .combat-rule-fields { grid-template-columns: minmax(0, 1fr); } }
+
+.combat-run-conditions {
+  border-block-start: 1px solid var(--line);
+  margin-block-start: 1.25rem;
+  padding-block-start: 0.75rem;
+}
+
+.combat-run-conditions .arco-form-item {
+  margin-block-end: 0.75rem;
+}
+
+.combat-equipment-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block-end: 1rem;
+}

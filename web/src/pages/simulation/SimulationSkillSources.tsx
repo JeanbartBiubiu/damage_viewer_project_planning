@@ -5,6 +5,8 @@ import type { SimulationSkillInactiveReason, SimulationSkillSetting, SimulationS
 
 type Props = {
   side: 'source' | 'target';
+  label?: string;
+  kinds?: SimulationSkillSource['origin']['kind'][];
   snapshot: SimulationSnapshot | null;
   sources: SimulationSkillSource[];
   settings: SimulationSkillSetting[];
@@ -22,13 +24,13 @@ const reasonLabels: Record<SimulationSkillInactiveReason, string> = {
   NO_REACHABLE_EVENT: '本场无可达事件',
   CONFIGURATION_INCOMPLETE: '自然程序尚未配置完整', LEVEL_REQUIRED: '自然程序仍需明确技能等级'
 };
-export function SimulationSkillSources({ side, snapshot, sources, settings, basicAttackSkillKey, basicAttackLevel, stale, clearedLevels, disabled, onChange }: Props) {
-  const label = side === 'source' ? '攻击方' : '目标';
+export function SimulationSkillSources({ side, label: labelOverride, kinds, snapshot, sources, settings, basicAttackSkillKey, basicAttackLevel, stale, clearedLevels, disabled, onChange }: Props) {
+  const label = labelOverride ?? (side === 'source' ? '攻击方' : '目标');
   return <section className="simulation-skill-sources" aria-label={`${label}默认技能来源`}>
     <Typography.Title heading={6}>默认技能来源</Typography.Title>
-    <Typography.Paragraph type="secondary">角色来源技能默认最高等级，可改低或选0未学；关闭不删除原关系、装备属性或构筑选择。{stale ? '来源设置已改变，需重新读取快照。' : ''}</Typography.Paragraph>
+    <Typography.Paragraph type="secondary">角色来源技能默认最高等级，可改低或选0未学；关闭不删除原关系、装备属性或构筑选择。{stale ? '来源设置已改变，下次计算时重新核对。' : ''}</Typography.Paragraph>
     {!snapshot ? <Typography.Paragraph type="secondary">读取场景快照后自动列出角色、装备及构筑的实际绑定。</Typography.Paragraph> : null}
-    {(['CHARACTER', 'EQUIPMENT', 'BUILD_OPTION'] as const).map(kind => {
+    {(kinds ?? ['CHARACTER', 'EQUIPMENT', 'BUILD_OPTION'] as const).map(kind => {
       const rows = sources.filter(source => source.origin.kind === kind);
       return <section key={kind} aria-label={`${label}${kind === 'CHARACTER' ? '角色' : kind === 'EQUIPMENT' ? '装备' : '构筑'}技能来源`}>
         <Typography.Text>{kind === 'CHARACTER' ? '角色绑定' : kind === 'EQUIPMENT' ? '已选装备' : '已选构筑'}</Typography.Text>

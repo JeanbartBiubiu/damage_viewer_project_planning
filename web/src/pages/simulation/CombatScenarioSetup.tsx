@@ -43,9 +43,13 @@ export type CombatScenarioSetupProps = {
   disabled: boolean;
   unavailable: boolean;
   issues: string[];
-  prepareDisabled: boolean;
-  onPrepare: () => void;
-  preparing: boolean;
+  runDisabled: boolean;
+  onRun: () => void;
+  conditions: ReactNode;
+  comparison: {
+    enabled: boolean; equipmentKeys: string[]; extra: ReactNode;
+    onEquipment: (keys: string[]) => void; onCopy: () => void; onClose: () => void;
+  };
   onCancel: () => void;
 };
 
@@ -53,9 +57,10 @@ const skillKindLabels: Record<CombatSkillRow['kind'], string> = {
   basic: '普攻', active: '主动', passive: '被动'
 };
 
-function Combatant({ side, value, ...shared }: {
+function Combatant({ side, value, comparisonControls, ...shared }: {
   side: 'source' | 'target';
   value: CombatantSetup;
+  comparisonControls?: ReactNode;
 } & Pick<CombatScenarioSetupProps, 'characters' | 'charactersLoading' | 'equipment' | 'equipmentLoading'
   | 'levels' | 'levelsLoading' | 'imageLoader' | 'disabled' | 'unavailable'>) {
   const label = side === 'source' ? '攻击方' : '目标';
@@ -81,11 +86,13 @@ function Combatant({ side, value, ...shared }: {
       </Form.Item>
     </div>
 
-    <Form.Item label={`${label}装备（最多6件）`} className="combat-setup-equipment">
+    <Form.Item label={side === 'source' ? '攻击方装备（方案 A）' : '目标装备'} className="combat-setup-equipment">
       <SimulationEquipmentSelect label={`${label}装备`} value={value.equipmentKeys} options={shared.equipment}
         loading={shared.equipmentLoading} disabled={disabled || !value.characterKey || shared.equipmentLoading}
         loadImage={shared.imageLoader} onChange={value.onEquipment} />
     </Form.Item>
+
+    {comparisonControls}
 
     <section className="combat-setup-skills" aria-label={`${label}角色技能`} aria-busy={value.skillsLoading}>
       {value.basicAttackFallback ? <div className="combat-setup-basic-fallback">
@@ -128,21 +135,34 @@ function Combatant({ side, value, ...shared }: {
   </section>;
 }
 
-export function CombatScenarioSetup({ source, target, issues, prepareDisabled, onPrepare, preparing, onCancel, ...shared }: CombatScenarioSetupProps) {
-  return <Form layout="vertical" className="combat-scenario-setup" aria-label="混合战斗场景选择" aria-busy={preparing}>
+export function CombatScenarioSetup({ source, target, issues, runDisabled, onRun, conditions, comparison, onCancel, ...shared }: CombatScenarioSetupProps) {
+  const disabled = shared.disabled || shared.unavailable;
+  const comparisonControls = comparison.enabled ? <section aria-label="方案 B 装备设置">
+    <Form.Item label="攻击方装备（方案 B，仅改 1 件装备）">
+      <SimulationEquipmentSelect label="攻击方装备（方案 B）" value={comparison.equipmentKeys} options={shared.equipment}
+        loading={shared.equipmentLoading} disabled={disabled || !source.characterKey || shared.equipmentLoading}
+        loadImage={shared.imageLoader} onChange={comparison.onEquipment} />
+    </Form.Item>
+    {comparison.extra}
+    <div className="combat-equipment-actions">
+      <Button disabled={disabled} onClick={comparison.onCopy}>同步方案 A 装备</Button>
+      <Button disabled={disabled} onClick={comparison.onClose}>关闭方案 B</Button>
+    </div>
+  </section> : <Button disabled={disabled || !source.characterKey} onClick={comparison.onCopy}>复制为方案 B 比较</Button>;
+  return <Form layout="vertical" className="combat-scenario-setup" aria-label="混合战斗场景选择" aria-busy={shared.disabled}>
     <div className="combat-setup-sides">
-      <Combatant side="source" value={source} {...shared} />
+      <Combatant side="source" value={source} comparisonControls={comparisonControls} {...shared} />
       <Combatant side="target" value={target} {...shared} />
     </div>
+    {conditions}
     {issues.length ? <div className="combat-setup-issues" role="alert" aria-label="场景配置问题">
-      <ul>{issues.map((issue, index) => <li key={`${index}:${issue}`}>{issue}</li>)}</ul>
+      <ul>{issues.map((issue, index) => <li key={index}>{issue}</li>)}</ul>
     </div> : null}
     <div className="combat-setup-actions">
-      <Button type="primary" disabled={shared.disabled || shared.unavailable || prepareDisabled} loading={preparing} onClick={onPrepare}>
-        准备计算
+      <Button type="primary" disabled={disabled || runDisabled} loading={shared.disabled} onClick={onRun}>
+        {comparison.enabled ? '开始比较' : '开始计算'}
       </Button>
       {shared.disabled ? <Button status="danger" onClick={onCancel}>取消当前请求</Button> : null}
-      <span>读取后补全本场所需输入，再开始计算</span>
     </div>
   </Form>;
 }

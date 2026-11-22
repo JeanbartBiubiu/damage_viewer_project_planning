@@ -10,6 +10,39 @@ import { AutomaticSkillAnalysis } from './AutomaticSkillAnalysis';
 import './AutomaticSkillAnalysis.css';
 
 const waitingLabels: Record<AutomaticSkillWaitingReason, string> = AUTOMATIC_SKILL_WAIT_REASON_LABELS;
+const cleanupLabels: Record<AutomaticSkillArchive['cleanup'], string> = {
+  released: '会话已正常释放', not_needed: '尚未产生可释放会话',
+  worker_destroyed: '计算线程已销毁', release_failed: '会话释放失败'
+};
+
+function TechnicalDetails({ archive, ruleName }: { archive: AutomaticSkillArchive; ruleName?: (key: string) => string }) {
+  const done = archive.runResult;
+  const budgetCause = done?.summary.execution?.budgetCause;
+  const qualifications = done?.automaticSkillSummary?.qualifications.filter(row => row.lastGrantUseRef || row.lastConsumeUseRef) ?? [];
+  return <details className="automatic-analysis-section">
+    <summary><Typography.Text bold>技术与调试详情</Typography.Text></summary>
+    <Typography.Paragraph>{cleanupLabels[archive.cleanup]}。</Typography.Paragraph>
+    <ul>
+      <li>场景资料摘要 <code>{archive.snapshotDigest}</code></li>
+      <li>运行输入摘要 <code>{archive.runInputHash ?? '未生成'}</code></li>
+      <li>编译规则摘要 <code>{archive.compileRequest.rulesHash}</code></li>
+      <li>引擎摘要 <code>{archive.wasm.sha256}</code></li>
+      {budgetCause ? <li>预算项 <code>{budgetCause}</code></li> : null}
+    </ul>
+    {qualifications.length ? <>
+      <Typography.Title heading={6}>资格记录标识</Typography.Title>
+      <ul>{qualifications.map(row => <li key={`${row.grantorRuleKey}/${row.consumerRuleKey}`}>
+        {ruleName?.(row.grantorRuleKey) ?? row.grantorRuleKey} → {ruleName?.(row.consumerRuleKey) ?? row.consumerRuleKey}
+        {row.lastGrantUseRef ? <> · 最后授予使用 <code>{row.lastGrantUseRef}</code></> : null}
+        {row.lastConsumeUseRef ? <> · 最后消费使用 <code>{row.lastConsumeUseRef}</code></> : null}
+      </li>)}</ul>
+    </> : null}
+    {archive.assessment?.issues.length ? <Alert type="error" content={archive.assessment.issues.join('；')} /> : null}
+    {archive.assessment?.identityGaps.length ? <Alert type="info" content={archive.assessment.identityGaps.join('；')} /> : null}
+    {done?.warnings.length ? <Alert type="warning" content={done.warnings.map(row => `${row.code}：${row.message}`).join('；')} /> : null}
+  </details>;
+}
+
 function download(name: string, value: unknown) {
   const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: 'application/json' }));
   const link = document.createElement('a'); link.href = url; link.download = name; link.click();
@@ -21,13 +54,17 @@ export function AutomaticSkillResult({ archive, stale }: { archive: AutomaticSki
   useEffect(() => { setView(initialAutomaticSkillView(done?.summary.durationMs ?? 0)); }, [done]);
   const automatic = done?.automaticSkillSummary;
   const downloadArchive = () => download('automatic-skill-archive.json', buildAutomaticSkillArchive(archive, view));
-  if (!done || !automatic) return <section aria-label="自动技能结果"><Alert type="warning" content="尚无完整自动结果；冻结档案保留失败及会话清理状态。" />
-    {archive.assessment?.issues.length ? <Alert type="error" content={archive.assessment.issues.join('；')} /> : null}
-    <Button onClick={downloadArchive}>下载自动冻结档案</Button></section>;
-  if (!archive.assessment?.factsValid) return <section aria-label="自动技能结果">
-    <Alert type="error" content={`自动结果协议或真实事实未通过核对：${archive.assessment?.issues.join('；') ?? '缺少结果核对'}。不能作为当前场景结果。`} />
-    <Typography.Paragraph>会话{archive.cleanup === 'released' ? '已正常释放' : '未正常释放'}；失败请求与输入草稿保留。</Typography.Paragraph>
+  const cleanupIssue = archive.cleanup === 'released' ? '' : cleanupLabels[archive.cleanup] + '。';
+  if (!done || !automatic) return <section className="automatic-analysis-result" aria-label="自动技能结果">
+    <Alert type="warning" content={`尚无完整自动结果。${cleanupIssue}冻结档案保留失败及会话清理状态。`} />
     <Button onClick={downloadArchive}>下载自动冻结档案</Button>
+    <TechnicalDetails archive={archive} />
+  </section>;
+  if (!archive.assessment?.factsValid) return <section className="automatic-analysis-result" aria-label="自动技能结果">
+    <Alert type="error" content="自动结果未通过核对。具体问题可在技术与调试详情中查看。" />
+    <Typography.Paragraph>{cleanupIssue}失败请求与输入草稿保留。</Typography.Paragraph>
+    <Button onClick={downloadArchive}>下载自动冻结档案</Button>
+    <TechnicalDetails archive={archive} />
   </section>;
   const summary = done.summary;
   const rules = archive.runRequest?.driverPlan.automaticSkills?.rules ?? [];
@@ -48,12 +85,11 @@ export function AutomaticSkillResult({ archive, stale }: { archive: AutomaticSki
     <Typography.Title heading={4}>混合战斗分析结果</Typography.Title>
     <Typography.Paragraph>冻结场景：{archive.snapshot.source.character.name}（等级{archive.snapshot.selection.sourceLevel}）→
       {archive.snapshot.target.character.name}（等级{archive.snapshot.selection.targetLevel}）；背景普攻{mixed ? '开启' : '关闭'}。
-      观察至{summary.durationMs}毫秒，停止原因：{({ duration_reached: '到达观察终点', target_dead: '目标死亡', source_dead: '攻击方死亡', both_dead: '双方死亡', no_events: '没有后续真实事件', budget_exceeded: '执行预算耗尽' })[summary.stopReason]}。
-      冻结条件摘要：{archive.runInputHash ?? '尚未准备'}。</Typography.Paragraph>
+      观察至{summary.durationMs}毫秒，停止原因：{({ duration_reached: '到达观察终点', target_dead: '目标死亡', source_dead: '攻击方死亡', both_dead: '双方死亡', no_events: '没有后续真实事件', budget_exceeded: '执行预算耗尽' })[summary.stopReason]}。</Typography.Paragraph>
     <Alert type={archive.assessment.complete && archive.cleanup === 'released' && !stale ? 'success' : 'warning'} content={
-      `观察${archive.assessment.complete ? '完整核对' : '尚未完整完成'}；${archive.cleanup === 'released' ? '会话已释放' : '会话未正常释放'}。
+      `观察${archive.assessment.complete ? '完整核对' : '尚未完整完成'}。${cleanupIssue}
       ${automatic.inFlightCount ? '观察结束仍有在途使用，不代表释放完成。' : ''}${stale ? '输入已变化，当前是已过期的冻结结果。' : ''}`} />
-    {summary.execution?.complete === false ? <Alert type="warning" content={`本次请求未完整完成，只显示截至${summary.durationMs}毫秒的已提交累计；原因：${summary.execution.incompleteReason === 'budget_exceeded' ? '执行预算耗尽' : '同步尾部未完成'}${summary.execution.budgetCause ? `（${summary.execution.budgetCause}）` : ''}。`} /> : null}
+    {summary.execution?.complete === false ? <Alert type="warning" content={`本次请求未完整完成，只显示截至${summary.durationMs}毫秒的已提交累计；原因：${summary.execution.incompleteReason === 'budget_exceeded' ? '执行预算耗尽' : '同步尾部未完成'}。`} /> : null}
     <Typography.Paragraph data-testid="automatic-skill-totals">{quantities.map(([label, value]) => `${label}${value}`).join('；')}。
       配置项数与实际循环次数分别累计，真实命中{summary.skillUses?.hitCount ?? '缺失'}。</Typography.Paragraph>
     <div className="automatic-analysis-metrics">{totals.map(([label, value]) => <div className="automatic-analysis-metric" key={label}>
@@ -72,17 +108,15 @@ export function AutomaticSkillResult({ archive, stale }: { archive: AutomaticSki
             <Typography.Text type="secondary">{row.waiting.nextCheckAtMs === null ? '下一检查时刻尚未知' : `下一检查${row.waiting.nextCheckAtMs}毫秒`}；检查不承诺施放</Typography.Text></Space> : '当前无等待' }
         ]} />
         <Typography.Title heading={5}>一次释放资格账本</Typography.Title>
-        <Table data={automatic.qualifications} rowKey={row => `${row.grantorRuleKey}/${row.consumerRuleKey}`} pagination={false} scroll={{ x: 1000 }} columns={[
+        <Table data={automatic.qualifications} rowKey={row => `${row.grantorRuleKey}/${row.consumerRuleKey}`} pagination={false} columns={[
           { title: '资格关系', render: (_, row) => `${name(row.grantorRuleKey)} → ${name(row.consumerRuleKey)}` },
-          { title: '真实授予', dataIndex: 'grantedCount' }, { title: '开始时消费', dataIndex: 'consumedCount' }, { title: '未消费（最多1份）', dataIndex: 'remainingCount' },
-          { title: '最后授予使用', render: (_, row) => row.lastGrantUseRef ?? '尚未授予' }, { title: '最后消费使用', render: (_, row) => row.lastConsumeUseRef ?? '尚未消费' }
+          { title: '真实授予', dataIndex: 'grantedCount' }, { title: '开始时消费', dataIndex: 'consumedCount' }, { title: '未消费（最多1份）', dataIndex: 'remainingCount' }
         ]} />
-        {archive.assessment.identityGaps.length ? <Alert type="info" content={archive.assessment.identityGaps.join('；')} /> : null}
       </section>
     </AutomaticSkillAnalysis>
-    <section className="automatic-analysis-section"><Typography.Paragraph>清理状态：{archive.cleanup === 'released' ? '会话已正常释放' : '会话未正常释放'}。
-      档案保存完整冻结输入、原始输出和当前视图；筛选不会裁剪下载内容。</Typography.Paragraph>
-      {done.warnings.length ? <Alert type="warning" content={done.warnings.map(row => `${row.code}：${row.message}`).join('；')} /> : null}
+    <section className="automatic-analysis-section"><Typography.Paragraph>档案包含完整冻结输入、原始输出与当前视图设置。</Typography.Paragraph>
+      {done.warnings.length ? <Alert type="warning" content={`本次计算记录了 ${done.warnings.length} 项警告，可在技术与调试详情中查看。`} /> : null}
       <Button onClick={downloadArchive}>下载自动冻结档案</Button></section>
+    <TechnicalDetails archive={archive} ruleName={name} />
   </section>;
 }

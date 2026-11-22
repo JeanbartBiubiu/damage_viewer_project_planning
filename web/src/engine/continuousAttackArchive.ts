@@ -11,21 +11,25 @@ function safeErrorText(value: string) {
     .replace(/(?:https?:\/\/)[^\s]+/gi, '连接地址已隐藏')
     .replace(/(?:authorization|adminToken|cookie|password|secret|api[_-]?key|access[_-]?token|token)\s*[:=]\s*[^\s,;]+/gi, '敏感信息已隐藏');
 }
-function safeBusiness(value: unknown, errorText = false): unknown {
+export function sanitizeArchiveBusiness(value: unknown, errorText = false): unknown {
   if (value === null || value === undefined) return null;
   if (typeof value === 'string') return errorText ? safeErrorText(value) : value;
   if (typeof value === 'number') return Number.isFinite(value) ? value : null;
   if (typeof value === 'boolean') return value;
-  if (Array.isArray(value)) return value.map(item => safeBusiness(item, errorText));
+  if (Array.isArray(value)) return value.map(item => sanitizeArchiveBusiness(item, errorText));
   if (typeof value !== 'object') return null;
   return Object.fromEntries(Object.entries(value).filter(([key]) => !forbiddenField.test(key) && !forbiddenSuffix.test(key))
-    .map(([key, item]) => [key, safeBusiness(item, errorText || key === 'error' || key === 'message')]));
+    .map(([key, item]) => [key, sanitizeArchiveBusiness(item, errorText || key === 'error' || key === 'message')]));
+}
+
+export function projectFrozenRunArchive(source: Record<string, unknown>) {
+  return Object.fromEntries(archiveFields.map(key => [key, sanitizeArchiveBusiness(source[key], key === 'error')]));
 }
 export function buildContinuousAttackArchive(input: unknown, view: ContinuousAttackView) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('缺少冻结运行档案。');
   const source = input as Record<string, unknown>;
   const selectedAttack = view.selectedAttack ? { planKey: view.selectedAttack.planKey, attackIndex: view.selectedAttack.attackIndex, useRef: view.selectedAttack.useRef } : null;
-  return { ...Object.fromEntries(archiveFields.map(key => [key, safeBusiness(source[key], key === 'error')])), displayDefinitionVersion: 1,
+  return { ...projectFrozenRunArchive(source), displayDefinitionVersion: 1,
     view: { breakdownMode: view.breakdownMode, amountMetric: view.amountMetric, timeRangeMs: [...view.timeRangeMs], dpsMode: view.dpsMode, visibleCurves: [...view.visibleCurves],
       sourceKeys: [...view.sourceKeys], damageTypes: [...view.damageTypes], attackIndex: view.attackIndex,
       selectedAttack, selectedDamageId: view.selectedDamageId } };
@@ -34,7 +38,7 @@ export function buildContinuousAttackArchive(input: unknown, view: ContinuousAtt
 export function buildSkillActionArchive(input: unknown, timeRangeMs: [number, number]) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('缺少冻结主动运行档案。');
   const source = input as Record<string, unknown>;
-  return { ...Object.fromEntries(archiveFields.map(key => [key, safeBusiness(source[key], key === 'error')])),
+  return { ...projectFrozenRunArchive(source),
     displayDefinitionVersion: 1, view: { timeRangeMs: [...timeRangeMs] } };
 }
 
@@ -52,7 +56,7 @@ function automaticSelectionView(value: AutomaticSelection | null): AutomaticSele
 export function buildAutomaticSkillArchive(input: unknown, view: AutomaticSkillView) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('缺少冻结自动运行档案。');
   const source = input as Record<string, unknown>;
-  return { ...Object.fromEntries(archiveFields.map(key => [key, safeBusiness(source[key], key === 'error')])),
+  return { ...projectFrozenRunArchive(source),
     displayDefinitionVersion: 2, view: { timeRangeMs: [...view.timeRangeMs], dpsMode: view.dpsMode,
       visibleCurves: [...view.visibleCurves], breakdownMode: view.breakdownMode, amountMetric: view.amountMetric,
       sourceKeys: [...view.sourceKeys], damageTypes: [...view.damageTypes], selection: automaticSelectionView(view.selection) } };

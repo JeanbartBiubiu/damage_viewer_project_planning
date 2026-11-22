@@ -33,9 +33,9 @@ function frozenPath(input: unknown, path: string) {
   return value;
 }
 
-export function ContinuousAttackResult({ archive, cleanupLabel, released, warnings, stale, onDownload }: {
+export function ContinuousAttackResult({ archive, cleanupLabel, released, warnings, stale, onDownload, collapseDiagnostics = false }: {
   archive: ContinuousAttackArchive; cleanupLabel: string; released: boolean; stale: boolean;
-  warnings: WarningItem[]; onDownload: (view: ContinuousAttackView) => void;
+  warnings: WarningItem[]; onDownload: (view: ContinuousAttackView) => void; collapseDiagnostics?: boolean;
 }) {
   const result = archive.assessment;
   const usable = result?.factsValid ? result : null;
@@ -267,7 +267,9 @@ export function ContinuousAttackResult({ archive, cleanupLabel, released, warnin
       </section> : null}
     </> : <Typography.Paragraph>没有通过可靠事实核对的运行结果，错误不会显示为0伤害。</Typography.Paragraph>}
     <div className="continuous-section">
-      <Typography.Paragraph>清理状态：{cleanupLabel}。</Typography.Paragraph>
+      {released && collapseDiagnostics ? <details><summary>技术与调试详情</summary>
+        <Typography.Paragraph>清理状态：{cleanupLabel}。</Typography.Paragraph>
+      </details> : <Typography.Paragraph>清理状态：{cleanupLabel}。</Typography.Paragraph>}
       {!released && result ? <Alert type="warning" content="运行事实已保留；会话未正常释放，整体任务未成功。" /> : null}
       {warnings.length ? <Alert type="warning" content={warnings.map(row => row.code + '：' + row.message).join('；')} /> : null}
       <Typography.Paragraph type="secondary">造成伤害为防御后、护盾前金额；实际扣血由原生结算独立累计。击杀时刻采用期望单击模型。完整档案不受筛选改变，CSV不只导出当前分页。</Typography.Paragraph>

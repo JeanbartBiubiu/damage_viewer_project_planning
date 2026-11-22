@@ -21,7 +21,7 @@ import { SimulationEquipmentSelect } from './SimulationEquipmentSelect';
 import { useSimulationSelectionOptions } from './useSimulationSelectionOptions';
 import { selectedSimulationAvailabilityIssues, simulationExcludedSkillSources } from './simulationSelectionOptions';
 import { assessSingleAttackResult, type SingleAttackAssessment } from '../../engine/singleAttackResult';
-import { continuousAttackRequest, CONTINUOUS_DURATION_INITIAL_MS, type PreparedContinuousAttack } from '../../engine/continuousAttackRequest';
+import { continuousAttackRequest, CONTINUOUS_DURATION_INITIAL_MS, type PreparedContinuousAttack, type ContinuousAttackInputs } from '../../engine/continuousAttackRequest';
 import { assessContinuousAttackResult, type ContinuousAttackAssessment } from '../../engine/continuousAttackResult';
 import { ContinuousAttackResult } from './ContinuousAttackResult';
 import { buildContinuousAttackArchive } from '../../engine/continuousAttackArchive';
@@ -46,6 +46,13 @@ import { CombatScenarioSetup, type CombatantSetup } from './CombatScenarioSetup'
 import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialParameterInput, type SceneInitialParameterInput,
   type SceneInitialParameterRequirement } from '../../engine/sceneInitialParameterInput';
 import { initialResourceCapacity, initialResourceKey } from '../../engine/initialResourceInputs';
+import { assessCombatComparison, buildCombatComparisonArchive, captureComparisonAvailability, matchesFrozenPlanInput,
+  mergePlanEquipment, transferEquipmentSettingsOnChange, validateEquipmentComparisonDiff, verifyCommonComparisonBaseline,
+  type CombatComparisonAvailability, type CombatEquipmentPlan } from '../../engine/combatComparison';
+import { mechanicStateIdentity } from '../../engine/simulationPrimaryAttack';
+import { CombatComparisonResult } from './CombatComparisonResult';
+import { combatSceneInputs, inspectCombatRunInputs, mergeCombatRequirements, type CombatHealthMode, type CombatRunDrafts,
+  type CombatRunInput } from './combatRunInputs';
 
 export type SimulationScenarioPanelProps = {
   mode: 'basic' | 'automatic';
@@ -73,6 +80,8 @@ type Task = {
   phase: Exclude<TaskPhase, 'idle'>;
   failurePhase: Exclude<TaskPhase, 'idle'> | null;
   cancelled: boolean;
+  combat: boolean;
+  combatPlan?: 'A' | 'B';
   controller: AbortController;
   client: GenericEngineClient | null;
   formulaPreflight?: { compileCount: number; released: boolean; formulaCount: number };
@@ -137,6 +146,27 @@ export type AutomaticSkillArchive = Omit<SingleAttackArchive, 'taskKind' | 'asse
   attackSpeedAdmission: PreparedAutomaticSkill['attackSpeedAdmission'];
 };
 type SimulationArchive = CompileArchive | SingleAttackArchive | ContinuousAttackArchive | SkillActionArchive | AutomaticSkillArchive;
+
+type CombatArchive = AutomaticSkillArchive | ContinuousAttackArchive;
+type FrozenCombatPlan = {
+  archive: CombatArchive;
+  input: CombatRunInput;
+  availability: CombatComparisonAvailability | null;
+};
+type SnapshotRunInputs = Omit<CombatRunInput, 'selection' | 'automatic'> & {
+  continuous: ContinuousAttackInputs;
+  skill?: SkillActionInputs;
+  automatic?: AutomaticSkillInputs;
+};
+
+function emptyRun(kind: TaskKind) {
+  return {
+    kind, failurePhase: null, client: null, formulaPreflight: undefined, formulaProofIdentity: undefined,
+    snapshot: null, prepared: null, result: null, release: null, sessionId: null,
+    runRequest: null, runResult: null, assessment: null, continuousPrepared: null, continuousAssessment: null,
+    skillPrepared: null, skillAssessment: null, automaticPrepared: null, automaticAssessment: null, cleanup: 'not_needed' as const
+  };
+}
 
 const phaseLabels: Record<Exclude<TaskPhase, 'idle'>, string> = {
   reading: '正在读取场景快照', preparing: '正在准备编译请求',
@@ -316,6 +346,8 @@ function SingleAttackResult({ archive }: { archive: SingleAttackArchive }) {
   );
 }
 
+function emptyCombatEquipment(): CombatEquipmentPlan { return { keys: [], settings: [], aura: {} }; }
+
 function downloadJson(name: string, value: unknown) {
   const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: 'application/json' }));
   const link = document.createElement('a');
@@ -342,8 +374,18 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
   const [sceneParameterRequirements, setSceneParameterRequirements] = useState<SceneInitialParameterRequirement[]>([]);
   const [sceneParameterDrafts, setSceneParameterDrafts] = useState<Record<string, number | undefined>>({});
   const [auraConfirmed, setAuraConfirmed] = useState<Record<string, boolean>>({});
+  const [healthMode, setHealthMode] = useState<CombatHealthMode>('full_health');
+  const [comparisonEnabled, setComparisonEnabled] = useState(false);
+  const [equipmentB, setEquipmentB] = useState<CombatEquipmentPlan>(emptyCombatEquipment);
+  const [snapshotB, setSnapshotB] = useState<SimulationSnapshot | null>(null);
+  const [inspectionB, setInspectionB] = useState<Inspection | null>(null);
+  const [frozenA, setFrozenA] = useState<FrozenCombatPlan | null>(null);
+  const [frozenB, setFrozenB] = useState<FrozenCombatPlan | null>(null);
+  const [combatCancellation, setCombatCancellation] = useState<{ plan: Task['combatPlan']; phase: Task['phase'] } | null>(null);
+  const [resultBStale, setResultBStale] = useState(false);
+  const [comparisonResult, setComparisonResult] = useState<{ a: CombatArchive; b: CombatArchive } | null>(null);
   const [durationMs, setDurationMs] = useState<number | undefined>(CONTINUOUS_DURATION_INITIAL_MS);
-  const [attackSpeedInputMax, setAttackSpeedInputMax] = useState<number | undefined>();
+  const [attackSpeedInputMax, setAttackSpeedInputMax] = useState<number | undefined>(automaticMode ? 10 : undefined);
   const [prepared, setPrepared] = useState<PreparedSimulation | null>(null);
   const [archive, setArchive] = useState<SimulationArchive | null>(null);
   const [recordTimeSeries, setRecordTimeSeries] = useState(true);
@@ -396,24 +438,54 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
     && (!skillMode || backgroundAttack ? skillLevels.includes(selection.basicAttackLevel!) : true)
     && (!skillMode || automaticMode && backgroundAttack || selection.plannedSkills.length > 0);
   const availabilityIssues = automaticMode && availability.response ? selectedSimulationAvailabilityIssues(availability.response, selection) : [];
-  const availabilityBlocked = automaticMode && (availability.loading || Boolean(availability.error) || !availability.response || availabilityIssues.length > 0);
+  const equipmentA: CombatEquipmentPlan = {
+    keys: selection.sourceEquipmentKeys,
+    settings: selection.sourceSkillSettings.filter(row => row.origin.kind === 'EQUIPMENT'),
+    aura: Object.fromEntries(Object.entries(auraConfirmed).filter(([key]) => key.startsWith('source:'))
+      .map(([key, value]) => [key.slice('source:'.length), value]))
+  };
+  const effectiveEquipmentB = mergePlanEquipment(equipmentA, equipmentB);
+  const comparisonDiff = validateEquipmentComparisonDiff(equipmentA.keys, equipmentB.keys);
+  const equipmentSettingsB = [...selection.sourceSkillSettings.filter(row => row.origin.kind !== 'EQUIPMENT'), ...effectiveEquipmentB.settings];
+  const comparisonIssues = !comparisonEnabled ? [] : [
+    ...(!comparisonDiff.valid ? [`首版出装比较仅支持替换、增补或卸下 1 件攻击方装备（A 独有 ${comparisonDiff.onlyInA.length} 件，B 独有 ${comparisonDiff.onlyInB.length} 件）。`] : []),
+    ...(availability.response ? selectedSimulationAvailabilityIssues(availability.response, {
+      ...selection, sourceEquipmentKeys: equipmentB.keys, sourceSkillSettings: equipmentSettingsB
+    }).filter(issue => !availabilityIssues.includes(issue)).map(issue => `方案 B：${issue}`) : [])
+  ];
   const objectsSelected = characters.items.some(row => row.key === selection.sourceCharacterKey && (!automaticMode || !row.disabled))
     && characters.items.some(row => row.key === selection.targetCharacterKey && (!automaticMode || !row.disabled))
     && (!skillMode || selection.plannedSkills.every(plan => activeSkills.items.some(row => row.key === plan.skillKey)))
     && (skillMode && !backgroundAttack || skills.items.some(row => row.key === selection.basicAttackSkillKey))
     && [...selection.sourceEquipmentKeys, ...selection.targetEquipmentKeys].every(key => equipment.items.some(row => row.key === key && (!automaticMode || !row.disabled)));
   const combatSkillsLoading = automaticMode && (boundSkills.loading || targetBoundSkills.loading);
-  const requirements = inspection?.requirements ?? [];
+  const requirements = automaticMode && comparisonEnabled ? mergeCombatRequirements(
+    inspection?.requirements ?? [], inspectionB?.requirements ?? [], row => `${row.side}:${row.attribute.attributeKey}`)
+    : inspection?.requirements ?? [];
   const missing = requirements.filter(row => row.storedValue === undefined);
   const unfilled = missing.filter(row => attributeDrafts[row.side][row.attribute.attributeKey] === undefined);
   const coverage = prepared?.coverage ?? inspection?.coverage ?? [];
   const healthUnfilled = initialHealth.source === undefined || initialHealth.target === undefined
     || sceneParameterRequirements.length > 0 && !inspection;
-  const mechanicRequirements = inspection?.mechanicRequirements ?? [];
+  const mechanicRequirements = automaticMode && comparisonEnabled ? mergeCombatRequirements(
+    inspection?.mechanicRequirements ?? [], inspectionB?.mechanicRequirements ?? [], mechanicStateIdentity)
+    : inspection?.mechanicRequirements ?? [];
   const mechanicIssues = mechanicDraftIssues(mechanicRequirements, mechanicDrafts);
-  const resourceRequirements = (inspection?.resourceRequirements ?? []).map(row => {
-    try { return { ...row, maxValue: snapshot ? initialResourceCapacity(snapshot, row.side, row.resourceKey,
-      attributeDrafts[row.side][row.resourceKey]) : undefined }; }
+  const rawResources = automaticMode && comparisonEnabled ? mergeCombatRequirements(inspection?.resourceRequirements ?? [],
+    inspectionB?.resourceRequirements ?? [], row => initialResourceKey(row.side, row.resourceKey)) : inspection?.resourceRequirements ?? [];
+  const resourceRequirements = rawResources.map(row => {
+    try {
+      const matchingSnapshots = automaticMode ? [
+        inspection?.resourceRequirements.some(item => item.side === row.side && item.resourceKey === row.resourceKey) ? snapshot : null,
+        comparisonEnabled && inspectionB?.resourceRequirements.some(item => item.side === row.side && item.resourceKey === row.resourceKey) ? snapshotB : null
+      ] : [snapshot];
+      const limits = matchingSnapshots.flatMap(next => {
+        if (!next) return [];
+        const limit = initialResourceCapacity(next, row.side, row.resourceKey, attributeDrafts[row.side][row.resourceKey]);
+        return limit === undefined ? [] : [limit];
+      });
+      return { ...row, maxValue: limits.length ? Math.min(...limits) : undefined };
+    }
     catch { return { ...row, maxValue: undefined }; }
   });
   const resourceUnfilled = resourceRequirements.some(row => resourceDrafts[initialResourceKey(row.side, row.resourceKey)] === undefined);
@@ -439,6 +511,17 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
     if (!snapshot) return [];
     try { return equipmentRangeRequirements(snapshot); } catch { return []; }
   }, [snapshot]);
+
+  const extraRangeRequirements = useMemo(() => {
+    if (!snapshotB) return [];
+    try { return equipmentRangeRequirements(snapshotB); } catch { return []; }
+  }, [snapshotB]);
+  const combatRanges = mergeCombatRequirements(rangeRequirements, extraRangeRequirements.filter(row =>
+    row.owner === 'target' || equipmentA.keys.includes(row.equipmentKey)), row => `${row.owner}:${row.equipmentKey}`)
+    .filter(row => selection[`${row.owner}EquipmentKeys`].includes(row.equipmentKey));
+  const exclusiveRangesB = extraRangeRequirements.filter(row => row.owner === 'source' && comparisonDiff.onlyInB.includes(row.equipmentKey));
+  const comparisonAssessment = useMemo(() => comparisonResult
+    ? assessCombatComparison(comparisonResult.a, comparisonResult.b) : null, [comparisonResult]);
 
   const clearOwnedFormulaProof = (identity: string | null | undefined) => {
     if (!identity) return;
@@ -482,10 +565,20 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
     setSceneParameterRequirements([]);
     setSceneParameterDrafts({});
     setAuraConfirmed({});
+    setHealthMode('full_health');
+    setComparisonEnabled(false);
+    setEquipmentB(emptyCombatEquipment());
+    setSnapshotB(null);
+    setInspectionB(null);
+    setFrozenA(null);
+    setFrozenB(null);
+    setCombatCancellation(null);
+    setResultBStale(false);
+    setComparisonResult(null);
     setDurationMs(CONTINUOUS_DURATION_INITIAL_MS);
     setRecordTimeSeries(true);
     setResultStale(false);
-    setAttackSpeedInputMax(undefined);
+    setAttackSpeedInputMax(automaticMode ? 10 : undefined);
     setPrepared(null);
     setArchive(null);
     setPhase('idle');
@@ -505,18 +598,27 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
       clearOwnedFormulaProof(formulaProofIdentityRef.current);
       onDirtyChange(false);
     };
-  }, [apiBaseUrl, selectedGameId, onDirtyChange]);
+  }, [apiBaseUrl, automaticMode, selectedGameId, onDirtyChange]);
+
+  useEffect(() => {
+    const directory = availability.response;
+    if (!automaticMode || !directory) return;
+    const invalid = (plan: FrozenCombatPlan | null) => plan?.archive.outcome === 'passed' && (
+      selectedSimulationAvailabilityIssues(directory, plan.input.selection).length > 0
+      || !matchesFrozenPlanInput(captureComparisonAvailability(directory, plan.input.selection), plan.availability)
+    );
+    const staleA = invalid(frozenA);
+    const staleB = invalid(frozenB);
+    if (staleA) setResultStale(true);
+    if (staleB) setResultBStale(true);
+    if (staleA || staleB) setComparisonResult(null);
+  }, [automaticMode, availability.response, frozenA, frozenB]);
 
   const isCurrent = (task: Task) => active.current && taskRef.current === task && !task.cancelled;
 
   const beginTask = (nextPhase: Exclude<TaskPhase, 'idle'>, kind: TaskKind = nextPhase === 'reading' ? 'snapshot' : 'compile'): Task | null => {
     if (taskRef.current) return null;
-    const task: Task = {
-      kind, phase: nextPhase, failurePhase: null, cancelled: false, controller: new AbortController(), client: null,
-      snapshot: null, prepared: null, result: null, release: null, sessionId: null,
-      runRequest: null, runResult: null, assessment: null, continuousPrepared: null, continuousAssessment: null,
-      skillPrepared: null, skillAssessment: null, automaticPrepared: null, automaticAssessment: null, cleanup: 'not_needed'
-    };
+    const task: Task = { ...emptyRun(kind), phase: nextPhase, cancelled: false, combat: false, controller: new AbortController() };
     taskRef.current = task;
     setPhase(nextPhase);
     setError(null);
@@ -542,18 +644,25 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
     clearOwnedFormulaProof(task.formulaProofIdentity ?? formulaProofIdentityRef.current);
     task.cleanup = task.client ? 'worker_destroyed' : 'not_needed';
     taskRef.current = null;
-    const cancelledArchive = archiveFor(task, 'cancelled', null);
-    setArchive(current => cancelledArchive ?? current);
-    setResultStale(cancelledArchive === null);
+    if (task.combat) {
+      setComparisonResult(null);
+      setCombatCancellation({ plan: task.combatPlan, phase: task.phase });
+      if (task.combatPlan === 'B') setResultBStale(true);
+    } else {
+      const cancelledArchive = archiveFor(task, 'cancelled', null);
+      setArchive(current => cancelledArchive ?? current);
+      setResultStale(cancelledArchive === null);
+    }
     setPhase('idle');
     setError(null);
-    setNotice(task.kind === 'snapshot' ? '当前场景读取已取消，保留已有输入。'
+    setNotice(task.combat ? '已取消当前计算，保留已有输入。' : task.kind === 'snapshot' ? '当前场景读取已取消，保留已有输入。'
       : task.kind === 'single_attack' ? '当前任务已取消，未完成单次运行验证。'
         : task.kind === 'continuous_attack' ? '当前任务已取消，未完成连续运行验证。' : '当前任务已取消，未完成编译验证。');
     onDirtyChange(false);
   };
 
   const invalidateRunResult = (preserveSingleResult = false) => {
+    if (automaticMode) { setComparisonResult(null); setResultBStale(true); }
     setArchive(current => preserveSingleResult || current?.taskKind === 'continuous_attack' || current?.taskKind === 'skill_action' || current?.taskKind === 'automatic_skill' ? current : null);
     setResultStale(true);
   };
@@ -561,10 +670,13 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
   const clearArtifacts = () => {
     clearOwnedFormulaProof(formulaProofIdentityRef.current);
     setFormulaPreflight(null);
-    setAuraConfirmed({});
+    if (!automaticMode) {
+      setAuraConfirmed({});
+      setResourceDrafts({});
+    }
     setSnapshot(null);
     setInspection(null);
-    setResourceDrafts({});
+    setInspectionB(null);
     setSceneParameterRequirements([]);
     setPrepared(null);
     invalidateRunResult(true);
@@ -574,6 +686,20 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
 
   const patchSelection = <K extends keyof SelectionDraft>(key: K, value: SelectionDraft[K]) => {
     if (taskRef.current) return;
+    if (automaticMode && (key === 'sourceCharacterKey' || key === 'targetCharacterKey' || key === 'sourceLevel' || key === 'targetLevel')) {
+      const side = key.startsWith('source') ? 'source' : 'target';
+      setAttributeDrafts(current => ({ ...current, [side]: {} }));
+      setInitialHealth(current => ({ ...current, [side]: undefined }));
+      setResourceDrafts(current => Object.fromEntries(Object.entries(current).filter(([id]) => !id.startsWith(`${side}:`))));
+      setMechanicDrafts(current => Object.fromEntries(Object.entries(current).filter(([id]) => !id.startsWith(`["${side}",`))));
+      setSceneParameterDrafts({});
+      if (key.endsWith('CharacterKey')) {
+        setSnapshotB(null);
+        setSourcesSnapshot(null);
+        setAuraConfirmed(current => Object.fromEntries(Object.entries(current).filter(([id]) => !id.startsWith(`${side}:`))));
+        if (side === 'source') setEquipmentB(current => ({ ...current, aura: {} }));
+      }
+    }
     if (key === 'sourceCharacterKey') {
       setSkillInputs(current => ({ ...current, actions: [] })); setActiveSkillKey('');
       if (automaticMode) setAutomaticInputs(current => ({ ...current, rules: [] }));
@@ -644,10 +770,91 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
     clearArtifacts();
   };
 
+  const resetCombatComparison = () => {
+    setComparisonResult(null);
+    setResultBStale(true);
+  };
+
+  const copyEquipmentToB = () => {
+    if (taskRef.current) return;
+    setEquipmentB({ keys: [...equipmentA.keys], settings: [], aura: {} });
+    setComparisonEnabled(true);
+    setSnapshotB(null);
+    setInspectionB(null);
+    resetCombatComparison();
+    setError(null);
+    setNotice(null);
+  };
+
+  const closeComparison = () => {
+    if (taskRef.current) return;
+    setComparisonEnabled(false);
+    setSnapshotB(null);
+    setInspectionB(null);
+    resetCombatComparison();
+    setError(null);
+    setNotice(null);
+  };
+
+  const invalidateCombatA = () => {
+    setSnapshot(null);
+    setInspection(null);
+    setPrepared(null);
+    setResultStale(true);
+    setComparisonResult(null);
+    setError(null);
+    setNotice(null);
+  };
+
+  const updateComparisonEquipment = (side: 'A' | 'B', keys: string[]) => {
+    const currentB = comparisonEnabled ? equipmentB : emptyCombatEquipment();
+    const next = transferEquipmentSettingsOnChange(equipmentA, currentB, side, keys);
+    setEquipmentB(next.b);
+    setComparisonResult(null);
+    if (side === 'A') {
+      setSelection(current => retainSourceSettings({ ...current, sourceEquipmentKeys: next.a.keys,
+        sourceSkillSettings: [...current.sourceSkillSettings.filter(row => row.origin.kind !== 'EQUIPMENT'), ...next.a.settings] }));
+      setAuraConfirmed(current => ({
+        ...Object.fromEntries(Object.entries(current).filter(([key]) => !key.startsWith('source:'))),
+        ...Object.fromEntries(Object.entries(next.a.aura).map(([key, confirmed]) => [`source:${key}`, confirmed]))
+      }));
+      if (!matchesFrozenPlanInput(effectiveEquipmentB, mergePlanEquipment(next.a, next.b))) setResultBStale(true);
+      invalidateCombatA();
+    } else {
+      setInspectionB(null);
+      setResultBStale(true);
+    }
+    setError(null);
+    setNotice(null);
+  };
+
+  const patchEquipmentB = (values: string[]) => {
+    if (taskRef.current) return;
+    try { updateComparisonEquipment('B', normalizeEquipmentKeys(values, '方案 B 装备')); }
+    catch (cause) { setError(taskError(cause)); }
+  };
+
+  const patchEquipmentSkillB = (source: SimulationSkillSource, patch: { enabled?: boolean; skillLevel?: number }) => {
+    if (taskRef.current || source.origin.kind !== 'EQUIPMENT' || !comparisonDiff.onlyInB.includes(source.origin.equipmentKey)) return;
+    const identity = simulationSkillSourceIdentity(source.origin, source.skillKey);
+    setEquipmentB(current => {
+      const previous = current.settings.find(row => simulationSkillSourceIdentity(row.origin, row.skillKey) === identity);
+      const setting: SimulationSkillSetting = { origin: source.origin, skillKey: source.skillKey, enabled: source.enabled, ...previous, ...patch };
+      if (setting.skillLevel === undefined) delete setting.skillLevel;
+      return { ...current, settings: [...current.settings.filter(row => simulationSkillSourceIdentity(row.origin, row.skillKey) !== identity), setting] };
+    });
+    resetCombatComparison();
+    setNotice(null);
+    setError(null);
+  };
+
   const patchEquipment = (side: 'source' | 'target', values: string[]) => {
     if (taskRef.current) return;
     try {
       const keys = normalizeEquipmentKeys(values, `selection.${side}EquipmentKeys`);
+      if (automaticMode && side === 'source') { updateComparisonEquipment('A', keys); return; }
+      if (automaticMode) setAuraConfirmed(current => Object.fromEntries(Object.entries(current)
+        .filter(([id]) => !id.startsWith('target:') || keys.includes(id.slice('target:'.length)))));
       setSelection(current => retainSourceSettings({ ...current, [`${side}EquipmentKeys`]: keys }));
       clearArtifacts();
     } catch (cause) { setError(taskError(cause)); }
@@ -706,7 +913,9 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
       return retainSourceSettings({ ...current, plannedSkills, [`${side}SkillSettings`]: [...settings.filter(item => simulationSkillSourceIdentity(item.origin, item.skillKey) !== identity), setting] });
     });
     if ('skillLevel' in patch) setClearedSkillLevels(current => ({ ...current, [`${side}:${identity}`]: patch.skillLevel === undefined }));
-    clearArtifacts();
+    if (automaticMode && side === 'source' && source.origin.kind === 'EQUIPMENT'
+      && (!comparisonEnabled || !equipmentB.keys.includes(source.origin.equipmentKey))) invalidateCombatA();
+    else clearArtifacts();
   };
 
   const acceptSnapshot = async (next: SimulationSnapshot, task: NonNullable<typeof taskRef.current>) => {
@@ -758,9 +967,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
     if (taskRef.current || !selectedGameId || !objectsSelected || !buildsReady.source || !buildsReady.target) return;
     let requested: SimulationSelection;
     try {
-      if (automaticIssues.length) throw new Error(automaticIssues.join('；'));
-      requested = selectionFromDraft(selection, levels.items, skillLevels,
-        skillMode && (!automaticMode || enabledAutomaticRules.length > 0), backgroundAttack);
+        requested = selectionFromDraft(selection, levels.items, skillLevels, skillMode, backgroundAttack);
     }
     catch (cause) { setError(taskError(cause)); return; }
     const task = beginTask('reading');
@@ -768,12 +975,6 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
     setPrepared(null);
     invalidateRunResult(true);
     try {
-      if (automaticMode) {
-        const currentAvailability = await availability.refresh();
-        if (!isCurrent(task)) return;
-        const issues = selectedSimulationAvailabilityIssues(currentAvailability, requested);
-        if (issues.length) throw new Error(issues.join('；'));
-      }
       let result = await getSimulationSnapshot(apiBaseUrl, selectedGameId, requested, task.controller.signal);
       if (!isCurrent(task)) return;
       const defaults = fillSimulationSkillLevelDefaults(result.data.selection, result.data, clearedSkillLevels);
@@ -788,7 +989,8 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
       }
       task.snapshot = result.data;
       const admitted = await acceptSnapshot(result.data, task);
-      setNotice(admitted ? automaticMode ? '配置已读取。设置初始生命并补全下方缺失输入后，即可开始计算。' : '场景快照已读取，未设置的角色来源技能默认最高等级；请补全必要的场景输入后开始计算。'
+      if (!isCurrent(task)) return;
+      setNotice(admitted ? '场景快照已读取，未设置的角色来源技能默认最高等级；请补全必要的场景输入后开始计算。'
         : '原始默认来源与完整关系已保留；准入失败不妨碍关闭来源、供等级或修改构筑。');
     } catch (cause) {
       if (isCurrent(task)) {
@@ -960,87 +1162,31 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
     invalidateRunResult(true); setError(null); setNotice(null);
   };
 
-  const execute = async (kind: 'compile' | 'single_attack' | 'continuous_attack' | 'skill_action' | 'automatic_skill') => {
-    if (taskRef.current || !snapshot || !inspection || !selectedGameId) return;
-    if (automaticIssues.length) { setError(automaticIssues.join('；')); return; }
-    if (mechanicIssues.length) { setError(mechanicIssues.join('；')); return; }
-    if (resourcesBlocked) { setError(resourceIssues.length ? resourceIssues.join('；') : '请明确填写本场可恢复资源的初始当前值，0也需要填写。'); return; }
-    if (kind !== 'compile') {
-      for (const side of ['source', 'target'] as const) {
-        const hp = initialHealth[side];
-        if (hp === undefined || !Number.isFinite(hp) || hp <= 0) {
-          setError(`initialHealth.${side}: ${hp === 0 ? `${sideLabels[side]}初始已死亡，不能执行本阶段${kind === 'single_attack' ? '单次' : '连续'}普攻。`
-            : `请明确填写${sideLabels[side]}的有限正生命值。`}`);
-          setNotice(null);
-          return;
-        }
-      }
-    }
-    const task = beginTask('reading', kind);
-    if (!task) return;
-    const continuousInputs = { durationMs: durationMs as number, attackSpeedInputMax, recordTimeSeries };
-    setPrepared(null);
-    invalidateRunResult();
+  const runSnapshot = async (task: Task, next: SimulationSnapshot, kind: Exclude<TaskKind, 'snapshot'>, input: SnapshotRunInputs, showPrepared = true) => {
+    Object.assign(task, emptyRun(kind));
+    task.snapshot = structuredClone(next);
     let failure: string | null = null;
     try {
-      if (automaticMode) {
-        const currentAvailability = await availability.refresh();
-        if (!isCurrent(task)) return;
-        const issues = selectedSimulationAvailabilityIssues(currentAvailability, snapshot.selection);
-        if (issues.length) throw new Error(issues.join('；'));
-      }
-      const latest = await getSimulationSnapshot(apiBaseUrl, selectedGameId, snapshot.selection, task.controller.signal);
-      if (!isCurrent(task)) return;
-      if (!sameSkillConfigurations(latest.data, snapshot) || latest.data.snapshotDigest !== snapshot.snapshotDigest) {
-        await acceptSnapshot(latest.data, task);
-        setNotice('技能作者配置、来源或构筑已变化，已更新配置并保留草稿。请补全新增输入后重新开始计算。');
-        finishTask(task);
-        return;
-      }
-      task.snapshot = structuredClone(latest.data);
-      const sceneInputs = normalizeSceneInitialParameterInputs(task.snapshot, sceneInputsFromDrafts());
-      trackFormulaProof(task, task.snapshot, sceneInputs);
-      task.client = computationClient();
-      const preflight = await preflightSkillFormulas(task.snapshot, task.client, () => isCurrent(task), sceneInputs);
-      if (!isCurrent(task)) return;
-      task.formulaPreflight = preflight;
-      setFormulaPreflight(preflight);
       task.phase = 'preparing';
       setPhase('preparing');
-      const inputs: SimulationAttributeInputs = { source: {}, target: {} };
-      for (const row of missing) {
-        const key = row.attribute.attributeKey;
-        const value = attributeDrafts[row.side][key];
-        if (value === undefined) throw new Error(`attributeInputs.${row.side}.${key}: 尚未填写场景补充值。`);
-        inputs[row.side][key] = value;
-      }
-      if (initialHealth.source === undefined) throw new Error('initialHealth.source: 请明确填写攻击方初始当前生命。');
-      if (initialHealth.target === undefined) throw new Error('initialHealth.target: 请明确填写目标初始当前生命。');
-      const assumptions: SimulationEquipmentAssumption[] = equipmentRangeRequirements(task.snapshot)
-        .map(({ owner, equipmentKey }) => ({ owner, equipmentKey, target: owner === 'source' ? 'target' : 'source', inRange: auraConfirmed[`${owner}:${equipmentKey}`] === true }));
-      const resourceInputs: SimulationInitialResourceInput[] = resourceRequirements.map(row => {
-        const current = resourceDrafts[initialResourceKey(row.side, row.resourceKey)];
-        if (current === undefined) throw new Error('请明确填写初始当前资源，不默认满额。');
-        return { side: row.side, resourceKey: row.resourceKey, current };
-      });
-      task.prepared = await prepareSimulation(task.snapshot, inputs, { source: initialHealth.source, target: initialHealth.target }, assumptions,
-        mechanicInputsFromDrafts(mechanicRequirements, mechanicDrafts), simulationAutomaticCastCosts(task.snapshot), sceneInputs, resourceInputs);
+      trackFormulaProof(task, task.snapshot, input.scene);
+      task.client = computationClient();
+      const preflight = await preflightSkillFormulas(task.snapshot, task.client, () => isCurrent(task), input.scene);
+      if (!isCurrent(task)) return;
+      task.formulaPreflight = preflight;
+      if (showPrepared) setFormulaPreflight(preflight);
+      task.prepared = await prepareSimulation(task.snapshot, input.attributes, input.health, input.assumptions,
+        input.mechanics, simulationAutomaticCastCosts(task.snapshot), input.scene, input.resources);
       if (!isCurrent(task)) return;
       if (kind === 'continuous_attack') {
-        task.continuousPrepared = await continuousAttackRequest(task.prepared, task.snapshot, continuousInputs);
-        if (!isCurrent(task)) return;
+        task.continuousPrepared = await continuousAttackRequest(task.prepared, task.snapshot, input.continuous);
+      } else if (kind === 'skill_action') {
+        task.skillPrepared = await skillActionRequest(task.prepared, task.snapshot, input.skill!);
+      } else if (kind === 'automatic_skill') {
+        task.automaticPrepared = await automaticSkillRequest(task.prepared, task.snapshot, input.automatic!);
       }
-      if (kind === 'skill_action') {
-        task.skillPrepared = await skillActionRequest(task.prepared, task.snapshot,
-          { ...skillInputs, durationMs: durationMs as number, recordTimeSeries, attackSpeedInputMax });
-        if (!isCurrent(task)) return;
-      }
-      if (kind === 'automatic_skill') {
-        task.automaticPrepared = await automaticSkillRequest(task.prepared, task.snapshot,
-          { ...automaticInputs, rules: enabledAutomaticRules, durationMs: durationMs as number, recordTimeSeries, attackSpeedInputMax });
-        if (!isCurrent(task)) return;
-      }
-      setPrepared(task.prepared);
+      if (!isCurrent(task)) return;
+      if (showPrepared) setPrepared(task.prepared);
       task.phase = 'compiling';
       setPhase('compiling');
       task.result = await task.client.compile(task.prepared.compileRequest);
@@ -1113,31 +1259,285 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
           if (task.cancelled || !task.client.hasLiveWorker) discardClient(task.client);
         }
       }
-      if (isCurrent(task)) {
-        const passed = failure === null && task.result?.ok === true && task.release?.released === true
-          && task.cleanup === 'released' && (kind === 'compile' || task.assessment?.complete === true || task.continuousAssessment?.complete === true || task.skillAssessment?.complete === true || task.automaticAssessment?.complete === true);
-        if (!passed) clearOwnedFormulaProof(task.formulaProofIdentity ?? formulaProofIdentityRef.current);
-        if (!passed && failure === null) failure = kind === 'single_attack'
-          ? '未完成完整单次运行与会话释放，不能标记运行通过。'
-          : kind === 'continuous_attack' ? '未完成完整连续运行与会话释放，不能标记运行通过。' : '未完成编译与会话释放，不能标记验证通过。';
-        const nextArchive = archiveFor(task, passed ? 'passed' : 'failed', failure);
-        setArchive(current => nextArchive ?? current);
-        setResultStale(nextArchive === null);
-        setError(failure);
-        setNotice(passed ? kind === 'single_attack' ? '单次普攻运行通过，不代表连续攻击通过。'
-          : kind === 'continuous_attack' ? task.continuousAssessment?.execution.targetKilled ? '连续普攻已完成击杀，会话正常释放。'
-            : '连续普攻已完成观察，目标未被击杀，会话正常释放。'
-          : kind === 'skill_action' ? '指定技能计划观察完成，会话已释放；各段与控制只以真实返回事实为准。'
-          : kind === 'automatic_skill' ? '自动循环观察完成，会话已释放；完整累计、最后等待与资格账本已核对。'
-          : '仅编译验证通过，不代表单次/连续计算通过。' : null);
-        finishTask(task);
+    }
+    if (!isCurrent(task)) return;
+    const passed = failure === null && task.result?.ok === true && task.release?.released === true
+      && task.cleanup === 'released' && (kind === 'compile' || task.assessment?.complete === true
+        || task.continuousAssessment?.complete === true || task.skillAssessment?.complete === true || task.automaticAssessment?.complete === true);
+    if (task.combat || !passed) clearOwnedFormulaProof(task.formulaProofIdentity);
+    if (!passed && failure === null) failure = '计算或会话释放未通过核对。';
+    return { passed, archive: archiveFor(task, passed ? 'passed' : 'failed', failure), failure };
+  };
+
+  const execute = async (kind: 'compile' | 'single_attack' | 'continuous_attack' | 'skill_action') => {
+    if (taskRef.current || !snapshot || !inspection || !selectedGameId) return;
+    if (mechanicIssues.length) { setError(mechanicIssues.join('；')); return; }
+    if (resourcesBlocked) { setError(resourceIssues.length ? resourceIssues.join('；') : '请明确填写本场可恢复资源的初始当前值，0也需要填写。'); return; }
+    if (kind !== 'compile') {
+      for (const side of ['source', 'target'] as const) {
+        const hp = initialHealth[side];
+        if (hp === undefined || !Number.isFinite(hp) || hp <= 0) {
+          setError(`initialHealth.${side}: ${hp === 0 ? `${sideLabels[side]}初始已死亡，不能执行本阶段${kind === 'single_attack' ? '单次' : '连续'}普攻。`
+            : `请明确填写${sideLabels[side]}的有限正生命值。`}`);
+          setNotice(null);
+          return;
+        }
       }
+    }
+    const task = beginTask('reading', kind);
+    if (!task) return;
+    const continuous = { durationMs: durationMs as number, attackSpeedInputMax, recordTimeSeries };
+    setPrepared(null);
+    invalidateRunResult();
+    try {
+      const latest = await getSimulationSnapshot(apiBaseUrl, selectedGameId, snapshot.selection, task.controller.signal);
+      if (!isCurrent(task)) return;
+      if (!sameSkillConfigurations(latest.data, snapshot) || latest.data.snapshotDigest !== snapshot.snapshotDigest) {
+        await acceptSnapshot(latest.data, task);
+        if (isCurrent(task)) setNotice('技能作者配置、来源或构筑已变化，已更新配置并保留草稿。请补全新增输入后重新开始计算。');
+        return;
+      }
+      const next = latest.data;
+      const scene = normalizeSceneInitialParameterInputs(next, sceneInputsFromDrafts());
+      const attributes: SimulationAttributeInputs = { source: {}, target: {} };
+      for (const row of missing) {
+        const key = row.attribute.attributeKey;
+        const value = attributeDrafts[row.side][key];
+        if (value === undefined) throw new Error(`attributeInputs.${row.side}.${key}: 尚未填写场景补充值。`);
+        attributes[row.side][key] = value;
+      }
+      if (initialHealth.source === undefined || initialHealth.target === undefined) throw new Error('请明确填写双方初始当前生命。');
+      const assumptions: SimulationEquipmentAssumption[] = equipmentRangeRequirements(next)
+        .map(({ owner, equipmentKey }) => ({ owner, equipmentKey, target: owner === 'source' ? 'target' : 'source', inRange: auraConfirmed[`${owner}:${equipmentKey}`] === true }));
+      const resources: SimulationInitialResourceInput[] = resourceRequirements.map(row => {
+        const current = resourceDrafts[initialResourceKey(row.side, row.resourceKey)];
+        if (current === undefined) throw new Error('请明确填写初始当前资源，不默认满额。');
+        return { side: row.side, resourceKey: row.resourceKey, current };
+      });
+      const result = await runSnapshot(task, next, kind, {
+        attributes, health: { source: initialHealth.source, target: initialHealth.target }, assumptions,
+        mechanics: mechanicInputsFromDrafts(mechanicRequirements, mechanicDrafts), scene, resources, continuous,
+        skill: { ...skillInputs, ...continuous, recordTimeSeries }
+      });
+      if (!result || !isCurrent(task)) return;
+      setArchive(current => result.archive ?? current);
+      setResultStale(result.archive === null);
+      setError(result.failure);
+      setNotice(result.passed ? kind === 'single_attack' ? '单次普攻运行通过，不代表连续攻击通过。'
+        : kind === 'continuous_attack' ? task.continuousAssessment?.execution.targetKilled ? '连续普攻已完成击杀，会话正常释放。'
+          : '连续普攻已完成观察，目标未被击杀，会话正常释放。'
+        : kind === 'skill_action' ? '指定技能计划观察完成，会话已释放；各段与控制只以真实返回事实为准。'
+        : '仅编译验证通过，不代表单次/连续计算通过。' : null);
+    } catch (cause) {
+      if (isCurrent(task)) setError(taskError(cause));
+    } finally {
+      finishTask(task);
+    }
+  };
+
+  const startCombat = async () => {
+    if (!selectedGameId || taskRef.current || automaticIssues.length || comparisonIssues.length) return;
+    if (durationMs === undefined || !Number.isSafeInteger(durationMs) || durationMs < 1 || durationMs > 600_000) {
+      setError('观察时长须为 1～600000 的整数毫秒。');
+      return;
+    }
+    if (backgroundAttack && (!speedAttribute || speedAttribute.maxValue === null)
+      && (attackSpeedInputMax === undefined || !Number.isFinite(attackSpeedInputMax) || attackSpeedInputMax <= 0)) {
+      setError('请明确填写有限正数的攻速输入上界。');
+      return;
+    }
+    const comparing = comparisonEnabled;
+    const task = beginTask('reading');
+    if (!task) return;
+    task.combat = true;
+    setComparisonResult(null);
+    setCombatCancellation(null);
+    const signal = task.controller.signal;
+    const drafts: CombatRunDrafts = structuredClone({
+      attributes: attributeDrafts, healthMode, health: initialHealth, resources: resourceDrafts, mechanics: mechanicDrafts,
+      automatic: { ...automaticInputs, rules: enabledAutomaticRules, durationMs, recordTimeSeries, attackSpeedInputMax }
+    });
+    const sceneValues = structuredClone(sceneParameterDrafts);
+    const rangeValues = structuredClone(auraConfirmed);
+    const planEquipmentB = structuredClone(effectiveEquipmentB);
+    const withBEquipment = (selected: SimulationSelection) => normalizeSimulationSelection({ ...selected,
+      sourceEquipmentKeys: planEquipmentB.keys,
+      sourceSkillSettings: [...selected.sourceSkillSettings.filter(row => row.origin.kind !== 'EQUIPMENT'), ...planEquipmentB.settings]
+    });
+
+    try {
+      const requestedA = selectionFromDraft(selection, levels.items, skillLevels, enabledAutomaticRules.length > 0, backgroundAttack);
+      const requestedB = comparing ? withBEquipment(requestedA) : null;
+      const currentAvailability = await availability.refresh(signal);
+      if (!isCurrent(task)) return;
+      const issuesA = selectedSimulationAvailabilityIssues(currentAvailability, requestedA);
+      const issuesB = requestedB ? selectedSimulationAvailabilityIssues(currentAvailability, requestedB) : [];
+      if (issuesA.length || issuesB.length) throw new Error([
+        ...issuesA.map(issue => comparing ? `方案 A：${issue}` : issue),
+        ...issuesB.filter(issue => !issuesA.includes(issue)).map(issue => `方案 B：${issue}`)
+      ].join('；'));
+
+      const read = async (request: SimulationSelection) => (await getSimulationSnapshot(apiBaseUrl, selectedGameId, request, signal)).data;
+      const readA = async () => {
+        const first = await read(requestedA);
+        const defaults = fillSimulationSkillLevelDefaults(first.selection, first, clearedSkillLevels);
+        if (defaults.changed) return read(normalizeSimulationSelection(defaults.selection));
+        return first;
+      };
+      const stamp = captureComparisonAvailability(currentAvailability, requestedA);
+      let candidate = comparing && !resultStale && frozenA?.archive.outcome === 'passed'
+        && matchesFrozenPlanInput(frozenA.input.selection, requestedA) ? frozenA : null;
+      let a: SimulationSnapshot;
+      let b: SimulationSnapshot | null = null;
+      if (candidate && requestedB) {
+        b = await read(withBEquipment(candidate.archive.snapshot.selection));
+        if (!isCurrent(task)) return;
+        if (!stamp || !matchesFrozenPlanInput(stamp, candidate.availability)
+          || !verifyCommonComparisonBaseline(candidate.archive.snapshot, b)) {
+          candidate = null;
+          setResultStale(true);
+        }
+      }
+
+      const readFreshPair = async () => {
+        const freshA = await readA();
+        if (!isCurrent(task)) return null;
+        const selectionB = comparing ? withBEquipment(freshA.selection) : null;
+        const freshB = !selectionB ? null : b && matchesFrozenPlanInput(b.selection, selectionB) ? b : await read(selectionB);
+        if (!isCurrent(task)) return null;
+        return { a: freshA, b: freshB };
+      };
+      if (candidate) {
+        a = candidate.archive.snapshot;
+      } else {
+        const fresh = await readFreshPair();
+        if (!fresh) return;
+        a = fresh.a;
+        b = fresh.b;
+      }
+
+      const requireCommonBaseline = () => {
+        if (b && !verifyCommonComparisonBaseline(a, b)) throw new Error('方案 A 与方案 B 的共同配置不一致，请重新开始比较。');
+      };
+
+      const inspect = async (next: SimulationSnapshot, scene: CombatRunInput['scene'], side: 'A' | 'B') => {
+        if (!isCurrent(task)) return null;
+        trackFormulaProof(task, next, scene);
+        task.client = computationClient();
+        const proof = await preflightSkillFormulas(next, task.client, () => isCurrent(task), scene);
+        if (!isCurrent(task)) return null;
+        const inspected = inspectSimulationSnapshot(next, simulationAutomaticCastCosts(next), scene);
+        const checked = inspectCombatRunInputs(next, inspected, scene, drafts, (owner, equipmentKey) =>
+          owner === 'source' && side === 'B' ? planEquipmentB.aura[equipmentKey] === true : rangeValues[`${owner}:${equipmentKey}`] === true);
+        clearOwnedFormulaProof(task.formulaProofIdentity);
+        return { ...checked, inspection: inspected, proof };
+      };
+
+      const showSnapshots = () => {
+        setSnapshot(a);
+        setSourcesSnapshot(a);
+        setSnapshotB(b);
+        setBuildSourceIdentities({
+          source: a.source.skillSources.filter(row => row.origin.kind === 'BUILD_OPTION').map(row => simulationSkillSourceIdentity(row.origin, row.skillKey)),
+          target: a.target.skillSources.filter(row => row.origin.kind === 'BUILD_OPTION').map(row => simulationSkillSourceIdentity(row.origin, row.skillKey))
+        });
+        setSelection(current => ({
+          ...a.selection, basicAttackSkillKey: current.basicAttackSkillKey, basicAttackLevel: current.basicAttackLevel
+        }));
+      };
+
+      const checkPair = async () => {
+        requireCommonBaseline();
+        showSnapshots();
+        setInspection(null);
+        setInspectionB(null);
+        const requirementsA = sceneInitialParameterRequirements(a);
+        const requirementsB = b ? sceneInitialParameterRequirements(b) : [];
+        const sceneA = combatSceneInputs(a, requirementsA, sceneValues);
+        const sceneB = b ? combatSceneInputs(b, requirementsB, sceneValues) : null;
+        const sceneRequirements = mergeCombatRequirements(requirementsA, requirementsB, row => row.declarationIdentity);
+        setSceneParameterRequirements(sceneRequirements);
+        if (sceneA.issues.length || sceneB?.issues.length) {
+          return { a: null, b: null, issuesA: sceneA.issues, issuesB: sceneB?.issues ?? [] };
+        }
+        task.phase = 'preparing';
+        setPhase('preparing');
+        const checkedA = await inspect(a, sceneA.inputs, 'A');
+        if (!checkedA) return null;
+        const checkedB = b && sceneB ? await inspect(b, sceneB.inputs, 'B') : null;
+        if (!isCurrent(task)) return null;
+        return { a: checkedA, b: checkedB, issuesA: checkedA.issues, issuesB: checkedB?.issues ?? [] };
+      };
+      let checked = await checkPair();
+      if (!checked || !isCurrent(task)) return;
+      if (candidate && checked.a && !matchesFrozenPlanInput(checked.a.input, candidate.input)) {
+        candidate = null;
+        setResultStale(true);
+        task.phase = 'reading';
+        setPhase('reading');
+        const fresh = await readFreshPair();
+        if (!fresh) return;
+        a = fresh.a;
+        b = fresh.b;
+        checked = await checkPair();
+        if (!checked || !isCurrent(task)) return;
+      }
+
+      setInspection(checked.a?.inspection ?? null);
+      setInspectionB(checked.b?.inspection ?? null);
+      setFormulaPreflight(checked.a?.proof ?? null);
+
+      if (checked.issuesA.length || checked.issuesB.length) {
+        const messages = [...checked.issuesA.map(issue => comparing ? `方案 A：${issue}` : issue),
+          ...checked.issuesB.map(issue => `方案 B：${issue}`)];
+        setError(messages.join('\n'));
+        return;
+      }
+
+      const kind = drafts.automatic.rules.length ? 'automatic_skill' : 'continuous_attack';
+      const runPlan = async (next: SimulationSnapshot, input: CombatRunInput, side: 'A' | 'B') => {
+        task.combatPlan = side;
+        if (side === 'B') setResultBStale(true);
+        const result = await runSnapshot(task, next, kind, { ...input, continuous: input.automatic }, side === 'A');
+        if (!result || !isCurrent(task)) return null;
+        if (!result.archive || result.archive.taskKind !== kind) throw new Error(`方案 ${side}：${result.failure ?? '计算档案未生成。'}`);
+        return { archive: result.archive, input, availability: captureComparisonAvailability(currentAvailability, next.selection) };
+      };
+      if (!checked.a?.input || (comparing && (!b || !checked.b?.input))) throw new Error('未取得本次方案的有效输入。');
+      const resultA = candidate ?? await runPlan(a, checked.a.input, 'A');
+      if (!resultA || !isCurrent(task)) return;
+      setArchive(resultA.archive);
+      setFrozenA(resultA);
+      setResultStale(false);
+      if (!b || !checked.b?.input) {
+        setError(resultA.archive.error);
+        setNotice(resultA.archive.outcome === 'passed' ? '计算完成。' : null);
+        return;
+      }
+      const resultB = await runPlan(b, checked.b.input, 'B');
+      if (!resultB || !isCurrent(task)) return;
+      setFrozenB(resultB);
+      setResultBStale(false);
+      setComparisonResult({ a: resultA.archive, b: resultB.archive });
+      setNotice(resultA.archive.outcome === 'passed' && resultB.archive.outcome === 'passed' ? '比较完成。' : null);
+    } catch (cause) {
+      if (isCurrent(task)) setError(taskError(cause));
+    } finally {
+      if (isCurrent(task)) {
+        clearOwnedFormulaProof(task.formulaProofIdentity);
+        discardClient(task.client);
+      }
+      finishTask(task);
     }
   };
 
   const combatantSetup = (side: 'source' | 'target'): CombatantSetup => {
     const options = side === 'source' ? boundSkills : targetBoundSkills;
     const characterKey = selection[`${side}CharacterKey`];
+    const latestSources = sourcesSnapshot?.[side].skillSources ?? [];
+    const equipmentFromB = side === 'source' && comparisonEnabled
+      ? snapshotB?.source.skillSources.filter(source => source.origin.kind === 'EQUIPMENT') ?? [] : [];
+    const currentSources = mergeCombatRequirements(latestSources, equipmentFromB, source => simulationSkillSourceIdentity(source.origin, source.skillKey));
     return {
       characterKey, level: selection[`${side}Level`], equipmentKeys: selection[`${side}EquipmentKeys`],
       skillsLoading: options.loading,
@@ -1163,7 +1563,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
           selectedBuilds={sourcesSnapshot?.[side].selectedBuilds} onEdit={keys => editBuilds(side, keys)}
           onConfirm={(configurations, definitions) => confirmBuilds(side, configurations, definitions)} />
         {sourcesSnapshot ? <SimulationSkillSources side={side} snapshot={sourcesSnapshot}
-          sources={sourcesSnapshot[side].skillSources.filter(source => source.origin.kind !== 'CHARACTER'
+          sources={currentSources.filter(source => source.origin.kind !== 'CHARACTER'
             && selectedOrigin(source.origin, selection, side)
             && (source.origin.kind !== 'BUILD_OPTION' || buildSourceIdentities[side].includes(simulationSkillSourceIdentity(source.origin, source.skillKey))))}
           settings={selection[`${side}SkillSettings`]} basicAttackSkillKey="" basicAttackLevel={undefined}
@@ -1171,6 +1571,72 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
       </>
     };
   };
+
+  const combatConditions = <section className="combat-run-conditions" aria-label="计算条件">
+    <Typography.Title heading={5}>计算条件</Typography.Title>
+    <div className="simulation-selection-grid">
+      <Form.Item label="观察时长（毫秒）" required>
+        <InputNumber aria-label="观察时长（毫秒）" value={durationMs} disabled={busy}
+          min={1} max={600000} precision={0} onChange={value => updateContinuousInput('duration', value)} />
+      </Form.Item>
+      <Form.Item label="初始生命规则">
+        <Select aria-label="初始生命规则" value={healthMode} disabled={busy} onChange={(value: CombatHealthMode) => {
+          setHealthMode(value);
+          setPrepared(null);
+          invalidateRunResult();
+          setError(null);
+          setNotice(null);
+        }} options={[
+          { value: 'full_health', label: '双方各自按面板满血开始' },
+          { value: 'custom', label: '手动指定初始当前生命' }
+        ]} />
+      </Form.Item>
+      {(['source', 'target'] as const).map(side => healthMode === 'custom' ? <Form.Item key={side}
+        label={`${sideLabels[side]}初始当前生命`} required>
+        <InputNumber aria-label={`${sideLabels[side]}初始当前生命`} value={initialHealth[side]}
+          disabled={busy} onChange={value => updateInitialHealth(side, value)} />
+      </Form.Item> : null)}
+      {backgroundAttack && (!speedAttribute || speedAttribute.maxValue === null) ? <Form.Item label="攻速输入上界" required>
+        <InputNumber aria-label="攻速输入上界" value={attackSpeedInputMax} disabled={busy}
+          onChange={value => updateContinuousInput('speed', value)} />
+        <Typography.Text type="secondary">属性目录无上界时作为输入校验。</Typography.Text>
+      </Form.Item> : null}
+      <Form.Item label="曲线记录">
+        <Checkbox aria-label="记录时间序列" checked={recordTimeSeries} disabled={busy} onChange={value => {
+          setRecordTimeSeries(value); setPrepared(null); invalidateRunResult(); setError(null); setNotice(null);
+        }}>记录时间序列</Checkbox>
+      </Form.Item>
+    </div>
+  </section>;
+
+  const renderCombatArchive = (value: CombatArchive, stale = false) => value.taskKind === 'automatic_skill'
+    ? <AutomaticSkillResult key={value.runInputHash ?? 'automatic-skill-result'} archive={value} stale={stale} />
+    : <ContinuousAttackResult key={value.runInputHash ?? 'continuous-attack-result'} archive={value} stale={stale} collapseDiagnostics
+      cleanupLabel={cleanupLabels[value.cleanup]} released={value.cleanup === 'released'} warnings={value.runResult?.warnings ?? []}
+      onDownload={view => downloadJson('basic-attack-continuous-run.json', buildContinuousAttackArchive(value, view))} />;
+
+  const renderCombatRanges = (rows: typeof rangeRequirements, exclusive: boolean) => rows.map(({ owner, equipmentKey, equipmentName }) => {
+    const key = `${owner}:${equipmentKey}`;
+    const label = exclusive ? '方案 B 攻击方' : sideLabels[owner];
+    return <Checkbox key={key} aria-label={`${label}${equipmentName}全程在范围内`}
+      checked={(exclusive ? equipmentB.aura[equipmentKey] : auraConfirmed[key]) === true} disabled={busy}
+      onChange={checked => {
+        if (taskRef.current) return;
+        if (exclusive) {
+          setEquipmentB(current => ({ ...current, aura: { ...current.aura, [equipmentKey]: checked } }));
+          resetCombatComparison();
+        } else {
+          setAuraConfirmed(current => ({ ...current, [key]: checked }));
+          setPrepared(null);
+          if (owner === 'source' && (!comparisonEnabled || !equipmentB.keys.includes(equipmentKey))) {
+            setResultStale(true);
+            setComparisonResult(null);
+          } else invalidateRunResult();
+        }
+        setError(null);
+        setNotice(null);
+      }}>{label}{equipmentName}的对手全程在作用范围内</Checkbox>;
+  });
 
   // Space 会过滤空子节点；固定区域标识，避免提示增减时重挂载输入框。
   return (
@@ -1207,10 +1673,17 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
         characters={characters.items} charactersLoading={characters.loading} equipment={equipment.items} equipmentLoading={equipment.loading}
         levels={levels.items} levelsLoading={levels.loading} imageLoader={imageLoader} disabled={busy}
         unavailable={!selectedGameId || Boolean(characters.error) || Boolean(levels.error) || Boolean(equipment.error)}
-        issues={[...availabilityIssues, ...automaticIssues]} prepareDisabled={!objectsSelected || !levelsSelected || combatSkillsLoading || Boolean(boundSkills.error)
-          || Boolean(targetBoundSkills.error) || automaticIssues.length > 0 || availabilityIssues.length > 0
+        issues={[...availabilityIssues, ...automaticIssues, ...comparisonIssues]} runDisabled={!objectsSelected || !levelsSelected || combatSkillsLoading || Boolean(boundSkills.error)
+          || Boolean(targetBoundSkills.error) || automaticIssues.length > 0 || availabilityIssues.length > 0 || comparisonIssues.length > 0
           || availability.loading || Boolean(availability.error) || !availability.response || !buildsReady.source || !buildsReady.target}
-        onPrepare={() => void readSnapshot()} preparing={phase === 'reading'} onCancel={cancelTask} />
+        conditions={combatConditions} onRun={() => void startCombat()} onCancel={cancelTask}
+        comparison={{ enabled: comparisonEnabled, equipmentKeys: equipmentB.keys, onEquipment: patchEquipmentB,
+          onCopy: copyEquipmentToB, onClose: closeComparison, extra: snapshotB && comparisonDiff.onlyInB.length
+            ? <SimulationSkillSources side="source" label="方案 B 攻击方" kinds={['EQUIPMENT']} snapshot={snapshotB}
+              sources={snapshotB.source.skillSources.filter(row => row.origin.kind === 'EQUIPMENT' && comparisonDiff.onlyInB.includes(row.origin.equipmentKey))}
+              settings={equipmentB.settings} basicAttackSkillKey="" basicAttackLevel={undefined}
+              stale={!inspectionB} clearedLevels={clearedSkillLevels} disabled={busy} onChange={patchEquipmentSkillB} />
+            : null }} />
       : <Form key="scene-selection" layout="vertical" aria-label="普攻场景选择">
         <Form.Item label="执行范围">
           <Checkbox aria-label="指定技能行动计划" checked={skillMode} disabled={busy} onChange={changeSkillMode}>固定时刻技能计划（关闭后使用普攻模式）</Checkbox>
@@ -1376,16 +1849,19 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
       {error ? <Alert key="task-error" type="error" content={<span style={{ whiteSpace: 'pre-wrap' }}>{error}</span>} /> : null}
       <ProblemReport key="problem-report" gameId={selectedGameId} mode={mode}
         material={{ snapshot, input: { selection, attributeDrafts, initialHealth, resourceDrafts, mechanicDrafts, sceneParameterDrafts,
-          auraConfirmed, durationMs, skillMode, backgroundAttack, skillInputs, automaticInputs, recordTimeSeries },
-          result: archive, error, resultStale, phase }} />
+          auraConfirmed, durationMs, skillMode, backgroundAttack, skillInputs, automaticInputs, recordTimeSeries, healthMode,
+          comparison: comparisonEnabled ? { equipmentB } : null },
+          result: archive, comparison: comparisonEnabled ? { current: comparisonResult, planB: frozenB?.archive, resultBStale } : null,
+          cancelled: automaticMode ? combatCancellation : null,
+          error, resultStale, phase }} />
 
-      {snapshot ? <ScenarioDetails key="configuration-version" collapsed title="配置版本">
+      {!automaticMode && snapshot ? <ScenarioDetails key="configuration-version" collapsed title="配置版本">
         {snapshot.skillConfigurations.map(configuration => <Typography.Paragraph key={configuration.skill.skillKey} style={{ overflowWrap: 'anywhere' }}>
           {configuration.skill.name}（{configuration.skill.skillKey}）：<Typography.Text code>{configuration.baseDigest}</Typography.Text>
         </Typography.Paragraph>)}
       </ScenarioDetails> : null}
 
-      {snapshot ? (
+      {!automaticMode && snapshot ? (
         <ScenarioDetails key="scene-snapshot" collapsed={automaticMode} title="场景与装备明细">
         <section aria-label="场景快照">
           {rangeRequirements.map(({ owner, equipmentKey, equipmentName }) => (
@@ -1415,14 +1891,12 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
        </ScenarioDetails>
       ) : null}
 
-      {inspection && snapshot ? (
+      {!automaticMode && inspection && snapshot ? (
         <section key="initial-health" aria-label="初始当前生命">
           <Typography.Title heading={5}>初始当前生命</Typography.Title>
           <Typography.Paragraph>
-            {automaticMode ? '设置双方开始战斗时的生命，也可使用下方按钮按本次真实上限填满。' : <>
             双方当前生命必须明确填写且不能超过固有生命加本次装备贡献的上限，未填写不会默认满生命。
             0可用于编译检查；单次和连续运行均要求双方当前生命大于0。
-            </>}
           </Typography.Paragraph>
           <Form layout="vertical">
             <div className="simulation-selection-grid">
@@ -1442,6 +1916,13 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
         </section>
       ) : null}
 
+      {automaticMode && (combatRanges.length > 0 || comparisonEnabled && exclusiveRangesB.length > 0) ? <section aria-label="装备范围确认">
+        <Typography.Title heading={5}>装备范围确认</Typography.Title>
+        <Space direction="vertical">
+          {renderCombatRanges(combatRanges, false)}
+          {comparisonEnabled ? renderCombatRanges(exclusiveRangesB, true) : null}
+        </Space>
+      </section> : null}
       {resourceRequirements.length ? <section aria-label="初始当前资源">
         <Typography.Title heading={5}>初始当前资源</Typography.Title>
         <Typography.Paragraph>仅本场存在恢复结果的资源需要填写，0也必须明确填写，不默认满额。容量来自真实等级属性和所选装备。</Typography.Paragraph>
@@ -1459,7 +1940,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
 
       {sceneParameterRequirements.length ? <section aria-label="战前机制初值">
         <Typography.Title heading={5}>战前机制初值</Typography.Title>
-        <Typography.Paragraph>明确填写本场开始前的数值，0也需要填写；修改后点击“{automaticMode ? '准备计算' : '读取场景快照'}”应用。</Typography.Paragraph>
+        <Typography.Paragraph>明确填写本场开始前的数值，0也需要填写。{automaticMode ? '' : '修改后再次读取场景快照。'}</Typography.Paragraph>
         <Form layout="vertical">{sceneParameterRequirements.map(row => <Form.Item key={row.declarationIdentity}
           label={`${sideLabels[row.side]}／${row.skillName}／${row.parameterName}`} required>
           <InputNumber aria-label={`${sideLabels[row.side]}／${row.skillName}／${row.parameterName}`}
@@ -1473,12 +1954,23 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
           {row.members ? <Typography.Paragraph type="secondary">同方角色共享，实际用于：{row.members.map(member => `${member.skillName}／${member.parameterName}`).join('、')}。</Typography.Paragraph> : null}
         </Form.Item>)}</Form>
       </section> : null}
-      {inspection ? <SimulationMechanicInputs requirements={mechanicRequirements} drafts={mechanicDrafts} disabled={busy} onChange={updateMechanic} /> : null}
+      {inspection || automaticMode && inspectionB ? <SimulationMechanicInputs requirements={mechanicRequirements} drafts={mechanicDrafts} disabled={busy} onChange={updateMechanic} /> : null}
       {mechanicIssues.length ? <Alert type="error" content={mechanicIssues.join('；')} /> : null}
 
-      {inspection ? (
+      {automaticMode && missing.length ? <section aria-label="必要属性">
+        <Typography.Title heading={5}>缺失属性</Typography.Title>
+        <Form layout="vertical"><div className="simulation-selection-grid">{missing.map(row => <Form.Item
+          key={`${row.side}:${row.attribute.attributeKey}`} label={`${sideLabels[row.side]}补充${row.attribute.name}`} required>
+          <InputNumber aria-label={`${sideLabels[row.side]}补充属性 ${row.attribute.attributeKey}`}
+            value={attributeDrafts[row.side][row.attribute.attributeKey]} disabled={busy}
+            min={row.attribute.minValue ?? undefined} max={row.attribute.maxValue ?? undefined}
+            precision={row.attribute.valueType === 'INTEGER' ? 0 : undefined} onChange={value => updateAttribute(row, value)} />
+        </Form.Item>)}</div></Form>
+      </section> : null}
+
+      {!automaticMode && inspection ? (
         <section key="required-attributes" aria-label="必要属性">
-          <Typography.Title heading={5}>{automaticMode ? '计算条件' : '必要属性与场景补充值'}</Typography.Title>
+          <Typography.Title heading={5}>必要属性与场景补充值</Typography.Title>
           <Typography.Paragraph>
             {automaticMode ? `还需填写${unfilled.length}项缺失属性，仅用于本次计算。` : <>
             已录固有属性直接使用且不可覆盖；空白表示未填写，明确的0与未填写不同。
@@ -1502,7 +1994,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
               ) : '直接使用已录值' }
             ]}
           />}
-          <Form layout="vertical" style={{ marginTop: 16 }} aria-label={automaticMode ? '混合战斗运行输入' : '连续普攻运行输入'}>
+          <Form layout="vertical" style={{ marginTop: 16 }} aria-label="连续普攻运行输入">
             <div className="simulation-selection-grid">
               <Form.Item label="曲线记录">
                 <Checkbox aria-label="记录时间序列" checked={recordTimeSeries} disabled={busy} onChange={value => {
@@ -1526,11 +2018,9 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
             <Button disabled={busy || unfilled.length === 0} onClick={fillMissingWithZero}>将缺失属性填写为0</Button>
             {!skillMode ? <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || resourcesBlocked || mechanicIssues.length > 0 || mechanicRequirements.length > 0} onClick={() => void execute('single_attack')}>执行一次普攻</Button> : null}
             {!skillMode ? <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || resourcesBlocked || mechanicIssues.length > 0} onClick={() => void execute('continuous_attack')}>连续普攻</Button> : null}
-            {skillMode && !automaticMode ? <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || resourcesBlocked || mechanicIssues.length > 0}
+            {skillMode ? <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || resourcesBlocked || mechanicIssues.length > 0}
               onClick={() => void execute('skill_action')}>执行指定技能计划</Button> : null}
-            {skillMode && automaticMode ? <Button type="primary" disabled={busy || availabilityBlocked || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || resourcesBlocked || mechanicIssues.length > 0}
-              onClick={() => void execute(enabledAutomaticRules.length ? 'automatic_skill' : 'continuous_attack')}>开始计算</Button> : null}
-            {!automaticMode ? <Button disabled={busy || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || resourcesBlocked || mechanicIssues.length > 0} onClick={() => void execute('compile')}>编译验证</Button> : null}
+            <Button disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || resourcesBlocked || mechanicIssues.length > 0} onClick={() => void execute('compile')}>编译验证</Button>
           </Space>
           {mechanicRequirements.length ? <Typography.Paragraph type="secondary">弹药主体使用连续普攻，由原生统一核对攻击许可、冻结开始库存及安排恢复；单次外部事件入口不支持此闭环。</Typography.Paragraph> : null}
           <Typography.Paragraph type="secondary" style={{ marginTop: 8 }}>
@@ -1541,16 +2031,30 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
 
       {archive?.taskKind === 'single_attack' ? <SingleAttackResult key="single-attack-result" archive={archive} /> : null}
       {archive?.taskKind === 'skill_action' ? <SkillActionResult key={archive.runInputHash ?? 'skill-action-result'} archive={archive} stale={resultStale} /> : null}
-      {archive?.taskKind === 'automatic_skill' ? <AutomaticSkillResult key={archive.runInputHash ?? 'automatic-skill-result'} archive={archive} stale={resultStale} /> : null}
-      {archive?.taskKind === 'continuous_attack' ? <ContinuousAttackResult key="continuous-attack-result" archive={archive} stale={resultStale}
+      {automaticMode && comparisonEnabled && comparisonResult && comparisonAssessment ? <CombatComparisonResult
+        a={comparisonResult.a} b={comparisonResult.b} assessment={comparisonAssessment}
+        renderDetails={value => renderCombatArchive(value)}
+        onDownload={() => downloadJson('combat-comparison-archive.json',
+          buildCombatComparisonArchive(comparisonResult.a, comparisonResult.b, comparisonAssessment))} /> : null}
+      {automaticMode && (!comparisonEnabled || !comparisonResult) && archive && (archive.taskKind === 'automatic_skill' || archive.taskKind === 'continuous_attack')
+        ? renderCombatArchive(archive, resultStale) : null}
+      {automaticMode && comparisonEnabled && !comparisonResult && frozenB && !resultBStale ? <details className="combat-advanced-settings">
+        <summary>方案 B 已有结果</summary>{renderCombatArchive(frozenB.archive)}
+      </details> : null}
+      {!automaticMode && archive?.taskKind === 'continuous_attack' ? <ContinuousAttackResult key="continuous-attack-result" archive={archive} stale={resultStale}
         cleanupLabel={cleanupLabels[archive.cleanup]} released={archive.cleanup === 'released'} warnings={archive.runResult?.warnings ?? []}
         onDownload={view => downloadJson('basic-attack-continuous-run.json', buildContinuousAttackArchive(archive, view))} /> : null}
 
       <details key="debug-details">
-        <summary>调试详情：编译请求、原始结果与引用覆盖</summary>
+        <summary>{automaticMode ? '技术与调试详情' : '调试详情：编译请求、原始结果与引用覆盖'}</summary>
         {automaticMode && formulaPreflight ? <Typography.Paragraph>共同公式预检：编译{formulaPreflight.compileCount}次，程序{formulaPreflight.formulaCount}份，预检会话已释放。</Typography.Paragraph> : null}
-        {automaticMode && inspection ? <Button disabled={busy || availabilityBlocked || automaticIssues.length > 0 || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || resourcesBlocked || mechanicIssues.length > 0}
-          onClick={() => void execute('compile')}>编译验证</Button> : null}
+        {automaticMode && snapshot ? <section aria-label="快照与配置版本">
+          <Typography.Paragraph style={{ overflowWrap: 'anywhere' }}>快照摘要：<Typography.Text code id="simulation-snapshot-digest">{snapshot.snapshotDigest}</Typography.Text></Typography.Paragraph>
+          {snapshot.skillConfigurations.map(configuration => <Typography.Paragraph key={configuration.skill.skillKey} style={{ overflowWrap: 'anywhere' }}>
+            {configuration.skill.name}（{configuration.skill.skillKey}）：<Typography.Text code>{configuration.baseDigest}</Typography.Text>
+          </Typography.Paragraph>)}
+          <Button disabled={busy} onClick={() => downloadJson('combat-analysis-snapshot.json', snapshot)}>下载场景快照</Button>
+        </section> : null}
       {prepared ? (
         <section aria-label="编译请求与档案">
           <Typography.Paragraph style={{ overflowWrap: 'anywhere' }}>
