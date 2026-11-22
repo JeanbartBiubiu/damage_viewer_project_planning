@@ -54,8 +54,13 @@ public class MaintenanceBatches {
     }
     public Object open(UUID id) {
         return store.tx(()-> {
-            baseline.lock(batch(id,false).gameId());Batch row=batch(id,true);
-            if(!row.state().equals("PREPARED") || !baseline.digest(row.gameId()).equals(row.currentDigest())) throw MaintenanceJson.conflict();
+            Batch prepared = batch(id, false);
+            principals.lock(prepared.principal());
+            baseline.lock(prepared.gameId());
+            Batch row = batch(id, true);
+            if (!row.principal().equals(prepared.principal())) throw MaintenanceJson.denied();
+            if (!row.gameId().equals(prepared.gameId()) || !row.state().equals("PREPARED")
+                || !baseline.digest(row.gameId()).equals(row.currentDigest())) throw MaintenanceJson.conflict();
             if(gameMaintained(row.gameId())) throw MaintenanceJson.conflict();
             receipts.verify(row.receipt(),store.now());
             store.jdbc().update("UPDATE auth.maintenance_batches SET state='OPEN',updated_at=clock_timestamp() WHERE id=?",id);
@@ -86,9 +91,17 @@ public class MaintenanceBatches {
     /** 仅将失败窗口交给已经独立验证的恢复批次，不先解除公网维护。 */
     public Object recover(UUID id,UUID recoveryId) {
         return store.tx(()-> {
-            baseline.lock(batch(id,false).gameId());Batch original=batch(id,true),replacement=batch(recoveryId,true);
-            if(id.equals(recoveryId) || !original.state().equals("OPEN") || !replacement.state().equals("PREPARED")
-                || !original.gameId().equals(replacement.gameId()) || !original.currentDigest().equals(replacement.currentDigest())
+            if (id.equals(recoveryId)) throw MaintenanceJson.conflict();
+            String gameId = batch(id, false).gameId();
+            Batch prepared = batch(recoveryId, false);
+            if (!gameId.equals(prepared.gameId())) throw MaintenanceJson.conflict();
+            principals.lock(prepared.principal());
+            baseline.lock(gameId);
+            Batch original = batch(id, true), replacement = batch(recoveryId, true);
+            if (!replacement.principal().equals(prepared.principal())) throw MaintenanceJson.denied();
+            if (!gameId.equals(original.gameId()) || !gameId.equals(replacement.gameId())
+                || !original.state().equals("OPEN") || !replacement.state().equals("PREPARED")
+                || !original.currentDigest().equals(replacement.currentDigest())
                 || !baseline.digest(original.gameId()).equals(replacement.currentDigest())) throw MaintenanceJson.conflict();
             receipts.verify(replacement.receipt(),store.now());
             store.jdbc().update("UPDATE auth.maintenance_batches SET state='FAILED',updated_at=clock_timestamp() WHERE id=?",id);

@@ -34,10 +34,14 @@ public class MaintenancePrincipals {
     }
 
     public void lock(MaintenancePrincipal principal) {
-        if (!principal.principalId().equals(properties.getPrincipalId())
+        lock(principal.principalId());
+    }
+
+    void lock(UUID principalId) {
+        if (!principalId.equals(properties.getPrincipalId())
             || !TransactionSynchronizationManager.isActualTransactionActive()) throw MaintenanceJson.denied();
         UUID enabled = store.first("SELECT id FROM auth.maintenance_principals WHERE id=? AND NOT disabled FOR SHARE",
-            (row, index) -> row.getObject(1, UUID.class), principal.principalId());
+            (row, index) -> row.getObject(1, UUID.class), principalId);
         if (enabled == null) throw MaintenanceJson.denied();
     }
 }

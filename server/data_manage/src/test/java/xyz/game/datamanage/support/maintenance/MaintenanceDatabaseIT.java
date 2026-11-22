@@ -193,10 +193,19 @@ class MaintenanceDatabaseIT {
         assertEquals(403,send("PUT",path,body,null,true).statusCode());
         String digest=json.readTree(send("GET","/internal/maintenance/games/lol/baseline",null,null,true).body()).path("baselineDigest").asText();
         UUID batch=UUID.randomUUID();ObjectNode request=batch(batch,digest,path,body);
+        assertEquals(403, send("POST", "/internal/maintenance/batches", request.toString(), null, false).statusCode());
+        assertEquals(0, jdbc.queryForObject("SELECT count(*) FROM auth.maintenance_batches WHERE id=?", Integer.class, batch));
         assertEquals(200,send("POST","/internal/maintenance/batches",request.toString(),null,true).statusCode());
-        assertEquals(403,send("POST","/internal/maintenance/batches/"+batch+"/open","{}",null,true).statusCode());
-        assertEquals(403,send("POST","/internal/maintenance/batches/"+batch+"/open","{}",Map.of("X-Damage-Deployment-Token",deploymentToken),false).statusCode());
-        assertEquals(200,send("POST","/internal/maintenance/batches/"+batch+"/open","{}",Map.of("X-Damage-Deployment-Token",deploymentToken),true).statusCode());
+        String open = "/internal/maintenance/batches/" + batch + "/open";
+        var deploymentHeaders = Map.of("X-Damage-Deployment-Token", deploymentToken);
+        assertEquals(403, send("POST", open, "{}", null, true).statusCode());
+        assertEquals(403, send("POST", open, "{}", deploymentHeaders, false).statusCode());
+        jdbc.update("UPDATE auth.maintenance_principals SET disabled=true WHERE id=?", principal);
+        assertEquals(403, send("POST", open, "{}", deploymentHeaders, true).statusCode());
+        assertEquals("PREPARED", jdbc.queryForObject("SELECT state FROM auth.maintenance_batches WHERE id=?", String.class, batch));
+        assertEquals(200, send("GET", "/api/games", null, null, false).statusCode());
+        jdbc.update("UPDATE auth.maintenance_principals SET disabled=false WHERE id=?", principal);
+        assertEquals(200, send("POST", open, "{}", deploymentHeaders, true).statusCode());
         assertEquals(503,send("GET","/api/games",null,null,false).statusCode());
         assertEquals(503,send("POST","/api/auth/wasm-grant","{}",Map.of("Origin", PUBLIC_ORIGIN),false).statusCode());
         assertEquals(200,send("GET","/api/games",null,null,true).statusCode());
@@ -312,22 +321,41 @@ class MaintenanceDatabaseIT {
         assertEquals(403, send("POST", "/internal/maintenance/wasm-grant", "{}", null, true).statusCode());
         assertEquals(403, send("POST", "/internal/maintenance/batches/" + batch + "/renew", "{}", null, true).statusCode());
         assertEquals(403, send("PUT", path, body, Map.of("X-Damage-Maintenance-Batch", batch.toString()), true).statusCode());
-        jdbc.update("UPDATE auth.maintenance_principals SET disabled=false WHERE id=?", principal);
-        UUID recovery=UUID.randomUUID();String restore=body.replace("必须回滚","恢复已验证配置");
-        assertEquals(200,send("POST","/internal/maintenance/batches",batch(recovery,digest,path,restore).toString(),null,true).statusCode());
-        assertEquals(200,send("POST","/internal/maintenance/batches/"+batch+"/recover/"+recovery,"{}",Map.of("X-Damage-Deployment-Token",deploymentToken),true).statusCode());
-        assertEquals("FAILED",jdbc.queryForObject("SELECT state FROM auth.maintenance_batches WHERE id=?",String.class,batch));
-        assertEquals(503,send("GET","/api/games",null,null,false).statusCode());
-        assertEquals(200,send("PUT",path,restore,Map.of("X-Damage-Maintenance-Batch",recovery.toString()),true).statusCode());
-        assertEquals(200,send("POST","/internal/maintenance/batches/"+recovery+"/complete","{}",Map.of("X-Damage-Deployment-Token",deploymentToken),true).statusCode());
-        assertEquals(200,send("GET","/api/games",null,null,false).statusCode());
+
+        UUID recoveryPrincipal = UUID.randomUUID(), recovery = UUID.randomUUID();
+        jdbc.update("INSERT INTO auth.maintenance_principals(id,display_name) VALUES (?,'恢复主体')", recoveryPrincipal);
+        var properties = context.getBean(MaintenanceProperties.class);
+        properties.setPrincipalId(recoveryPrincipal);
+        try {
+            String restore = body.replace("必须回滚", "恢复已验证配置");
+            var deploymentHeaders = Map.of("X-Damage-Deployment-Token", deploymentToken);
+            String recover = "/internal/maintenance/batches/" + batch + "/recover/" + recovery;
+            assertEquals(200, send("POST", "/internal/maintenance/batches", batch(recovery,digest,path,restore).toString(), null, true).statusCode());
+            jdbc.update("UPDATE auth.maintenance_principals SET disabled=true WHERE id=?", recoveryPrincipal);
+            assertEquals(403, send("POST", recover, "{}", deploymentHeaders, true).statusCode());
+            assertEquals("OPEN", jdbc.queryForObject("SELECT state FROM auth.maintenance_batches WHERE id=?", String.class, batch));
+            assertEquals("PREPARED", jdbc.queryForObject("SELECT state FROM auth.maintenance_batches WHERE id=?", String.class, recovery));
+            assertEquals(503, send("GET", "/api/games", null, null, false).statusCode());
+            jdbc.update("UPDATE auth.maintenance_principals SET disabled=false WHERE id=?", recoveryPrincipal);
+            assertEquals(200, send("POST", recover, "{}", deploymentHeaders, true).statusCode());
+            assertEquals("FAILED", jdbc.queryForObject("SELECT state FROM auth.maintenance_batches WHERE id=?", String.class, batch));
+            assertEquals("OPEN", jdbc.queryForObject("SELECT state FROM auth.maintenance_batches WHERE id=?", String.class, recovery));
+            assertEquals(503, send("GET", "/api/games", null, null, false).statusCode());
+            assertEquals(200, send("PUT", path, restore, Map.of("X-Damage-Maintenance-Batch", recovery.toString()), true).statusCode());
+            assertEquals(200, send("POST", "/internal/maintenance/batches/" + recovery + "/complete", "{}", deploymentHeaders, true).statusCode());
+            assertEquals(200, send("GET", "/api/games", null, null, false).statusCode());
+        } finally {
+            properties.setPrincipalId(principal);
+            jdbc.update("UPDATE auth.maintenance_principals SET disabled=false WHERE id=?", principal);
+        }
     }
     private ObjectNode batch(UUID id,String baseline,String path,String body) throws Exception {
         return batch(id,baseline,"PUT",path,body);
     }
     private ObjectNode batch(UUID id,String baseline,String method,String path,String body) throws Exception {
         ArrayNode operations=json.createArrayNode().add(json.createObjectNode().put("method",method).put("path",path).put("bodySha256",MaintenanceJson.sha(body.getBytes(StandardCharsets.UTF_8))));
-        ObjectNode payload=json.createObjectNode().put("version","maintenance-validation-v1").put("batchId",id.toString()).put("principalId",principal.toString()).put("gameId","lol")
+        UUID signerSubject = context.getBean(MaintenanceProperties.class).getPrincipalId();
+        ObjectNode payload=json.createObjectNode().put("version","maintenance-validation-v1").put("batchId",id.toString()).put("principalId",signerSubject.toString()).put("gameId","lol")
             .put("reference","fixture:maintenance-http").put("sourceRevision","fixture:1").put("baselineDigest",baseline).put("candidateDigest","b".repeat(64)).put("operationsDigest",MaintenanceJson.hash(json,operations))
             .put("evidenceDigest","c".repeat(64)).put("engineDigest","d".repeat(64)).put("adapterVersion","fixture-v2").put("issuedAt",Instant.now().minusSeconds(1).getEpochSecond()).put("expiresAt",Instant.now().plusSeconds(600).getEpochSecond()).put("outcome","PASSED");
         byte[] bytes=json.writeValueAsBytes(payload);var signature=Signature.getInstance("Ed25519");signature.initSign(signing.getPrivate());signature.update(bytes);
