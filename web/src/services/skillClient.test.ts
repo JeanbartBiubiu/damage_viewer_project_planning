@@ -1,5 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { createSkill, deleteSkill, getSkill, listSkills, updateSkill } from './skillClient';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
+import { getSkill, listSkills } from './skillClient';
+import { createSkill, deleteSkill, updateSkill } from './maintenance/skillWrites';
 
 function jsonResponse(status: number, body: unknown): Response {
   return new Response(status === 204 ? null : JSON.stringify(body), {

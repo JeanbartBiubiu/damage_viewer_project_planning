@@ -1,14 +1,10 @@
 import { fixedValue, formulaValue, parameterValue } from '../types/numericValue';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import {
-  createSkillEffect,
-  deleteSkillEffect,
-  getSkillEffect,
-  listSkillEffects,
-  parseSkillEffect,
-  SkillEffectProtocolError,
-  updateSkillEffect
-} from './skillEffectClient';
+import { getSkillEffect, listSkillEffects, parseSkillEffect, SkillEffectProtocolError } from './skillEffectClient';
+import { createSkillEffect, deleteSkillEffect, updateSkillEffect } from './maintenance/skillEffectWrites';
 import type {
   CreateSkillEffectRequest,
   SkillEffect,

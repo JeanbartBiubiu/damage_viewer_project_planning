@@ -58,7 +58,7 @@ class SkillRelationAdminControllerTest {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private xyz.game.datamanage.support.account.AccountSessions sessions;
-    @Autowired private xyz.game.datamanage.support.maintenance.MaintenanceSessions maintenance;
+    @Autowired private xyz.game.datamanage.support.maintenance.MaintenancePrincipals maintenance;
     @Autowired private RecordingTransactionManager transactions;
     @MockitoBean private GamesMapper gamesMapper;
     @MockitoBean private CharacterMapper characterMapper;
@@ -70,9 +70,9 @@ class SkillRelationAdminControllerTest {
 
     @BeforeEach
     void setUp() {
-        org.mockito.Mockito.doReturn(new xyz.game.datamanage.support.maintenance.MaintenanceSessions.Resolved(xyz.game.datamanage.support.auth.AccountControllerTestConfig.editor(),new byte[32])).when(maintenance).require(any(),eq(true));
+        org.mockito.Mockito.doReturn(xyz.game.datamanage.support.auth.AccountControllerTestConfig.principal()).when(maintenance).require(any(),eq(true));
         when(sessions.resolve(any())).thenReturn(new xyz.game.datamanage.support.account.AccountSessions.Resolved(
-            xyz.game.datamanage.support.auth.AccountControllerTestConfig.editor(),xyz.game.datamanage.support.account.AccountCrypto.hash("c".repeat(43))));
+            xyz.game.datamanage.support.auth.AccountControllerTestConfig.player(),xyz.game.datamanage.support.account.AccountCrypto.hash("c".repeat(43))));
         when(gamesMapper.countGames("lol")).thenReturn(1L);
         transactions.commits = 0;
         transactions.rollbacks = 0;
@@ -173,7 +173,7 @@ class SkillRelationAdminControllerTest {
     @Test
     void existingAdminPermissionsProtectWrites() throws Exception {
         org.mockito.Mockito.doThrow(xyz.game.datamanage.support.maintenance.MaintenanceJson.denied()).when(maintenance).require(any(),eq(true));
-        when(sessions.resolve(any())).thenReturn(new xyz.game.datamanage.support.account.AccountSessions.Resolved(new AuthContext(java.util.UUID.fromString("00000000-0000-4000-8000-000000000001"), "fixture_author", false, java.util.UUID.fromString("00000000-0000-4000-8000-000000000002"), 1, java.time.Instant.parse("2099-01-01T00:00:00Z")),new byte[32]));
+        when(sessions.resolve(any())).thenReturn(new xyz.game.datamanage.support.account.AccountSessions.Resolved(new AuthContext(java.util.UUID.fromString("00000000-0000-4000-8000-000000000001"), "fixture_author", java.util.UUID.fromString("00000000-0000-4000-8000-000000000002"), 1, java.time.Instant.parse("2099-01-01T00:00:00Z")),new byte[32]));
         mockMvc.perform(post("/api/admin/games/lol/character-skill-relations")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"characterKey\":\"source\",\"skillKey\":\"fire\",\"sortOrder\":0}"))

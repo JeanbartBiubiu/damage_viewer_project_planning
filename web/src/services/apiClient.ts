@@ -1,9 +1,5 @@
 import type { ApiErrorResponse, GameSummary } from '../types/api';
 import { getAuthRevision, setAuthSession, showLoginRequired } from './authState';
-import { captureMaintenanceRequest, getMaintenanceBatch, getMaintenanceRevision, getMaintenanceSession, maintenanceCapturesOnly, setMaintenanceSession } from './maintenanceState';
-import { DEPLOYMENT_MODE } from '../config/deployment';
-
-const DEFAULT_API_BASE_URL = typeof window === 'undefined' ? 'http://localhost:8080' : window.location.origin;
 
 export type ApiResult<T> = {
   data: T;
@@ -12,9 +8,12 @@ export type ApiResult<T> = {
   flowCsrf?: string;
 };
 
-export type ApiRequestOptions = Omit<RequestInit, 'credentials'> & {
+export type JsonRequestOptions = Omit<RequestInit, 'credentials' | 'mode'> & {
   ifNoneMatch?: string;
-  authentication?: 'anonymous' | 'bootstrap' | 'session' | 'flow' | 'maintenance';
+};
+
+export type ApiRequestOptions = JsonRequestOptions & {
+  authentication?: 'anonymous' | 'bootstrap' | 'session' | 'flow';
   authFailure?: 'silent' | 'prompt';
   loginPrompt?: 'operation' | 'compute';
   preserveSessionOn401?: boolean;
@@ -37,8 +36,26 @@ export class ApiRequestError extends Error {
 }
 
 export function resolveApiBaseUrl(explicitValue?: string): string {
-  const candidate = explicitValue?.trim() || import.meta.env.VITE_API_BASE_URL?.trim() || DEFAULT_API_BASE_URL;
-  return candidate.replace(/\/$/, '');
+  const pageOrigin = typeof window === 'undefined' ? undefined : window.location.origin;
+  const candidate = explicitValue?.trim() || import.meta.env.VITE_API_BASE_URL?.trim() || pageOrigin || 'http://localhost:8080';
+  let url: URL;
+  try { url = new URL(candidate); } catch {
+    throw new ApiRequestError('API 地址必须是本站的 HTTP 或 HTTPS 来源。', 400, 'API.ORIGIN_INVALID');
+  }
+  if (!['https:', 'http:'].includes(url.protocol) || url.href !== `${url.origin}/`
+    || (pageOrigin !== undefined && url.origin !== pageOrigin)) {
+    throw new ApiRequestError('API 地址必须是本站的 HTTP 或 HTTPS 来源。', 400, 'API.ORIGIN_INVALID');
+  }
+  return url.origin;
+}
+
+export function buildApiUrl(apiBaseUrl: string, path: string): URL {
+  const origin = resolveApiBaseUrl(apiBaseUrl);
+  const url = new URL(path, origin);
+  if (!['https:', 'http:'].includes(url.protocol) || url.origin !== origin || url.username || url.password || url.hash) {
+    throw new ApiRequestError('API 请求必须指向本站。', 400, 'API.ORIGIN_INVALID');
+  }
+  return url;
 }
 
 export function getErrorMessage(error: unknown): string {
@@ -74,73 +91,66 @@ export async function listGames(apiBaseUrl: string): Promise<ApiResult<GameSumma
   };
 }
 
+export function isReadMethod(method: string): boolean {
+  return method === 'GET' || method === 'HEAD' || method === 'OPTIONS';
+}
+
+export function isSnapshotRead(method: string, pathname: string): boolean {
+  return method === 'POST' && /^\/api\/admin\/games\/[^/]+\/simulation-snapshot$/.test(pathname);
+}
+
+export function isConfigurationWrite(method: string, pathname: string): boolean {
+  return /^\/api\/admin\/games(?:\/|$)/.test(pathname) && !isReadMethod(method) && !isSnapshotRead(method, pathname);
+}
+
+export function jsonRequestHeaders(options: JsonRequestOptions): Headers {
+  const headers = new Headers(options.headers);
+  headers.set('Accept', 'application/json');
+  if (options.body != null && !headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
+  if (options.ifNoneMatch) headers.set('If-None-Match', options.ifNoneMatch);
+  for (const field of ['Authorization', 'Cookie', 'X-CSRF-Token', 'X-Damage-Client', 'Origin', 'Sec-Fetch-Site']) {
+    headers.delete(field);
+  }
+  return headers;
+}
+
 export async function requestJson<T>(
   apiBaseUrl: string,
   path: string,
   options: ApiRequestOptions = {}
 ): Promise<ApiResult<T>> {
-  const headers = new Headers(options.headers);
-  headers.set('Accept', 'application/json');
-
-  if (options.body !== undefined && !headers.has('Content-Type')) {
-    headers.set('Content-Type', 'application/json');
-  }
-
-  const { authentication, authFailure = 'prompt', loginPrompt = 'operation', preserveSessionOn401 = false, csrfToken, ifNoneMatch, ...requestOptions } = options;
+  const url = buildApiUrl(apiBaseUrl, path);
+  const headers = jsonRequestHeaders(options);
+  const { authentication, authFailure = 'prompt', loginPrompt = 'operation', preserveSessionOn401 = false, csrfToken, ifNoneMatch: _ifNoneMatch, ...requestOptions } = options;
   const method = (options.method ?? 'GET').toUpperCase();
   const authRevision = getAuthRevision();
-  const maintenanceRevision = DEPLOYMENT_MODE === 'maintenance' ? getMaintenanceRevision() : 0;
-  const snapshotRead = method === 'POST' && /^\/api\/admin\/games\/[^/?]+\/simulation-snapshot(?:\?|$)/.test(path);
-  const configurationWrite = /^\/api\/admin\/games(?:\/|$)/.test(path) && !['GET', 'HEAD', 'OPTIONS'].includes(method) && !snapshotRead;
-  if (DEPLOYMENT_MODE === 'viewer' && configurationWrite) throw new ApiRequestError('公共查看端不能修改游戏配置。', 403, 'PUBLIC.CONFIGURATION_READ_ONLY');
-  const access = authentication ?? ((method === 'GET' || method === 'HEAD' || snapshotRead) ? 'anonymous' : configurationWrite ? 'maintenance' : 'session');
-  headers.delete('Authorization');
-  headers.delete('Cookie');
-  headers.delete('X-CSRF-Token');
-  headers.delete('X-Damage-Client');
-  headers.delete('X-Damage-Maintenance-Token');
-  if (DEPLOYMENT_MODE === 'maintenance') headers.delete('X-Damage-Maintenance-Batch');
-  if (DEPLOYMENT_MODE === 'maintenance' && configurationWrite && access === 'maintenance') {
-    if (typeof options.body !== 'string' && options.body !== undefined) throw new ApiRequestError('候选保存只接受明确的 JSON 请求。', 400, 'MAINTENANCE.REQUEST_INVALID');
-    captureMaintenanceRequest({ method, path, body: typeof options.body === 'string' ? options.body : null });
-    if (maintenanceCapturesOnly()) throw new ApiRequestError('候选请求已记录，请下载并独立验证；当前草稿未写入数据库。', 409, 'MAINTENANCE.CANDIDATE_CAPTURED');
-    const batch = getMaintenanceBatch();
-    if (batch) headers.set('X-Damage-Maintenance-Batch', batch);
+  if (isConfigurationWrite(method, url.pathname) || /^\/internal(?:\/|$)/.test(url.pathname)) {
+    throw new ApiRequestError('公共查看端不能访问内部接口或修改游戏配置。', 403, 'PUBLIC.CONFIGURATION_READ_ONLY');
   }
-  if (access !== 'anonymous' || !['GET', 'HEAD', 'OPTIONS'].includes(method)) {
+  const access = authentication ?? ((method === 'GET' || method === 'HEAD' || isSnapshotRead(method, url.pathname)) ? 'anonymous' : 'session');
+  if (access !== 'anonymous' || !isReadMethod(method)) {
     headers.set('X-Damage-Client', 'web');
   }
   if (access !== 'anonymous') {
     if (method !== 'GET' && method !== 'HEAD') {
       headers.set('Content-Type', 'application/json');
     }
-    if (access === 'flow' || ((access === 'session' || access === 'maintenance') && method !== 'GET' && method !== 'HEAD')) {
-      const csrf = csrfToken === undefined ? access === 'maintenance' ? readCookie('__Host-damage-maint-csrf') : readAuthCsrf(access) : csrfToken;
+    if (access === 'flow' || (access === 'session' && method !== 'GET' && method !== 'HEAD')) {
+      const csrf = csrfToken === undefined ? readAuthCsrf(access) : csrfToken;
       if (csrf) headers.set('X-CSRF-Token', csrf);
     }
   }
 
-  if (ifNoneMatch) {
-    headers.set('If-None-Match', ifNoneMatch);
-  }
-
-  const response = await fetch(buildUrl(apiBaseUrl, path), {
+  const response = await fetch(url.toString(), {
     ...requestOptions,
     headers,
+    mode: 'same-origin',
     credentials: access === 'anonymous' ? 'omit' : 'include'
   });
-
-  const body = await parseBody(response);
-
-  if (!response.ok) {
-    const error = toRequestError(response, body);
-    // 正常读取继续匿名；维护窗口中仅私有版以有效维护会话补做一次只读回查。
-    if (DEPLOYMENT_MODE === 'maintenance' && access === 'anonymous' && getMaintenanceSession()
-      && response.status === 503 && error.code === 'MAINTENANCE.WINDOW_OPEN'
-      && ((method === 'GET' || method === 'HEAD') && /^\/api\/(?:admin\/)?games(?:\/|$)/.test(path) || snapshotRead)) {
-      return requestJson<T>(apiBaseUrl, path, { ...options, authentication: 'maintenance' });
-    }
-    if (DEPLOYMENT_MODE === 'maintenance' && access === 'maintenance' && response.status === 401 && maintenanceRevision === getMaintenanceRevision()) setMaintenanceSession(null);
+  try {
+    return await readApiResult<T>(response);
+  } catch (error) {
+    if (!(error instanceof ApiRequestError)) throw error;
     if (access === 'session' && response.status === 401 && !preserveSessionOn401 && authRevision === getAuthRevision()) {
       setAuthSession(null, authFailure === 'prompt');
       if (authFailure === 'prompt') {
@@ -154,10 +164,11 @@ export async function requestJson<T>(
     throw error;
   }
 
-  if (DEPLOYMENT_MODE === 'maintenance' && configurationWrite && access === 'maintenance' && maintenanceRevision !== getMaintenanceRevision()) {
-    throw new ApiRequestError('维护身份已变化，请独立回读本次保存结果；页面不会自动重发。', 409, 'MAINTENANCE.SESSION_CHANGED');
-  }
+}
 
+export async function readApiResult<T>(response: Response): Promise<ApiResult<T>> {
+  const body = await parseBody(response);
+  if (!response.ok) throw toRequestError(response, body);
   const flowCsrf = response.headers.get('X-Damage-Flow-CSRF');
   return {
     data: body as T,
@@ -200,10 +211,6 @@ function normalizeGameSummary(value: unknown): GameSummary {
     gameName: record.gameName,
     representativeImageKey: record.representativeImageKey ?? null
   };
-}
-
-function buildUrl(apiBaseUrl: string, path: string): string {
-  return new URL(path, `${resolveApiBaseUrl(apiBaseUrl)}/`).toString();
 }
 
 export function encodePathSegment(value: string): string {

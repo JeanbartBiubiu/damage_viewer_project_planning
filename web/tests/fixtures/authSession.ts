@@ -1,5 +1,5 @@
 import { expect, type Page, type Route } from '@playwright/test';
-import { fulfillComputeAuthorization } from './computeAuthorization';
+import { FIXTURE_MAINTENANCE_PRINCIPAL, fulfillComputeAuthorization } from './computeAuthorization';
 
 export async function fulfillVisitReport(route: Route): Promise<boolean> {
   if (new URL(route.request().url()).pathname !== '/api/visits' || route.request().method() !== 'POST') return false;
@@ -7,7 +7,7 @@ export async function fulfillVisitReport(route: Route): Promise<boolean> {
   return true;
 }
 
-// 玩家替身只拥有查看及计算资格；配置维护使用下面的独立私有会话。
+// 玩家替身只拥有查看及计算资格；私有入口另有固定维护主体。
 export async function fulfillAuthSession(route: Route, signedIn = true): Promise<boolean> {
   if (await fulfillVisitReport(route)) return true;
   if (await fulfillComputeAuthorization(route)) return true;
@@ -27,7 +27,7 @@ export async function openMaintenancePage(page: Page, url: string, options?: Par
   if (!maintenanceInstalled.has(page)) {
     await page.route('**/internal/maintenance/wasm-grant', route => fulfillComputeAuthorization(route).then(() => undefined));
     await page.route('**/internal/maintenance/me', route => route.fulfill({ json: {
-      principalId: 'e3e2a480-9bf4-49bb-a036-fef46b341da4', displayName: '隔离测试维护者', expiresAt: new Date(Date.now() + 600_000).toISOString()
+      principalId: FIXTURE_MAINTENANCE_PRINCIPAL, displayName: '隔离测试维护者'
     } }));
     maintenanceInstalled.add(page);
   }

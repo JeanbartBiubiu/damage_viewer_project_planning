@@ -3,7 +3,7 @@ import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Panel } from '../../../components/Panel';
 import { getErrorMessage } from '../../../services/apiClient';
-import { deleteModifierZone, listModifierZones, updateModifierZone } from '../../../services/modifierZoneClient';
+import { deleteModifierZone, listModifierZones, updateModifierZone } from '../../../services/maintenance/modifierZoneClient';
 import type {
   ModifierZone,
   ModifierZoneDomain,

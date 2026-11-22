@@ -39,7 +39,7 @@
 
 场景快照使用一致性只读事务，保留完整作者数据、所选构筑、真实来源身份和等级，不持久化场景或执行战斗。可用目录中的历史证明须重新匹配当前内容与运行身份，不能由管理保存或组件通过直接授予完整对象准入。
 
-私有 `POST /internal/maintenance/games/{gameId}/simulation-preview` 接受 `{selection, updates:[{skillKey, request}]}`；`selection` 沿现行场景选择，`request` 沿已有技能的统一修改请求并携带原 `baseDigest`。一次只读事务投影1至32份无重复的已有技能修改，再由同一快照装配链重建来源、引用及实际目录；不调用业务写入，支持已有组成的`DELETE/null`，拒绝缺失目标或最终保留组成的悬空本地引用；外部引用沿现有闭包解析，允许必要只读定义的投影，拒绝完全无关的更新。普通和预检响应均提供[执行闭包技能列表](../../contracts/simulation/README.md)，它参与快照摘要，必要定义不贡献维护覆盖。此入口要求维护会话与防伪证明，不要求或打开提交窗口。候选运行只证明给定场景，正式保存继续经过原批次、游戏锁、引用和最终态校验，保存后仍须读取真实快照验收。
+私有 `POST /internal/maintenance/games/{gameId}/simulation-preview` 接受 `{selection, updates:[{skillKey, request}]}`；`selection` 沿现行场景选择，`request` 沿已有技能的统一修改请求并携带原 `baseDigest`。一次只读事务投影1至32份无重复的已有技能修改，再由同一快照装配链重建来源、引用及实际目录；不调用业务写入，支持已有组成的`DELETE/null`，拒绝缺失目标或最终保留组成的悬空本地引用；外部引用沿现有闭包解析，允许必要只读定义的投影，拒绝完全无关的更新。普通和预检响应均提供[执行闭包技能列表](../../contracts/simulation/README.md)，它参与快照摘要，必要定义不贡献维护覆盖。私有预检校验入口、来源和已登记主体，维护窗口内外均可调用。候选运行只证明给定场景，正式保存继续经过原批次、游戏锁、引用和最终态校验，保存后仍须读取真实快照验收。
 
 ## 存储与初始化
 
@@ -51,7 +51,7 @@
 
 ## 鉴权与编辑留痕
 
-账号入口位于 `support/account/`，账号流程以[账号方案](../../文档记录/详细设计/项目/账号注册登录与权限接入技术方案.md)为准。明确登记的游戏读取及只读 `POST /api/admin/games/{gameId}/simulation-snapshot` 匿名开放。所有玩家均为查看者；游戏写入要求独立维护会话、已验证批次和对应维护窗口。控制器外层事务统一包住原服务、编辑留痕及批次提交事实，真实事务复核维护主体和凭据版本，保留原有游戏锁与引用校验。旧手填令牌、玩家编辑资格和鉴权关闭开关已移除。
+账号入口位于 `support/account/`，账号流程以[账号方案](../../文档记录/详细设计/项目/账号注册登录与权限接入技术方案.md)为准。明确登记的游戏读取及只读 `POST /api/admin/games/{gameId}/simulation-snapshot` 在维护窗口外匿名开放。游戏写入要求私有入口、已验证批次和对应维护窗口。控制器外层事务复核主体仍启用，统一提交游戏写入、编辑留痕及批次进度，并保留游戏锁与引用校验。
 
 注册必须完成验证器绑定及恢复码保存确认；正确密码可续办未完成注册。账号开通只由独立内网凭据调用 `POST /internal/accounts/{accountId}/enable-login`；请求头 `X-Damage-Internal-Token` 的值从私密文件读取，不使用玩家会话。请求体为 `{enablementReference}`。相同关联编号可重试，冲突不覆盖首次开通。禁用由 `AccountMaintenance.changeAccess` 在账号排他锁内完成并提升凭证版本，当前没有普通玩家权限管理路由。
 
@@ -67,17 +67,25 @@
 
 跨端接口及票据定义见[维护契约](../../contracts/maintenance/README.md)。唯一接口分类为 [api-access.json](src/main/resources/api-access.json)，启动时和单测均检查真实路由的完整对应；新增未分类接口失败关闭。公网代理只导出公开类别，私有入口与后端端口的监听及网络隔离由部署仓库落实。
 
-维护会话仅经私有 `/internal/maintenance/**` 建立，玩家安全 Cookie 不授予维护资格。宿主长期凭据、部署窗口凭据、账号开通凭据三者隔离；普通维护会话不能查询运维统计或控制窗口。短期维护会话固定30分钟到期，撤销与版本变化在写事务内复核。玩家计算票据仍为24小时；维护计算票据不超会话截止，双方使用第2版协议及对应正式引擎。
+同一 Spring/Tomcat 进程接收公开 TCP 和私有入口的请求。Tomcat 在转交应用前按实际连接器写入私有标记。部署侧限制公开 TCP 仅接受登记链路，私有 Nginx 通过 Unix 套接字连接。后端采用以下配置。
 
-私有配置绑定 `app.maintenance`：`principal-id`（稳定UUID）、`display-name`、`credential-version`、`token-path`、`deployment-token-path`、`validation-public-key-path`（Ed25519 X.509 DER公钥）、`allowed-origins` 和 `trusted-addresses`。缺少文件或主体配置拒绝维护；长期秘密仅经私有文件提供。默认来源为 `https://localhost:5174`，默认可信地址仅回环；远程入口必须按实际受控链路配置，不依据客户端转发头识别可信来源。
+| 配置 | 用途 |
+| --- | --- |
+| `APP_MAINTENANCE_SOCKET_PATH` | 正式私有入口的绝对路径，部署约定为 `/run/damage-viewer-maintenance/http.sock`。父目录由后端服务账户拥有，维护专用组持有组访问权，模式 `2750`。后端创建模式 `0660` 的套接字，由目录继承专用组。只向后端和私有 Nginx 所需的服务身份授予组权限。 |
+| `APP_MAINTENANCE_DEV_PORT` | 本机开发专用端口，私有 TCP 固定监听 `127.0.0.1`。公开连接器须监听回环且端口不同。启动时在实际数据库连接验证库 `test0221`，登录角色和当前角色均为 `damage_viewer_test_app`。 |
+| `APP_MAINTENANCE_PRINCIPAL_ID` | 已登记主体的稳定 UUID，名称和启用状态从数据库读取。部署前须核对或登记主体。 |
+| `APP_MAINTENANCE_ALLOWED_ORIGINS` | 逗号分隔的完整同源地址，包含协议、主机及所需端口，默认 `https://localhost:5174`。填写私有站点对浏览器和命令行使用的来源。 |
+| `APP_MAINTENANCE_DEPLOYMENT_TOKEN_PATH` | 运维凭据文件，供控制窗口及查询运维统计使用。账号开通使用独立的 `APP_AUTH_INTERNAL_TOKEN_PATH`。 |
+| `APP_MAINTENANCE_VALIDATION_PUBLIC_KEY_PATH` | 核验独立验证回执的 Ed25519 公钥文件。 |
+| `APP_MAINTENANCE_TRUSTED_ADDRESSES` | 运维统计在公开 TCP 上的已有直连地址清单，默认仅回环。 |
 
-首次有效宿主认证建立独立主体记录；轮换需提供更高的凭据版本，撤销后旧版本不能重新登录。配置原始正文摘要严格匹配冻结字节，不能在提交前重排JSON；超时先查询批次及实际配置，不自动重放。
+正式套接字和开发端口互斥。两项都为空时只启动公开连接器。窗口操作通过私有连接器并要求 `X-Damage-Deployment-Token`，账号开通使用自己的路由、直连地址校验和 `X-Damage-Internal-Token`。部署时核对套接字实际组属及模式，再连接私有 Nginx；路径已占用时启动失败，应核对现存进程和套接字。
 
-新库执行当前账号建表脚本。旧现行账号库仅在核对结构和备份后执行 `db/user_manage/migrations/20261113_viewer_maintenance_identity.sql`；它保留账号、会话及历史编辑日志，移除玩家编辑字段并新增独立维护存储。源码和测试通过不表示真实部署已应用迁移。
+浏览器的私有读取与窗口回读要求 `Sec-Fetch-Site: same-origin`，附带 `Origin` 时须精确匹配。私有变更、候选预检与维护取票还须同时附带 `Origin` 和 `X-Damage-Client: web`。命令行每个私有请求都发送这两个头，并省略浏览器来源标记。私有游戏读取及维护接口不提供跨域授权。`GET /internal/maintenance/me` 返回 `{principalId, displayName}`，维护取票为该主体签发有效 30 分钟的第 2 版票据；玩家计算票为 24 小时。
 
-窗口由部署凭据打开并持久化，后端重启不解除。窗口内公网游戏读取及玩家取票返回503，有效私有维护会话可回读；批次顺序、基线和审计同事务提交。全部操作完成且证明交接与私有验收通过后，部署者显式完成批次再恢复入口。未完成或结果未知时保持窗口并回查，不自动回滚真实账号数据。
+安装、迁移、主体登记与外键读回见[账号数据库说明](../../db/user_manage/README.md)。窗口打开后，公网游戏读取及玩家取票返回 503，私有站点按同源规则回读。窗口状态保存在数据库中。提交使用冻结正文摘要，应保留原始字节；结果未知时先查询批次与实际配置。全部操作完成且证明交接通过后，部署者显式完成批次再恢复入口。
 
-显式隔离验收入口为 `MaintenanceDatabaseIT`：环境变量 `DAMAGE_MAINTENANCE_IT_ALLOW_MUTATION=isolated-maintenance-tests` 及 `DAMAGE_MAINTENANCE_IT_CONFIG` 指向私密测试连接文件，仅在确认的测试实例创建随机 `dv_maint_verify_20261113_*` 库，初始化、迁移及真实HTTP后清理；默认 `mvn test` 不运行该实库用例。
+隔离验收使用 `mvn -Dtest=MaintenanceDatabaseIT test`，仅连接一次性本机 PostgreSQL 集群。创建空库 `test0221`，由测试角色 `damage_viewer_test_app` 登录并拥有此库。在库上设置 `damage.maintenance_fixture` 为本轮随机生成的 32 位小写十六进制字符串。运行测试时将同一个字符串及临时监听端口分别传给 `DAMAGE_MAINTENANCE_IT_FIXTURE` 和 `DAMAGE_MAINTENANCE_IT_PORT`。测试检查实际库、角色、标记和空结构后才初始化；测试结束后销毁临时集群。Linux 上的 `MaintenanceConnectorTest` 同时覆盖实际 Unix 套接字、文件权限及连接器来源。
 
 ## 本地开发与配置
 
@@ -90,7 +98,11 @@ mvn test
 mvn package
 ```
 
-默认配置在 `src/main/resources/application.yml`，由环境变量或私有配置覆盖；数据库密码必须通过 `SPRING_DATASOURCE_PASSWORD` 或私有配置提供，源码不保存真实密码。常用变量：
+普通运行和真实数据库测试从启动进程读取 `SPRING_DATASOURCE_URL`、`SPRING_DATASOURCE_USERNAME` 和 `SPRING_DATASOURCE_PASSWORD`。连接信息存放在受限的本机私有配置中，启动时只注入对应进程。
+
+本机云测试库使用独立账号，通过现有 SSH 跳板到云数据库私有地址。安装了本机私有配置时，先在本目录构建后端，再从仓库根目录运行 `./config/cloud-test-db/start.ps1`。该入口同时启动数据库回环转发、公开开发端口 8080 和私有开发端口 8081，正常退出时关闭转发和后端。连接校验云数据库证书及主机名。
+
+常用变量如下。
 
 | 变量 | 用途 |
 | --- | --- |

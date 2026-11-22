@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../../services/apiClient';
-import { getGameVampRules } from '../../../../services/gameVampClient';
+import { getGameVampRules } from '../../../../services/maintenance/gameVampClient';
 import type { GameVampRule } from '../../../../types/gameVamp';
 
 export function useGameVampRules(apiBaseUrl: string, gameId: string, enabled: boolean) {

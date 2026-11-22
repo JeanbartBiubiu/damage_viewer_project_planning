@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { simulationActiveAmmo } from '../../../../../tests/fixtures/simulationActiveAmmo';
-import { parseSkillInternalState } from '../../../../services/skillInternalStateClient';
+import { parseSkillInternalState } from '../../../../services/maintenance/skillInternalStateClient';
 import { parseSkillTriggerRuleDetail } from '../../../../services/skillTriggerRuleClient';
 import { fromDetail, toCreateRequest, validateSkillTriggerDraft } from '../triggers/triggerRuleForm';
 import { buildCreateSkillInternalStateRequest, skillInternalStateToDraft, validateSkillInternalStateDraft } from './internalStateForm';

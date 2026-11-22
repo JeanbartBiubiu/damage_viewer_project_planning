@@ -2,8 +2,8 @@ import { Alert, Button, Form, InputNumber, Modal, Select, Space, Typography } fr
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Panel } from '../../../components/Panel';
 import { getErrorMessage } from '../../../services/apiClient';
-import { listAttributes } from '../../../services/attributeClient';
-import { getGameVampRules, updateGameVampRules } from '../../../services/gameVampClient';
+import { listAttributes } from '../../../services/maintenance/attributeClient';
+import { getGameVampRules, updateGameVampRules } from '../../../services/maintenance/gameVampClient';
 import { listSkillCategories } from '../../../services/skillCategoryClient';
 import type { Attribute } from '../../../types/attribute';
 import type { SkillCategory } from '../../../types/skillCategory';

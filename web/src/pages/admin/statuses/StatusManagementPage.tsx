@@ -16,11 +16,7 @@ import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Panel } from '../../../components/Panel';
 import { getErrorMessage } from '../../../services/apiClient';
-import {
-  deleteStatus,
-  listStatuses,
-  updateStatus
-} from '../../../services/statusClient';
+import { deleteStatus, listStatuses, updateStatus } from '../../../services/maintenance/statusClient';
 import type {
   GameStatus,
   StatusListQuery,

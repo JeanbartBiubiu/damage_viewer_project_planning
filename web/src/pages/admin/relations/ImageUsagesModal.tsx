@@ -2,19 +2,15 @@ import { Alert, Button, Form, Modal, Select, Space, Spin, Table, Tag, Typography
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { getErrorMessage, listGames } from '../../../services/apiClient';
 import { listCharacters } from '../../../services/characterClient';
-import { listAttributes } from '../../../services/attributeClient';
+import { listAttributes } from '../../../services/maintenance/attributeClient';
 import { listEquipment } from '../../../services/equipmentClient';
 import { listBuildGroups, listBuildOptions, listBuildSystems } from '../../../services/buildClient';
 import { listSkills } from '../../../services/skillClient';
 import { listSkillEffects } from '../../../services/skillEffectClient';
-import { listStatuses } from '../../../services/statusClient';
+import { listStatuses } from '../../../services/maintenance/statusClient';
 import { getImage } from '../../../services/imageClient';
-import {
-  getImageUsages,
-  getRepresentativeImage,
-  removeRepresentativeImageVerified,
-  setRepresentativeImageVerified
-} from '../../../services/imageRelationClient';
+import { getImageUsages, getRepresentativeImage } from '../../../services/imageRelationClient';
+import { removeRepresentativeImageVerified, setRepresentativeImageVerified } from '../../../services/maintenance/imageRelationWrites';
 import type { ImageRelationTarget, ImageUsages, RepresentativeImage } from '../../../types/imageRelation';
 import { CachedImagePreview } from './CachedImagePreview';
 import { IMAGE_SOURCE_KINDS, imageSourceLabel, imageTargetIdentity, imageUsageGroups, representativeImageReplacementMessage, type ImageSourceOption } from './imageRelationForm';

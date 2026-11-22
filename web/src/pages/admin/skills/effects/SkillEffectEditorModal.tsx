@@ -1,4 +1,4 @@
-import { getSkillFormula } from '../../../../services/skillFormulaClient';
+import { getSkillFormula } from '../../../../services/maintenance/skillFormulaClient';
 import { formulaHasRuntimeInput } from '../triggers/triggerRuleForm';
 import { useNumericParameters } from '../useNumericParameters';
 import { CollapsibleReferenceList } from '../../shared/CollapsibleReferenceList';
@@ -29,12 +29,13 @@ import {
 import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ApiRequestError, getErrorMessage } from '../../../../services/apiClient';
-import { listAttributes } from '../../../../services/attributeClient';
-import { createSkillEffect, getSkillEffect, listSkillEffects, updateSkillEffect } from '../../../../services/skillEffectClient';
-import { listSkillFormulas } from '../../../../services/skillFormulaClient';
+import { listAttributes } from '../../../../services/maintenance/attributeClient';
+import { getSkillEffect, listSkillEffects } from '../../../../services/skillEffectClient';
+import { createSkillEffect, updateSkillEffect } from '../../../../services/maintenance/skillEffectWrites';
+import { listSkillFormulas } from '../../../../services/maintenance/skillFormulaClient';
 import { listSkillCategories } from '../../../../services/skillCategoryClient';
 import { listSkills } from '../../../../services/skillClient';
-import { listStatuses } from '../../../../services/statusClient';
+import { listStatuses } from '../../../../services/maintenance/statusClient';
 import type { GameStatus } from '../../../../types/status';
 import type { Attribute } from '../../../../types/attribute';
 import type { Skill } from '../../../../types/skill';

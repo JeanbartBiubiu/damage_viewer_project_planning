@@ -15,11 +15,9 @@ import {
 import type { TableColumnProps } from '@arco-design/web-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
-import { listAttributes } from '../../../services/attributeClient';
-import {
-  getEquipmentAttributes,
-  updateEquipmentAttributes
-} from '../../../services/equipmentClient';
+import { listAttributes } from '../../../services/maintenance/attributeClient';
+import { getEquipmentAttributes } from '../../../services/equipmentClient';
+import { updateEquipmentAttributes } from '../../../services/maintenance/equipmentWrites';
 import type { Attribute } from '../../../types/attribute';
 import type { Equipment, EquipmentAttributeValues } from '../../../types/equipment';
 import {

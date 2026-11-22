@@ -6,20 +6,8 @@ import { getBuildOption, listBuildOptions, listBuildSystems } from '../../../ser
 import { listCharacters } from '../../../services/characterClient';
 import { listEquipment } from '../../../services/equipmentClient';
 import { getSkill, listSkills } from '../../../services/skillClient';
-import {
-  createBuildOptionSkillRelation,
-  createCharacterSkillRelation,
-  createEquipmentSkillRelation,
-  deleteBuildOptionSkillRelation,
-  deleteCharacterSkillRelation,
-  deleteEquipmentSkillRelation,
-  listBuildOptionSkillRelations,
-  listCharacterSkillRelations,
-  listEquipmentSkillRelations,
-  updateBuildOptionSkillRelation,
-  updateCharacterSkillRelation,
-  updateEquipmentSkillRelation
-} from '../../../services/skillRelationClient';
+import { listBuildOptionSkillRelations, listCharacterSkillRelations, listEquipmentSkillRelations } from '../../../services/skillRelationClient';
+import { createBuildOptionSkillRelation, createCharacterSkillRelation, createEquipmentSkillRelation, deleteBuildOptionSkillRelation, deleteCharacterSkillRelation, deleteEquipmentSkillRelation, updateBuildOptionSkillRelation, updateCharacterSkillRelation, updateEquipmentSkillRelation } from '../../../services/maintenance/skillRelationWrites';
 import {
   BUILD_SKILL_LEVEL_MODE_LABELS,
   BUILD_SKILL_LEVEL_MODES,

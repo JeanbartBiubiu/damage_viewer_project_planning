@@ -24,8 +24,7 @@ import xyz.game.datamanage.model.skillcategory.SkillCategoryListResponse;
 import xyz.game.datamanage.model.skillcategory.SkillCategoryResponse;
 import xyz.game.datamanage.model.skillcategory.SkillCategoryUpdateRequest;
 import xyz.game.datamanage.service.skillcategory.SkillCategoryService;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @RestController
 @Validated
@@ -67,7 +66,7 @@ public class SkillCategoryAdminController {
     public SkillCategoryResponse create(
         @PathVariable("gameId") String gameId,
         @Valid @RequestBody SkillCategoryCreateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         SkillCategoryResponse response = service.create(gameId, body);
@@ -80,7 +79,7 @@ public class SkillCategoryAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("skillCategoryKey") String skillCategoryKey,
         @Valid @RequestBody SkillCategoryUpdateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         SkillCategoryResponse response = service.update(gameId, skillCategoryKey, body);
@@ -93,14 +92,14 @@ public class SkillCategoryAdminController {
     public void delete(
         @PathVariable("gameId") String gameId,
         @PathVariable("skillCategoryKey") String skillCategoryKey,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         service.delete(gameId, skillCategoryKey);
         log(auth, request, objectMapper.createObjectNode(), HttpStatus.NO_CONTENT);
     }
 
-    private void log(AuthContext auth, HttpServletRequest request, JsonNode body, HttpStatus status) {
+    private void log(MaintenancePrincipal auth, HttpServletRequest request, JsonNode body, HttpStatus status) {
         logHelper.log(auth, request, body, status.value());
     }
 }

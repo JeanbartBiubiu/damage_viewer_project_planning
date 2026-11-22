@@ -200,7 +200,7 @@ test('私有两工作模式共享所选游戏，切换不启动计算或写管�
   await expect(page).toHaveURL(/#\/simulation\/basic-attack$/);
   await expectMode(page, 'simulation');
   await expect(page.getByText('当前游戏：other_workspace', { exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: '刷新维护会话', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '刷新维护身份', exact: true })).toBeVisible();
   await page.getByRole('button', { name: '切换到数据管理', exact: true }).click();
   await expect(page).toHaveURL(/#\/attributes$/);
   await expectMode(page, 'management');

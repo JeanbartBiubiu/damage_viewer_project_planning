@@ -1,29 +1,27 @@
 # 维护身份与提交契约
 
-本目录定义公共查看与私有维护共用一个后端时的跨端约束，供本轮实现使用。方案入口为[单后端方案](../../文档记录/概要设计/项目/公共查看与AI维护单后端方案.md)。具体请求类型以实现和测试为准；共享变化由主负责人统一更新本页。
+本目录定义公共查看与私有维护共用一个后端时的跨端约束。结构和职责见[单后端方案](../../文档记录/概要设计/项目/公共查看与AI维护单后端方案.md)。
 
 ## 计算票据第 2 版
 
 保留现行头 `alg=Ed25519`、`typ=dv-wasm-grant+jwt`、受信 `kid`。正文共同字段为 `iss=damage-viewer`、`aud=damage-viewer-wasm`、`sub`（主体 UUID）、`subjectType`、`scope=[engine:compute]`、整数秒 `iat/nbf/exp`、`authorizationVersion=2`、UUID `jti`。`nbf=iat`。
 
 - 玩家 `subjectType=PLAYER`，额外精确包含 `canLogin=1`，`exp=iat+86400`。
-- 维护 `subjectType=MAINTENANCE`，不含 `canLogin`，`0 < exp-iat <= 1800`，签发端保证不晚于维护会话截止。
+- 维护 `subjectType=MAINTENANCE`，`sub` 为私有入口登记的维护主体，正文省略 `canLogin`，`0 < exp-iat <= 1800`。
 - 未知字段、错误类别、跨类别字段、错误版本、签名和期限拒绝。只接受第 2 版。
 - 编译和运行绑定 `subjectType:小写UUID`；同 UUID 的不同类别不能共用编译会话。数值运行规则保持。
 
-## 维护会话
+## 私有维护入口
 
-私有接口前缀 `/internal/maintenance`，公网全部拒绝。宿主使用 `X-Damage-Maintenance-Token` 建立会话，长期凭据不交给页面。
+私有接口前缀为 `/internal/maintenance`。公网默认拒绝该前缀与所有游戏配置写入。私有 Nginx 通过受权限限制的本机套接字连接同一后端的私有连接器。浏览器和命令行经受控入口使用后端配置的固定维护主体。部署窗口和账号开通继续各自使用独立凭据。
 
 | 方法与路径 | 输入或结果 |
 | --- | --- |
-| `POST /sessions` | 宿主私有凭据认证，空 JSON 请求；返回维护身份并设置独立会话和防伪 Cookie |
-| `GET /me` | 返回 `{principalId, displayName, expiresAt}` |
-| `POST /logout` | 撤销当前会话，清理维护 Cookie |
-| `POST /wasm-grant` | 有效维护会话及防伪；返回 `{grant, expiresAt}` |
-| `POST /games/{gameId}/simulation-preview` | 有效维护会话及防伪；接收 `{selection, updates:[{skillKey, request}]}`，返回按候选配置重建的完整场景快照，不持久化 |
+| `GET /me` | 返回已启用主体的 `{principalId, displayName}` |
+| `POST /wasm-grant` | 空 JSON 请求；返回 `{grant, expiresAt}` |
+| `POST /games/{gameId}/simulation-preview` | 接收 `{selection, updates:[{skillKey, request}]}`，在只读事务返回按候选配置重建的完整场景快照 |
 
-维护 Cookie 名称固定 `__Host-damage-maint-session`（只限 HTTP 的安全 Cookie）和 `__Host-damage-maint-csrf`（页面可读），路径 `/`，不设置共享域。状态变更携带 `Origin`、`X-Damage-Client: web` 和 `X-CSRF-Token`。会话 30 分钟固定到期，撤销和凭据版本复核须在真实写事务中继续成立。
+私有入口从后端实际连接器派生。浏览器私有接口请求的 `Sec-Fetch-Site` 须为 `same-origin`，附带的 `Origin` 须精确匹配。浏览器非读取请求及命令行的请求须携带允许的 `Origin` 和 `X-Damage-Client: web`。窗口内私有回读遵守相同来源约束。后端事务核对固定维护主体已登记且启用。取票和编辑流程省略应用登录、会话及 Cookie。
 
 候选预检支持已有技能的聚合新增、修改及任务明确授权的组成删除，`request` 沿现行技能 `PATCH` 类型并携带当前 `baseDigest`，不接受技能主体新建或删除。一次一致性只读事务核对基线并用现有装配器重新计算执行闭包、引用和目录；本场装配需要的只读定义更新可投影，完全无关的更新拒绝。它不调用写入守卫或持久化方法，不需要正式批次窗口；后续业务保存仍须独立验证回执及已打开的匹配批次。
 
@@ -49,8 +47,8 @@
 
 批次提交摘要包含最终引用索引。业务动作返回后，先由游戏配置守卫在同一事务内完成最终校验和引用同步，再计算摘要及记录提交事实；普通提交前复核仍保留。最终校验、引用同步或维护审计任一步失败，业务、索引和批次进度全部回滚。
 
-全部操作完成后 `POST /batches/{batchId}/complete` 仅部署凭据可调用，将状态改为 `COMPLETE` 并解除游戏批次占用；部署者只有在正式证明交接和私有验收完成后才能 complete、恢复公网。失败保持 OPEN，可查询已提交事实，不自动解除。维护会话和验证回执在每次正式写入继续复核期限与身份，过期须重新验证形成新回执，不允许调大过期时间沿用旧签名。所有批次内部接口公网拒绝。
+全部操作完成后 `POST /batches/{batchId}/complete` 仅部署凭据可调用，将状态改为 `COMPLETE` 并解除游戏批次占用。部署者在正式证明交接和私有验收完成后完成批次并恢复公网。失败保持 OPEN，可查询已提交事实。每次正式写入复核维护主体和验证回执，回执到期须重新验证并签发。所有批次内部接口公网拒绝。
 
-重新独立验证后，可由有效维护会话调用 `POST /batches/{batchId}/renew`，正文直接为新回执 envelope；批次身份、冻结请求、候选及引擎身份必须与原回执相同，后端重新核对当前配置基线，不能借续签改变候选。需要恢复部分已提交变更时，先以当前现场为基线准备并独立验证一个新恢复批次，再由部署凭据调用 `POST /batches/{batchId}/recover/{recoveryId}`（空JSON），原 OPEN 批次变为 `FAILED`、新恢复批次在同一事务变为 OPEN；公网窗口始终保持。恢复也逐笔调用相同管理接口，不提供直接SQL或无回执解锁入口。
+重新独立验证后，由私有入口调用 `POST /batches/{batchId}/renew`，正文直接为新回执。后端核对当前配置基线、批次身份、冻结请求、候选及引擎身份。需要恢复部分已提交变更时，先以当前现场为基线准备并独立验证一个新恢复批次，再由部署凭据调用 `POST /batches/{batchId}/recover/{recoveryId}`（空 JSON）。原 OPEN 批次变为 `FAILED`、新恢复批次在同一事务变为 OPEN，公网窗口继续保持。恢复逐笔调用同一管理接口。
 
-`POST /revoke` 使用宿主长期维护凭据撤销主体并提升版本，所有短期会话失效；重新启用或轮换要求私密配置提供更高的凭据版本。维护会话 /me、/logout、/wasm-grant 形状沿用上节。
+撤回私有入口权限或停用维护主体会拒绝新的编辑和取票请求。已签发的维护票据可用于计算至自身到期。

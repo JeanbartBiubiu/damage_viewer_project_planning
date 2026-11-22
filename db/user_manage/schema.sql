@@ -197,27 +197,13 @@ CREATE TABLE "user".edit_log (
     CONSTRAINT edit_log_actor_snapshot CHECK (legacy_email IS NOT NULL OR username_snapshot IS NOT NULL)
 );
 CREATE INDEX edit_log_account_idx ON "user".edit_log (account_id, create_time);
--- 独立维护身份不属于玩家账号，长期凭据仅保存摘要。
+-- 独立维护主体为批次、提交与编辑日志提供持久身份。
 CREATE TABLE auth.maintenance_principals (
     id uuid PRIMARY KEY,
     display_name varchar(32) NOT NULL CHECK (length(display_name)>0),
-    credential_version bigint NOT NULL CHECK (credential_version>0),
-    token_hash bytea NOT NULL CHECK (octet_length(token_hash)=32),
     disabled boolean NOT NULL DEFAULT false,
     created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TABLE auth.maintenance_sessions (
-    id uuid PRIMARY KEY,
-    principal_id uuid NOT NULL REFERENCES auth.maintenance_principals(id),
-    credential_version bigint NOT NULL CHECK (credential_version>0),
-    token_hash bytea NOT NULL UNIQUE CHECK (octet_length(token_hash)=32),
-    csrf_hash bytea NOT NULL CHECK (octet_length(csrf_hash)=32),
-    created_at timestamptz NOT NULL,
-    expires_at timestamptz NOT NULL,
-    revoked_at timestamptz,
-    CHECK (expires_at>created_at AND expires_at<=created_at+INTERVAL '30 minutes')
-);
-CREATE INDEX maintenance_sessions_principal_idx ON auth.maintenance_sessions(principal_id,expires_at);
 CREATE TABLE auth.maintenance_batches (
     id uuid PRIMARY KEY,
     principal_id uuid NOT NULL REFERENCES auth.maintenance_principals(id),

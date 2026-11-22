@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { ResourceImageThumb } from '../../../components/ResourceImageThumb';
 import { ResourceImageUploadField } from '../../../components/ResourceImageUploadField';
 import { getErrorMessage } from '../../../services/apiClient';
-import { createImage, updateImage } from '../../../services/imageClient';
+import { createImage, updateImage } from '../../../services/maintenance/imageWrites';
 import { normalizeImageKey, prepareResourceImage, type PreparedResourceImage } from '../../../services/resourceImage';
 import type { ManagedImage } from '../../../types/image';
 import { mapImageDraftErrors, validateImageDraft, type ImageDraft, type ImageDraftErrors } from './imageForm';

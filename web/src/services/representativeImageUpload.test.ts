@@ -1,15 +1,17 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ApiRequestError, getErrorMessage, type ApiResult } from './apiClient';
-import { createImage, getImage, updateImage } from './imageClient';
+import { getImage } from './imageClient';
+import { createImage, updateImage } from './maintenance/imageWrites';
 import { upsertManagedImage } from './imageCache';
-import { setRepresentativeImageVerified } from './imageRelationClient';
+import { setRepresentativeImageVerified } from './maintenance/imageRelationWrites';
 import { createRepresentativeImageUploadDraft, RepresentativeImageUploadFailure, uploadAndUseRepresentativeImage, type RepresentativeImageUploadContext, type RepresentativeImageUploadDraft } from './representativeImageUpload';
 import type { ManagedImage } from '../types/image';
 import type { PreparedResourceImage } from './resourceImage';
 
-vi.mock('./imageClient', () => ({ createImage: vi.fn(), getImage: vi.fn(), updateImage: vi.fn() }));
+vi.mock('./imageClient', () => ({ getImage: vi.fn() }));
+vi.mock('./maintenance/imageWrites', () => ({ createImage: vi.fn(), updateImage: vi.fn() }));
 vi.mock('./imageCache', () => ({ upsertManagedImage: vi.fn() }));
-vi.mock('./imageRelationClient', () => ({ setRepresentativeImageVerified: vi.fn() }));
+vi.mock('./maintenance/imageRelationWrites', () => ({ setRepresentativeImageVerified: vi.fn() }));
 
 const PREPARED: PreparedResourceImage = { imageBase64: 'data:image/png;base64,AQID', mimeType: 'image/png', byteSize: 3, width: 32, height: 32, sourceWidth: 32, sourceHeight: 32, transformed: false };
 const CONTEXT: RepresentativeImageUploadContext = { apiBaseUrl: 'http://localhost:8080', gameId: 'game', target: { kind: 'skillEffect', key: 'effect', name: '技能效果', skillKey: 'parent-skill' } };
@@ -29,9 +31,9 @@ beforeEach(() => {
 afterEach(() => vi.unstubAllGlobals());
 
 describe('automatic representative image upload', () => {
-  it.each(['upload', 'relation'] as const)('已处理的401只显示全局登录提示，并保留%s阶段和文件状态', async phase => {
+  it.each(['upload', 'relation'] as const)('维护入口拒绝时保留%s阶段和文件状态', async phase => {
     const draft = createRepresentativeImageUploadDraft('角色', 'fixture.png', PREPARED);
-    const error = new ApiRequestError('会话失效', 401, 'AUTH.INVALID_CREDENTIALS'); error.handledByLoginPrompt = true;
+    const error = new ApiRequestError('维护入口拒绝请求', 403, 'MAINTENANCE.INGRESS_REQUIRED');
     if (phase === 'upload') vi.mocked(createImage).mockRejectedValue(error);
     else {
       vi.mocked(createImage).mockResolvedValue(result(managed(draft)));
@@ -39,8 +41,8 @@ describe('automatic representative image upload', () => {
     }
     const failure = await uploadAndUseRepresentativeImage(CONTEXT, draft, () => true).catch(cause => cause as RepresentativeImageUploadFailure);
     expect(failure).toBeInstanceOf(RepresentativeImageUploadFailure);
-    expect(failure).toMatchObject({ phase, originalError: error, handledByLoginPrompt: true });
-    expect(getErrorMessage(failure)).toBe(''); expect(failure.draft.prepared).toBe(PREPARED);
+    expect(failure).toMatchObject({ phase, originalError: error });
+    expect(getErrorMessage(failure)).toContain('维护入口拒绝请求'); expect(failure.draft.prepared).toBe(PREPARED);
     expect(failure.draft.uploaded?.imageKey ?? null).toBe(phase === 'relation' ? draft.imageKey : null);
     expect(createImage).toHaveBeenCalledTimes(1); expect(setRepresentativeImageVerified).toHaveBeenCalledTimes(phase === 'relation' ? 1 : 0);
     expect(getImage).not.toHaveBeenCalled(); expect(upsertManagedImage).not.toHaveBeenCalled();

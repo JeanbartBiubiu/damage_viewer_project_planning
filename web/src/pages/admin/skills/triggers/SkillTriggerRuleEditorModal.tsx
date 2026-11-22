@@ -15,22 +15,18 @@ import {
 } from '@arco-design/web-react';
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactElement } from 'react';
 import { ApiRequestError, getErrorMessage } from '../../../../services/apiClient';
-import { listAttributes } from '../../../../services/attributeClient';
+import { listAttributes } from '../../../../services/maintenance/attributeClient';
 import { listDamageTypes } from '../../../../services/damageTypeClient';
 import { getSkillEffect, listSkillEffects } from '../../../../services/skillEffectClient';
-import { getSkillFormula, listSkillFormulas } from '../../../../services/skillFormulaClient';
-import { getSkillInternalState, listSkillInternalStates } from '../../../../services/skillInternalStateClient';
-import { listSkillParameters } from '../../../../services/skillParameterClient';
-import { getSkillProcess, listSkillProcesses } from '../../../../services/skillProcessClient';
+import { getSkillFormula, listSkillFormulas } from '../../../../services/maintenance/skillFormulaClient';
+import { getSkillInternalState, listSkillInternalStates } from '../../../../services/maintenance/skillInternalStateClient';
+import { listSkillParameters } from '../../../../services/maintenance/skillParameterClient';
+import { getSkillProcess, listSkillProcesses } from '../../../../services/maintenance/skillProcessClient';
 import { listSkills } from '../../../../services/skillClient';
 import { getSkillConfiguration } from '../../../../services/skillConfigurationClient';
-import { listStatuses } from '../../../../services/statusClient';
-import {
-  createSkillTriggerRule,
-  getSkillTriggerRule,
-  listSkillTriggerRules,
-  updateSkillTriggerRule
-} from '../../../../services/skillTriggerRuleClient';
+import { listStatuses } from '../../../../services/maintenance/statusClient';
+import { getSkillTriggerRule, listSkillTriggerRules } from '../../../../services/skillTriggerRuleClient';
+import { createSkillTriggerRule, updateSkillTriggerRule } from '../../../../services/maintenance/skillTriggerRuleWrites';
 import type { Attribute } from '../../../../types/attribute';
 import type { DamageType } from '../../../../types/damageType';
 import type { Skill } from '../../../../types/skill';

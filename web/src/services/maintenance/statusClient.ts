@@ -1,13 +1,8 @@
-import type { ApiResult } from './apiClient';
-import { encodePathSegment, requestJson } from './apiClient';
-import { isStatusKind } from '../types/status';
-import type {
-  CreateStatusRequest,
-  GameStatus,
-  StatusListQuery,
-  StatusListResponse,
-  UpdateStatusRequest
-} from '../types/status';
+import { requestMaintenanceJson } from '../maintenanceApiRequest';
+import type { ApiResult } from '../apiClient';
+import { encodePathSegment } from '../apiClient';
+import { isStatusKind } from '../../types/status';
+import type { CreateStatusRequest, GameStatus, StatusListQuery, StatusListResponse, UpdateStatusRequest } from '../../types/status';
 
 export function parseStatus(value: unknown): GameStatus {
   if (typeof value !== 'object' || value === null || Array.isArray(value)
@@ -40,7 +35,7 @@ export function listStatuses(
   gameId: string,
   query: StatusListQuery = {}
 ): Promise<ApiResult<StatusListResponse>> {
-  return requestJson<StatusListResponse>(
+  return requestMaintenanceJson<StatusListResponse>(
     apiBaseUrl,
     withQuery(statusesPath(gameId), query)
   ).then((result) => {
@@ -54,7 +49,7 @@ export function getStatus(
   gameId: string,
   statusKey: string
 ): Promise<ApiResult<GameStatus>> {
-  return requestJson<unknown>(apiBaseUrl, statusesPath(gameId, statusKey)).then(parseStatusResult);
+  return requestMaintenanceJson<unknown>(apiBaseUrl, statusesPath(gameId, statusKey)).then(parseStatusResult);
 }
 
 export function createStatus(
@@ -62,7 +57,7 @@ export function createStatus(
   gameId: string,
   body: CreateStatusRequest
 ): Promise<ApiResult<GameStatus>> {
-  return requestJson<GameStatus>(apiBaseUrl, statusesPath(gameId), {
+  return requestMaintenanceJson<GameStatus>(apiBaseUrl, statusesPath(gameId), {
     method: 'POST',
     body: JSON.stringify(body)
   }).then(parseStatusResult);
@@ -74,7 +69,7 @@ export function updateStatus(
   statusKey: string,
   body: UpdateStatusRequest
 ): Promise<ApiResult<GameStatus>> {
-  return requestJson<GameStatus>(apiBaseUrl, statusesPath(gameId, statusKey), {
+  return requestMaintenanceJson<GameStatus>(apiBaseUrl, statusesPath(gameId, statusKey), {
     method: 'PUT',
     body: JSON.stringify(body)
   }).then(parseStatusResult);
@@ -85,7 +80,7 @@ export function deleteStatus(
   gameId: string,
   statusKey: string
 ): Promise<ApiResult<null>> {
-  return requestJson<null>(apiBaseUrl, statusesPath(gameId, statusKey), {
+  return requestMaintenanceJson<null>(apiBaseUrl, statusesPath(gameId, statusKey), {
     method: 'DELETE'
   });
 }

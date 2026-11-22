@@ -2,11 +2,7 @@ import { validateStoredSkillFormula } from './skillFormulaContract';
 import { ApiRequestError, requestJson } from './apiClient';
 import type { ApiResult } from './apiClient';
 import { skillsPath } from './skillClient';
-import type {
-  CreateSkillConfigurationRequest,
-  SkillConfiguration,
-  UpdateSkillConfigurationRequest
-} from '../types/skillConfiguration';
+import type { SkillConfiguration } from '../types/skillConfiguration';
 
 export function skillConfigurationPath(gameId: string, skillKey: string): string {
   return `${skillsPath(gameId, skillKey)}/configuration`;
@@ -53,29 +49,5 @@ export async function getSkillConfiguration(
   skillKey: string
 ): Promise<ApiResult<SkillConfiguration>> {
   const result = await requestJson<unknown>(apiBaseUrl, skillConfigurationPath(gameId, skillKey));
-  return { ...result, data: validateSkillConfiguration(result.data, gameId, skillKey) };
-}
-
-export async function createSkillConfiguration(
-  apiBaseUrl: string,
-  gameId: string,
-  skillKey: string,
-  body: CreateSkillConfigurationRequest
-): Promise<ApiResult<SkillConfiguration>> {
-  const result = await requestJson<unknown>(apiBaseUrl, skillConfigurationPath(gameId, skillKey), {
-    method: 'POST', body: JSON.stringify(body)
-  });
-  return { ...result, data: validateSkillConfiguration(result.data, gameId, skillKey) };
-}
-
-export async function updateSkillConfiguration(
-  apiBaseUrl: string,
-  gameId: string,
-  skillKey: string,
-  body: UpdateSkillConfigurationRequest
-): Promise<ApiResult<SkillConfiguration>> {
-  const result = await requestJson<unknown>(apiBaseUrl, skillConfigurationPath(gameId, skillKey), {
-    method: 'PATCH', body: JSON.stringify(body)
-  });
   return { ...result, data: validateSkillConfiguration(result.data, gameId, skillKey) };
 }

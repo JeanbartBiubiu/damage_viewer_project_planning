@@ -1,13 +1,9 @@
 import { formulaValue } from '../types/numericValue';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import {
-  createSkillProcess,
-  deleteSkillProcess,
-  getSkillProcess,
-  listSkillProcesses,
-  updateSkillProcess,
-  parseSkillProcess
-} from './skillProcessClient';
+import { createSkillProcess, deleteSkillProcess, getSkillProcess, listSkillProcesses, updateSkillProcess, parseSkillProcess } from './maintenance/skillProcessClient';
 import type {
   CreateSkillProcessRequest,
   SkillProcess,

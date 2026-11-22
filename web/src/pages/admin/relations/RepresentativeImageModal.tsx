@@ -3,12 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { ResourceImageThumb } from '../../../components/ResourceImageThumb';
 import { ResourceImageUploadField } from '../../../components/ResourceImageUploadField';
 import { getErrorMessage } from '../../../services/apiClient';
-import {
-  getRepresentativeImage,
-  listImageOptions,
-  removeRepresentativeImageVerified,
-  setRepresentativeImageVerified
-} from '../../../services/imageRelationClient';
+import { getRepresentativeImage, listImageOptions } from '../../../services/imageRelationClient';
+import { removeRepresentativeImageVerified, setRepresentativeImageVerified } from '../../../services/maintenance/imageRelationWrites';
 import { prepareResourceImage } from '../../../services/resourceImage';
 import { createRepresentativeImageUploadDraft, RepresentativeImageUploadFailure, uploadAndUseRepresentativeImage, type RepresentativeImageUploadDraft } from '../../../services/representativeImageUpload';
 import type { ManagedImage } from '../../../types/image';

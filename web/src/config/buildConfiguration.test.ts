@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import type { BuildDefinition, BuildGroup, BuildOption, BuildSystem } from '../../../types/build';
-import type { BuildOptionSkillRelation } from '../../../types/skillRelation';
+import type { BuildDefinition, BuildGroup, BuildOption, BuildSystem } from '../types/build';
+import type { BuildOptionSkillRelation } from '../types/skillRelation';
 import { cumulativeRankCost, parseBuildConfigurationDocument, validateBuildConfigurations } from './buildConfiguration';
 
 const time = { createdAt: '2026-09-27T00:00:00Z', updatedAt: '2026-09-27T00:00:00Z' };

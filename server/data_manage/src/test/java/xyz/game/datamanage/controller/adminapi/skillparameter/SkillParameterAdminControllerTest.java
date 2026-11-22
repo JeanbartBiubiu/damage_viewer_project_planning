@@ -37,7 +37,7 @@ import xyz.game.datamanage.model.skillparameter.SkillParameterValueMode;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueType;
 import xyz.game.datamanage.service.skillparameter.SkillParameterService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
@@ -94,9 +94,9 @@ class SkillParameterAdminControllerTest {
         mockMvc.perform(delete(BASE_PATH + "/base_damage"))
             .andExpect(status().isNoContent());
 
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(201));
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(200));
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(204));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(201));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(200));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(204));
     }
 
     @Test

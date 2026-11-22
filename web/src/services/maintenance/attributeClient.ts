@@ -1,12 +1,7 @@
-import type { ApiResult } from './apiClient';
-import { encodePathSegment, requestJson } from './apiClient';
-import type {
-  Attribute,
-  AttributeListQuery,
-  AttributeListResponse,
-  CreateAttributeRequest,
-  UpdateAttributeRequest
-} from '../types/attribute';
+import { requestMaintenanceJson } from '../maintenanceApiRequest';
+import type { ApiResult } from '../apiClient';
+import { encodePathSegment } from '../apiClient';
+import type { Attribute, AttributeListQuery, AttributeListResponse, CreateAttributeRequest, UpdateAttributeRequest } from '../../types/attribute';
 
 function attributesPath(gameId: string, attributeKey?: string): string {
   const base = `/api/admin/games/${encodePathSegment(gameId)}/attributes`;
@@ -31,7 +26,7 @@ export async function listAttributes(
   gameId: string,
   query: AttributeListQuery = {}
 ): Promise<ApiResult<AttributeListResponse>> {
-  return requestJson<AttributeListResponse>(
+  return requestMaintenanceJson<AttributeListResponse>(
     apiBaseUrl,
     withAttributeQuery(attributesPath(gameId), query)
   );
@@ -42,7 +37,7 @@ export async function getAttribute(
   gameId: string,
   attributeKey: string
 ): Promise<ApiResult<Attribute>> {
-  return requestJson<Attribute>(apiBaseUrl, attributesPath(gameId, attributeKey));
+  return requestMaintenanceJson<Attribute>(apiBaseUrl, attributesPath(gameId, attributeKey));
 }
 
 export async function createAttribute(
@@ -50,7 +45,7 @@ export async function createAttribute(
   gameId: string,
   body: CreateAttributeRequest
 ): Promise<ApiResult<Attribute>> {
-  return requestJson<Attribute>(apiBaseUrl, attributesPath(gameId), {
+  return requestMaintenanceJson<Attribute>(apiBaseUrl, attributesPath(gameId), {
     method: 'POST',
     body: JSON.stringify(body)
   });
@@ -62,7 +57,7 @@ export async function updateAttribute(
   attributeKey: string,
   body: UpdateAttributeRequest
 ): Promise<ApiResult<Attribute>> {
-  return requestJson<Attribute>(apiBaseUrl, attributesPath(gameId, attributeKey), {
+  return requestMaintenanceJson<Attribute>(apiBaseUrl, attributesPath(gameId, attributeKey), {
     method: 'PUT',
     body: JSON.stringify(body)
   });

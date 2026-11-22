@@ -10,7 +10,7 @@ import {
 } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
-import { createDamageType, updateDamageType } from '../../../services/damageTypeClient';
+import { createDamageType, updateDamageType } from '../../../services/maintenance/damageTypeWrites';
 import type { DamageType } from '../../../types/damageType';
 import {
   damageTypeFieldIssues,

@@ -1,8 +1,8 @@
 spring:
   datasource:
-    username: postgres
-    password: ${SPRING_DATASOURCE_PASSWORD:}
-    url: jdbc:postgresql://192.168.5.6:5432/test0221
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL}
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.postgresql.Driver
     hikari:
@@ -22,6 +22,14 @@ app:
     internal-token-path: ${APP_AUTH_INTERNAL_TOKEN_PATH:../../config/auth/internal-token.txt}
     internal-trusted-addresses: ${APP_AUTH_INTERNAL_TRUSTED_ADDRESSES:127.0.0.1,::1}
     cleanup-enabled: ${APP_AUTH_CLEANUP_ENABLED:true}
+  maintenance:
+    socket-path: ${APP_MAINTENANCE_SOCKET_PATH:}
+    dev-port: ${APP_MAINTENANCE_DEV_PORT:}
+    principal-id: ${APP_MAINTENANCE_PRINCIPAL_ID:}
+    allowed-origins: ${APP_MAINTENANCE_ALLOWED_ORIGINS:https://localhost:5174}
+    deployment-token-path: ${APP_MAINTENANCE_DEPLOYMENT_TOKEN_PATH:../../config/auth/deployment-token.txt}
+    validation-public-key-path: ${APP_MAINTENANCE_VALIDATION_PUBLIC_KEY_PATH:../../config/auth/validation-public.der}
+    trusted-addresses: ${APP_MAINTENANCE_TRUSTED_ADDRESSES:127.0.0.1,::1}
 server:
   address: ${SERVER_ADDRESS:127.0.0.1}
   forward-headers-strategy: none

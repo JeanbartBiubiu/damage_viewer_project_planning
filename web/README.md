@@ -8,7 +8,7 @@
 
 | 范围 | 入口 |
 | --- | --- |
-| 构建装配、应用与路由 | `src/App.tsx`、`src/ViewerApp.tsx`、`src/MaintenanceApp.tsx`、`src/config/deployment.ts`；私有导航为 `src/config/navigation.ts` |
+| 构建装配、应用与路由 | 公共 `index.html` 和 `src/main.tsx`，私有 `maintenance.html` 和 `src/maintenanceMain.tsx`。查看路由为 `src/config/viewerRoutes.ts`，维护导航为 `src/config/navigation.ts` |
 | 11类管理页面 | `src/pages/admin/`；属性、角色、装备、构筑、技能分类、伤害类型、乘区、技能、状态、游戏配置及图片 |
 | 技能统一编辑 | `src/pages/admin/skills/SkillConfigurationWorkspace.tsx`；完整基线、六模块草稿及共同保存 |
 | 普攻模拟 | `#/simulation/basic-attack`；单次／连续普攻及固定时刻技能计划 |
@@ -16,7 +16,7 @@
 | 请求与错误 | `src/services/apiClient.ts`，各业务服务位于 `src/services/` |
 | 账号与安全 | `src/pages/auth/AccountControls.tsx`、`src/services/authClient.ts`、`src/services/authState.ts`；冻结接口见[账号方案](../文档记录/详细设计/项目/账号注册登录与权限接入技术方案.md) |
 | 匿名访问上报 | `src/services/visitStatisticsClient.ts`；统计查询属于私有运维，玩家前端不提供入口 |
-| 私有维护会话及候选 | `src/services/maintenanceClient.ts`、`maintenanceState.ts`、`src/pages/maintenance/MaintenanceControls.tsx` |
+| 维护主体、候选与提交 | `src/services/maintenanceClient.ts`、`maintenanceApiRequest.ts`、`maintenanceState.ts` 和 `src/pages/maintenance/MaintenanceControls.tsx`。配置写入客户端位于 `src/services/maintenance/` |
 | 问题报告 | `src/components/ProblemReport.tsx`、`src/services/problemReport.ts`；下载脱敏场景与结果，用户补充图片视频 |
 | 场景与生产适配 | `src/engine/simulationAdapter.ts`、`simulationActiveSkills.ts`、`processAdapter.ts` |
 | 模拟来源准备 | `src/engine/simulation/sources/`；装备与自然来源分别拥有选择、身份、执行闭包和所属常驻贡献 |
@@ -59,7 +59,7 @@ Node 版本由 `.node-version` 固定，允许范围见 `package.json`；`.npmrc
 
 PowerShell 会消费未加引号的 `--`。向 npm 脚本继续传参时将分隔符写为 `'--'`，例如 `.\tools\web.ps1 npm run dev:maintenance '--' --host 127.0.0.1 --port 5174 --strictPort`。
 
-浏览器默认同源访问 `/api`；可通过构建环境中的 `VITE_API_BASE_URL` 显式指定精确来源，不在页面编辑或保存任意 API 地址。开发服务将 `/api` 代理到 `DEV_API_TARGET`，缺省为 `http://127.0.0.1:8080`；只有私有维护模式代理 `/internal/maintenance`。公共端的 API 客户端也拒绝游戏配置写入，但最终权限边界由 Nginx 和后端实际路由守卫执行。
+浏览器同源访问 API。显式设置 `VITE_API_BASE_URL` 时，协议、主机和端口必须与当前页面一致。查看开发服务按 `api-access.json` 的方法和路径转发公开接口至 `DEV_API_TARGET`，缺省为 `http://127.0.0.1:8080`。维护开发服务只监听回环地址，将游戏读取和维护请求转发至 `DEV_MAINTENANCE_API_TARGET`，缺省为 `http://127.0.0.1:8081`。正式站点的权限由 Nginx 与后端连接器校验。
 
 账号采用浏览器安全凭据（Cookie），本地账号联调需要加密访问（HTTPS）。在未提交的本地环境文件中配置 `DEV_HTTPS_KEY_PATH` 与 `DEV_HTTPS_CERT_PATH`，分别指向可信本地证书的私钥与证书；二者必须同时提供。后端受控来源配置须包含实际前端来源，代理保留原来源。不要将证书私钥提交到仓库。
 
@@ -74,13 +74,13 @@ npm ci
 npm run dev
 ```
 
-公共构建用 `npm run build`，输出 `dist/`；预览用 `npm run preview`。公共端空 Hash、旧编辑地址和未知路径进入 `#/simulation/combat-analysis`，只有普攻与混合战斗两个计算入口；本场等级、装备、连招等仍能调整。
+`npm run build` 执行一次 TypeScript 检查和一次 Vite 双入口构建，并从同一次构建分发 `dist/` 和 `dist-maintenance/`。两个目录各以 `index.html` 为入口，使用同一发布编号及同一份 Wasm。Vite 的资源清单与 `output/site-build/.vite/site-graph.json` 记录实际分块、源码归属和依赖关系。分发时逐站追踪共享和延迟加载分块、工作线程、Wasm、样式和图标，缺失文件或公网分块混入维护源码会使构建失败。清单留在构建中间目录。
 
-私有开发用 `npm run dev:maintenance`，构建用 `npm run build:maintenance`，输出 `dist-maintenance/`。预览使用 `npm run preview -- --mode maintenance --outDir dist-maintenance`，只在受控网络提供。模式在构建时装配，网址参数或浏览器设置不能切换公共产物。两个构建均检查产物中编辑与维护能力的隔离。
+查看版用 `npm run preview` 预览。空 Hash、旧编辑地址和未知路径进入 `#/simulation/combat-analysis`，可切换到普攻模拟，调整本场等级、装备和连招。维护版用 `npm run dev:maintenance` 开发，用 `npm run preview -- --mode maintenance` 在回环地址预览。
 
-维护页面不提供玩家登录入口。宿主按共享契约建立独立维护会话后，页面刷新 `/internal/maintenance/me`；长期维护凭据不进入页面或浏览器存储。默认只编辑候选，点击保存会记录原始请求并保留草稿，可下载 `damage-maintenance-request-v1` 文件，冻结请求正文保持原字节；独立验证后选择已登记的维护批次，正式请求附批次编号，由后端核对冻结内容、基线、有效验证回执及维护窗口。页面不自动创建或打开发布批次，也不在会话失效后重放写入。
+维护页面从 `GET /internal/maintenance/me` 读取入口绑定的维护主体（`principalId`、`displayName`）。请求使用 `credentials: 'omit'`，变更携带 `X-Damage-Client: web`，来源标记由浏览器发送。候选模式下点击保存会记录原始请求并保留草稿，可下载 `damage-maintenance-request-v1` 文件。独立验证后选择已登记的维护批次，正式请求带批次编号和冻结正文，由后端核对冻结内容、基线、验证回执及维护窗口。提交后沿原页面流程回读，结果不确定时先确认状态。
 
-计算客户端按构建选择玩家或维护取票入口，维护会话到期、退出或主体变化时清理票据和工作线程。玩家计算资格不因查看版部署改变。反馈仓库使用构建变量 `VITE_FEEDBACK_REPOSITORY`，仅接受 `https://github.com/所有者/仓库`；发布及资料身份可通过 `VITE_RELEASE_ID`、`VITE_GAME_DATA_VERSION` 提供，缺失显示未知。完整场景、运行档案和媒体不放入问题链接查询串；用户下载脱敏复现材料后作为附件提交。
+私有计算从 `/internal/maintenance/wasm-grant` 取得第 2 版票据。浏览器核对票据主体与 `/me` 一致、签发到过期最长 30 分钟，Wasm 负责验签。票据过期后重新获取，主体变化时销毁旧票据和工作线程。公网玩家继续使用账号计算票据。反馈仓库使用构建变量 `VITE_FEEDBACK_REPOSITORY`，仅接受 `https://github.com/所有者/仓库`。发布及资料身份可通过 `VITE_RELEASE_ID`、`VITE_GAME_DATA_VERSION` 提供。用户下载脱敏复现材料后作为附件提交。
 
 ## 浏览器开发指导
 
@@ -111,7 +111,7 @@ npm run build
 | --- | --- |
 | `npm run test:mechanisms` | 合成场景经生产适配及真实Wasm，与独立手算期望比较 |
 | `npm run test:e2e:non-wasm` | 隔离的非Wasm桌面管理页验收，使用真实浏览器；显式真接口用例仍遵循各配置开关 |
-| `npm run test:e2e:deployment-modes` | 两种最终产物的入口隔离、公共计算输入与反馈、私有候选及批次请求接线 |
+| `npm run test:e2e:deployment-modes` | 两站最终产物的入口隔离和真实 Wasm 计算，私有候选、冻结批次、浏览器来源标记及提交回读 |
 | `npm run test:e2e:auth` | 账号与会话浏览器接线：分步登录／注册、恢复、安全变更、失效提示与草稿保留；使用隔离接口替身，不代替真实后端验证 |
 | `npm run test:e2e:visits` | 匿名访问上报、刷新与切页计次、玩家没有统计查询入口及上报不携带凭据；使用隔离接口替身 |
 | `npm run check:mechanism-coverage` | 只读核对正式对象声明所依赖的机制用例，不生成新证明 |
@@ -120,7 +120,7 @@ npm run build
 
 浏览器配置集中在[测试配置目录](tests/playwright/README.md)，分别选择管理、账号、访问统计、计算场景、专项机制与真实接口用例。测试数据和工作线程夹具留在 `tests/fixtures/`，浏览器用例留在 `tests/e2e/`。配置文件位置不改变服务的工作目录或 `output/` 证据目录；阶段名称较旧不代表验证对象已删除。`testMatch`、服务来源、注入产物及环境开关都可能不同，删除前应核对真实选择及覆盖。`live`配置使用已运行的真实服务，按用例要求核对授权、数据和鉴权条件。
 
-管理页回归先构建私有产物，账号与匿名上报回归使用公共产物；双模式专项需要两个产物均已构建。管理页接口替身通过真实维护控件选择隔离测试批次，验证浏览器接线，不代替后端对签名回执、基线和事务的验证。
+运行一次 `npm run build` 后可运行管理页、账号、访问上报及两站浏览器检查。管理页接口替身通过页面控件选择隔离测试批次。签名回执、基线及事务由后端实库验收。
 
 只核对某个配置会选择哪些测试时，在本目录执行以下发现命令；它不运行浏览器用例，也不证明真实接口可用：
 

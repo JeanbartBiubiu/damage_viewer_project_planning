@@ -37,7 +37,7 @@ import xyz.game.datamanage.model.status.StatusResponse;
 import xyz.game.datamanage.model.status.StatusUpdateRequest;
 import xyz.game.datamanage.service.status.StatusService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = StatusAdminController.class)
@@ -102,9 +102,9 @@ class StatusAdminControllerTest {
         verify(service).create("lol", new StatusCreateRequest(key, name, null, kind, StatusRecordStatus.ENABLED, 10));
         verify(service).update("lol", key, new StatusUpdateRequest(null, name, null, kind, StatusRecordStatus.ENABLED, 10));
         verify(service).delete("lol", key);
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(201));
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(200));
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(204));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(201));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(200));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(204));
     }
 
     @Test

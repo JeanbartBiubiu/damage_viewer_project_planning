@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { fixedValue, formulaValue, parameterValue } from '../types/numericValue';
 import { isCounterTargetTiming } from './counterTargetTiming';
-import { parseSkillInternalState } from './skillInternalStateClient';
+import { parseSkillInternalState } from './maintenance/skillInternalStateClient';
 import { parseSkillTriggerRuleDetail } from './skillTriggerRuleClient';
 import { targetTimingSample } from '../../tests/fixtures/targetTiming';
 

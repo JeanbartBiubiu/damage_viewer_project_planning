@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
 import { getSkillEffect } from '../../../services/skillEffectClient';
-import { getSkillInternalState } from '../../../services/skillInternalStateClient';
+import { getSkillInternalState } from '../../../services/maintenance/skillInternalStateClient';
 import type { SkillEffect } from '../../../types/skillEffect';
 import type { SkillInternalState } from '../../../types/skillInternalState';
 

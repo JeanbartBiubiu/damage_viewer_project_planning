@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { listSkillParameters } from '../../../services/skillParameterClient';
+import { listSkillParameters } from '../../../services/maintenance/skillParameterClient';
 import type { SkillParameter } from '../../../types/skillParameter';
 
 export function useNumericParameters(apiBaseUrl: string, gameId: string, skillKey: string, visible: boolean, revision = 0) {

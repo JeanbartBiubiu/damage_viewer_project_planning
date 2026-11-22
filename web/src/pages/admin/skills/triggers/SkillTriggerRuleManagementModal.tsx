@@ -10,10 +10,8 @@ import {
 import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../../services/apiClient';
-import {
-  deleteSkillTriggerRule,
-  listSkillTriggerRules
-} from '../../../../services/skillTriggerRuleClient';
+import { listSkillTriggerRules } from '../../../../services/skillTriggerRuleClient';
+import { deleteSkillTriggerRule } from '../../../../services/maintenance/skillTriggerRuleWrites';
 import type { Skill } from '../../../../types/skill';
 import type { SkillTriggerRuleDetail, SkillTriggerRuleSummary } from '../../../../types/skillTriggerRule';
 import {

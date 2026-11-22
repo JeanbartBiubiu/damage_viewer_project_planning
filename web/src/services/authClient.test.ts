@@ -33,8 +33,8 @@ describe('账号请求凭据边界', () => {
     await requestJson(api, '/api/admin/games/demo/simulation-snapshot', { method: 'POST', body: '{}' });
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
-  it('配置维护使用独立CSRF，玩家安全和流程操作分别使用各自CSRF，初始化不使用残留CSRF', async () => {
-    vi.stubGlobal('document', { cookie: '__Host-damage-maint-csrf=maintenance-csrf; __Host-dv_csrf=session-csrf; __Host-dv_flow_csrf=flow-csrf' });
+  it('玩家安全和流程操作分别使用各自CSRF，初始化不使用残留CSRF', async () => {
+    vi.stubGlobal('document', { cookie: '__Host-dv_csrf=session-csrf; __Host-dv_flow_csrf=flow-csrf' });
     const calls: { path: string; csrf: string | null; body: unknown }[] = [];
     vi.stubGlobal('fetch', vi.fn(async (url, init: RequestInit) => {
       const headers = new Headers(init.headers);
@@ -43,15 +43,14 @@ describe('账号请求凭据边界', () => {
       calls.push({ path: new URL(String(url)).pathname, csrf: headers.get('X-CSRF-Token'), body: JSON.parse(String(init.body)) });
       return json(200, {});
     }));
-    await requestJson(api, '/api/admin/games/demo/attributes', { method: 'POST', body: '{}' });
     await startLogin(api, 'player', 'test-password'); await registerAccount(api, 'player', 'test-password');
     await recoverPassword(api, 'player', '001234', 'test-recovery'); await recoverTotp(api, 'player', 'test-password', 'test-recovery');
     await setupTotp(api); await verifyTotp(api, '000123');
     await startSecurityFlow(api, 'password', { currentPassword: 'test-password', totpCode: '001234' });
-    expect(calls.map(call => call.csrf)).toEqual(['maintenance-csrf', null, null, null, null, 'flow-csrf', 'flow-csrf', 'session-csrf']);
-    expect(calls[3].body).toEqual({ username: 'player', totpCode: '001234', recoveryCode: 'test-recovery' });
-    expect(calls[6].body).toEqual({ totpCode: '000123' });
-    expect(calls[7].body).toEqual({ currentPassword: 'test-password', totpCode: '001234' });
+    expect(calls.map(call => call.csrf)).toEqual([null, null, null, null, 'flow-csrf', 'flow-csrf', 'session-csrf']);
+    expect(calls[2].body).toEqual({ username: 'player', totpCode: '001234', recoveryCode: 'test-recovery' });
+    expect(calls[5].body).toEqual({ totpCode: '000123' });
+    expect(calls[6].body).toEqual({ currentPassword: 'test-password', totpCode: '001234' });
   });
   it('受限读取不携带正式会话CSRF，完成态不要求仍有效的正式会话', async () => {
     vi.stubGlobal('document', { cookie: '__Host-dv_flow_csrf=flow-csrf' });
@@ -242,7 +241,7 @@ describe('会话与登录提示', () => {
   it('双标签页变更先使旧身份失效，再静默回查；广播不包含账号材料', async () => {
     const target = new EventTarget(), doc = Object.assign(new EventTarget(), { visibilityState: 'visible', cookie: '' });
     const setItem = vi.fn();
-    vi.stubGlobal('window', Object.assign(target, { localStorage: { setItem } })); vi.stubGlobal('document', doc);
+    vi.stubGlobal('window', Object.assign(target, { location: { origin: api }, localStorage: { setItem } })); vi.stubGlobal('document', doc);
     const next = session(); vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(json(200, next)).mockResolvedValueOnce(json(401, { error: { code: 'AUTH.SESSION_INVALID' } })));
     const stop = synchronizeAuthSession(api); await vi.waitFor(() => expect(getAuthSession()).toEqual(next));
     setAuthSession(next, true); expect(setItem.mock.calls[0][0]).toBe(AUTH_CHANGE_STORAGE_KEY);

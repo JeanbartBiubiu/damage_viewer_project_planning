@@ -27,7 +27,7 @@ import xyz.game.datamanage.model.skillconfiguration.SkillConfigurationResponse;
 import xyz.game.datamanage.model.skillconfiguration.SkillConfigurationSaveRequest;
 import xyz.game.datamanage.service.skillconfiguration.SkillConfigurationService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = SkillConfigurationAdminController.class)
@@ -71,8 +71,8 @@ class SkillConfigurationAdminControllerTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.baseDigest").value("digest"));
 
-        verify(logHelper).log(any(AuthContext.class), any(), any(), eq(201));
-        verify(logHelper).log(any(AuthContext.class), any(), any(), eq(200));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(), eq(201));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(), eq(200));
     }
 
     @Test

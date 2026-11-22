@@ -4,7 +4,6 @@ import { IconDown, IconMenu } from '@arco-design/web-react/icon';
 import {
   createDefaultCollapsedNavigationGroups,
   defaultRouteForMode,
-  hashForRoute,
   modeForRoute,
   navigationGroupsForMode,
   navigationItems,
@@ -12,7 +11,9 @@ import {
   type RouteId,
   type WorkspaceMode
 } from './config/navigation';
+import { hashForRoute } from './config/viewerRoutes';
 import { PageContent, SkipToContent } from './components/PageContent';
+import { maintenanceAuthorization } from './engine/maintenanceGrant';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
 import { MaintenanceControls } from './pages/maintenance/MaintenanceControls';
 import type { GameSummary, LoadState } from './types/api';
@@ -245,7 +246,7 @@ export default function MaintenanceApp() {
     try {
       window.localStorage.removeItem('damage-viewer.web.admin-token');
       window.localStorage.removeItem('damage-viewer.web.api-base-url');
-    } catch { /* 禁用本地存储不影响 Cookie 会话。 */ }
+    } catch { /* 浏览器可禁用本地存储。 */ }
   }, []);
 
   useEffect(() => {
@@ -354,6 +355,7 @@ export default function MaintenanceApp() {
       <BasicAttackSimulationPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
+        authorization={maintenanceAuthorization}
         onDirtyChange={handleSimulationDirtyChange}
       />
     );
@@ -362,6 +364,7 @@ export default function MaintenanceApp() {
       <CombatAnalysisPage
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
+        authorization={maintenanceAuthorization}
         onDirtyChange={handleSimulationDirtyChange}
       />
     );
@@ -553,7 +556,7 @@ export default function MaintenanceApp() {
 
           <section className="sidebar-status">
             <div className="sidebar-status-head">
-              <Typography.Text className="sidebar-status-kicker">会话</Typography.Text>
+              <Typography.Text className="sidebar-status-kicker">游戏连接</Typography.Text>
               <Tag color={getGamesStatusColor(gamesStatus)}>{getGamesStatusLabel(gamesStatus)}</Tag>
             </div>
             <Typography.Title heading={5} className="sidebar-status-title">

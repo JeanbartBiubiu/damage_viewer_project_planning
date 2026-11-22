@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 import xyz.game.datamanage.service.GameDataService;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @Component
 public class AdminEditLogHelper {
@@ -15,10 +15,10 @@ public class AdminEditLogHelper {
         this.gameDataService = gameDataService;
     }
 
-    public void log(AuthContext auth, HttpServletRequest request, JsonNode body, int responseCode) {
+    public void log(MaintenancePrincipal auth, HttpServletRequest request, JsonNode body, int responseCode) {
         gameDataService.recordEditLog(
-                auth.accountId(),
-                auth.username(),
+                auth.principalId(),
+                auth.displayName(),
                 request.getMethod(),
                 request.getRequestURI(),
                 body,

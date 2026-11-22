@@ -1,13 +1,11 @@
 import { ApiRequestError, encodePathSegment, requestJson, type ApiResult } from './apiClient';
-import type {
-  ImageOptionsResponse, ImageRelationTarget, ImageSourceStatus, ImageUsages, RepresentativeImageResponse
-} from '../types/imageRelation';
+import type { ImageOptionsResponse, ImageRelationTarget, ImageSourceStatus, ImageUsages, RepresentativeImageResponse } from '../types/imageRelation';
 
 function adminGamePath(gameId: string): string {
   return `/api/admin/games/${encodePathSegment(gameId)}`;
 }
 
-function representativeImagePath(gameId: string, target: ImageRelationTarget): string {
+export function representativeImagePath(gameId: string, target: ImageRelationTarget): string {
   const base = adminGamePath(gameId);
   const key = encodePathSegment(target.key);
   switch (target.kind) {
@@ -31,7 +29,7 @@ function representativeImagePath(gameId: string, target: ImageRelationTarget): s
   }
 }
 
-function invalidResponse(): never {
+export function invalidResponse(): never {
   throw new ApiRequestError('图片关联响应格式不合法，请刷新后重试。', 502, '502.IMAGE_RELATION_RESPONSE_INVALID');
 }
 
@@ -52,7 +50,7 @@ function statusField(row: Record<string, unknown>, field: string): ImageSourceSt
   return value;
 }
 
-function parseRepresentative(value: unknown): RepresentativeImageResponse {
+export function parseRepresentative(value: unknown): RepresentativeImageResponse {
   const record = recordOf(value);
   if (record.image === null) return { image: null };
   const image = recordOf(record.image);
@@ -95,63 +93,13 @@ function parseUsages(value: unknown, gameId: string, imageKey: string): ImageUsa
   };
 }
 
-async function normalized<T>(result: Promise<ApiResult<unknown>>, parse: (value: unknown) => T): Promise<ApiResult<T>> {
+export async function normalized<T>(result: Promise<ApiResult<unknown>>, parse: (value: unknown) => T): Promise<ApiResult<T>> {
   const response = await result;
   return { ...response, data: parse(response.data) };
 }
 
 export function getRepresentativeImage(apiBaseUrl: string, gameId: string, target: ImageRelationTarget, signal?: AbortSignal): Promise<ApiResult<RepresentativeImageResponse>> {
   return normalized(requestJson<unknown>(apiBaseUrl, representativeImagePath(gameId, target), { signal }), parseRepresentative);
-}
-
-export function setRepresentativeImage(apiBaseUrl: string, gameId: string, target: ImageRelationTarget, imageKey: string): Promise<ApiResult<RepresentativeImageResponse>> {
-  return normalized(requestJson<unknown>(apiBaseUrl, representativeImagePath(gameId, target), {
-    method: 'PUT', body: JSON.stringify({ imageKey })
-  }), (value) => {
-    const parsed = parseRepresentative(value);
-    if (parsed.image?.imageKey !== imageKey) invalidResponse();
-    return parsed;
-  });
-}
-
-export function removeRepresentativeImage(apiBaseUrl: string, gameId: string, target: ImageRelationTarget): Promise<ApiResult<null>> {
-  return requestJson<null>(apiBaseUrl, representativeImagePath(gameId, target), { method: 'DELETE' });
-}
-
-function mutationResultIsUncertain(error: unknown): boolean {
-  return !(error instanceof ApiRequestError) || error.status >= 500 || error.status === 408 || error.status === 429;
-}
-
-export async function setRepresentativeImageVerified(
-  apiBaseUrl: string, gameId: string, target: ImageRelationTarget, imageKey: string
-): Promise<ApiResult<RepresentativeImageResponse>> {
-  let uncertain: unknown = null;
-  try {
-    await setRepresentativeImage(apiBaseUrl, gameId, target, imageKey);
-  } catch (error) {
-    if (!mutationResultIsUncertain(error)) throw error;
-    uncertain = error;
-  }
-  const readback = await getRepresentativeImage(apiBaseUrl, gameId, target);
-  if (readback.data.image?.imageKey === imageKey) return readback;
-  if (uncertain) throw uncertain;
-  invalidResponse();
-}
-
-export async function removeRepresentativeImageVerified(
-  apiBaseUrl: string, gameId: string, target: ImageRelationTarget
-): Promise<ApiResult<RepresentativeImageResponse>> {
-  let uncertain: unknown = null;
-  try {
-    await removeRepresentativeImage(apiBaseUrl, gameId, target);
-  } catch (error) {
-    if (!mutationResultIsUncertain(error)) throw error;
-    uncertain = error;
-  }
-  const readback = await getRepresentativeImage(apiBaseUrl, gameId, target);
-  if (readback.data.image === null) return readback;
-  if (uncertain) throw uncertain;
-  invalidResponse();
 }
 
 export function listImageOptions(apiBaseUrl: string, gameId: string, keyword: string): Promise<ApiResult<ImageOptionsResponse>> {

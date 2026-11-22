@@ -23,8 +23,7 @@ import xyz.game.datamanage.model.imagerelation.RepresentativeImageRequest;
 import xyz.game.datamanage.model.imagerelation.RepresentativeImageResponse;
 import xyz.game.datamanage.service.GameDataService;
 import xyz.game.datamanage.service.imagerelation.ImageRelationService;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @RestController
 @RequestMapping("/api/admin/games/{gameId}")
@@ -72,14 +71,14 @@ public class ImageRelationAdminController {
     public RepresentativeImageResponse put(
         @PathVariable Map<String, String> path,
         @RequestBody RepresentativeImageRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         Target target = target(path);
         RepresentativeImageResponse response = service.put(path.get("gameId"), target.type(), target.parent(), target.key(), body);
         ObjectNode logBody = logBody(path.get("gameId"), target);
         logBody.put("imageKey", body.imageKey());
-        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), logBody, 200);
+        gameDataService.recordEditLog(auth.principalId(), auth.displayName(), request.getMethod(), request.getRequestURI(), logBody, 200);
         return response;
     }
 
@@ -98,12 +97,12 @@ public class ImageRelationAdminController {
     @Transactional
     public void delete(
         @PathVariable Map<String, String> path,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         Target target = target(path);
         service.delete(path.get("gameId"), target.type(), target.parent(), target.key());
-        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(),
+        gameDataService.recordEditLog(auth.principalId(), auth.displayName(), request.getMethod(), request.getRequestURI(),
             logBody(path.get("gameId"), target), 204);
     }
 

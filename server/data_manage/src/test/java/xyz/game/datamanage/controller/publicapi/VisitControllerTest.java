@@ -18,8 +18,10 @@ import xyz.game.datamanage.service.VisitStatisticsService.DayStatistics;
 import xyz.game.datamanage.support.account.*;
 import xyz.game.datamanage.support.auth.AccountControllerTestConfig;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
+import xyz.game.datamanage.support.maintenance.DeploymentCredential;
+import xyz.game.datamanage.support.maintenance.MaintenanceJson;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -28,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class VisitControllerTest {
     private final VisitStatisticsService statistics = mock(VisitStatisticsService.class);
     private final AccountSessions sessions = mock(AccountSessions.class);
-    private final xyz.game.datamanage.support.maintenance.MaintenanceSessions maintenance=mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class);
+    private final DeploymentCredential deployment = mock(DeploymentCredential.class);
     private MockMvc mvc;
 
     @BeforeEach
@@ -37,12 +39,12 @@ class VisitControllerTest {
         var json = new ObjectMapper().findAndRegisterModules()
             .disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         var maintenanceProperties=new xyz.game.datamanage.support.maintenance.MaintenanceProperties();maintenanceProperties.setAllowedOrigins(List.of("https://localhost:5173"));
-        doThrow(xyz.game.datamanage.support.maintenance.MaintenanceJson.denied()).when(maintenance).credential(any(),eq(true));
-        mvc = MockMvcBuilders.standaloneSetup(new VisitPublicController(statistics), new VisitStatisticsAdminController(statistics,maintenance))
+        doThrow(MaintenanceJson.denied()).when(deployment).requireStatistics(any());
+        mvc = MockMvcBuilders.standaloneSetup(new VisitPublicController(statistics), new VisitStatisticsAdminController(statistics, deployment))
             .setControllerAdvice(new GlobalExceptionHandler())
             .setMessageConverters(new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter(json))
             .addFilters(new WebCorsConfig().accountCorsFilter(properties,maintenanceProperties).getFilter(),
-                new AdminAuthFilter(json, sessions, new AccountBrowser(properties), maintenance))
+                new AdminAuthFilter(json, sessions, new AccountBrowser(properties), mock(MaintenancePrincipals.class), deployment))
             .build();
     }
 
@@ -95,17 +97,15 @@ class VisitControllerTest {
     void statisticsRejectPlayerSessionAndRequireSeparateDeploymentCredential() throws Exception {
         when(sessions.resolve(null)).thenThrow(AccountErrors.invalid());
         mvc.perform(get("/api/admin/visits/last30days")).andExpect(status().isForbidden());
-        AuthContext editor = AccountControllerTestConfig.editor();
-        AuthContext reader = new AuthContext(editor.accountId(), editor.username(), false, editor.sessionId(), editor.authEpoch(), editor.expiresAt());
-        doReturn(new AccountSessions.Resolved(reader, new byte[32])).when(sessions).resolve(null);
+        doReturn(new AccountSessions.Resolved(AccountControllerTestConfig.player(), new byte[32])).when(sessions).resolve(null);
         mvc.perform(get("/api/admin/visits/last30days")).andExpect(status().isForbidden());
         verifyNoInteractions(statistics);
     }
 
     @Test
     void privateOperationsCredentialReadsStatisticsWithoutAllowingAnonymousCorsOrCaching() throws Exception {
-        doNothing().when(maintenance).credential(any(),eq(true));
-        when(sessions.resolve(null)).thenReturn(new AccountSessions.Resolved(AccountControllerTestConfig.editor(), new byte[32]));
+        doNothing().when(deployment).requireStatistics(any());
+        when(sessions.resolve(null)).thenReturn(new AccountSessions.Resolved(AccountControllerTestConfig.player(), new byte[32]));
         when(statistics.last30Days()).thenReturn(List.of(new DayStatistics(LocalDate.of(2026, 11, 5), 12, 3)));
         mvc.perform(get("/api/admin/visits/last30days").header("Origin", "https://localhost:5173"))
             .andExpect(status().isOk()).andExpect(header().string("Cache-Control", "no-store"))

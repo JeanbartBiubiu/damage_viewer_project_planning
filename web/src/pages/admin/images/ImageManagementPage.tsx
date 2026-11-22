@@ -26,7 +26,8 @@ import {
   type CachedImageRecord,
   type GameImageCacheSummary
 } from '../../../services/imageCache';
-import { getImage, listPublicImages, updateImage } from '../../../services/imageClient';
+import { getImage, listPublicImages } from '../../../services/imageClient';
+import { updateImage } from '../../../services/maintenance/imageWrites';
 import type { ManagedImage } from '../../../types/image';
 import { ImageEditorModal, type ImageEditorMode } from './ImageEditorModal';
 

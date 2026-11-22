@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ApiRequestError } from '../../../services/apiClient';
-import { getAttribute } from '../../../services/attributeClient';
+import { getAttribute } from '../../../services/maintenance/attributeClient';
 import { getSkillEffect } from '../../../services/skillEffectClient';
 import type { AuthoringCheckReference } from '../../../types/characterAuthoringCheck';
 import { loadAuthoringReferenceNames, referenceNameLabel, referenceSource, referenceTarget } from './authoringReferenceNames';
 
-vi.mock('../../../services/attributeClient', () => ({ getAttribute: vi.fn() }));
+vi.mock('../../../services/maintenance/attributeClient', () => ({ getAttribute: vi.fn() }));
 vi.mock('../../../services/skillEffectClient', () => ({ getSkillEffect: vi.fn() }));
 const context = { apiBaseUrl: 'http://example.invalid', gameId: 'game' };
 const ref = (patch: Partial<AuthoringCheckReference> = {}): AuthoringCheckReference => ({

@@ -1,11 +1,8 @@
-import type { ApiResult } from './apiClient';
-import { encodePathSegment, requestJson } from './apiClient';
-import { skillsPath } from './skillClient';
-import type {
-  CreateSkillParameterRequest,
-  SkillParameter,
-  UpdateSkillParameterRequest
-} from '../types/skillParameter';
+import { requestMaintenanceJson } from '../maintenanceApiRequest';
+import type { ApiResult } from '../apiClient';
+import { encodePathSegment } from '../apiClient';
+import { skillsPath } from '../skillClient';
+import type { CreateSkillParameterRequest, SkillParameter, UpdateSkillParameterRequest } from '../../types/skillParameter';
 
 function parametersPath(gameId: string, skillKey: string, parameterKey?: string): string {
   const base = `${skillsPath(gameId, skillKey)}/parameters`;
@@ -17,7 +14,7 @@ export function listSkillParameters(
   gameId: string,
   skillKey: string
 ): Promise<ApiResult<SkillParameter[]>> {
-  return requestJson<SkillParameter[]>(apiBaseUrl, parametersPath(gameId, skillKey));
+  return requestMaintenanceJson<SkillParameter[]>(apiBaseUrl, parametersPath(gameId, skillKey));
 }
 
 export function getSkillParameter(
@@ -26,7 +23,7 @@ export function getSkillParameter(
   skillKey: string,
   parameterKey: string
 ): Promise<ApiResult<SkillParameter>> {
-  return requestJson<SkillParameter>(
+  return requestMaintenanceJson<SkillParameter>(
     apiBaseUrl,
     parametersPath(gameId, skillKey, parameterKey)
   );
@@ -38,7 +35,7 @@ export function createSkillParameter(
   skillKey: string,
   body: CreateSkillParameterRequest
 ): Promise<ApiResult<SkillParameter>> {
-  return requestJson<SkillParameter>(apiBaseUrl, parametersPath(gameId, skillKey), {
+  return requestMaintenanceJson<SkillParameter>(apiBaseUrl, parametersPath(gameId, skillKey), {
     method: 'POST',
     body: JSON.stringify(body)
   });
@@ -51,7 +48,7 @@ export function updateSkillParameter(
   parameterKey: string,
   body: UpdateSkillParameterRequest
 ): Promise<ApiResult<SkillParameter>> {
-  return requestJson<SkillParameter>(
+  return requestMaintenanceJson<SkillParameter>(
     apiBaseUrl,
     parametersPath(gameId, skillKey, parameterKey),
     {
@@ -67,7 +64,7 @@ export function deleteSkillParameter(
   skillKey: string,
   parameterKey: string
 ): Promise<ApiResult<null>> {
-  return requestJson<null>(apiBaseUrl, parametersPath(gameId, skillKey, parameterKey), {
+  return requestMaintenanceJson<null>(apiBaseUrl, parametersPath(gameId, skillKey, parameterKey), {
     method: 'DELETE'
   });
 }

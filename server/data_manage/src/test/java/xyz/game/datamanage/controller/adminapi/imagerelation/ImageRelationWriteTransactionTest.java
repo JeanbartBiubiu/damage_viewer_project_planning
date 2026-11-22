@@ -27,7 +27,7 @@ import xyz.game.datamanage.model.imagerelation.RepresentativeImageRequest;
 import xyz.game.datamanage.model.imagerelation.RepresentativeImageResponse;
 import xyz.game.datamanage.service.GameDataService;
 import xyz.game.datamanage.service.imagerelation.ImageRelationService;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 import xyz.game.datamanage.support.error.ApiException;
 
 /** 检查真实 Spring 代理的事务参与，不替代数据库回滚验收。 */
@@ -37,7 +37,7 @@ class ImageRelationWriteTransactionTest {
     private ImageRelationMapper mapper;
     private GameDataService gameData;
     private TestTransactionManager transactions;
-    private static final AuthContext AUTH = new AuthContext(java.util.UUID.fromString("00000000-0000-4000-8000-000000000001"), "fixture_author", true, java.util.UUID.fromString("00000000-0000-4000-8000-000000000002"), 1, java.time.Instant.parse("2099-01-01T00:00:00Z"));
+    private static final MaintenancePrincipal AUTH = new MaintenancePrincipal(java.util.UUID.fromString("00000000-0000-4000-8000-000000000001"), "fixture_author");
 
     @BeforeEach
     void setup() {
@@ -75,7 +75,7 @@ class ImageRelationWriteTransactionTest {
 
         verify(mapper).deleteForSource("lol", "GAME", "", "lol");
         assertEquals(2, transactions.commits);
-        verify(gameData).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), eq(AUTH.username()), eq("DELETE"), anyString(), any(), eq(204));
+        verify(gameData).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), eq(AUTH.displayName()), eq("DELETE"), anyString(), any(), eq(204));
     }
 
     @Test
@@ -89,8 +89,8 @@ class ImageRelationWriteTransactionTest {
         assertEquals(2, transactions.begins);
         assertEquals(2, transactions.commits);
         assertEquals(0, transactions.rollbacks);
-        verify(gameData).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), eq(AUTH.username()), eq("PUT"), anyString(), any(), eq(200));
-        verify(gameData).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), eq(AUTH.username()), eq("DELETE"), anyString(), any(), eq(204));
+        verify(gameData).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), eq(AUTH.displayName()), eq("PUT"), anyString(), any(), eq(200));
+        verify(gameData).recordEditLog(org.mockito.ArgumentMatchers.any(java.util.UUID.class), eq(AUTH.displayName()), eq("DELETE"), anyString(), any(), eq(204));
     }
 
     @Test

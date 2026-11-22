@@ -11,7 +11,7 @@ export function simulationAvailabilityEntry(key: string, options: {
     wasmSha256: WASM_IDENTITY.sha256, adapterVersion: SIMULATION_ADAPTER_VERSION, externalDigest: '2'.repeat(64),
     matched: true, evidenceRefs: [`independent-fixture://simulation-availability/${options.equipment ? 'equipment' : 'character'}/${key}`],
     requiredCoverage: { scenario: 'one-way-combat-analysis-v1', sides: ['source', 'target'], characterLevels: options.characterLevels ?? [1],
-      skills: options.skills ?? [], levelValidation: 'each-declared-level', allRequiredSourcesEnabled: true,
+      skills: options.skills ?? [], levelValidation: 'representative-cases', allRequiredSourcesEnabled: true,
       sourceActiveStartedAndCompleted: true, relevantPassivesTriggered: true, equipmentMode: options.equipment ? 'single-item' : 'none' }
   } };
 }

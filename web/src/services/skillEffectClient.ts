@@ -9,15 +9,7 @@ import { isValidLifecycleExtensionDuration } from '../types/lifecycleExtension';
 import type { ApiResult } from './apiClient';
 import { encodePathSegment, requestJson } from './apiClient';
 import { skillsPath } from './skillClient';
-import type {
-  CreateSkillEffectRequest,
-  SkillEffect,
-  SkillEffectResult,
-  SkillEffectResultType,
-  SkillEffectSummary,
-  SkillEffectValueRule,
-  UpdateSkillEffectRequest
-} from '../types/skillEffect';
+import type { SkillEffect, SkillEffectResult, SkillEffectResultType, SkillEffectSummary, SkillEffectValueRule } from '../types/skillEffect';
 
 const RESULT_TYPES = new Set<SkillEffectResultType>([
   'DAMAGE',
@@ -65,7 +57,7 @@ export class SkillEffectProtocolError extends Error {
   }
 }
 
-function effectsPath(gameId: string, skillKey: string, effectKey?: string): string {
+export function effectsPath(gameId: string, skillKey: string, effectKey?: string): string {
   const base = `${skillsPath(gameId, skillKey)}/effects`;
   return effectKey === undefined ? base : `${base}/${encodePathSegment(effectKey)}`;
 }
@@ -641,7 +633,7 @@ export function parseSkillEffectSummary(value: unknown): SkillEffectSummary {
   };
 }
 
-function maybeParseEffect(value: unknown): SkillEffect {
+export function maybeParseEffect(value: unknown): SkillEffect {
   return parseSkillEffect(value);
 }
 
@@ -669,40 +661,4 @@ export function getSkillEffect(
 ): Promise<ApiResult<SkillEffect>> {
   return requestJson<unknown>(apiBaseUrl, effectsPath(gameId, skillKey, effectKey))
     .then((result) => ({ ...result, data: maybeParseEffect(result.data) }));
-}
-
-export function createSkillEffect(
-  apiBaseUrl: string,
-  gameId: string,
-  skillKey: string,
-  body: CreateSkillEffectRequest
-): Promise<ApiResult<SkillEffect>> {
-  return requestJson<unknown>(apiBaseUrl, effectsPath(gameId, skillKey), {
-    method: 'POST',
-    body: JSON.stringify(body)
-  }).then((result) => ({ ...result, data: maybeParseEffect(result.data) }));
-}
-
-export function updateSkillEffect(
-  apiBaseUrl: string,
-  gameId: string,
-  skillKey: string,
-  effectKey: string,
-  body: UpdateSkillEffectRequest
-): Promise<ApiResult<SkillEffect>> {
-  return requestJson<unknown>(apiBaseUrl, effectsPath(gameId, skillKey, effectKey), {
-    method: 'PUT',
-    body: JSON.stringify(body)
-  }).then((result) => ({ ...result, data: maybeParseEffect(result.data) }));
-}
-
-export function deleteSkillEffect(
-  apiBaseUrl: string,
-  gameId: string,
-  skillKey: string,
-  effectKey: string
-): Promise<ApiResult<null>> {
-  return requestJson<null>(apiBaseUrl, effectsPath(gameId, skillKey, effectKey), {
-    method: 'DELETE'
-  });
 }

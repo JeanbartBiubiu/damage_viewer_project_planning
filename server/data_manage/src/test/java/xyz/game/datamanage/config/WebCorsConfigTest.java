@@ -22,6 +22,7 @@ import xyz.game.datamanage.controller.publicapi.GamePublicController;
 import xyz.game.datamanage.service.GameDataService;
 import xyz.game.datamanage.service.image.ImageService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
+import xyz.game.datamanage.support.maintenance.MaintenanceIngress;
 
 
 @WebMvcTest(controllers = {GamePublicController.class, ImageAdminController.class})
@@ -56,28 +57,34 @@ class WebCorsConfigTest {
     }
 
     @Test
-    void adminPreflightRequestPassesWithoutAuthorization() throws Exception {
+    void maintenanceWriteDoesNotAdvertiseCorsOnThePublicConnector() throws Exception {
         mockMvc.perform(
             options("/api/admin/games/lol/images/icon")
                     .header(HttpHeaders.ORIGIN, ORIGIN)
                     .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "PUT")
                     .header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "X-Damage-Client, Content-Type, If-None-Match")
             )
-            .andExpect(status().isOk())
-            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, ORIGIN))
-            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, containsString("PUT")))
-            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, containsString("If-None-Match")));
+            .andExpect(status().isForbidden())
+            .andExpect(header().doesNotExist(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN));
     }
 
     @Test
-    void skillConfigurationPatchPreflightPassesWithoutAuthorization() throws Exception {
-        mockMvc.perform(options("/api/admin/games/lol/skills/item_3110_passive/configuration")
+    void privatePreviewDoesNotAdvertiseCorsEvenToTheConfiguredOrigin() throws Exception {
+        mockMvc.perform(options("/internal/maintenance/games/lol/simulation-preview")
+                .requestAttr(MaintenanceIngress.PRIVATE_CONNECTOR_ATTRIBUTE, true)
                 .header(HttpHeaders.ORIGIN, ORIGIN)
-                .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "PATCH")
+                .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "POST")
                 .header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "X-Damage-Client, Content-Type"))
+            .andExpect(status().isForbidden())
+            .andExpect(header().doesNotExist(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN));
+    }
+
+    @Test
+    void publicReadPathDoesNotAdvertiseWildcardCorsOnThePrivateConnector() throws Exception {
+        when(gameDataService.listGames()).thenReturn(JsonNodeFactory.instance.arrayNode());
+        mockMvc.perform(get("/api/games").requestAttr(MaintenanceIngress.PRIVATE_CONNECTOR_ATTRIBUTE, true)
+                .header(HttpHeaders.ORIGIN, ORIGIN).header("Sec-Fetch-Site", "same-origin"))
             .andExpect(status().isOk())
-            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, ORIGIN))
-            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, containsString("PATCH")))
-            .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, containsString("X-Damage-Client")));
+            .andExpect(header().doesNotExist(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN));
     }
 }

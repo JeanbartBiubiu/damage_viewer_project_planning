@@ -30,7 +30,7 @@ import xyz.game.datamanage.model.damagetype.DamageTypeResponse;
 import xyz.game.datamanage.model.damagetype.DamageTypeStatus;
 import xyz.game.datamanage.service.damagetype.DamageTypeService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = DamageTypeAdminController.class)
@@ -66,8 +66,8 @@ class DamageTypeAdminControllerTest {
         mockMvc.perform(delete(BASE_PATH + "/physical"))
             .andExpect(status().isNoContent());
 
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(201));
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(204));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(201));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(204));
     }
 
     @Test

@@ -3,7 +3,7 @@ import { Alert, Button, Layout, Select, Space, Typography } from '@arco-design/w
 import { PageContent, SkipToContent } from './components/PageContent';
 import { AccountControls } from './pages/auth/AccountControls';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
-import { viewerRouteFromHash } from './config/deployment';
+import { viewerRouteFromHash } from './config/viewerRoutes';
 import type { GameSummary } from './types/api';
 
 const CombatAnalysisPage = lazy(() => import('./pages/simulation/CombatAnalysisPage').then(module => ({ default: module.CombatAnalysisPage })));

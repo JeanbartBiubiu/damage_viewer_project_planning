@@ -54,8 +54,6 @@ test.beforeAll(async () => {
   `;
   server = await createServer({
     configFile: false,
-    resolve: { alias: { '#damage-workspace': fileURLToPath(new URL('../../../src/MaintenanceApp.tsx', import.meta.url)) } },
-    define: { __DAMAGE_DEPLOYMENT_MODE__: JSON.stringify('maintenance') },
     root: fileURLToPath(new URL('../../../', import.meta.url)),
     cacheDir: 'output/admin-list-loading/vite',
     logLevel: 'error',
@@ -277,14 +275,14 @@ for (const resource of resources) {
 
   test(`${resource.label}私有维护页匿名读取与刷新不携带身份凭据`, async ({ page }) => {
     const mock = await installMock(page, resource, (route) => json(route, listBody(resource, '正常')));
-    await openMaintenancePage(page, `${harnessBase}#/${resource.path}`);
+    await openMaintenancePage(page, `${harnessBase}maintenance.html#/${resource.path}`);
     const main = page.locator('.app-main');
     await expect(main.getByRole('cell', { name: `正常${resource.label}`, exact: true })).toBeVisible();
     const count = mock.listCount();
     await main.locator('.panel-head').getByRole('button', { name: '刷新', exact: true }).click();
     await expect.poll(mock.listCount).toBe(count + 1);
     await expect(main.getByRole('cell', { name: `正常${resource.label}`, exact: true })).toBeVisible();
-    await expect(page.getByRole('button', { name: '刷新维护会话', exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: '刷新维护身份', exact: true })).toBeVisible();
     mock.assertClean();
   });
 }

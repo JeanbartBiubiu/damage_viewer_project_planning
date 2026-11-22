@@ -1,11 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import {
-  createSkillParameter,
-  deleteSkillParameter,
-  getSkillParameter,
-  listSkillParameters,
-  updateSkillParameter
-} from './skillParameterClient';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
+import { createSkillParameter, deleteSkillParameter, getSkillParameter, listSkillParameters, updateSkillParameter } from './maintenance/skillParameterClient';
 
 function jsonResponse(status: number, body: unknown): Response {
   return new Response(status === 204 ? null : JSON.stringify(body), {

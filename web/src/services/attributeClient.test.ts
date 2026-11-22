@@ -1,11 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
 import { ApiRequestError } from './apiClient';
-import {
-  createAttribute,
-  getAttribute,
-  listAttributes,
-  updateAttribute
-} from './attributeClient';
+import { createAttribute, getAttribute, listAttributes, updateAttribute } from './maintenance/attributeClient';
 import type {
   Attribute,
   CreateAttributeRequest,

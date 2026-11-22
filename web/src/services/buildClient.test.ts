@@ -1,5 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { getBuildDefinition, listBuildOptions, listBuildSystems, updateBuildSystem } from './buildClient';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
+import { getBuildDefinition, listBuildOptions, listBuildSystems } from './buildClient';
+import { updateBuildSystem } from './maintenance/buildWrites';
 
 const base = 'http://localhost:8080';
 const time = { createdAt: '2026-09-27T00:00:00Z', updatedAt: '2026-09-27T00:00:00Z' };

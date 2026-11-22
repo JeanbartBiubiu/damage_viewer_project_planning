@@ -1,14 +1,10 @@
-import { assertNumericUses } from './numericValue';
-import type { ApiResult } from './apiClient';
-import { encodePathSegment, requestJson } from './apiClient';
-import { skillsPath } from './skillClient';
-import { parseSkillProcessMoment } from './skillProcessMoment';
-import type {
-  CreateSkillProcessRequest,
-  SkillProcess,
-  SkillProcessSummary,
-  UpdateSkillProcessRequest
-} from '../types/skillProcess';
+import { requestMaintenanceJson } from '../maintenanceApiRequest';
+import { assertNumericUses } from '../numericValue';
+import type { ApiResult } from '../apiClient';
+import { encodePathSegment } from '../apiClient';
+import { skillsPath } from '../skillClient';
+import { parseSkillProcessMoment } from '../skillProcessMoment';
+import type { CreateSkillProcessRequest, SkillProcess, SkillProcessSummary, UpdateSkillProcessRequest } from '../../types/skillProcess';
 
 export class SkillProcessProtocolError extends Error {
   constructor(message: string) {
@@ -27,7 +23,7 @@ export function listSkillProcesses(
   gameId: string,
   skillKey: string
 ): Promise<ApiResult<SkillProcessSummary[]>> {
-  return requestJson<SkillProcessSummary[]>(apiBaseUrl, processesPath(gameId, skillKey));
+  return requestMaintenanceJson<SkillProcessSummary[]>(apiBaseUrl, processesPath(gameId, skillKey));
 }
 
 export function getSkillProcess(
@@ -36,7 +32,7 @@ export function getSkillProcess(
   skillKey: string,
   processKey: string
 ): Promise<ApiResult<SkillProcess>> {
-  return requestJson<SkillProcess>(apiBaseUrl, processesPath(gameId, skillKey, processKey)).then((result) => ({ ...result, data: parseSkillProcess(result.data) }));
+  return requestMaintenanceJson<SkillProcess>(apiBaseUrl, processesPath(gameId, skillKey, processKey)).then((result) => ({ ...result, data: parseSkillProcess(result.data) }));
 }
 
 export function createSkillProcess(
@@ -45,7 +41,7 @@ export function createSkillProcess(
   skillKey: string,
   body: CreateSkillProcessRequest
 ): Promise<ApiResult<SkillProcess>> {
-  return requestJson<SkillProcess>(apiBaseUrl, processesPath(gameId, skillKey), {
+  return requestMaintenanceJson<SkillProcess>(apiBaseUrl, processesPath(gameId, skillKey), {
     method: 'POST',
     body: JSON.stringify(body)
   }).then((result) => ({ ...result, data: parseSkillProcess(result.data) }));
@@ -58,7 +54,7 @@ export function updateSkillProcess(
   processKey: string,
   body: UpdateSkillProcessRequest
 ): Promise<ApiResult<SkillProcess>> {
-  return requestJson<SkillProcess>(apiBaseUrl, processesPath(gameId, skillKey, processKey), {
+  return requestMaintenanceJson<SkillProcess>(apiBaseUrl, processesPath(gameId, skillKey, processKey), {
     method: 'PUT',
     body: JSON.stringify(body)
   }).then((result) => ({ ...result, data: parseSkillProcess(result.data) }));
@@ -70,7 +66,7 @@ export function deleteSkillProcess(
   skillKey: string,
   processKey: string
 ): Promise<ApiResult<null>> {
-  return requestJson<null>(apiBaseUrl, processesPath(gameId, skillKey, processKey), {
+  return requestMaintenanceJson<null>(apiBaseUrl, processesPath(gameId, skillKey, processKey), {
     method: 'DELETE'
   });
 }

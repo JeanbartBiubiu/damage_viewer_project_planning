@@ -23,8 +23,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleDetailResponse;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleSummaryResponse;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleUpdateRequest;
 import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @RestController
 @Validated
@@ -68,7 +67,7 @@ public class SkillTriggerRuleAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("skillKey") String skillKey,
         @Valid @RequestBody SkillTriggerRuleCreateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         SkillTriggerRuleDetailResponse response = service.create(gameId, skillKey, body);
@@ -82,7 +81,7 @@ public class SkillTriggerRuleAdminController {
         @PathVariable("skillKey") String skillKey,
         @PathVariable("ruleKey") String ruleKey,
         @Valid @RequestBody SkillTriggerRuleUpdateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         SkillTriggerRuleDetailResponse response = service.update(gameId, skillKey, ruleKey, body);
@@ -96,14 +95,14 @@ public class SkillTriggerRuleAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("skillKey") String skillKey,
         @PathVariable("ruleKey") String ruleKey,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         service.delete(gameId, skillKey, ruleKey);
         log(auth, request, objectMapper.createObjectNode(), HttpStatus.NO_CONTENT);
     }
 
-    private void log(AuthContext auth, HttpServletRequest request, JsonNode body, HttpStatus status) {
+    private void log(MaintenancePrincipal auth, HttpServletRequest request, JsonNode body, HttpStatus status) {
         logHelper.log(auth, request, body, status.value());
     }
 }

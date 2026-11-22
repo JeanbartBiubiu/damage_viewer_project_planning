@@ -30,7 +30,7 @@ import xyz.game.datamanage.model.damagetype.DamageTypeFormulaReplaceRequest;
 import xyz.game.datamanage.model.damagetype.DamageTypeFormulaResponse;
 import xyz.game.datamanage.service.damagetype.DamageTypeService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
@@ -73,8 +73,8 @@ class DamageTypeFormulaAdminControllerTest {
 
         mockMvc.perform(delete(PATH)).andExpect(status().isNoContent());
 
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(200));
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(204));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(200));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(204));
     }
 
     @Test

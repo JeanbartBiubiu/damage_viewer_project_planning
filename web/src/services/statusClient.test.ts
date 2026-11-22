@@ -1,12 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import {
-  createStatus,
-  deleteStatus,
-  getStatus,
-  listStatuses,
-  parseStatus,
-  updateStatus
-} from './statusClient';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
+import { createStatus, deleteStatus, getStatus, listStatuses, parseStatus, updateStatus } from './maintenance/statusClient';
 
 function jsonResponse(status: number, body: unknown): Response {
   return new Response(status === 204 ? null : JSON.stringify(body), {

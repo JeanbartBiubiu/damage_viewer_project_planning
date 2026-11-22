@@ -29,7 +29,7 @@ class AccountControllerTest {
         ObjectMapper json=Jackson2ObjectMapperBuilder.json().featuresToEnable(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY)
             .featuresToDisable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS).build();
         mvc=MockMvcBuilders.standaloneSetup(new AccountController(service,browser)).setControllerAdvice(new AccountExceptionHandler())
-            .setMessageConverters(new MappingJackson2HttpMessageConverter(json)).addFilters(new AdminAuthFilter(json,sessions,browser,org.mockito.Mockito.mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class))).build();
+            .setMessageConverters(new MappingJackson2HttpMessageConverter(json)).addFilters(new AdminAuthFilter(json,sessions,browser,org.mockito.Mockito.mock(xyz.game.datamanage.support.maintenance.MaintenancePrincipals.class), org.mockito.Mockito.mock(xyz.game.datamanage.support.maintenance.DeploymentCredential.class))).build();
     }
     private MockHttpServletRequestBuilder postJson(String path,String body) {
         return post("/api/auth/"+path).contentType("application/json").header("Origin","https://localhost:5173").header("X-Damage-Client","web").content(body);

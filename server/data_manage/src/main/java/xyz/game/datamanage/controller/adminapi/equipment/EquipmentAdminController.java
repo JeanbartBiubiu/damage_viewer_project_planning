@@ -26,8 +26,7 @@ import xyz.game.datamanage.model.equipment.EquipmentListResponse;
 import xyz.game.datamanage.model.equipment.EquipmentResponse;
 import xyz.game.datamanage.model.equipment.EquipmentUpdateRequest;
 import xyz.game.datamanage.service.equipment.EquipmentService;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @RestController
 @Validated
@@ -69,7 +68,7 @@ public class EquipmentAdminController {
     public EquipmentResponse create(
         @PathVariable("gameId") String gameId,
         @Valid @RequestBody EquipmentCreateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         EquipmentResponse response = equipmentService.create(gameId, body);
@@ -82,7 +81,7 @@ public class EquipmentAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("equipmentKey") String equipmentKey,
         @Valid @RequestBody EquipmentUpdateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         EquipmentResponse response = equipmentService.update(gameId, equipmentKey, body);
@@ -95,7 +94,7 @@ public class EquipmentAdminController {
     public void delete(
         @PathVariable("gameId") String gameId,
         @PathVariable("equipmentKey") String equipmentKey,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         equipmentService.delete(gameId, equipmentKey);
@@ -115,7 +114,7 @@ public class EquipmentAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("equipmentKey") String equipmentKey,
         @Valid @RequestBody EquipmentAttributesRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         EquipmentAttributesResponse response = equipmentService.updateAttributes(gameId, equipmentKey, body);
@@ -123,7 +122,7 @@ public class EquipmentAdminController {
         return response;
     }
 
-    private void log(AuthContext auth, HttpServletRequest request, JsonNode body, HttpStatus status) {
+    private void log(MaintenancePrincipal auth, HttpServletRequest request, JsonNode body, HttpStatus status) {
         logHelper.log(auth, request, body, status.value());
     }
 }

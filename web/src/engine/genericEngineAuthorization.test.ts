@@ -10,7 +10,6 @@ const authorization = vi.hoisted(() => ({
 }));
 
 vi.mock('./wasmIdentity', () => ({ WASM_IDENTITY: authorization.identity }));
-vi.mock('../config/deployment', () => ({ DEPLOYMENT_MODE: 'viewer' }));
 vi.mock('../services/authClient', () => ({
   getWasmGrant: authorization.grant,
   onAuthSessionChanged: (listener: () => void) => {

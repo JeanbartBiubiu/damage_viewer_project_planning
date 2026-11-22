@@ -7,10 +7,6 @@ import { assertProcessSkillHitStagesOutputShape } from './processSkillHitStageSh
 import { WASM_IDENTITY } from './wasmIdentity';
 import { ApiRequestError, resolveApiBaseUrl } from '../services/apiClient';
 import { getWasmGrant, onAuthSessionChanged } from '../services/authClient';
-import { getMaintenanceWasmGrant } from '../services/maintenanceClient';
-import { onMaintenanceSessionChanged } from '../services/maintenanceState';
-import { DEPLOYMENT_MODE } from '../config/deployment';
-import { maintenanceNotBefore } from './maintenanceGrant';
 import {
   OUTBOX_GENERIC_COMPILE_RESULT,
   OUTBOX_GENERIC_DONE,
@@ -61,6 +57,24 @@ export class GenericEngineClientError extends Error {
 export type GenericEngineClientOptions = {
   wasmUrl?: URL | string;
   apiBaseUrl?: string;
+  authorization?: EngineAuthorization;
+};
+
+export type EngineAuthorization = {
+  requestGrant: (apiBaseUrl: string) => Promise<{ grant: string; expiresAt: string }>;
+  notBefore: (grant: string, expiresAt: number) => number;
+  refreshBeforeExpirationMs: number;
+  onIdentityChanged: (listener: () => void) => () => void;
+  identityChangedMessage: string;
+};
+
+const playerAuthorization: EngineAuthorization = {
+  requestGrant: getWasmGrant,
+  // 玩家票据固定有效 24 小时，Wasm 仍负责验签并校验期限。
+  notBefore: (_grant, expiresAt) => expiresAt - AUTHORIZATION_LIFETIME_MS,
+  refreshBeforeExpirationMs: 5000,
+  onIdentityChanged: onAuthSessionChanged,
+  identityChangedMessage: '账号状态已变化，请重新发起计算。'
 };
 
 type CachedAuthorization = { grant: string; expiresAt: number };
@@ -150,6 +164,7 @@ export class GenericEngineClient {
   private readonly pending = new Map<string, PendingRequest>();
   private readonly wasmUrl: URL | string;
   private readonly apiBaseUrl: string;
+  private readonly authorization: EngineAuthorization;
   private authorizationEpoch = 0;
   private cachedAuthorization: CachedAuthorization | null = null;
   private pendingAuthorization: Promise<CachedAuthorization> | null = null;
@@ -158,7 +173,8 @@ export class GenericEngineClient {
   constructor(options: GenericEngineClientOptions = {}) {
     this.wasmUrl = options.wasmUrl ?? DEFAULT_WASM_URL;
     this.apiBaseUrl = resolveApiBaseUrl(options.apiBaseUrl);
-    this.observeAccount();
+    this.authorization = options.authorization ?? playerAuthorization;
+    this.observeIdentity();
   }
 
   /** 只查询当前线程引用，销毁后的旧会话应跳过释放。 */
@@ -169,9 +185,9 @@ export class GenericEngineClient {
   async compile(request: CompileRequest): Promise<CompileResult> {
     const epoch = this.authorizationEpoch;
     const authorized = WASM_IDENTITY.authorizationRequired ? await this.authorize(request) : request;
-    this.assertAccountUnchanged(epoch);
+    this.assertIdentityUnchanged(epoch);
     const frames = await this.send('compile', { request: authorized }, false);
-    this.assertAccountUnchanged(epoch);
+    this.assertIdentityUnchanged(epoch);
     const result = parseCompileResult(frames);
     if (result.ok) for (const formula of request.formulas ?? []) registerFormulaForApprovedReads(formula);
     return result;
@@ -181,9 +197,9 @@ export class GenericEngineClient {
     assertResourceRecordBudget(request);
     const epoch = this.authorizationEpoch;
     const authorized = WASM_IDENTITY.authorizationRequired ? await this.authorize(request) : request;
-    this.assertAccountUnchanged(epoch);
+    this.assertIdentityUnchanged(epoch);
     const frames = await this.send('run', { request: authorized }, true);
-    this.assertAccountUnchanged(epoch);
+    this.assertIdentityUnchanged(epoch);
     return parseDoneResult(frames);
   }
 
@@ -207,12 +223,11 @@ export class GenericEngineClient {
     this.discardWorker(new GenericEngineClientError('工作线程已终止'));
   }
 
-  private observeAccount(): void {
+  private observeIdentity(): void {
     if (this.unsubscribeAuth) return;
-    const observe = DEPLOYMENT_MODE === 'maintenance' ? onMaintenanceSessionChanged : onAuthSessionChanged;
-    this.unsubscribeAuth = observe(() => {
+    this.unsubscribeAuth = this.authorization.onIdentityChanged(() => {
       this.invalidateAuthorization();
-      this.discardWorker(new GenericEngineClientError('账号状态已变化，请重新发起计算。'));
+      this.discardWorker(new GenericEngineClientError(this.authorization.identityChangedMessage));
     });
   }
 
@@ -222,36 +237,35 @@ export class GenericEngineClient {
     this.pendingAuthorization = null;
   }
 
-  private assertAccountUnchanged(epoch: number): void {
-    if (epoch !== this.authorizationEpoch) throw new GenericEngineClientError('账号状态已变化，请重新发起计算。');
+  private assertIdentityUnchanged(epoch: number): void {
+    if (epoch !== this.authorizationEpoch) throw new GenericEngineClientError(this.authorization.identityChangedMessage);
   }
 
   private async authorize<T extends CompileRequest | RunRequest>(request: T): Promise<T> {
-    this.observeAccount();
+    this.observeIdentity();
     const epoch = this.authorizationEpoch;
     let authorization = this.cachedAuthorization;
-    if (!authorization || authorization.expiresAt <= Date.now() + 5000) {
+    if (!authorization || authorization.expiresAt <= Date.now() + this.authorization.refreshBeforeExpirationMs) {
       let pending = this.pendingAuthorization;
       if (!pending) {
-        const grantRequest = DEPLOYMENT_MODE === 'maintenance' ? getMaintenanceWasmGrant : getWasmGrant;
-        pending = grantRequest(this.apiBaseUrl).then(async response => {
-          this.assertAccountUnchanged(epoch);
-          const expiresAt = Date.parse(response.expiresAt);
-          if (typeof response.grant !== 'string' || !response.grant || response.grant.length > 4096
+        pending = this.authorization.requestGrant(this.apiBaseUrl).then(async response => {
+          this.assertIdentityUnchanged(epoch);
+          const expiresAt = typeof response?.expiresAt === 'string' ? Date.parse(response.expiresAt) : NaN;
+          if (typeof response?.grant !== 'string' || !response.grant || response.grant.length > 4096
             || !Number.isFinite(expiresAt) || expiresAt <= Date.now()) {
             throw new ApiRequestError('计算授权响应不完整或已过期，请重试。', 502, 'AUTH.INVALID_WASM_GRANT');
           }
-          // 票据固定 nbf=iat、exp=iat+86400；只等待可用时点，Wasm 仍独立验证全部签名与期限。
-          const notBefore = DEPLOYMENT_MODE === 'maintenance' ? maintenanceNotBefore(response.grant, expiresAt) : expiresAt - AUTHORIZATION_LIFETIME_MS;
+          const notBefore = this.authorization.notBefore(response.grant, expiresAt);
           const waitMs = notBefore - Date.now();
           if (waitMs > MAX_AUTHORIZATION_CLOCK_WAIT_MS) {
             throw new ApiRequestError('设备时间与服务时间相差过大，请同步设备时间后重试。', 502, 'AUTH.CLOCK_SKEW');
           }
           if (waitMs > 0) await new Promise<void>(resolve => setTimeout(resolve, waitMs));
-          this.assertAccountUnchanged(epoch);
+          this.assertIdentityUnchanged(epoch);
           if (Date.now() < notBefore) {
             throw new ApiRequestError('设备时间已变化，请同步设备时间后重试。', 502, 'AUTH.CLOCK_SKEW');
           }
+          if (expiresAt <= Date.now()) throw new ApiRequestError('计算授权已过期，请重试。', 502, 'AUTH.INVALID_WASM_GRANT');
           this.cachedAuthorization = { grant: response.grant, expiresAt };
           return this.cachedAuthorization;
         });
@@ -263,12 +277,12 @@ export class GenericEngineClient {
         if (this.pendingAuthorization === pending) this.pendingAuthorization = null;
       }
     }
-    this.assertAccountUnchanged(epoch);
+    this.assertIdentityUnchanged(epoch);
     return { ...request, authorization: authorization.grant };
   }
 
   private async ensureWorker(): Promise<Worker> {
-    this.observeAccount();
+    this.observeIdentity();
     let worker = this.worker;
     if (!worker) {
       worker = new Worker(new URL('../workers/genericEngineWorker.ts', import.meta.url), {

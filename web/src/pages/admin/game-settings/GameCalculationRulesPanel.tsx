@@ -2,9 +2,10 @@ import { Alert, Button, Card, Form, Input, InputNumber, Modal, Select, Space, Ty
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Panel } from '../../../components/Panel';
 import { getErrorMessage } from '../../../services/apiClient';
-import { listAttributes } from '../../../services/attributeClient';
+import { listAttributes } from '../../../services/maintenance/attributeClient';
 import { listSkillCategories } from '../../../services/skillCategoryClient';
-import { getGameCalculationRules, parseGameCalculationRules, updateGameCalculationRules, UnconfirmedCalculationRulesWriteError } from '../../../services/gameCalculationRulesClient';
+import { getGameCalculationRules, parseGameCalculationRules } from '../../../services/gameCalculationRulesClient';
+import { UnconfirmedCalculationRulesWriteError, updateGameCalculationRules } from '../../../services/maintenance/gameCalculationRulesWrites';
 import { sameFormulaPayload } from '../../../services/skillFormulaContract';
 import type { Attribute } from '../../../types/attribute';
 import type { SkillCategory } from '../../../types/skillCategory';

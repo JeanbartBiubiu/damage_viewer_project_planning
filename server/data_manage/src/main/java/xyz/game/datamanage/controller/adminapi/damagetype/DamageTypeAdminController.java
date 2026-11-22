@@ -26,8 +26,7 @@ import xyz.game.datamanage.model.damagetype.DamageTypeListResponse;
 import xyz.game.datamanage.model.damagetype.DamageTypeResponse;
 import xyz.game.datamanage.model.damagetype.DamageTypeUpdateRequest;
 import xyz.game.datamanage.service.damagetype.DamageTypeService;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @RestController
 @Validated
@@ -69,7 +68,7 @@ public class DamageTypeAdminController {
     public DamageTypeResponse create(
         @PathVariable("gameId") String gameId,
         @Valid @RequestBody DamageTypeCreateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         DamageTypeResponse response = service.create(gameId, body);
@@ -82,7 +81,7 @@ public class DamageTypeAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("damageTypeKey") String damageTypeKey,
         @Valid @RequestBody DamageTypeUpdateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         DamageTypeResponse response = service.update(gameId, damageTypeKey, body);
@@ -103,7 +102,7 @@ public class DamageTypeAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("damageTypeKey") String damageTypeKey,
         @Valid @RequestBody DamageTypeFormulaReplaceRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         DamageTypeFormulaResponse response = service.replaceFormula(gameId, damageTypeKey, body);
@@ -116,7 +115,7 @@ public class DamageTypeAdminController {
     public void deleteFormula(
         @PathVariable("gameId") String gameId,
         @PathVariable("damageTypeKey") String damageTypeKey,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         service.deleteFormula(gameId, damageTypeKey);
@@ -128,14 +127,14 @@ public class DamageTypeAdminController {
     public void delete(
         @PathVariable("gameId") String gameId,
         @PathVariable("damageTypeKey") String damageTypeKey,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         service.delete(gameId, damageTypeKey);
         log(auth, request, objectMapper.createObjectNode(), HttpStatus.NO_CONTENT);
     }
 
-    private void log(AuthContext auth, HttpServletRequest request, JsonNode body, HttpStatus status) {
+    private void log(MaintenancePrincipal auth, HttpServletRequest request, JsonNode body, HttpStatus status) {
         logHelper.log(auth, request, body, status.value());
     }
 }

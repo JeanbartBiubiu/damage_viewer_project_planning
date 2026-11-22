@@ -1,15 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import {
-  createCharacterSkillRelation,
-  createEquipmentSkillRelation,
-  deleteCharacterSkillRelation,
-  deleteEquipmentSkillRelation,
-  listCharacterSkillRelations,
-  listEquipmentSkillRelations,
-  updateCharacterSkillRelation,
-  updateEquipmentSkillRelation,
-  listBuildOptionSkillRelations, createBuildOptionSkillRelation, updateBuildOptionSkillRelation, deleteBuildOptionSkillRelation
-} from './skillRelationClient';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
+import { listCharacterSkillRelations, listEquipmentSkillRelations, listBuildOptionSkillRelations } from './skillRelationClient';
+import { createCharacterSkillRelation, createEquipmentSkillRelation, deleteCharacterSkillRelation, deleteEquipmentSkillRelation, updateCharacterSkillRelation, updateEquipmentSkillRelation, createBuildOptionSkillRelation, updateBuildOptionSkillRelation, deleteBuildOptionSkillRelation } from './maintenance/skillRelationWrites';
 
 const character = {
   gameId: 'demo /+', characterKey: 'hero/a', characterName: '角色甲', skillKey: 'skill /+',

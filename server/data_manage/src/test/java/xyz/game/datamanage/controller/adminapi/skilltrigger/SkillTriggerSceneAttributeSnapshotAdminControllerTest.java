@@ -22,7 +22,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleCreateRequest;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleDetailResponse;
 import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = SkillTriggerRuleAdminController.class)
@@ -49,7 +49,7 @@ class SkillTriggerSceneAttributeSnapshotAdminControllerTest {
             .andExpect(jsonPath("$.actions[0].runtimeInputBindings[0].detail.subject").value("TARGET"))
             .andExpect(jsonPath("$.actions[0].runtimeInputBindings[0].detail.sources[0]").value("EQUIPMENT_DIRECT"))
             .andExpect(jsonPath("$.actions[0].runtimeInputBindings[0].detail.unknownFields").doesNotExist());
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(201));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(201));
     }
 
     @ParameterizedTest @ValueSource(strings = {

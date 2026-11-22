@@ -1,16 +1,12 @@
-import { assertNumericUses } from './numericValue';
-import { isCounterTargetTiming } from './counterTargetTiming';
-import type { NumericValue } from '../types/numericValue';
-import type { SkillTriggerSceneInitialParameterBinding } from '../types/skillTriggerRule';
-import type { ApiResult } from './apiClient';
-import { encodePathSegment, requestJson } from './apiClient';
-import { skillsPath } from './skillClient';
-import type {
-  CreateSkillInternalStateRequest,
-  SkillInternalState,
-  SkillInternalStateSummary,
-  UpdateSkillInternalStateRequest
-} from '../types/skillInternalState';
+import { requestMaintenanceJson } from '../maintenanceApiRequest';
+import { assertNumericUses } from '../numericValue';
+import { isCounterTargetTiming } from '../counterTargetTiming';
+import type { NumericValue } from '../../types/numericValue';
+import type { SkillTriggerSceneInitialParameterBinding } from '../../types/skillTriggerRule';
+import type { ApiResult } from '../apiClient';
+import { encodePathSegment } from '../apiClient';
+import { skillsPath } from '../skillClient';
+import type { CreateSkillInternalStateRequest, SkillInternalState, SkillInternalStateSummary, UpdateSkillInternalStateRequest } from '../../types/skillInternalState';
 
 function internalStatesPath(gameId: string, skillKey: string, stateKey?: string): string {
   const base = `${skillsPath(gameId, skillKey)}/internal-states`;
@@ -22,7 +18,7 @@ export function listSkillInternalStates(
   gameId: string,
   skillKey: string
 ): Promise<ApiResult<SkillInternalStateSummary[]>> {
-  return requestJson<SkillInternalStateSummary[]>(apiBaseUrl, internalStatesPath(gameId, skillKey));
+  return requestMaintenanceJson<SkillInternalStateSummary[]>(apiBaseUrl, internalStatesPath(gameId, skillKey));
 }
 
 export function getSkillInternalState(
@@ -31,7 +27,7 @@ export function getSkillInternalState(
   skillKey: string,
   stateKey: string
 ): Promise<ApiResult<SkillInternalState>> {
-  return requestJson<SkillInternalState>(apiBaseUrl, internalStatesPath(gameId, skillKey, stateKey)).then((result) => ({ ...result, data: parseSkillInternalState(result.data) }));
+  return requestMaintenanceJson<SkillInternalState>(apiBaseUrl, internalStatesPath(gameId, skillKey, stateKey)).then((result) => ({ ...result, data: parseSkillInternalState(result.data) }));
 }
 
 export function createSkillInternalState(
@@ -40,7 +36,7 @@ export function createSkillInternalState(
   skillKey: string,
   body: CreateSkillInternalStateRequest
 ): Promise<ApiResult<SkillInternalState>> {
-  return requestJson<SkillInternalState>(apiBaseUrl, internalStatesPath(gameId, skillKey), {
+  return requestMaintenanceJson<SkillInternalState>(apiBaseUrl, internalStatesPath(gameId, skillKey), {
     method: 'POST',
     body: JSON.stringify(body)
   }).then((result) => ({ ...result, data: parseSkillInternalState(result.data) }));
@@ -53,7 +49,7 @@ export function updateSkillInternalState(
   stateKey: string,
   body: UpdateSkillInternalStateRequest
 ): Promise<ApiResult<SkillInternalState>> {
-  return requestJson<SkillInternalState>(apiBaseUrl, internalStatesPath(gameId, skillKey, stateKey), {
+  return requestMaintenanceJson<SkillInternalState>(apiBaseUrl, internalStatesPath(gameId, skillKey, stateKey), {
     method: 'PUT',
     body: JSON.stringify(body)
   }).then((result) => ({ ...result, data: parseSkillInternalState(result.data) }));
@@ -65,7 +61,7 @@ export function deleteSkillInternalState(
   skillKey: string,
   stateKey: string
 ): Promise<ApiResult<null>> {
-  return requestJson<null>(apiBaseUrl, internalStatesPath(gameId, skillKey, stateKey), {
+  return requestMaintenanceJson<null>(apiBaseUrl, internalStatesPath(gameId, skillKey, stateKey), {
     method: 'DELETE'
   });
 }

@@ -1,14 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import {
-  createCharacter,
-  deleteCharacter,
-  getCharacterAttributes,
-  getLevelConfig,
-  listCharacters,
-  updateCharacter,
-  updateCharacterAttributes,
-  updateLevelConfig
-} from './characterClient';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
+import { getCharacterAttributes, getLevelConfig, listCharacters } from './characterClient';
+import { createCharacter, deleteCharacter, updateCharacter, updateCharacterAttributes, updateLevelConfig } from './maintenance/characterWrites';
 
 function jsonResponse(status: number, body?: unknown): Response {
   return new Response(body === undefined ? null : JSON.stringify(body), {

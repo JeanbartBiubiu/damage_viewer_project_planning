@@ -1,14 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
 import { ApiRequestError } from './apiClient';
-import {
-  getImageUsages,
-  getRepresentativeImage,
-  listImageOptions,
-  removeRepresentativeImage,
-  removeRepresentativeImageVerified,
-  setRepresentativeImage,
-  setRepresentativeImageVerified
-} from './imageRelationClient';
+import { getImageUsages, getRepresentativeImage, listImageOptions } from './imageRelationClient';
+import { removeRepresentativeImage, removeRepresentativeImageVerified, setRepresentativeImage, setRepresentativeImageVerified } from './maintenance/imageRelationWrites';
 import type { ImageRelationTarget, ImageUsages } from '../types/imageRelation';
 
 const BASE = 'http://localhost:8080';

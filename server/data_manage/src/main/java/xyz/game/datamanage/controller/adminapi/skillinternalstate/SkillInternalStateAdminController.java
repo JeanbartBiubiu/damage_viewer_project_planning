@@ -23,8 +23,7 @@ import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateDetailResp
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateSummaryResponse;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateUpdateRequest;
 import xyz.game.datamanage.service.skillinternalstate.SkillInternalStateService;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @RestController
 @Validated
@@ -68,7 +67,7 @@ public class SkillInternalStateAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("skillKey") String skillKey,
         @Valid @RequestBody SkillInternalStateCreateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         SkillInternalStateDetailResponse response = service.create(gameId, skillKey, body);
@@ -82,7 +81,7 @@ public class SkillInternalStateAdminController {
         @PathVariable("skillKey") String skillKey,
         @PathVariable("stateKey") String stateKey,
         @Valid @RequestBody SkillInternalStateUpdateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         SkillInternalStateDetailResponse response = service.update(gameId, skillKey, stateKey, body);
@@ -96,14 +95,14 @@ public class SkillInternalStateAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("skillKey") String skillKey,
         @PathVariable("stateKey") String stateKey,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         service.delete(gameId, skillKey, stateKey);
         log(auth, request, objectMapper.createObjectNode(), HttpStatus.NO_CONTENT);
     }
 
-    private void log(AuthContext auth, HttpServletRequest request, JsonNode body, HttpStatus status) {
+    private void log(MaintenancePrincipal auth, HttpServletRequest request, JsonNode body, HttpStatus status) {
         logHelper.log(auth, request, body, status.value());
     }
 }

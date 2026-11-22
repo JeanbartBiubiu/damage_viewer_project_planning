@@ -5,7 +5,7 @@
 ## 修改边界
 
 - 默认只写当前页面目录。改服务契约前读对应 `web/src/services/*Client.ts` 和 `web/src/types/api.ts`。
-- 改路由、菜单或 Hash 时同步检查 `web/src/App.tsx` 与 `web/src/config/navigation.ts`；导航配置是当前页面集合的真源。
+- 改路由、菜单或 Hash 时同步检查 `web/src/MaintenanceApp.tsx` 与 `web/src/config/navigation.ts`；导航配置是当前管理页面集合的真源。
 - 每次写入只走现行业务客户端。不得恢复旧实体、Provider、Ability、Effect Sequence、Effect Step、combat-data 分表页或旧发布入口。
 
 ## 验证

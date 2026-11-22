@@ -11,7 +11,8 @@ import {
 import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ApiRequestError, getErrorMessage } from '../../../../services/apiClient';
-import { deleteSkillEffect, listSkillEffects } from '../../../../services/skillEffectClient';
+import { listSkillEffects } from '../../../../services/skillEffectClient';
+import { deleteSkillEffect } from '../../../../services/maintenance/skillEffectWrites';
 import type { Skill } from '../../../../types/skill';
 import type { SkillEffectSummary } from '../../../../types/skillEffect';
 import { SKILL_EFFECT_LIFECYCLE_IN_USE_MESSAGE } from './effectForm';

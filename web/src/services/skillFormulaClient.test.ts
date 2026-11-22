@@ -1,12 +1,9 @@
 import { skillFormulaDefinition } from '../../tests/fixtures/skillFormulaDefinition';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import {
-  createSkillFormula,
-  deleteSkillFormula,
-  getSkillFormula,
-  listSkillFormulas,
-  updateSkillFormula
-} from './skillFormulaClient';
+import { createSkillFormula, deleteSkillFormula, getSkillFormula, listSkillFormulas, updateSkillFormula } from './maintenance/skillFormulaClient';
 import type { FormulaExpressionNode, SkillFormula, SkillFormulaSummary } from '../types/skillFormula';
 
 function jsonResponse(status: number, body: unknown): Response {

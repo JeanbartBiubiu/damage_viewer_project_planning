@@ -11,9 +11,9 @@ import {
 } from '@arco-design/web-react';
 import { useEffect, useMemo, useState, useRef } from 'react';
 import { ApiRequestError, getErrorMessage } from '../../../services/apiClient';
-import { listAttributes } from '../../../services/attributeClient';
-import { createSkillFormula, getSkillFormula, updateSkillFormula, UnconfirmedSkillFormulaWriteError } from '../../../services/skillFormulaClient';
-import { listSkillParameters } from '../../../services/skillParameterClient';
+import { listAttributes } from '../../../services/maintenance/attributeClient';
+import { createSkillFormula, getSkillFormula, updateSkillFormula, UnconfirmedSkillFormulaWriteError } from '../../../services/maintenance/skillFormulaClient';
+import { listSkillParameters } from '../../../services/maintenance/skillParameterClient';
 import type { Attribute } from '../../../types/attribute';
 import type { SkillFormula, SkillFormulaSummary } from '../../../types/skillFormula';
 import type { SkillParameter } from '../../../types/skillParameter';

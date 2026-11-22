@@ -12,13 +12,10 @@ import type { SkillProcess, SkillProcessSummary } from '../../../types/skillProc
 import type { SkillTriggerRuleDetail, SkillTriggerRuleSummary } from '../../../types/skillTriggerRule';
 import type { Attribute } from '../../../types/attribute';
 import { getLevelConfig } from '../../../services/characterClient';
-import { listAttributes } from '../../../services/attributeClient';
+import { listAttributes } from '../../../services/maintenance/attributeClient';
 import { ApiRequestError, getErrorMessage, getErrorMessageWithContext } from '../../../services/apiClient';
-import {
-  createSkillConfiguration,
-  getSkillConfiguration,
-  updateSkillConfiguration
-} from '../../../services/skillConfigurationClient';
+import { getSkillConfiguration } from '../../../services/skillConfigurationClient';
+import { createSkillConfiguration, updateSkillConfiguration } from '../../../services/maintenance/skillConfigurationWrites';
 import { AuthoringFieldAnchor } from './AuthoringFieldAnchor';
 import { SkillParameterDraftDialog } from './SkillParameterDraftDialog';
 import { SkillFormulaDraftDialog } from './SkillFormulaDraftDialog';

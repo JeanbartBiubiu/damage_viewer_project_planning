@@ -11,10 +11,7 @@ import {
 } from '@arco-design/web-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ApiRequestError, getErrorMessage } from '../../../services/apiClient';
-import {
-  createAttribute,
-  updateAttribute
-} from '../../../services/attributeClient';
+import { createAttribute, updateAttribute } from '../../../services/maintenance/attributeClient';
 import type { Attribute } from '../../../types/attribute';
 import {
   attributeToDraft,

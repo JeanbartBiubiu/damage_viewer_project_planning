@@ -1,12 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import {
-  createEquipment,
-  deleteEquipment,
-  getEquipmentAttributes,
-  listEquipment,
-  updateEquipment,
-  updateEquipmentAttributes
-} from './equipmentClient';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
+import { getEquipmentAttributes, listEquipment } from './equipmentClient';
+import { createEquipment, deleteEquipment, updateEquipment, updateEquipmentAttributes } from './maintenance/equipmentWrites';
 
 function jsonResponse(status: number, body?: unknown): Response {
   return new Response(body === undefined ? null : JSON.stringify(body), {

@@ -14,7 +14,7 @@ import {
 } from '@arco-design/web-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../../services/apiClient';
-import { getSkillInternalState } from '../../../../services/skillInternalStateClient';
+import { getSkillInternalState } from '../../../../services/maintenance/skillInternalStateClient';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type {
   SkillInternalState,

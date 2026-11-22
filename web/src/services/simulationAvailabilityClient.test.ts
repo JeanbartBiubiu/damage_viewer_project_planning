@@ -25,7 +25,7 @@ describe('混合战斗计算可用性只读目录', () => {
     const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify(response), { status: 200, headers: { ETag: 'directory-current' } }));
     vi.stubGlobal('fetch', fetchMock);
     const controller = new AbortController();
-    expect(await getSimulationAvailability('http://api.test/prefix', 'demo', controller.signal))
+    expect(await getSimulationAvailability('http://api.test', 'demo', controller.signal))
       .toEqual({ data: response, status: 200, etag: 'directory-current' });
     const [address, options] = fetchMock.mock.calls[0]!;
     const url = new URL(address);

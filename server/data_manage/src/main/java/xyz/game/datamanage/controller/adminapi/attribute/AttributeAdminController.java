@@ -23,8 +23,7 @@ import xyz.game.datamanage.model.attribute.AttributeListResponse;
 import xyz.game.datamanage.model.attribute.AttributeResponse;
 import xyz.game.datamanage.model.attribute.AttributeUpdateRequest;
 import xyz.game.datamanage.service.attribute.AttributeService;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @RestController
 @Validated
@@ -66,7 +65,7 @@ public class AttributeAdminController {
     public AttributeResponse create(
         @PathVariable("gameId") String gameId,
         @Valid @RequestBody AttributeCreateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         AttributeResponse response = attributeService.create(gameId, body);
@@ -80,7 +79,7 @@ public class AttributeAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("attributeKey") String attributeKey,
         @Valid @RequestBody AttributeUpdateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         AttributeResponse response = attributeService.update(gameId, attributeKey, body);

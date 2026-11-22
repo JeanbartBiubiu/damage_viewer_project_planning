@@ -11,10 +11,7 @@ import {
 } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
 import { ApiRequestError, getErrorMessage } from '../../../services/apiClient';
-import {
-  createSkillParameter,
-  updateSkillParameter
-} from '../../../services/skillParameterClient';
+import { createSkillParameter, updateSkillParameter } from '../../../services/maintenance/skillParameterClient';
 import type {
   SkillParameter,
   SkillParameterValueMode,

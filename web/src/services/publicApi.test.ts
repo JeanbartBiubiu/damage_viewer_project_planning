@@ -1,5 +1,4 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-vi.mock('../config/deployment', () => ({ DEPLOYMENT_MODE: 'viewer' }));
 import { requestJson } from './apiClient';
 
 afterEach(() => { vi.unstubAllGlobals(); });
@@ -24,5 +23,17 @@ describe('公共产物请求边界', () => {
       await expect(requestJson('https://viewer.example', path, { method: 'PATCH', body: '{}' })).rejects.toMatchObject({ code: 'PUBLIC.CONFIGURATION_READ_ONLY' });
     }
     expect(fetch).not.toHaveBeenCalled();
+  });
+  it.each([
+    ['https://viewer.example.attacker.invalid', '/api/auth/me'],
+    ['https://viewer.example:444', '/api/auth/me'],
+    ['https://viewer.example', '//other.example/api/auth/me'],
+    ['https://viewer.example', '/internal/maintenance/me']
+  ])('公共会话请求拒绝异源和内部接口 %s %s', async (base, path) => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    vi.stubGlobal('window', { location: { origin: 'https://viewer.example' } });
+    await expect(requestJson(base, path, { authentication: 'session' })).rejects.toBeInstanceOf(Error);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });

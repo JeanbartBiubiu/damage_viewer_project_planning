@@ -1,7 +1,8 @@
 import { Alert, Button, Form, Input, Modal, Select, Space, Spin, Typography } from '@arco-design/web-react';
 import { useEffect, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
-import { createBuildGroup, getBuildGroup, listBuildGroups, listBuildOptions, updateBuildGroup } from '../../../services/buildClient';
+import { getBuildGroup, listBuildGroups, listBuildOptions } from '../../../services/buildClient';
+import { createBuildGroup, updateBuildGroup } from '../../../services/maintenance/buildWrites';
 import type { BuildConfigurationMode, BuildGroup, BuildOption } from '../../../types/build';
 import {
   applySlotPatch,

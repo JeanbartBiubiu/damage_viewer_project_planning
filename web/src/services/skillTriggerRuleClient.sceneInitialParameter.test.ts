@@ -1,7 +1,11 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
 import type { SkillTriggerRuleDetail } from '../types/skillTriggerRule';
 import { ApiRequestError } from './apiClient';
-import { createSkillTriggerRule, getSkillTriggerRule, parseSkillTriggerRuleDetail, SkillTriggerRuleProtocolError } from './skillTriggerRuleClient';
+import { getSkillTriggerRule, parseSkillTriggerRuleDetail, SkillTriggerRuleProtocolError } from './skillTriggerRuleClient';
+import { createSkillTriggerRule } from './maintenance/skillTriggerRuleWrites';
 
 function detail(bindingDetail: unknown, bindingExtra: Record<string, unknown> = {}) {
   return {

@@ -1,5 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { getGameVampRules, parseGameVampRules, updateGameVampRules } from './gameVampClient';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
+import { getGameVampRules, parseGameVampRules, updateGameVampRules } from './maintenance/gameVampClient';
 import type { GameVampRule } from '../types/gameVamp';
 
 const rule: GameVampRule = {

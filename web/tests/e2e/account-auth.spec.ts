@@ -124,7 +124,7 @@ test('访客可读取与设置场景，公共端不提供配置写入或维护�
   const api = new AccountApi(context); await api.install(); await open(page, api);
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.getByRole('button', { name: '新增属性', exact: true })).toHaveCount(0);
-  await expect(page.getByRole('button', { name: '刷新维护会话', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '刷新维护身份', exact: true })).toHaveCount(0);
   await page.goto('/#/attributes');
   await expect(page).toHaveURL(/#\/simulation\/combat-analysis$/);
   await expect(page.getByRole('button', { name: '新增属性', exact: true })).toHaveCount(0);

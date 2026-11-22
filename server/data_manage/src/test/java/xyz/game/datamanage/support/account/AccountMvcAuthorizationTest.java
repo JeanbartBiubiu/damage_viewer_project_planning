@@ -19,20 +19,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class AccountMvcAuthorizationTest {
     static class Registry extends InterceptorRegistry { List<Object> items() { return getInterceptors(); } }
-    @Test void actualMappedAdminWriteRequiresSessionEvenWhenAllFiltersAreAbsent() throws Exception {
-        xyz.game.datamanage.support.maintenance.MaintenanceSessions sessions=mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class);when(sessions.require(any(),eq(true))).thenThrow(AccountErrors.invalid());
+    @Test void actualMappedAdminWriteRequiresMaintenancePrincipalEvenWhenAllFiltersAreAbsent() throws Exception {
+        xyz.game.datamanage.support.maintenance.MaintenancePrincipals sessions=mock(xyz.game.datamanage.support.maintenance.MaintenancePrincipals.class);when(sessions.require(any(),eq(true))).thenThrow(xyz.game.datamanage.support.maintenance.MaintenanceJson.denied());
         var registry=new Registry();new AccountMvcAuthorization(sessions).addInterceptors(registry);
         AttributeService service=mock(AttributeService.class);
         var mvc=MockMvcBuilders.standaloneSetup(new AttributeAdminController(service,mock(AdminEditLogHelper.class),new ObjectMapper()))
             .setControllerAdvice(new GlobalExceptionHandler()).addInterceptors((HandlerInterceptor)registry.items().getFirst()).build();
         for(String path:List.of("/api/admin;probe/games/lol/attributes","/api;probe/admin/games/lol/attributes","/%61pi/admin/games/lol/attributes","/api/%61dmin/games/lol/attributes")) {
             mvc.perform(post(URI.create(path)).contentType("application/json").header("Origin","https://localhost:5173").header("X-Damage-Client","web").content("{}"))
-                .andExpect(status().isUnauthorized()).andExpect(jsonPath("$.error.code").value("AUTH.INVALID_CREDENTIALS"));
+                .andExpect(status().isForbidden()).andExpect(jsonPath("$.error.code").value("MAINTENANCE.DENIED"));
         }
         verifyNoInteractions(service);
     }
     @Test void actualMappedGameReadNeverCreatesAnAuthenticationContext() throws Exception {
-        xyz.game.datamanage.support.maintenance.MaintenanceSessions sessions=mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class);var registry=new Registry();new AccountMvcAuthorization(sessions).addInterceptors(registry);
+        xyz.game.datamanage.support.maintenance.MaintenancePrincipals sessions=mock(xyz.game.datamanage.support.maintenance.MaintenancePrincipals.class);var registry=new Registry();new AccountMvcAuthorization(sessions).addInterceptors(registry);
         AttributeService service=mock(AttributeService.class);
         var mvc=MockMvcBuilders.standaloneSetup(new AttributeAdminController(service,mock(AdminEditLogHelper.class),new ObjectMapper()))
             .setControllerAdvice(new GlobalExceptionHandler()).addInterceptors((HandlerInterceptor)registry.items().getFirst()).build();

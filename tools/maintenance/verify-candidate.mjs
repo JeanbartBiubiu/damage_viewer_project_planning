@@ -88,6 +88,7 @@ async function main(args) {
   if (opts['--read-config']) {
     const configPath = resolve(opts['--read-config']);
     client = makeClient(readJson(configPath), dirname(configPath));
+    requireValue((await client.principal()).principalId === candidate.principalId, '私有入口登记的维护主体与候选不符。');
     databaseInputs = await verifyDatabaseInputs(candidate, client);
   }
   const expected = candidateExpectation(candidate);
@@ -112,6 +113,7 @@ async function main(args) {
   writeNew(resolve(output, 'comparison.json'), report);
   requireValue(report.pass, '候选与独立预期不一致；不签发回执。');
   if (opts['--private-key']) {
+    requireValue((await client.principal()).principalId === candidate.principalId, '独立验证期间维护主体发生变化。');
     writeNew(resolve(output, 'database-inputs-after.json'), await verifyDatabaseInputs(candidate, client));
     const evidenceDigest = digestJson({ summary, expected, report });
     const payload = validationPayload(candidate, summary, report, evidenceDigest);

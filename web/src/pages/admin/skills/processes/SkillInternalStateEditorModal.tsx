@@ -19,14 +19,10 @@ import {
 import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ApiRequestError, getErrorMessage } from '../../../../services/apiClient';
-import { listSkillFormulas } from '../../../../services/skillFormulaClient';
-import { listSkillProcesses } from '../../../../services/skillProcessClient';
+import { listSkillFormulas } from '../../../../services/maintenance/skillFormulaClient';
+import { listSkillProcesses } from '../../../../services/maintenance/skillProcessClient';
 import type { SkillProcessSummary } from '../../../../types/skillProcess';
-import {
-  createSkillInternalState,
-  getSkillInternalState,
-  updateSkillInternalState
-} from '../../../../services/skillInternalStateClient';
+import { createSkillInternalState, getSkillInternalState, updateSkillInternalState } from '../../../../services/maintenance/skillInternalStateClient';
 import type { Skill } from '../../../../types/skill';
 import type { AuthoringLocation } from '../../../../types/authoringLocation';
 import { resolveAuthoringLocation } from '../authoringLocation';

@@ -1,12 +1,9 @@
 import { formulaValue } from '../types/numericValue';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import {
-  createSkillInternalState,
-  deleteSkillInternalState,
-  getSkillInternalState,
-  listSkillInternalStates,
-  updateSkillInternalState
-} from './skillInternalStateClient';
+import { createSkillInternalState, deleteSkillInternalState, getSkillInternalState, listSkillInternalStates, updateSkillInternalState } from './maintenance/skillInternalStateClient';
 import type {
   CreateSkillInternalStateRequest,
   SkillInternalState,

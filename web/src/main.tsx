@@ -1,20 +1,6 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import '@arco-design/web-react/dist/css/arco.css';
-import App from './App';
+import ViewerApp from './ViewerApp';
+import { mountApp } from './mountApp';
 import { recordPageVisit } from './services/visitStatisticsClient';
-import './index.css';
 
-const container = document.getElementById('root');
-
-if (!container) {
-  throw new Error('Root node #root was not found.');
-}
-
+mountApp(<ViewerApp />);
 void recordPageVisit();
-
-createRoot(container).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-);

@@ -1,5 +1,6 @@
-import { encodePathSegment, requestJson, type ApiResult } from './apiClient';
-import { GAME_VAMP_TYPES, sortGameVampRules, type GameVampRule, type GameVampRulesResponse } from '../types/gameVamp';
+import { requestMaintenanceJson } from '../maintenanceApiRequest';
+import { encodePathSegment, type ApiResult } from '../apiClient';
+import { GAME_VAMP_TYPES, sortGameVampRules, type GameVampRule, type GameVampRulesResponse } from '../../types/gameVamp';
 
 function fail(path: string): never {
   throw new Error(`游戏吸血规则响应格式不正确：${path}`);
@@ -39,11 +40,11 @@ function path(gameId: string): string {
 }
 
 export async function getGameVampRules(apiBaseUrl: string, gameId: string): Promise<ApiResult<GameVampRulesResponse>> {
-  const result = await requestJson<unknown>(apiBaseUrl, path(gameId));
+  const result = await requestMaintenanceJson<unknown>(apiBaseUrl, path(gameId));
   return { ...result, data: parseGameVampRules(result.data) };
 }
 
 export async function updateGameVampRules(apiBaseUrl: string, gameId: string, body: GameVampRulesResponse): Promise<ApiResult<GameVampRulesResponse>> {
-  const result = await requestJson<unknown>(apiBaseUrl, path(gameId), { method: 'PUT', body: JSON.stringify(parseGameVampRules(body)) });
+  const result = await requestMaintenanceJson<unknown>(apiBaseUrl, path(gameId), { method: 'PUT', body: JSON.stringify(parseGameVampRules(body)) });
   return { ...result, data: parseGameVampRules(result.data) };
 }

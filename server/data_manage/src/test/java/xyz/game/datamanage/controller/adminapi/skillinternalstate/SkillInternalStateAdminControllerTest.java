@@ -44,7 +44,7 @@ import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateUpdateRequ
 import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.service.skillinternalstate.SkillInternalStateService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
@@ -96,9 +96,9 @@ class SkillInternalStateAdminControllerTest {
             .andExpect(status().isNoContent())
             .andExpect(jsonPath("$").doesNotExist());
 
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(201));
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(200));
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(204));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(201));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(200));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(204));
     }
 
     @Test

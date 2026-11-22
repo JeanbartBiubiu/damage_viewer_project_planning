@@ -2,10 +2,8 @@ import { Alert, Button, Empty, Input, Modal, Select, Space, Table, Tabs, Typogra
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Panel } from '../../../components/Panel';
 import { getErrorMessage } from '../../../services/apiClient';
-import {
-  deleteBuildGroup, deleteBuildOption, deleteBuildSystem, getBuildDefinition,
-  listBuildGroups, listBuildOptions, listBuildSystems
-} from '../../../services/buildClient';
+import { getBuildDefinition, listBuildGroups, listBuildOptions, listBuildSystems } from '../../../services/buildClient';
+import { deleteBuildGroup, deleteBuildOption, deleteBuildSystem } from '../../../services/maintenance/buildWrites';
 import {
   BUILD_CONFIGURATION_MODE_LABELS,
   type BuildGroup, type BuildOption, type BuildSystem

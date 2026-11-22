@@ -1,12 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
 import { ApiRequestError } from './apiClient';
-import {
-  createImage,
-  getImage,
-  imageFieldIssues,
-  listPublicImages,
-  updateImage
-} from './imageClient';
+import { getImage, imageFieldIssues, listPublicImages } from './imageClient';
+import { createImage, updateImage } from './maintenance/imageWrites';
 
 const IMAGE = {
   gameId: 'demo arena',

@@ -1,18 +1,4 @@
-import {
-  SKILL_TRIGGER_EVENT_TYPES,
-  SKILL_TRIGGER_CONDITION_TYPES,
-  SKILL_TRIGGER_ACTION_TYPES,
-  SKILL_TRIGGER_CAST_PHASES,
-  SKILL_TRIGGER_SOURCE_TYPES,
-  SKILL_TRIGGER_EVENT_VALUE_KEYS,
-  SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_KINDS,
-  SKILL_TRIGGER_ONCE_PER_USE_SCOPES,
-  SKILL_TRIGGER_DAMAGE_DELIVERY_KINDS,
-  SKILL_TRIGGER_DAMAGE_ORIGIN_KINDS,
-  SKILL_TRIGGER_SUBJECTS,
-  SKILL_TRIGGER_COMPARATORS,
-  SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_KINDS
-} from '../types/skillSystemEnums.generated';
+import { SKILL_TRIGGER_EVENT_TYPES, SKILL_TRIGGER_CONDITION_TYPES, SKILL_TRIGGER_ACTION_TYPES, SKILL_TRIGGER_CAST_PHASES, SKILL_TRIGGER_SOURCE_TYPES, SKILL_TRIGGER_EVENT_VALUE_KEYS, SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_KINDS, SKILL_TRIGGER_ONCE_PER_USE_SCOPES, SKILL_TRIGGER_DAMAGE_DELIVERY_KINDS, SKILL_TRIGGER_DAMAGE_ORIGIN_KINDS, SKILL_TRIGGER_SUBJECTS, SKILL_TRIGGER_COMPARATORS, SKILL_TRIGGER_RECENT_DAMAGE_OUTPUT_KINDS } from '../types/skillSystemEnums.generated';
 import { assertNumericUses } from './numericValue';
 import { isNumericValue } from '../types/numericValue';
 import { SKILL_TRIGGER_TARGET_CATEGORIES } from '../types/skillTriggerRule';
@@ -20,22 +6,7 @@ import type { ApiResult } from './apiClient';
 import { encodePathSegment, requestJson } from './apiClient';
 import { skillsPath } from './skillClient';
 import { parseSkillProcessMoment } from './skillProcessMoment';
-import type {
-  CreateSkillTriggerRuleRequest,
-  SkillTriggerAction,
-  SkillTriggerCastPhase,
-  SkillTriggerCondition,
-  SkillTriggerConditionGroup,
-  SkillTriggerEventSource,
-  SkillTriggerEventType,
-  SkillTriggerEventUseKind,
-  SkillTriggerOncePerUse,
-  SkillTriggerOncePerUseScope,
-  SkillTriggerRuleDetail,
-  SkillTriggerRuleSummary,
-  SkillTriggerRuntimeInputBinding,
-  UpdateSkillTriggerRuleRequest
-} from '../types/skillTriggerRule';
+import type { SkillTriggerAction, SkillTriggerCastPhase, SkillTriggerCondition, SkillTriggerConditionGroup, SkillTriggerEventSource, SkillTriggerEventType, SkillTriggerEventUseKind, SkillTriggerOncePerUse, SkillTriggerOncePerUseScope, SkillTriggerRuleDetail, SkillTriggerRuleSummary, SkillTriggerRuntimeInputBinding } from '../types/skillTriggerRule';
 
 const EVENT_TYPES = new Set<string>(SKILL_TRIGGER_EVENT_TYPES);
 
@@ -72,7 +43,7 @@ export class SkillTriggerRuleProtocolError extends Error {
   }
 }
 
-function triggerRulesPath(gameId: string, skillKey: string, ruleKey?: string): string {
+export function triggerRulesPath(gameId: string, skillKey: string, ruleKey?: string): string {
   const base = `${skillsPath(gameId, skillKey)}/trigger-rules`;
   return ruleKey === undefined ? base : `${base}/${encodePathSegment(ruleKey)}`;
 }
@@ -571,7 +542,7 @@ export function parseSkillTriggerRuleDetail(value: unknown): SkillTriggerRuleDet
   };
 }
 
-function maybeParseDetail(data: unknown): SkillTriggerRuleDetail {
+export function maybeParseDetail(data: unknown): SkillTriggerRuleDetail {
   return parseSkillTriggerRuleDetail(data);
 }
 
@@ -608,40 +579,4 @@ export function getSkillTriggerRule(
 ): Promise<ApiResult<SkillTriggerRuleDetail>> {
   return requestJson<unknown>(apiBaseUrl, triggerRulesPath(gameId, skillKey, ruleKey))
     .then((result) => ({ ...result, data: maybeParseDetail(result.data) }));
-}
-
-export function createSkillTriggerRule(
-  apiBaseUrl: string,
-  gameId: string,
-  skillKey: string,
-  body: CreateSkillTriggerRuleRequest
-): Promise<ApiResult<SkillTriggerRuleDetail>> {
-  return requestJson<unknown>(apiBaseUrl, triggerRulesPath(gameId, skillKey), {
-    method: 'POST',
-    body: JSON.stringify(body)
-  }).then((result) => ({ ...result, data: maybeParseDetail(result.data) }));
-}
-
-export function updateSkillTriggerRule(
-  apiBaseUrl: string,
-  gameId: string,
-  skillKey: string,
-  ruleKey: string,
-  body: UpdateSkillTriggerRuleRequest
-): Promise<ApiResult<SkillTriggerRuleDetail>> {
-  return requestJson<unknown>(apiBaseUrl, triggerRulesPath(gameId, skillKey, ruleKey), {
-    method: 'PUT',
-    body: JSON.stringify(body)
-  }).then((result) => ({ ...result, data: maybeParseDetail(result.data) }));
-}
-
-export function deleteSkillTriggerRule(
-  apiBaseUrl: string,
-  gameId: string,
-  skillKey: string,
-  ruleKey: string
-): Promise<ApiResult<null>> {
-  return requestJson<null>(apiBaseUrl, triggerRulesPath(gameId, skillKey, ruleKey), {
-    method: 'DELETE'
-  });
 }

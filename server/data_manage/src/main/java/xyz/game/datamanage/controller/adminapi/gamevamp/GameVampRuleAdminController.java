@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import xyz.game.datamanage.controller.adminapi.AdminEditLogHelper;
 import xyz.game.datamanage.model.gamevamp.GameVampRules;
 import xyz.game.datamanage.service.gamevamp.GameVampRuleService;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @RestController
 @RequestMapping("/api/admin/games/{gameId}/vamp-rules")
@@ -32,7 +31,7 @@ public class GameVampRuleAdminController {
 
     @PutMapping
     public GameVampRules replace(@PathVariable String gameId, @Valid @RequestBody GameVampRules request,
-                                @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+                                @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
                                 HttpServletRequest servletRequest) {
         GameVampRules response = service.replace(gameId, request);
         logHelper.log(auth, servletRequest, json.valueToTree(request), 200);

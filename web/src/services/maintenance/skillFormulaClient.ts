@@ -1,14 +1,10 @@
-import { validateStoredSkillFormula } from './skillFormulaContract';
-import { ApiRequestError } from './apiClient';
-import type { ApiResult } from './apiClient';
-import { encodePathSegment, requestJson } from './apiClient';
-import { skillsPath } from './skillClient';
-import type {
-  CreateSkillFormulaRequest,
-  SkillFormula,
-  SkillFormulaSummary,
-  UpdateSkillFormulaRequest
-} from '../types/skillFormula';
+import { requestMaintenanceJson } from '../maintenanceApiRequest';
+import { validateStoredSkillFormula } from '../skillFormulaContract';
+import { ApiRequestError } from '../apiClient';
+import type { ApiResult } from '../apiClient';
+import { encodePathSegment } from '../apiClient';
+import { skillsPath } from '../skillClient';
+import type { CreateSkillFormulaRequest, SkillFormula, SkillFormulaSummary, UpdateSkillFormulaRequest } from '../../types/skillFormula';
 
 function formulasPath(gameId: string, skillKey: string, formulaKey?: string): string {
   const base = `${skillsPath(gameId, skillKey)}/formulas`;
@@ -20,7 +16,7 @@ export function listSkillFormulas(
   gameId: string,
   skillKey: string
 ): Promise<ApiResult<SkillFormulaSummary[]>> {
-  return requestJson<SkillFormulaSummary[]>(apiBaseUrl, formulasPath(gameId, skillKey));
+  return requestMaintenanceJson<SkillFormulaSummary[]>(apiBaseUrl, formulasPath(gameId, skillKey));
 }
 
 export async function getSkillFormula(
@@ -29,7 +25,7 @@ export async function getSkillFormula(
   skillKey: string,
   formulaKey: string
 ): Promise<ApiResult<SkillFormula>> {
-  const result = await requestJson<SkillFormula>(apiBaseUrl, formulasPath(gameId, skillKey, formulaKey));
+  const result = await requestMaintenanceJson<SkillFormula>(apiBaseUrl, formulasPath(gameId, skillKey, formulaKey));
   return { ...result, data: parseSkillFormula(result.data, gameId, skillKey, formulaKey) };
 }
 
@@ -39,7 +35,7 @@ export async function createSkillFormula(
   skillKey: string,
   body: CreateSkillFormulaRequest
 ): Promise<ApiResult<SkillFormula>> {
-  const result = await requestJson<SkillFormula>(apiBaseUrl, formulasPath(gameId, skillKey), {
+  const result = await requestMaintenanceJson<SkillFormula>(apiBaseUrl, formulasPath(gameId, skillKey), {
     method: 'POST',
     body: JSON.stringify(body)
   }).catch(unconfirmedSkillFormulaWrite);
@@ -54,7 +50,7 @@ export async function updateSkillFormula(
   formulaKey: string,
   body: UpdateSkillFormulaRequest
 ): Promise<ApiResult<SkillFormula>> {
-  const result = await requestJson<SkillFormula>(
+  const result = await requestMaintenanceJson<SkillFormula>(
     apiBaseUrl,
     formulasPath(gameId, skillKey, formulaKey),
     {
@@ -72,7 +68,7 @@ export function deleteSkillFormula(
   skillKey: string,
   formulaKey: string
 ): Promise<ApiResult<null>> {
-  return requestJson<null>(apiBaseUrl, formulasPath(gameId, skillKey, formulaKey), {
+  return requestMaintenanceJson<null>(apiBaseUrl, formulasPath(gameId, skillKey, formulaKey), {
     method: 'DELETE'
   });
 }

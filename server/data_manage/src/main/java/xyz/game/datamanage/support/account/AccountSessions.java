@@ -29,7 +29,7 @@ public class AccountSessions {
                 if ("disabled".equals(status)) throw new ApiException(HttpStatus.FORBIDDEN,"AUTH.ACCOUNT_DISABLED","账号已禁用");
                 if (r.getInt("can_login")!=1) throw new ApiException(HttpStatus.FORBIDDEN,"AUTH.LOGIN_NOT_ENABLED","账号尚未开通");
                 if (!"active".equals(status)) throw AccountErrors.invalid();
-                return new Resolved(new AuthContext(r.getObject("account_id",UUID.class),r.getString("username"),false,
+                return new Resolved(new AuthContext(r.getObject("account_id",UUID.class),r.getString("username"),
                     r.getObject("session_id",UUID.class),r.getLong("auth_epoch"),r.getTimestamp("expires_at").toInstant()),r.getBytes("csrf_hash"));
             }, AccountCrypto.hash(token));
         if (result==null) throw AccountErrors.invalid();

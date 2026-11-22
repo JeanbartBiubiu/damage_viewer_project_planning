@@ -1,5 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { createSkillConfiguration, getSkillConfiguration, skillConfigurationPath, updateSkillConfiguration } from './skillConfigurationClient';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
+import { getSkillConfiguration, skillConfigurationPath } from './skillConfigurationClient';
+import { createSkillConfiguration, updateSkillConfiguration } from './maintenance/skillConfigurationWrites';
 
 const body = {
   skill: { gameId: 'demo', skillKey: 'sample_q', name: '样例 Q', description: null, maxLevel: 1,

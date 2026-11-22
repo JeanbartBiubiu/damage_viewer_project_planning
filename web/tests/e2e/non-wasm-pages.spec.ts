@@ -4016,7 +4016,7 @@ test.describe('authoring input safety', () => {
     diagnostics.assertClean('level retry');
   });
 
-  test('level drafts survive maintenance session refresh, rejected refresh and game switches', async ({ page }) => {
+  test('level drafts survive maintenance identity refresh, rejected refresh and game switches', async ({ page }) => {
     const mock = new MockApi();
     const diagnostics = await prepare(page, mock);
     await installSecondSafetyGame(page, mock);
@@ -4032,7 +4032,7 @@ test.describe('authoring input safety', () => {
     };
     page.on('dialog', dismissUnexpected);
     const refreshed = page.waitForResponse(response => new URL(response.url()).pathname === '/internal/maintenance/me');
-    await page.getByRole('button', { name: '刷新维护会话', exact: true }).click();
+    await page.getByRole('button', { name: '刷新维护身份', exact: true }).click();
     await refreshed;
     await expect(page.getByLabel('最大等级', { exact: true })).toHaveValue('4');
     page.off('dialog', dismissUnexpected);

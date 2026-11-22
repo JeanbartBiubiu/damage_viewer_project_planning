@@ -1,15 +1,8 @@
 import type { ApiResult } from './apiClient';
 import { ApiRequestError, encodePathSegment, requestJson } from './apiClient';
-import type {
-  CreateImageRequest,
-  ImageFieldIssue,
-  ManagedImage,
-  PublicImage,
-  PublicImageListResponse,
-  UpdateImageRequest
-} from '../types/image';
+import type { ImageFieldIssue, ManagedImage, PublicImage, PublicImageListResponse } from '../types/image';
 
-function adminImagesPath(gameId: string, imageKey?: string): string {
+export function adminImagesPath(gameId: string, imageKey?: string): string {
   const base = `/api/admin/games/${encodePathSegment(gameId)}/images`;
   return imageKey === undefined ? base : `${base}/${encodePathSegment(imageKey)}`;
 }
@@ -61,7 +54,7 @@ function booleanValue(record: Record<string, unknown>, field: string, label: str
   return value;
 }
 
-function normalizeManagedImage(value: unknown): ManagedImage {
+export function normalizeManagedImage(value: unknown): ManagedImage {
   const label = '图片详情';
   const record = recordOf(value, label);
   const mimeType = requiredString(record, 'mimeType', label);
@@ -111,7 +104,7 @@ function normalizePublicImageList(value: unknown): PublicImageListResponse {
   };
 }
 
-async function normalizeResult<T, U>(
+export async function normalizeResult<T, U>(
   result: Promise<ApiResult<T>>,
   normalize: (value: T) => U
 ): Promise<ApiResult<U>> {
@@ -127,35 +120,6 @@ export function getImage(
 ): Promise<ApiResult<ManagedImage>> {
   return normalizeResult(
     requestJson<unknown>(apiBaseUrl, adminImagesPath(gameId, imageKey), { signal }),
-    normalizeManagedImage
-  );
-}
-
-export function createImage(
-  apiBaseUrl: string,
-  gameId: string,
-  body: CreateImageRequest
-): Promise<ApiResult<ManagedImage>> {
-  return normalizeResult(
-    requestJson<unknown>(apiBaseUrl, adminImagesPath(gameId), {
-      method: 'POST',
-      body: JSON.stringify(body)
-    }),
-    normalizeManagedImage
-  );
-}
-
-export function updateImage(
-  apiBaseUrl: string,
-  gameId: string,
-  imageKey: string,
-  body: UpdateImageRequest
-): Promise<ApiResult<ManagedImage>> {
-  return normalizeResult(
-    requestJson<unknown>(apiBaseUrl, adminImagesPath(gameId, imageKey), {
-      method: 'PUT',
-      body: JSON.stringify(body)
-    }),
     normalizeManagedImage
   );
 }

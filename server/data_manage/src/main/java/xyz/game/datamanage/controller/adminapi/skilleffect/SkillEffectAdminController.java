@@ -23,8 +23,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectDetailResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectUpdateRequest;
 import xyz.game.datamanage.service.skilleffect.SkillEffectService;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @RestController
 @Validated
@@ -68,7 +67,7 @@ public class SkillEffectAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("skillKey") String skillKey,
         @Valid @RequestBody SkillEffectCreateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         SkillEffectDetailResponse response = service.create(gameId, skillKey, body);
@@ -82,7 +81,7 @@ public class SkillEffectAdminController {
         @PathVariable("skillKey") String skillKey,
         @PathVariable("effectKey") String effectKey,
         @Valid @RequestBody SkillEffectUpdateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         SkillEffectDetailResponse response = service.update(gameId, skillKey, effectKey, body);
@@ -96,14 +95,14 @@ public class SkillEffectAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("skillKey") String skillKey,
         @PathVariable("effectKey") String effectKey,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         service.delete(gameId, skillKey, effectKey);
         log(auth, request, objectMapper.createObjectNode(), HttpStatus.NO_CONTENT);
     }
 
-    private void log(AuthContext auth, HttpServletRequest request, JsonNode body, HttpStatus status) {
+    private void log(MaintenancePrincipal auth, HttpServletRequest request, JsonNode body, HttpStatus status) {
         logHelper.log(auth, request, body, status.value());
     }
 }

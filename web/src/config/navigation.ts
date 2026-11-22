@@ -1,3 +1,5 @@
+import { BASIC_ATTACK_ROUTE, COMBAT_ANALYSIS_ROUTE, type SimulationRouteId } from './viewerRoutes';
+
 export type StaticRouteId =
   | 'images'
   | 'attributes'
@@ -10,8 +12,6 @@ export type StaticRouteId =
   | 'skills'
   | 'statuses'
   | 'game-settings';
-
-export type SimulationRouteId = 'simulation/basic-attack' | 'simulation/combat-analysis';
 
 export type RouteId = StaticRouteId | SimulationRouteId;
 export type WorkspaceMode = 'management' | 'simulation';
@@ -34,8 +34,7 @@ export type NavigationGroup = {
 };
 
 export const DEFAULT_ROUTE: StaticRouteId = 'attributes';
-export const DEFAULT_SIMULATION_ROUTE: SimulationRouteId = 'simulation/basic-attack';
-export const COMBAT_ANALYSIS_ROUTE: SimulationRouteId = 'simulation/combat-analysis';
+const DEFAULT_SIMULATION_ROUTE = BASIC_ATTACK_ROUTE;
 
 const dataManagementNavigationItems: NavigationItem[] = [
   {
@@ -139,10 +138,6 @@ export const navigationItems: NavigationItem[] = navigationGroups.flatMap((group
 export function routeFromHash(hash: string): RouteId {
   const path = hash.replace(/^#\/?/, '').split('?')[0] ?? '';
   return navigationItems.find((item) => item.hashSegment === path)?.id ?? DEFAULT_ROUTE;
-}
-
-export function hashForRoute(route: RouteId): string {
-  return `#/${route}`;
 }
 
 export function modeForRoute(route: RouteId): WorkspaceMode {

@@ -2,7 +2,8 @@ import { Alert, Button, Form, InputNumber, Modal, Space } from '@arco-design/web
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Panel } from '../../../components/Panel';
 import { ApiRequestError, getErrorMessage } from '../../../services/apiClient';
-import { getLevelConfig, updateLevelConfig } from '../../../services/characterClient';
+import { getLevelConfig } from '../../../services/characterClient';
+import { updateLevelConfig } from '../../../services/maintenance/characterWrites';
 import { GameRepresentativeImagePanel } from '../relations/GameRepresentativeImagePanel';
 import { GameVampRulesPanel } from './GameVampRulesPanel';
 import { GameCalculationRulesPanel } from './GameCalculationRulesPanel';

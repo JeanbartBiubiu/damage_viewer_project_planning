@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
 
 /** 在控制器外建立事务，原有业务服务、编辑留痕及批次事实在同一提交中完成。 */
 @Aspect
@@ -24,8 +23,8 @@ public class MaintenanceWriteAspect {
         if(!(RequestContextHolder.getRequestAttributes() instanceof ServletRequestAttributes attributes)) return invocation.proceed();
         HttpServletRequest request=attributes.getRequest();
         if(AdminAuthFilter.publicGameRead(request) || java.util.Set.of("GET","HEAD","OPTIONS").contains(request.getMethod())) return invocation.proceed();
-        if(!(request.getAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) instanceof AuthContext auth) || !auth.maintenance()) throw MaintenanceJson.denied();
-        try { return batches.execute(auth,request,()-> {
+        if (!(request.getAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) instanceof MaintenancePrincipal principal)) throw MaintenanceJson.denied();
+        try { return batches.execute(principal,request,()-> {
             try {return invocation.proceed();} catch(RuntimeException|Error e){throw e;}catch(Throwable e){throw new InvocationFailure(e);}
         }); } catch(InvocationFailure e) {throw e.getCause();}
     }

@@ -20,8 +20,7 @@ import xyz.game.datamanage.model.skillrelation.BuildOptionSkillRelationListRespo
 import xyz.game.datamanage.model.skillrelation.BuildOptionSkillRelationResponse;
 import xyz.game.datamanage.service.GameDataService;
 import xyz.game.datamanage.service.skillrelation.BuildOptionSkillRelationService;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @RestController
 @RequestMapping("/api/admin/games/{gameId}/build-option-skill-relations")
@@ -53,10 +52,10 @@ public class BuildOptionSkillRelationAdminController {
     @Transactional
     public BuildOptionSkillRelationResponse create(
         @PathVariable("gameId") String gameId, @RequestBody JsonNode body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth, HttpServletRequest request
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth, HttpServletRequest request
     ) {
         BuildOptionSkillRelationResponse response = service.create(gameId, body);
-        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), body, 201);
+        gameDataService.recordEditLog(auth.principalId(), auth.displayName(), request.getMethod(), request.getRequestURI(), body, 201);
         return response;
     }
 
@@ -65,10 +64,10 @@ public class BuildOptionSkillRelationAdminController {
     public BuildOptionSkillRelationResponse update(
         @PathVariable("gameId") String gameId, @PathVariable("systemKey") String systemKey,
         @PathVariable("optionKey") String optionKey, @PathVariable("skillKey") String skillKey, @RequestBody JsonNode body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth, HttpServletRequest request
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth, HttpServletRequest request
     ) {
         BuildOptionSkillRelationResponse response = service.update(gameId, systemKey, optionKey, skillKey, body);
-        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), body, 200);
+        gameDataService.recordEditLog(auth.principalId(), auth.displayName(), request.getMethod(), request.getRequestURI(), body, 200);
         return response;
     }
 
@@ -78,10 +77,10 @@ public class BuildOptionSkillRelationAdminController {
     public void delete(
         @PathVariable("gameId") String gameId, @PathVariable("systemKey") String systemKey,
         @PathVariable("optionKey") String optionKey, @PathVariable("skillKey") String skillKey,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth, HttpServletRequest request
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth, HttpServletRequest request
     ) {
         service.delete(gameId, systemKey, optionKey, skillKey);
-        gameDataService.recordEditLog(auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(),
+        gameDataService.recordEditLog(auth.principalId(), auth.displayName(), request.getMethod(), request.getRequestURI(),
             objectMapper.createObjectNode(), 204);
     }
 }

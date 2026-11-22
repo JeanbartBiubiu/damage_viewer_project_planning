@@ -14,11 +14,8 @@ import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Panel } from '../../../components/Panel';
 import { getErrorMessage } from '../../../services/apiClient';
-import {
-  deleteSkillCategory,
-  listSkillCategories,
-  updateSkillCategory
-} from '../../../services/skillCategoryClient';
+import { listSkillCategories } from '../../../services/skillCategoryClient';
+import { deleteSkillCategory, updateSkillCategory } from '../../../services/maintenance/skillCategoryWrites';
 import type {
   SkillCategory,
   SkillCategoryListQuery,

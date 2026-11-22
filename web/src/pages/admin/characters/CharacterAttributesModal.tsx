@@ -16,12 +16,9 @@ import {
 import type { TableColumnProps } from '@arco-design/web-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
-import { listAttributes } from '../../../services/attributeClient';
-import {
-  getCharacterAttributes,
-  getLevelConfig,
-  updateCharacterAttributes
-} from '../../../services/characterClient';
+import { listAttributes } from '../../../services/maintenance/attributeClient';
+import { getCharacterAttributes, getLevelConfig } from '../../../services/characterClient';
+import { updateCharacterAttributes } from '../../../services/maintenance/characterWrites';
 import type { Attribute } from '../../../types/attribute';
 import type { Character, CharacterLevelValues } from '../../../types/character';
 import {

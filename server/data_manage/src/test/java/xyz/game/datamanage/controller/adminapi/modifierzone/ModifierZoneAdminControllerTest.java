@@ -32,7 +32,7 @@ import xyz.game.datamanage.model.modifierzone.ModifierZoneResponse;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneStatus;
 import xyz.game.datamanage.service.modifierzone.ModifierZoneService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = ModifierZoneAdminController.class)
@@ -67,8 +67,8 @@ class ModifierZoneAdminControllerTest {
         mockMvc.perform(delete(BASE_PATH + "/damage_pre_defense"))
             .andExpect(status().isNoContent());
 
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(201));
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(204));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(201));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(204));
     }
 
     private static ModifierZoneResponse response() {

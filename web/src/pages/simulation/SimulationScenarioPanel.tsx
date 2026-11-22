@@ -4,7 +4,7 @@ import { Alert, Button, Checkbox, Form, InputNumber, Select, Space, Table, Typog
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { JsonBlock } from '../../components/JsonBlock';
 import { ProblemReport } from '../../components/ProblemReport';
-import { GenericEngineClient, GenericEngineClientError } from '../../engine/genericEngineClient';
+import { GenericEngineClient, GenericEngineClientError, type EngineAuthorization } from '../../engine/genericEngineClient';
 import { WASM_IDENTITY } from '../../engine/wasmIdentity';
 import { inspectSimulationSnapshot, prepareSimulation, singleAttackRequest, SIMULATION_ADAPTER_VERSION } from '../../engine/simulationAdapter';
 import type { SimulationAttributeRequirement, SimulationCoverage } from '../../engine/simulation/model';
@@ -51,6 +51,7 @@ export type SimulationScenarioPanelProps = {
   mode: 'basic' | 'automatic';
   apiBaseUrl: string;
   selectedGameId: string | null;
+  authorization?: EngineAuthorization;
   onDirtyChange: (busy: boolean) => void;
 };
 
@@ -324,7 +325,7 @@ function downloadJson(name: string, value: unknown) {
   window.setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
-export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, onDirtyChange }: SimulationScenarioPanelProps) {
+export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, authorization, onDirtyChange }: SimulationScenarioPanelProps) {
   const automaticMode = mode === 'automatic';
   const [selection, setSelection] = useState(emptySelection);
   const [formulaPreflight, setFormulaPreflight] = useState<{ compileCount: number; released: boolean; formulaCount: number } | null>(null);
@@ -457,7 +458,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, onDi
     client.terminate();
   };
   const computationClient = () => {
-    if (!computationClientRef.current) computationClientRef.current = new GenericEngineClient({ apiBaseUrl });
+    if (!computationClientRef.current) computationClientRef.current = new GenericEngineClient({ apiBaseUrl, authorization });
     return computationClientRef.current;
   };
 
@@ -724,7 +725,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, onDi
       return false;
     }
     trackFormulaProof(task, next, sceneInputs);
-    const client = new GenericEngineClient({ apiBaseUrl });
+    const client = new GenericEngineClient({ apiBaseUrl, authorization });
     task.client = client;
     let evidence: Awaited<ReturnType<typeof preflightSkillFormulas>>;
     try {

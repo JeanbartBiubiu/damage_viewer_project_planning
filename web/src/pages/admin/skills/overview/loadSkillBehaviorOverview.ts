@@ -1,9 +1,9 @@
 import { getErrorMessage } from '../../../../services/apiClient';
 import { getSkillEffect, listSkillEffects } from '../../../../services/skillEffectClient';
-import { listSkillFormulas } from '../../../../services/skillFormulaClient';
-import { getSkillInternalState, listSkillInternalStates } from '../../../../services/skillInternalStateClient';
-import { listSkillParameters } from '../../../../services/skillParameterClient';
-import { getSkillProcess, listSkillProcesses } from '../../../../services/skillProcessClient';
+import { listSkillFormulas } from '../../../../services/maintenance/skillFormulaClient';
+import { getSkillInternalState, listSkillInternalStates } from '../../../../services/maintenance/skillInternalStateClient';
+import { listSkillParameters } from '../../../../services/maintenance/skillParameterClient';
+import { getSkillProcess, listSkillProcesses } from '../../../../services/maintenance/skillProcessClient';
 import { getSkillTriggerRule, listSkillTriggerRules } from '../../../../services/skillTriggerRuleClient';
 import type { SkillEffect, SkillEffectSummary } from '../../../../types/skillEffect';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';

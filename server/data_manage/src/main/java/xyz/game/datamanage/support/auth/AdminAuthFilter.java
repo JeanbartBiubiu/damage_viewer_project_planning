@@ -16,13 +16,15 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import xyz.game.datamanage.support.account.AccountBrowser;
 import xyz.game.datamanage.support.account.AccountSessions;
 import xyz.game.datamanage.support.account.AccountRequestPath;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.error.ErrorResponse;
+import xyz.game.datamanage.support.maintenance.DeploymentCredential;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipals;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 20)
@@ -32,15 +34,23 @@ public class AdminAuthFilter extends OncePerRequestFilter {
     private final ObjectMapper json;
     private final AccountSessions sessions;
     private final AccountBrowser browser;
-    private final xyz.game.datamanage.support.maintenance.MaintenanceSessions maintenance;
-    public AdminAuthFilter(ObjectMapper json,AccountSessions sessions,AccountBrowser browser,xyz.game.datamanage.support.maintenance.MaintenanceSessions maintenance) { this.json=json; this.sessions=sessions; this.browser=browser; this.maintenance=maintenance; }
+    private final MaintenancePrincipals maintenance;
+    private final DeploymentCredential deployment;
+    public AdminAuthFilter(ObjectMapper json, AccountSessions sessions, AccountBrowser browser,
+                           MaintenancePrincipals maintenance, DeploymentCredential deployment) {
+        this.json = json;
+        this.sessions = sessions;
+        this.browser = browser;
+        this.maintenance = maintenance;
+        this.deployment = deployment;
+    }
     /** 仅明确的游戏数据读取公开；账号GET和其他管理命名空间不据HTTP方法放行。 */
     public static boolean publicGameRead(HttpServletRequest request) {
         String path=AccountRequestPath.path(request);
         return ApiAccessCatalog.access(request.getMethod(),path).equals("PUBLIC_READ");
     }
     @Override protected boolean shouldNotFilter(HttpServletRequest request) {
-        return !AccountRequestPath.path(request).startsWith("/api/") || CorsUtils.isPreFlightRequest(request) || publicGameRead(request);
+        return !AccountRequestPath.path(request).startsWith("/api/") || publicGameRead(request);
     }
     @Override protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response,FilterChain chain) throws ServletException,IOException {
         String path=AccountRequestPath.path(request);
@@ -50,10 +60,10 @@ public class AdminAuthFilter extends OncePerRequestFilter {
             String access=ApiAccessCatalog.access(request.getMethod(),path);
             if(access.equals("DENY")) throw xyz.game.datamanage.support.maintenance.MaintenanceJson.denied();
             if(path.startsWith("/api/admin/")) {
-                if(access.equals("DEPLOYMENT")) maintenance.credential(request,true);
+                if(access.equals("DEPLOYMENT")) deployment.requireStatistics(request);
                 else {
-                    var resolved=maintenance.require(request,mutation);
-                    request.setAttribute(AUTH_CONTEXT_ATTR,resolved.context());
+                    MaintenancePrincipal principal = maintenance.require(request, mutation);
+                    request.setAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE, principal);
                     if(mutation) request=boundedGame(request);
                 }
                 chain.doFilter(request,response); return;

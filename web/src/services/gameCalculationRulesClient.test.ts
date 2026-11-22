@@ -1,5 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { getGameCalculationRules, parseGameCalculationConfiguration, parseGameCalculationRules, updateGameCalculationRules, UnconfirmedCalculationRulesWriteError } from './gameCalculationRulesClient';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
+import { getGameCalculationRules, parseGameCalculationConfiguration, parseGameCalculationRules } from './gameCalculationRulesClient';
+import { UnconfirmedCalculationRulesWriteError, updateGameCalculationRules } from './maintenance/gameCalculationRulesWrites';
 import { authoredCalculationRules, authorEquipmentSpeedRule } from '../../tests/fixtures/simulationCalculationRules';
 import { equipmentSimulationSample } from '../../tests/fixtures/simulationEquipment';
 import { sameFormulaPayload } from './skillFormulaContract';

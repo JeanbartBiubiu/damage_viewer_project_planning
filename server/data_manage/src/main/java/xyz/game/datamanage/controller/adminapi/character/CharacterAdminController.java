@@ -28,8 +28,7 @@ import xyz.game.datamanage.model.character.CharacterUpdateRequest;
 import xyz.game.datamanage.model.character.LevelConfigResponse;
 import xyz.game.datamanage.model.character.LevelConfigUpdateRequest;
 import xyz.game.datamanage.service.character.CharacterService;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @RestController
 @Validated
@@ -59,7 +58,7 @@ public class CharacterAdminController {
     public LevelConfigResponse updateLevelConfig(
         @PathVariable("gameId") String gameId,
         @Valid @RequestBody LevelConfigUpdateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         LevelConfigResponse response = characterService.updateLevelConfig(gameId, body);
@@ -88,7 +87,7 @@ public class CharacterAdminController {
     public CharacterResponse create(
         @PathVariable("gameId") String gameId,
         @Valid @RequestBody CharacterCreateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         CharacterResponse response = characterService.create(gameId, body);
@@ -101,7 +100,7 @@ public class CharacterAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("characterKey") String characterKey,
         @Valid @RequestBody CharacterUpdateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         CharacterResponse response = characterService.update(gameId, characterKey, body);
@@ -114,7 +113,7 @@ public class CharacterAdminController {
     public void delete(
         @PathVariable("gameId") String gameId,
         @PathVariable("characterKey") String characterKey,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         characterService.delete(gameId, characterKey);
@@ -134,7 +133,7 @@ public class CharacterAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("characterKey") String characterKey,
         @Valid @RequestBody CharacterAttributesRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         CharacterAttributesResponse response = characterService.updateAttributes(gameId, characterKey, body);
@@ -143,7 +142,7 @@ public class CharacterAdminController {
     }
 
     private void log(
-        AuthContext auth,
+        MaintenancePrincipal auth,
         HttpServletRequest request,
         JsonNode body,
         HttpStatus status

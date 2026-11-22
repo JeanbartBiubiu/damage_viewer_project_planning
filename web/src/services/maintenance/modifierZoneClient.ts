@@ -1,18 +1,9 @@
-import type { ApiResult } from './apiClient';
-import { encodePathSegment, requestJson } from './apiClient';
-import { isLegalModifierZoneCombination } from '../types/modifierZone';
-import { MODIFIER_ZONE_CALCULATION_MODES } from '../types/skillSystemEnums.generated';
-import type {
-  CreateModifierZoneRequest,
-  ModifierZone,
-  ModifierZoneApplicationStage,
-  ModifierZoneCalculationMode,
-  ModifierZoneDomain,
-  ModifierZoneListQuery,
-  ModifierZoneListResponse,
-  ModifierZoneStatus,
-  UpdateModifierZoneRequest
-} from '../types/modifierZone';
+import { requestMaintenanceJson } from '../maintenanceApiRequest';
+import type { ApiResult } from '../apiClient';
+import { encodePathSegment } from '../apiClient';
+import { isLegalModifierZoneCombination } from '../../types/modifierZone';
+import { MODIFIER_ZONE_CALCULATION_MODES } from '../../types/skillSystemEnums.generated';
+import type { CreateModifierZoneRequest, ModifierZone, ModifierZoneApplicationStage, ModifierZoneCalculationMode, ModifierZoneDomain, ModifierZoneListQuery, ModifierZoneListResponse, ModifierZoneStatus, UpdateModifierZoneRequest } from '../../types/modifierZone';
 
 const DOMAINS = new Set<ModifierZoneDomain>(['ATTRIBUTE', 'DAMAGE', 'HEALING', 'SHIELD']);
 const CALCULATION_MODES = new Set<ModifierZoneCalculationMode>(MODIFIER_ZONE_CALCULATION_MODES);
@@ -76,7 +67,7 @@ export function listModifierZones(
   gameId: string,
   query: ModifierZoneListQuery = {}
 ): Promise<ApiResult<ModifierZoneListResponse>> {
-  return requestJson<unknown>(apiBaseUrl, withQuery(modifierZonesPath(gameId), query)).then((result) => {
+  return requestMaintenanceJson<unknown>(apiBaseUrl, withQuery(modifierZonesPath(gameId), query)).then((result) => {
     if (!isRecord(result.data) || !Array.isArray(result.data.items) || typeof result.data.total !== 'number') {
       throw new Error('乘区目录响应不完整。');
     }
@@ -92,7 +83,7 @@ export function getModifierZone(
   gameId: string,
   modifierZoneKey: string
 ): Promise<ApiResult<ModifierZone>> {
-  return requestJson<unknown>(apiBaseUrl, modifierZonesPath(gameId, modifierZoneKey)).then(parseModifierZoneResult);
+  return requestMaintenanceJson<unknown>(apiBaseUrl, modifierZonesPath(gameId, modifierZoneKey)).then(parseModifierZoneResult);
 }
 
 export function createModifierZone(
@@ -100,7 +91,7 @@ export function createModifierZone(
   gameId: string,
   body: CreateModifierZoneRequest
 ): Promise<ApiResult<ModifierZone>> {
-  return requestJson<unknown>(apiBaseUrl, modifierZonesPath(gameId), {
+  return requestMaintenanceJson<unknown>(apiBaseUrl, modifierZonesPath(gameId), {
     method: 'POST', body: JSON.stringify(body)
   }).then(parseModifierZoneResult);
 }
@@ -111,7 +102,7 @@ export function updateModifierZone(
   modifierZoneKey: string,
   body: UpdateModifierZoneRequest
 ): Promise<ApiResult<ModifierZone>> {
-  return requestJson<unknown>(apiBaseUrl, modifierZonesPath(gameId, modifierZoneKey), {
+  return requestMaintenanceJson<unknown>(apiBaseUrl, modifierZonesPath(gameId, modifierZoneKey), {
     method: 'PUT', body: JSON.stringify(body)
   }).then(parseModifierZoneResult);
 }
@@ -121,7 +112,7 @@ export function deleteModifierZone(
   gameId: string,
   modifierZoneKey: string
 ): Promise<ApiResult<null>> {
-  return requestJson<null>(apiBaseUrl, modifierZonesPath(gameId, modifierZoneKey), {
+  return requestMaintenanceJson<null>(apiBaseUrl, modifierZonesPath(gameId, modifierZoneKey), {
     method: 'DELETE'
   });
 }

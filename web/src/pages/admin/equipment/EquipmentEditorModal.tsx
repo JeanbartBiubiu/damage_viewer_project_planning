@@ -1,7 +1,7 @@
 import { Alert, Button, Form, Input, Modal, Space, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
-import { createEquipment, updateEquipment } from '../../../services/equipmentClient';
+import { createEquipment, updateEquipment } from '../../../services/maintenance/equipmentWrites';
 import type { Equipment } from '../../../types/equipment';
 import {
   equipmentFieldIssues,

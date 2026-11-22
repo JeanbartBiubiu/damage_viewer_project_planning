@@ -11,23 +11,24 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipals;
 
 @Aspect
 @Component
 @Order(1)
 @EnableTransactionManagement(order=0)
 public class AccountGameWriteGuard {
-    private final xyz.game.datamanage.support.maintenance.MaintenanceSessions sessions;
-    public AccountGameWriteGuard(xyz.game.datamanage.support.maintenance.MaintenanceSessions sessions) { this.sessions = sessions; }
+    private final MaintenancePrincipals principals;
+    public AccountGameWriteGuard(MaintenancePrincipals principals) { this.principals = principals; }
     @Around("(execution(public * xyz.game.datamanage.service..*(..)) || execution(public * xyz.game.datamanage.controller.adminapi..*(..))) && (@annotation(org.springframework.transaction.annotation.Transactional) || @within(org.springframework.transaction.annotation.Transactional))")
     public Object guard(ProceedingJoinPoint invocation) throws Throwable {
         if (RequestContextHolder.getRequestAttributes() instanceof ServletRequestAttributes attributes) {
             HttpServletRequest request=attributes.getRequest();
             if (AccountRequestPath.path(request).startsWith("/api/admin/games/") && !AdminAuthFilter.publicGameRead(request)) {
-                Object context=request.getAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR);
-                if (!(context instanceof AuthContext auth)) throw AccountErrors.invalid();
-                if (!TransactionSynchronizationManager.isCurrentTransactionReadOnly()) sessions.lock(auth);
+                Object context = request.getAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE);
+                if (!(context instanceof MaintenancePrincipal principal)) throw AccountErrors.invalid();
+                if (!TransactionSynchronizationManager.isCurrentTransactionReadOnly()) principals.lock(principal);
             }
         }
         return invocation.proceed();

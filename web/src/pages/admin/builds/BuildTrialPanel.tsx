@@ -10,7 +10,7 @@ import {
   type BuildDefinition,
   type BuildGroupRole
 } from '../../../types/build';
-import { activeSkillGrants, parseBuildConfigurationDocument, validateBuildConfigurations } from './buildConfiguration';
+import { activeSkillGrants, parseBuildConfigurationDocument, validateBuildConfigurations } from '../../../config/buildConfiguration';
 
 type Props = {
   apiBaseUrl: string;

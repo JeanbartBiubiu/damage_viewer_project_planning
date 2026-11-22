@@ -1,17 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import {
-  UnconfirmedDamageTypeFormulaWriteError,
-  createDamageType,
-  deleteDamageType,
-  deleteDamageTypeFormula,
-  getDamageType,
-  getDamageTypeFormula,
-  listDamageTypes,
-  parseDamageType,
-  parseDamageTypeFormulaDetail,
-  updateDamageType,
-  updateDamageTypeFormula
-} from './damageTypeClient';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
+import { getDamageType, getDamageTypeFormula, listDamageTypes, parseDamageType, parseDamageTypeFormulaDetail } from './damageTypeClient';
+import { UnconfirmedDamageTypeFormulaWriteError, createDamageType, deleteDamageType, deleteDamageTypeFormula, updateDamageType, updateDamageTypeFormula } from './maintenance/damageTypeWrites';
 import { ApiRequestError } from './apiClient';
 import type { DamageType } from '../types/damageType';
 import type { DamageTypeFormula, DamageTypeFormulaNode } from '../types/damageTypeFormula';

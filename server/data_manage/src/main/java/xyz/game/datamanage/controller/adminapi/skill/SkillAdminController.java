@@ -24,8 +24,7 @@ import xyz.game.datamanage.model.skill.SkillListResponse;
 import xyz.game.datamanage.model.skill.SkillResponse;
 import xyz.game.datamanage.model.skill.SkillUpdateRequest;
 import xyz.game.datamanage.service.skill.SkillService;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @RestController
 @Validated
@@ -67,7 +66,7 @@ public class SkillAdminController {
     public SkillResponse create(
         @PathVariable("gameId") String gameId,
         @Valid @RequestBody SkillCreateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         SkillResponse response = service.create(gameId, body);
@@ -80,7 +79,7 @@ public class SkillAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("skillKey") String skillKey,
         @Valid @RequestBody SkillUpdateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         SkillResponse response = service.update(gameId, skillKey, body);
@@ -93,14 +92,14 @@ public class SkillAdminController {
     public void delete(
         @PathVariable("gameId") String gameId,
         @PathVariable("skillKey") String skillKey,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         service.delete(gameId, skillKey);
         log(auth, request, objectMapper.createObjectNode(), HttpStatus.NO_CONTENT);
     }
 
-    private void log(AuthContext auth, HttpServletRequest request, JsonNode body, HttpStatus status) {
+    private void log(MaintenancePrincipal auth, HttpServletRequest request, JsonNode body, HttpStatus status) {
         logHelper.log(auth, request, body, status.value());
     }
 }

@@ -49,7 +49,7 @@ class SimulationSnapshotAdminControllerTest {
         mvc = MockMvcBuilders.standaloneSetup(new SimulationSnapshotAdminController(service))
             .setControllerAdvice(new GlobalExceptionHandler())
             .setMessageConverters(new MappingJackson2HttpMessageConverter(json))
-            .addFilters(new AdminAuthFilter(json, verifier, new AccountBrowser(new AccountProperties()),org.mockito.Mockito.mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class))).build();
+            .addFilters(new AdminAuthFilter(json, verifier, new AccountBrowser(new AccountProperties()),org.mockito.Mockito.mock(xyz.game.datamanage.support.maintenance.MaintenancePrincipals.class), org.mockito.Mockito.mock(xyz.game.datamanage.support.maintenance.DeploymentCredential.class))).build();
     }
 
     @Test

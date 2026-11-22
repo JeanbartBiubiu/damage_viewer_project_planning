@@ -1,7 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import {
-  createModifierZone, deleteModifierZone, listModifierZones, parseModifierZone, updateModifierZone
-} from './modifierZoneClient';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
+import { createModifierZone, deleteModifierZone, listModifierZones, parseModifierZone, updateModifierZone } from './maintenance/modifierZoneClient';
 
 function jsonResponse(status: number, body: unknown): Response {
   return new Response(status === 204 ? null : JSON.stringify(body), {

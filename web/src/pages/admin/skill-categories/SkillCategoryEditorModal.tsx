@@ -10,10 +10,7 @@ import {
 } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
-import {
-  createSkillCategory,
-  updateSkillCategory
-} from '../../../services/skillCategoryClient';
+import { createSkillCategory, updateSkillCategory } from '../../../services/maintenance/skillCategoryWrites';
 import type { SkillCategory } from '../../../types/skillCategory';
 import {
   skillCategoryFieldIssues,

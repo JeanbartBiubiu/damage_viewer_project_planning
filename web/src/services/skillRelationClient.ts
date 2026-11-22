@@ -1,22 +1,9 @@
 import { ApiRequestError, encodePathSegment, requestJson } from './apiClient';
-import type { ApiRequestOptions, ApiResult } from './apiClient';
-import type {
-  CharacterSkillRelation,
-  CharacterSkillRelationQuery,
-  CreateCharacterSkillRelationRequest,
-  CreateEquipmentSkillRelationRequest,
-  EquipmentSkillRelation,
-  EquipmentSkillRelationQuery,
-  BuildOptionSkillRelation,
-  BuildOptionSkillRelationQuery,
-  CreateBuildOptionSkillRelationRequest,
-  UpdateBuildOptionSkillRelationRequest,
-  SkillRelationList,
-  UpdateSkillRelationRequest
-} from '../types/skillRelation';
+import type { ApiResult } from './apiClient';
+import type { CharacterSkillRelation, CharacterSkillRelationQuery, EquipmentSkillRelation, EquipmentSkillRelationQuery, BuildOptionSkillRelation, BuildOptionSkillRelationQuery, SkillRelationList } from '../types/skillRelation';
 import { BUILD_SKILL_LEVEL_MODES, type BuildSkillLevelMode } from '../types/build';
 
-function protocolError(): never {
+export function protocolError(): never {
   throw new ApiRequestError('技能挂载响应不符合接口约定，请刷新后重试。', 502, 'INVALID_RESPONSE');
 }
 
@@ -36,9 +23,9 @@ function textField(value: unknown): string {
   return value;
 }
 
-function normalizeRelation(value: unknown, gameId: string, kind: 'character'): CharacterSkillRelation;
-function normalizeRelation(value: unknown, gameId: string, kind: 'equipment'): EquipmentSkillRelation;
-function normalizeRelation(value: unknown, gameId: string, kind: 'character' | 'equipment') {
+export function normalizeRelation(value: unknown, gameId: string, kind: 'character'): CharacterSkillRelation;
+export function normalizeRelation(value: unknown, gameId: string, kind: 'equipment'): EquipmentSkillRelation;
+export function normalizeRelation(value: unknown, gameId: string, kind: 'character' | 'equipment') {
   const item = record(value);
   if (item.gameId !== gameId || (item.skillStatus !== 'ENABLED' && item.skillStatus !== 'DISABLED')) {
     return protocolError();
@@ -57,11 +44,11 @@ function normalizeRelation(value: unknown, gameId: string, kind: 'character' | '
     : { ...common, equipmentKey: textField(item.equipmentKey), equipmentName: textField(item.equipmentName) };
 }
 
-function relationOwnerKey(item: CharacterSkillRelation | EquipmentSkillRelation): string {
+export function relationOwnerKey(item: CharacterSkillRelation | EquipmentSkillRelation): string {
   return 'characterKey' in item ? item.characterKey : item.equipmentKey;
 }
 
-function path(gameId: string, kind: 'character' | 'equipment', ownerKey?: string, skillKey?: string) {
+export function path(gameId: string, kind: 'character' | 'equipment', ownerKey?: string, skillKey?: string) {
   const base = `/api/admin/games/${encodePathSegment(gameId)}/${kind}-skill-relations`;
   return ownerKey === undefined || skillKey === undefined
     ? base : `${base}/${encodePathSegment(ownerKey)}/${encodePathSegment(skillKey)}`;
@@ -101,17 +88,6 @@ function normalizeList<T extends CharacterSkillRelation | EquipmentSkillRelation
   return { items, total: items.length };
 }
 
-async function writeRelation<T extends CharacterSkillRelation | EquipmentSkillRelation>(
-  apiBaseUrl: string, requestPath: string, options: ApiRequestOptions,
-  normalize: (value: unknown) => T, ownerKey: string, skillKey: string
-): Promise<ApiResult<T>> {
-  const result = await requestJson<unknown>(apiBaseUrl, requestPath, options);
-  const data = normalize(result.data);
-  if (data.skillKey !== skillKey
-    || relationOwnerKey(data) !== ownerKey) return protocolError();
-  return { ...result, data };
-}
-
 export async function listCharacterSkillRelations(
   apiBaseUrl: string, gameId: string, query: CharacterSkillRelationQuery, signal?: AbortSignal
 ): Promise<ApiResult<SkillRelationList<CharacterSkillRelation>>> {
@@ -124,56 +100,6 @@ export async function listEquipmentSkillRelations(
 ): Promise<ApiResult<SkillRelationList<EquipmentSkillRelation>>> {
   const result = await requestJson<unknown>(apiBaseUrl, queryPath(path(gameId, 'equipment'), query));
   return { ...result, data: normalizeList(result.data, value => normalizeRelation(value, gameId, 'equipment'), query) };
-}
-
-export function createCharacterSkillRelation(
-  apiBaseUrl: string, gameId: string, body: CreateCharacterSkillRelationRequest
-): Promise<ApiResult<CharacterSkillRelation>> {
-  return writeRelation(apiBaseUrl, path(gameId, 'character'), { method: 'POST', body: JSON.stringify(body) },
-    value => normalizeRelation(value, gameId, 'character'), body.characterKey, body.skillKey);
-}
-
-export function createEquipmentSkillRelation(
-  apiBaseUrl: string, gameId: string, body: CreateEquipmentSkillRelationRequest
-): Promise<ApiResult<EquipmentSkillRelation>> {
-  return writeRelation(apiBaseUrl, path(gameId, 'equipment'), { method: 'POST', body: JSON.stringify(body) },
-    value => normalizeRelation(value, gameId, 'equipment'), body.equipmentKey, body.skillKey);
-}
-
-export function updateCharacterSkillRelation(
-  apiBaseUrl: string, gameId: string, characterKey: string, skillKey: string,
-  body: UpdateSkillRelationRequest
-): Promise<ApiResult<CharacterSkillRelation>> {
-  return writeRelation(apiBaseUrl, path(gameId, 'character', characterKey, skillKey),
-    { method: 'PUT', body: JSON.stringify({ sortOrder: body.sortOrder }) },
-    value => normalizeRelation(value, gameId, 'character'), characterKey, skillKey);
-}
-
-export function updateEquipmentSkillRelation(
-  apiBaseUrl: string, gameId: string, equipmentKey: string, skillKey: string,
-  body: UpdateSkillRelationRequest
-): Promise<ApiResult<EquipmentSkillRelation>> {
-  return writeRelation(apiBaseUrl, path(gameId, 'equipment', equipmentKey, skillKey),
-    { method: 'PUT', body: JSON.stringify({ sortOrder: body.sortOrder }) },
-    value => normalizeRelation(value, gameId, 'equipment'), equipmentKey, skillKey);
-}
-
-async function deleteRelation(apiBaseUrl: string, requestPath: string): Promise<ApiResult<null>> {
-  const result = await requestJson<unknown>(apiBaseUrl, requestPath, { method: 'DELETE' });
-  if (result.status !== 204 || result.data !== null) return protocolError();
-  return { ...result, data: null };
-}
-
-export function deleteCharacterSkillRelation(
-  apiBaseUrl: string, gameId: string, characterKey: string, skillKey: string
-): Promise<ApiResult<null>> {
-  return deleteRelation(apiBaseUrl, path(gameId, 'character', characterKey, skillKey));
-}
-
-export function deleteEquipmentSkillRelation(
-  apiBaseUrl: string, gameId: string, equipmentKey: string, skillKey: string
-): Promise<ApiResult<null>> {
-  return deleteRelation(apiBaseUrl, path(gameId, 'equipment', equipmentKey, skillKey));
 }
 
 function grantInteger(value: unknown, minimum: number): number {
@@ -213,7 +139,7 @@ export function parseBuildOptionSkillRelation(
   return relation;
 }
 
-function buildRelationPath(gameId: string, systemKey?: string, optionKey?: string, skillKey?: string): string {
+export function buildRelationPath(gameId: string, systemKey?: string, optionKey?: string, skillKey?: string): string {
   const base = `/api/admin/games/${encodePathSegment(gameId)}/build-option-skill-relations`;
   if (systemKey === undefined || optionKey === undefined || skillKey === undefined) return base;
   return `${base}/${encodePathSegment(systemKey)}/${encodePathSegment(optionKey)}/${encodePathSegment(skillKey)}`;
@@ -246,36 +172,4 @@ export async function listBuildOptionSkillRelations(
     identities.add(identity);
   }
   return { ...result, data: { items, total: items.length } };
-}
-
-async function writeBuildRelation(
-  apiBaseUrl: string, requestPath: string, options: ApiRequestOptions,
-  expected: { systemKey: string; optionKey: string; skillKey: string }, gameId: string
-): Promise<ApiResult<BuildOptionSkillRelation>> {
-  const result = await requestJson<unknown>(apiBaseUrl, requestPath, options);
-  const data = parseBuildOptionSkillRelation(result.data, gameId, expected);
-  return { ...result, data };
-}
-
-export function createBuildOptionSkillRelation(
-  apiBaseUrl: string, gameId: string, body: CreateBuildOptionSkillRelationRequest
-): Promise<ApiResult<BuildOptionSkillRelation>> {
-  return writeBuildRelation(apiBaseUrl, buildRelationPath(gameId), { method: 'POST', body: JSON.stringify(body) }, body, gameId);
-}
-
-export function updateBuildOptionSkillRelation(
-  apiBaseUrl: string, gameId: string, systemKey: string, optionKey: string, skillKey: string,
-  body: UpdateBuildOptionSkillRelationRequest
-): Promise<ApiResult<BuildOptionSkillRelation>> {
-  return writeBuildRelation(
-    apiBaseUrl, buildRelationPath(gameId, systemKey, optionKey, skillKey),
-    { method: 'PUT', body: JSON.stringify(body) },
-    { systemKey, optionKey, skillKey }, gameId
-  );
-}
-
-export function deleteBuildOptionSkillRelation(
-  apiBaseUrl: string, gameId: string, systemKey: string, optionKey: string, skillKey: string
-): Promise<ApiResult<null>> {
-  return deleteRelation(apiBaseUrl, buildRelationPath(gameId, systemKey, optionKey, skillKey));
 }

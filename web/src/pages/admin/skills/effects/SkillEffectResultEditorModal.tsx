@@ -18,12 +18,12 @@ import {
 } from '@arco-design/web-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../../services/apiClient';
-import { listAttributes } from '../../../../services/attributeClient';
+import { listAttributes } from '../../../../services/maintenance/attributeClient';
 import { listDamageTypes } from '../../../../services/damageTypeClient';
-import { listModifierZones } from '../../../../services/modifierZoneClient';
+import { listModifierZones } from '../../../../services/maintenance/modifierZoneClient';
 import { listSkills } from '../../../../services/skillClient';
 import { listSkillCategories } from '../../../../services/skillCategoryClient';
-import { listStatuses } from '../../../../services/statusClient';
+import { listStatuses } from '../../../../services/maintenance/statusClient';
 import type { Attribute } from '../../../../types/attribute';
 import type { GameVampRule } from '../../../../types/gameVamp';
 import type { DamageType } from '../../../../types/damageType';

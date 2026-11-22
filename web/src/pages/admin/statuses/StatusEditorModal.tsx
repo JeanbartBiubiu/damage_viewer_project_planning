@@ -11,7 +11,7 @@ import {
 } from '@arco-design/web-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
-import { createStatus, updateStatus } from '../../../services/statusClient';
+import { createStatus, updateStatus } from '../../../services/maintenance/statusClient';
 import type { GameStatus } from '../../../types/status';
 import { STATUS_KIND_LABELS } from '../../../types/status';
 import {

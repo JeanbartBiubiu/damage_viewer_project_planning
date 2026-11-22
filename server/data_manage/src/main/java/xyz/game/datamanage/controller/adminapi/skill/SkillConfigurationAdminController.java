@@ -16,8 +16,7 @@ import xyz.game.datamanage.controller.adminapi.AdminEditLogHelper;
 import xyz.game.datamanage.model.skillconfiguration.SkillConfigurationResponse;
 import xyz.game.datamanage.model.skillconfiguration.SkillConfigurationSaveRequest;
 import xyz.game.datamanage.service.skillconfiguration.SkillConfigurationService;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @RestController
 @RequestMapping("/api/admin/games/{gameId}/skills/{skillKey}/configuration")
@@ -47,7 +46,7 @@ public class SkillConfigurationAdminController {
     public SkillConfigurationResponse create(
         @PathVariable String gameId, @PathVariable String skillKey,
         @RequestBody SkillConfigurationSaveRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         SkillConfigurationResponse result = service.create(gameId, skillKey, body);
@@ -59,7 +58,7 @@ public class SkillConfigurationAdminController {
     public SkillConfigurationResponse update(
         @PathVariable String gameId, @PathVariable String skillKey,
         @RequestBody SkillConfigurationSaveRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         SkillConfigurationResponse result = service.update(gameId, skillKey, body);

@@ -7,20 +7,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.game.datamanage.service.VisitStatisticsService;
 import xyz.game.datamanage.service.VisitStatisticsService.DayStatistics;
+import xyz.game.datamanage.support.maintenance.DeploymentCredential;
 
 @RestController
 public class VisitStatisticsAdminController {
     private final VisitStatisticsService statistics;
-    private final xyz.game.datamanage.support.maintenance.MaintenanceSessions maintenance;
+    private final DeploymentCredential deployment;
 
-    public VisitStatisticsAdminController(VisitStatisticsService statistics,xyz.game.datamanage.support.maintenance.MaintenanceSessions maintenance) {
+    public VisitStatisticsAdminController(VisitStatisticsService statistics, DeploymentCredential deployment) {
         this.statistics = statistics;
-        this.maintenance=maintenance;
+        this.deployment = deployment;
     }
 
     @GetMapping("/api/admin/visits/last30days")
     public ResponseEntity<List<DayStatistics>> last30Days(jakarta.servlet.http.HttpServletRequest request) {
-        maintenance.credential(request,true);
+        deployment.requireStatistics(request);
         return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(statistics.last30Days());
     }
 }

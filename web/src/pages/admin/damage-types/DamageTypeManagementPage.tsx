@@ -14,11 +14,8 @@ import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Panel } from '../../../components/Panel';
 import { getErrorMessage } from '../../../services/apiClient';
-import {
-  deleteDamageType,
-  listDamageTypes,
-  updateDamageType
-} from '../../../services/damageTypeClient';
+import { listDamageTypes } from '../../../services/damageTypeClient';
+import { deleteDamageType, updateDamageType } from '../../../services/maintenance/damageTypeWrites';
 import type {
   DamageType,
   DamageTypeListQuery,

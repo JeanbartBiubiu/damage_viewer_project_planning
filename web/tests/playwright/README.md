@@ -12,7 +12,7 @@ npm run test:e2e:non-wasm
 | 需要验证什么 | 配置入口 |
 | --- | --- |
 | 私有管理页、玩家账号、匿名访问上报及私有工作模式切换 | `playwright.non-wasm.config.ts`、`playwright.auth.config.ts`、`playwright.visits.config.ts`、`playwright.workspace-modes.config.ts` |
-| 公共查看与私有维护两个最终构建产物 | `playwright.deployment-modes.config.ts`；先完成公共及私有构建 |
+| 公共查看与私有维护两个最终构建产物 | `playwright.deployment-modes.config.ts`，先执行一次 `npm run build` |
 | 公共查看版角色、等级与装备选择 | `playwright.viewer-selection.config.ts`；私有工作模式与草稿保护继续由 `playwright.workspace-modes.config.ts` 验证 |
 | 单次与连续普攻、装备、自然或触发技能 | 对应 `playwright.simulation-*.config.ts` |
 | 多段、引导、混合或自动过程 | `simulationComplexSkills.config.ts`、`simulationChannelWindow.config.ts`、`simulationMixedSkills.config.ts`、`simulationAutomaticSkills.config.ts` 等 |
@@ -23,6 +23,6 @@ npm run test:e2e:non-wasm
 
 新增或移动配置后核对：TypeScript配置是否收集、导入和命令是否有效、实际发现的文件及测试身份是否一致。`--list` 只证明发现结果，实际服务启动和浏览器行为仍需用对应配置验证。配置之间可能有意重叠，不将同一个用例被多份配置选中累计成独立覆盖。
 
-非 Wasm 管理页使用 `dist-maintenance/`，账号和访问上报使用公共 `dist/`。双模式专项分别启动两个预览入口。隔离替身的回环预览明确禁用本机开发证书配置，不改变产品和真实账号联调的 HTTPS 要求。
+非 Wasm 管理页使用 `dist-maintenance/`，账号和访问上报使用公共 `dist/`。双入口专项分别启动两个预览入口。维护提交用例用回环 HTTP 替身接收 Chromium 实际发送的请求头，并检查批次拒绝、正式提交和独立回读。真实账号联调使用 HTTPS。
 
 真实计算浏览器用例通过 `tests/fixtures/computeAuthorization.ts` 为合成测试主体取得第 2 版签名计算票据。签发材料只在测试进程中读取 `DAMAGE_TEST_GRANT_PRIVATE_KEY_PATH`，缺省使用仓库现有私有配置 `config/auth/grant-private.pk8`；先核对其公钥与正式分发引擎一致，缺失或不匹配直接失败，不关闭验签。材料和签名票据不写源码或终端；涉及取票的用例不采集网络跟踪档案。接口替身只验证浏览器和真实引擎交接，真实玩家资格与维护事务仍由后端验收。

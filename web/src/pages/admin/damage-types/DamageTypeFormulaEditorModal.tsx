@@ -1,13 +1,9 @@
 import { Alert, Button, Card, Input, Modal, Radio, Select, Space, Typography } from '@arco-design/web-react';
 import { useEffect, useRef, useState } from 'react';
 import { ApiRequestError, getErrorMessage } from '../../../services/apiClient';
-import { listAttributes } from '../../../services/attributeClient';
-import {
-  UnconfirmedDamageTypeFormulaWriteError,
-  deleteDamageTypeFormula,
-  getDamageTypeFormula,
-  updateDamageTypeFormula
-} from '../../../services/damageTypeClient';
+import { listAttributes } from '../../../services/maintenance/attributeClient';
+import { getDamageTypeFormula } from '../../../services/damageTypeClient';
+import { UnconfirmedDamageTypeFormulaWriteError, deleteDamageTypeFormula, updateDamageTypeFormula } from '../../../services/maintenance/damageTypeWrites';
 import type { Attribute } from '../../../types/attribute';
 import type { DamageType } from '../../../types/damageType';
 import type { DamageTypeFormula } from '../../../types/damageTypeFormula';

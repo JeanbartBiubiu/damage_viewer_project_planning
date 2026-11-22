@@ -10,11 +10,8 @@ import {
 import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ApiRequestError, getErrorMessage } from '../../../../services/apiClient';
-import {
-  deleteSkillInternalState,
-  listSkillInternalStates
-} from '../../../../services/skillInternalStateClient';
-import { deleteSkillProcess, listSkillProcesses } from '../../../../services/skillProcessClient';
+import { deleteSkillInternalState, listSkillInternalStates } from '../../../../services/maintenance/skillInternalStateClient';
+import { deleteSkillProcess, listSkillProcesses } from '../../../../services/maintenance/skillProcessClient';
 import type { Skill } from '../../../../types/skill';
 import type { SkillInternalStateSummary } from '../../../../types/skillInternalState';
 import type { SkillProcessSummary } from '../../../../types/skillProcess';

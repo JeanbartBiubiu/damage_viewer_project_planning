@@ -55,7 +55,7 @@ class AccountRegistrationIT {
         ObjectMapper json=context.getBean(ObjectMapper.class);
         mvc=MockMvcBuilders.standaloneSetup(controller).setControllerAdvice(new AccountExceptionHandler())
             .setMessageConverters(new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter(json))
-            .addFilters(new AdminAuthFilter(json,new AccountSessions(store),context.getBean(AccountBrowser.class),org.mockito.Mockito.mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class))).build();
+            .addFilters(new AdminAuthFilter(json,new AccountSessions(store),context.getBean(AccountBrowser.class),org.mockito.Mockito.mock(xyz.game.datamanage.support.maintenance.MaintenancePrincipals.class), org.mockito.Mockito.mock(xyz.game.datamanage.support.maintenance.DeploymentCredential.class))).build();
     }
     private MockHttpServletRequestBuilder credentials(String route,String password) throws Exception {
         String body=context.getBean(ObjectMapper.class).writeValueAsString(java.util.Map.of("username",name,"password",password));

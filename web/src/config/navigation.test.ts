@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
   defaultRouteForMode,
-  hashForRoute,
   modeForRoute,
   navigationGroupIdForRoute,
   navigationGroups,
@@ -9,6 +8,7 @@ import {
   navigationItems,
   routeFromHash
 } from './navigation';
+import { hashForRoute } from './viewerRoutes';
 
 describe('product navigation', () => {
   it('keeps management entries together and exposes the two simulation pages', () => {

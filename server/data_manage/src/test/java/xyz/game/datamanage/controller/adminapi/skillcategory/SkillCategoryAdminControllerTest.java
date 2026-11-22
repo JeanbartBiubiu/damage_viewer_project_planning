@@ -30,7 +30,7 @@ import xyz.game.datamanage.model.skillcategory.SkillCategoryResponse;
 import xyz.game.datamanage.model.skillcategory.SkillCategoryStatus;
 import xyz.game.datamanage.service.skillcategory.SkillCategoryService;
 import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 @WebMvcTest(controllers = SkillCategoryAdminController.class)
@@ -65,8 +65,8 @@ class SkillCategoryAdminControllerTest {
         mockMvc.perform(delete(BASE_PATH + "/active"))
             .andExpect(status().isNoContent());
 
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(201));
-        verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(204));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(201));
+        verify(logHelper).log(any(MaintenancePrincipal.class), any(), any(JsonNode.class), eq(204));
     }
 
     @Test

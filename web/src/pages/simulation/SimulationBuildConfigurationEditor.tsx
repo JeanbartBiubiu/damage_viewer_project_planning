@@ -4,7 +4,7 @@ import { getErrorMessage } from '../../services/apiClient';
 import { getBuildDefinition, listBuildSystems } from '../../services/buildClient';
 import type { BuildConfiguration, BuildDefinition, SimulationSelectedBuild } from '../../types/simulationSnapshot';
 import type { BuildGroupRole, BuildSystem } from '../../types/build';
-import { parseBuildConfigurationDocument, validateBuildConfigurations } from '../admin/builds/buildConfiguration';
+import { parseBuildConfigurationDocument, validateBuildConfigurations } from '../../config/buildConfiguration';
 
 type Draft = {
   groupAssignments: BuildConfiguration['groupAssignments'];

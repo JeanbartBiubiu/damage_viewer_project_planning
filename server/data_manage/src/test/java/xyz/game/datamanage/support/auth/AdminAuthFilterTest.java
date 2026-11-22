@@ -7,6 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import xyz.game.datamanage.support.account.*;
+import xyz.game.datamanage.support.maintenance.DeploymentCredential;
+import xyz.game.datamanage.support.maintenance.MaintenanceJson;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipals;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -14,8 +18,8 @@ import static org.mockito.ArgumentMatchers.*;
 class AdminAuthFilterTest {
     private final AccountSessions sessions=mock(AccountSessions.class);
     private final AccountBrowser browser=new AccountBrowser(new AccountProperties());
-    private final xyz.game.datamanage.support.maintenance.MaintenanceSessions maintenance=mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class);
-    private final AdminAuthFilter filter=new AdminAuthFilter(new ObjectMapper(),sessions,browser,maintenance);
+    private final MaintenancePrincipals maintenance = mock(MaintenancePrincipals.class);
+    private final AdminAuthFilter filter = new AdminAuthFilter(new ObjectMapper(), sessions, browser, maintenance, mock(DeploymentCredential.class));
     private final FilterChain chain=mock(FilterChain.class);
     private MockHttpServletRequest write(String path) {
         var r=new MockHttpServletRequest("POST",path); r.setContentType("application/json");
@@ -43,13 +47,13 @@ class AdminAuthFilterTest {
     }
     @Test void playerSessionCannotWriteAndMaintenanceContextCarriesExactBody() throws Exception {
         var r=write("/api/admin/games/lol/skills");
-        when(maintenance.require(any(),eq(true))).thenThrow(AccountErrors.invalid());
-        var response=new MockHttpServletResponse(); filter.doFilter(r,response,chain); assertEquals(401,response.getStatus());
+        when(maintenance.require(any(),eq(true))).thenThrow(MaintenanceJson.denied());
+        var response=new MockHttpServletResponse(); filter.doFilter(r,response,chain); assertEquals(403,response.getStatus());
         verifyNoInteractions(sessions);
-        var identity=AccountControllerTestConfig.editor();
-        when(maintenance.require(any(),eq(true))).thenReturn(new xyz.game.datamanage.support.maintenance.MaintenanceSessions.Resolved(identity,new byte[32]));
+        var identity = AccountControllerTestConfig.principal();
+        when(maintenance.require(any(),eq(true))).thenReturn(identity);
         response=new MockHttpServletResponse();filter.doFilter(r,response,chain);assertEquals(200,response.getStatus());
-        assertEquals(identity,r.getAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR));
+        assertEquals(identity,r.getAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE));
         assertArrayEquals("{}".getBytes(),(byte[])r.getAttribute(xyz.game.datamanage.support.maintenance.MaintenanceBatches.BODY));
     }
     @Test void otherGetPathsRemainPrivateAndOversizedBootstrapIsRejected() throws Exception {
@@ -63,9 +67,9 @@ class AdminAuthFilterTest {
     }
     @Test void encodedAndMatrixSegmentsCannotBypassWriteOrPrivateAccountAuthentication() throws Exception {
         when(sessions.resolve(null)).thenThrow(AccountErrors.invalid());
-        when(maintenance.require(any(),eq(true))).thenThrow(AccountErrors.invalid());
+        when(maintenance.require(any(),eq(true))).thenThrow(MaintenanceJson.denied());
         for (String path:java.util.List.of("/api/admin;probe/games/lol/skills","/api;probe/admin/games/lol/skills","/%61pi/admin/games/lol/skills","/api/%61dmin/games/lol/skills")) {
-            var response=new MockHttpServletResponse();filter.doFilter(write(path),response,chain);assertEquals(401,response.getStatus());
+            var response=new MockHttpServletResponse();filter.doFilter(write(path),response,chain);assertEquals(403,response.getStatus());
         }
         for(String path:java.util.List.of("/api/auth;probe/me","/%61pi/auth/me","/api/%61uth/me")) {
             var response=new MockHttpServletResponse();filter.doFilter(new MockHttpServletRequest("GET",path),response,chain);assertEquals(401,response.getStatus());

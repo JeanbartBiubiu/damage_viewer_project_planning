@@ -1,7 +1,8 @@
 import { Alert, Button, Form, Input, Modal, Space, Spin } from '@arco-design/web-react';
 import { useEffect, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
-import { createBuildOption, getBuildOption, updateBuildOption } from '../../../services/buildClient';
+import { getBuildOption } from '../../../services/buildClient';
+import { createBuildOption, updateBuildOption } from '../../../services/maintenance/buildWrites';
 import { BUILD_CONFIGURATION_MODE_LABELS, type BuildConfigurationMode, type BuildOption } from '../../../types/build';
 import {
   buildErrorMessage,

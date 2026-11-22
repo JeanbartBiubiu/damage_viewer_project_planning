@@ -1,7 +1,8 @@
-import { ApiRequestError, getErrorMessageWithContext, isLoginPromptHandled } from './apiClient';
-import { createImage, getImage } from './imageClient';
+import { ApiRequestError, getErrorMessageWithContext } from './apiClient';
+import { getImage } from './imageClient';
+import { createImage } from './maintenance/imageWrites';
 import { upsertManagedImage } from './imageCache';
-import { setRepresentativeImageVerified } from './imageRelationClient';
+import { setRepresentativeImageVerified } from './maintenance/imageRelationWrites';
 import type { PreparedResourceImage } from './resourceImage';
 import type { ManagedImage } from '../types/image';
 import type { ImageRelationTarget, RepresentativeImage } from '../types/imageRelation';
@@ -28,7 +29,6 @@ export type RepresentativeImageUploadResult = {
 };
 
 export class RepresentativeImageUploadFailure extends Error {
-  get handledByLoginPrompt(): boolean { return isLoginPromptHandled(this.originalError); }
   constructor(
     public draft: RepresentativeImageUploadDraft,
     public phase: 'upload' | 'relation',
@@ -64,7 +64,8 @@ function assertMatchingImage(image: ManagedImage, gameId: string, draft: Represe
 }
 
 function uncertainUpload(error: unknown): boolean {
-  return !(error instanceof ApiRequestError) || error.status >= 500 || error.status === 409;
+  return !(error instanceof ApiRequestError) || error.status >= 500
+    || (error.status === 409 && error.code !== 'MAINTENANCE.CANDIDATE_CAPTURED');
 }
 
 async function recoverImage(context: RepresentativeImageUploadContext, draft: RepresentativeImageUploadDraft): Promise<ManagedImage | null> {

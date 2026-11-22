@@ -460,12 +460,28 @@ test('维护来源和档案引用拒绝公网明文、凭据URL与路径逃逸',
   assert.throws(() => containedFile(directory, '../elsewhere'));
 });
 test('维护请求遇到网络错误不自动重试，不在错误中回显凭据', async t => {
-  const directory = temporary(t); writeFileSync(resolve(directory, 'session.json'), JSON.stringify({ cookie: 'secret-cookie', csrf: 'secret-csrf', expiresAt: '2099-01-01T00:00:00Z' }));
+  const directory = temporary(t);
   let calls = 0;
-  const client = makeClient({ apiBase: 'https://private.example', origin: 'https://private.example', sessionFile: 'session.json' }, directory,
-    async () => { calls++; throw new Error('secret-cookie'); });
-  await assert.rejects(client.request('PATCH', '/api/admin/games/lol/skills/q/configuration', '{}'), error => !error.message.includes('secret-cookie') && /不.*重放|禁止.*重放/.test(error.message));
+  const client = makeClient({ apiBase: 'https://private.example', origin: 'https://private.example' }, directory,
+    async () => { calls++; throw new Error('sensitive-transport-detail'); });
+  await assert.rejects(client.request('PATCH', '/api/admin/games/lol/skills/q/configuration', '{}'), error => !error.message.includes('sensitive-transport-detail') && /不.*重放|禁止.*重放/.test(error.message));
   assert.equal(calls, 1);
+});
+test('无需会话即可核对维护主体，窗口请求单独携带部署凭据', async t => {
+  const directory = temporary(t);
+  writeFileSync(resolve(directory, 'deployment-token.txt'), 'fixture-deployment');
+  const requests = [];
+  const client = makeClient({ apiBase: 'https://private.example', origin: 'https://private.example',
+    deploymentTokenFile: 'deployment-token.txt' }, directory, async (url, request) => {
+    requests.push({ path: new URL(url).pathname, ...request });
+    return new Response(JSON.stringify({ principalId: id, displayName: 'fixture' }));
+  });
+  assert.equal((await client.principal()).principalId, id);
+  await client.request('POST', `/internal/maintenance/batches/${id}/open`, '{}', 'deployment');
+  assert.equal(requests[0].path, '/internal/maintenance/me');
+  assert.deepEqual(requests[0].headers, { Origin: 'https://private.example', 'X-Damage-Client': 'web' });
+  assert.deepEqual(requests[1].headers, { Origin: 'https://private.example', 'X-Damage-Client': 'web',
+    'Content-Type': 'application/json', 'X-Damage-Deployment-Token': 'fixture-deployment' });
 });
 test('已有提交的批次不从头重放', async t => {
   const directory = temporary(t); let calls = 0;
@@ -477,13 +493,16 @@ test('已解决必须有独立验收签名和真实COMPLETE批次，布尔自报
   const directory = temporary(t), task = feedbackTask('issues', issue(), 'test/feedback');
   const key = generateKeyPairSync('ed25519');
   writeFileSync(resolve(directory, 'public.der'), key.publicKey.export({ format: 'der', type: 'spki' }));
-  writeFileSync(resolve(directory, 'session.json'), JSON.stringify({ cookie: 'synthetic-session', csrf: 'synthetic-csrf', expiresAt: '2099-01-01T00:00:00Z' }));
   let state = 'OPEN';
-  const server = createServer((request, response) => response.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify({ batchId: id, state })));
+  let receivedHeaders;
+  const server = createServer((request, response) => {
+    receivedHeaders = request.headers;
+    response.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify({ batchId: id, state }));
+  });
   await new Promise(res => server.listen(0, '127.0.0.1', res));
   t.after(() => new Promise(res => server.close(res)));
   const origin = `http://127.0.0.1:${server.address().port}`;
-  writeFileSync(resolve(directory, 'client.json'), JSON.stringify({ apiBase: origin, origin: 'https://maintenance.example', sessionFile: 'session.json' }));
+  writeFileSync(resolve(directory, 'client.json'), JSON.stringify({ apiBase: origin, origin: 'https://maintenance.example' }));
   const config = { acceptancePublicKeyFile: 'public.der', publicOrigin: 'https://public.example', maintenanceConfig: 'client.json' };
   const result = { batchId: id, releaseId: 'test-001' }, now = Math.floor(Date.now() / 1000);
   const payload = { version: 'maintenance-public-acceptance-v1', sourceRevision: task.sourceRevision, releaseId: 'test-001', batchId: id,
@@ -492,6 +511,9 @@ test('已解决必须有独立验收签名和真实COMPLETE批次，布尔自报
   await assert.rejects(verifyAcceptance(config, directory, task, result, { pass: true, publicBrowser: true, batchState: 'COMPLETE' }));
   await assert.rejects(verifyAcceptance(config, directory, task, result, signed), /尚未完成/);
   state = 'COMPLETE'; await verifyAcceptance(config, directory, task, result, signed);
+  assert.equal(receivedHeaders['sec-fetch-mode'], undefined);
+  assert.equal(receivedHeaders['sec-fetch-site'], undefined);
+  assert.equal(receivedHeaders.origin, 'https://maintenance.example');
   const wrong = signReceipt({ ...payload, sourceRevision: 'other' }, key.privateKey.export({ format: 'pem', type: 'pkcs8' }));
   await assert.rejects(verifyAcceptance(config, directory, task, result, wrong), /不属于/);
 });

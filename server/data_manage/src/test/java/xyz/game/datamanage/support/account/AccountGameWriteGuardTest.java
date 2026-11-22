@@ -16,7 +16,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import xyz.game.datamanage.mapper.EditLogMapper;
 import xyz.game.datamanage.service.PostgresWriteStore;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 import xyz.game.datamanage.support.auth.AccountControllerTestConfig;
 import xyz.game.datamanage.support.error.ApiException;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,14 +27,14 @@ import static org.mockito.ArgumentMatchers.*;
 class AccountGameWriteGuardTest {
     private AnnotationConfigApplicationContext context;
     private PostgresWriteStore writes;
-    private xyz.game.datamanage.support.maintenance.MaintenanceSessions sessions;
+    private xyz.game.datamanage.support.maintenance.MaintenancePrincipals sessions;
     private EditLogMapper mapper;
     private Transactions transactions;
     @BeforeEach void setup() {
         context=new AnnotationConfigApplicationContext(Config.class);writes=context.getBean(PostgresWriteStore.class);
-        sessions=context.getBean(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class);mapper=context.getBean(EditLogMapper.class);transactions=context.getBean(Transactions.class);
+        sessions=context.getBean(xyz.game.datamanage.support.maintenance.MaintenancePrincipals.class);mapper=context.getBean(EditLogMapper.class);transactions=context.getBean(Transactions.class);
         var request=new MockHttpServletRequest("PUT","/api/admin/games/lol/attributes");
-        request.setAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR,AccountControllerTestConfig.editor());
+        request.setAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE,AccountControllerTestConfig.principal());
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
     }
     @AfterEach void cleanup() { RequestContextHolder.resetRequestAttributes();context.close(); }
@@ -42,27 +42,27 @@ class AccountGameWriteGuardTest {
         List<String> order=new ArrayList<>();
         doAnswer(i->{assertTrue(TransactionSynchronizationManager.isActualTransactionActive());order.add("account");return null;}).when(sessions).lock(any());
         when(mapper.insertEditLog(any(),anyString(),anyString())).thenAnswer(i->{assertEquals(List.of("account"),order);order.add("write");return 1;});
-        var auth=AccountControllerTestConfig.editor();writes.recordEditLog(auth.accountId(),auth.username(),"PUT","/api/admin/games/lol/attributes",null,200);
+        var auth=AccountControllerTestConfig.principal();writes.recordEditLog(auth.principalId(),auth.displayName(),"PUT","/api/admin/games/lol/attributes",null,200);
         assertEquals(List.of("account","write"),order);assertEquals(1,transactions.commits);assertEquals(0,transactions.rollbacks);
     }
-    @Test void revocationDenialTriggersRollbackAndPreventsEveryBusinessStatement() {
+    @Test void disabledPrincipalDenialTriggersRollbackAndPreventsEveryBusinessStatement() {
         ApiException revoked=AccountErrors.invalid();doThrow(revoked).when(sessions).lock(any());
-        var auth=AccountControllerTestConfig.editor();
-        assertSame(revoked,assertThrows(ApiException.class,()->writes.recordEditLog(auth.accountId(),auth.username(),"PUT","/api/admin/games/lol/attributes",null,200)));
+        var auth=AccountControllerTestConfig.principal();
+        assertSame(revoked,assertThrows(ApiException.class,()->writes.recordEditLog(auth.principalId(),auth.displayName(),"PUT","/api/admin/games/lol/attributes",null,200)));
         verifyNoInteractions(mapper);assertEquals(0,transactions.commits);assertEquals(1,transactions.rollbacks);
     }
     @Test void matrixUriCannotBypassTransactionAuthorizationGuard() {
-        ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest().setAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR,null);
+        ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest().setAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE,null);
         var request=new MockHttpServletRequest("PUT","/api/admin;probe/games/lol/attributes");
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
-        var auth=AccountControllerTestConfig.editor();
-        ApiException denied=assertThrows(ApiException.class,()->writes.recordEditLog(auth.accountId(),auth.username(),"PUT",request.getRequestURI(),null,200));
+        var auth=AccountControllerTestConfig.principal();
+        ApiException denied=assertThrows(ApiException.class,()->writes.recordEditLog(auth.principalId(),auth.displayName(),"PUT",request.getRequestURI(),null,200));
         assertEquals(401,denied.getStatus().value());assertEquals("AUTH.INVALID_CREDENTIALS",denied.getCode());
         verifyNoInteractions(mapper,sessions);assertEquals(0,transactions.commits);assertEquals(1,transactions.rollbacks);
     }
     @Configuration @EnableAspectJAutoProxy @Import({AccountGameWriteGuard.class,PostgresWriteStore.class})
     static class Config {
-        @Bean xyz.game.datamanage.support.maintenance.MaintenanceSessions accountSessions() { return mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class); }
+        @Bean xyz.game.datamanage.support.maintenance.MaintenancePrincipals accountSessions() { return mock(xyz.game.datamanage.support.maintenance.MaintenancePrincipals.class); }
         @Bean EditLogMapper mapper() { return mock(EditLogMapper.class); }
         @Bean ObjectMapper json() { return new ObjectMapper(); }
         @Bean Transactions transactions() { return new Transactions(); }

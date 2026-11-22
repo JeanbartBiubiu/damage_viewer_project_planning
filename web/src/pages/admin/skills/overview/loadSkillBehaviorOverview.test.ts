@@ -1,18 +1,18 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { loadSkillBehaviorOverview, SKILL_BEHAVIOR_DETAIL_CONCURRENCY, overviewIncompleteReasons } from './loadSkillBehaviorOverview';
 
-vi.mock('../../../../services/skillParameterClient', () => ({ listSkillParameters: vi.fn() }));
-vi.mock('../../../../services/skillFormulaClient', () => ({ listSkillFormulas: vi.fn() }));
+vi.mock('../../../../services/maintenance/skillParameterClient', () => ({ listSkillParameters: vi.fn() }));
+vi.mock('../../../../services/maintenance/skillFormulaClient', () => ({ listSkillFormulas: vi.fn() }));
 vi.mock('../../../../services/skillEffectClient', () => ({ listSkillEffects: vi.fn(), getSkillEffect: vi.fn() }));
-vi.mock('../../../../services/skillProcessClient', () => ({ listSkillProcesses: vi.fn(), getSkillProcess: vi.fn() }));
-vi.mock('../../../../services/skillInternalStateClient', () => ({ listSkillInternalStates: vi.fn(), getSkillInternalState: vi.fn() }));
+vi.mock('../../../../services/maintenance/skillProcessClient', () => ({ listSkillProcesses: vi.fn(), getSkillProcess: vi.fn() }));
+vi.mock('../../../../services/maintenance/skillInternalStateClient', () => ({ listSkillInternalStates: vi.fn(), getSkillInternalState: vi.fn() }));
 vi.mock('../../../../services/skillTriggerRuleClient', () => ({ listSkillTriggerRules: vi.fn(), getSkillTriggerRule: vi.fn() }));
 
-import { listSkillParameters } from '../../../../services/skillParameterClient';
-import { listSkillFormulas } from '../../../../services/skillFormulaClient';
+import { listSkillParameters } from '../../../../services/maintenance/skillParameterClient';
+import { listSkillFormulas } from '../../../../services/maintenance/skillFormulaClient';
 import { getSkillEffect, listSkillEffects } from '../../../../services/skillEffectClient';
-import { getSkillProcess, listSkillProcesses } from '../../../../services/skillProcessClient';
-import { getSkillInternalState, listSkillInternalStates } from '../../../../services/skillInternalStateClient';
+import { getSkillProcess, listSkillProcesses } from '../../../../services/maintenance/skillProcessClient';
+import { getSkillInternalState, listSkillInternalStates } from '../../../../services/maintenance/skillInternalStateClient';
 import { getSkillTriggerRule, listSkillTriggerRules } from '../../../../services/skillTriggerRuleClient';
 
 const listFns = [

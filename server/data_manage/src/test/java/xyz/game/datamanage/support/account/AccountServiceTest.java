@@ -127,7 +127,7 @@ class AccountServiceTest {
         verify(limits).reservePasswordAttempt("fixture_author","127.0.0.1");verify(attempt).retainFailure();verify(attempt).close();verify(limits,never()).fail(anyString(),anyString());
     }
     @Test void downstreamTotpFailureInSecurityRefundsPasswordButKeepsTotpReservation() {
-        UUID session=UUID.randomUUID();var auth=new xyz.game.datamanage.support.auth.AuthContext(id,"fixture_author",false,session,1,now.plusSeconds(600));
+        UUID session=UUID.randomUUID();var auth=new xyz.game.datamanage.support.auth.AuthContext(id,"fixture_author",session,1,now.plusSeconds(600));
         doReturn(account("active",1)).when(store).byUsername("fixture_author");when(passwords.matches(anyString(),anyString())).thenReturn(true);
         doReturn(new AccountStore.Session(session,id,1,new byte[32],now.plusSeconds(600),null)).when(store).session(session);
         doReturn(new AccountStore.Credential(new byte[]{1},"auth-aead-1",1,4)).when(store).credential(id);

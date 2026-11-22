@@ -1,7 +1,7 @@
 import { Alert, Button, Form, Input, Modal, Space, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
-import { createCharacter, updateCharacter } from '../../../services/characterClient';
+import { createCharacter, updateCharacter } from '../../../services/maintenance/characterWrites';
 import type { Character } from '../../../types/character';
 import {
   characterFieldIssues,

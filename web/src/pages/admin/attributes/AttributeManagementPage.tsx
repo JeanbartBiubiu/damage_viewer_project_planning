@@ -16,10 +16,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { EmptyState } from '../../../components/EmptyState';
 import { Panel } from '../../../components/Panel';
 import { getErrorMessage } from '../../../services/apiClient';
-import {
-  listAttributes,
-  updateAttribute
-} from '../../../services/attributeClient';
+import { listAttributes, updateAttribute } from '../../../services/maintenance/attributeClient';
 import type {
   Attribute,
   AttributeListQuery,

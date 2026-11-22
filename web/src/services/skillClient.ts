@@ -1,12 +1,6 @@
 import type { ApiResult } from './apiClient';
 import { encodePathSegment, requestJson } from './apiClient';
-import type {
-  CreateSkillRequest,
-  Skill,
-  SkillListQuery,
-  SkillListResponse,
-  UpdateSkillRequest
-} from '../types/skill';
+import type { Skill, SkillListQuery, SkillListResponse } from '../types/skill';
 
 export function skillsPath(gameId: string, skillKey?: string): string {
   const base = `/api/admin/games/${encodePathSegment(gameId)}/skills`;
@@ -37,37 +31,4 @@ export function getSkill(
   signal?: AbortSignal
 ): Promise<ApiResult<Skill>> {
   return requestJson<Skill>(apiBaseUrl, skillsPath(gameId, skillKey), { signal });
-}
-
-export function createSkill(
-  apiBaseUrl: string,
-  gameId: string,
-  body: CreateSkillRequest
-): Promise<ApiResult<Skill>> {
-  return requestJson<Skill>(apiBaseUrl, skillsPath(gameId), {
-    method: 'POST',
-    body: JSON.stringify(body)
-  });
-}
-
-export function updateSkill(
-  apiBaseUrl: string,
-  gameId: string,
-  skillKey: string,
-  body: UpdateSkillRequest
-): Promise<ApiResult<Skill>> {
-  return requestJson<Skill>(apiBaseUrl, skillsPath(gameId, skillKey), {
-    method: 'PUT',
-    body: JSON.stringify(body)
-  });
-}
-
-export function deleteSkill(
-  apiBaseUrl: string,
-  gameId: string,
-  skillKey: string
-): Promise<ApiResult<null>> {
-  return requestJson<null>(apiBaseUrl, skillsPath(gameId, skillKey), {
-    method: 'DELETE'
-  });
 }

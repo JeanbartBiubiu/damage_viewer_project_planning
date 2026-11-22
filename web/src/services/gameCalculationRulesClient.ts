@@ -2,15 +2,15 @@ import type { Attribute } from '../types/attribute';
 import type { SkillCategory } from '../types/skillCategory';
 import type { Binding } from '../types/formulaContract.generated';
 import type { GameCalculationConfiguration, GameCalculationRulesResponse } from '../types/gameCalculationRules';
-import { ApiRequestError, encodePathSegment, requestJson, type ApiResult } from './apiClient';
+import { encodePathSegment, requestJson, type ApiResult } from './apiClient';
 import { validateFormulaDefinition } from './formulaContract';
-import { sameFormulaPayload } from './skillFormulaContract';
+
 
 const KEY = /^[a-z][a-z0-9_]{0,63}$/;
 export class CalculationRulesValidationError extends Error {
   constructor(readonly path: string, readonly code: string) { super(`游戏计算配置校验失败：${path}：${code}`); }
 }
-function fail(path: string, code = 'invalid_configuration'): never { throw new CalculationRulesValidationError(path, code); }
+export function fail(path: string, code = 'invalid_configuration'): never { throw new CalculationRulesValidationError(path, code); }
 function record(value: unknown, fields: readonly string[], path: string) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return fail(path);
   const row = value as Record<string, unknown>;
@@ -98,28 +98,8 @@ export function parseGameCalculationRules(value: unknown, gameId?: string, attri
   return { gameId: row.gameId, baseDigest: row.baseDigest,
     configuration: row.configuration === null ? null : parseGameCalculationConfiguration(row.configuration, attributes, skillCategories) };
 }
-function path(gameId: string) { return `/api/admin/games/${encodePathSegment(gameId)}/calculation-rules`; }
+export function path(gameId: string) { return `/api/admin/games/${encodePathSegment(gameId)}/calculation-rules`; }
 export async function getGameCalculationRules(api: string, gameId: string, signal?: AbortSignal): Promise<ApiResult<GameCalculationRulesResponse>> {
   const result = await requestJson<unknown>(api, path(gameId), { signal });
   return { ...result, data: parseGameCalculationRules(result.data, gameId) };
-}
-export class UnconfirmedCalculationRulesWriteError extends Error {}
-export async function updateGameCalculationRules(api: string, gameId: string, body: { baseDigest: string; configuration: GameCalculationConfiguration }): Promise<ApiResult<GameCalculationRulesResponse>> {
-  if (body.configuration === null) fail('configuration');
-  const candidate = parseGameCalculationRules({ gameId, ...body });
-  const frozenBody = { baseDigest: candidate.baseDigest, configuration: candidate.configuration! };
-  let written: ApiResult<GameCalculationRulesResponse>;
-  try {
-    const result = await requestJson<unknown>(api, path(gameId), { method: 'PUT', body: JSON.stringify(frozenBody) });
-    written = { ...result, data: parseGameCalculationRules(result.data, gameId) };
-  } catch (error) {
-    if (error instanceof ApiRequestError && error.status >= 400 && error.status < 500) throw error;
-    throw new UnconfirmedCalculationRulesWriteError('计算配置保存响应未确认，请保留草稿并重新读取确认。');
-  }
-  try {
-    const read = await getGameCalculationRules(api, gameId);
-    if (read.data.baseDigest !== written.data.baseDigest || !sameFormulaPayload(read.data.configuration, frozenBody.configuration)
-      || !sameFormulaPayload(written.data.configuration, frozenBody.configuration)) throw new Error('读回不一致');
-    return read;
-  } catch { throw new UnconfirmedCalculationRulesWriteError('计算配置已发送，独立读回未确认，请保留草稿并重新读取确认。'); }
 }

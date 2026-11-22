@@ -62,7 +62,7 @@ class AttributeAdminControllerTest {
     @Autowired private MockMvc mockMvc;
     @Autowired private ObjectMapper objectMapper;
     @Autowired private xyz.game.datamanage.support.account.AccountSessions sessions;
-    @Autowired private xyz.game.datamanage.support.maintenance.MaintenanceSessions maintenance;
+    @Autowired private xyz.game.datamanage.support.maintenance.MaintenancePrincipals maintenance;
 
     @MockitoBean private AttributeService service;
     @MockitoBean private AdminEditLogHelper adminEditLogHelper;
@@ -70,9 +70,9 @@ class AttributeAdminControllerTest {
 
     @BeforeEach
     void enableDevelopmentAdmin() {
-        org.mockito.Mockito.doReturn(new xyz.game.datamanage.support.maintenance.MaintenanceSessions.Resolved(xyz.game.datamanage.support.auth.AccountControllerTestConfig.editor(),new byte[32])).when(maintenance).require(any(),eq(true));
+        org.mockito.Mockito.doReturn(xyz.game.datamanage.support.auth.AccountControllerTestConfig.principal()).when(maintenance).require(any(),eq(true));
         when(sessions.resolve(any())).thenReturn(new xyz.game.datamanage.support.account.AccountSessions.Resolved(
-            xyz.game.datamanage.support.auth.AccountControllerTestConfig.editor(),xyz.game.datamanage.support.account.AccountCrypto.hash("c".repeat(43))));
+            xyz.game.datamanage.support.auth.AccountControllerTestConfig.player(),xyz.game.datamanage.support.account.AccountCrypto.hash("c".repeat(43))));
     }
 
     @Test
@@ -112,7 +112,7 @@ class AttributeAdminControllerTest {
             .andExpect(jsonPath("$.displayUnit").doesNotExist());
 
         verify(service).create(eq(GAME_ID), any(AttributeCreateRequest.class));
-        verify(adminEditLogHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(201));
+        verify(adminEditLogHelper).log(any(xyz.game.datamanage.support.maintenance.MaintenancePrincipal.class), any(), any(JsonNode.class), eq(201));
     }
 
     @Test
@@ -153,7 +153,7 @@ class AttributeAdminControllerTest {
             .andExpect(jsonPath("$.displayUnit").doesNotExist());
 
         verify(service).update(eq(GAME_ID), eq(ATTRIBUTE_KEY), any(AttributeUpdateRequest.class));
-        verify(adminEditLogHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(200));
+        verify(adminEditLogHelper).log(any(xyz.game.datamanage.support.maintenance.MaintenancePrincipal.class), any(), any(JsonNode.class), eq(200));
     }
 
     @Test
@@ -373,7 +373,7 @@ class AttributeAdminControllerTest {
     void deniesAuthenticatedCallerWithoutEditPermission() throws Exception {
         org.mockito.Mockito.doThrow(xyz.game.datamanage.support.maintenance.MaintenanceJson.denied()).when(maintenance).require(any(),eq(true));
         when(sessions.resolve(any()))
-            .thenReturn(new xyz.game.datamanage.support.account.AccountSessions.Resolved(new AuthContext(java.util.UUID.fromString("00000000-0000-4000-8000-000000000001"), "fixture_author", false, java.util.UUID.fromString("00000000-0000-4000-8000-000000000002"), 1, java.time.Instant.parse("2099-01-01T00:00:00Z")),new byte[32]));
+            .thenReturn(new xyz.game.datamanage.support.account.AccountSessions.Resolved(new AuthContext(java.util.UUID.fromString("00000000-0000-4000-8000-000000000001"), "fixture_author", java.util.UUID.fromString("00000000-0000-4000-8000-000000000002"), 1, java.time.Instant.parse("2099-01-01T00:00:00Z")),new byte[32]));
         mockMvc.perform(postJson(BASE_PATH,validCreateJson()))
             .andExpect(status().isForbidden())
             .andExpect(jsonPath("$.error.code").value("MAINTENANCE.DENIED"));

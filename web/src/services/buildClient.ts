@@ -1,30 +1,6 @@
 import { ApiRequestError, encodePathSegment, requestJson, type ApiResult } from './apiClient';
 import { parseBuildOptionSkillRelation } from './skillRelationClient';
-import {
-  BUILD_BUDGET_SOURCES,
-  BUILD_CONFIGURATION_MODES,
-  type BuildBudget,
-  type BuildConfigurationMode,
-  type BuildDefinition,
-  type BuildExclusion,
-  type BuildGroup,
-  type BuildGroupListResponse,
-  type BuildGroupRole,
-  type BuildOption,
-  type BuildOptionListResponse,
-  type BuildPrerequisite,
-  type BuildSelectionRules,
-  type BuildSlot,
-  type BuildSlotRule,
-  type BuildSystem,
-  type BuildSystemListResponse,
-  type CreateBuildGroupRequest,
-  type CreateBuildOptionRequest,
-  type CreateBuildSystemRequest,
-  type UpdateBuildGroupRequest,
-  type UpdateBuildOptionRequest,
-  type UpdateBuildSystemRequest
-} from '../types/build';
+import { BUILD_BUDGET_SOURCES, BUILD_CONFIGURATION_MODES, type BuildBudget, type BuildConfigurationMode, type BuildDefinition, type BuildExclusion, type BuildGroup, type BuildGroupListResponse, type BuildGroupRole, type BuildOption, type BuildOptionListResponse, type BuildPrerequisite, type BuildSelectionRules, type BuildSlot, type BuildSlotRule, type BuildSystem, type BuildSystemListResponse } from '../types/build';
 
 const KEY = /^[a-z][a-z0-9_]{0,63}$/;
 
@@ -190,7 +166,7 @@ function timestamps(row: Record<string, unknown>): { createdAt: string; updatedA
   return { createdAt: text(row.createdAt), updatedAt: text(row.updatedAt) };
 }
 
-function system(value: unknown, gameId: string): BuildSystem {
+export function system(value: unknown, gameId: string): BuildSystem {
   const row = record(value, [
     'gameId', 'systemKey', 'name', 'description', 'configurationMode', 'sortOrder',
     'selectionRules', 'createdAt', 'updatedAt'
@@ -224,7 +200,7 @@ function slot(value: unknown): BuildSlot {
   };
 }
 
-function group(value: unknown, gameId: string, systemKey?: string): BuildGroup {
+export function group(value: unknown, gameId: string, systemKey?: string): BuildGroup {
   const row = record(value, [
     'gameId', 'systemKey', 'groupKey', 'name', 'description', 'sortOrder', 'slots', 'createdAt', 'updatedAt'
   ]);
@@ -246,7 +222,7 @@ function group(value: unknown, gameId: string, systemKey?: string): BuildGroup {
   };
 }
 
-function option(value: unknown, gameId: string, systemKey?: string): BuildOption {
+export function option(value: unknown, gameId: string, systemKey?: string): BuildOption {
   const row = record(value, [
     'gameId', 'systemKey', 'optionKey', 'name', 'description', 'maxRank', 'rankCosts', 'createdAt', 'updatedAt'
   ]);
@@ -327,7 +303,7 @@ function definition(value: unknown, gameId: string, systemKey: string): BuildDef
   return parsed;
 }
 
-function basePath(gameId: string, systemKey?: string): string {
+export function basePath(gameId: string, systemKey?: string): string {
   const root = `/api/admin/games/${encodePathSegment(gameId)}/build-systems`;
   return systemKey === undefined ? root : `${root}/${encodePathSegment(systemKey)}`;
 }
@@ -349,7 +325,7 @@ async function listed<T>(
   return { ...result, data: { items, total: items.length } };
 }
 
-async function exact<T>(
+export async function exact<T>(
   request: Promise<ApiResult<unknown>>, parse: (value: unknown) => T, identity: (value: T) => string, key: string
 ): Promise<ApiResult<T>> {
   const result = await request;
@@ -364,18 +340,6 @@ export function listBuildSystems(apiBaseUrl: string, gameId: string, keyword?: s
 
 export function getBuildSystem(apiBaseUrl: string, gameId: string, systemKey: string) {
   return exact(requestJson(apiBaseUrl, basePath(gameId, systemKey)), value => system(value, gameId), value => value.systemKey, systemKey);
-}
-
-export function createBuildSystem(apiBaseUrl: string, gameId: string, body: CreateBuildSystemRequest) {
-  return exact(requestJson(apiBaseUrl, basePath(gameId), { method: 'POST', body: JSON.stringify(body) }), value => system(value, gameId), value => value.systemKey, body.systemKey);
-}
-
-export function updateBuildSystem(apiBaseUrl: string, gameId: string, systemKey: string, body: UpdateBuildSystemRequest) {
-  return exact(requestJson(apiBaseUrl, basePath(gameId, systemKey), { method: 'PUT', body: JSON.stringify(body) }), value => system(value, gameId), value => value.systemKey, systemKey);
-}
-
-export function deleteBuildSystem(apiBaseUrl: string, gameId: string, systemKey: string) {
-  return requestJson<null>(apiBaseUrl, basePath(gameId, systemKey), { method: 'DELETE' });
 }
 
 export function getBuildDefinition(apiBaseUrl: string, gameId: string, systemKey: string): Promise<ApiResult<BuildDefinition>> {
@@ -395,34 +359,10 @@ export function getBuildGroup(apiBaseUrl: string, gameId: string, systemKey: str
   return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/groups/${encodePathSegment(groupKey)}`), value => group(value, gameId, systemKey), value => value.groupKey, groupKey);
 }
 
-export function createBuildGroup(apiBaseUrl: string, gameId: string, systemKey: string, body: CreateBuildGroupRequest) {
-  return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/groups`, { method: 'POST', body: JSON.stringify(body) }), value => group(value, gameId, systemKey), value => value.groupKey, body.groupKey);
-}
-
-export function updateBuildGroup(apiBaseUrl: string, gameId: string, systemKey: string, groupKey: string, body: UpdateBuildGroupRequest) {
-  return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/groups/${encodePathSegment(groupKey)}`, { method: 'PUT', body: JSON.stringify(body) }), value => group(value, gameId, systemKey), value => value.groupKey, groupKey);
-}
-
-export function deleteBuildGroup(apiBaseUrl: string, gameId: string, systemKey: string, groupKey: string) {
-  return requestJson<null>(apiBaseUrl, `${basePath(gameId, systemKey)}/groups/${encodePathSegment(groupKey)}`, { method: 'DELETE' });
-}
-
 export function listBuildOptions(apiBaseUrl: string, gameId: string, systemKey: string, keyword?: string): Promise<ApiResult<BuildOptionListResponse>> {
   return listed(requestJson(apiBaseUrl, keywordPath(`${basePath(gameId, systemKey)}/options`, keyword)), value => option(value, gameId, systemKey), value => value.optionKey);
 }
 
 export function getBuildOption(apiBaseUrl: string, gameId: string, systemKey: string, optionKey: string) {
   return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/options/${encodePathSegment(optionKey)}`), value => option(value, gameId, systemKey), value => value.optionKey, optionKey);
-}
-
-export function createBuildOption(apiBaseUrl: string, gameId: string, systemKey: string, body: CreateBuildOptionRequest) {
-  return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/options`, { method: 'POST', body: JSON.stringify(body) }), value => option(value, gameId, systemKey), value => value.optionKey, body.optionKey);
-}
-
-export function updateBuildOption(apiBaseUrl: string, gameId: string, systemKey: string, optionKey: string, body: UpdateBuildOptionRequest) {
-  return exact(requestJson(apiBaseUrl, `${basePath(gameId, systemKey)}/options/${encodePathSegment(optionKey)}`, { method: 'PUT', body: JSON.stringify(body) }), value => option(value, gameId, systemKey), value => value.optionKey, optionKey);
-}
-
-export function deleteBuildOption(apiBaseUrl: string, gameId: string, systemKey: string, optionKey: string) {
-  return requestJson<null>(apiBaseUrl, `${basePath(gameId, systemKey)}/options/${encodePathSegment(optionKey)}`, { method: 'DELETE' });
 }

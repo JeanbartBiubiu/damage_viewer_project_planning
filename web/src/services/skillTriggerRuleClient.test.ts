@@ -1,17 +1,12 @@
 import { formulaValue } from '../types/numericValue';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
 import { SKILL_TRIGGER_SUBJECTS } from '../types/skillSystemEnums.generated';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ApiRequestError } from './apiClient';
-import {
-  createSkillTriggerRule,
-  deleteSkillTriggerRule,
-  getSkillTriggerRule,
-  listSkillTriggerRules,
-  parseSkillTriggerRuleDetail,
-  parseSkillTriggerRuleSummary,
-  SkillTriggerRuleProtocolError,
-  updateSkillTriggerRule
-} from './skillTriggerRuleClient';
+import { getSkillTriggerRule, listSkillTriggerRules, parseSkillTriggerRuleDetail, parseSkillTriggerRuleSummary, SkillTriggerRuleProtocolError } from './skillTriggerRuleClient';
+import { createSkillTriggerRule, deleteSkillTriggerRule, updateSkillTriggerRule } from './maintenance/skillTriggerRuleWrites';
 import type {
   CreateSkillTriggerRuleRequest,
   SkillTriggerRuleDetail,

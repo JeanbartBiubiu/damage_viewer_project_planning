@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import xyz.game.datamanage.controller.adminapi.AdminEditLogHelper;
 import xyz.game.datamanage.model.calculation.GameCalculationRulesResponse;
 import xyz.game.datamanage.service.calculation.GameCalculationRuleService;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @RestController
 @RequestMapping("/api/admin/games/{gameId}/calculation-rules")
@@ -30,7 +29,7 @@ public class GameCalculationRuleAdminController {
 
     @PutMapping
     public GameCalculationRulesResponse replace(@PathVariable String gameId, @RequestBody JsonNode request,
-                                                @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+                                                @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
                                                 HttpServletRequest servletRequest) {
         GameCalculationRulesResponse result = service.replace(gameId, request);
         logs.log(auth, servletRequest, request, 200);

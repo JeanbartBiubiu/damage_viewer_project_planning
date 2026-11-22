@@ -33,7 +33,7 @@ class ConfigurationReferenceAuditAdminControllerTest {
     void setup() {
         mvc = MockMvcBuilders.standaloneSetup(new ConfigurationReferenceAuditAdminController(service))
             .setControllerAdvice(new GlobalExceptionHandler())
-            .addFilters(new AdminAuthFilter(new ObjectMapper(), verifier, new AccountBrowser(new AccountProperties()),org.mockito.Mockito.mock(xyz.game.datamanage.support.maintenance.MaintenanceSessions.class))).build();
+            .addFilters(new AdminAuthFilter(new ObjectMapper(), verifier, new AccountBrowser(new AccountProperties()),org.mockito.Mockito.mock(xyz.game.datamanage.support.maintenance.MaintenancePrincipals.class), org.mockito.Mockito.mock(xyz.game.datamanage.support.maintenance.DeploymentCredential.class))).build();
     }
 
     @Test

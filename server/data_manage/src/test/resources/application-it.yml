@@ -1,8 +1,8 @@
 spring:
   datasource:
-    username: postgres
-    password: ${SPRING_DATASOURCE_PASSWORD:}
-    url: jdbc:postgresql://100.107.31.39:5432/test0221
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL}
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.postgresql.Driver
     hikari:

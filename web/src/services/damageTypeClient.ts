@@ -1,39 +1,14 @@
 import type { ApiResult } from './apiClient';
-import { ApiRequestError, encodePathSegment, requestJson } from './apiClient';
+import { encodePathSegment, requestJson } from './apiClient';
 import { validateFormulaDefinition } from './formulaContract';
 import type { Binding } from '../types/formulaContract.generated';
-import type {
-  CreateDamageTypeRequest,
-  DamageType,
-  DamageTypeListQuery,
-  DamageTypeListResponse,
-  DamageTypeStatus,
-  UpdateDamageTypeRequest
-} from '../types/damageType';
-import type {
-  DamageTypeFormula,
-  DamageTypeFormulaDetail
-} from '../types/damageTypeFormula';
+import type { DamageType, DamageTypeListQuery, DamageTypeListResponse, DamageTypeStatus } from '../types/damageType';
+import type { DamageTypeFormula, DamageTypeFormulaDetail } from '../types/damageTypeFormula';
 import { isDamageTypeFormulaAttributeBinding } from '../types/damageTypeFormula';
 
 const STATUSES = new Set<DamageTypeStatus>(['ENABLED', 'DISABLED']);
 
 const DETAIL_KEYS = ['gameId', 'damageTypeKey', 'formula', 'updatedAt'] as const;
-
-export class UnconfirmedDamageTypeFormulaWriteError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'UnconfirmedDamageTypeFormulaWriteError';
-  }
-}
-
-function unconfirmedFormulaWrite(error: unknown, fallback: string): never {
-  if (error instanceof UnconfirmedDamageTypeFormulaWriteError) throw error;
-  if (error instanceof ApiRequestError && error.status >= 400 && error.status < 500) throw error;
-  throw new UnconfirmedDamageTypeFormulaWriteError(
-    error instanceof Error && error.message.trim() ? error.message : fallback
-  );
-}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -44,12 +19,12 @@ function hasExactKeys(value: Record<string, unknown>, keys: readonly string[]): 
   return actual.length === keys.length && keys.every((key) => Object.prototype.hasOwnProperty.call(value, key));
 }
 
-function damageTypesPath(gameId: string, damageTypeKey?: string): string {
+export function damageTypesPath(gameId: string, damageTypeKey?: string): string {
   const base = `/api/admin/games/${encodePathSegment(gameId)}/damage-types`;
   return damageTypeKey === undefined ? base : `${base}/${encodePathSegment(damageTypeKey)}`;
 }
 
-function damageTypeFormulaPath(gameId: string, damageTypeKey: string): string {
+export function damageTypeFormulaPath(gameId: string, damageTypeKey: string): string {
   return `${damageTypesPath(gameId, damageTypeKey)}/formula`;
 }
 
@@ -94,7 +69,7 @@ export function parseDamageType(value: unknown): DamageType {
   };
 }
 
-function parseDamageTypeResult(result: ApiResult<unknown>): ApiResult<DamageType> {
+export function parseDamageTypeResult(result: ApiResult<unknown>): ApiResult<DamageType> {
   return { ...result, data: parseDamageType(result.data) };
 }
 
@@ -147,30 +122,11 @@ export function parseDamageTypeFormulaDetail(
   };
 }
 
-function parseFormulaResult(
+export function parseFormulaResult(
   result: ApiResult<unknown>,
   expected: { gameId: string; damageTypeKey: string }
 ): ApiResult<DamageTypeFormulaDetail> {
   return { ...result, data: parseDamageTypeFormulaDetail(result.data, expected) };
-}
-
-function createPayload(body: CreateDamageTypeRequest): CreateDamageTypeRequest {
-  return {
-    damageTypeKey: body.damageTypeKey,
-    name: body.name,
-    description: body.description,
-    status: body.status,
-    sortOrder: body.sortOrder
-  };
-}
-
-function updatePayload(body: UpdateDamageTypeRequest): UpdateDamageTypeRequest {
-  return {
-    name: body.name,
-    description: body.description,
-    status: body.status,
-    sortOrder: body.sortOrder
-  };
 }
 
 export function listDamageTypes(
@@ -191,39 +147,6 @@ export function getDamageType(
     .then(parseDamageTypeResult);
 }
 
-export function createDamageType(
-  apiBaseUrl: string,
-  gameId: string,
-  body: CreateDamageTypeRequest
-): Promise<ApiResult<DamageType>> {
-  return requestJson<unknown>(apiBaseUrl, damageTypesPath(gameId), {
-    method: 'POST',
-    body: JSON.stringify(createPayload(body))
-  }).then(parseDamageTypeResult);
-}
-
-export function updateDamageType(
-  apiBaseUrl: string,
-  gameId: string,
-  damageTypeKey: string,
-  body: UpdateDamageTypeRequest
-): Promise<ApiResult<DamageType>> {
-  return requestJson<unknown>(apiBaseUrl, damageTypesPath(gameId, damageTypeKey), {
-    method: 'PUT',
-    body: JSON.stringify(updatePayload(body))
-  }).then(parseDamageTypeResult);
-}
-
-export function deleteDamageType(
-  apiBaseUrl: string,
-  gameId: string,
-  damageTypeKey: string
-): Promise<ApiResult<null>> {
-  return requestJson<null>(apiBaseUrl, damageTypesPath(gameId, damageTypeKey), {
-    method: 'DELETE'
-  });
-}
-
 export function getDamageTypeFormula(
   apiBaseUrl: string,
   gameId: string,
@@ -231,35 +154,4 @@ export function getDamageTypeFormula(
 ): Promise<ApiResult<DamageTypeFormulaDetail>> {
   return requestJson<unknown>(apiBaseUrl, damageTypeFormulaPath(gameId, damageTypeKey))
     .then((result) => parseFormulaResult(result, { gameId, damageTypeKey }));
-}
-
-export function updateDamageTypeFormula(
-  apiBaseUrl: string,
-  gameId: string,
-  damageTypeKey: string,
-  body: { formula: DamageTypeFormula }
-): Promise<ApiResult<DamageTypeFormulaDetail>> {
-  const formula = parseDamageTypeFormulaDefinition(body.formula);
-  return requestJson<unknown>(apiBaseUrl, damageTypeFormulaPath(gameId, damageTypeKey), {
-    method: 'PUT',
-    body: JSON.stringify({ formula })
-  }).then((result) => {
-    try {
-      return parseFormulaResult(result, { gameId, damageTypeKey });
-    } catch (error) {
-      throw new UnconfirmedDamageTypeFormulaWriteError(
-        error instanceof Error ? error.message : '伤害类型公式写入响应无法解析。'
-      );
-    }
-  }).catch((error: unknown) => unconfirmedFormulaWrite(error, '伤害类型公式写入结果无法确认。'));
-}
-
-export function deleteDamageTypeFormula(
-  apiBaseUrl: string,
-  gameId: string,
-  damageTypeKey: string
-): Promise<ApiResult<null>> {
-  return requestJson<null>(apiBaseUrl, damageTypeFormulaPath(gameId, damageTypeKey), {
-    method: 'DELETE'
-  }).catch((error: unknown) => unconfirmedFormulaWrite(error, '伤害类型公式删除结果无法确认。'));
 }

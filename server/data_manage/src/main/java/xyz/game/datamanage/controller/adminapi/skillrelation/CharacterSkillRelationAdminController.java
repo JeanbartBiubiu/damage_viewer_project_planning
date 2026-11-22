@@ -21,8 +21,7 @@ import xyz.game.datamanage.model.skillrelation.CharacterSkillRelationResponse;
 import xyz.game.datamanage.model.skillrelation.SkillRelationUpdateRequest;
 import xyz.game.datamanage.service.GameDataService;
 import xyz.game.datamanage.service.skillrelation.SkillRelationService;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @RestController
 @RequestMapping("/api/admin/games/{gameId}/character-skill-relations")
@@ -55,12 +54,12 @@ public class CharacterSkillRelationAdminController {
     public CharacterSkillRelationResponse create(
         @PathVariable("gameId") String gameId,
         @RequestBody CharacterSkillRelationCreateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         CharacterSkillRelationResponse response = service.createCharacterRelation(gameId, body);
         gameDataService.recordEditLog(
-            auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), objectMapper.valueToTree(body), 201
+            auth.principalId(), auth.displayName(), request.getMethod(), request.getRequestURI(), objectMapper.valueToTree(body), 201
         );
         return response;
     }
@@ -72,12 +71,12 @@ public class CharacterSkillRelationAdminController {
         @PathVariable("characterKey") String characterKey,
         @PathVariable("skillKey") String skillKey,
         @RequestBody SkillRelationUpdateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         CharacterSkillRelationResponse response = service.updateCharacterRelation(gameId, characterKey, skillKey, body);
         gameDataService.recordEditLog(
-            auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), objectMapper.valueToTree(body), 200
+            auth.principalId(), auth.displayName(), request.getMethod(), request.getRequestURI(), objectMapper.valueToTree(body), 200
         );
         return response;
     }
@@ -89,12 +88,12 @@ public class CharacterSkillRelationAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("characterKey") String characterKey,
         @PathVariable("skillKey") String skillKey,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         service.deleteCharacterRelation(gameId, characterKey, skillKey);
         gameDataService.recordEditLog(
-            auth.accountId(), auth.username(), request.getMethod(), request.getRequestURI(), objectMapper.createObjectNode(), 204
+            auth.principalId(), auth.displayName(), request.getMethod(), request.getRequestURI(), objectMapper.createObjectNode(), 204
         );
     }
 }

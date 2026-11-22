@@ -1,7 +1,7 @@
 import { Alert, Button, Form, Input, InputNumber, Modal, Select, Space, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
-import { createModifierZone, updateModifierZone } from '../../../services/modifierZoneClient';
+import { createModifierZone, updateModifierZone } from '../../../services/maintenance/modifierZoneClient';
 import type {
   ModifierZone,
   ModifierZoneApplicationStage,

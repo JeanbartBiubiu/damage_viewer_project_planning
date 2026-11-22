@@ -23,8 +23,7 @@ import xyz.game.datamanage.model.image.ImageListResponse;
 import xyz.game.datamanage.model.image.ImageResponse;
 import xyz.game.datamanage.model.image.ImageUpdateRequest;
 import xyz.game.datamanage.service.image.ImageService;
-import xyz.game.datamanage.support.auth.AdminAuthFilter;
-import xyz.game.datamanage.support.auth.AuthContext;
+import xyz.game.datamanage.support.maintenance.MaintenancePrincipal;
 
 @RestController
 @Validated
@@ -66,7 +65,7 @@ public class ImageAdminController {
     public ImageResponse create(
         @PathVariable("gameId") String gameId,
         @RequestBody ImageCreateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         ImageResponse response = service.create(gameId, body);
@@ -79,7 +78,7 @@ public class ImageAdminController {
         @PathVariable("gameId") String gameId,
         @PathVariable("imageKey") String imageKey,
         @RequestBody ImageUpdateRequest body,
-        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        @RequestAttribute(MaintenancePrincipal.REQUEST_ATTRIBUTE) MaintenancePrincipal auth,
         HttpServletRequest request
     ) {
         ImageResponse response = service.update(gameId, imageKey, body);

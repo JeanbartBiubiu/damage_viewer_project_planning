@@ -1,11 +1,9 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import {
-  createSkillCategory,
-  deleteSkillCategory,
-  getSkillCategory,
-  listSkillCategories,
-  updateSkillCategory
-} from './skillCategoryClient';
+import { useMaintenanceBatchFixture } from '../../tests/fixtures/maintenanceBatchFixture';
+
+useMaintenanceBatchFixture();
+import { getSkillCategory, listSkillCategories } from './skillCategoryClient';
+import { createSkillCategory, deleteSkillCategory, updateSkillCategory } from './maintenance/skillCategoryWrites';
 
 function jsonResponse(status: number, body: unknown): Response {
   return new Response(status === 204 ? null : JSON.stringify(body), {

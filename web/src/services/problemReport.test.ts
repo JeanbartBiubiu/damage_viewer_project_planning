@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { buildProblemReport, issueRepository, problemIssueUrl, sanitizeProblemMaterial } from './problemReport';
-import { viewerRouteFromHash } from '../config/deployment';
+import { viewerRouteFromHash } from '../config/viewerRoutes';
 
 describe('公共问题复现材料', () => {
   it('保留场景和结果，移除所有嵌套凭据及错误中的授权内容', () => {

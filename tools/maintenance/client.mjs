@@ -1,4 +1,6 @@
 import { readFileSync, mkdirSync } from 'node:fs';
+import { request as httpRequest } from 'node:http';
+import { request as httpsRequest } from 'node:https';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { sameConfiguration } from '../../.agents/skills/damage-api-authoring/scripts/apply-skill-plan.mjs';
@@ -11,24 +13,37 @@ export function validateBase(value) {
     && (url.protocol === 'https:' || url.protocol === 'http:' && ['127.0.0.1', '[::1]'].includes(url.hostname)), '维护来源必须为HTTPS或本机回环地址。');
   return url.origin;
 }
-export function makeClient(config, configurationDirectory, fetcher = fetch) {
-  const base = validateBase(config.apiBase), origin = new URL(config.origin).origin;
+function requestFromTool(url, { method, headers, body, signal }) {
+  const send = new URL(url).protocol === 'https:' ? httpsRequest : httpRequest;
+  return new Promise((resolve, reject) => {
+    const request = send(url, { method, headers, signal }, async response => {
+      try {
+        const chunks = [];
+        for await (const chunk of response) chunks.push(chunk);
+        const status = response.statusCode;
+        resolve({ status, ok: status >= 200 && status < 300, json: () => JSON.parse(Buffer.concat(chunks).toString('utf8')) });
+      } catch (error) {
+        reject(error);
+      }
+    });
+    request.on('error', reject);
+    request.end(body);
+  });
+}
+
+export function makeClient(config, configurationDirectory, fetcher = requestFromTool) {
+  const base = validateBase(config.apiBase), origin = validateBase(config.origin);
   const requestTimeoutMs = config.requestTimeoutMs ?? 60_000;
   requireValue(Number.isSafeInteger(requestTimeoutMs) && requestTimeoutMs >= 1000 && requestTimeoutMs <= 300_000,
     '维护请求超时须为1000～300000整数毫秒。');
-  const secret = field => readFileSync(resolve(configurationDirectory, config[field]), 'utf8').trim();
-  const session = () => readJson(resolve(configurationDirectory, config.sessionFile));
-  async function request(method, path, body, kind = 'session', extraHeaders = {}) {
+  async function request(method, path, body, kind = 'private', extraHeaders = {}) {
     requireValue(path.startsWith('/') && !path.includes('?') && !path.includes('#') && !path.includes('\\') && !path.includes('..'), '维护路径不合法。');
-    const headers = { Origin: origin, 'X-Damage-Client': 'web', 'Content-Type': 'application/json', ...extraHeaders };
-    if (kind === 'long') headers['X-Damage-Maintenance-Token'] = secret('maintenanceTokenFile');
-    else if (kind === 'deployment') headers['X-Damage-Deployment-Token'] = secret('deploymentTokenFile');
-    else {
-      const current = session();
-      requireValue(Date.parse(current.expiresAt) > Date.now() && typeof current.cookie === 'string'
-        && typeof current.csrf === 'string', '维护会话缺失、失效或格式错误。');
-      headers.Cookie = current.cookie;
-      if (method !== 'GET') headers['X-CSRF-Token'] = current.csrf;
+    requireValue(kind === 'private' || kind === 'deployment', '维护请求类别未知。');
+    const headers = { Origin: origin, 'X-Damage-Client': 'web', ...extraHeaders };
+    if (body !== undefined) headers['Content-Type'] = 'application/json';
+    if (kind === 'deployment') {
+      requireValue(config.deploymentTokenFile, '需要私有部署凭据文件。');
+      headers['X-Damage-Deployment-Token'] = readFileSync(resolve(configurationDirectory, config.deploymentTokenFile), 'utf8').trim();
     }
     let response;
     try { response = await fetcher(`${base}${path}`, { method, headers, body, redirect: 'error', signal: AbortSignal.timeout(requestTimeoutMs) }); }
@@ -43,7 +58,12 @@ export function makeClient(config, configurationDirectory, fetcher = fetch) {
     const latest = readJson(resolve(configurationDirectory, config.feedbackQueueDirectory, `${sha256(candidate.reference)}-latest.json`));
     requireValue(latest.sourceRevision === candidate.sourceRevision, '问题证据已经变化，旧候选停止提交。');
   };
-  return { request, assertRevision };
+  async function principal() {
+    const { data } = await request('GET', '/internal/maintenance/me');
+    requireValue(data && isUuid(data.principalId) && typeof data.displayName === 'string' && data.displayName.trim(), '维护主体返回无效。');
+    return { principalId: data.principalId, displayName: data.displayName };
+  }
+  return { request, principal, assertRevision };
 }
 export async function renewBatch(client, batchId, receipt) {
   requireValue(isUuid(batchId), '续签批次编号错误。');
@@ -60,7 +80,7 @@ export async function applyCandidate(client, candidate, outputDirectory) {
     if (client.assertRevision) client.assertRevision(checked);
     const item = checked.skillPlan.items[index], file = resolve(outputDirectory, `${index + 1}`);
     writeNew(`${file}-intent.json`, { batchId: checked.batchId, index, method: operation.method, path: operation.path, bodySha256: sha256(operation.body) });
-    const result = await client.request(operation.method, operation.path, operation.body, 'session', { 'X-Damage-Maintenance-Batch': checked.batchId });
+    const result = await client.request(operation.method, operation.path, operation.body, 'private', { 'X-Damage-Maintenance-Batch': checked.batchId });
     writeNew(`${file}-response.json`, { status: result.response.status });
     const actual = (await client.request('GET', operation.path)).data;
     requireValue(sameConfiguration(actual, item.expected), '独立回读不等于冻结候选；保持维护并停止。');
@@ -99,26 +119,18 @@ async function main(args) {
   const [action, ...rest] = args;
   if (!action || action === '--help') {
     console.log('私有维护客户端（不输出凭据、不自动开维护或恢复公网）\n'
-      + 'node tools/maintenance/client.mjs <session|grant|baseline|register|state|open|complete|renew|recover|apply|reconcile|logout> --config <私密配置.json> '
+      + 'node tools/maintenance/client.mjs <me|grant|baseline|register|state|open|complete|renew|recover|apply|reconcile> --config <私密配置.json> '
       + '[--game <游戏>] [--batch-id <UUID>] [--recovery-id <新恢复UUID>] [--receipt <新回执文件>] [--batch <批次.json>] [--candidate <候选.json>] [--output <新文件或目录>]');
     return;
   }
-  requireValue(['session', 'grant', 'baseline', 'register', 'state', 'open', 'complete', 'renew', 'recover', 'apply', 'reconcile', 'logout'].includes(action), '维护操作未知。');
+  requireValue(['me', 'grant', 'baseline', 'register', 'state', 'open', 'complete', 'renew', 'recover', 'apply', 'reconcile'].includes(action), '维护操作未知。');
   const opts = options(rest, ['--config', '--game', '--batch-id', '--recovery-id', '--receipt', '--batch', '--candidate', '--output'], ['--config']);
   const configPath = resolve(opts['--config']), config = readJson(configPath), client = makeClient(config, dirname(configPath));
   const batchId = opts['--batch-id'];
   if (['state', 'open', 'complete', 'renew', 'recover'].includes(action)) requireValue(isUuid(batchId), '需要真实批次编号。');
   let result;
-  if (action === 'session') {
-    requireValue(opts['--output'], '会话只能写入指定私密文件。');
-    const issued = await client.request('POST', '/internal/maintenance/sessions', '{}', 'long');
-    const cookies = issued.response.headers.getSetCookie();
-    const values = cookies.map(value => value.split(';')[0]);
-    const csrf = values.find(value => value.startsWith('__Host-damage-maint-csrf='))?.split('=').slice(1).join('=');
-    requireValue(csrf && values.some(value => value.startsWith('__Host-damage-maint-session=')), '未取得完整维护会话。');
-    writeNew(opts['--output'], { ...issued.data, cookie: values.join('; '), csrf });
-    result = { sessionSaved: true };
-  } else if (action === 'grant') {
+  if (action === 'me') result = await client.principal();
+  else if (action === 'grant') {
     requireValue(opts['--output'], '计算票据只能写入指定私密文件。');
     writeNew(opts['--output'], (await client.request('POST', '/internal/maintenance/wasm-grant', '{}')).data);
     result = { grantSaved: true };
@@ -136,14 +148,12 @@ async function main(args) {
     result = (await client.request('POST', `/internal/maintenance/batches/${batchId}/recover/${opts['--recovery-id']}`, '{}', 'deployment')).data;
   }
   else if (action === 'open' || action === 'complete') result = (await client.request('POST', `/internal/maintenance/batches/${batchId}/${action}`, '{}', 'deployment')).data;
-  else if (action === 'logout') {
-    await client.request('POST', '/internal/maintenance/logout', '{}'); result = { loggedOut: true };
-  } else {
+  else {
     requireValue(opts['--candidate'] && opts['--output'], '需要冻结候选与新证据目录。');
     result = await (action === 'reconcile' ? reconcileCandidate : applyCandidate)(client, readJson(opts['--candidate']), resolve(opts['--output']));
   }
-  if (opts['--output'] && !['session', 'grant', 'apply', 'reconcile'].includes(action)) writeNew(opts['--output'], result);
-  console.log(JSON.stringify(['baseline', 'state', 'apply', 'reconcile', 'logout'].includes(action) ? result : { action, complete: true }));
+  if (opts['--output'] && !['grant', 'apply', 'reconcile'].includes(action)) writeNew(opts['--output'], result);
+  console.log(JSON.stringify(['me', 'baseline', 'state', 'apply', 'reconcile'].includes(action) ? result : { action, complete: true }));
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   main(process.argv.slice(2)).catch(() => { console.error('维护操作未完成；保留已有证据并先独立回读，不自动重试。'); process.exitCode = 1; });

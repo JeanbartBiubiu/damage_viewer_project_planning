@@ -7,8 +7,8 @@ import type {
   BuildSelection,
   BuildSelectionRules,
   BuildSlot
-} from '../../../types/build';
-import type { BuildOptionSkillRelation } from '../../../types/skillRelation';
+} from '../types/build';
+import type { BuildOptionSkillRelation } from '../types/skillRelation';
 
 export type BuildConfigurationIssue = { path: string; message: string };
 
