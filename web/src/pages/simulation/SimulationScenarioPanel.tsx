@@ -647,7 +647,6 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
     if (task.combat) {
       setComparisonResult(null);
       setCombatCancellation({ plan: task.combatPlan, phase: task.phase });
-      if (task.combatPlan === 'B') setResultBStale(true);
     } else {
       const cancelledArchive = archiveFor(task, 'cancelled', null);
       setArchive(current => cancelledArchive ?? current);
@@ -775,23 +774,11 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
     setResultBStale(true);
   };
 
-  const copyEquipmentToB = () => {
-    if (taskRef.current) return;
-    setEquipmentB({ keys: [...equipmentA.keys], settings: [], aura: {} });
-    setComparisonEnabled(true);
-    setSnapshotB(null);
-    setInspectionB(null);
-    resetCombatComparison();
-    setError(null);
-    setNotice(null);
-  };
-
   const closeComparison = () => {
     if (taskRef.current) return;
     setComparisonEnabled(false);
-    setSnapshotB(null);
     setInspectionB(null);
-    resetCombatComparison();
+    setComparisonResult(null);
     setError(null);
     setNotice(null);
   };
@@ -811,6 +798,10 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
     const next = transferEquipmentSettingsOnChange(equipmentA, currentB, side, keys);
     setEquipmentB(next.b);
     setComparisonResult(null);
+    if (!matchesFrozenPlanInput(effectiveEquipmentB, mergePlanEquipment(next.a, next.b))) {
+      setInspectionB(null);
+      setResultBStale(true);
+    }
     if (side === 'A') {
       setSelection(current => retainSourceSettings({ ...current, sourceEquipmentKeys: next.a.keys,
         sourceSkillSettings: [...current.sourceSkillSettings.filter(row => row.origin.kind !== 'EQUIPMENT'), ...next.a.settings] }));
@@ -818,14 +809,16 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
         ...Object.fromEntries(Object.entries(current).filter(([key]) => !key.startsWith('source:'))),
         ...Object.fromEntries(Object.entries(next.a.aura).map(([key, confirmed]) => [`source:${key}`, confirmed]))
       }));
-      if (!matchesFrozenPlanInput(effectiveEquipmentB, mergePlanEquipment(next.a, next.b))) setResultBStale(true);
       invalidateCombatA();
-    } else {
-      setInspectionB(null);
-      setResultBStale(true);
     }
     setError(null);
     setNotice(null);
+  };
+
+  const copyEquipmentToB = () => {
+    if (taskRef.current) return;
+    updateComparisonEquipment('B', equipmentA.keys);
+    setComparisonEnabled(true);
   };
 
   const patchEquipmentB = (values: string[]) => {
@@ -913,8 +906,9 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
       return retainSourceSettings({ ...current, plannedSkills, [`${side}SkillSettings`]: [...settings.filter(item => simulationSkillSourceIdentity(item.origin, item.skillKey) !== identity), setting] });
     });
     if ('skillLevel' in patch) setClearedSkillLevels(current => ({ ...current, [`${side}:${identity}`]: patch.skillLevel === undefined }));
+    // 收起比较后，共有装备仍影响已有的方案 B 档案。
     if (automaticMode && side === 'source' && source.origin.kind === 'EQUIPMENT'
-      && (!comparisonEnabled || !equipmentB.keys.includes(source.origin.equipmentKey))) invalidateCombatA();
+      && !equipmentB.keys.includes(source.origin.equipmentKey)) invalidateCombatA();
     else clearArtifacts();
   };
 
@@ -1447,6 +1441,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
       };
 
       const checkPair = async () => {
+        if (b && frozenB && b.snapshotDigest !== frozenB.archive.snapshotDigest) setResultBStale(true);
         requireCommonBaseline();
         showSnapshots();
         setInspection(null);
@@ -1486,6 +1481,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
       setInspection(checked.a?.inspection ?? null);
       setInspectionB(checked.b?.inspection ?? null);
       setFormulaPreflight(checked.a?.proof ?? null);
+      if (b && frozenB && !matchesFrozenPlanInput(checked.b?.input, frozenB.input)) setResultBStale(true);
 
       if (checked.issuesA.length || checked.issuesB.length) {
         const messages = [...checked.issuesA.map(issue => comparing ? `方案 A：${issue}` : issue),
@@ -1497,7 +1493,6 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
       const kind = drafts.automatic.rules.length ? 'automatic_skill' : 'continuous_attack';
       const runPlan = async (next: SimulationSnapshot, input: CombatRunInput, side: 'A' | 'B') => {
         task.combatPlan = side;
-        if (side === 'B') setResultBStale(true);
         const result = await runSnapshot(task, next, kind, { ...input, continuous: input.automatic }, side === 'A');
         if (!result || !isCurrent(task)) return null;
         if (!result.archive || result.archive.taskKind !== kind) throw new Error(`方案 ${side}：${result.failure ?? '计算档案未生成。'}`);
@@ -1535,7 +1530,8 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
     const options = side === 'source' ? boundSkills : targetBoundSkills;
     const characterKey = selection[`${side}CharacterKey`];
     const latestSources = sourcesSnapshot?.[side].skillSources ?? [];
-    const equipmentFromB = side === 'source' && comparisonEnabled
+    // B 的最近读取也可展示后来移交给 A 的装备来源。
+    const equipmentFromB = side === 'source'
       ? snapshotB?.source.skillSources.filter(source => source.origin.kind === 'EQUIPMENT') ?? [] : [];
     const currentSources = mergeCombatRequirements(latestSources, equipmentFromB, source => simulationSkillSourceIdentity(source.origin, source.skillKey));
     return {
@@ -1628,7 +1624,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
         } else {
           setAuraConfirmed(current => ({ ...current, [key]: checked }));
           setPrepared(null);
-          if (owner === 'source' && (!comparisonEnabled || !equipmentB.keys.includes(equipmentKey))) {
+          if (owner === 'source' && !equipmentB.keys.includes(equipmentKey)) {
             setResultStale(true);
             setComparisonResult(null);
           } else invalidateRunResult();

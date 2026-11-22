@@ -179,6 +179,29 @@ test('取消目录刷新可立即重试，取消只重算 B 保留 A 且迟到�
   expect(final.b.cleanup).toBe('released');
   expect(final.assessment.stopCategory).toBe('both_full_duration');
   expect(await runCount(page)).toBe(3);
+
+  const sync = page.getByRole('button', { name: '同步方案 A 装备', exact: true });
+  const oldB = page.getByText('方案 B 已有结果', { exact: true });
+  await sync.click();
+  await expect(oldB).toHaveCount(0);
+  await compare(page).click();
+  const matching = await download(page);
+  expect(matching.b.snapshot.selection.sourceEquipmentKeys).toEqual(matching.a.snapshot.selection.sourceEquipmentKeys);
+  await sync.click();
+  await expect(result(page)).toHaveCount(0);
+  await expect(oldB).toBeVisible();
+
+  await holdNextCombatAnalysisResult(page);
+  await compare(page).click();
+  await waitForHeldCombatAnalysis(page);
+  expect(await runCount(page)).toBe(5);
+  await page.getByRole('button', { name: '取消当前请求', exact: true }).click();
+  await expect(result(page)).toHaveCount(0);
+  const retained = page.locator('details').filter({ has: oldB });
+  await oldB.click();
+  await expect(retained.getByRole('region', { name: '连续普攻结果', exact: true })).toBeVisible();
+  await resumeCombatAnalysis(page);
+  await expect(result(page)).toHaveCount(0);
   diagnostics.assertClean();
 });
 
@@ -211,6 +234,14 @@ test('共有装备的关闭设置随持有方双向移交', async ({ page }) => 
 
   await equip(page, 'A', passiveItem);
   await expect(page.getByRole('checkbox', { name: passive, exact: true })).not.toBeChecked();
+  await page.getByRole('button', { name: '同步方案 A 装备', exact: true }).click();
+  await expect(page.getByRole('checkbox', { name: passive, exact: true })).not.toBeChecked();
+  await page.getByRole('button', { name: '关闭方案 B', exact: true }).click();
+  await expect(page.getByRole('checkbox', { name: passive, exact: true })).not.toBeChecked();
+  await setCombatAnalysisCheckbox(page, passive, true);
+  await page.getByRole('button', { name: '复制为方案 B 比较', exact: true }).click();
+  await expect(page.getByText('方案 B 已有结果', { exact: true })).toHaveCount(0);
+  await setCombatAnalysisCheckbox(page, passive, false);
   await compare(page).click();
   expect((await download(page)).a.snapshot.selection.sourceSkillSettings).toContainEqual(disabled);
   const before = await runCount(page);

@@ -289,11 +289,9 @@ export async function holdNextCombatAnalysisResult(page: Page) {
     const clientPath = '/src/engine/genericEngineClient.ts';
     const { GenericEngineClient } = await import(clientPath) as typeof import('../../src/engine/genericEngineClient');
     const original = GenericEngineClient.prototype.run;
-    let first = true;
     GenericEngineClient.prototype.run = async function(request) {
+      GenericEngineClient.prototype.run = original;
       const result = await original.call(this, request);
-      if (!first) return result;
-      first = false;
       return new Promise(resolve => {
         (window as typeof window & { resumeCombatAnalysis: () => void }).resumeCombatAnalysis = () => resolve(result);
       });
@@ -306,5 +304,10 @@ export async function waitForHeldCombatAnalysis(page: Page) {
   await expect(page.getByRole('alert').filter({ hasText: /^正在执行(?:主动技能自动循环|连续普攻)$/ })).toBeVisible();
 }
 
-export const resumeCombatAnalysis = (page: Page) => page.evaluate(() =>
-  (window as typeof window & { resumeCombatAnalysis: () => void }).resumeCombatAnalysis());
+export const resumeCombatAnalysis = (page: Page) => page.evaluate(() => {
+  const observer = window as typeof window & { resumeCombatAnalysis?: () => void };
+  const resume = observer.resumeCombatAnalysis;
+  if (!resume) throw new Error('没有等待交付的混合战斗结果。');
+  delete observer.resumeCombatAnalysis;
+  resume();
+});
