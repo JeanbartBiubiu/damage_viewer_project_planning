@@ -7,7 +7,6 @@ import {
   combatAnalysisWorkers, chooseCombatAnalysisOption, holdNextCombatAnalysisResult, installCombatAnalysisApi,
   openCombatAnalysisPage, resumeCombatAnalysis, setCombatAnalysisCheckbox, waitForHeldCombatAnalysis
 } from '../fixtures/combatAnalysisPage';
-import { simulationAvailabilitySample } from '../fixtures/simulationAvailability';
 import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';
 import { triggeredEquipmentSimulationSample } from '../fixtures/simulationTriggeredEquipment';
 
@@ -34,12 +33,16 @@ function sample(keys: string[], missingSpeedRatio = false, attackDamageMax?: num
   return snapshot;
 }
 
-async function open(page: Page, missingSpeedRatio = false, attackDamageMax?: number) {
+async function open(page: Page, missingSpeedRatio = false, attackDamageMax?: number,
+  configureSnapshot?: (snapshot: ReturnType<typeof sample>) => void) {
   const directory = sample([healthItem, damageItem, passiveItem], missingSpeedRatio, attackDamageMax);
   const diagnostics = await installCombatAnalysisApi(page, directory, {
-    availability: simulationAvailabilitySample(directory),
     equipmentCatalog: directory.source.selectedEquipment.map(item => item.equipment),
-    snapshotForSelection: (selection: SimulationSelection) => sample(selection.sourceEquipmentKeys, missingSpeedRatio, attackDamageMax)
+    snapshotForSelection: (selection: SimulationSelection) => {
+      const snapshot = sample(selection.sourceEquipmentKeys, missingSpeedRatio, attackDamageMax);
+      configureSnapshot?.(snapshot);
+      return snapshot;
+    }
   });
   await openCombatAnalysisPage(page);
   await chooseSimulationEntity(page, '攻击方角色', 'actor_a');
@@ -74,7 +77,7 @@ async function download(page: Page) {
   return JSON.parse(readFileSync(path!, 'utf8')) as FrozenComparison;
 }
 
-test('一键计算并比较纯属性与被动换装，A 结果可复用', async ({ page }) => {
+test('无需读取证明，一键比较纯属性与被动换装并复用相同的 A 快照结果', async ({ page }) => {
   const diagnostics = await open(page);
   await expect(page.getByRole('button', { name: '准备计算', exact: true })).toHaveCount(0);
   await expect(page.getByLabel('观察时长（毫秒）', { exact: true })).toHaveValue('30000');
@@ -103,7 +106,7 @@ test('一键计算并比较纯属性与被动换装，A 结果可复用', async 
   const before = diagnostics.snapshotReads;
   await compare(page).click();
   const attribute = await download(page);
-  expect(diagnostics.snapshotReads - before).toBe(1);
+  expect(diagnostics.snapshotReads - before).toBe(2);
   expect(await runCount(page)).toBe(3);
   expect(attribute.b.initialHealth.source).toBe(650);
   expect(attribute.b.runResult!.summary.sourceDamageDealt).toBeCloseTo(70 * 1.5 * 100 / 121, 9);
@@ -150,18 +153,21 @@ test('只有 B 缺少属性或手填生命越界时，双方案都先暂停等�
   diagnostics.assertClean();
 });
 
-test('取消目录刷新可立即重试，取消只重算 B 保留 A 且迟到结果不回写', async ({ page }) => {
+test('取消快照读取可立即重试，取消只重算 B 保留 A 且迟到结果不回写', async ({ page }) => {
   const diagnostics = await open(page);
   await page.getByLabel('观察时长（毫秒）', { exact: true }).fill('800');
   await equip(page, 'A', damageItem);
-  const held = diagnostics.holdNextAvailability();
-  await start(page).click();
-  await held.started;
-  await page.getByRole('button', { name: '取消当前请求', exact: true }).click();
-  await expect(start(page)).toBeEnabled();
-  await start(page).click();
-  await expect(continuous(page)).toBeVisible();
-  held.release();
+  const held = diagnostics.holdNextSnapshot();
+  try {
+    await start(page).click();
+    await held.started;
+    await page.getByRole('button', { name: '取消当前请求', exact: true }).click();
+    await expect(start(page)).toBeEnabled();
+    await start(page).click();
+    await expect(continuous(page)).toBeVisible();
+  } finally {
+    held.release();
+  }
 
   await page.getByRole('button', { name: '复制为方案 B 比较' }).click();
   await equip(page, 'B', passiveItem, damageItem);
@@ -268,8 +274,42 @@ test('B 装备平加越界会在任一正式运行前报告', async ({ page }) =
   diagnostics.assertClean();
 });
 
-test('方案 A 的目录摘要变化后，比较重新运行 A 和 B', async ({ page }) => {
+test('方案 B 快照被拒绝时显示实际错误并保留可重试的出装', async ({ page }) => {
   const diagnostics = await open(page);
+  let rejectB = true;
+  await page.route('**/simulation-snapshot', route => {
+    const selection = route.request().postDataJSON() as SimulationSelection;
+    if (!rejectB || !selection.sourceEquipmentKeys.includes(passiveItem)) return route.fallback();
+    return route.fulfill({ status: 409, json: { error: {
+      code: '409.SIMULATION_SNAPSHOT_INVALID', message: '装备被动缺少技能等级配置',
+      details: { fieldIssues: [{ field: 'source.skillSources.skillLevel', code: 'LEVEL_REQUIRED', message: '装备被动缺少技能等级配置' }] }
+    } } });
+  });
+  await page.getByLabel('观察时长（毫秒）', { exact: true }).fill('800');
+  await equip(page, 'A', damageItem);
+  await page.getByRole('button', { name: '复制为方案 B 比较' }).click();
+  await equip(page, 'B', passiveItem, damageItem);
+  await compare(page).click();
+  await expect(page.getByRole('alert').filter({ hasText: '装备被动缺少技能等级配置' })).toContainText('方案 B：');
+  await expect(page.getByLabel('观察时长（毫秒）', { exact: true })).toHaveValue('800');
+  await expect(page.locator(`.simulation-equipment-select[aria-label="${equipLabel.B}"]`)).toContainText(passiveItem);
+  expect(await runCount(page)).toBe(0);
+  await expect(result(page)).toHaveCount(0);
+  await expect(compare(page)).toBeEnabled();
+  rejectB = false;
+  await compare(page).click();
+  const archived = await download(page);
+  expect(archived.assessment.stopCategory).toBe('both_full_duration');
+  expect(archived.b.cleanup).toBe('released');
+  diagnostics.assertClean();
+});
+
+test('方案 A 独有装备的实际配置变化后，比较重新运行 A 和 B', async ({ page }) => {
+  let revised = false;
+  const diagnostics = await open(page, false, undefined, snapshot => {
+    const item = snapshot.source.selectedEquipment.find(row => row.equipment.equipmentKey === healthItem);
+    if (item && revised) item.attributes.attributeValues.hp = 170;
+  });
   await page.getByLabel('观察时长（毫秒）', { exact: true }).fill('800');
   await equip(page, 'A', healthItem);
   await start(page).click();
@@ -278,9 +318,7 @@ test('方案 A 的目录摘要变化后，比较重新运行 A 和 B', async ({ 
 
   await page.getByRole('button', { name: '复制为方案 B 比较' }).click();
   await equip(page, 'B', damageItem, healthItem);
-  const directory = simulationAvailabilitySample(sample([healthItem, damageItem, passiveItem]));
-  directory.characters[0]!.contentDigest = 'f'.repeat(64);
-  diagnostics.setAvailability(directory);
+  revised = true;
 
   const reads = diagnostics.snapshotReads;
   await compare(page).click();
@@ -288,6 +326,7 @@ test('方案 A 的目录摘要变化后，比较重新运行 A 和 B', async ({ 
   expect(await runCount(page)).toBe(3);
   expect(diagnostics.snapshotReads - reads).toBe(2);
   expect(archive.a.cleanup).toBe('released');
+  expect(archive.a.initialHealth.source).toBe(820);
   expect(archive.b.cleanup).toBe('released');
   diagnostics.assertClean();
 });

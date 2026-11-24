@@ -6,13 +6,9 @@ import { expect, type Page, type TestInfo } from '@playwright/test';
 import type { AutomaticSkillView } from '../../src/engine/automaticSkillPresentation';
 import type { AutomaticSkillArchive } from '../../src/pages/simulation/SimulationScenarioPanel';
 import type { SimulationSelection, SimulationSnapshot } from '../../src/types/simulationSnapshot';
-import type { SimulationAvailabilityResponse } from '../../src/types/simulationAvailability';
 import type { Equipment } from '../../src/types/equipment';
-import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
-import { SIMULATION_ADAPTER_VERSION } from '../../src/engine/simulationAdapter';
 import { simulationHash } from '../../src/engine/simulationHash';
 import { simulationAutomaticSample } from './simulationAutomaticSkills';
-import { simulationAvailabilitySample } from './simulationAvailability';
 import { chooseSimulationEntity, chooseSimulationLevel } from './simulationSelection';
 import { syncSimulationSkillSources } from './simulationSkillSources';
 
@@ -44,17 +40,14 @@ export function combatAnalysisSample(): SimulationSnapshot {
 
 /** 仅隔离 HTTP；页面、适配器、正式 Worker 和 Wasm 都保持真实运行，不写业务数据。 */
 export async function installCombatAnalysisApi(page: Page, sample: SimulationSnapshot = combatAnalysisSample(), options: {
-  availability?: SimulationAvailabilityResponse; equipmentCatalog?: Equipment[];
+  equipmentCatalog?: Equipment[];
   snapshotForSelection?: (selection: SimulationSelection) => SimulationSnapshot;
 } = {}) {
   const requests: Array<{ method: string; path: string }> = [];
   const pageErrors: string[] = [];
   const workers: string[] = [];
   let snapshotReads = 0;
-  let availabilityReads = 0;
-  let availability = structuredClone(options.availability ?? simulationAvailabilitySample(sample));
-  let availabilityUnavailable = false;
-  let nextAvailability: ResponseGate | null = null;
+  let nextSnapshot: ResponseGate | null = null;
   const heldConfigurations = new Map<string, ResponseGate>();
   page.on('pageerror', error => pageErrors.push(error.message));
   page.on('worker', worker => workers.push(worker.url()));
@@ -94,26 +87,16 @@ export async function installCombatAnalysisApi(page: Page, sample: SimulationSna
         const { snapshotDigest: _digest, readAt: _readAt, ...frozen } = snapshot;
         snapshot.snapshotDigest = await simulationHash(frozen);
       } else snapshot.snapshotDigest = '9'.repeat(64);
-      return reply(snapshot);
-    }
-    expect(request.method(), '不得新增或修改业务配置').toBe('GET');
-    if (resource === 'simulation-availability') {
-      availabilityReads++;
-      expect(searchParams.get('wasmSha256')).toBe(WASM_IDENTITY.sha256);
-      expect(searchParams.get('adapterVersion')).toBe(SIMULATION_ADAPTER_VERSION);
-      const response = availability;
-      const unavailable = availabilityUnavailable;
-      const held = nextAvailability;
-      nextAvailability = null;
+      const held = nextSnapshot;
+      nextSnapshot = null;
       if (held) {
         held.requested();
         await held.wait;
       }
-      if (unavailable) return route.fulfill({ status: 503, json: { error: {
-        code: '503.INDEPENDENT_AVAILABILITY', message: '独立构造目录暂时不可用', details: {}
-      } }, headers: { 'Access-Control-Allow-Origin': '*' } });
-      return reply(response);
+      return reply(snapshot);
     }
+    expect(request.method(), '不得新增或修改业务配置').toBe('GET');
+    if (resource === 'simulation-availability') return route.fulfill({ status: 503 });
     if (resource === 'level-config') return reply(sample.catalogs.levelConfig);
     if (resource === 'characters') return reply({ items: [sample.source.character, sample.target.character], total: 2 });
     if (resource === 'equipment') return reply({ items: options.equipmentCatalog ?? [], total: options.equipmentCatalog?.length ?? 0 });
@@ -144,15 +127,12 @@ export async function installCombatAnalysisApi(page: Page, sample: SimulationSna
   });
   return {
     get snapshotReads() { return snapshotReads; },
-    get availabilityReads() { return availabilityReads; },
     get workerCount() { return workers.length; },
     requests,
-    setAvailability(next: SimulationAvailabilityResponse) { availability = structuredClone(next); },
-    setAvailabilityUnavailable(unavailable: boolean) { availabilityUnavailable = unavailable; },
-    holdNextAvailability(): HeldResponse {
-      if (nextAvailability) throw new Error('已有目录响应等待拦截');
+    holdNextSnapshot(): HeldResponse {
+      if (nextSnapshot) throw new Error('已有快照响应等待拦截');
       const { started, release, requested, wait } = holdResponse();
-      nextAvailability = { requested, wait };
+      nextSnapshot = { requested, wait };
       return { started, release };
     },
     holdNextConfiguration(skillKey: string): HeldResponse {
@@ -161,6 +141,7 @@ export async function installCombatAnalysisApi(page: Page, sample: SimulationSna
       return { started, release };
     },
     assertClean(requireWorker = true) {
+      expect(requests.filter(row => row.path.endsWith('/simulation-availability'))).toEqual([]);
       expect(pageErrors, '真实页面无异常').toEqual([]);
       expect(requests.every(row => row.method === 'GET' || row.method === 'POST' && row.path.endsWith('/simulation-snapshot')),
         '只读取作者配置与场景，不写业务数据').toBe(true);

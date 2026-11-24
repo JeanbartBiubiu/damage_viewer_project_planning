@@ -19,7 +19,6 @@ import type { BuildConfiguration, BuildDefinition, SimulationAttributeInputs, Si
 import { SimulationEntitySelect } from './SimulationEntitySelect';
 import { SimulationEquipmentSelect } from './SimulationEquipmentSelect';
 import { useSimulationSelectionOptions } from './useSimulationSelectionOptions';
-import { selectedSimulationAvailabilityIssues, simulationExcludedSkillSources } from './simulationSelectionOptions';
 import { assessSingleAttackResult, type SingleAttackAssessment } from '../../engine/singleAttackResult';
 import { continuousAttackRequest, CONTINUOUS_DURATION_INITIAL_MS, type PreparedContinuousAttack, type ContinuousAttackInputs } from '../../engine/continuousAttackRequest';
 import { assessContinuousAttackResult, type ContinuousAttackAssessment } from '../../engine/continuousAttackResult';
@@ -46,13 +45,23 @@ import { CombatScenarioSetup, type CombatantSetup } from './CombatScenarioSetup'
 import { normalizeSceneInitialParameterInputs, sceneInitialParameterRequirements, sceneInitialParameterInput, type SceneInitialParameterInput,
   type SceneInitialParameterRequirement } from '../../engine/sceneInitialParameterInput';
 import { initialResourceCapacity, initialResourceKey } from '../../engine/initialResourceInputs';
-import { assessCombatComparison, buildCombatComparisonArchive, captureComparisonAvailability, matchesFrozenPlanInput,
+import { assessCombatComparison, buildCombatComparisonArchive, matchesFrozenPlanInput,
   mergePlanEquipment, transferEquipmentSettingsOnChange, validateEquipmentComparisonDiff, verifyCommonComparisonBaseline,
-  type CombatComparisonAvailability, type CombatEquipmentPlan } from '../../engine/combatComparison';
+  type CombatEquipmentPlan } from '../../engine/combatComparison';
 import { mechanicStateIdentity } from '../../engine/simulationPrimaryAttack';
 import { CombatComparisonResult } from './CombatComparisonResult';
 import { combatSceneInputs, inspectCombatRunInputs, mergeCombatRequirements, type CombatHealthMode, type CombatRunDrafts,
   type CombatRunInput } from './combatRunInputs';
+
+declare const __COMBAT_SKILL_EXCLUSIONS__: {
+  gameId: string;
+  characters: { key: string; skills: [skillKey: string, reason: string][] }[];
+};
+
+function excludedCombatSkills(gameId: string | null, characterKey: string) {
+  return new Map(gameId === __COMBAT_SKILL_EXCLUSIONS__.gameId
+    ? __COMBAT_SKILL_EXCLUSIONS__.characters.find(entry => entry.key === characterKey)?.skills : undefined);
+}
 
 export type SimulationScenarioPanelProps = {
   mode: 'basic' | 'automatic';
@@ -151,7 +160,6 @@ type CombatArchive = AutomaticSkillArchive | ContinuousAttackArchive;
 type FrozenCombatPlan = {
   archive: CombatArchive;
   input: CombatRunInput;
-  availability: CombatComparisonAvailability | null;
 };
 type SnapshotRunInputs = Omit<CombatRunInput, 'selection' | 'automatic'> & {
   continuous: ContinuousAttackInputs;
@@ -410,16 +418,20 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
   const computationClientRef = useRef<GenericEngineClient | null>(null);
 
   const busy = phase !== 'idle';
-  const { characters, skills, activeSkills, boundSkills, targetBoundSkills, equipment, levels, imageLoader, availability } = useSimulationSelectionOptions(
+  const { characters, skills, activeSkills, boundSkills, targetBoundSkills, equipment, levels, imageLoader } = useSimulationSelectionOptions(
     apiBaseUrl, selectedGameId, selection.sourceCharacterKey, automaticMode, selection.targetCharacterKey);
-  const combatRoster = useMemo(() => reconcileCombatRules(boundSkills.items, selection.sourceCharacterKey,
+  const excludedSkills = useMemo(() => ({
+    source: excludedCombatSkills(selectedGameId, selection.sourceCharacterKey),
+    target: excludedCombatSkills(selectedGameId, selection.targetCharacterKey)
+  }), [selectedGameId, selection.sourceCharacterKey, selection.targetCharacterKey]);
+  const combatRoster = useMemo(() => reconcileCombatRules(boundSkills.items.filter(option => !excludedSkills.source.has(option.key)), selection.sourceCharacterKey,
     automaticInputs.rules, selection.sourceSkillSettings, clearedSkillLevels),
-  [boundSkills.items, selection.sourceCharacterKey, automaticInputs.rules, selection.sourceSkillSettings, clearedSkillLevels]);
+  [boundSkills.items, excludedSkills.source, selection.sourceCharacterKey, automaticInputs.rules, selection.sourceSkillSettings, clearedSkillLevels]);
   const enabledAutomaticRules = automaticMode ? combatRoster.enabledRules : automaticInputs.rules;
   const selectedSkill = skills.items.find(row => row.key === selection.basicAttackSkillKey);
   const boundLevelIssues = automaticMode ? (['source', 'target'] as const).flatMap(side =>
     (side === 'source' ? boundSkills.items : targetBoundSkills.items).flatMap(option => {
-      if (simulationExcludedSkillSources(availability.response, selection[`${side}CharacterKey`]).some(source => source.skillKey === option.key)) return [];
+      if (excludedSkills[side].has(option.key)) return [];
       const origin = { kind: 'CHARACTER' as const, characterKey: selection[`${side}CharacterKey`] };
       const identity = simulationSkillSourceIdentity(origin, option.key);
       const setting = selection[`${side}SkillSettings`].find(item => simulationSkillSourceIdentity(item.origin, item.skillKey) === identity);
@@ -437,7 +449,6 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
   const levelsSelected = levels.items.includes(selection.sourceLevel!) && levels.items.includes(selection.targetLevel!)
     && (!skillMode || backgroundAttack ? skillLevels.includes(selection.basicAttackLevel!) : true)
     && (!skillMode || automaticMode && backgroundAttack || selection.plannedSkills.length > 0);
-  const availabilityIssues = automaticMode && availability.response ? selectedSimulationAvailabilityIssues(availability.response, selection) : [];
   const equipmentA: CombatEquipmentPlan = {
     keys: selection.sourceEquipmentKeys,
     settings: selection.sourceSkillSettings.filter(row => row.origin.kind === 'EQUIPMENT'),
@@ -446,18 +457,14 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
   };
   const effectiveEquipmentB = mergePlanEquipment(equipmentA, equipmentB);
   const comparisonDiff = validateEquipmentComparisonDiff(equipmentA.keys, equipmentB.keys);
-  const equipmentSettingsB = [...selection.sourceSkillSettings.filter(row => row.origin.kind !== 'EQUIPMENT'), ...effectiveEquipmentB.settings];
-  const comparisonIssues = !comparisonEnabled ? [] : [
-    ...(!comparisonDiff.valid ? [`首版出装比较仅支持替换、增补或卸下 1 件攻击方装备（A 独有 ${comparisonDiff.onlyInA.length} 件，B 独有 ${comparisonDiff.onlyInB.length} 件）。`] : []),
-    ...(availability.response ? selectedSimulationAvailabilityIssues(availability.response, {
-      ...selection, sourceEquipmentKeys: equipmentB.keys, sourceSkillSettings: equipmentSettingsB
-    }).filter(issue => !availabilityIssues.includes(issue)).map(issue => `方案 B：${issue}`) : [])
-  ];
-  const objectsSelected = characters.items.some(row => row.key === selection.sourceCharacterKey && (!automaticMode || !row.disabled))
-    && characters.items.some(row => row.key === selection.targetCharacterKey && (!automaticMode || !row.disabled))
+  const comparisonIssues = comparisonEnabled && !comparisonDiff.valid
+    ? [`首版出装比较仅支持替换、增补或卸下 1 件攻击方装备（A 独有 ${comparisonDiff.onlyInA.length} 件，B 独有 ${comparisonDiff.onlyInB.length} 件）。`] : [];
+  const objectsSelected = characters.items.some(row => row.key === selection.sourceCharacterKey)
+    && characters.items.some(row => row.key === selection.targetCharacterKey)
     && (!skillMode || selection.plannedSkills.every(plan => activeSkills.items.some(row => row.key === plan.skillKey)))
     && (skillMode && !backgroundAttack || skills.items.some(row => row.key === selection.basicAttackSkillKey))
-    && [...selection.sourceEquipmentKeys, ...selection.targetEquipmentKeys].every(key => equipment.items.some(row => row.key === key && (!automaticMode || !row.disabled)));
+    && [...selection.sourceEquipmentKeys, ...selection.targetEquipmentKeys, ...(comparisonEnabled ? equipmentB.keys : [])]
+      .every(key => equipment.items.some(row => row.key === key));
   const combatSkillsLoading = automaticMode && (boundSkills.loading || targetBoundSkills.loading);
   const requirements = automaticMode && comparisonEnabled ? mergeCombatRequirements(
     inspection?.requirements ?? [], inspectionB?.requirements ?? [], row => `${row.side}:${row.attribute.attributeKey}`)
@@ -600,20 +607,6 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
     };
   }, [apiBaseUrl, automaticMode, selectedGameId, onDirtyChange]);
 
-  useEffect(() => {
-    const directory = availability.response;
-    if (!automaticMode || !directory) return;
-    const invalid = (plan: FrozenCombatPlan | null) => plan?.archive.outcome === 'passed' && (
-      selectedSimulationAvailabilityIssues(directory, plan.input.selection).length > 0
-      || !matchesFrozenPlanInput(captureComparisonAvailability(directory, plan.input.selection), plan.availability)
-    );
-    const staleA = invalid(frozenA);
-    const staleB = invalid(frozenB);
-    if (staleA) setResultStale(true);
-    if (staleB) setResultBStale(true);
-    if (staleA || staleB) setComparisonResult(null);
-  }, [automaticMode, availability.response, frozenA, frozenB]);
-
   const isCurrent = (task: Task) => active.current && taskRef.current === task && !task.cancelled;
 
   const beginTask = (nextPhase: Exclude<TaskPhase, 'idle'>, kind: TaskKind = nextPhase === 'reading' ? 'snapshot' : 'compile'): Task | null => {
@@ -720,9 +713,9 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
         const settings = [...current[`${side}SkillSettings`]];
         const origin = { kind: 'CHARACTER' as const, characterKey: current[`${side}CharacterKey`] };
         for (const option of options) {
-          if (side === 'source' && option.basicAttack) continue;
+          const excluded = excludedSkills[side].has(option.key);
+          if (side === 'source' && option.basicAttack && !excluded) continue;
           const identity = simulationSkillSourceIdentity(origin, option.key);
-          const excluded = simulationExcludedSkillSources(availability.response, origin.characterKey).some(source => source.skillKey === option.key);
           const existing = settings.findIndex(item => simulationSkillSourceIdentity(item.origin, item.skillKey) === identity);
           if (existing >= 0) {
             if (excluded && settings[existing]!.enabled) settings[existing] = { ...settings[existing]!, enabled: false };
@@ -744,11 +737,11 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
       catch { /* 等级清空时保留上次闭包，草稿校验禁止读取和执行。 */ }
       return JSON.stringify(next) === JSON.stringify(current) ? current : next;
     });
-  }, [automaticMode, busy, boundSkills.scope, boundSkills.items, boundSkills.loading, boundSkills.error, targetBoundSkills.items, combatRoster, clearedSkillLevels, selection.sourceCharacterKey, availability.response]);
+  }, [automaticMode, busy, boundSkills.scope, boundSkills.items, boundSkills.loading, boundSkills.error, targetBoundSkills.items, combatRoster, clearedSkillLevels, selection.sourceCharacterKey, excludedSkills]);
 
   const patchBoundSkill = (side: 'source' | 'target', skillKey: string, patch: { enabled?: boolean; skillLevel?: number }) => {
     if (taskRef.current) return;
-    if (simulationExcludedSkillSources(availability.response, selection[`${side}CharacterKey`]).some(source => source.skillKey === skillKey)) return;
+    if (excludedSkills[side].has(skillKey)) return;
     const option = (side === 'source' ? boundSkills.items : targetBoundSkills.items).find(row => row.key === skillKey);
     if (!option) return;
     const origin = { kind: 'CHARACTER' as const, characterKey: selection[`${side}CharacterKey`] };
@@ -879,7 +872,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
   const patchSkillSource = (side: 'source' | 'target', source: SimulationSkillSource, patch: { enabled?: boolean; skillLevel?: number }) => {
     if (taskRef.current || source.skillStatus === 'DISABLED') return;
     if (automaticMode && source.origin.kind === 'CHARACTER'
-      && simulationExcludedSkillSources(availability.response, source.origin.characterKey).some(excluded => excluded.skillKey === source.skillKey)) return;
+      && excludedSkills[side].has(source.skillKey)) return;
     const identity = simulationSkillSourceIdentity(source.origin, source.skillKey);
     if (side === 'source') setSkillInputs(current => ({ ...current, actions: current.actions.flatMap(action => {
       if (simulationSkillSourceIdentity(action.origin, action.skillKey) !== identity) return [action];
@@ -1361,61 +1354,43 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
 
     try {
       const requestedA = selectionFromDraft(selection, levels.items, skillLevels, enabledAutomaticRules.length > 0, backgroundAttack);
-      const requestedB = comparing ? withBEquipment(requestedA) : null;
-      const currentAvailability = await availability.refresh(signal);
-      if (!isCurrent(task)) return;
-      const issuesA = selectedSimulationAvailabilityIssues(currentAvailability, requestedA);
-      const issuesB = requestedB ? selectedSimulationAvailabilityIssues(currentAvailability, requestedB) : [];
-      if (issuesA.length || issuesB.length) throw new Error([
-        ...issuesA.map(issue => comparing ? `方案 A：${issue}` : issue),
-        ...issuesB.filter(issue => !issuesA.includes(issue)).map(issue => `方案 B：${issue}`)
-      ].join('；'));
-
-      const read = async (request: SimulationSelection) => (await getSimulationSnapshot(apiBaseUrl, selectedGameId, request, signal)).data;
-      const readA = async () => {
-        const first = await read(requestedA);
-        const defaults = fillSimulationSkillLevelDefaults(first.selection, first, clearedSkillLevels);
-        if (defaults.changed) return read(normalizeSimulationSelection(defaults.selection));
-        return first;
-      };
-      const stamp = captureComparisonAvailability(currentAvailability, requestedA);
-      let candidate = comparing && !resultStale && frozenA?.archive.outcome === 'passed'
-        && matchesFrozenPlanInput(frozenA.input.selection, requestedA) ? frozenA : null;
-      let a: SimulationSnapshot;
-      let b: SimulationSnapshot | null = null;
-      if (candidate && requestedB) {
-        b = await read(withBEquipment(candidate.archive.snapshot.selection));
-        if (!isCurrent(task)) return;
-        if (!stamp || !matchesFrozenPlanInput(stamp, candidate.availability)
-          || !verifyCommonComparisonBaseline(candidate.archive.snapshot, b)) {
-          candidate = null;
-          setResultStale(true);
+      const read = async (request: SimulationSelection, plan: 'A' | 'B') => {
+        task.combatPlan = plan;
+        try {
+          const { data } = await getSimulationSnapshot(apiBaseUrl, selectedGameId, request, signal);
+          signal.throwIfAborted();
+          const changes = (['source', 'target'] as const).flatMap(side => {
+            const excluded = data[side].skillSources.find(source => source.enabled && source.skillStatus === 'ENABLED' && source.origin.kind === 'CHARACTER'
+              && excludedSkills[side].has(source.skillKey));
+            if (!excluded) return [];
+            (side === 'source' ? boundSkills : targetBoundSkills).retry();
+            return [`${sideLabels[side]}技能「${excluded.skillName}」的挂载已更新，本场会关闭该技能。`];
+          });
+          if (changes.length) throw new Error(`${changes.join('\n')}\n技能读取完成后可重试。`);
+          return data;
+        } catch (cause) {
+          if (isCurrent(task)) {
+            if (plan === 'A') setResultStale(true);
+            setResultBStale(true);
+          }
+          throw cause;
         }
-      }
-
-      const readFreshPair = async () => {
-        const freshA = await readA();
-        if (!isCurrent(task)) return null;
-        const selectionB = comparing ? withBEquipment(freshA.selection) : null;
-        const freshB = !selectionB ? null : b && matchesFrozenPlanInput(b.selection, selectionB) ? b : await read(selectionB);
-        if (!isCurrent(task)) return null;
-        return { a: freshA, b: freshB };
       };
-      if (candidate) {
-        a = candidate.archive.snapshot;
-      } else {
-        const fresh = await readFreshPair();
-        if (!fresh) return;
-        a = fresh.a;
-        b = fresh.b;
-      }
-
-      const requireCommonBaseline = () => {
-        if (b && !verifyCommonComparisonBaseline(a, b)) throw new Error('方案 A 与方案 B 的共同配置不一致，请重新开始比较。');
-      };
+      const firstA = await read(requestedA, 'A');
+      if (!isCurrent(task)) return;
+      const defaults = fillSimulationSkillLevelDefaults(firstA.selection, firstA, clearedSkillLevels);
+      const a = defaults.changed ? await read(normalizeSimulationSelection(defaults.selection), 'A') : firstA;
+      if (!isCurrent(task)) return;
+      if (frozenA && a.snapshotDigest !== frozenA.archive.snapshotDigest) setResultStale(true);
+      const b = comparing ? await read(withBEquipment(a.selection), 'B') : null;
+      if (!isCurrent(task)) return;
+      if (b && frozenB && b.snapshotDigest !== frozenB.archive.snapshotDigest) setResultBStale(true);
+      task.combatPlan = undefined;
+      if (b && !verifyCommonComparisonBaseline(a, b)) throw new Error('方案 A 与方案 B 的共同配置不一致，请重新开始比较。');
 
       const inspect = async (next: SimulationSnapshot, scene: CombatRunInput['scene'], side: 'A' | 'B') => {
         if (!isCurrent(task)) return null;
+        task.combatPlan = side;
         trackFormulaProof(task, next, scene);
         task.client = computationClient();
         const proof = await preflightSkillFormulas(next, task.client, () => isCurrent(task), scene);
@@ -1441,14 +1416,14 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
       };
 
       const checkPair = async () => {
-        if (b && frozenB && b.snapshotDigest !== frozenB.archive.snapshotDigest) setResultBStale(true);
-        requireCommonBaseline();
         showSnapshots();
         setInspection(null);
         setInspectionB(null);
+        task.combatPlan = 'A';
         const requirementsA = sceneInitialParameterRequirements(a);
-        const requirementsB = b ? sceneInitialParameterRequirements(b) : [];
         const sceneA = combatSceneInputs(a, requirementsA, sceneValues);
+        if (b) task.combatPlan = 'B';
+        const requirementsB = b ? sceneInitialParameterRequirements(b) : [];
         const sceneB = b ? combatSceneInputs(b, requirementsB, sceneValues) : null;
         const sceneRequirements = mergeCombatRequirements(requirementsA, requirementsB, row => row.declarationIdentity);
         setSceneParameterRequirements(sceneRequirements);
@@ -1463,24 +1438,14 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
         if (!isCurrent(task)) return null;
         return { a: checkedA, b: checkedB, issuesA: checkedA.issues, issuesB: checkedB?.issues ?? [] };
       };
-      let checked = await checkPair();
+      const checked = await checkPair();
       if (!checked || !isCurrent(task)) return;
-      if (candidate && checked.a && !matchesFrozenPlanInput(checked.a.input, candidate.input)) {
-        candidate = null;
-        setResultStale(true);
-        task.phase = 'reading';
-        setPhase('reading');
-        const fresh = await readFreshPair();
-        if (!fresh) return;
-        a = fresh.a;
-        b = fresh.b;
-        checked = await checkPair();
-        if (!checked || !isCurrent(task)) return;
-      }
 
       setInspection(checked.a?.inspection ?? null);
       setInspectionB(checked.b?.inspection ?? null);
       setFormulaPreflight(checked.a?.proof ?? null);
+      const matchesA = frozenA && matchesFrozenPlanInput(checked.a?.input, frozenA.input);
+      if (frozenA && checked.a?.input && !matchesA) setResultStale(true);
       if (b && frozenB && !matchesFrozenPlanInput(checked.b?.input, frozenB.input)) setResultBStale(true);
 
       if (checked.issuesA.length || checked.issuesB.length) {
@@ -1495,10 +1460,12 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
         task.combatPlan = side;
         const result = await runSnapshot(task, next, kind, { ...input, continuous: input.automatic }, side === 'A');
         if (!result || !isCurrent(task)) return null;
-        if (!result.archive || result.archive.taskKind !== kind) throw new Error(`方案 ${side}：${result.failure ?? '计算档案未生成。'}`);
-        return { archive: result.archive, input, availability: captureComparisonAvailability(currentAvailability, next.selection) };
+        if (!result.archive || result.archive.taskKind !== kind) throw new Error(result.failure ?? '计算档案未生成。');
+        return { archive: result.archive, input };
       };
       if (!checked.a?.input || (comparing && (!b || !checked.b?.input))) throw new Error('未取得本次方案的有效输入。');
+      const candidate = comparing && !resultStale && frozenA?.archive.outcome === 'passed'
+        && a.snapshotDigest === frozenA.archive.snapshotDigest && matchesA ? frozenA : null;
       const resultA = candidate ?? await runPlan(a, checked.a.input, 'A');
       if (!resultA || !isCurrent(task)) return;
       setArchive(resultA.archive);
@@ -1516,7 +1483,10 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
       setComparisonResult({ a: resultA.archive, b: resultB.archive });
       setNotice(resultA.archive.outcome === 'passed' && resultB.archive.outcome === 'passed' ? '比较完成。' : null);
     } catch (cause) {
-      if (isCurrent(task)) setError(taskError(cause));
+      if (isCurrent(task)) {
+        const message = taskError(cause);
+        setError(message && comparing && task.combatPlan ? `方案 ${task.combatPlan}：${message}` : message);
+      }
     } finally {
       if (isCurrent(task)) {
         clearOwnedFormulaProof(task.formulaProofIdentity);
@@ -1540,7 +1510,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
       ...(side === 'source' && characterKey && boundSkills.scope && !boundSkills.loading && !boundSkills.error && !combatRoster.basicAttack
         ? { basicAttackFallback: { enabled: backgroundAttack, onChange: (enabled: boolean) => { setBackgroundAttack(enabled); clearArtifacts(); } } } : {}),
       skills: options.items.map(option => {
-        const excluded = simulationExcludedSkillSources(availability.response, characterKey).find(source => source.skillKey === option.key);
+        const excluded = excludedSkills[side].get(option.key);
         const identity = simulationSkillSourceIdentity({ kind: 'CHARACTER', characterKey }, option.key);
         const setting = selection[`${side}SkillSettings`].find(item => simulationSkillSourceIdentity(item.origin, item.skillKey) === identity);
         const basic = side === 'source' && option.basicAttack;
@@ -1548,7 +1518,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
           level: basic ? selection.basicAttackLevel : clearedSkillLevels[`${side}:${identity}`] ? undefined : setting?.skillLevel ?? option.maxLevel,
           enabled: excluded ? false : basic ? backgroundAttack : setting?.enabled ?? true,
           disabled: Boolean(excluded) || basic && combatRoster.basicAttack === null,
-          hint: excluded ? `本场范围不启用：${excluded.reason}` : basic ? '按攻速持续攻击' : option.combat?.issue ?? undefined };
+          hint: excluded ? `本场范围不启用：${excluded}` : basic ? '按攻速持续攻击' : option.combat?.issue ?? undefined };
       }),
       onCharacter: value => patchSelection(side === 'source' ? 'sourceCharacterKey' : 'targetCharacterKey', value),
       onLevel: value => patchSelection(side === 'source' ? 'sourceLevel' : 'targetLevel', value),
@@ -1654,10 +1624,6 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
         action={<Button disabled={busy} onClick={targetBoundSkills.retry}>重试目标技能</Button>} /> : null}
       {levels.error ? <Alert key="level-options-error" type="error" content={`角色等级范围读取失败：${levels.error}`}
         action={<Button disabled={busy} onClick={levels.retry}>重试等级范围</Button>} /> : null}
-      {automaticMode && availability.error ? <Alert key="availability-error" type="error" content={`计算可用目录读取失败：${availability.error}`}
-        action={<Button disabled={busy} onClick={availability.retry}>重试计算可用目录</Button>} /> : null}
-      {automaticMode && availability.response && !characters.items.some(row => !row.disabled) ? <Alert key="no-ready-character" type="warning"
-        content="当前还没有完成整英雄计算验证的角色。未就绪角色保留在列表中，具体缺口显示在选项下方；补齐并验证后开放。" /> : null}
       {equipment.error ? <Alert key="equipment-options-error" type="error" content={`装备列表读取失败：${equipment.error}`}
         action={<Button disabled={busy} onClick={equipment.retry}>重试装备列表</Button>} /> : null}
       {healthIssues.length ? <Alert key="health-limit-error" type="error" content={healthIssues.join('\n')} /> : null}
@@ -1669,9 +1635,9 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
         characters={characters.items} charactersLoading={characters.loading} equipment={equipment.items} equipmentLoading={equipment.loading}
         levels={levels.items} levelsLoading={levels.loading} imageLoader={imageLoader} disabled={busy}
         unavailable={!selectedGameId || Boolean(characters.error) || Boolean(levels.error) || Boolean(equipment.error)}
-        issues={[...availabilityIssues, ...automaticIssues, ...comparisonIssues]} runDisabled={!objectsSelected || !levelsSelected || combatSkillsLoading || Boolean(boundSkills.error)
-          || Boolean(targetBoundSkills.error) || automaticIssues.length > 0 || availabilityIssues.length > 0 || comparisonIssues.length > 0
-          || availability.loading || Boolean(availability.error) || !availability.response || !buildsReady.source || !buildsReady.target}
+        issues={[...automaticIssues, ...comparisonIssues]} error={error}
+        runDisabled={!objectsSelected || !levelsSelected || combatSkillsLoading || Boolean(boundSkills.error)
+          || Boolean(targetBoundSkills.error) || automaticIssues.length > 0 || comparisonIssues.length > 0 || !buildsReady.source || !buildsReady.target}
         conditions={combatConditions} onRun={() => void startCombat()} onCancel={cancelTask}
         comparison={{ enabled: comparisonEnabled, equipmentKeys: equipmentB.keys, onEquipment: patchEquipmentB,
           onCopy: copyEquipmentToB, onClose: closeComparison, extra: snapshotB && comparisonDiff.onlyInB.length
@@ -1842,7 +1808,7 @@ export function SimulationScenarioPanel({ mode, apiBaseUrl, selectedGameId, auth
         </Form>
         <Typography.Paragraph type="secondary">记录上限可显式为0；各类预算独立，不改变完整累计或结算。</Typography.Paragraph>
       </section> : null}
-      {error ? <Alert key="task-error" type="error" content={<span style={{ whiteSpace: 'pre-wrap' }}>{error}</span>} /> : null}
+      {!automaticMode && error ? <Alert key="task-error" type="error" content={<span style={{ whiteSpace: 'pre-wrap' }}>{error}</span>} /> : null}
       <ProblemReport key="problem-report" gameId={selectedGameId} mode={mode}
         material={{ snapshot, input: { selection, attributeDrafts, initialHealth, resourceDrafts, mechanicDrafts, sceneParameterDrafts,
           auraConfirmed, durationMs, skillMode, backgroundAttack, skillInputs, automaticInputs, recordTimeSeries, healthMode,

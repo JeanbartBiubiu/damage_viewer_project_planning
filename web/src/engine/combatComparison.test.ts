@@ -1,11 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { simulationAvailabilityCatalog, simulationAvailabilityEntry } from '../../tests/fixtures/simulationAvailability';
 import { simulationDefaultSourcesSample } from '../../tests/fixtures/simulationSnapshot';
 import { triggeredEquipmentSimulationSample } from '../../tests/fixtures/simulationTriggeredEquipment';
 import type { DamageBreakdown, DoneResult, ExecutionSummary, RunRequest, RunSummary } from '../types/genericEngine';
 import type { SimulationSkillOrigin, SimulationSkillSetting } from '../types/simulationSnapshot';
 import {
-  assessCombatComparison, buildCombatComparisonArchive, captureComparisonAvailability, matchesFrozenPlanInput,
+  assessCombatComparison, buildCombatComparisonArchive, matchesFrozenPlanInput,
   mergePlanEquipment, transferEquipmentSettingsOnChange, validateEquipmentComparisonDiff, verifyCommonComparisonBaseline,
   type CombatComparisonArchive, type CombatComparisonMetric, type CombatEquipmentPlan
 } from './combatComparison';
@@ -81,26 +80,6 @@ describe('冻结输入和共同数据基线', () => {
     expect(matchesFrozenPlanInput({ ...frozen, inputs: [...frozen.inputs].reverse() }, frozen)).toBe(false);
     expect(matchesFrozenPlanInput({ value: null }, {})).toBe(false);
     expect(matchesFrozenPlanInput({ value: 0 }, { value: null })).toBe(false);
-  });
-
-  it('只冻结选中的目录对象摘要，目录条目和装备键重排不影响候选 A', () => {
-    const snapshot = triggeredEquipmentSimulationSample(['item_1043', 'item_1036'], ['item_1036']);
-    const characters = [simulationAvailabilityEntry('actor_a'), simulationAvailabilityEntry('actor_b'), simulationAvailabilityEntry('unused')];
-    const equipment = snapshot.selection.sourceEquipmentKeys.map(key => simulationAvailabilityEntry(key, { equipment: true }));
-    const availability = simulationAvailabilityCatalog('lol', characters, equipment);
-    const frozen = captureComparisonAvailability(availability, snapshot.selection);
-    expect(frozen).toEqual({ gameId: 'lol', scopeDigest: availability.scopeDigest, sharedDigest: availability.sharedDigest,
-      characters: characters.slice(0, 2).map(row => ({ key: row.key, contentDigest: row.contentDigest, externalDigest: row.verification.externalDigest })),
-      equipment: equipment.map(row => ({ key: row.key, contentDigest: row.contentDigest, externalDigest: row.verification.externalDigest })) });
-    const reordered = { ...availability, characters: [...characters].reverse(), equipment: [...equipment].reverse() };
-    expect(captureComparisonAvailability(reordered, { ...snapshot.selection, sourceEquipmentKeys: ['item_1043', 'item_1036'] })).toEqual(frozen);
-    const updated = structuredClone(availability);
-    updated.characters.find(row => row.key === 'unused')!.contentDigest = '7'.repeat(64);
-    expect(captureComparisonAvailability(updated, snapshot.selection)).toEqual(frozen);
-    updated.equipment.find(row => row.key === 'item_1043')!.verification.externalDigest = '8'.repeat(64);
-    expect(matchesFrozenPlanInput(captureComparisonAvailability(updated, snapshot.selection), frozen)).toBe(false);
-    expect(captureComparisonAvailability({ ...availability, equipment: [] }, snapshot.selection)).toBeNull();
-    expect(captureComparisonAvailability(null, snapshot.selection)).toBeNull();
   });
 
   it('容许独有装备及其配置、目录交集之外的定义和全档摘要不同', () => {

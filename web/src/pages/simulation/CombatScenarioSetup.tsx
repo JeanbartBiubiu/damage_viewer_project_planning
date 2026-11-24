@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Button, Form, Select, Switch } from '@arco-design/web-react';
+import { Alert, Button, Form, Select, Switch } from '@arco-design/web-react';
 import { SimulationEntitySelect } from './SimulationEntitySelect';
 import { SimulationEquipmentSelect } from './SimulationEquipmentSelect';
 import { SimulationEntityOptionLabel } from './SimulationEntityOptionLabel';
@@ -43,6 +43,7 @@ export type CombatScenarioSetupProps = {
   disabled: boolean;
   unavailable: boolean;
   issues: string[];
+  error: string | null;
   runDisabled: boolean;
   onRun: () => void;
   conditions: ReactNode;
@@ -135,7 +136,7 @@ function Combatant({ side, value, comparisonControls, ...shared }: {
   </section>;
 }
 
-export function CombatScenarioSetup({ source, target, issues, runDisabled, onRun, conditions, comparison, onCancel, ...shared }: CombatScenarioSetupProps) {
+export function CombatScenarioSetup({ source, target, issues, error, runDisabled, onRun, conditions, comparison, onCancel, ...shared }: CombatScenarioSetupProps) {
   const disabled = shared.disabled || shared.unavailable;
   const comparisonControls = comparison.enabled ? <section aria-label="方案 B 装备设置">
     <Form.Item label="攻击方装备（方案 B，仅改 1 件装备）">
@@ -164,5 +165,6 @@ export function CombatScenarioSetup({ source, target, issues, runDisabled, onRun
       </Button>
       {shared.disabled ? <Button status="danger" onClick={onCancel}>取消当前请求</Button> : null}
     </div>
+    {error ? <Alert type="error" content={<span style={{ whiteSpace: 'pre-wrap' }}>{error}</span>} /> : null}
   </Form>;
 }

@@ -1,10 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getErrorMessage } from '../../services/apiClient';
-import { getSimulationAvailability } from '../../services/simulationAvailabilityClient';
-import type { SimulationAvailabilityResponse } from '../../types/simulationAvailability';
 import {
-  applySimulationAvailability, createSimulationImageLoader, loadCharacterSkillOptions, loadCharacterOptions, loadCharacterLevelOptions, loadEquipmentOptions,
-  type SelectionContext, type SimulationImageLoader
+  createSimulationImageLoader, loadCharacterSkillOptions, loadCharacterOptions, loadCharacterLevelOptions, loadEquipmentOptions,
+  type SimulationImageLoader
 } from './simulationSelectionOptions';
 
 type OptionList<T> = { scope: object | null; items: T[]; loading: boolean; error: string | null; notice: string | null };
@@ -31,69 +29,12 @@ function useOptionList<T>(scope: object | null, load: (signal: AbortSignal) => P
   };
 }
 
-type AvailabilityState = {
-  scope: SelectionContext | null; loading: boolean; error: string | null; response: SimulationAvailabilityResponse | null;
-};
-
-function useSimulationAvailability(scope: SelectionContext | null) {
-  const currentScope = useRef(scope);
-  currentScope.current = scope;
-  const mounted = useRef(false);
-  const active = useRef<{ scope: SelectionContext; controller: AbortController } | null>(null);
-  const [state, setState] = useState<AvailabilityState>({ scope: null, loading: false, error: null, response: null });
-  const refresh = useCallback(async (signal?: AbortSignal): Promise<SimulationAvailabilityResponse> => {
-    if (!scope || currentScope.current !== scope || !mounted.current) throw new DOMException('计算可用性读取作用域已改变。', 'AbortError');
-    signal?.throwIfAborted();
-    active.current?.controller.abort();
-    const controller = new AbortController();
-    const request = { scope, controller };
-    const ownsRequest = () => mounted.current && active.current === request && currentScope.current === scope;
-    const cancel = () => {
-      controller.abort();
-      if (!ownsRequest()) return;
-      active.current = null;
-      setState(previous => previous.scope === scope ? { ...previous, loading: false } : previous);
-    };
-    active.current = request;
-    signal?.addEventListener('abort', cancel, { once: true });
-    setState(previous => ({ scope, loading: true, error: null, response: previous.scope === scope ? previous.response : null }));
-    try {
-      const { data } = await getSimulationAvailability(scope.apiBaseUrl, scope.gameId, controller.signal);
-      if (controller.signal.aborted || !ownsRequest()) {
-        throw new DOMException('计算可用性读取已取消。', 'AbortError');
-      }
-      setState({ scope, loading: false, error: null, response: data });
-      return data;
-    } catch (error) {
-      if (!controller.signal.aborted && ownsRequest()) {
-        setState({ scope, loading: false, error: getErrorMessage(error), response: null });
-      }
-      throw error;
-    } finally {
-      signal?.removeEventListener('abort', cancel);
-      if (active.current === request) active.current = null;
-    }
-  }, [scope]);
-  useEffect(() => {
-    mounted.current = true;
-    if (scope) void refresh().catch(() => undefined);
-    return () => {
-      mounted.current = false;
-      if (active.current?.scope === scope) active.current.controller.abort();
-    };
-  }, [scope, refresh]);
-  const retry = useCallback(() => { void refresh().catch(() => undefined); }, [refresh]);
-  const visible = scope && state.scope === scope ? state : { loading: Boolean(scope), error: null, response: null };
-  return { loading: visible.loading, error: visible.error, response: visible.response, retry, refresh };
-}
-
 export function useSimulationSelectionOptions(apiBaseUrl: string, gameId: string | null, sourceKey: string,
   combatMode = false, targetKey = '') {
   const context = useMemo(() => gameId ? { apiBaseUrl, gameId } : null, [apiBaseUrl, gameId]);
   const loadCharacters = useCallback(async (signal: AbortSignal) => ({ items: context
     ? await loadCharacterOptions(context, signal) : [] }), [context]);
   const characters = useOptionList(context, loadCharacters);
-  const availability = useSimulationAvailability(combatMode ? context : null);
   const loadEquipment = useCallback(async (signal: AbortSignal) => ({ items: context
     ? await loadEquipmentOptions(context, signal) : [] }), [context]);
   const equipment = useOptionList(context, loadEquipment);
@@ -120,13 +61,6 @@ export function useSimulationSelectionOptions(apiBaseUrl: string, gameId: string
     setImages({ scope: context, load: createSimulationImageLoader(context, controller.signal) });
     return () => controller.abort();
   }, [context]);
-  const unavailableReason = availability.loading ? '正在核对完整计算证明…' : availability.error ? '计算可用性目录读取失败，请重试。' : undefined;
-  const characterItems = useMemo(() => combatMode
-    ? applySimulationAvailability(characters.items, availability.response, unavailableReason) : characters.items,
-  [combatMode, characters.items, availability.response, unavailableReason]);
-  const equipmentItems = useMemo(() => combatMode
-    ? applySimulationAvailability(equipment.items, availability.response, unavailableReason) : equipment.items,
-  [combatMode, equipment.items, availability.response, unavailableReason]);
-  return { characters: { ...characters, items: characterItems }, skills, activeSkills, boundSkills, targetBoundSkills,
-    equipment: { ...equipment, items: equipmentItems }, levels, availability, imageLoader: images?.scope === context ? images.load : null };
+  return { characters, skills, activeSkills, boundSkills, targetBoundSkills,
+    equipment, levels, imageLoader: images?.scope === context ? images.load : null };
 }

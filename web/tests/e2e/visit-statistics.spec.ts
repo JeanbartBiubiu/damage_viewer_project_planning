@@ -38,9 +38,6 @@ class VisitApi {
       return route.fulfill({ json: days() });
     }
     if (method === 'GET' && path === '/api/games') return route.fulfill({ json: [{ gameId: 'demo', gameName: '测试游戏', representativeImageKey: null }] });
-    if (method === 'GET' && path.endsWith('/simulation-availability')) return route.fulfill({ json: {
-      gameId: 'demo', profile: 'combat-analysis-v1', digestVersion: 'simulation-availability-v1', scopeDigest: '0'.repeat(64), sharedDigest: '0'.repeat(64), characters: [], equipment: []
-    } });
     if (method === 'GET' && path === '/api/admin/games/demo/images') return route.fulfill({ json: { gameId: 'demo', images: [] } });
     if (method === 'GET' && path.endsWith('/representative-image')) return route.fulfill({ json: { image: null } });
     if (method === 'GET' && /^\/api\/admin\/games\/demo\/(attributes|characters)$/.test(path)) return route.fulfill({ json: { items: [], total: 0 } });

@@ -6,7 +6,6 @@ import { expect, test, type Locator, type Page, type Route } from '@playwright/t
 import { simulationSample } from '../fixtures/simulationSnapshot';
 import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelectionApi } from '../fixtures/simulationSelection';
 import { expectSimulationConfigurationReady, simulationSnapshotWithSelection } from '../fixtures/simulationSnapshotRequests';
-import { simulationAvailabilityCatalog, simulationAvailabilitySample } from '../fixtures/simulationAvailability';
 import { loadMechanismCases } from '../mechanisms/mechanismCase';
 import { compareMechanismExpectation, projectMechanismResult } from '../mechanisms/mechanismRunner';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
@@ -72,10 +71,6 @@ async function installApi(page: Page) {
     if (match) {
       anonymousReads.push(!request.headers().authorization && !request.headers().cookie && !request.headers()['x-csrf-token']);
       const [, gameId, resource] = match;
-      if (resource === 'simulation-availability') {
-        await respond(route, simulationAvailabilityCatalog(gameId!));
-        return;
-      }
       if (resource === 'calculation-rules') {
         await respond(route, { gameId, baseDigest: 'c'.repeat(64), configuration: null });
         return;
@@ -106,7 +101,7 @@ async function installApi(page: Page) {
       expect(unexpected, '未定义接口请求').toEqual([]);
       expect(writes, '切模式不得写管理数据').toEqual([]);
       if (formulaPreflightOnly === 'runtime') {
-        expect(workers.length, '页面准备与运行均使用真实线程').toBeGreaterThan(1);
+        expect(workers.length, '页面计算使用真实线程').toBeGreaterThan(0);
         expect(workers.every(url => url.includes('genericEngineWorker'))).toBe(true);
         expect(wasmRequests, '每个线程读取正式分发产物').toHaveLength(workers.length);
       } else if (formulaPreflightOnly) {
@@ -292,7 +287,7 @@ test('原页只保留普攻与固定计划，自动入口进入独立页面且�
   await expect(page.getByRole('form', { name: '混合战斗场景选择', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '添加自动技能', exact: true })).toHaveCount(0);
   await expect(page.locator('.simulation-entity-select[aria-label="普攻技能"]')).toHaveCount(0);
-  await expect(page.getByRole('button', { name: '准备计算', exact: true })).toBeDisabled();
+  await expect(page.getByRole('button', { name: '开始计算', exact: true })).toBeDisabled();
   await page.getByRole('link', { name: '普攻模拟', exact: false }).click();
   await expect(page).toHaveURL(/#\/simulation\/basic-attack$/);
   await expect(page.getByRole('checkbox', { name: '指定技能行动计划', exact: true })).not.toBeChecked();
@@ -576,8 +571,6 @@ test('混合战斗完整页面：普攻与主动共用时钟，真实编译运�
   await page.route(`**/api/games`, route => respond(route, [
     { gameId: snapshot.gameId, gameName: '合成混合战斗验收', representativeImageKey: null }
   ]));
-  await page.route(`**/api/admin/games/${snapshot.gameId}/simulation-availability?**`, route =>
-    respond(route, simulationAvailabilitySample(snapshot)));
   await page.route(`**/api/admin/games/${snapshot.gameId}/character-skill-relations?**`, route => {
     const characterKey = new URL(route.request().url()).searchParams.get('characterKey');
     const actor = [snapshot.source, snapshot.target].find(row => row.character.characterKey === characterKey)!;
@@ -599,19 +592,11 @@ test('混合战斗完整页面：普攻与主动共用时钟，真实编译运�
   await chooseSimulationEntity(page, '目标角色', snapshot.selection.targetCharacterKey);
   await chooseSimulationLevel(page, '目标等级', snapshot.selection.targetLevel);
   await expect(page.getByRole('group', { name: '攻击方技能 lab_true_strike', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: '准备计算', exact: true }).click();
-  await expectSimulationConfigurationReady(page);
-  await page.getByRole('spinbutton', { name: '攻击方初始当前生命', exact: true }).fill('1000');
-  await page.getByRole('spinbutton', { name: '目标初始当前生命', exact: true }).fill('10000');
   await page.getByRole('spinbutton', { name: '观察时长（毫秒）', exact: true }).fill('5500');
-  await page.getByRole('spinbutton', { name: '攻速输入上界', exact: true }).fill('10');
-  await page.getByText('调试详情：编译请求、原始结果与引用覆盖', { exact: true }).click();
-  await page.getByRole('button', { name: '编译验证', exact: true }).click();
-  await expect(page.getByText('仅编译验证通过，不代表单次/连续计算通过。', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: '开始计算', exact: true }).click();
-  await expect(page.getByText('自动循环观察完成，会话已释放；完整累计、最后等待与资格账本已核对。', { exact: true })).toBeVisible();
+  await expect(page.getByRole('alert').filter({ hasText: /^计算完成。$/ })).toBeVisible();
   const result = page.getByRole('region', { name: '自动技能结果', exact: true });
-  await expect(result).toContainText('观察完整核对；会话已释放');
+  await expect(result).toContainText('观察完整核对');
   await expect(result).toContainText('背景普攻实际开始6，命中6，完整6');
 
   const download = page.waitForEvent('download');

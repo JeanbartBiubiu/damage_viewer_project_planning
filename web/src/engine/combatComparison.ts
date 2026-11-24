@@ -1,6 +1,5 @@
 import { simulationSkillSourceIdentity } from '../services/simulationSkillSourceIdentity';
 import type { DamageBreakdown, DoneResult, RunRequest, RunSummary } from '../types/genericEngine';
-import type { SimulationAvailabilityEntry, SimulationAvailabilityResponse } from '../types/simulationAvailability';
 import type { SimulationSelection, SimulationSkillOrigin, SimulationSkillSetting, SimulationSnapshot } from '../types/simulationSnapshot';
 import { automaticOrigin } from './automaticSkillPresentation';
 import { projectFrozenRunArchive, sanitizeArchiveBusiness } from './continuousAttackArchive';
@@ -70,34 +69,6 @@ export function matchesFrozenPlanInput(effectiveInput: unknown, frozenInput: unk
   const keys = Object.keys(effectiveInput);
   return keys.length === Object.keys(frozenInput).length && keys.every(key =>
     Object.prototype.hasOwnProperty.call(frozenInput, key) && matchesFrozenPlanInput(effectiveInput[key], frozenInput[key]));
-}
-
-type AvailabilitySelection = Pick<SimulationSelection, 'sourceCharacterKey' | 'targetCharacterKey'> & {
-  sourceEquipmentKeys: readonly string[];
-  targetEquipmentKeys: readonly string[];
-};
-type AvailabilityObjectDigest = { key: string; contentDigest: string; externalDigest: string };
-export type CombatComparisonAvailability = Pick<SimulationAvailabilityResponse, 'gameId' | 'scopeDigest' | 'sharedDigest'> & {
-  characters: AvailabilityObjectDigest[];
-  equipment: AvailabilityObjectDigest[];
-};
-
-function selectedAvailabilityDigests(entries: SimulationAvailabilityEntry[], keys: readonly string[]): AvailabilityObjectDigest[] | null {
-  const result: AvailabilityObjectDigest[] = [];
-  for (const key of [...new Set(keys)].sort()) {
-    const entry = entries.find(row => row.key === key);
-    if (!entry?.contentDigest || !entry.verification.externalDigest) return null;
-    result.push({ key, contentDigest: entry.contentDigest, externalDigest: entry.verification.externalDigest });
-  }
-  return result;
-}
-
-export function captureComparisonAvailability(availability: SimulationAvailabilityResponse | null, selection: AvailabilitySelection): CombatComparisonAvailability | null {
-  if (!availability) return null;
-  const characters = selectedAvailabilityDigests(availability.characters, [selection.sourceCharacterKey, selection.targetCharacterKey]);
-  const equipment = selectedAvailabilityDigests(availability.equipment, [...selection.sourceEquipmentKeys, ...selection.targetEquipmentKeys]);
-  if (!characters || !equipment) return null;
-  return { gameId: availability.gameId, scopeDigest: availability.scopeDigest, sharedDigest: availability.sharedDigest, characters, equipment };
 }
 
 function commonSelection(selection: SimulationSelection, exclusiveEquipment: ReadonlySet<string>) {

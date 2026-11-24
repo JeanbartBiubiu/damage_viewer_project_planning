@@ -26,10 +26,8 @@ export function SimulationEntityOptionLabel({ option, loadImage, selected = fals
   }, [loadImage, option, key, selected]);
   const src = image?.loader === loadImage && image?.key === key ? image.src : null;
   return (
-    <span ref={element} className={`simulation-entity-option${selected ? ' simulation-entity-option--selected' : ''}`}
-      title={option.unavailableDetails ?? option.unavailableReason} style={option.disabled ? { opacity: 0.6 } : undefined}>
+    <span ref={element} className={`simulation-entity-option${selected ? ' simulation-entity-option--selected' : ''}`}>
       <EntitySelectOptionLabel primary={selected ? selectedLabel ?? option.name : option.name} secondary={selected ? null : option.key}
-        meta={option.unavailableReason && (option.unavailableReason.length > 56 ? `${option.unavailableReason.slice(0, 55)}…` : option.unavailableReason)}
         imageSrc={src} imageAlt={option.name} imageSize={24} showImage />
     </span>
   );

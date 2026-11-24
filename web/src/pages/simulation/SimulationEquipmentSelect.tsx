@@ -13,8 +13,8 @@ export function SimulationEquipmentSelect({ label, value, options, loading, disa
         .toLowerCase().includes(input.trim().toLowerCase())}
       notFoundContent={loading ? '正在加载…' : '没有匹配项'}
       virtualListProps={{ height: 264, itemHeight: 48, isStaticItemHeight: false, threshold: 10 }}
-      options={options.map(option => ({ value: option.key, extra: `${option.name} ${option.key} ${option.unavailableReason ?? ''}`,
-        disabled: option.disabled || value.length >= 6 && !value.includes(option.key),
+      options={options.map(option => ({ value: option.key, extra: `${option.name} ${option.key}`,
+        disabled: value.length >= 6 && !value.includes(option.key),
         label: <SimulationEntityOptionLabel option={option} loadImage={loadImage} /> }))}
       renderFormat={(_, selectedValue) => {
         const option = options.find(row => row.key === selectedValue);
@@ -22,6 +22,6 @@ export function SimulationEquipmentSelect({ label, value, options, loading, disa
           selectedLabel={`${option.name}（${option.key}）`} /> : String(selectedValue);
       }}
       onChange={(values: string[]) => onChange(values.filter(key => value.includes(key)
-        || options.some(option => option.key === key && !option.disabled)))} />
+        || options.some(option => option.key === key)))} />
   );
 }
