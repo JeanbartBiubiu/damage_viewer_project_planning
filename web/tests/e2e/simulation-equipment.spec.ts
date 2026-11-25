@@ -8,6 +8,9 @@ import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
 import { equipmentSimulationSample } from '../fixtures/simulationEquipment';
 import { permanentEquipmentSimulationSample } from '../fixtures/simulationPermanentEquipment';
 import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelectionApi } from '../fixtures/simulationSelection';
+import {
+  chooseSimulationEquipment, equipmentSearch, equipmentTile, equipmentTrigger, openEquipmentPicker, selectedEquipment
+} from '../fixtures/simulationEquipmentPicker';
 import { expectSimulationConfigurationReady } from '../fixtures/simulationSnapshotRequests';
 import { syncSimulationSkillSources } from '../fixtures/simulationSkillSources';
 
@@ -21,12 +24,7 @@ test.beforeEach(() => {
 });
 
 async function chooseEquipment(page: Page, side: '攻击方' | '目标', key: string) {
-  const select = page.locator(`.simulation-equipment-select[aria-label="${side}装备"]`);
-  await expect(select).not.toHaveClass(/arco-select-disabled/);
-  await select.locator('input').fill(key);
-  const popup = page.locator(`#${await select.getAttribute('aria-controls')}`);
-  await popup.getByRole('option').filter({ hasText: key }).click();
-  await page.keyboard.press('Escape');
+  await chooseSimulationEquipment(page, `${side}装备`, key);
 }
 
 async function installFixture(page: Page, permanent = false) {
@@ -38,8 +36,10 @@ async function installFixture(page: Page, permanent = false) {
   await page.addInitScript(api => {
   }, API);
   page.on('request', request => {
-    if (request.url().includes('/api/')) methods.push({ path: new URL(request.url()).pathname, method: request.method() });
+    const path = new URL(request.url()).pathname;
+    if (path.startsWith('/api/') && path !== '/api/visits') methods.push({ path, method: request.method() });
   });
+  await page.route('**/api/visits', route => route.fulfill({ status: 204 }));
   await page.route('**/api/auth/me', route => fulfillAuthSession(route, false).then(() => undefined));
   await page.route('**/api/games', route => route.fulfill({ json: [{ gameId: 'lol', gameName: '独立装备结构用例', representativeImageKey: null }] }));
   await installSimulationSelectionApi(page, API, 'lol', sample);
@@ -76,6 +76,8 @@ async function installFixture(page: Page, permanent = false) {
     snapshot.selection = selection;
     if (mode.missingRatio) snapshot.catalogs.attributes = snapshot.catalogs.attributes.filter(row => row.attributeKey !== 'attack_speed_ratio');
     if (mode.passive && snapshot.source.selectedEquipment[0]) {
+      snapshot.catalogs.skillCategories.push({ ...snapshot.catalogs.skillCategories[0]!, skillCategoryKey: 'passive', name: '装备被动' });
+      snapshot.catalogs.calculationRules.configuration!.equipmentPassiveCategoryKey = 'passive';
       const item = snapshot.source.selectedEquipment[0];
       item.attachedSkills.push({ gameId: 'lol', equipmentKey: item.equipment.equipmentKey, equipmentName: item.equipment.name,
         skillKey: snapshot.selection.basicAttackSkillKey, skillName: '明确测试关系', skillStatus: 'ENABLED', sortOrder: 0 });
@@ -149,14 +151,14 @@ async function runActual(page: Page, snapshot: SimulationSnapshot, inputs: Simul
 for (const side of ['攻击方', '目标'] as const) {
   test(`${side}装备支持中文名称与标识搜索，已选装备仍可搜索且清空恢复列表`, async ({ page }) => {
     await installFixture(page);
-    const select = page.getByRole('combobox', { name: `${side}装备`, exact: true });
-    const input = select.locator('input');
+    const label = `${side}装备`;
+    const popup = await openEquipmentPicker(page, label);
+    const input = equipmentSearch(popup);
     await input.fill('长');
-    const popup = page.locator(`#${await select.getAttribute('aria-controls')}`);
-    const sword = popup.getByRole('option').filter({ hasText: 'item_1036' });
+    const sword = equipmentTile(popup, 'item_1036');
     await expect(sword).toBeVisible();
-    await expect(sword.getByRole('img', { name: '样例长剑', exact: true })).toHaveAttribute('src', PNG);
-    await expect(popup.getByRole('option')).toHaveCount(1);
+    await expect(sword.locator('img')).toHaveAttribute('src', PNG);
+    await expect(popup.getByRole('gridcell')).toHaveCount(1);
     await input.pressSequentially('剑');
     await expect(sword).toBeVisible();
     await expect(input).toBeFocused();
@@ -168,20 +170,55 @@ for (const side of ['攻击方', '目标'] as const) {
     await input.fill(' ITEM_1036 ');
     await expect(sword).toBeVisible();
     await sword.click();
-    await page.keyboard.press('Escape');
-    await expect(select.locator('.arco-select-tag')).toHaveCount(1);
-    await expect(select.locator('.arco-select-tag').getByRole('img', { name: '样例长剑', exact: true })).toHaveAttribute('src', PNG);
-    await input.fill('长');
-    await expect(sword).toBeVisible();
-    await expect(select.locator('.arco-select-tag')).toHaveCount(1);
+    await expect(sword).toHaveAttribute('aria-pressed', 'true');
+    await expect(selectedEquipment(page, label).getByRole('listitem')).toHaveCount(1);
+    await expect(selectedEquipment(page, label).locator('img')).toHaveAttribute('src', PNG);
     await input.fill('不存在的装备');
-    await expect(popup.getByRole('option')).toHaveCount(0);
+    await expect(popup.getByRole('gridcell')).toHaveCount(0);
+    await expect(popup.getByText('没有匹配的装备', { exact: true })).toBeVisible();
     await input.fill('');
-    await expect(popup.getByRole('option')).toHaveCount(7);
+    await expect(popup.getByRole('gridcell')).toHaveCount(7);
     await expect(sword).toBeVisible();
     await page.keyboard.press('Escape');
+    await expect(equipmentTrigger(page, label)).toBeFocused();
+    await openEquipmentPicker(page, label);
+    await input.fill('长');
+    await expect(sword).toHaveAttribute('aria-pressed', 'true');
+    await popup.getByRole('button', { name: '清空已选', exact: true }).click();
+    await expect(sword).toHaveAttribute('aria-pressed', 'false');
+    await expect(selectedEquipment(page, label)).toHaveCount(0);
   });
 }
+
+test('装备网格按可见列数用方向键选装，窄屏重排后保留焦点和选择', async ({ page }) => {
+  await installFixture(page);
+  const label = '攻击方装备';
+  const popup = await openEquipmentPicker(page, label);
+  const grid = popup.getByRole('grid', { name: '可选装备', exact: true });
+  await expect(grid.getByRole('row').first().getByRole('gridcell')).toHaveCount(6);
+  await expect(equipmentSearch(popup)).toBeFocused();
+  await page.keyboard.press('ArrowDown');
+  await expect(grid).toBeFocused();
+  await page.keyboard.press('ArrowRight');
+  await expect(grid).toHaveAttribute('aria-activedescendant', /-item_1036$/);
+  await page.keyboard.press('Enter');
+  await expect(equipmentTile(popup, 'item_1036')).toHaveAttribute('aria-pressed', 'true');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(grid.getByRole('row').first().getByRole('gridcell')).toHaveCount(4);
+  await expect(grid).toBeFocused();
+  await expect(grid).toHaveAttribute('aria-activedescendant', /-item_1036$/);
+  await page.keyboard.press('ArrowDown');
+  await expect(grid).toHaveAttribute('aria-activedescendant', /-unverified_2$/);
+  await page.keyboard.press('Space');
+  await expect(equipmentTile(popup, 'unverified_2')).toHaveAttribute('aria-pressed', 'true');
+  expect(await popup.evaluate(element => {
+    const box = element.getBoundingClientRect();
+    return box.left >= 0 && box.right <= innerWidth && box.top >= 0 && box.bottom <= innerHeight;
+  })).toBe(true);
+  await page.keyboard.press('Escape');
+  await expect(equipmentTrigger(page, label)).toBeFocused();
+  await expect(selectedEquipment(page, label).getByRole('listitem')).toHaveCount(2);
+});
 
 test('装备图标按可见选项读取，双方共用缓存，缺图和读取失败仍可选择', async ({ page }) => {
   const errors: string[] = [];
@@ -194,24 +231,22 @@ test('装备图标按可见选项读取，双方共用缓存，缺图和读取�
   await chooseEquipment(page, '攻击方', 'item_1036');
   await chooseEquipment(page, '目标', 'item_1036');
   for (const side of ['攻击方', '目标']) {
-    await expect(page.getByRole('combobox', { name: `${side}装备`, exact: true })
-      .locator('.arco-select-tag').getByRole('img', { name: '样例长剑', exact: true })).toHaveAttribute('src', PNG);
+    await expect(selectedEquipment(page, `${side}装备`).locator('img')).toHaveAttribute('src', PNG);
   }
   expect(equipmentImageReads().filter(row => row.path.endsWith('/equipment/item_1036/representative-image'))).toHaveLength(1);
   expect(new Set(equipmentImageReads().map(row => row.path)).size).toBe(equipmentImageReads().length);
   expect(swordDownloads()).toHaveLength(1);
   await page.reload();
   await chooseEquipment(page, '攻击方', 'item_1036');
-  await expect(page.getByRole('combobox', { name: '攻击方装备', exact: true })
-    .locator('.arco-select-tag').getByRole('img', { name: '样例长剑', exact: true })).toHaveAttribute('src', PNG);
+  await expect(selectedEquipment(page, '攻击方装备').locator('img')).toHaveAttribute('src', PNG);
   expect(swordDownloads()).toHaveLength(1);
   await chooseEquipment(page, '目标', 'unverified_0');
-  const target = page.getByRole('combobox', { name: '目标装备', exact: true });
-  await expect(target.getByLabel('未核定样例0 未上传图片')).toBeVisible();
+  const target = selectedEquipment(page, '目标装备');
+  await expect(target.getByText('未核定样例0', { exact: true })).toBeVisible();
   await chooseEquipment(page, '目标', 'item_1028');
-  await expect(target.locator('.arco-select-tag').filter({ hasText: 'item_1028' })
-    .locator('.resource-image-thumb-placeholder')).toBeVisible();
-  await expect(target.locator('.arco-select-tag')).toHaveCount(2);
+  await expect(target.getByText('样例红水晶', { exact: true })).toBeVisible();
+  await expect(target.getByRole('listitem')).toHaveCount(2);
+  await expect(target.locator('img')).toHaveCount(0);
   expect(fixture.methods.some(row => row.path.endsWith('/images'))).toBe(false);
   expect(fixture.methods.every(row => row.method === 'GET' || row.method === 'OPTIONS')).toBe(true);
   expect(errors).toEqual([]);
@@ -241,7 +276,9 @@ test('页面纯属性选装进入真实编译、单次、连续与冻结装备�
   expect(archive.equipmentOrigins.map((row: { side: string; equipmentKey: string }) => [row.side, row.equipmentKey])).toEqual([['source', 'item_1036'], ['target', 'item_1028']]);
   expect(archive.outcome).toBe('passed');
   expect(archive.skillOrigins).toEqual(expect.arrayContaining([expect.objectContaining({ side: 'source', skillKey: 'sample_basic_attack' })]));
-  expect(fixture.methods.every(row => row.method === 'OPTIONS' || row.method === (row.path.endsWith('/simulation-snapshot') ? 'POST' : 'GET'))).toBe(true);
+  const readOnlyPosts = ['/api/auth/wasm-grant', '/api/admin/games/lol/simulation-snapshot'];
+  expect(fixture.methods.filter(row => row.method !== 'OPTIONS'
+    && row.method !== (readOnlyPosts.includes(row.path) ? 'POST' : 'GET'))).toEqual([]);
 });
 
 test('换装保留生命草稿并使旧结果过期，新上限越界明确报错；读取错误与取消不丢草稿', async ({ page }) => {
@@ -323,10 +360,14 @@ test('每侧最多6件且不重复，同装备双侧合法，请求选择按稳�
   expect(fixture.requests[0]!.sourceEquipmentKeys).toEqual(['item_1028', 'item_1036']);
   expect(fixture.requests[0]!.targetEquipmentKeys).toEqual(['item_1036']);
   for (const key of ['item_1042', 'unverified_0', 'unverified_1', 'unverified_2']) await chooseEquipment(page, '攻击方', key);
-  const select = page.locator('.simulation-equipment-select[aria-label="攻击方装备"]');
-  await select.locator('input').fill('unverified_3');
-  const popup = page.locator(`#${await select.getAttribute('aria-controls')}`);
-  await expect(popup.getByRole('option').filter({ hasText: 'unverified_3' })).toHaveClass(/arco-select-option-wrapper-disabled/);
+  const popup = await openEquipmentPicker(page, '攻击方装备');
+  await equipmentSearch(popup).fill('unverified_3');
+  await expect(equipmentTile(popup, 'unverified_3')).toBeDisabled();
+  await equipmentSearch(popup).fill('item_1036');
+  await expect(equipmentTile(popup, 'item_1036')).toBeEnabled();
+  await equipmentTile(popup, 'item_1036').click();
+  await equipmentSearch(popup).fill('unverified_3');
+  await expect(equipmentTile(popup, 'unverified_3')).toBeEnabled();
   await page.keyboard.press('Escape');
 });
 

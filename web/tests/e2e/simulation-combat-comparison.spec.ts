@@ -8,6 +8,7 @@ import {
   openCombatAnalysisPage, resumeCombatAnalysis, setCombatAnalysisCheckbox, waitForHeldCombatAnalysis
 } from '../fixtures/combatAnalysisPage';
 import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';
+import { chooseSimulationEquipment, selectedEquipment } from '../fixtures/simulationEquipmentPicker';
 import { triggeredEquipmentSimulationSample } from '../fixtures/simulationTriggeredEquipment';
 
 const healthItem = 'item_1028';
@@ -53,16 +54,9 @@ async function open(page: Page, missingSpeedRatio = false, attackDamageMax?: num
 }
 
 async function equip(page: Page, side: 'A' | 'B', key: string | null, previous?: string) {
-  const selector = page.locator(`.simulation-equipment-select[aria-label="${equipLabel[side]}"]`);
-  const choose = async (value: string) => {
-    if (!(await selector.getAttribute('aria-expanded') === 'true')) await selector.click();
-    await selector.locator('input').fill(value);
-    const options = page.locator(`#${await selector.getAttribute('aria-controls')}`);
-    await options.getByRole('option').filter({ has: page.getByText(value, { exact: true }) }).click();
-  };
-  if (previous) await selector.getByRole('button', { name: 'Close', exact: true }).click();
-  if (key) await choose(key);
-  await page.keyboard.press('Escape');
+  const label = equipLabel[side];
+  if (previous) await selectedEquipment(page, label).locator(`[data-equipment-key="${previous}"]`).getByRole('button').click();
+  if (key) await chooseSimulationEquipment(page, label, key);
 }
 
 async function runCount(page: Page) {
@@ -292,7 +286,7 @@ test('方案 B 快照被拒绝时显示实际错误并保留可重试的出装',
   await compare(page).click();
   await expect(page.getByRole('alert').filter({ hasText: '装备被动缺少技能等级配置' })).toContainText('方案 B：');
   await expect(page.getByLabel('观察时长（毫秒）', { exact: true })).toHaveValue('800');
-  await expect(page.locator(`.simulation-equipment-select[aria-label="${equipLabel.B}"]`)).toContainText(passiveItem);
+  await expect(selectedEquipment(page, equipLabel.B).locator(`[data-equipment-key="${passiveItem}"]`)).toBeVisible();
   expect(await runCount(page)).toBe(0);
   await expect(result(page)).toHaveCount(0);
   await expect(compare(page)).toBeEnabled();

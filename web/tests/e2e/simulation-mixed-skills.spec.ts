@@ -6,6 +6,7 @@ import { expect, test, type Page } from '@playwright/test';
 import { readMixedLiveSnapshot } from '../fixtures/simulationMixedLive';
 import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';
+import { chooseSimulationEquipment } from '../fixtures/simulationEquipmentPicker';
 import { simulationMixedSample } from '../fixtures/simulationMixedSkills';
 import { syncSimulationSkillSources } from '../fixtures/simulationSkillSources';
 import { expectSimulationConfigurationReady } from '../fixtures/simulationSnapshotRequests';
@@ -426,10 +427,7 @@ test('真实页面：安妮Q／W＋耀光完整选择、普通拒绝、真实结
   }
   await chooseSimulationEntity(page, '普攻技能', 'shared_basic_attack');
   await chooseSimulationLevel(page, '普攻技能等级', 1);
-  const equipment = page.locator('.simulation-equipment-select[aria-label="攻击方装备"]');
-  await equipment.click(); await equipment.locator('input').fill('item_3057');
-  await page.getByRole('option').filter({ has: page.getByText('item_3057', { exact: true }) }).click();
-  await page.getByRole('heading', { name: '攻击方配置', exact: true }).click();
+  await chooseSimulationEquipment(page, '攻击方装备', 'item_3057');
   for (const key of ['skill_instruction_1', 'skill_instruction_2']) {
     await page.locator(`.arco-select[aria-label="技能命中预设 ${key}"]`).click();
     await page.getByRole('option', { name: '释放后对唯一目标尝试命中', exact: true }).click();

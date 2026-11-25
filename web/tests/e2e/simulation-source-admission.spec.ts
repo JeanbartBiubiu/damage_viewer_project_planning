@@ -5,6 +5,7 @@ import { expect, test } from '@playwright/test';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
 import { readIsolatedSimulationSnapshot, simulationComparisonSelection, isolateCharacterSourcesOnPage } from '../fixtures/simulationSnapshotRequests';
 import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';
+import { chooseSimulationEquipment } from '../fixtures/simulationEquipmentPicker';
 import { simulationSkillSourceIdentity } from '../../src/services/simulationSkillSourceIdentity';
 
 const api = process.env.SIMULATION_API_BASE || 'http://127.0.0.1:8080';
@@ -83,10 +84,7 @@ test('真实页面目标三相保持开启，读取、确认与连续模拟通�
   await chooseSimulationLevel(page, '目标等级', 18);
   await chooseSimulationEntity(page, '普攻技能', 'shared_basic_attack');
   await chooseSimulationLevel(page, '普攻技能等级', 1);
-  const select = page.locator('.simulation-equipment-select[aria-label="目标装备"]');
-  await select.click(); await select.locator('input').fill('item_3078');
-  await page.getByRole('option').filter({ has: page.getByText('item_3078', { exact: true }) }).click();
-  await page.getByRole('heading', { name: '目标方配置', exact: true }).click();
+  await chooseSimulationEquipment(page, '目标装备', 'item_3078');
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
   await isolateCharacterSourcesOnPage(page, snapshot);
   await expect(page.getByRole('checkbox', { name: `目标来源 ${simulationSkillSourceIdentity({ kind: 'EQUIPMENT', equipmentKey: 'item_3078' }, 'item_3078_passive')} 开启`, exact: true })).toBeChecked();

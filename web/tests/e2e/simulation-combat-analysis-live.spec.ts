@@ -7,6 +7,7 @@ import { parseSimulationAvailabilityResponse, SIMULATION_AVAILABILITY_IDENTITY, 
 import type { SimulationAvailabilityResponse } from '../../src/types/simulationAvailability';
 import { setCombatAnalysisInitialHealth } from '../fixtures/combatAnalysisPage';
 import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';
+import { chooseSimulationEquipment, selectedEquipment } from '../fixtures/simulationEquipmentPicker';
 
 const output = resolve(process.env.SIMULATION_LIVE_OUTPUT_DIR || 'output/combat-analysis/availability-gate');
 const api = process.env.SIMULATION_API_BASE || 'http://127.0.0.1:8080';
@@ -165,13 +166,8 @@ test('真实页面：已录入的未通过核验角色和装备可选择', async
   await chooseSimulationLevel(page, '攻击方等级', 18);
   await chooseSimulationEntity(page, '目标角色', character!.key);
   await chooseSimulationLevel(page, '目标等级', 18);
-  const select = page.locator('.simulation-equipment-select[aria-label="攻击方装备"]');
-  await select.click();
-  await select.locator('input').fill(item!.key);
-  const popup = page.locator(`#${await select.getAttribute('aria-controls')}`);
-  await popup.getByRole('option').filter({ has: page.getByText(item!.key, { exact: true }) }).click();
-  await page.keyboard.press('Escape');
-  await expect(select).toContainText(item!.key);
+  await chooseSimulationEquipment(page, '攻击方装备', item!.key);
+  await expect(selectedEquipment(page, '攻击方装备').locator(`[data-equipment-key="${item!.key}"]`)).toBeVisible();
   expect(requests.every(request => request.method === 'GET' && !request.path.endsWith('/simulation-availability'))).toBe(true);
   expect(errors).toEqual([]);
   const evidence = { layer: 'live-page-selection', character, equipment: item, requests, errors };
